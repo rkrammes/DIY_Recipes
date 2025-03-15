@@ -1,12 +1,11 @@
 /********** SUPABASE CONFIG **********/
-const SUPABASE_URL = 'https://bzudglfxxywugesncjnz.supabase.co';
-const SUPABASE_ANON_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6dWRnbGZ4eHl3dWdlc25jam56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE4Mjk5MDAsImV4cCI6MjA1NzQwNTkwMH0.yYBWuD_bzfyh72URflGqJbn-lIwrZ6oAznxVocgxOm8';
+// Replace with your actual project URL and anon key
+const SUPABASE_URL = 'https://<your-project>.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJI...'; 
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 /********** OPENAI CONFIG (CHAT COMPLETIONS) **********/
-const OPENAI_API_KEY =
-  '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';
+const OPENAI_API_KEY = 'sk-...'; 
 const OPENAI_MODEL = 'gpt-4';
 const OPENAI_CHAT_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
 
@@ -19,15 +18,13 @@ let isLoggedIn = false; // local track
 
 /********** INIT **********/
 document.addEventListener('DOMContentLoaded', async () => {
-  // Basic Auth check
+  // Listen for Supabase auth changes
   supabaseClient.auth.onAuthStateChange((event, session) => {
     handleAuthChange(session);
   });
 
-  // Attempt to see if there's already a session
-  const {
-    data: { session }
-  } = await supabaseClient.auth.getSession();
+  // Check if there's already a session
+  const { data: { session } } = await supabaseClient.auth.getSession();
   handleAuthChange(session);
 
   // All Ingredients button
@@ -44,7 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  // Pressing Enter in the "Add New Ingredient" text box adds the ingredient
+  // Pressing Enter in "Add New Ingredient" text box
   const newGlobalIngredientInput = document.getElementById('newGlobalIngredientInput');
   newGlobalIngredientInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
@@ -52,7 +49,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  // Pressing Enter in "Add New Recipe" text box creates the recipe
+  // Pressing Enter in "Add New Recipe" text box
   const newRecipeNameInput = document.getElementById('newRecipeNameInput');
   newRecipeNameInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
@@ -78,91 +75,101 @@ document.addEventListener('DOMContentLoaded', async () => {
   themeSelect.addEventListener('change', handleThemeChange);
   initializeTheme();
 
-  // Edit Mode Button
+  // Edit Mode button
   document.getElementById('btnEditMode').addEventListener('click', toggleEditMode);
 
-  // Login confirm
-  document.getElementById('btnLoginConfirm').addEventListener('click', loginUser);
+  // GitHub Login button
+  document.getElementById('btnGitHubLogin').addEventListener('click', signInWithGitHubPopup);
 });
 
-/********** AUTH HANDLERS **********/
+/********** HANDLE AUTH STATE **********/
 function handleAuthChange(session) {
   isLoggedIn = !!(session && session.user);
-
   if (isLoggedIn) {
     console.log('User is logged in:', session.user.email);
   } else {
     console.log('No user logged in');
   }
 
-  // If user is logged in, we enable editing
+  // Enable/disable editing
   setEditingEnabled(isLoggedIn);
 
-  // Refresh recipes so they can see them in read-only or editable
+  // Reload recipes & ingredients in correct mode
   loadRecipes();
   loadAllIngredients();
-  // Hide or show login form
+
+  // Hide login form
   document.getElementById('loginForm').style.display = 'none';
 
   // Update the Edit Mode button label
   const btnEditMode = document.getElementById('btnEditMode');
-  if (isLoggedIn) {
-    btnEditMode.textContent = 'Edit Mode: ON (✓)';
-  } else {
-    btnEditMode.textContent = 'Edit Mode: OFF';
-  }
+  btnEditMode.textContent = isLoggedIn ? 'Edit Mode: ON (✓)' : 'Edit Mode: OFF';
 }
 
+/********** SET EDITING ENABLED **********/
 function setEditingEnabled(enabled) {
-  // If user is logged in, enable textboxes & buttons for editing
   document.getElementById('newRecipeNameInput').disabled = !enabled;
   document.getElementById('aiPrompt').disabled = !enabled;
   document.getElementById('btnReroll').disabled = !enabled;
   document.getElementById('btnCommitSuggestion').disabled = !enabled;
   document.getElementById('newIngredientDropdown').disabled = !enabled;
   document.getElementById('newGlobalIngredientInput').disabled = !enabled;
-  // CSV import
+
+  // CSV container
   if (enabled) {
     document.getElementById('importCSVContainer').style.display = 'block';
   } else {
     document.getElementById('importCSVContainer').style.display = 'none';
   }
-
-  // Also for removing ingredients (we handle that in the DOM generation, but let's keep it here)
-  // We'll do it each time we load recipes anyway
 }
 
+/********** TOGGLE EDIT MODE **********/
 function toggleEditMode() {
-  // If logged in, log out. If not, show login form
   if (isLoggedIn) {
-    // log out
+    // Log out
     supabaseClient.auth.signOut();
   } else {
-    // show login form
+    // Show the login form
     const loginForm = document.getElementById('loginForm');
-    loginForm.style.display = loginForm.style.display === 'none' ? 'block' : 'none';
+    loginForm.style.display =
+      loginForm.style.display === 'none' ? 'block' : 'none';
   }
 }
 
-async function loginUser() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const password = document.getElementById('loginPassword').value.trim();
-
-  if (!email || !password) {
-    alert('Please enter email and password.');
+/********** SIGN IN WITH GITHUB (POPUP) **********/
+async function signInWithGitHubPopup() {
+  // 1. Start the OAuth flow
+  const { data, error } = await supabaseClient.auth.signInWithOAuth({
+    provider: 'github'
+  });
+  if (error) {
+    console.error('Error starting GitHub OAuth flow:', error);
     return;
   }
 
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email,
-    password
-  });
-  if (error) {
-    alert('Login failed: ' + error.message);
-    console.error(error);
-  } else {
-    alert('Logged in successfully!');
-  }
+  // 2. data.url is the GitHub OAuth URL
+  const authUrl = data.url;
+
+  // 3. Open a popup
+  const width = 600;
+  const height = 600;
+  const left = (window.screen.width - width) / 2;
+  const top = (window.screen.height - height) / 2;
+
+  const popup = window.open(
+    authUrl,
+    'GitHubAuthPopup',
+    `width=${width},height=${height},top=${top},left=${left}`
+  );
+
+  // 4. Optionally poll if the popup closes
+  const popupInterval = setInterval(() => {
+    if (popup.closed) {
+      clearInterval(popupInterval);
+      console.log('Popup closed');
+      // onAuthStateChange should handle the new session if user logged in
+    }
+  }, 500);
 }
 
 /********** THEME HANDLING **********/
@@ -187,8 +194,8 @@ function applyTheme(theme) {
   } else if (theme === 'light') {
     body.classList.add('light-mode');
   } else {
-    // system
-    body.classList.add('dark-mode'); // fallback
+    // system fallback
+    body.classList.add('dark-mode');
     const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
     if (systemDark.matches) {
       body.classList.add('dark-mode');
@@ -304,8 +311,7 @@ function showRecipeDetails(index) {
 
   (recipe.ingredients || []).forEach((ingredient, i) => {
     const row = document.createElement('tr');
-
-    // readOnly or not, depends on isLoggedIn
+    // If logged in, let them edit inline
     const editableAttr = isLoggedIn ? 'contenteditable="true"' : '';
 
     row.innerHTML = `
