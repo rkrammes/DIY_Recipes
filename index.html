@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Iteration Station</title>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Papa Parse and Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="dark-mode">
+  <!-- Header with glass effect & minimal toggles -->
+  <header class="glass-panel main-header">
+    <div class="header-inner">
+      <span class="app-title">Iteration Station</span>
+      <!-- Right-side group: theme + edit mode -->
+      <div style="display:flex; align-items:center; gap:15px;">
+        <div class="theme-toggle">
+          <label for="themeSelect" class="theme-label">Appearance:</label>
+          <select id="themeSelect" class="theme-select">
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+            <option value="system">System</option>
+          </select>
+        </div>
+        <!-- Edit Mode button -->
+        <div id="editModeContainer">
+          <button class="btn" id="btnEditMode">Edit Mode: OFF</button>
+        </div>
+      </div>
+    </div>
+    <!-- Hidden inline login form that toggles on button click -->
+    <div id="loginForm" style="display:none; padding:10px; text-align:right;">
+      <input
+        type="email"
+        id="loginEmail"
+        class="sidebar-textbox"
+        placeholder="Email"
+        style="margin-right:5px; width:180px;"
+      />
+      <input
+        type="password"
+        id="loginPassword"
+        class="sidebar-textbox"
+        placeholder="Password"
+        style="margin-right:5px; width:140px;"
+      />
+      <button class="btn" id="btnLoginConfirm">Login</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Glass aside with subtle frosted background -->
+    <aside class="glass-panel">
+      <!-- All Ingredients button -->
+      <button class="btn" id="btnIngredients">All Ingredients</button>
+      <h2>Recipes</h2>
+
+      <!-- Unified styling for the container and text box -->
+      <div id="createRecipeContainer" class="sidebar-container">
+        <input
+          id="newRecipeNameInput"
+          class="sidebar-textbox"
+          type="text"
+          placeholder="Add New Recipe"
+          disabled
+        />
+      </div>
+
+      <ul class="recipe-list" id="recipeList"></ul>
+
+      <div id="importCSVContainer" style="display:none;">
+        <p>No recipes found. Import your CSV file:</p>
+        <input type="file" id="csvFile" accept=".csv" />
+      </div>
+    </aside>
+
+    <main>
+      <!-- The main app area: 
+           Always visible for read-only. 
+           Some controls remain disabled if not logged in. -->
+
+      <section class="recipe-details" id="recipeDetails" style="display:none;">
+        <h2 id="recipeTitle"></h2>
+
+        <!-- AI prompt container above Add Ingredient -->
+        <div class="ai-prompt-container">
+          <input
+            class="ai-prompt-input"
+            id="aiPrompt"
+            placeholder="Get AI Suggestion"
+            disabled
+          />
+        </div>
+
+        <!-- Manage Ingredients for the current recipe -->
+        <div id="manageIngredientsBox">
+          <select id="newIngredientDropdown" disabled>
+            <option value="">Add New Ingredient</option>
+          </select>
+        </div>
+
+        <!-- AI Suggestion UI -->
+        <div id="aiSuggestionBox" style="display:none;">
+          <h3 style="margin-top:0;">AI Suggestion</h3>
+          <div id="aiSuggestionText"></div>
+          <button class="btn" id="btnReroll" disabled>Reroll Suggestion</button>
+          <button class="btn" id="btnCommitSuggestion" disabled>Commit Suggestion</button>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Ingredient</th>
+              <th>Quantity</th>
+              <th>Next Version</th>
+              <th>Reasoning</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody id="recipeContent"></tbody>
+        </table>
+      </section>
+
+      <!-- All Ingredients View -->
+      <section class="ingredients-view" id="ingredientsView" style="display:none;">
+        <h2>All Ingredients</h2>
+        <!-- Pressing enter in this input adds the ingredient -->
+        <div id="addGlobalIngredientContainer" class="sidebar-container">
+          <input
+            id="newGlobalIngredientInput"
+            class="sidebar-textbox"
+            type="text"
+            placeholder="Add New Ingredient"
+            disabled
+          />
+        </div>
+        <ul id="ingredientList"></ul>
+      </section>
+    </main>
+  </div>
+
+  <!-- External JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>

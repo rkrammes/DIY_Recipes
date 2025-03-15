@@ -1,0 +1,382 @@
+/*
+  Using the previously refined code:
+  1) "Add New Recipe" text box is 60% wide
+  2) 3-stop gradient from #DF7027 -> #e6865b -> #699FA1
+  3) Reversed hover states
+  4) Basic styling for the login form
+*/
+
+/* Root accent color: 3-stop gradient for a smoother blend */
+:root {
+  --accent-color: linear-gradient(
+    135deg,
+    #DF7027 0%,
+    #e6865b 50%,
+    #699FA1 100%
+  );
+  --btn-hover-color: #666; /* fallback if gradient fails */
+  --light-bg: #f0f0f0;
+  --light-text: #1a1a1a;
+  --dark-bg: #1a1a1a;
+  --dark-text: #f0f0f0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+body.light-mode {
+  background-color: var(--light-bg);
+  color: var(--light-text);
+}
+
+body.system-mode {
+}
+
+.main-header {
+  padding: 20px;
+  text-align: center;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-title {
+  font-size: 22px;
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.theme-label {
+  font-size: 14px;
+}
+
+.theme-select {
+  padding: 5px 8px;
+  border-radius: 4px;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  color: #f0f0f0;
+  transition: background-color 0.3s;
+}
+
+body.light-mode .theme-select {
+  background-color: #ddd;
+  color: #333;
+}
+
+.container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+aside {
+  width: 250px;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+aside h2 {
+  font-size: 18px;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+main {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  transition: background-color 0.4s ease;
+}
+
+.recipe-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recipe-list li {
+  background-color: rgba(255, 255, 255, 0.05);
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.recipe-list li:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  transform: translateY(-1px);
+}
+
+.recipe-details,
+.ingredients-view {
+  display: none;
+}
+
+.recipe-details h2,
+.ingredients-view h2 {
+  margin-top: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+th,
+td {
+  border: 1px solid #444;
+  padding: 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background-color: #333;
+  font-weight: 600;
+}
+
+td[contenteditable="true"] {
+  background-color: #2a2a2a;
+}
+
+body.light-mode td[contenteditable="true"] {
+  background-color: #ececec;
+}
+
+/* Buttons: reversed hover states */
+.btn {
+  display: inline-block;
+  padding: 8px 12px;
+  background: var(--accent-color);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  margin-top: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  font-size: 14px;
+  background-size: 200% 200%;
+  background-position: 100% 50%;
+  transition: background-position 0.5s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  background-position: 0% 50%;
+}
+
+#importCSVContainer {
+  margin-top: 20px;
+  display: none;
+}
+
+#aiSuggestionBox {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  display: none;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background-color 0.3s;
+}
+
+#aiSuggestionText {
+  white-space: pre-wrap;
+  font-size: 14px;
+}
+
+.ai-prompt-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.ai-prompt-input {
+  width: 30%;
+  padding: 8px;
+  margin-right: 5px;
+  border-radius: 4px;
+  border: 1px solid #444;
+  background-color: #2a2a2a;
+  color: #f0f0f0;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+body.light-mode .ai-prompt-input {
+  background-color: #ddd;
+  color: #333;
+  border: 1px solid #aaa;
+}
+
+#manageIngredientsBox {
+  margin: 15px 0;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+#newIngredientDropdown {
+  width: 30%;
+  padding: 5px;
+  margin-right: 5px;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  color: #f0f0f0;
+  border-radius: 4px;
+  font-size: 14px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: background-color 0.3s;
+}
+
+body.light-mode #newIngredientDropdown {
+  background-color: #ddd;
+  color: #333;
+  border: 1px solid #aaa;
+}
+
+.remove-ingredient-btn {
+  background-color: #a33;
+  margin-top: 0;
+  font-size: 12px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.remove-ingredient-btn:hover {
+  background-color: #c44;
+  transform: translateY(-2px);
+}
+
+#addGlobalIngredientContainer {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.ingredient-button {
+  width: 15%;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: none;
+  color: #fff;
+  text-align: left;
+  padding: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+  position: relative;
+  margin-top: 10px;
+  display: inline-block;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.ingredient-button:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+.ingredient-details {
+  display: none;
+  background-color: rgba(255, 255, 255, 0.05);
+  margin-top: 5px;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1.4;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.sidebar-container {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/*
+   Make the "Add New Recipe" text box
+   significantly wider to fit in with the rest
+*/
+#createRecipeContainer .sidebar-textbox {
+  width: 60% !important;
+}
+
+.sidebar-textbox {
+  width: 30%;
+  padding: 5px;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  color: #f0f0f0;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+body.light-mode .sidebar-textbox {
+  background-color: #ddd;
+  color: #333;
+  border: 1px solid #aaa;
+}
+
+/* small styling for loginForm */
+#loginForm {
+  background-color: rgba(0,0,0,0.3);
+  margin-top: 5px;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+/* Scrollbars (optional improvement) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 4px;
+  border: 1px solid #1a1a1a;
+}
