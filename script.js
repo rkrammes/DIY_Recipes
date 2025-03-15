@@ -1,11 +1,12 @@
 /********** SUPABASE CONFIG **********/
-// Replace with your actual project URL and anon key
-const SUPABASE_URL = 'https://<your-project>.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJI...'; 
+const SUPABASE_URL = 'https://bzudglfxxywugesncjnz.supabase.co';
+const SUPABASE_ANON_KEY =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6dWRnbGZ4eHl3dWdlc25jam56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE4Mjk5MDAsImV4cCI6MjA1NzQwNTkwMH0.yYBWuD_bzfyh72URflGqJbn-lIwrZ6oAznxVocgxOm8';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 /********** OPENAI CONFIG (CHAT COMPLETIONS) **********/
-const OPENAI_API_KEY = 'sk-...'; 
+const OPENAI_API_KEY =
+  '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';
 const OPENAI_MODEL = 'gpt-4';
 const OPENAI_CHAT_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
 
