@@ -1,12 +1,12 @@
 /********** SUPABASE CONFIG **********/
-const SUPABASE_URL = 'https://bzudglfxxywugesncjnz.supabase.co';
+const SUPABASE_URL = 'https://bzudglfxxywugesncjnz.supabase.co'; // Example
 const SUPABASE_ANON_KEY =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6dWRnbGZ4eHl3dWdlc25jam56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE4Mjk5MDAsImV4cCI6MjA1NzQwNTkwMH0.yYBWuD_bzfyh72URflGqJbn-lIwrZ6oAznxVocgxOm8';
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6dWRnbGZ4eHl3dWdlc25jam56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE4Mjk5MDAsImV4cCI6MjA1NzQwNTkwMH0.yYBWuD_bzfyh72URflGqJbn-lIwrZ6oAznxVocgxOm8'; // Example
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 /********** OPENAI CONFIG (CHAT COMPLETIONS) **********/
 const OPENAI_API_KEY =
-  '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';
+  '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'; // Example
 const OPENAI_MODEL = 'gpt-4';
 const OPENAI_CHAT_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
 
@@ -15,17 +15,22 @@ window.recipes = [];
 let currentRecipeIndex = null;
 let currentAISuggestion = '';
 window.allIngredients = [];
-let isLoggedIn = false; // local track
+let isLoggedIn = false;
+
+// We'll keep a reference to the popup window so we can close it
+let popup = null;
 
 /********** INIT **********/
 document.addEventListener('DOMContentLoaded', async () => {
-  // Listen for Supabase auth changes
+  // Auth state change
   supabaseClient.auth.onAuthStateChange((event, session) => {
     handleAuthChange(session);
   });
 
-  // Check if there's already a session
-  const { data: { session } } = await supabaseClient.auth.getSession();
+  // Check existing session
+  const {
+    data: { session }
+  } = await supabaseClient.auth.getSession();
   handleAuthChange(session);
 
   // All Ingredients button
@@ -76,14 +81,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   themeSelect.addEventListener('change', handleThemeChange);
   initializeTheme();
 
-  // Edit Mode button
+  // Edit Mode Button
   document.getElementById('btnEditMode').addEventListener('click', toggleEditMode);
 
-  // GitHub Login button
-  document.getElementById('btnGitHubLogin').addEventListener('click', signInWithGitHubPopup);
+  // Email/Password login confirm
+  document.getElementById('btnLoginConfirm').addEventListener('click', loginUser);
+
+  // GitHub login button
+  document
+    .getElementById('btnGitHubLogin')
+    .addEventListener('click', signInWithGitHubPopup);
 });
 
-/********** HANDLE AUTH STATE **********/
+/********** AUTH HANDLERS **********/
 function handleAuthChange(session) {
   isLoggedIn = !!(session && session.user);
   if (isLoggedIn) {
@@ -105,9 +115,14 @@ function handleAuthChange(session) {
   // Update the Edit Mode button label
   const btnEditMode = document.getElementById('btnEditMode');
   btnEditMode.textContent = isLoggedIn ? 'Edit Mode: ON (✓)' : 'Edit Mode: OFF';
+
+  // If the user is logged in, close the popup if it's still open
+  if (isLoggedIn && popup && !popup.closed) {
+    popup.close();
+    popup = null;
+  }
 }
 
-/********** SET EDITING ENABLED **********/
 function setEditingEnabled(enabled) {
   document.getElementById('newRecipeNameInput').disabled = !enabled;
   document.getElementById('aiPrompt').disabled = !enabled;
@@ -124,7 +139,6 @@ function setEditingEnabled(enabled) {
   }
 }
 
-/********** TOGGLE EDIT MODE **********/
 function toggleEditMode() {
   if (isLoggedIn) {
     // Log out
@@ -137,38 +151,58 @@ function toggleEditMode() {
   }
 }
 
-/********** SIGN IN WITH GITHUB (POPUP) **********/
+async function loginUser() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value.trim();
+
+  if (!email || !password) {
+    alert('Please enter email and password.');
+    return;
+  }
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+  if (error) {
+    alert('Login failed: ' + error.message);
+    console.error(error);
+  } else {
+    alert('Logged in successfully!');
+  }
+}
+
+/********** GITHUB OAUTH POPUP **********/
 async function signInWithGitHubPopup() {
-  // 1. Start the OAuth flow
+  // Start the OAuth flow
   const { data, error } = await supabaseClient.auth.signInWithOAuth({
     provider: 'github'
   });
   if (error) {
-    console.error('Error starting GitHub OAuth flow:', error);
+    console.error('OAuth error:', error);
     return;
   }
 
-  // 2. data.url is the GitHub OAuth URL
+  // data.url is the GitHub login link
   const authUrl = data.url;
 
-  // 3. Open a popup
+  // Open in a popup
   const width = 600;
   const height = 600;
   const left = (window.screen.width - width) / 2;
   const top = (window.screen.height - height) / 2;
-
-  const popup = window.open(
+  popup = window.open(
     authUrl,
     'GitHubAuthPopup',
     `width=${width},height=${height},top=${top},left=${left}`
   );
 
-  // 4. Optionally poll if the popup closes
+  // Poll if the user closes the popup manually
   const popupInterval = setInterval(() => {
-    if (popup.closed) {
+    if (!popup || popup.closed) {
       clearInterval(popupInterval);
-      console.log('Popup closed');
-      // onAuthStateChange should handle the new session if user logged in
+      popup = null;
+      console.log('Popup closed by user');
     }
   }, 500);
 }
@@ -195,7 +229,7 @@ function applyTheme(theme) {
   } else if (theme === 'light') {
     body.classList.add('light-mode');
   } else {
-    // system fallback
+    // system
     body.classList.add('dark-mode');
     const systemDark = window.matchMedia('(prefers-color-scheme: dark)');
     if (systemDark.matches) {
@@ -441,7 +475,7 @@ async function removeGlobalIngredient(ingredientId) {
 
 /********** UPDATE AN INGREDIENT (in Current Recipe) **********/
 async function updateIngredient(recipeIndex, ingredientIndex, key, value) {
-  if (!isLoggedIn) return; // safeguard
+  if (!isLoggedIn) return;
   const recipe = window.recipes[recipeIndex];
   recipe.ingredients[ingredientIndex][key] = value;
 
