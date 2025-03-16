@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Iteration Station</title>
+  <title>Iteration Station (Magic Link Edition)</title>
 
   <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,9 +34,21 @@
             <option value="system">System</option>
           </select>
         </div>
-        <!-- Single Edit Mode button that logs in/out with GitHub -->
+        <!-- Single Edit Mode button => toggles log in/out -->
         <button class="btn" id="btnEditMode">Edit Mode: OFF</button>
       </div>
+    </div>
+
+    <!-- Hidden inline login form for magic link -->
+    <div id="magicLinkForm" style="display:none; padding:10px; text-align:right;">
+      <input
+        type="email"
+        id="magicLinkEmail"
+        class="sidebar-textbox"
+        placeholder="Email"
+        style="margin-right:5px; width:180px;"
+      />
+      <button class="btn" id="btnSendMagicLink">Send Magic Link</button>
     </div>
   </header>
 
