@@ -1,18 +1,17 @@
-/*
-  Using the previously refined code:
-  1) "Add New Recipe" text box is 60% wide
-  2) 3-stop gradient from #DF7027 -> #e6865b -> #699FA1
-  3) Reversed hover states
-  4) Basic styling for the login form
+/* Using the previously refined code:
+   1) "Add New Recipe" text box is 60% wide
+   2) 3-stop gradient from #DF7027 -> #e6865b -> #699FA1
+   3) Reversed hover states
+   4) Basic styling for the login form
 */
 
 /* Root accent color: 3-stop gradient for a smoother blend */
 :root {
   --accent-color: linear-gradient(
     135deg,
-    #DF7027 0%,
+    #df7027 0%,
     #e6865b 50%,
-    #699FA1 100%
+    #699fa1 100%
   );
   --btn-hover-color: #666; /* fallback if gradient fails */
   --light-bg: #f0f0f0;
@@ -42,6 +41,7 @@ body.light-mode {
 body.system-mode {
 }
 
+/* Header */
 .main-header {
   padding: 20px;
   text-align: center;
@@ -169,11 +169,11 @@ th {
   font-weight: 600;
 }
 
-td[contenteditable="true"] {
+td[contenteditable='true'] {
   background-color: #2a2a2a;
 }
 
-body.light-mode td[contenteditable="true"] {
+body.light-mode td[contenteditable='true'] {
   background-color: #ececec;
 }
 
@@ -335,10 +335,7 @@ body.light-mode #newIngredientDropdown {
   gap: 5px;
 }
 
-/*
-   Make the "Add New Recipe" text box
-   significantly wider to fit in with the rest
-*/
+/* Make the "Add New Recipe" text box significantly wider to fit in with the rest */
 #createRecipeContainer .sidebar-textbox {
   width: 60% !important;
 }
@@ -362,7 +359,7 @@ body.light-mode .sidebar-textbox {
 
 /* small styling for loginForm */
 #loginForm {
-  background-color: rgba(0,0,0,0.3);
+  background-color: rgba(0, 0, 0, 0.3);
   margin-top: 5px;
   border-radius: 4px;
   padding: 8px;
