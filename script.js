@@ -17,12 +17,8 @@ let currentRecipeIndex = null;
 let currentAISuggestion = '';
 
 let isLoggedIn = false;
-// We'll use "Edit Mode" as "logged in vs. logged out."
-// If user is logged in, Edit Mode: ON. If logged out, Edit Mode: OFF.
+// We'll treat "Edit Mode" as "logged in" vs. "logged out"
 let editMode = false;
-
-// Keep a reference to the popup so we can close it after login
-let popup = null;
 
 /********** INIT **********/
 document.addEventListener('DOMContentLoaded', async () => {
@@ -83,8 +79,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   themeSelect.addEventListener('change', handleThemeChange);
   initializeTheme();
 
-  // Single Edit Mode Button (toggles log in/out)
+  // Edit Mode Button => toggles log in/out
   document.getElementById('btnEditMode').addEventListener('click', toggleEditMode);
+
+  // Send Magic Link button
+  document.getElementById('btnSendMagicLink').addEventListener('click', sendMagicLink);
 
   // Load initial data
   loadRecipes();
@@ -97,65 +96,57 @@ function handleAuthChange(session) {
 
   if (isLoggedIn) {
     console.log('User is logged in:', session.user.email);
-    // Turn on "edit mode" to indicate read/write
     editMode = true;
     document.getElementById('btnEditMode').textContent = 'Edit Mode: ON';
-    // Close the GitHub popup if still open
-    if (popup && !popup.closed) {
-      popup.close();
-      popup = null;
-    }
+    document.getElementById('magicLinkForm').style.display = 'none'; // hide the email form
   } else {
     console.log('No user logged in');
-    // Turn off "edit mode" => read-only
     editMode = false;
     document.getElementById('btnEditMode').textContent = 'Edit Mode: OFF';
   }
 
-  // Refresh recipes/ingredients so the UI updates
+  // Refresh recipes + ingredients so the UI updates
   loadRecipes();
   loadAllIngredients();
 }
 
-/********** Single Toggle: If logged out => GitHub login, if logged in => sign out **********/
+/********** TOGGLE EDIT MODE **********/
 function toggleEditMode() {
   if (!isLoggedIn) {
-    // Not logged in => sign in with GitHub
-    signInWithGitHubPopup();
+    // If user is logged out, show the magic link form
+    const form = document.getElementById('magicLinkForm');
+    form.style.display = (form.style.display === 'none' ? 'block' : 'none');
   } else {
-    // If logged in => sign out
+    // If user is logged in => sign out
     supabaseClient.auth.signOut();
   }
 }
 
-/********** GITHUB OAUTH POPUP **********/
-async function signInWithGitHubPopup() {
-  const { data, error } = await supabaseClient.auth.signInWithOAuth({
-    provider: 'github',
-  });
-  if (error) {
-    console.error('OAuth error:', error);
+/********** SEND MAGIC LINK **********/
+async function sendMagicLink() {
+  const emailInput = document.getElementById('magicLinkEmail');
+  const email = emailInput.value.trim();
+  if (!email) {
+    alert('Please enter an email address.');
     return;
   }
-  const authUrl = data.url;
-  const width = 600;
-  const height = 600;
-  const left = (window.screen.width - width) / 2;
-  const top = (window.screen.height - height) / 2;
-  popup = window.open(
-    authUrl,
-    'GitHubAuthPopup',
-    `width=${width},height=${height},top=${top},left=${left}`
-  );
 
-  // Poll if user manually closes the popup
-  const popupInterval = setInterval(() => {
-    if (!popup || popup.closed) {
-      clearInterval(popupInterval);
-      popup = null;
-      console.log('Popup closed by user');
+  // Supabase magic link
+  const { error } = await supabaseClient.auth.signInWithOtp({
+    email: email,
+    options: {
+      // If you want a custom redirect, add it here:
+      // redirectTo: 'https://www.symbolkraft.com?magic=1'
     }
-  }, 500);
+  });
+  if (error) {
+    alert('Error sending magic link: ' + error.message);
+    console.error(error);
+  } else {
+    alert('Check your email for the magic link!');
+    // Optionally hide the form
+    document.getElementById('magicLinkForm').style.display = 'none';
+  }
 }
 
 /********** THEME HANDLING **********/
@@ -251,7 +242,6 @@ function renderRecipeList(recipes) {
     recipeList.appendChild(li);
   });
 
-  // Show recipe details section only if we have at least one recipe
   if (recipes.length > 0) {
     document.getElementById('recipeDetails').style.display = 'block';
   } else {
@@ -310,7 +300,7 @@ function showRecipeDetails(index) {
   (recipe.ingredients || []).forEach((ingredient, i) => {
     const row = document.createElement('tr');
 
-    // Only editable if user is logged in (editMode = ON)
+    // Only editable if user is logged in + editMode is ON
     const editableAttr = (isLoggedIn && editMode) ? 'contenteditable="true"' : '';
 
     row.innerHTML = `
