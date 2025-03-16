@@ -1,11 +1,9 @@
-/* Using the previously refined code:
-   1) "Add New Recipe" text box is 60% wide
+/* 1) "Add New Recipe" text box is 60% wide
    2) 3-stop gradient from #DF7027 -> #e6865b -> #699FA1
    3) Reversed hover states
-   4) Basic styling for the login form
+   4) Basic styling for the login form (optional)
 */
 
-/* Root accent color: 3-stop gradient for a smoother blend */
 :root {
   --accent-color: linear-gradient(
     135deg,
@@ -13,7 +11,7 @@
     #e6865b 50%,
     #699fa1 100%
   );
-  --btn-hover-color: #666; /* fallback if gradient fails */
+  --btn-hover-color: #666;
   --light-bg: #f0f0f0;
   --light-text: #1a1a1a;
   --dark-bg: #1a1a1a;
@@ -38,10 +36,6 @@ body.light-mode {
   color: var(--light-text);
 }
 
-body.system-mode {
-}
-
-/* Header */
 .main-header {
   padding: 20px;
   text-align: center;
@@ -78,7 +72,6 @@ body.system-mode {
   color: #f0f0f0;
   transition: background-color 0.3s;
 }
-
 body.light-mode .theme-select {
   background-color: #ddd;
   color: #333;
@@ -122,7 +115,6 @@ main {
   padding: 0;
   margin: 0;
 }
-
 .recipe-list li {
   background-color: rgba(255, 255, 255, 0.05);
   margin-bottom: 10px;
@@ -131,7 +123,6 @@ main {
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
 }
-
 .recipe-list li:hover {
   background-color: rgba(255, 255, 255, 0.08);
   transform: translateY(-1px);
@@ -141,7 +132,6 @@ main {
 .ingredients-view {
   display: none;
 }
-
 .recipe-details h2,
 .ingredients-view h2 {
   margin-top: 0;
@@ -155,7 +145,6 @@ table {
   margin-top: 15px;
   font-size: 14px;
 }
-
 th,
 td {
   border: 1px solid #444;
@@ -163,16 +152,13 @@ td {
   text-align: left;
   vertical-align: top;
 }
-
 th {
   background-color: #333;
   font-weight: 600;
 }
-
 td[contenteditable='true'] {
   background-color: #2a2a2a;
 }
-
 body.light-mode td[contenteditable='true'] {
   background-color: #ececec;
 }
@@ -194,7 +180,6 @@ body.light-mode td[contenteditable='true'] {
   background-position: 100% 50%;
   transition: background-position 0.5s ease, transform 0.2s ease;
 }
-
 .btn:hover {
   transform: translateY(-2px);
   background-position: 0% 50%;
@@ -226,7 +211,6 @@ body.light-mode td[contenteditable='true'] {
   align-items: center;
   margin-top: 10px;
 }
-
 .ai-prompt-input {
   width: 30%;
   padding: 8px;
@@ -238,7 +222,6 @@ body.light-mode td[contenteditable='true'] {
   font-size: 14px;
   transition: background-color 0.3s;
 }
-
 body.light-mode .ai-prompt-input {
   background-color: #ddd;
   color: #333;
@@ -253,7 +236,6 @@ body.light-mode .ai-prompt-input {
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
-
 #newIngredientDropdown {
   width: 30%;
   padding: 5px;
@@ -268,7 +250,6 @@ body.light-mode .ai-prompt-input {
   -moz-appearance: none;
   transition: background-color 0.3s;
 }
-
 body.light-mode #newIngredientDropdown {
   background-color: #ddd;
   color: #333;
@@ -281,7 +262,6 @@ body.light-mode #newIngredientDropdown {
   font-size: 12px;
   transition: background-color 0.3s, transform 0.2s;
 }
-
 .remove-ingredient-btn:hover {
   background-color: #c44;
   transform: translateY(-2px);
@@ -310,7 +290,6 @@ body.light-mode #newIngredientDropdown {
   display: inline-block;
   transition: background-color 0.3s, transform 0.2s;
 }
-
 .ingredient-button:hover {
   background-color: rgba(255, 255, 255, 0.08);
   transform: translateY(-2px);
@@ -335,11 +314,10 @@ body.light-mode #newIngredientDropdown {
   gap: 5px;
 }
 
-/* Make the "Add New Recipe" text box significantly wider to fit in with the rest */
+/* Make the "Add New Recipe" text box significantly wider */
 #createRecipeContainer .sidebar-textbox {
   width: 60% !important;
 }
-
 .sidebar-textbox {
   width: 30%;
   padding: 5px;
@@ -350,19 +328,10 @@ body.light-mode #newIngredientDropdown {
   font-size: 14px;
   transition: background-color 0.3s;
 }
-
 body.light-mode .sidebar-textbox {
   background-color: #ddd;
   color: #333;
   border: 1px solid #aaa;
-}
-
-/* small styling for loginForm */
-#loginForm {
-  background-color: rgba(0, 0, 0, 0.3);
-  margin-top: 5px;
-  border-radius: 4px;
-  padding: 8px;
 }
 
 /* Scrollbars (optional improvement) */
