@@ -5,18 +5,21 @@ const SUPABASE_ANON_KEY =
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 /********** OPENAI CONFIG (CHAT COMPLETIONS) **********/
-const OPENAI_API_KEY = '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';
+const OPENAI_API_KEY =
+  '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';
 const OPENAI_MODEL = 'gpt-4';
 const OPENAI_CHAT_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
 
 /********** GLOBAL STATE **********/
 window.recipes = [];
+window.allIngredients = [];
 let currentRecipeIndex = null;
 let currentAISuggestion = '';
-window.allIngredients = [];
 
 let isLoggedIn = false;
-let editMode = false; // NEW: separate read/write mode
+// We'll use "Edit Mode" as "logged in vs. logged out."
+// If user is logged in, Edit Mode: ON. If logged out, Edit Mode: OFF.
+let editMode = false;
 
 // Keep a reference to the popup so we can close it after login
 let popup = null;
@@ -80,21 +83,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   themeSelect.addEventListener('change', handleThemeChange);
   initializeTheme();
 
-  // Edit Mode Button
+  // Single Edit Mode Button (toggles log in/out)
   document.getElementById('btnEditMode').addEventListener('click', toggleEditMode);
 
-  // Logout Button
-  document.getElementById('btnLogout').addEventListener('click', async () => {
-    await supabaseClient.auth.signOut();
-  });
-
-  // Email/Password login confirm
-  document.getElementById('btnLoginConfirm').addEventListener('click', loginUser);
-
-  // GitHub login button
-  document.getElementById('btnGitHubLogin').addEventListener('click', signInWithGitHubPopup);
-
-  // Optionally load recipes even if logged out, so you see them pre-login
+  // Load initial data
   loadRecipes();
   loadAllIngredients();
 });
@@ -105,50 +97,34 @@ function handleAuthChange(session) {
 
   if (isLoggedIn) {
     console.log('User is logged in:', session.user.email);
-    // Hide login form
-    document.getElementById('loginForm').style.display = 'none';
-    // Show logout button
-    document.getElementById('btnLogout').style.display = 'inline-block';
+    // Turn on "edit mode" to indicate read/write
+    editMode = true;
+    document.getElementById('btnEditMode').textContent = 'Edit Mode: ON';
+    // Close the GitHub popup if still open
+    if (popup && !popup.closed) {
+      popup.close();
+      popup = null;
+    }
   } else {
     console.log('No user logged in');
-    // Hide logout button
-    document.getElementById('btnLogout').style.display = 'none';
-    // Optionally hide the login form or show it
-    document.getElementById('loginForm').style.display = 'none';
+    // Turn off "edit mode" => read-only
+    editMode = false;
+    document.getElementById('btnEditMode').textContent = 'Edit Mode: OFF';
   }
 
-  // Reset editMode to false each time user state changes
-  editMode = false;
-  document.getElementById('btnEditMode').textContent = 'Edit Mode: OFF';
-
-  // Refresh recipes and ingredients so we see them in the right mode
+  // Refresh recipes/ingredients so the UI updates
   loadRecipes();
   loadAllIngredients();
-
-  // If user just logged in, close the popup if it's still open
-  if (isLoggedIn && popup && !popup.closed) {
-    popup.close();
-    popup = null;
-  }
 }
 
-async function loginUser() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const password = document.getElementById('loginPassword').value.trim();
-  if (!email || !password) {
-    alert('Please enter email and password.');
-    return;
-  }
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email,
-    password,
-  });
-  if (error) {
-    alert('Login failed: ' + error.message);
-    console.error(error);
+/********** Single Toggle: If logged out => GitHub login, if logged in => sign out **********/
+function toggleEditMode() {
+  if (!isLoggedIn) {
+    // Not logged in => sign in with GitHub
+    signInWithGitHubPopup();
   } else {
-    alert('Logged in successfully!');
-    // handleAuthChange will trigger automatically
+    // If logged in => sign out
+    supabaseClient.auth.signOut();
   }
 }
 
@@ -171,6 +147,7 @@ async function signInWithGitHubPopup() {
     'GitHubAuthPopup',
     `width=${width},height=${height},top=${top},left=${left}`
   );
+
   // Poll if user manually closes the popup
   const popupInterval = setInterval(() => {
     if (!popup || popup.closed) {
@@ -214,29 +191,12 @@ function applyTheme(theme) {
   }
 }
 
-/********** TOGGLE EDIT MODE **********/
-function toggleEditMode() {
-  // If user not logged in, show/hide the login form
-  if (!isLoggedIn) {
-    const loginForm = document.getElementById('loginForm');
-    loginForm.style.display =
-      loginForm.style.display === 'none' ? 'block' : 'none';
-    return;
-  }
-  // If user is logged in, toggle the editMode
-  editMode = !editMode;
-  document.getElementById('btnEditMode').textContent = `Edit Mode: ${
-    editMode ? 'ON' : 'OFF'
-  }`;
-
-  // Optionally re-render the current recipe to reflect contenteditable changes
-  if (currentRecipeIndex !== null) {
-    showRecipeDetails(currentRecipeIndex);
-  }
-}
-
 /********** CREATE A NEW RECIPE **********/
 async function createNewRecipe() {
+  if (!isLoggedIn) {
+    alert('Please log in (Edit Mode ON) to create a new recipe.');
+    return;
+  }
   const newRecipeNameInput = document.getElementById('newRecipeNameInput');
   const recipeName = newRecipeNameInput.value.trim();
   if (!recipeName) {
@@ -268,13 +228,9 @@ async function loadRecipes() {
     return;
   }
 
-  if (!recipes) {
-    window.recipes = [];
-  } else {
-    window.recipes = recipes;
-  }
+  window.recipes = recipes || [];
 
-  // If user is logged in and no recipes, show CSV import
+  // Show CSV import only if user is logged in and no recipes exist
   if (isLoggedIn && window.recipes.length === 0) {
     document.getElementById('importCSVContainer').style.display = 'block';
   } else {
@@ -295,8 +251,11 @@ function renderRecipeList(recipes) {
     recipeList.appendChild(li);
   });
 
+  // Show recipe details section only if we have at least one recipe
   if (recipes.length > 0) {
     document.getElementById('recipeDetails').style.display = 'block';
+  } else {
+    document.getElementById('recipeDetails').style.display = 'none';
   }
 }
 
@@ -351,7 +310,7 @@ function showRecipeDetails(index) {
   (recipe.ingredients || []).forEach((ingredient, i) => {
     const row = document.createElement('tr');
 
-    // Only editable if user is logged in AND editMode is ON
+    // Only editable if user is logged in (editMode = ON)
     const editableAttr = (isLoggedIn && editMode) ? 'contenteditable="true"' : '';
 
     row.innerHTML = `
@@ -360,7 +319,7 @@ function showRecipeDetails(index) {
       <td ${editableAttr}>${ingredient.nextVersion || ''}</td>
       <td ${editableAttr}>${ingredient.reasoning || ''}</td>
       <td>
-        <button class="remove-ingredient-btn" 
+        <button class="remove-ingredient-btn"
                 onclick="removeIngredient(${index}, ${i})">
           Remove
         </button>
@@ -374,6 +333,10 @@ function showRecipeDetails(index) {
 async function addNewIngredient() {
   if (currentRecipeIndex == null) {
     alert('Please select a recipe first.');
+    return;
+  }
+  if (!isLoggedIn) {
+    alert('Please log in (Edit Mode ON) to modify recipes.');
     return;
   }
   const recipe = window.recipes[currentRecipeIndex];
@@ -414,6 +377,10 @@ async function addNewIngredient() {
 
 /********** ADD INGREDIENT to the Ingredients TABLE **********/
 async function addGlobalIngredient() {
+  if (!isLoggedIn) {
+    alert('Please log in (Edit Mode ON) to add global ingredients.');
+    return;
+  }
   const newIngInput = document.getElementById('newGlobalIngredientInput');
   const newIngName = newIngInput.value.trim();
   if (!newIngName) {
@@ -440,8 +407,13 @@ async function addGlobalIngredient() {
 
 /********** REMOVE INGREDIENT from CURRENT RECIPE **********/
 async function removeIngredient(recipeIndex, ingredientIndex) {
+  if (!isLoggedIn) {
+    alert('Please log in (Edit Mode ON) to remove ingredients.');
+    return;
+  }
   const recipe = window.recipes[recipeIndex];
   recipe.ingredients.splice(ingredientIndex, 1);
+
   const { error } = await supabaseClient
     .from('All_Recipes')
     .update({ ingredients: recipe.ingredients })
@@ -456,6 +428,10 @@ async function removeIngredient(recipeIndex, ingredientIndex) {
 
 /********** REMOVE INGREDIENT from the Ingredients TABLE **********/
 async function removeGlobalIngredient(ingredientId) {
+  if (!isLoggedIn) {
+    alert('Please log in (Edit Mode ON) to remove global ingredients.');
+    return;
+  }
   const { error } = await supabaseClient
     .from('Ingredients')
     .delete()
@@ -467,22 +443,6 @@ async function removeGlobalIngredient(ingredientId) {
   window.allIngredients = window.allIngredients.filter((ing) => ing.id !== ingredientId);
   populateIngredientDropdown();
   showAllIngredients();
-}
-
-/********** UPDATE AN INGREDIENT (in Current Recipe) **********/
-async function updateIngredient(recipeIndex, ingredientIndex, key, value) {
-  if (!isLoggedIn || !editMode) return;
-  const recipe = window.recipes[recipeIndex];
-  recipe.ingredients[ingredientIndex][key] = value;
-  const { error } = await supabaseClient
-    .from('All_Recipes')
-    .update({ ingredients: recipe.ingredients })
-    .eq('id', recipe.id);
-  if (error) {
-    console.error('Error updating recipe:', error);
-  } else {
-    console.log('Recipe updated successfully.');
-  }
 }
 
 /********** SHOW ALL INGREDIENTS **********/
@@ -505,7 +465,7 @@ function showAllIngredients() {
     detailsDiv.style.display = 'none';
     detailsDiv.innerHTML = `
       <p>Description: ${ing.description || 'No description'}</p>
-      <button class="btn remove-ingredient-btn" onclick="removeGlobalIngredient(${ing.id})">
+      <button class="remove-ingredient-btn" onclick="removeGlobalIngredient(${ing.id})">
         Remove
       </button>
     `;
@@ -565,7 +525,7 @@ async function fetchAISuggestion(recipe, userPrompt) {
 
 async function showAISuggestion() {
   if (!isLoggedIn) {
-    alert('Please log in to use AI suggestions.');
+    alert('Please log in (Edit Mode ON) to use AI suggestions.');
     return;
   }
   if (currentRecipeIndex == null) {
@@ -623,7 +583,7 @@ async function commitAISuggestion() {
   }
 }
 
-/********** CSV IMPORT (OPTIONAL) **********/
+/********** CSV IMPORT **********/
 function parseCSVData(data) {
   const rows = data.data;
   if (rows.length < 2) return [];
@@ -650,7 +610,7 @@ function parseCSVData(data) {
 
 async function importCSV(event) {
   if (!isLoggedIn) {
-    alert('Please log in to import CSV.');
+    alert('Please log in (Edit Mode ON) to import CSV.');
     return;
   }
   const file = event.target.files[0];
@@ -664,13 +624,15 @@ async function importCSV(event) {
         return;
       }
       for (let recipe of recipes) {
-        const { error } = await supabaseClient.from('All_Recipes').insert([
-          {
-            name: recipe.name,
-            ingredients: recipe.ingredients,
-            suggestions: recipe.suggestions,
-          },
-        ]);
+        const { error } = await supabaseClient
+          .from('All_Recipes')
+          .insert([
+            {
+              name: recipe.name,
+              ingredients: recipe.ingredients,
+              suggestions: recipe.suggestions,
+            },
+          ]);
         if (error) {
           console.error('Error importing recipe:', error);
         }
