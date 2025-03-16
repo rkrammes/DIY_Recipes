@@ -1,5 +1,5 @@
 /* 1) "Add New Recipe" text box is 60% wide
-   2) 3-stop gradient from #DF7027 -> #e6865b -> #699FA1
+   2) 3-stop gradient from #DF7027 -> #e6865b -> #699fa1
    3) Reversed hover states
    4) Basic styling for the login form (optional)
 */
@@ -332,6 +332,14 @@ body.light-mode .sidebar-textbox {
   background-color: #ddd;
   color: #333;
   border: 1px solid #aaa;
+}
+
+/* small styling for magicLinkForm if needed */
+#magicLinkForm {
+  background-color: rgba(0, 0, 0, 0.3);
+  margin-top: 5px;
+  border-radius: 4px;
+  padding: 8px;
 }
 
 /* Scrollbars (optional improvement) */
