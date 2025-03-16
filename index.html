@@ -24,7 +24,7 @@
   <header class="glass-panel main-header">
     <div class="header-inner">
       <span class="app-title">Iteration Station</span>
-      <!-- Right-side group: theme + edit mode + logout -->
+      <!-- Right-side group: theme + edit mode -->
       <div style="display:flex; align-items:center; gap:15px;">
         <div class="theme-toggle">
           <label for="themeSelect" class="theme-label">Appearance:</label>
@@ -34,32 +34,9 @@
             <option value="system">System</option>
           </select>
         </div>
-        <!-- Edit Mode button + Logout button -->
-        <div id="editModeContainer">
-          <button class="btn" id="btnEditMode">Edit Mode: OFF</button>
-          <button class="btn" id="btnLogout" style="display:none;">Log Out</button>
-        </div>
+        <!-- Single Edit Mode button that logs in/out with GitHub -->
+        <button class="btn" id="btnEditMode">Edit Mode: OFF</button>
       </div>
-    </div>
-    <!-- Hidden inline login form that toggles on button click -->
-    <div id="loginForm" style="display:none; padding:10px; text-align:right;">
-      <input
-        type="email"
-        id="loginEmail"
-        class="sidebar-textbox"
-        placeholder="Email"
-        style="margin-right:5px; width:180px;"
-      />
-      <input
-        type="password"
-        id="loginPassword"
-        class="sidebar-textbox"
-        placeholder="Password"
-        style="margin-right:5px; width:140px;"
-      />
-      <button class="btn" id="btnLoginConfirm">Login</button>
-      <!-- GitHub OAuth -->
-      <button class="btn" id="btnGitHubLogin">Sign in with GitHub</button>
     </div>
   </header>
 
