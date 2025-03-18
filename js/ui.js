@@ -9,7 +9,7 @@ import {
 } from './api.js';
 import { toggleEditMode, sendMagicLink } from './auth.js';
 
-window.editMode = window.editMode || false; // Ensure global flag exists
+window.editMode = window.editMode || false; // Global flag for edit mode
 
 /**
  * Updates the website theme based on the selected value.
@@ -31,7 +31,7 @@ function updateTheme(theme) {
 }
 
 /**
- * Returns whether Edit Mode is active (i.e., the user is logged in).
+ * Returns whether Edit Mode is active (user is logged in).
  * Uses the global variable window.editMode.
  * @returns {boolean}
  */
@@ -41,12 +41,35 @@ function isEditMode() {
 
 /**
  * Standardizes the styling of a button element.
- * @param {HTMLElement} btn - The button element to standardize.
+ * @param {HTMLElement} btn - The button element.
  */
 function standardizeButton(btn) {
   btn.classList.add('btn');
   btn.style.width = '100%';
   btn.style.textAlign = 'left';
+}
+
+/**
+ * Updates the display and disabled state of editing inputs/buttons based on Edit Mode.
+ */
+function updateEditability() {
+  // These elements should be enabled only in Edit Mode.
+  const newRecipeInput = document.getElementById('newRecipeNameInput');
+  const newGlobalIngredientInput = document.getElementById('newGlobalIngredientInput');
+  const newIngredientDropdown = document.getElementById('newIngredientDropdown');
+  const aiPrompt = document.getElementById('aiPrompt');
+  const btnReroll = document.getElementById('btnReroll');
+  const btnCommitSuggestion = document.getElementById('btnCommitSuggestion');
+
+  if (newRecipeInput) newRecipeInput.disabled = !isEditMode();
+  if (newGlobalIngredientInput) newGlobalIngredientInput.disabled = !isEditMode();
+  if (newIngredientDropdown) newIngredientDropdown.disabled = !isEditMode();
+  if (aiPrompt) aiPrompt.disabled = !isEditMode();
+  if (btnReroll) btnReroll.disabled = !isEditMode();
+  if (btnCommitSuggestion) btnCommitSuggestion.disabled = !isEditMode();
+
+  // Also update remove buttons in ingredient details.
+  updateRemoveButtons();
 }
 
 /**
@@ -61,7 +84,7 @@ function updateRemoveButtons() {
 
 /**
  * Initializes UI event listeners and standardizes left-side buttons.
- * Recipes and ingredients are always rendered, regardless of edit mode.
+ * Recipes and ingredients are always rendered, but editing controls are only enabled in Edit Mode.
  */
 export function initUI() {
   // Theme selection
@@ -69,7 +92,7 @@ export function initUI() {
   themeSelect.addEventListener('change', (e) => {
     updateTheme(e.target.value);
     updateIngredientDetailsBackgrounds();
-    updateRemoveButtons();
+    updateEditability();
   });
   updateTheme(themeSelect.value);
 
@@ -95,9 +118,9 @@ export function initUI() {
     standardizeButton(btnEditMode);
     btnEditMode.addEventListener('click', () => {
       toggleEditMode();
-      // Toggle the global editMode flag; assume toggleEditMode updates the UI accordingly.
+      // Toggle global editMode flag (this assumes your auth.js updates window.editMode accordingly)
       window.editMode = !window.editMode;
-      updateRemoveButtons();
+      updateEditability();
     });
   } else {
     console.warn('btnEditMode not found');
@@ -186,6 +209,9 @@ export function initUI() {
     }
     dropdown.value = '';
   });
+
+  // Initial update of editability state.
+  updateEditability();
 }
 
 /**
@@ -208,10 +234,11 @@ export function showAllIngredientsView() {
 
 /**
  * Renders the list of recipes.
+ * This view is always visible.
  * @param {Array} recipes - Array of recipe objects.
  */
 export function renderRecipes(recipes) {
-  window.recipes = recipes; // Store globally
+  window.recipes = recipes;
   const list = document.getElementById('recipeList');
   list.innerHTML = '';
   if (!recipes.length) {
@@ -284,8 +311,8 @@ export function showRecipeDetails(recipe) {
 
 /**
  * Renders the list of global ingredients.
- * Each ingredient is a clickable button (25% width) that toggles an expanded details section.
- * The details section displays extra info and a Remove button, whose visibility depends on Edit Mode.
+ * Each ingredient is rendered as a clickable button (25% width) that toggles an expanded details section.
+ * The details section displays extra info and includes a Remove button whose visibility depends on Edit Mode.
  * @param {Array} ingredients - Array of ingredient objects.
  */
 export function renderIngredients(ingredients) {
@@ -352,8 +379,8 @@ export function renderIngredients(ingredients) {
 
 /**
  * Displays a temporary notification.
- * @param {string} message - The notification message.
- * @param {string} type - The type ('success', 'error', or 'info').
+ * @param {string} message - The message.
+ * @param {string} type - Type ('success', 'error', or 'info').
  */
 export function showNotification(message, type = 'info') {
   const notif = document.createElement('div');
