@@ -6,7 +6,7 @@ import {
   addGlobalIngredient as apiAddGlobalIngredient, 
   importCSVFile 
 } from './api.js';
-import { toggleEditMode } from './auth.js';
+import { toggleEditMode, sendMagicLink } from './auth.js';
 
 /**
  * Updates the website theme based on the selected value.
@@ -41,6 +41,14 @@ export function initUI() {
   });
   // Set the initial theme based on the dropdown's current value.
   updateTheme(themeSelect.value);
+
+  // Attach event listener for the "Send Magic Link" button.
+  const btnSendMagicLink = document.getElementById('btnSendMagicLink');
+  if (btnSendMagicLink) {
+    btnSendMagicLink.addEventListener('click', sendMagicLink);
+  } else {
+    console.warn('btnSendMagicLink not found');
+  }
 
   // Ingredients button to show the Ingredients View.
   document.getElementById('btnIngredients').addEventListener('click', () => {
@@ -168,7 +176,7 @@ export function showNotification(message, type = 'info') {
   const notification = document.createElement('div');
   notification.className = `notification ${type}`;
   notification.innerText = message;
-  // Basic styles can be defined in your CSS for .notification and types.
+  // Basic styles can be defined in your CSS for .notification and its types.
   document.body.appendChild(notification);
   setTimeout(() => {
     notification.remove();
