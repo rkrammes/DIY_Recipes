@@ -29,12 +29,23 @@ function updateTheme(theme) {
 }
 
 /**
+ * Returns whether Edit Mode is currently ON.
+ * @returns {boolean} True if Edit Mode is ON.
+ */
+function isEditMode() {
+  const btnEditMode = document.getElementById('btnEditMode');
+  return btnEditMode && btnEditMode.textContent.includes('ON');
+}
+
+/**
  * Initializes UI event listeners.
  */
 export function initUI() {
   const themeSelect = document.getElementById('themeSelect');
   themeSelect.addEventListener('change', (e) => {
     updateTheme(e.target.value);
+    // Update expanded details backgrounds to match new theme.
+    updateIngredientDetailsBackgrounds();
   });
   updateTheme(themeSelect.value);
 
@@ -156,6 +167,16 @@ export function initUI() {
 }
 
 /**
+ * Updates the background of all expanded ingredient details to match the current theme.
+ */
+function updateIngredientDetailsBackgrounds() {
+  const detailsDivs = document.querySelectorAll('.ingredient-details');
+  detailsDivs.forEach(div => {
+    div.style.background = document.body.classList.contains('light-mode') ? '#f0f0f0' : 'rgba(255, 255, 255, 0.07)';
+  });
+}
+
+/**
  * Displays the Ingredients view and hides the Recipe Details view.
  */
 export function showAllIngredientsView() {
@@ -176,11 +197,22 @@ export function renderRecipes(recipes) {
   }
   recipes.forEach(recipe => {
     const li = document.createElement('li');
-    li.textContent = recipe.name || 'Unnamed Recipe';
-    li.style.cursor = 'pointer';
-    li.addEventListener('click', () => {
+    li.style.listStyle = 'none';
+    li.style.marginBottom = '10px';
+    
+    // Create a button for the recipe.
+    const recipeButton = document.createElement('button');
+    recipeButton.textContent = recipe.name || 'Unnamed Recipe';
+    recipeButton.classList.add('btn');
+    recipeButton.style.width = '100%';
+    recipeButton.style.textAlign = 'left';
+    // Ensure the background matches the gradient of other buttons.
+    // This assumes your .btn class in CSS applies the gradient.
+    recipeButton.addEventListener('click', () => {
       showRecipeDetails(recipe);
     });
+    
+    li.appendChild(recipeButton);
     recipeList.appendChild(li);
   });
 }
@@ -248,7 +280,7 @@ export function showRecipeDetails(recipe) {
 /**
  * Renders the list of global ingredients into the UI.
  * Each ingredient is rendered as a clickable button that toggles an expanded details section.
- * If Edit Mode is ON, a Remove button is displayed.
+ * In Edit Mode, a Remove button is displayed.
  * @param {Array} ingredients - Array of ingredient objects.
  */
 export function renderIngredients(ingredients) {
@@ -260,39 +292,37 @@ export function renderIngredients(ingredients) {
   }
   
   ingredients.forEach(ingredient => {
-    // Create a container for each ingredient.
     const li = document.createElement('li');
     li.style.listStyle = 'none';
     li.style.marginBottom = '10px';
     
-    // Create a button for the ingredient that matches the recipe button look.
+    // Create a button for the ingredient.
     const ingredientButton = document.createElement('button');
     ingredientButton.textContent = ingredient.name || 'Unnamed Ingredient';
     ingredientButton.classList.add('btn');
     ingredientButton.style.width = '100%';
     ingredientButton.style.textAlign = 'left';
     
-    // Create a details div that toggles when the button is clicked.
+    // Create a details div that toggles on click.
     const detailsDiv = document.createElement('div');
     detailsDiv.style.display = 'none';
-    // Add a class for additional styling if desired.
     detailsDiv.classList.add('ingredient-details');
-    // Set fallback inline styles matching the theme.
     detailsDiv.style.padding = '10px';
     detailsDiv.style.marginTop = '5px';
     detailsDiv.style.borderRadius = '4px';
     detailsDiv.style.border = '1px solid rgba(255, 255, 255, 0.15)';
     detailsDiv.style.background = document.body.classList.contains('light-mode') ? '#f0f0f0' : 'rgba(255, 255, 255, 0.07)';
     
-    // Insert additional ingredient info.
+    // Insert additional useful ingredient information.
     detailsDiv.innerHTML = `
       <p><strong>ID:</strong> ${ingredient.id || 'N/A'}</p>
       <p><strong>Name:</strong> ${ingredient.name || 'N/A'}</p>
+      <p><strong>Created At:</strong> ${ingredient.created_at || 'N/A'}</p>
+      <p><strong>Description:</strong> ${ingredient.description || 'No description available.'}</p>
     `;
     
     // If in Edit Mode, add a Remove button.
-    const btnEditMode = document.getElementById('btnEditMode');
-    if (btnEditMode && btnEditMode.textContent.includes('ON')) {
+    if (isEditMode()) {
       const removeBtn = document.createElement('button');
       removeBtn.textContent = 'Remove';
       removeBtn.classList.add('btn', 'remove-ingredient-btn');
