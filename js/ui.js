@@ -4,7 +4,8 @@ import {
   addNewIngredientToRecipe, 
   removeIngredientFromRecipe, 
   addGlobalIngredient as apiAddGlobalIngredient, 
-  importCSVFile 
+  importCSVFile,
+  removeGlobalIngredient
 } from './api.js';
 import { toggleEditMode, sendMagicLink } from './auth.js';
 
@@ -13,15 +14,12 @@ import { toggleEditMode, sendMagicLink } from './auth.js';
  * @param {string} theme - The selected theme ('light', 'dark', or 'system').
  */
 function updateTheme(theme) {
-  // Remove any existing theme classes from the body.
   document.body.classList.remove('light-mode', 'dark-mode');
-  
   if (theme === 'light') {
     document.body.classList.add('light-mode');
   } else if (theme === 'dark') {
     document.body.classList.add('dark-mode');
   } else if (theme === 'system') {
-    // For system theme, detect the system's preferred color scheme.
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
       document.body.classList.add('light-mode');
     } else {
@@ -34,7 +32,6 @@ function updateTheme(theme) {
  * Initializes UI event listeners.
  */
 export function initUI() {
-  // Theme dropdown event listener for appearance changes.
   const themeSelect = document.getElementById('themeSelect');
   themeSelect.addEventListener('change', (e) => {
     updateTheme(e.target.value);
@@ -117,7 +114,6 @@ export function initUI() {
       dropdown.value = '';
       return;
     }
-    // Assume global window.allIngredients contains the ingredients array.
     const selectedIngId = dropdown.value;
     const ingObj = window.allIngredients.find((ing) => ing.id === selectedIngId);
     if (!ingObj) {
@@ -135,7 +131,6 @@ export function initUI() {
     try {
       await addNewIngredientToRecipe(window.recipes[window.currentRecipeIndex], newIngredient);
       showNotification("Ingredient added to recipe!", "success");
-      // Optionally, update recipe details view here if it's visible.
     } catch (error) {
       showNotification("Error adding ingredient to recipe.", "error");
     }
@@ -195,43 +190,33 @@ export function renderRecipes(recipes) {
  * @param {Object} recipe - The recipe object.
  */
 export function showRecipeDetails(recipe) {
-  // Hide the ingredients view and show the recipe details section.
   document.getElementById('ingredientsView').style.display = 'none';
   const recipeDetails = document.getElementById('recipeDetails');
   recipeDetails.style.display = 'block';
-
-  // Set the recipe title.
   const recipeTitle = document.getElementById('recipeTitle');
   recipeTitle.textContent = recipe.name || 'Unnamed Recipe';
-
-  // Render recipe ingredients in the table.
   const recipeContent = document.getElementById('recipeContent');
   recipeContent.innerHTML = '';
   if (recipe.ingredients && recipe.ingredients.length > 0) {
     recipe.ingredients.forEach((ingredient, index) => {
       const tr = document.createElement('tr');
       
-      // Ingredient name column.
       const tdIngredient = document.createElement('td');
       tdIngredient.textContent = ingredient.name || '';
       tr.appendChild(tdIngredient);
       
-      // Quantity column.
       const tdQuantity = document.createElement('td');
       tdQuantity.textContent = ingredient.quantity || '';
       tr.appendChild(tdQuantity);
       
-      // Next Version column.
       const tdNextVersion = document.createElement('td');
       tdNextVersion.textContent = ingredient.nextVersion || '';
       tr.appendChild(tdNextVersion);
       
-      // Reasoning column.
       const tdReasoning = document.createElement('td');
       tdReasoning.textContent = ingredient.reasoning || '';
       tr.appendChild(tdReasoning);
       
-      // Remove button column.
       const tdRemove = document.createElement('td');
       const removeButton = document.createElement('button');
       removeButton.textContent = 'Remove';
@@ -240,7 +225,6 @@ export function showRecipeDetails(recipe) {
         try {
           await removeIngredientFromRecipe(recipe, index);
           showNotification("Ingredient removed", "success");
-          // Refresh the recipe details view.
           showRecipeDetails(recipe);
         } catch (error) {
           showNotification("Error removing ingredient", "error");
@@ -262,7 +246,9 @@ export function showRecipeDetails(recipe) {
 }
 
 /**
- * Renders the list of ingredients into the UI.
+ * Renders the list of global ingredients into the UI.
+ * Each ingredient is rendered as a clickable button that toggles an expanded details section.
+ * If Edit Mode is ON, a Remove button is displayed.
  * @param {Array} ingredients - Array of ingredient objects.
  */
 export function renderIngredients(ingredients) {
@@ -272,10 +258,60 @@ export function renderIngredients(ingredients) {
     ingredientList.innerHTML = '<li>No ingredients found.</li>';
     return;
   }
+  
   ingredients.forEach(ingredient => {
+    // Create a container for each ingredient.
     const li = document.createElement('li');
-    // Format the ingredient item. Adjust the HTML/CSS as needed.
-    li.innerHTML = `<strong>${ingredient.name}</strong>`;
+    li.style.listStyle = 'none';
+    li.style.marginBottom = '10px';
+    
+    // Create a button to display the ingredient name.
+    const ingredientButton = document.createElement('button');
+    ingredientButton.textContent = ingredient.name || 'Unnamed Ingredient';
+    ingredientButton.classList.add('btn');
+    ingredientButton.style.width = '100%';
+    ingredientButton.style.textAlign = 'left';
+    
+    // Create a details div that is initially hidden.
+    const detailsDiv = document.createElement('div');
+    detailsDiv.style.display = 'none';
+    detailsDiv.style.padding = '5px 10px';
+    detailsDiv.style.border = '1px solid #ccc';
+    detailsDiv.style.marginTop = '5px';
+    detailsDiv.style.backgroundColor = '#f9f9f9';
+    
+    // Add additional info. You can customize what you want to show.
+    detailsDiv.innerHTML = `
+      <p><strong>ID:</strong> ${ingredient.id || 'N/A'}</p>
+      <p><strong>Name:</strong> ${ingredient.name || 'N/A'}</p>
+    `;
+    
+    // If in Edit Mode (logged in), add a Remove button.
+    const btnEditMode = document.getElementById('btnEditMode');
+    if (btnEditMode && btnEditMode.textContent.includes('ON')) {
+      const removeBtn = document.createElement('button');
+      removeBtn.textContent = 'Remove';
+      removeBtn.classList.add('btn', 'remove-ingredient-btn');
+      removeBtn.style.marginTop = '5px';
+      removeBtn.addEventListener('click', async () => {
+        try {
+          await removeGlobalIngredient(ingredient.id);
+          showNotification("Ingredient removed", "success");
+          // Optionally, re-fetch ingredients and update UI here.
+        } catch (error) {
+          showNotification("Error removing ingredient", "error");
+        }
+      });
+      detailsDiv.appendChild(removeBtn);
+    }
+    
+    // Toggle the details div when the ingredient button is clicked.
+    ingredientButton.addEventListener('click', () => {
+      detailsDiv.style.display = detailsDiv.style.display === 'none' ? 'block' : 'none';
+    });
+    
+    li.appendChild(ingredientButton);
+    li.appendChild(detailsDiv);
     ingredientList.appendChild(li);
   });
 }
