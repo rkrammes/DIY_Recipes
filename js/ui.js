@@ -39,7 +39,6 @@ export function initUI() {
   themeSelect.addEventListener('change', (e) => {
     updateTheme(e.target.value);
   });
-  // Set the initial theme based on the dropdown's current value.
   updateTheme(themeSelect.value);
 
   // Attach event listener for the "Send Magic Link" button.
@@ -80,6 +79,7 @@ export function initUI() {
         await apiAddGlobalIngredient(ingredientName);
         showNotification("New ingredient added!", "success");
         input.value = '';
+        // Optionally, re-fetch ingredients and update UI here.
       } catch (error) {
         showNotification("Error adding new ingredient.", "error");
       }
@@ -100,7 +100,7 @@ export function initUI() {
         if (newRecipe) {
           showNotification("Recipe created successfully!", "success");
           input.value = '';
-          // Optionally refresh the recipe list UI here.
+          // Optionally, re-fetch recipes and update UI here.
         }
       } catch (error) {
         showNotification("Error creating recipe.", "error");
@@ -168,6 +168,47 @@ export function showAllIngredientsView() {
 }
 
 /**
+ * Renders the list of recipes into the UI.
+ * @param {Array} recipes - Array of recipe objects.
+ */
+export function renderRecipes(recipes) {
+  const recipeList = document.getElementById('recipeList');
+  recipeList.innerHTML = '';
+  if (!recipes || recipes.length === 0) {
+    recipeList.innerHTML = '<li>No recipes found.</li>';
+    return;
+  }
+  recipes.forEach(recipe => {
+    const li = document.createElement('li');
+    li.textContent = recipe.name || 'Unnamed Recipe';
+    // Add click event to view recipe details if needed.
+    li.addEventListener('click', () => {
+      window.currentRecipe = recipe;
+      // Optionally, call a function to render recipe details.
+    });
+    recipeList.appendChild(li);
+  });
+}
+
+/**
+ * Renders the list of ingredients into the UI.
+ * @param {Array} ingredients - Array of ingredient objects.
+ */
+export function renderIngredients(ingredients) {
+  const ingredientList = document.getElementById('ingredientList');
+  ingredientList.innerHTML = '';
+  if (!ingredients || ingredients.length === 0) {
+    ingredientList.innerHTML = '<li>No ingredients found.</li>';
+    return;
+  }
+  ingredients.forEach(ingredient => {
+    const li = document.createElement('li');
+    li.textContent = ingredient.name || 'Unnamed Ingredient';
+    ingredientList.appendChild(li);
+  });
+}
+
+/**
  * Shows a temporary notification on the screen.
  * @param {string} message - The notification message.
  * @param {string} type - The type ('success', 'error', or 'info').
@@ -176,7 +217,6 @@ export function showNotification(message, type = 'info') {
   const notification = document.createElement('div');
   notification.className = `notification ${type}`;
   notification.innerText = message;
-  // Basic styles can be defined in your CSS for .notification and its types.
   document.body.appendChild(notification);
   setTimeout(() => {
     notification.remove();
