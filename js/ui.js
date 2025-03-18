@@ -48,6 +48,16 @@ function standardizeButton(button) {
 }
 
 /**
+ * Updates the display of all remove buttons in ingredient details.
+ */
+function updateRemoveButtons() {
+  const removeBtns = document.querySelectorAll('.remove-ingredient-btn');
+  removeBtns.forEach(btn => {
+    btn.style.display = isEditMode() ? 'block' : 'none';
+  });
+}
+
+/**
  * Initializes UI event listeners and standardizes left-side buttons.
  */
 export function initUI() {
@@ -55,6 +65,7 @@ export function initUI() {
   themeSelect.addEventListener('change', (e) => {
     updateTheme(e.target.value);
     updateIngredientDetailsBackgrounds();
+    updateRemoveButtons();
   });
   updateTheme(themeSelect.value);
 
@@ -301,10 +312,12 @@ export function showRecipeDetails(recipe) {
  * Renders the list of global ingredients into the UI.
  * Each ingredient is rendered as a clickable button (set to 25% width)
  * that toggles an expanded details section. The details section displays
- * additional useful information and includes a Remove button (active only when Edit Mode is ON).
+ * additional useful information and includes a Remove button which is always created,
+ * but its visibility is controlled by the edit mode state.
  * @param {Array} ingredients - Array of ingredient objects.
  */
 export function renderIngredients(ingredients) {
+  window.allIngredients = ingredients; // Store globally for re-rendering if needed.
   const ingredientList = document.getElementById('ingredientList');
   ingredientList.innerHTML = '';
   if (!ingredients || ingredients.length === 0) {
@@ -342,22 +355,23 @@ export function renderIngredients(ingredients) {
       <p><strong>Description:</strong> ${ingredient.description || 'No description available.'}</p>
     `;
     
-    // Always include a Remove button if Edit Mode is active.
-    if (isEditMode()) {
-      const removeBtn = document.createElement('button');
-      removeBtn.textContent = 'Remove';
-      removeBtn.classList.add('btn', 'remove-ingredient-btn');
-      removeBtn.style.marginTop = '10px';
-      removeBtn.addEventListener('click', async () => {
-        try {
-          await removeGlobalIngredient(ingredient.id);
-          showNotification("Ingredient removed", "success");
-        } catch (error) {
-          showNotification("Error removing ingredient", "error");
-        }
-      });
-      detailsDiv.appendChild(removeBtn);
-    }
+    // Create the Remove button (always created).
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = 'Remove';
+    removeBtn.classList.add('btn', 'remove-ingredient-btn');
+    removeBtn.style.marginTop = '10px';
+    removeBtn.addEventListener('click', async () => {
+      try {
+        await removeGlobalIngredient(ingredient.id);
+        showNotification("Ingredient removed", "success");
+        // Optionally re-render global ingredients after removal.
+      } catch (error) {
+        showNotification("Error removing ingredient", "error");
+      }
+    });
+    // Set its display based on edit mode.
+    removeBtn.style.display = isEditMode() ? 'block' : 'none';
+    detailsDiv.appendChild(removeBtn);
     
     // Toggle the details div when the ingredient button is clicked.
     ingredientButton.addEventListener('click', () => {
@@ -368,6 +382,9 @@ export function renderIngredients(ingredients) {
     li.appendChild(detailsDiv);
     ingredientList.appendChild(li);
   });
+  
+  // Update remove buttons visibility based on current edit mode.
+  updateRemoveButtons();
 }
 
 /**
