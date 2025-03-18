@@ -10,22 +10,89 @@ Your goal is to serve as a resourceful, detail-oriented, and proactive developme
 Let's collaborate to build an extraordinary web application!
 <<END PROMPT>>
 ------------------------------
-Project Overview:
-- Purpose: DIY_Recipes is a web application designed to help users create, share, and manage their DIY recipe collections using modern web technologies.
-- Repository: The project is maintained on GitHub at [DIY_Recipes Repository](https://github.com/rkrammes/DIY_Recipes/tree/main).
-Quick Start Guide:
-1. Clone the Repository:
-   git clone https://github.com/rkrammes/DIY_Recipes.git
-2. Navigate to the Project Directory:
-   cd DIY_Recipes
-3. Install Dependencies:
-   npm install
-4. Run the Development Server:
-   npm start
-5. Initialize ChatGPT as Your Development Companion:
-   - Open a new ChatGPT session.
-   - Paste the optimal prompt provided above.
-Final Thoughts:
-With this README and the optimal prompt, ChatGPT is now set to become your perfect companion. It will have a detailed and thorough understanding of every document (by name) and aspect of the project, ensuring that its responses align with your preferences for precision, depth, forward-thinking insights, and even a touch of clever humor.
-References:
-GitHub. (n.d.). DIY_Recipes Repository. Retrieved from https://github.com/rkrammes/DIY_Recipes/tree/main
+Project Overview
+
+**Purpose:**  
+DIY_Recipes is a web application designed to help users create, share, and manage their DIY recipe collections using modern web technologies. It leverages Supabase for authentication and database operations, and optionally uses an Express server (`server.js`) to securely integrate with OpenAI for AI recipe suggestions.
+
+**Key Features:**
+- **Magic Link Authentication (Supabase)**: Users can log in without passwords.
+- **Recipe & Ingredient Management**: Create, edit, and remove recipes and ingredients.
+- **CSV Import**: Import recipes from CSV files via Papa Parse.
+- **AI Suggestions (Optional)**: Securely fetch suggestions from OpenAI through an Express server endpoint.
+
+---
+
+## 2. Optimal ChatGPT Prompt Usage
+
+To ensure ChatGPT fully understands this project, **follow these steps** when starting a new ChatGPT session:
+
+1. **Open a new ChatGPT session.**  
+2. **Provide a link to this README** (or copy-paste the entire README below).  
+3. **Instruct ChatGPT to read each file by name** as listed in [Section 3](#3-files-to-read-by-name).  
+4. **Ensure ChatGPT confirms** that it has “read” or acknowledges each file.  
+5. **Proceed with your questions** or development tasks, knowing ChatGPT has the necessary context.
+
+---
+
+## 3. Files to Read by Name
+
+ChatGPT, please read each of these files by name and internalize their contents to gain a full understanding of the DIY_Recipes project:
+
+1. **`LICENSE.txt`**  
+   - The license under which this project is distributed (e.g., CC0 1.0 Universal).
+
+2. **`index.html`**  
+   - The main HTML entry point for the DIY_Recipes front end.
+
+3. **`style.css`**  
+   - The primary stylesheet for the application (dark mode, glass panels, etc.).
+
+4. **`server.js`**  
+   - An Express server file that optionally handles AI suggestions via OpenAI.
+
+5. **`main.js`**  
+   - The front-end entry point that initializes authentication, UI, and loads data.
+
+6. **`auth.js`**  
+   - Handles Supabase magic link authentication and toggling edit mode.
+
+7. **`api.js`**  
+   - Contains all Supabase-based CRUD operations for recipes and ingredients, plus CSV import logic.
+
+8. **`ui.js`**  
+   - Sets up front-end UI event listeners, notifications, and user interactions.
+
+9. **`supabaseClient.js`**  
+   - Creates the Supabase client (using the public anon key) for front-end data operations.
+
+10. **`TESTING.md`** (or similar doc)  
+   - Provides any testing guidelines or notes (if you keep it).
+
+11. **`CHANGELOG.md`**  
+   - Lists the project’s version history and changes (if retained).
+
+12. **`CONTRIBUTING.md`**  
+   - Guidelines for contributors (if retained).
+
+13. **`SESSION_CONTEXT.md`**  
+   - Helper doc for ChatGPT session context (if retained).
+
+14. **`Readme.md`** (any second or additional README in the repo)  
+   - Any extended or alternate README content.
+
+15. **`env-2.example`**  
+   - Example environment variables file for local or production setups (if retained).
+
+(Feel free to add or remove items from this list as your final structure changes.)
+
+---
+
+## 4. Personal Preferences for ChatGPT Responses
+
+When assisting on this project, ChatGPT should:
+- **Use precise language** and provide **deep conceptual understanding**.  
+- **Cite sources** and use **APA-style organization** when appropriate.  
+- Offer **forward-thinking insights** and occasional **clever humor** (where it fits).  
+- **Prioritize truth-seeking** and thorough understanding of the code.  
+- **Ask clarifying questions** if documentation is ambiguous or insufficient.
