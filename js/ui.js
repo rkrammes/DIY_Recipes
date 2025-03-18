@@ -44,7 +44,6 @@ export function initUI() {
   const themeSelect = document.getElementById('themeSelect');
   themeSelect.addEventListener('change', (e) => {
     updateTheme(e.target.value);
-    // Update expanded details backgrounds to match new theme.
     updateIngredientDetailsBackgrounds();
   });
   updateTheme(themeSelect.value);
@@ -87,7 +86,6 @@ export function initUI() {
         await apiAddGlobalIngredient(ingredientName);
         showNotification("New ingredient added!", "success");
         input.value = '';
-        // Optionally, re-fetch ingredients and update UI here.
       } catch (error) {
         showNotification("Error adding new ingredient.", "error");
       }
@@ -108,7 +106,6 @@ export function initUI() {
         if (newRecipe) {
           showNotification("Recipe created successfully!", "success");
           input.value = '';
-          // Optionally, re-fetch recipes and update UI here.
         }
       } catch (error) {
         showNotification("Error creating recipe.", "error");
@@ -199,6 +196,7 @@ export function renderRecipes(recipes) {
     const li = document.createElement('li');
     li.style.listStyle = 'none';
     li.style.marginBottom = '10px';
+    li.style.background = 'none';
     
     // Create a button for the recipe.
     const recipeButton = document.createElement('button');
@@ -206,8 +204,6 @@ export function renderRecipes(recipes) {
     recipeButton.classList.add('btn');
     recipeButton.style.width = '100%';
     recipeButton.style.textAlign = 'left';
-    // Ensure the background matches the gradient of other buttons.
-    // This assumes your .btn class in CSS applies the gradient.
     recipeButton.addEventListener('click', () => {
       showRecipeDetails(recipe);
     });
@@ -279,8 +275,9 @@ export function showRecipeDetails(recipe) {
 
 /**
  * Renders the list of global ingredients into the UI.
- * Each ingredient is rendered as a clickable button that toggles an expanded details section.
- * In Edit Mode, a Remove button is displayed.
+ * Each ingredient is rendered as a clickable button (set to 25% width)
+ * that toggles an expanded details section. The details section displays
+ * additional useful information and always includes a Remove button if Edit Mode is ON.
  * @param {Array} ingredients - Array of ingredient objects.
  */
 export function renderIngredients(ingredients) {
@@ -296,14 +293,14 @@ export function renderIngredients(ingredients) {
     li.style.listStyle = 'none';
     li.style.marginBottom = '10px';
     
-    // Create a button for the ingredient.
+    // Create a button for the ingredient set to 25% width.
     const ingredientButton = document.createElement('button');
     ingredientButton.textContent = ingredient.name || 'Unnamed Ingredient';
     ingredientButton.classList.add('btn');
-    ingredientButton.style.width = '100%';
+    ingredientButton.style.width = '25%';
     ingredientButton.style.textAlign = 'left';
     
-    // Create a details div that toggles on click.
+    // Create an expandable details div.
     const detailsDiv = document.createElement('div');
     detailsDiv.style.display = 'none';
     detailsDiv.classList.add('ingredient-details');
@@ -321,7 +318,7 @@ export function renderIngredients(ingredients) {
       <p><strong>Description:</strong> ${ingredient.description || 'No description available.'}</p>
     `;
     
-    // If in Edit Mode, add a Remove button.
+    // Always add the Remove button in expanded details if Edit Mode is ON.
     if (isEditMode()) {
       const removeBtn = document.createElement('button');
       removeBtn.textContent = 'Remove';
@@ -331,7 +328,6 @@ export function renderIngredients(ingredients) {
         try {
           await removeGlobalIngredient(ingredient.id);
           showNotification("Ingredient removed", "success");
-          // Optionally, re-fetch ingredients and update UI here.
         } catch (error) {
           showNotification("Error removing ingredient", "error");
         }
