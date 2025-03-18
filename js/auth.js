@@ -31,11 +31,11 @@ export function handleAuthChange(session) {
     console.log('User is logged in:', session.user.email);
     btnEditMode.textContent = 'Edit Mode: ON';
     magicLinkForm.style.display = 'none';
-    window.editMode = true; // Set global variable
+    window.editMode = true;
   } else {
     console.log('No user logged in');
     btnEditMode.textContent = 'Edit Mode: OFF';
-    window.editMode = false; // Set global variable
+    window.editMode = false;
   }
   
   // Refresh recipes and ingredients to update the UI
@@ -72,15 +72,16 @@ export async function sendMagicLink() {
 /**
  * Toggles edit mode. If the user is not logged in, it shows the magic link form.
  * If already visible (or user is logged in), it signs out the user.
+ * Also dispatches an event to update UI elements.
  */
 export function toggleEditMode() {
   const magicLinkForm = document.getElementById('magicLinkForm');
   
-  // If the magic link form is hidden, show it to let the user log in.
   if (magicLinkForm.style.display === 'none' || magicLinkForm.style.display === '') {
     magicLinkForm.style.display = 'block';
   } else {
-    // If already visible (or user is logged in), sign out.
     supabaseClient.auth.signOut();
   }
+  // Dispatch event so UI can update (e.g., show/hide Remove buttons)
+  window.dispatchEvent(new CustomEvent("editModeChanged"));
 }
