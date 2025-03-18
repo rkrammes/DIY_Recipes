@@ -178,6 +178,13 @@ export function initUI() {
 
   // Edit Mode button to toggle log in/out.
   document.getElementById('btnEditMode').addEventListener('click', toggleEditMode);
+
+  // Listen for edit mode changes and re-render global ingredients.
+  window.addEventListener("editModeChanged", () => {
+    if (window.allIngredients) {
+      renderIngredients(window.allIngredients);
+    }
+  });
 }
 
 /**
@@ -335,7 +342,7 @@ export function renderIngredients(ingredients) {
       <p><strong>Description:</strong> ${ingredient.description || 'No description available.'}</p>
     `;
     
-    // Add a Remove button in expanded details if Edit Mode is ON.
+    // Always include a Remove button if Edit Mode is active.
     if (isEditMode()) {
       const removeBtn = document.createElement('button');
       removeBtn.textContent = 'Remove';
