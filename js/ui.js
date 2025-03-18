@@ -50,10 +50,19 @@ function standardizeButton(btn) {
 }
 
 /**
- * Updates the display and disabled state of editing inputs/buttons based on Edit Mode.
+ * Updates the display of all remove buttons in global ingredient details.
+ */
+function updateRemoveButtons() {
+  const removeBtns = document.querySelectorAll('.remove-ingredient-btn');
+  removeBtns.forEach(btn => {
+    btn.style.display = isEditMode() ? 'block' : 'none';
+  });
+}
+
+/**
+ * Updates the disabled state of editing inputs and buttons based on Edit Mode.
  */
 function updateEditability() {
-  // These elements should be enabled only in Edit Mode.
   const newRecipeInput = document.getElementById('newRecipeNameInput');
   const newGlobalIngredientInput = document.getElementById('newGlobalIngredientInput');
   const newIngredientDropdown = document.getElementById('newIngredientDropdown');
@@ -68,23 +77,12 @@ function updateEditability() {
   if (btnReroll) btnReroll.disabled = !isEditMode();
   if (btnCommitSuggestion) btnCommitSuggestion.disabled = !isEditMode();
 
-  // Also update remove buttons in ingredient details.
   updateRemoveButtons();
 }
 
 /**
- * Updates the display of all remove buttons in global ingredient details.
- */
-function updateRemoveButtons() {
-  const removeBtns = document.querySelectorAll('.remove-ingredient-btn');
-  removeBtns.forEach(btn => {
-    btn.style.display = isEditMode() ? 'block' : 'none';
-  });
-}
-
-/**
  * Initializes UI event listeners and standardizes left-side buttons.
- * Recipes and ingredients are always rendered, but editing controls are only enabled in Edit Mode.
+ * Recipes and ingredients are always rendered; editing controls are enabled only in Edit Mode.
  */
 export function initUI() {
   // Theme selection
@@ -96,7 +94,7 @@ export function initUI() {
   });
   updateTheme(themeSelect.value);
 
-  // Standardize left-side buttons and attach event listeners.
+  // Standardize and attach event listeners for left-side buttons.
   const btnIngredients = document.getElementById('btnIngredients');
   if (btnIngredients) {
     standardizeButton(btnIngredients);
@@ -104,7 +102,6 @@ export function initUI() {
   } else {
     console.warn('btnIngredients not found');
   }
-
   const btnSendMagicLink = document.getElementById('btnSendMagicLink');
   if (btnSendMagicLink) {
     standardizeButton(btnSendMagicLink);
@@ -112,13 +109,12 @@ export function initUI() {
   } else {
     console.warn('btnSendMagicLink not found');
   }
-
   const btnEditMode = document.getElementById('btnEditMode');
   if (btnEditMode) {
     standardizeButton(btnEditMode);
     btnEditMode.addEventListener('click', () => {
       toggleEditMode();
-      // Toggle global editMode flag (this assumes your auth.js updates window.editMode accordingly)
+      // Toggle global flag for edit mode (auth.js should set this, too)
       window.editMode = !window.editMode;
       updateEditability();
     });
@@ -138,25 +134,6 @@ export function initUI() {
     }
   });
 
-  // New Global Ingredient input (on Enter)
-  document.getElementById('newGlobalIngredientInput').addEventListener('keydown', async (e) => {
-    if (e.key === 'Enter') {
-      const input = e.target;
-      const name = input.value.trim();
-      if (!name) {
-        showNotification("Please enter a valid ingredient name.", "error");
-        return;
-      }
-      try {
-        await apiAddGlobalIngredient(name);
-        showNotification("New ingredient added!", "success");
-        input.value = '';
-      } catch (error) {
-        showNotification("Error adding new ingredient.", "error");
-      }
-    }
-  });
-
   // New Recipe input (on Enter)
   document.getElementById('newRecipeNameInput').addEventListener('keydown', async (e) => {
     if (e.key === 'Enter') {
@@ -169,6 +146,9 @@ export function initUI() {
       try {
         const newRecipe = await createNewRecipe(recipeName);
         if (newRecipe) {
+          window.recipes = window.recipes || [];
+          window.recipes.push(newRecipe);
+          renderRecipes(window.recipes);
           showNotification("Recipe created successfully!", "success");
           input.value = '';
         }
@@ -178,7 +158,7 @@ export function initUI() {
     }
   });
 
-  // Ingredient dropdown for adding ingredient to a recipe
+  // Ingredient dropdown for adding an ingredient to a recipe
   document.getElementById('newIngredientDropdown').addEventListener('change', async function () {
     const dropdown = this;
     if (!dropdown.value) return;
@@ -204,6 +184,7 @@ export function initUI() {
     try {
       await addNewIngredientToRecipe(window.recipes[window.currentRecipeIndex], newIngredient);
       showNotification("Ingredient added to recipe!", "success");
+      showRecipeDetails(window.recipes[window.currentRecipeIndex]);
     } catch (error) {
       showNotification("Error adding ingredient to recipe.", "error");
     }
@@ -233,19 +214,19 @@ export function showAllIngredientsView() {
 }
 
 /**
- * Renders the list of recipes.
+ * Renders the list of recipes into the UI.
  * This view is always visible.
  * @param {Array} recipes - Array of recipe objects.
  */
 export function renderRecipes(recipes) {
-  window.recipes = recipes;
+  window.recipes = recipes; // Store globally for use in UI
   const list = document.getElementById('recipeList');
   list.innerHTML = '';
   if (!recipes.length) {
     list.innerHTML = '<li>No recipes found.</li>';
     return;
   }
-  recipes.forEach(recipe => {
+  recipes.forEach((recipe, idx) => {
     const li = document.createElement('li');
     li.style.listStyle = 'none';
     li.style.marginBottom = '8px';
@@ -256,6 +237,7 @@ export function renderRecipes(recipes) {
     btn.style.width = '100%';
     btn.style.textAlign = 'left';
     btn.addEventListener('click', () => {
+      window.currentRecipeIndex = idx;
       showRecipeDetails(recipe);
     });
     li.appendChild(btn);
@@ -264,7 +246,8 @@ export function renderRecipes(recipes) {
 }
 
 /**
- * Displays the details of a recipe.
+ * Displays the details of a recipe, including its ingredients.
+ * This view is always visible.
  * @param {Object} recipe - The recipe object.
  */
 export function showRecipeDetails(recipe) {
@@ -310,13 +293,13 @@ export function showRecipeDetails(recipe) {
 }
 
 /**
- * Renders the list of global ingredients.
+ * Renders the list of global ingredients into the UI.
  * Each ingredient is rendered as a clickable button (25% width) that toggles an expanded details section.
- * The details section displays extra info and includes a Remove button whose visibility depends on Edit Mode.
+ * The details section displays extra info and always includes a Remove button whose visibility depends on Edit Mode.
  * @param {Array} ingredients - Array of ingredient objects.
  */
 export function renderIngredients(ingredients) {
-  window.allIngredients = ingredients;
+  window.allIngredients = ingredients; // Store globally for re-rendering.
   const list = document.getElementById('ingredientList');
   list.innerHTML = '';
   if (!ingredients.length) {
@@ -379,8 +362,8 @@ export function renderIngredients(ingredients) {
 
 /**
  * Displays a temporary notification.
- * @param {string} message - The message.
- * @param {string} type - Type ('success', 'error', or 'info').
+ * @param {string} message - The notification message.
+ * @param {string} type - The type ('success', 'error', or 'info').
  */
 export function showNotification(message, type = 'info') {
   const notif = document.createElement('div');
