@@ -38,7 +38,17 @@ function isEditMode() {
 }
 
 /**
- * Initializes UI event listeners.
+ * Standardizes the styling of a button element.
+ * @param {HTMLElement} button - The button element to standardize.
+ */
+function standardizeButton(button) {
+  button.classList.add('btn');
+  button.style.width = '100%';
+  button.style.textAlign = 'left';
+}
+
+/**
+ * Initializes UI event listeners and standardizes left-side buttons.
  */
 export function initUI() {
   const themeSelect = document.getElementById('themeSelect');
@@ -48,18 +58,25 @@ export function initUI() {
   });
   updateTheme(themeSelect.value);
 
+  // Standardize the "All Ingredients" button.
+  const btnIngredients = document.getElementById('btnIngredients');
+  if (btnIngredients) {
+    standardizeButton(btnIngredients);
+    btnIngredients.addEventListener('click', () => {
+      showAllIngredientsView();
+    });
+  } else {
+    console.warn('btnIngredients not found');
+  }
+
   // Attach event listener for the "Send Magic Link" button.
   const btnSendMagicLink = document.getElementById('btnSendMagicLink');
   if (btnSendMagicLink) {
+    standardizeButton(btnSendMagicLink);
     btnSendMagicLink.addEventListener('click', sendMagicLink);
   } else {
     console.warn('btnSendMagicLink not found');
   }
-
-  // Ingredients button to show the Ingredients View.
-  document.getElementById('btnIngredients').addEventListener('click', () => {
-    showAllIngredientsView();
-  });
 
   // CSV import - handle file change.
   document.getElementById('csvFile').addEventListener('change', async (event) => {
@@ -277,7 +294,7 @@ export function showRecipeDetails(recipe) {
  * Renders the list of global ingredients into the UI.
  * Each ingredient is rendered as a clickable button (set to 25% width)
  * that toggles an expanded details section. The details section displays
- * additional useful information and always includes a Remove button if Edit Mode is ON.
+ * additional useful information and includes a Remove button (active only when Edit Mode is ON).
  * @param {Array} ingredients - Array of ingredient objects.
  */
 export function renderIngredients(ingredients) {
@@ -318,7 +335,7 @@ export function renderIngredients(ingredients) {
       <p><strong>Description:</strong> ${ingredient.description || 'No description available.'}</p>
     `;
     
-    // Always add the Remove button in expanded details if Edit Mode is ON.
+    // Add a Remove button in expanded details if Edit Mode is ON.
     if (isEditMode()) {
       const removeBtn = document.createElement('button');
       removeBtn.textContent = 'Remove';
