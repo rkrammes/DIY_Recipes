@@ -135,6 +135,7 @@ export function initUI() {
     try {
       await addNewIngredientToRecipe(window.recipes[window.currentRecipeIndex], newIngredient);
       showNotification("Ingredient added to recipe!", "success");
+      // Optionally, update recipe details view here if it's visible.
     } catch (error) {
       showNotification("Error adding ingredient to recipe.", "error");
     }
@@ -181,13 +182,83 @@ export function renderRecipes(recipes) {
   recipes.forEach(recipe => {
     const li = document.createElement('li');
     li.textContent = recipe.name || 'Unnamed Recipe';
-    // Add click event to view recipe details if needed.
+    li.style.cursor = 'pointer';
     li.addEventListener('click', () => {
-      window.currentRecipe = recipe;
-      // Optionally, call a function to render recipe details.
+      showRecipeDetails(recipe);
     });
     recipeList.appendChild(li);
   });
+}
+
+/**
+ * Displays the details of a recipe, including its ingredients.
+ * @param {Object} recipe - The recipe object.
+ */
+export function showRecipeDetails(recipe) {
+  // Hide the ingredients view and show the recipe details section.
+  document.getElementById('ingredientsView').style.display = 'none';
+  const recipeDetails = document.getElementById('recipeDetails');
+  recipeDetails.style.display = 'block';
+
+  // Set the recipe title.
+  const recipeTitle = document.getElementById('recipeTitle');
+  recipeTitle.textContent = recipe.name || 'Unnamed Recipe';
+
+  // Render recipe ingredients in the table.
+  const recipeContent = document.getElementById('recipeContent');
+  recipeContent.innerHTML = '';
+  if (recipe.ingredients && recipe.ingredients.length > 0) {
+    recipe.ingredients.forEach((ingredient, index) => {
+      const tr = document.createElement('tr');
+      
+      // Ingredient name column.
+      const tdIngredient = document.createElement('td');
+      tdIngredient.textContent = ingredient.name || '';
+      tr.appendChild(tdIngredient);
+      
+      // Quantity column.
+      const tdQuantity = document.createElement('td');
+      tdQuantity.textContent = ingredient.quantity || '';
+      tr.appendChild(tdQuantity);
+      
+      // Next Version column.
+      const tdNextVersion = document.createElement('td');
+      tdNextVersion.textContent = ingredient.nextVersion || '';
+      tr.appendChild(tdNextVersion);
+      
+      // Reasoning column.
+      const tdReasoning = document.createElement('td');
+      tdReasoning.textContent = ingredient.reasoning || '';
+      tr.appendChild(tdReasoning);
+      
+      // Remove button column.
+      const tdRemove = document.createElement('td');
+      const removeButton = document.createElement('button');
+      removeButton.textContent = 'Remove';
+      removeButton.classList.add('btn', 'remove-ingredient-btn');
+      removeButton.addEventListener('click', async () => {
+        try {
+          await removeIngredientFromRecipe(recipe, index);
+          showNotification("Ingredient removed", "success");
+          // Refresh the recipe details view.
+          showRecipeDetails(recipe);
+        } catch (error) {
+          showNotification("Error removing ingredient", "error");
+        }
+      });
+      tdRemove.appendChild(removeButton);
+      tr.appendChild(tdRemove);
+      
+      recipeContent.appendChild(tr);
+    });
+  } else {
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = 5;
+    td.textContent = 'No ingredients added yet.';
+    tr.appendChild(td);
+    recipeContent.appendChild(tr);
+  }
 }
 
 /**
@@ -203,7 +274,8 @@ export function renderIngredients(ingredients) {
   }
   ingredients.forEach(ingredient => {
     const li = document.createElement('li');
-    li.textContent = ingredient.name || 'Unnamed Ingredient';
+    // Format the ingredient item. Adjust the HTML/CSS as needed.
+    li.innerHTML = `<strong>${ingredient.name}</strong>`;
     ingredientList.appendChild(li);
   });
 }
