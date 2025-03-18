@@ -19,21 +19,23 @@ export function initAuth() {
 
 /**
  * Updates the UI based on whether the user is logged in or not.
- * Also triggers data refresh.
+ * Also sets a global variable for Edit Mode.
  * @param {object|null} session - The current authentication session object.
  */
 export function handleAuthChange(session) {
   const isLoggedIn = !!(session && session.user);
-  const editModeButton = document.getElementById('btnEditMode');
+  const btnEditMode = document.getElementById('btnEditMode');
   const magicLinkForm = document.getElementById('magicLinkForm');
 
   if (isLoggedIn) {
     console.log('User is logged in:', session.user.email);
-    editModeButton.textContent = 'Edit Mode: ON';
+    btnEditMode.textContent = 'Edit Mode: ON';
     magicLinkForm.style.display = 'none';
+    window.editMode = true; // Set global variable
   } else {
     console.log('No user logged in');
-    editModeButton.textContent = 'Edit Mode: OFF';
+    btnEditMode.textContent = 'Edit Mode: OFF';
+    window.editMode = false; // Set global variable
   }
   
   // Refresh recipes and ingredients to update the UI
@@ -69,7 +71,7 @@ export async function sendMagicLink() {
 
 /**
  * Toggles edit mode. If the user is not logged in, it shows the magic link form.
- * If already logged in, it signs out the user.
+ * If already visible (or user is logged in), it signs out the user.
  */
 export function toggleEditMode() {
   const magicLinkForm = document.getElementById('magicLinkForm');
