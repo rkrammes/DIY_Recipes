@@ -45,6 +45,7 @@ export function handleAuthChange(session) {
  * Sends a magic link to the provided email address for passwordless authentication.
  */
 export async function sendMagicLink() {
+  console.log('🔔 sendMagicLink() invoked');
   const emailInput = document.getElementById('magicLinkEmail');
   const email = emailInput.value.trim();
 
@@ -53,12 +54,15 @@ export async function sendMagicLink() {
     return;
   }
 
-  const { error } = await supabaseClient.auth.signInWithOtp({ email });
+  console.log('📧 Attempting to send magic link to:', email);
+
+  const { data, error } = await supabaseClient.auth.signInWithOtp({ email });
+  console.log('Supabase response →', data, 'Error →', error);
+
   if (error) {
-    alert('Error sending magic link: ' + error.message);
-    console.error(error);
+    alert(`Error sending magic link: ${error.message}`);
   } else {
-    alert('Check your email for the magic link!');
+    alert('✅ Magic link sent — check your inbox (or spam folder).');
     document.getElementById('magicLinkForm').style.display = 'none';
   }
 }
