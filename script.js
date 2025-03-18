@@ -4,18 +4,11 @@ const SUPABASE_ANON_KEY =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6dWRnbGZ4eHl3dWdlc25jam56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE4Mjk5MDAsImV4cCI6MjA1NzQwNTkwMH0.yYBWuD_bzfyh72URflGqJbn-lIwrZ6oAznxVocgxOm8';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-/********** OPENAI CONFIG (CHAT COMPLETIONS) **********/
-const OPENAI_API_KEY =
-  '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';
-const OPENAI_MODEL = 'gpt-4';
-const OPENAI_CHAT_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
-
 /********** GLOBAL STATE **********/
 window.recipes = [];
 window.allIngredients = [];
 let currentRecipeIndex = null;
 let currentAISuggestion = '';
-
 let isLoggedIn = false;
 // We'll treat "Edit Mode" as "logged in" vs. "logged out"
 let editMode = false;
@@ -26,7 +19,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   supabaseClient.auth.onAuthStateChange((event, session) => {
     handleAuthChange(session);
   });
-
   // Check existing session
   const {
     data: { session },
@@ -93,7 +85,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 /********** AUTH HANDLERS **********/
 function handleAuthChange(session) {
   isLoggedIn = !!(session && session.user);
-
   if (isLoggedIn) {
     console.log('User is logged in:', session.user.email);
     editMode = true;
@@ -104,7 +95,6 @@ function handleAuthChange(session) {
     editMode = false;
     document.getElementById('btnEditMode').textContent = 'Edit Mode: OFF';
   }
-
   // Refresh recipes + ingredients so the UI updates
   loadRecipes();
   loadAllIngredients();
@@ -130,13 +120,12 @@ async function sendMagicLink() {
     alert('Please enter an email address.');
     return;
   }
-
   // Supabase magic link
   const { error } = await supabaseClient.auth.signInWithOtp({
     email: email,
     options: {
       // If you want a custom redirect, add it here:
-      // redirectTo: 'https://www.symbolkraft.com?magic=1'
+      // redirectTo: 'https://yourdomain.com?magic=1'
     }
   });
   if (error) {
@@ -218,30 +207,25 @@ async function loadRecipes() {
     console.error('Error loading recipes:', error);
     return;
   }
-
   window.recipes = recipes || [];
-
   // Show CSV import only if user is logged in and no recipes exist
   if (isLoggedIn && window.recipes.length === 0) {
     document.getElementById('importCSVContainer').style.display = 'block';
   } else {
     document.getElementById('importCSVContainer').style.display = 'none';
   }
-
   renderRecipeList(window.recipes);
 }
 
 function renderRecipeList(recipes) {
   const recipeList = document.getElementById('recipeList');
   recipeList.innerHTML = '';
-
   recipes.forEach((recipe, index) => {
     const li = document.createElement('li');
     li.textContent = recipe.name;
     li.addEventListener('click', () => showRecipeDetails(index));
     recipeList.appendChild(li);
   });
-
   if (recipes.length > 0) {
     document.getElementById('recipeDetails').style.display = 'block';
   } else {
@@ -271,7 +255,6 @@ function populateIngredientDropdown() {
   defaultOpt.value = '';
   defaultOpt.textContent = 'Add New Ingredient';
   dropdown.appendChild(defaultOpt);
-
   window.allIngredients.forEach((ing) => {
     const opt = document.createElement('option');
     opt.value = ing.id;
@@ -284,33 +267,26 @@ function populateIngredientDropdown() {
 function showRecipeDetails(index) {
   currentRecipeIndex = index;
   const recipe = window.recipes[index];
-
   document.getElementById('recipeDetails').style.display = 'block';
   document.getElementById('ingredientsView').style.display = 'none';
   document.getElementById('recipeTitle').textContent = recipe.name;
-
   // Hide AI suggestion box
   document.getElementById('aiSuggestionBox').style.display = 'none';
   document.getElementById('aiSuggestionText').innerText = '';
   currentAISuggestion = '';
-
   const recipeContent = document.getElementById('recipeContent');
   recipeContent.innerHTML = '';
-
   (recipe.ingredients || []).forEach((ingredient, i) => {
     const row = document.createElement('tr');
-
     // Only editable if user is logged in + editMode is ON
     const editableAttr = (isLoggedIn && editMode) ? 'contenteditable="true"' : '';
-
     row.innerHTML = `
       <td>${ingredient.name}</td>
       <td ${editableAttr}>${ingredient.quantity || ''}</td>
       <td ${editableAttr}>${ingredient.nextVersion || ''}</td>
       <td ${editableAttr}>${ingredient.reasoning || ''}</td>
       <td>
-        <button class="remove-ingredient-btn"
-                onclick="removeIngredient(${index}, ${i})">
+        <button class="remove-ingredient-btn" onclick="removeIngredient(${index}, ${i})">
           Remove
         </button>
       </td>
@@ -341,7 +317,6 @@ async function addNewIngredient() {
     alert('Invalid ingredient selected.');
     return;
   }
-
   const newIngObj = {
     id: ingObj.id,
     name: ingObj.name,
@@ -349,10 +324,8 @@ async function addNewIngredient() {
     nextVersion: '',
     reasoning: '',
   };
-
   if (!recipe.ingredients) recipe.ingredients = [];
   recipe.ingredients.push(newIngObj);
-
   const { error } = await supabaseClient
     .from('All_Recipes')
     .update({ ingredients: recipe.ingredients })
@@ -377,7 +350,6 @@ async function addGlobalIngredient() {
     alert('Please enter a valid ingredient name.');
     return;
   }
-
   const { data, error } = await supabaseClient
     .from('Ingredients')
     .insert([{ name: newIngName }])
@@ -403,7 +375,6 @@ async function removeIngredient(recipeIndex, ingredientIndex) {
   }
   const recipe = window.recipes[recipeIndex];
   recipe.ingredients.splice(ingredientIndex, 1);
-
   const { error } = await supabaseClient
     .from('All_Recipes')
     .update({ ingredients: recipe.ingredients })
@@ -440,16 +411,13 @@ function showAllIngredients() {
   document.getElementById('ingredientsView').style.display = 'block';
   document.getElementById('recipeDetails').style.display = 'none';
   loadAllIngredients();
-
   const ingredientList = document.getElementById('ingredientList');
   ingredientList.innerHTML = '';
-
   (window.allIngredients || []).forEach((ing) => {
     const li = document.createElement('li');
     const button = document.createElement('button');
     button.className = 'btn ingredient-button';
     button.textContent = ing.name;
-
     const detailsDiv = document.createElement('div');
     detailsDiv.className = 'ingredient-details';
     detailsDiv.style.display = 'none';
@@ -459,10 +427,8 @@ function showAllIngredients() {
         Remove
       </button>
     `;
-
     button.onclick = () => {
-      detailsDiv.style.display =
-        detailsDiv.style.display === 'block' ? 'none' : 'block';
+      detailsDiv.style.display = detailsDiv.style.display === 'block' ? 'none' : 'block';
     };
     li.appendChild(button);
     li.appendChild(detailsDiv);
@@ -470,41 +436,21 @@ function showAllIngredients() {
   });
 }
 
-/********** AI SUGGESTION (Chat Completions) **********/
+/********** AI SUGGESTION (Using Secure Backend Endpoint) **********/
 async function fetchAISuggestion(recipe, userPrompt) {
-  const messages = [
-    {
-      role: 'system',
-      content: 'You are a helpful AI that suggests recipe improvements.',
-    },
-    {
-      role: 'user',
-      content: `
-        Here is a recipe in JSON: ${JSON.stringify(recipe, null, 2)}
-        User request: ${userPrompt}
-        Suggest improvements for this recipe. Return a short summary with suggested changes.
-      `,
-    },
-  ];
   try {
-    const response = await fetch(OPENAI_CHAT_ENDPOINT, {
+    const response = await fetch('/api/ai-suggestion', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${OPENAI_API_KEY}`,
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        model: OPENAI_MODEL,
-        messages: messages,
-        max_tokens: 300,
-        temperature: 0.7,
-      }),
+      body: JSON.stringify({ recipe, userPrompt })
     });
     const data = await response.json();
-    if (data.choices && data.choices.length > 0) {
-      return data.choices[0].message.content.trim();
+    if (data.suggestion) {
+      return data.suggestion;
     } else {
-      console.error('OpenAI error:', data);
+      console.error('Backend error:', data.error);
       return 'No suggestion could be generated.';
     }
   } catch (error) {
@@ -530,7 +476,6 @@ async function showAISuggestion() {
   const recipe = window.recipes[currentRecipeIndex];
   const suggestion = await fetchAISuggestion(recipe, userPrompt);
   currentAISuggestion = suggestion;
-
   const aiBox = document.getElementById('aiSuggestionBox');
   aiBox.style.display = 'block';
   const aiText = document.getElementById('aiSuggestionText');
@@ -546,7 +491,6 @@ async function rerollAISuggestion() {
 async function commitAISuggestion() {
   if (!isLoggedIn) return;
   if (currentRecipeIndex == null) return;
-
   const recipe = window.recipes[currentRecipeIndex];
   const suggestionText = currentAISuggestion || '';
   if (!suggestionText) {
@@ -554,17 +498,14 @@ async function commitAISuggestion() {
     return;
   }
   if (!recipe.suggestions) recipe.suggestions = [];
-
   recipe.suggestions.push({
     versionIdea: suggestionText,
     timestamp: new Date().toISOString(),
   });
-
   const { error } = await supabaseClient
     .from('All_Recipes')
     .update({ suggestions: recipe.suggestions })
     .eq('id', recipe.id);
-
   if (error) {
     console.error('Error committing AI suggestion:', error);
   } else {
@@ -584,55 +525,40 @@ function parseCSVData(data) {
     alert('CSV must have at least "name" and "ingredients" columns.');
     return [];
   }
-
   const recipeArray = [];
   for (let i = 1; i < rows.length; i++) {
     const row = rows[i];
-    if (!row || row.length === 0) continue;
-    recipeArray.push({
+    if (row.length === 0) continue;
+    const recipe = {
       name: row[nameIndex],
       ingredients: JSON.parse(row[ingredientsIndex] || '[]'),
-      suggestions: [],
-    });
+    };
+    recipeArray.push(recipe);
   }
   return recipeArray;
 }
 
-async function importCSV(event) {
-  if (!isLoggedIn) {
-    alert('Please log in (Edit Mode ON) to import CSV.');
-    return;
-  }
+function importCSV(event) {
   const file = event.target.files[0];
   if (!file) return;
-
   Papa.parse(file, {
     complete: async function (results) {
       const recipes = parseCSVData(results);
-      if (recipes.length === 0) {
-        alert('No valid recipe data found.');
-        return;
-      }
-      for (let recipe of recipes) {
-        const { error } = await supabaseClient
-          .from('All_Recipes')
-          .insert([
-            {
-              name: recipe.name,
-              ingredients: recipe.ingredients,
-              suggestions: recipe.suggestions,
-            },
-          ]);
-        if (error) {
-          console.error('Error importing recipe:', error);
+      if (recipes.length > 0) {
+        for (const recipe of recipes) {
+          const { data, error } = await supabaseClient
+            .from('All_Recipes')
+            .insert([{ name: recipe.name, ingredients: recipe.ingredients, suggestions: [] }])
+            .select();
+          if (error) {
+            console.error('Error importing recipe:', error);
+          } else if (data && data.length > 0) {
+            window.recipes.push(data[0]);
+          }
         }
+        loadRecipes();
       }
-      window.recipes = [];
-      loadRecipes();
-      document.getElementById('importCSVContainer').style.display = 'none';
     },
-    error: function (err) {
-      console.error('Error parsing CSV:', err);
-    },
+    header: false,
   });
 }
