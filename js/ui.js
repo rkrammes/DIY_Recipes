@@ -9,6 +9,8 @@ import {
 } from './api.js';
 import { toggleEditMode, sendMagicLink } from './auth.js';
 
+window.editMode = window.editMode || false; // Ensure global flag exists
+
 /**
  * Updates the website theme based on the selected value.
  * @param {string} theme - The selected theme ('light', 'dark', or 'system').
@@ -29,8 +31,8 @@ function updateTheme(theme) {
 }
 
 /**
- * Returns whether Edit Mode is active (i.e., user is logged in).
- * Uses the global variable window.editMode set in auth.js.
+ * Returns whether Edit Mode is active (i.e., the user is logged in).
+ * Uses the global variable window.editMode.
  * @returns {boolean}
  */
 function isEditMode() {
@@ -39,7 +41,7 @@ function isEditMode() {
 
 /**
  * Standardizes the styling of a button element.
- * @param {HTMLElement} btn - The button element.
+ * @param {HTMLElement} btn - The button element to standardize.
  */
 function standardizeButton(btn) {
   btn.classList.add('btn');
@@ -48,8 +50,18 @@ function standardizeButton(btn) {
 }
 
 /**
+ * Updates the display of all remove buttons in global ingredient details.
+ */
+function updateRemoveButtons() {
+  const removeBtns = document.querySelectorAll('.remove-ingredient-btn');
+  removeBtns.forEach(btn => {
+    btn.style.display = isEditMode() ? 'block' : 'none';
+  });
+}
+
+/**
  * Initializes UI event listeners and standardizes left-side buttons.
- * Recipes and ingredients will always be rendered, regardless of edit mode.
+ * Recipes and ingredients are always rendered, regardless of edit mode.
  */
 export function initUI() {
   // Theme selection
@@ -61,7 +73,7 @@ export function initUI() {
   });
   updateTheme(themeSelect.value);
 
-  // Standardize left-side buttons
+  // Standardize left-side buttons and attach event listeners.
   const btnIngredients = document.getElementById('btnIngredients');
   if (btnIngredients) {
     standardizeButton(btnIngredients);
@@ -69,6 +81,7 @@ export function initUI() {
   } else {
     console.warn('btnIngredients not found');
   }
+
   const btnSendMagicLink = document.getElementById('btnSendMagicLink');
   if (btnSendMagicLink) {
     standardizeButton(btnSendMagicLink);
@@ -76,12 +89,14 @@ export function initUI() {
   } else {
     console.warn('btnSendMagicLink not found');
   }
+
   const btnEditMode = document.getElementById('btnEditMode');
   if (btnEditMode) {
     standardizeButton(btnEditMode);
     btnEditMode.addEventListener('click', () => {
-      toggleEditMode(); // This function should handle login/sign-out and update window.editMode accordingly.
-      // After toggling, update remove button visibility.
+      toggleEditMode();
+      // Toggle the global editMode flag; assume toggleEditMode updates the UI accordingly.
+      window.editMode = !window.editMode;
       updateRemoveButtons();
     });
   } else {
@@ -100,7 +115,7 @@ export function initUI() {
     }
   });
 
-  // New Global Ingredient input (on Enter key)
+  // New Global Ingredient input (on Enter)
   document.getElementById('newGlobalIngredientInput').addEventListener('keydown', async (e) => {
     if (e.key === 'Enter') {
       const input = e.target;
@@ -119,7 +134,7 @@ export function initUI() {
     }
   });
 
-  // New Recipe input (on Enter key)
+  // New Recipe input (on Enter)
   document.getElementById('newRecipeNameInput').addEventListener('keydown', async (e) => {
     if (e.key === 'Enter') {
       const input = e.target;
@@ -140,7 +155,7 @@ export function initUI() {
     }
   });
 
-  // Ingredient dropdown for adding an ingredient to a recipe
+  // Ingredient dropdown for adding ingredient to a recipe
   document.getElementById('newIngredientDropdown').addEventListener('change', async function () {
     const dropdown = this;
     if (!dropdown.value) return;
@@ -156,7 +171,7 @@ export function initUI() {
       dropdown.value = '';
       return;
     }
-    const newIng = {
+    const newIngredient = {
       id: ingObj.id,
       name: ingObj.name,
       quantity: '',
@@ -164,7 +179,7 @@ export function initUI() {
       reasoning: '',
     };
     try {
-      await addNewIngredientToRecipe(window.recipes[window.currentRecipeIndex], newIng);
+      await addNewIngredientToRecipe(window.recipes[window.currentRecipeIndex], newIngredient);
       showNotification("Ingredient added to recipe!", "success");
     } catch (error) {
       showNotification("Error adding ingredient to recipe.", "error");
@@ -177,29 +192,26 @@ export function initUI() {
  * Updates the background of all expanded ingredient details to match the current theme.
  */
 function updateIngredientDetailsBackgrounds() {
-  const details = document.querySelectorAll('.ingredient-details');
-  details.forEach(div => {
+  const detailsDivs = document.querySelectorAll('.ingredient-details');
+  detailsDivs.forEach(div => {
     div.style.background = document.body.classList.contains('light-mode') ? '#f0f0f0' : 'rgba(255,255,255,0.07)';
   });
 }
 
 /**
- * Updates the display of all remove buttons in the global ingredients details.
+ * Displays the Ingredients view and hides the Recipe Details view.
  */
-function updateRemoveButtons() {
-  const removeBtns = document.querySelectorAll('.remove-ingredient-btn');
-  removeBtns.forEach(btn => {
-    btn.style.display = isEditMode() ? 'block' : 'none';
-  });
+export function showAllIngredientsView() {
+  document.getElementById('ingredientsView').style.display = 'block';
+  document.getElementById('recipeDetails').style.display = 'none';
 }
 
 /**
- * Renders the list of recipes into the UI.
- * This view is always visible.
+ * Renders the list of recipes.
  * @param {Array} recipes - Array of recipe objects.
  */
 export function renderRecipes(recipes) {
-  window.recipes = recipes; // Store globally for use in other parts of the UI.
+  window.recipes = recipes; // Store globally
   const list = document.getElementById('recipeList');
   list.innerHTML = '';
   if (!recipes.length) {
@@ -210,7 +222,7 @@ export function renderRecipes(recipes) {
     const li = document.createElement('li');
     li.style.listStyle = 'none';
     li.style.marginBottom = '8px';
-    // Create a full-width button for the recipe.
+
     const btn = document.createElement('button');
     btn.textContent = recipe.name || 'Unnamed Recipe';
     btn.classList.add('btn');
@@ -225,8 +237,7 @@ export function renderRecipes(recipes) {
 }
 
 /**
- * Displays the details of a recipe, including its ingredients.
- * The details view is always visible in view mode.
+ * Displays the details of a recipe.
  * @param {Object} recipe - The recipe object.
  */
 export function showRecipeDetails(recipe) {
@@ -242,7 +253,6 @@ export function showRecipeDetails(recipe) {
       ['name', 'quantity', 'nextVersion', 'reasoning'].forEach(key => {
         const td = document.createElement('td');
         td.textContent = ing[key] || '';
-        // Optionally, add inline editing here if desired and if isEditMode() is true.
         tr.appendChild(td);
       });
       const tdRemove = document.createElement('td');
@@ -273,13 +283,13 @@ export function showRecipeDetails(recipe) {
 }
 
 /**
- * Renders the list of global ingredients into the UI.
- * Each ingredient is rendered as a clickable button (25% width) that toggles an expanded details section.
- * The expanded section always contains a Remove button whose visibility is controlled by Edit Mode.
+ * Renders the list of global ingredients.
+ * Each ingredient is a clickable button (25% width) that toggles an expanded details section.
+ * The details section displays extra info and a Remove button, whose visibility depends on Edit Mode.
  * @param {Array} ingredients - Array of ingredient objects.
  */
 export function renderIngredients(ingredients) {
-  window.allIngredients = ingredients; // Store globally.
+  window.allIngredients = ingredients;
   const list = document.getElementById('ingredientList');
   list.innerHTML = '';
   if (!ingredients.length) {
@@ -313,7 +323,6 @@ export function renderIngredients(ingredients) {
       <p><strong>Description:</strong> ${ing.description || 'No description available.'}</p>
     `;
 
-    // Create the Remove button (always created, visibility controlled below)
     const removeBtn = document.createElement('button');
     removeBtn.textContent = 'Remove';
     removeBtn.classList.add('btn', 'remove-ingredient-btn');
@@ -330,7 +339,6 @@ export function renderIngredients(ingredients) {
     removeBtn.style.display = isEditMode() ? 'block' : 'none';
     details.appendChild(removeBtn);
 
-    // Toggle expanded details on button click
     btn.addEventListener('click', () => {
       details.style.display = details.style.display === 'none' ? 'block' : 'none';
     });
@@ -343,19 +351,9 @@ export function renderIngredients(ingredients) {
 }
 
 /**
- * Updates the display of all remove buttons in global ingredient details.
- */
-function updateRemoveButtons() {
-  const buttons = document.querySelectorAll('.remove-ingredient-btn');
-  buttons.forEach(b => {
-    b.style.display = isEditMode() ? 'block' : 'none';
-  });
-}
-
-/**
  * Displays a temporary notification.
- * @param {string} message - The message.
- * @param {string} type - Type ('success', 'error', or 'info').
+ * @param {string} message - The notification message.
+ * @param {string} type - The type ('success', 'error', or 'info').
  */
 export function showNotification(message, type = 'info') {
   const notif = document.createElement('div');
