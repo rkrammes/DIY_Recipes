@@ -9,7 +9,8 @@ import {
 } from './api.js';
 import { toggleEditMode, sendMagicLink } from './auth.js';
 
-window.editMode = window.editMode || false; // Global flag for edit mode
+// Ensure a global flag exists; false means anonymous/read-only.
+window.editMode = window.editMode || false;
 
 /**
  * Updates the website theme based on the selected value.
@@ -31,7 +32,7 @@ function updateTheme(theme) {
 }
 
 /**
- * Returns whether Edit Mode is active (user is logged in).
+ * Returns whether Edit Mode is active (i.e., user is logged in).
  * Uses the global variable window.editMode.
  * @returns {boolean}
  */
@@ -50,19 +51,10 @@ function standardizeButton(btn) {
 }
 
 /**
- * Updates the display of all remove buttons in global ingredient details.
- */
-function updateRemoveButtons() {
-  const removeBtns = document.querySelectorAll('.remove-ingredient-btn');
-  removeBtns.forEach(btn => {
-    btn.style.display = isEditMode() ? 'block' : 'none';
-  });
-}
-
-/**
- * Updates the disabled state of editing inputs and buttons based on Edit Mode.
+ * Updates the disabled state of editing inputs and the visibility of remove buttons.
  */
 function updateEditability() {
+  // Enable editing inputs only in Edit Mode.
   const newRecipeInput = document.getElementById('newRecipeNameInput');
   const newGlobalIngredientInput = document.getElementById('newGlobalIngredientInput');
   const newIngredientDropdown = document.getElementById('newIngredientDropdown');
@@ -77,12 +69,23 @@ function updateEditability() {
   if (btnReroll) btnReroll.disabled = !isEditMode();
   if (btnCommitSuggestion) btnCommitSuggestion.disabled = !isEditMode();
 
+  // Update all Remove buttons in ingredient details.
   updateRemoveButtons();
 }
 
 /**
+ * Updates the display of all remove buttons in global ingredient details.
+ */
+function updateRemoveButtons() {
+  const removeBtns = document.querySelectorAll('.remove-ingredient-btn');
+  removeBtns.forEach(btn => {
+    btn.style.display = isEditMode() ? 'block' : 'none';
+  });
+}
+
+/**
  * Initializes UI event listeners and standardizes left-side buttons.
- * Recipes and ingredients are always rendered; editing controls are enabled only in Edit Mode.
+ * The recipes and ingredients are always rendered; editing controls are enabled only in Edit Mode.
  */
 export function initUI() {
   // Theme selection
@@ -94,7 +97,7 @@ export function initUI() {
   });
   updateTheme(themeSelect.value);
 
-  // Standardize and attach event listeners for left-side buttons.
+  // Standardize left-side buttons
   const btnIngredients = document.getElementById('btnIngredients');
   if (btnIngredients) {
     standardizeButton(btnIngredients);
@@ -113,8 +116,9 @@ export function initUI() {
   if (btnEditMode) {
     standardizeButton(btnEditMode);
     btnEditMode.addEventListener('click', () => {
+      // Call your toggleEditMode() function from auth.js,
+      // then simply update the global flag and editability without re-rendering the data.
       toggleEditMode();
-      // Toggle global flag for edit mode (auth.js should set this, too)
       window.editMode = !window.editMode;
       updateEditability();
     });
@@ -219,7 +223,7 @@ export function showAllIngredientsView() {
  * @param {Array} recipes - Array of recipe objects.
  */
 export function renderRecipes(recipes) {
-  window.recipes = recipes; // Store globally for use in UI
+  window.recipes = recipes; // Store globally for use in UI.
   const list = document.getElementById('recipeList');
   list.innerHTML = '';
   if (!recipes.length) {
@@ -299,7 +303,7 @@ export function showRecipeDetails(recipe) {
  * @param {Array} ingredients - Array of ingredient objects.
  */
 export function renderIngredients(ingredients) {
-  window.allIngredients = ingredients; // Store globally for re-rendering.
+  window.allIngredients = ingredients; // Store globally.
   const list = document.getElementById('ingredientList');
   list.innerHTML = '';
   if (!ingredients.length) {
