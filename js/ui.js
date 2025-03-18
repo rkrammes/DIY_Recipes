@@ -30,11 +30,11 @@ function updateTheme(theme) {
 
 /**
  * Returns whether Edit Mode is currently ON.
+ * Uses the global variable set in auth.js.
  * @returns {boolean} True if Edit Mode is ON.
  */
 function isEditMode() {
-  const btnEditMode = document.getElementById('btnEditMode');
-  return btnEditMode && btnEditMode.textContent.includes('ON');
+  return window.editMode === true;
 }
 
 /**
@@ -58,7 +58,7 @@ export function initUI() {
   });
   updateTheme(themeSelect.value);
 
-  // Standardize the "All Ingredients" button.
+  // Standardize and attach event listener for the "All Ingredients" button.
   const btnIngredients = document.getElementById('btnIngredients');
   if (btnIngredients) {
     standardizeButton(btnIngredients);
