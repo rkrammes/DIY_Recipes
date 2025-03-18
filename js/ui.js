@@ -265,34 +265,38 @@ export function renderIngredients(ingredients) {
     li.style.listStyle = 'none';
     li.style.marginBottom = '10px';
     
-    // Create a button to display the ingredient name.
+    // Create a button for the ingredient that matches the recipe button look.
     const ingredientButton = document.createElement('button');
     ingredientButton.textContent = ingredient.name || 'Unnamed Ingredient';
     ingredientButton.classList.add('btn');
     ingredientButton.style.width = '100%';
     ingredientButton.style.textAlign = 'left';
     
-    // Create a details div that is initially hidden.
+    // Create a details div that toggles when the button is clicked.
     const detailsDiv = document.createElement('div');
     detailsDiv.style.display = 'none';
-    detailsDiv.style.padding = '5px 10px';
-    detailsDiv.style.border = '1px solid #ccc';
+    // Add a class for additional styling if desired.
+    detailsDiv.classList.add('ingredient-details');
+    // Set fallback inline styles matching the theme.
+    detailsDiv.style.padding = '10px';
     detailsDiv.style.marginTop = '5px';
-    detailsDiv.style.backgroundColor = '#f9f9f9';
+    detailsDiv.style.borderRadius = '4px';
+    detailsDiv.style.border = '1px solid rgba(255, 255, 255, 0.15)';
+    detailsDiv.style.background = document.body.classList.contains('light-mode') ? '#f0f0f0' : 'rgba(255, 255, 255, 0.07)';
     
-    // Add additional info. You can customize what you want to show.
+    // Insert additional ingredient info.
     detailsDiv.innerHTML = `
       <p><strong>ID:</strong> ${ingredient.id || 'N/A'}</p>
       <p><strong>Name:</strong> ${ingredient.name || 'N/A'}</p>
     `;
     
-    // If in Edit Mode (logged in), add a Remove button.
+    // If in Edit Mode, add a Remove button.
     const btnEditMode = document.getElementById('btnEditMode');
     if (btnEditMode && btnEditMode.textContent.includes('ON')) {
       const removeBtn = document.createElement('button');
       removeBtn.textContent = 'Remove';
       removeBtn.classList.add('btn', 'remove-ingredient-btn');
-      removeBtn.style.marginTop = '5px';
+      removeBtn.style.marginTop = '10px';
       removeBtn.addEventListener('click', async () => {
         try {
           await removeGlobalIngredient(ingredient.id);
