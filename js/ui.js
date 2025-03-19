@@ -5,12 +5,13 @@ import {
   removeIngredientFromRecipe, 
   addGlobalIngredient as apiAddGlobalIngredient, 
   importCSVFile,
-  removeGlobalIngredient 
+  removeGlobalIngredient,
+  loadRecipes,
+  loadAllIngredients
 } from './api.js';
 import { toggleEditMode, sendMagicLink } from './auth.js';
 
-// Global flag to indicate editing rights (false = anonymous view-only)
-window.editMode = window.editMode || false;
+window.editMode = window.editMode || false; // Global flag for edit mode
 
 // --- Helper Functions ---
 
@@ -52,19 +53,17 @@ function standardizeButton(btn) {
 }
 
 /**
- * Updates the disabled state (or visibility) of all editing controls.
- * When not in Edit Mode, inputs and buttons remain visible but are disabled
- * or show a notification if an edit is attempted.
+ * Updates the disabled state of editing inputs and the visibility of remove buttons.
  */
-function updateEditingControls() {
-  // For inputs:
+function updateEditability() {
+  // Disable editing controls if not in edit mode.
   const newRecipeInput = document.getElementById('newRecipeNameInput');
   const newGlobalIngredientInput = document.getElementById('newGlobalIngredientInput');
   const newIngredientDropdown = document.getElementById('newIngredientDropdown');
   const aiPrompt = document.getElementById('aiPrompt');
   const btnReroll = document.getElementById('btnReroll');
   const btnCommitSuggestion = document.getElementById('btnCommitSuggestion');
-  
+
   if (newRecipeInput) newRecipeInput.disabled = !isEditMode();
   if (newGlobalIngredientInput) newGlobalIngredientInput.disabled = !isEditMode();
   if (newIngredientDropdown) newIngredientDropdown.disabled = !isEditMode();
@@ -72,7 +71,13 @@ function updateEditingControls() {
   if (btnReroll) btnReroll.disabled = !isEditMode();
   if (btnCommitSuggestion) btnCommitSuggestion.disabled = !isEditMode();
 
-  // For Remove buttons inside ingredient details:
+  updateRemoveButtons();
+}
+
+/**
+ * Updates the display of all remove buttons in ingredient details.
+ */
+function updateRemoveButtons() {
   const removeBtns = document.querySelectorAll('.remove-ingredient-btn');
   removeBtns.forEach(btn => {
     btn.style.display = isEditMode() ? 'block' : 'none';
@@ -80,7 +85,21 @@ function updateEditingControls() {
 }
 
 /**
- * Shows a notification that editing is disabled if user is not logged in.
+ * Reloads recipes and ingredients from Supabase and re-renders the UI.
+ */
+async function reloadData() {
+  try {
+    const recipes = await loadRecipes();
+    const ingredients = await loadAllIngredients();
+    renderRecipes(recipes);
+    renderIngredients(ingredients);
+  } catch (error) {
+    showNotification("Error reloading data.", "error");
+  }
+}
+
+/**
+ * Shows a notification that editing is disabled.
  */
 function showEditDisabledNotification() {
   showNotification("You must be logged in to make changes.", "error");
@@ -89,19 +108,20 @@ function showEditDisabledNotification() {
 // --- Main UI Functions ---
 
 /**
- * Initializes UI event listeners and sets initial states.
+ * Initializes UI event listeners and standardizes left-side buttons.
+ * Recipes and ingredients are always rendered; editing controls are enabled only in Edit Mode.
  */
 export function initUI() {
   // Theme selection
   const themeSelect = document.getElementById('themeSelect');
   themeSelect.addEventListener('change', (e) => {
     updateTheme(e.target.value);
-    updateEditingControls();
     updateIngredientDetailsBackgrounds();
+    updateEditability();
   });
   updateTheme(themeSelect.value);
 
-  // Standardize and set up left-side buttons
+  // Standardize left-side buttons and attach event listeners.
   const btnIngredients = document.getElementById('btnIngredients');
   if (btnIngredients) {
     standardizeButton(btnIngredients);
@@ -115,11 +135,12 @@ export function initUI() {
   const btnEditMode = document.getElementById('btnEditMode');
   if (btnEditMode) {
     standardizeButton(btnEditMode);
-    btnEditMode.addEventListener('click', () => {
-      // Toggle edit mode using your auth function, then update global flag.
+    btnEditMode.addEventListener('click', async () => {
       toggleEditMode();
       window.editMode = !window.editMode;
-      updateEditingControls();
+      updateEditability();
+      // Reload data on toggling edit mode so that the latest commits are visible.
+      await reloadData();
     });
   }
 
@@ -130,6 +151,7 @@ export function initUI() {
     try {
       await importCSVFile(file);
       showNotification("CSV import successful!", "success");
+      await reloadData();
     } catch (error) {
       showNotification("Error importing CSV.", "error");
     }
@@ -163,7 +185,7 @@ export function initUI() {
     }
   });
 
-  // New Ingredient dropdown for adding ingredient to a recipe
+  // New Ingredient dropdown for adding an ingredient to a recipe
   document.getElementById('newIngredientDropdown').addEventListener('change', async function () {
     if (!isEditMode()) {
       showEditDisabledNotification();
@@ -202,7 +224,7 @@ export function initUI() {
   });
 
   // Initial update of editing controls.
-  updateEditingControls();
+  updateEditability();
 }
 
 /**
@@ -229,7 +251,7 @@ export function showAllIngredientsView() {
  * @param {Array} recipes - Array of recipe objects.
  */
 export function renderRecipes(recipes) {
-  window.recipes = recipes; // Store globally
+  window.recipes = recipes;
   const list = document.getElementById('recipeList');
   list.innerHTML = '';
   if (!recipes.length) {
@@ -309,11 +331,11 @@ export function showRecipeDetails(recipe) {
 /**
  * Renders the list of global ingredients into the UI.
  * Each ingredient is rendered as a clickable button (25% width) that toggles an expanded details section.
- * The details section displays extra info and always includes a Remove button whose functionality depends on Edit Mode.
+ * The details section displays extra info and includes a Remove button whose functionality is enabled only in Edit Mode.
  * @param {Array} ingredients - Array of ingredient objects.
  */
 export function renderIngredients(ingredients) {
-  window.allIngredients = ingredients; // Store globally
+  window.allIngredients = ingredients;
   const list = document.getElementById('ingredientList');
   list.innerHTML = '';
   if (!ingredients.length) {
