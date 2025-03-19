@@ -11,13 +11,14 @@ import {
 } from './api.js';
 import { toggleEditMode, sendMagicLink } from './auth.js';
 
-window.editMode = window.editMode || false; // Global flag for edit mode
+// Global flag for edit mode. false means anonymous (read-only).
+window.editMode = window.editMode || false;
 
 // --- Helper Functions ---
 
 /**
- * Updates the website theme based on the selected value.
- * @param {string} theme - The selected theme ('light', 'dark', or 'system').
+ * Updates the website theme.
+ * @param {string} theme - "light", "dark", or "system".
  */
 function updateTheme(theme) {
   document.body.classList.remove('light-mode', 'dark-mode');
@@ -26,25 +27,21 @@ function updateTheme(theme) {
   } else if (theme === 'dark') {
     document.body.classList.add('dark-mode');
   } else if (theme === 'system') {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-      document.body.classList.add('light-mode');
-    } else {
-      document.body.classList.add('dark-mode');
-    }
+    document.body.classList.add(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light-mode' : 'dark-mode');
   }
 }
 
 /**
- * Returns whether Edit Mode is active.
- * @returns {boolean} True if window.editMode is true.
+ * Returns true if Edit Mode is active.
+ * @returns {boolean}
  */
 function isEditMode() {
   return window.editMode === true;
 }
 
 /**
- * Standardizes the styling of a button element.
- * @param {HTMLElement} btn - The button element.
+ * Standardizes a button's style.
+ * @param {HTMLElement} btn 
  */
 function standardizeButton(btn) {
   btn.classList.add('btn');
@@ -53,63 +50,65 @@ function standardizeButton(btn) {
 }
 
 /**
- * Updates the disabled state of editing inputs and the visibility of remove buttons.
+ * Toggles the disabled state of all editing controls.
+ * (Inputs, dropdowns, inline editing areas, and remove buttons)
  */
-function updateEditability() {
-  // Disable editing controls if not in edit mode.
-  const newRecipeInput = document.getElementById('newRecipeNameInput');
-  const newGlobalIngredientInput = document.getElementById('newGlobalIngredientInput');
-  const newIngredientDropdown = document.getElementById('newIngredientDropdown');
-  const aiPrompt = document.getElementById('aiPrompt');
-  const btnReroll = document.getElementById('btnReroll');
-  const btnCommitSuggestion = document.getElementById('btnCommitSuggestion');
-
-  if (newRecipeInput) newRecipeInput.disabled = !isEditMode();
-  if (newGlobalIngredientInput) newGlobalIngredientInput.disabled = !isEditMode();
-  if (newIngredientDropdown) newIngredientDropdown.disabled = !isEditMode();
-  if (aiPrompt) aiPrompt.disabled = !isEditMode();
-  if (btnReroll) btnReroll.disabled = !isEditMode();
-  if (btnCommitSuggestion) btnCommitSuggestion.disabled = !isEditMode();
-
-  updateRemoveButtons();
-}
-
-/**
- * Updates the display of all remove buttons in ingredient details.
- */
-function updateRemoveButtons() {
-  const removeBtns = document.querySelectorAll('.remove-ingredient-btn');
-  removeBtns.forEach(btn => {
-    btn.style.display = isEditMode() ? 'block' : 'none';
+function updateEditingState() {
+  // Toggle disabled property on inputs and dropdowns.
+  const controls = [
+    document.getElementById('newRecipeNameInput'),
+    document.getElementById('newGlobalIngredientInput'),
+    document.getElementById('newIngredientDropdown'),
+    document.getElementById('aiPrompt'),
+    document.getElementById('btnReroll'),
+    document.getElementById('btnCommitSuggestion')
+  ];
+  controls.forEach(control => {
+    if (control) {
+      control.disabled = !isEditMode();
+    }
+  });
+  
+  // For remove buttons in recipe details (they already exist in the DOM).
+  const recipeRemoveButtons = document.querySelectorAll('#recipeContent .remove-ingredient-btn');
+  recipeRemoveButtons.forEach(btn => {
+    btn.onclick = isEditMode() ? btn._activeHandler : () => showNotification("You must be logged in to remove.", "error");
+  });
+  
+  // For remove buttons in global ingredient details:
+  const globalRemoveButtons = document.querySelectorAll('#ingredientList .remove-ingredient-btn');
+  globalRemoveButtons.forEach(btn => {
+    btn.onclick = isEditMode() ? btn._activeHandler : () => showNotification("You must be logged in to remove.", "error");
   });
 }
 
 /**
- * Reloads recipes and ingredients from Supabase and re-renders the UI.
+ * Attaches an "active" handler to a remove button and stores it on the button.
+ * @param {HTMLElement} btn 
+ * @param {Function} handler 
  */
-async function reloadData() {
-  try {
-    const recipes = await loadRecipes();
-    const ingredients = await loadAllIngredients();
-    renderRecipes(recipes);
-    renderIngredients(ingredients);
-  } catch (error) {
-    showNotification("Error reloading data.", "error");
-  }
+function setActiveHandler(btn, handler) {
+  btn._activeHandler = handler;
+  btn.onclick = isEditMode() ? handler : () => showNotification("You must be logged in to remove.", "error");
 }
 
 /**
- * Shows a notification that editing is disabled.
+ * Displays a temporary notification.
+ * @param {string} message 
+ * @param {string} type - "success", "error", or "info"
  */
-function showEditDisabledNotification() {
-  showNotification("You must be logged in to make changes.", "error");
+export function showNotification(message, type = "info") {
+  const notif = document.createElement('div');
+  notif.className = `notification ${type}`;
+  notif.textContent = message;
+  document.body.appendChild(notif);
+  setTimeout(() => notif.remove(), 3000);
 }
 
 // --- Main UI Functions ---
 
 /**
- * Initializes UI event listeners and standardizes left-side buttons.
- * Recipes and ingredients are always rendered; editing controls are enabled only in Edit Mode.
+ * Initializes UI event listeners and sets initial state.
  */
 export function initUI() {
   // Theme selection
@@ -117,11 +116,10 @@ export function initUI() {
   themeSelect.addEventListener('change', (e) => {
     updateTheme(e.target.value);
     updateIngredientDetailsBackgrounds();
-    updateEditability();
   });
   updateTheme(themeSelect.value);
 
-  // Standardize left-side buttons and attach event listeners.
+  // Standardize left-side buttons.
   const btnIngredients = document.getElementById('btnIngredients');
   if (btnIngredients) {
     standardizeButton(btnIngredients);
@@ -137,31 +135,35 @@ export function initUI() {
     standardizeButton(btnEditMode);
     btnEditMode.addEventListener('click', async () => {
       toggleEditMode();
+      // Toggle global edit mode flag.
       window.editMode = !window.editMode;
-      updateEditability();
-      // Reload data on toggling edit mode so that the latest commits are visible.
-      await reloadData();
+      updateEditingState();
+      // Reload data from Supabase so that any committed changes are visible.
+      const recipes = await loadRecipes();
+      const ingredients = await loadAllIngredients();
+      renderRecipes(recipes);
+      renderIngredients(ingredients);
     });
   }
-
+  
   // CSV import
-  document.getElementById('csvFile').addEventListener('change', async (event) => {
-    const file = event.target.files[0];
+  document.getElementById('csvFile').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
     if (!file) return;
     try {
       await importCSVFile(file);
-      showNotification("CSV import successful!", "success");
-      await reloadData();
+      showNotification("CSV imported successfully!", "success");
+      // Optionally reload data.
     } catch (error) {
       showNotification("Error importing CSV.", "error");
     }
   });
-
-  // New Recipe input (on Enter)
+  
+  // New Recipe input
   document.getElementById('newRecipeNameInput').addEventListener('keydown', async (e) => {
     if (e.key === 'Enter') {
       if (!isEditMode()) {
-        showEditDisabledNotification();
+        showNotification("You must be logged in to create a recipe.", "error");
         return;
       }
       const input = e.target;
@@ -184,11 +186,11 @@ export function initUI() {
       }
     }
   });
-
-  // New Ingredient dropdown for adding an ingredient to a recipe
+  
+  // New Ingredient dropdown for adding an ingredient to the selected recipe.
   document.getElementById('newIngredientDropdown').addEventListener('change', async function () {
     if (!isEditMode()) {
-      showEditDisabledNotification();
+      showNotification("You must be logged in to add ingredients.", "error");
       this.value = '';
       return;
     }
@@ -222,9 +224,9 @@ export function initUI() {
     }
     dropdown.value = '';
   });
-
-  // Initial update of editing controls.
-  updateEditability();
+  
+  // Initial state of editing controls.
+  updateEditingState();
 }
 
 /**
@@ -262,7 +264,7 @@ export function renderRecipes(recipes) {
     const li = document.createElement('li');
     li.style.listStyle = 'none';
     li.style.marginBottom = '8px';
-
+    
     const btn = document.createElement('button');
     btn.textContent = recipe.name || 'Unnamed Recipe';
     btn.classList.add('btn');
@@ -331,7 +333,7 @@ export function showRecipeDetails(recipe) {
 /**
  * Renders the list of global ingredients into the UI.
  * Each ingredient is rendered as a clickable button (25% width) that toggles an expanded details section.
- * The details section displays extra info and includes a Remove button whose functionality is enabled only in Edit Mode.
+ * The details section displays extra info and includes a Remove button whose functionality is active only in Edit Mode.
  * @param {Array} ingredients - Array of ingredient objects.
  */
 export function renderIngredients(ingredients) {
@@ -401,14 +403,21 @@ export function renderIngredients(ingredients) {
 }
 
 /**
- * Displays a temporary notification.
- * @param {string} message - The notification message.
- * @param {string} type - The type ('success', 'error', or 'info').
+ * Displays a notification.
+ * @param {string} message - The message text.
+ * @param {string} type - "success", "error", or "info".
  */
-export function showNotification(message, type = 'info') {
+export function showNotification(message, type = "info") {
   const notif = document.createElement('div');
   notif.className = `notification ${type}`;
   notif.textContent = message;
   document.body.appendChild(notif);
   setTimeout(() => notif.remove(), 3000);
+}
+
+/**
+ * Shows a notification that editing is disabled.
+ */
+function showEditDisabledNotification() {
+  showNotification("You must be logged in to make changes.", "error");
 }
