@@ -5,12 +5,14 @@ import {
   removeIngredientFromRecipe, 
   addGlobalIngredient as apiAddGlobalIngredient, 
   importCSVFile,
-  removeGlobalIngredient
+  removeGlobalIngredient 
 } from './api.js';
 import { toggleEditMode, sendMagicLink } from './auth.js';
 
-// Ensure a global flag exists; false means anonymous/read-only.
+// Global flag to indicate editing rights (false = anonymous view-only)
 window.editMode = window.editMode || false;
+
+// --- Helper Functions ---
 
 /**
  * Updates the website theme based on the selected value.
@@ -32,9 +34,8 @@ function updateTheme(theme) {
 }
 
 /**
- * Returns whether Edit Mode is active (i.e., user is logged in).
- * Uses the global variable window.editMode.
- * @returns {boolean}
+ * Returns whether Edit Mode is active.
+ * @returns {boolean} True if window.editMode is true.
  */
 function isEditMode() {
   return window.editMode === true;
@@ -51,17 +52,19 @@ function standardizeButton(btn) {
 }
 
 /**
- * Updates the disabled state of editing inputs and the visibility of remove buttons.
+ * Updates the disabled state (or visibility) of all editing controls.
+ * When not in Edit Mode, inputs and buttons remain visible but are disabled
+ * or show a notification if an edit is attempted.
  */
-function updateEditability() {
-  // Enable editing inputs only in Edit Mode.
+function updateEditingControls() {
+  // For inputs:
   const newRecipeInput = document.getElementById('newRecipeNameInput');
   const newGlobalIngredientInput = document.getElementById('newGlobalIngredientInput');
   const newIngredientDropdown = document.getElementById('newIngredientDropdown');
   const aiPrompt = document.getElementById('aiPrompt');
   const btnReroll = document.getElementById('btnReroll');
   const btnCommitSuggestion = document.getElementById('btnCommitSuggestion');
-
+  
   if (newRecipeInput) newRecipeInput.disabled = !isEditMode();
   if (newGlobalIngredientInput) newGlobalIngredientInput.disabled = !isEditMode();
   if (newIngredientDropdown) newIngredientDropdown.disabled = !isEditMode();
@@ -69,14 +72,7 @@ function updateEditability() {
   if (btnReroll) btnReroll.disabled = !isEditMode();
   if (btnCommitSuggestion) btnCommitSuggestion.disabled = !isEditMode();
 
-  // Update all Remove buttons in ingredient details.
-  updateRemoveButtons();
-}
-
-/**
- * Updates the display of all remove buttons in global ingredient details.
- */
-function updateRemoveButtons() {
+  // For Remove buttons inside ingredient details:
   const removeBtns = document.querySelectorAll('.remove-ingredient-btn');
   removeBtns.forEach(btn => {
     btn.style.display = isEditMode() ? 'block' : 'none';
@@ -84,46 +80,47 @@ function updateRemoveButtons() {
 }
 
 /**
- * Initializes UI event listeners and standardizes left-side buttons.
- * The recipes and ingredients are always rendered; editing controls are enabled only in Edit Mode.
+ * Shows a notification that editing is disabled if user is not logged in.
+ */
+function showEditDisabledNotification() {
+  showNotification("You must be logged in to make changes.", "error");
+}
+
+// --- Main UI Functions ---
+
+/**
+ * Initializes UI event listeners and sets initial states.
  */
 export function initUI() {
   // Theme selection
   const themeSelect = document.getElementById('themeSelect');
   themeSelect.addEventListener('change', (e) => {
     updateTheme(e.target.value);
+    updateEditingControls();
     updateIngredientDetailsBackgrounds();
-    updateEditability();
   });
   updateTheme(themeSelect.value);
 
-  // Standardize left-side buttons
+  // Standardize and set up left-side buttons
   const btnIngredients = document.getElementById('btnIngredients');
   if (btnIngredients) {
     standardizeButton(btnIngredients);
     btnIngredients.addEventListener('click', showAllIngredientsView);
-  } else {
-    console.warn('btnIngredients not found');
   }
   const btnSendMagicLink = document.getElementById('btnSendMagicLink');
   if (btnSendMagicLink) {
     standardizeButton(btnSendMagicLink);
     btnSendMagicLink.addEventListener('click', sendMagicLink);
-  } else {
-    console.warn('btnSendMagicLink not found');
   }
   const btnEditMode = document.getElementById('btnEditMode');
   if (btnEditMode) {
     standardizeButton(btnEditMode);
     btnEditMode.addEventListener('click', () => {
-      // Call your toggleEditMode() function from auth.js,
-      // then simply update the global flag and editability without re-rendering the data.
+      // Toggle edit mode using your auth function, then update global flag.
       toggleEditMode();
       window.editMode = !window.editMode;
-      updateEditability();
+      updateEditingControls();
     });
-  } else {
-    console.warn('btnEditMode not found');
   }
 
   // CSV import
@@ -141,6 +138,10 @@ export function initUI() {
   // New Recipe input (on Enter)
   document.getElementById('newRecipeNameInput').addEventListener('keydown', async (e) => {
     if (e.key === 'Enter') {
+      if (!isEditMode()) {
+        showEditDisabledNotification();
+        return;
+      }
       const input = e.target;
       const recipeName = input.value.trim();
       if (!recipeName) {
@@ -162,8 +163,13 @@ export function initUI() {
     }
   });
 
-  // Ingredient dropdown for adding an ingredient to a recipe
+  // New Ingredient dropdown for adding ingredient to a recipe
   document.getElementById('newIngredientDropdown').addEventListener('change', async function () {
+    if (!isEditMode()) {
+      showEditDisabledNotification();
+      this.value = '';
+      return;
+    }
     const dropdown = this;
     if (!dropdown.value) return;
     if (window.currentRecipeIndex == null) {
@@ -183,7 +189,7 @@ export function initUI() {
       name: ingObj.name,
       quantity: '',
       nextVersion: '',
-      reasoning: '',
+      reasoning: ''
     };
     try {
       await addNewIngredientToRecipe(window.recipes[window.currentRecipeIndex], newIngredient);
@@ -195,8 +201,8 @@ export function initUI() {
     dropdown.value = '';
   });
 
-  // Initial update of editability state.
-  updateEditability();
+  // Initial update of editing controls.
+  updateEditingControls();
 }
 
 /**
@@ -223,7 +229,7 @@ export function showAllIngredientsView() {
  * @param {Array} recipes - Array of recipe objects.
  */
 export function renderRecipes(recipes) {
-  window.recipes = recipes; // Store globally for use in UI.
+  window.recipes = recipes; // Store globally
   const list = document.getElementById('recipeList');
   list.innerHTML = '';
   if (!recipes.length) {
@@ -274,6 +280,10 @@ export function showRecipeDetails(recipe) {
       removeBtn.textContent = 'Remove';
       removeBtn.classList.add('btn', 'remove-ingredient-btn');
       removeBtn.addEventListener('click', async () => {
+        if (!isEditMode()) {
+          showEditDisabledNotification();
+          return;
+        }
         try {
           await removeIngredientFromRecipe(recipe, index);
           showNotification("Ingredient removed", "success");
@@ -299,11 +309,11 @@ export function showRecipeDetails(recipe) {
 /**
  * Renders the list of global ingredients into the UI.
  * Each ingredient is rendered as a clickable button (25% width) that toggles an expanded details section.
- * The details section displays extra info and always includes a Remove button whose visibility depends on Edit Mode.
+ * The details section displays extra info and always includes a Remove button whose functionality depends on Edit Mode.
  * @param {Array} ingredients - Array of ingredient objects.
  */
 export function renderIngredients(ingredients) {
-  window.allIngredients = ingredients; // Store globally.
+  window.allIngredients = ingredients; // Store globally
   const list = document.getElementById('ingredientList');
   list.innerHTML = '';
   if (!ingredients.length) {
@@ -342,6 +352,10 @@ export function renderIngredients(ingredients) {
     removeBtn.classList.add('btn', 'remove-ingredient-btn');
     removeBtn.style.marginTop = '10px';
     removeBtn.addEventListener('click', async () => {
+      if (!isEditMode()) {
+        showEditDisabledNotification();
+        return;
+      }
       try {
         await removeGlobalIngredient(ing.id);
         showNotification("Ingredient removed", "success");
