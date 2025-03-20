@@ -16,19 +16,19 @@ export function initAuth() {
 
 /**
  * Updates the UI based on whether the user is logged in.
- * Sets a global variable for Edit Mode.
+ * Sets a global variable for edit mode and updates the Login/Logout button.
  * @param {object|null} session - The current authentication session object.
  */
 export function handleAuthChange(session) {
   const isLoggedIn = !!(session && session.user);
-  const editModeCheckbox = document.getElementById('editModeCheckbox');
+  const btnLogIn = document.getElementById('btnLogIn');
   const magicLinkForm = document.getElementById('magicLinkForm');
 
   if (isLoggedIn) {
     console.log('User is logged in:', session.user.email);
-    if (editModeCheckbox) {
-      // Automatically check the Edit Mode checkbox if logged in.
-      editModeCheckbox.checked = true;
+    if (btnLogIn) {
+      btnLogIn.textContent = "Log Out";
+      btnLogIn.classList.add("logged-in");
     }
     if (magicLinkForm) {
       magicLinkForm.style.display = 'none';
@@ -36,8 +36,9 @@ export function handleAuthChange(session) {
     window.editMode = true;
   } else {
     console.log('No user logged in');
-    if (editModeCheckbox) {
-      editModeCheckbox.checked = false;
+    if (btnLogIn) {
+      btnLogIn.textContent = "Log In";
+      btnLogIn.classList.remove("logged-in");
     }
     window.editMode = false;
   }
@@ -72,16 +73,17 @@ export async function sendMagicLink() {
 }
 
 /**
- * Toggles edit mode by showing the magic link form if not logged in,
- * or signing out if already logged in.
+ * Toggles authentication: if logged in, signs out; if not, shows the login form.
  */
-export function toggleEditMode() {
+export function toggleAuth() {
   const magicLinkForm = document.getElementById('magicLinkForm');
-  if (magicLinkForm) {
-    if (magicLinkForm.style.display === 'none' || magicLinkForm.style.display === '') {
+  // If logged in, sign out.
+  if (window.editMode) {
+    supabaseClient.auth.signOut();
+  } else {
+    // Otherwise, show the login form.
+    if (magicLinkForm) {
       magicLinkForm.style.display = 'block';
-    } else {
-      supabaseClient.auth.signOut();
     }
   }
 }
