@@ -11,10 +11,10 @@ import {
 } from './api.js';
 import { toggleEditMode, sendMagicLink } from './auth.js';
 
-// Global flag for edit mode. false means anonymous (read-only).
+// Global flag for edit mode; false means anonymous (read-only).
 window.editMode = window.editMode || false;
 
-// --- Helper Functions ---
+// ----------------- Helper Functions -----------------
 
 /**
  * Updates the website theme.
@@ -40,7 +40,7 @@ function isEditMode() {
 }
 
 /**
- * Standardizes a button's styling.
+ * Standardizes the styling of a button.
  * @param {HTMLElement} btn - The button element.
  */
 function standardizeButton(btn) {
@@ -50,7 +50,7 @@ function standardizeButton(btn) {
 }
 
 /**
- * Updates the disabled state of all editing inputs and controls.
+ * Updates the disabled state of editing controls.
  */
 function updateEditingState() {
   const controls = [
@@ -66,11 +66,12 @@ function updateEditingState() {
       control.disabled = !isEditMode();
     }
   });
+  // Update Remove buttons for recipe details and global ingredients.
   updateRemoveButtons();
 }
 
 /**
- * Updates the display of remove buttons in ingredient details.
+ * Updates the display of remove buttons inside ingredient details.
  */
 function updateRemoveButtons() {
   const removeBtns = document.querySelectorAll('.remove-ingredient-btn');
@@ -80,7 +81,7 @@ function updateRemoveButtons() {
 }
 
 /**
- * Reloads recipes and global ingredients from Supabase and re-renders the UI.
+ * Reloads recipes and ingredients from Supabase and re-renders the UI.
  */
 async function reloadData() {
   try {
@@ -94,7 +95,7 @@ async function reloadData() {
 }
 
 /**
- * Shows a notification.
+ * Shows a notification message.
  * @param {string} message - The message.
  * @param {string} type - "success", "error", or "info".
  */
@@ -107,19 +108,29 @@ export function showNotification(message, type = "info") {
 }
 
 /**
- * Shows a notification that editing is disabled.
+ * Shows a warning that editing is disabled.
  */
 function showEditDisabledNotification() {
   showNotification("You must be logged in to make changes.", "error");
 }
 
-// --- Main UI Functions ---
+/**
+ * Updates the background of all expanded ingredient details.
+ */
+function updateIngredientDetailsBackgrounds() {
+  const detailsDivs = document.querySelectorAll('.ingredient-details');
+  detailsDivs.forEach(div => {
+    div.style.background = document.body.classList.contains('light-mode') ? '#f0f0f0' : 'rgba(255,255,255,0.07)';
+  });
+}
+
+// ----------------- Main UI Functions -----------------
 
 /**
- * Initializes UI event listeners and sets initial state.
+ * Initializes UI event listeners and sets initial states.
  */
 export function initUI() {
-  // Theme selection
+  // Set up theme selection.
   const themeSelect = document.getElementById('themeSelect');
   themeSelect.addEventListener('change', (e) => {
     updateTheme(e.target.value);
@@ -128,16 +139,20 @@ export function initUI() {
   });
   updateTheme(themeSelect.value);
 
-  // Left-side buttons
+  // Standardize left-side buttons.
   const btnIngredients = document.getElementById('btnIngredients');
   if (btnIngredients) {
     standardizeButton(btnIngredients);
     btnIngredients.addEventListener('click', showAllIngredientsView);
+  } else {
+    console.warn('btnIngredients not found');
   }
   const btnSendMagicLink = document.getElementById('btnSendMagicLink');
   if (btnSendMagicLink) {
     standardizeButton(btnSendMagicLink);
     btnSendMagicLink.addEventListener('click', sendMagicLink);
+  } else {
+    console.warn('btnSendMagicLink not found');
   }
   const btnEditMode = document.getElementById('btnEditMode');
   if (btnEditMode) {
@@ -148,9 +163,11 @@ export function initUI() {
       updateEditingState();
       await reloadData();
     });
+  } else {
+    console.warn('btnEditMode not found');
   }
 
-  // CSV import
+  // CSV import.
   document.getElementById('csvFile').addEventListener('change', async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -163,7 +180,7 @@ export function initUI() {
     }
   });
 
-  // New Recipe input (on Enter)
+  // New Recipe input (on Enter).
   document.getElementById('newRecipeNameInput').addEventListener('keydown', async (e) => {
     if (e.key === 'Enter') {
       if (!isEditMode()) {
@@ -191,7 +208,7 @@ export function initUI() {
     }
   });
 
-  // New Ingredient dropdown for adding ingredient to a recipe.
+  // New Ingredient dropdown (on change) for adding an ingredient to the selected recipe.
   document.getElementById('newIngredientDropdown').addEventListener('change', async function () {
     if (!isEditMode()) {
       showEditDisabledNotification();
@@ -229,17 +246,8 @@ export function initUI() {
     dropdown.value = '';
   });
 
+  // Initial state update.
   updateEditingState();
-}
-
-/**
- * Updates the background of all expanded ingredient details.
- */
-function updateIngredientDetailsBackgrounds() {
-  const detailsDivs = document.querySelectorAll('.ingredient-details');
-  detailsDivs.forEach(div => {
-    div.style.background = document.body.classList.contains('light-mode') ? '#f0f0f0' : 'rgba(255,255,255,0.07)';
-  });
 }
 
 /**
@@ -332,7 +340,7 @@ export function showRecipeDetails(recipe) {
 /**
  * Renders the list of global ingredients.
  * Each ingredient is rendered as a clickable button (25% width) that toggles an expanded details section.
- * The details section displays extra info and includes a Remove button that works only in Edit Mode.
+ * The details section displays extra info and includes a Remove button whose functionality depends on Edit Mode.
  * @param {Array} ingredients - Array of ingredient objects.
  */
 export function renderIngredients(ingredients) {
@@ -347,7 +355,6 @@ export function renderIngredients(ingredients) {
     const li = document.createElement('li');
     li.style.listStyle = 'none';
     li.style.marginBottom = '8px';
-
     const btn = document.createElement('button');
     btn.textContent = ing.name || 'Unnamed Ingredient';
     standardizeButton(btn);
@@ -362,14 +369,14 @@ export function renderIngredients(ingredients) {
     details.style.border = '1px solid rgba(255,255,255,0.2)';
     details.style.borderRadius = '4px';
     details.style.background = document.body.classList.contains('light-mode') ? '#f0f0f0' : 'rgba(255,255,255,0.07)';
-
+    
     details.innerHTML = `
       <p><strong>ID:</strong> ${ing.id || 'N/A'}</p>
       <p><strong>Name:</strong> ${ing.name || 'N/A'}</p>
       <p><strong>Created At:</strong> ${ing.created_at || 'N/A'}</p>
       <p><strong>Description:</strong> ${ing.description || 'No description available.'}</p>
     `;
-
+    
     const removeBtn = document.createElement('button');
     removeBtn.textContent = 'Remove';
     removeBtn.classList.add('editable');
@@ -390,11 +397,11 @@ export function renderIngredients(ingredients) {
     });
     removeBtn.style.display = isEditMode() ? 'block' : 'none';
     details.appendChild(removeBtn);
-
+    
     btn.addEventListener('click', () => {
       details.style.display = details.style.display === 'none' ? 'block' : 'none';
     });
-
+    
     li.appendChild(btn);
     li.appendChild(details);
     list.appendChild(li);
