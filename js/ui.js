@@ -1,58 +1,28 @@
 // ui.js
-import { 
-  createNewRecipe, 
-  addNewIngredientToRecipe, 
-  removeIngredientFromRecipe, 
-  addGlobalIngredient as apiAddGlobalIngredient, 
-  importCSVFile,
-  removeGlobalIngredient,
-  loadRecipes,
-  loadAllIngredients
-} from './api.js';
-import { toggleEditMode, sendMagicLink } from './auth.js';
 
-// Global flag to indicate editing rights (false = anonymous/read‑only).
-window.editMode = window.editMode || false;
-
-// --- Global Event Delegation for Read-Only Mode ---
-// This listener intercepts interactions with any element that has the "editable" class.
-// If not in edit mode, it prevents the default action and shows a warning.
-document.addEventListener('click', function(e) {
-  if (!isEditMode() && e.target.closest('.editable')) {
-    e.preventDefault();
-    showNotification("You must be logged in to make changes.", "error");
+// --- Theme Function ---
+function updateTheme(theme) {
+  document.body.classList.remove('light-mode', 'dark-mode');
+  if (theme === 'light') {
+    document.body.classList.add('light-mode');
+  } else if (theme === 'dark') {
+    document.body.classList.add('dark-mode');
+  } else if (theme === 'system') {
+    document.body.classList.add(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light-mode' : 'dark-mode');
   }
-});
-document.addEventListener('input', function(e) {
-  if (!isEditMode() && e.target.closest('.editable')) {
-    e.preventDefault();
-    showNotification("You must be logged in to edit.", "error");
-  }
-});
+}
 
 // --- Helper Functions ---
-
-/**
- * Checks if Edit Mode is active.
- * @returns {boolean} True if window.editMode is true.
- */
 function isEditMode() {
   return window.editMode === true;
 }
 
-/**
- * Standardizes a button's styling.
- * @param {HTMLElement} btn - The button element.
- */
 function standardizeButton(btn) {
   btn.classList.add('btn');
   btn.style.width = '100%';
   btn.style.textAlign = 'left';
 }
 
-/**
- * Updates the background of all expanded ingredient details based on the current theme.
- */
 function updateIngredientDetailsBackgrounds() {
   const detailsDivs = document.querySelectorAll('.ingredient-details');
   detailsDivs.forEach(div => {
@@ -60,11 +30,45 @@ function updateIngredientDetailsBackgrounds() {
   });
 }
 
-/**
- * Displays a temporary notification.
- * @param {string} message - The message text.
- * @param {string} type - "success", "error", or "info".
- */
+function updateRemoveButtons() {
+  const removeBtns = document.querySelectorAll('.remove-ingredient-btn');
+  removeBtns.forEach(btn => {
+    btn.style.display = isEditMode() ? 'block' : 'none';
+  });
+}
+
+function updateEditingState() {
+  const controls = [
+    document.getElementById('newRecipeNameInput'),
+    document.getElementById('newGlobalIngredientInput'),
+    document.getElementById('newIngredientDropdown'),
+    document.getElementById('aiPrompt'),
+    document.getElementById('btnReroll'),
+    document.getElementById('btnCommitSuggestion')
+  ];
+  controls.forEach(control => {
+    if (control) {
+      control.disabled = !isEditMode();
+    }
+  });
+  updateRemoveButtons();
+}
+
+async function reloadData() {
+  try {
+    const recipes = await loadRecipes();
+    const ingredients = await loadAllIngredients();
+    renderRecipes(recipes);
+    renderIngredients(ingredients);
+  } catch (error) {
+    showNotification("Error reloading data.", "error");
+  }
+}
+
+function showEditDisabledNotification() {
+  showNotification("You must be logged in to make changes.", "error");
+}
+
 export function showNotification(message, type = "info") {
   const notif = document.createElement('div');
   notif.className = `notification ${type}`;
@@ -74,45 +78,42 @@ export function showNotification(message, type = "info") {
 }
 
 // --- Main UI Functions ---
-
-/**
- * Initializes the UI event listeners and sets up initial states.
- */
 export function initUI() {
-  // Theme selection
+  // Initialize theme first.
   const themeSelect = document.getElementById('themeSelect');
   themeSelect.addEventListener('change', (e) => {
     updateTheme(e.target.value);
     updateIngredientDetailsBackgrounds();
+    updateEditingState();
   });
   updateTheme(themeSelect.value);
 
-  // Standardize and attach event listeners for left-side buttons.
+  // Standardize and attach left-side button listeners.
   const btnIngredients = document.getElementById('btnIngredients');
   if (btnIngredients) {
     standardizeButton(btnIngredients);
     btnIngredients.addEventListener('click', showAllIngredientsView);
+  } else {
+    console.warn('btnIngredients not found');
   }
   const btnSendMagicLink = document.getElementById('btnSendMagicLink');
   if (btnSendMagicLink) {
     standardizeButton(btnSendMagicLink);
     btnSendMagicLink.addEventListener('click', sendMagicLink);
+  } else {
+    console.warn('btnSendMagicLink not found');
   }
   const btnEditMode = document.getElementById('btnEditMode');
   if (btnEditMode) {
     standardizeButton(btnEditMode);
     btnEditMode.addEventListener('click', async () => {
-      // Toggle Edit Mode: update global flag and body class.
       toggleEditMode();
       window.editMode = !window.editMode;
-      if (window.editMode) {
-        document.body.classList.add('edit-mode');
-      } else {
-        document.body.classList.remove('edit-mode');
-      }
-      // Reload data so that editing controls become active.
+      updateEditingState();
       await reloadData();
     });
+  } else {
+    console.warn('btnEditMode not found');
   }
 
   // CSV import
@@ -128,14 +129,15 @@ export function initUI() {
     }
   });
 
-  // New Recipe input (on Enter)
-  const newRecipeInput = document.getElementById('newRecipeNameInput');
-  newRecipeInput.addEventListener('keydown', async (e) => {
+  // New Recipe input
+  document.getElementById('newRecipeNameInput').addEventListener('keydown', async (e) => {
     if (e.key === 'Enter') {
-      // Mark input as editable control.
-      newRecipeInput.classList.add('editable');
-      if (!isEditMode()) return; // Global listener will handle notification.
-      const recipeName = newRecipeInput.value.trim();
+      if (!isEditMode()) {
+        showEditDisabledNotification();
+        return;
+      }
+      const input = e.target;
+      const recipeName = input.value.trim();
       if (!recipeName) {
         showNotification("Please enter a valid recipe name.", "error");
         return;
@@ -147,7 +149,7 @@ export function initUI() {
           window.recipes.push(newRecipe);
           renderRecipes(window.recipes);
           showNotification("Recipe created successfully!", "success");
-          newRecipeInput.value = '';
+          input.value = '';
         }
       } catch (error) {
         showNotification("Error creating recipe.", "error");
@@ -155,24 +157,25 @@ export function initUI() {
     }
   });
 
-  // New Ingredient dropdown (on change)
-  const newIngredientDropdown = document.getElementById('newIngredientDropdown');
-  newIngredientDropdown.addEventListener('change', async function () {
-    this.classList.add('editable');
+  // New Ingredient dropdown for adding an ingredient to a recipe
+  document.getElementById('newIngredientDropdown').addEventListener('change', async function () {
     if (!isEditMode()) {
-      return;
-    }
-    if (!this.value) return;
-    if (window.currentRecipeIndex == null) {
-      showNotification("Please select a recipe first.", "error");
+      showEditDisabledNotification();
       this.value = '';
       return;
     }
-    const selectedId = this.value;
+    const dropdown = this;
+    if (!dropdown.value) return;
+    if (window.currentRecipeIndex == null) {
+      showNotification("Please select a recipe first.", "error");
+      dropdown.value = '';
+      return;
+    }
+    const selectedId = dropdown.value;
     const ingObj = window.allIngredients.find(ing => ing.id === selectedId);
     if (!ingObj) {
       showNotification("Invalid ingredient selected.", "error");
-      this.value = '';
+      dropdown.value = '';
       return;
     }
     const newIngredient = {
@@ -189,31 +192,17 @@ export function initUI() {
     } catch (error) {
       showNotification("Error adding ingredient to recipe.", "error");
     }
-    this.value = '';
+    dropdown.value = '';
   });
 
-  // Initial editing state update.
   updateEditingState();
 }
 
-/**
- * Reloads recipes and global ingredients from Supabase and re-renders the UI.
- */
-async function reloadData() {
-  try {
-    const recipes = await loadRecipes();
-    const ingredients = await loadAllIngredients();
-    renderRecipes(recipes);
-    renderIngredients(ingredients);
-  } catch (error) {
-    showNotification("Error reloading data.", "error");
-  }
+export function showAllIngredientsView() {
+  document.getElementById('ingredientsView').style.display = 'block';
+  document.getElementById('recipeDetails').style.display = 'none';
 }
 
-/**
- * Renders the list of recipes.
- * @param {Array} recipes - Array of recipe objects.
- */
 export function renderRecipes(recipes) {
   window.recipes = recipes;
   const list = document.getElementById('recipeList');
@@ -226,7 +215,6 @@ export function renderRecipes(recipes) {
     const li = document.createElement('li');
     li.style.listStyle = 'none';
     li.style.marginBottom = '8px';
-
     const btn = document.createElement('button');
     btn.textContent = recipe.name || 'Unnamed Recipe';
     standardizeButton(btn);
@@ -239,10 +227,6 @@ export function renderRecipes(recipes) {
   });
 }
 
-/**
- * Displays the details of a recipe.
- * @param {Object} recipe - The recipe object.
- */
 export function showRecipeDetails(recipe) {
   document.getElementById('ingredientsView').style.display = 'none';
   const details = document.getElementById('recipeDetails');
@@ -261,10 +245,13 @@ export function showRecipeDetails(recipe) {
       const tdRemove = document.createElement('td');
       const removeBtn = document.createElement('button');
       removeBtn.textContent = 'Remove';
-      removeBtn.classList.add('editable'); // Mark as editable control.
+      removeBtn.classList.add('editable');
       removeBtn.classList.add('btn', 'remove-ingredient-btn');
       removeBtn.addEventListener('click', async () => {
-        if (!isEditMode()) return;
+        if (!isEditMode()) {
+          showEditDisabledNotification();
+          return;
+        }
         try {
           await removeIngredientFromRecipe(recipe, index);
           showNotification("Ingredient removed", "success");
@@ -287,12 +274,6 @@ export function showRecipeDetails(recipe) {
   }
 }
 
-/**
- * Renders the list of global ingredients.
- * Each ingredient is a clickable button (25% width) that toggles an expanded details section.
- * The details section displays extra info and includes a Remove button.
- * @param {Array} ingredients - Array of ingredient objects.
- */
 export function renderIngredients(ingredients) {
   window.allIngredients = ingredients;
   const list = document.getElementById('ingredientList');
@@ -310,7 +291,7 @@ export function renderIngredients(ingredients) {
     btn.textContent = ing.name || 'Unnamed Ingredient';
     standardizeButton(btn);
     btn.style.width = '25%';
-    btn.classList.add('editable'); // Mark as editable control.
+    btn.classList.add('editable');
     
     const details = document.createElement('div');
     details.className = 'ingredient-details';
@@ -320,20 +301,23 @@ export function renderIngredients(ingredients) {
     details.style.border = '1px solid rgba(255,255,255,0.2)';
     details.style.borderRadius = '4px';
     details.style.background = document.body.classList.contains('light-mode') ? '#f0f0f0' : 'rgba(255,255,255,0.07)';
-    
+
     details.innerHTML = `
       <p><strong>ID:</strong> ${ing.id || 'N/A'}</p>
       <p><strong>Name:</strong> ${ing.name || 'N/A'}</p>
       <p><strong>Created At:</strong> ${ing.created_at || 'N/A'}</p>
       <p><strong>Description:</strong> ${ing.description || 'No description available.'}</p>
     `;
-    
+
     const removeBtn = document.createElement('button');
     removeBtn.textContent = 'Remove';
     removeBtn.classList.add('editable');
     removeBtn.classList.add('btn', 'remove-ingredient-btn');
     removeBtn.addEventListener('click', async () => {
-      if (!isEditMode()) return;
+      if (!isEditMode()) {
+        showEditDisabledNotification();
+        return;
+      }
       try {
         await removeGlobalIngredient(ing.id);
         showNotification("Ingredient removed", "success");
@@ -344,11 +328,11 @@ export function renderIngredients(ingredients) {
     });
     removeBtn.style.display = isEditMode() ? 'block' : 'none';
     details.appendChild(removeBtn);
-    
+
     btn.addEventListener('click', () => {
       details.style.display = details.style.display === 'none' ? 'block' : 'none';
     });
-    
+
     li.appendChild(btn);
     li.appendChild(details);
     list.appendChild(li);
