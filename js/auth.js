@@ -1,141 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Iteration Station (Magic Link Edition)</title>
+// auth.js
+import { supabaseClient } from './supabaseClient.js';
+import { loadRecipes, loadAllIngredients } from './api.js';
 
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
-    rel="stylesheet"
-  />
+/**
+ * Initializes authentication by listening for auth state changes.
+ */
+export function initAuth() {
+  supabaseClient.auth.onAuthStateChange((event, session) => {
+    handleAuthChange(session);
+  });
+  supabaseClient.auth.getSession().then(({ data: { session } }) => {
+    handleAuthChange(session);
+  });
+}
 
-  <!-- External CSS -->
-  <link rel="stylesheet" href="style.css" />
+/**
+ * Updates the UI based on whether the user is logged in.
+ * Sets a global variable for edit mode and updates the Login/Logout button.
+ * @param {object|null} session - The current authentication session object.
+ */
+export function handleAuthChange(session) {
+  const isLoggedIn = !!(session && session.user);
+  const btnLogIn = document.getElementById('btnLogIn');
+  const magicLinkForm = document.getElementById('magicLinkForm');
+  
+  if (isLoggedIn) {
+    console.log('User is logged in:', session.user.email);
+    if (btnLogIn) {
+      btnLogIn.textContent = "Log Out";
+      btnLogIn.classList.add("logged-in");
+    }
+    if (magicLinkForm) {
+      magicLinkForm.style.display = 'none';
+    }
+    window.editMode = true;
+  } else {
+    console.log('No user logged in');
+    if (btnLogIn) {
+      btnLogIn.textContent = "Log In";
+      btnLogIn.classList.remove("logged-in");
+    }
+    window.editMode = false;
+  }
+  
+  // Refresh recipes and ingredients to update the UI.
+  loadRecipes();
+  loadAllIngredients();
+}
 
-  <!-- Papa Parse and Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-</head>
-<body class="dark-mode">
-  <!-- Header with glass effect & minimal toggles -->
-  <header class="glass-panel main-header">
-    <div class="header-inner">
-      <span class="app-title">Iteration Station</span>
-      <!-- Right-side group: theme, login/logout, & edit mode toggle -->
-      <div style="display:flex; align-items:center; gap:15px;">
-        <div class="theme-toggle">
-          <label for="themeSelect" class="theme-label">Appearance:</label>
-          <select id="themeSelect" class="theme-select">
-            <option value="dark">Dark</option>
-            <option value="light">Light</option>
-            <option value="system">System</option>
-          </select>
-        </div>
-        <!-- Login/Logout Button -->
-        <button class="btn" id="btnLogIn">Log In</button>
-        <!-- Edit Mode toggle using a checkbox -->
-        <label for="editModeCheckbox" class="theme-label">Edit Mode:</label>
-        <input type="checkbox" id="editModeCheckbox" />
-      </div>
-    </div>
+/**
+ * Sends a magic link for passwordless authentication.
+ */
+export async function sendMagicLink() {
+  console.log('sendMagicLink() invoked');
+  const emailInput = document.getElementById('magicLinkEmail');
+  const email = emailInput.value.trim();
+  if (!email) {
+    alert('Please enter an email address.');
+    return;
+  }
+  console.log('Attempting to send magic link to:', email);
+  const { data, error } = await supabaseClient.auth.signInWithOtp({ email });
+  console.log('Supabase response:', data, 'Error:', error);
+  if (error) {
+    alert(`Error sending magic link: ${error.message}`);
+  } else {
+    alert('Magic link sent—check your inbox!');
+    if (document.getElementById('magicLinkForm')) {
+      document.getElementById('magicLinkForm').style.display = 'none';
+    }
+  }
+}
 
-    <!-- Hidden inline login form for magic link -->
-    <div id="magicLinkForm" style="display:none; padding:10px; text-align:right;">
-      <input
-        type="email"
-        id="magicLinkEmail"
-        class="sidebar-textbox"
-        placeholder="Email"
-        style="margin-right:5px; width:180px;"
-      />
-      <button class="btn" id="btnSendMagicLink">Send Magic Link</button>
-    </div>
-  </header>
-
-  <div class="container">
-    <!-- Glass aside with subtle frosted background -->
-    <aside class="glass-panel">
-      <!-- All Ingredients button -->
-      <button class="btn" id="btnIngredients">All Ingredients</button>
-      <h2>Recipes</h2>
-      <!-- New Recipe input -->
-      <div id="createRecipeContainer" class="sidebar-container">
-        <input
-          id="newRecipeNameInput"
-          class="sidebar-textbox"
-          type="text"
-          placeholder="Add New Recipe"
-          disabled
-        />
-      </div>
-      <ul class="recipe-list" id="recipeList"></ul>
-      <div id="importCSVContainer" style="display:none;">
-        <p>No recipes found. Import your CSV file:</p>
-        <input type="file" id="csvFile" accept=".csv" />
-      </div>
-    </aside>
-
-    <main>
-      <!-- Recipe Details view -->
-      <section class="recipe-details" id="recipeDetails" style="display:none;">
-        <h2 id="recipeTitle"></h2>
-        <!-- AI prompt container -->
-        <div class="ai-prompt-container">
-          <input
-            class="ai-prompt-input"
-            id="aiPrompt"
-            placeholder="Get AI Suggestion"
-            disabled
-          />
-        </div>
-        <!-- Manage Ingredients -->
-        <div id="manageIngredientsBox">
-          <select id="newIngredientDropdown" disabled>
-            <option value="">Add New Ingredient</option>
-          </select>
-        </div>
-        <!-- AI Suggestion UI -->
-        <div id="aiSuggestionBox" style="display:none;">
-          <h3 style="margin-top:0;">AI Suggestion</h3>
-          <div id="aiSuggestionText"></div>
-          <button class="btn" id="btnReroll" disabled>Reroll Suggestion</button>
-          <button class="btn" id="btnCommitSuggestion" disabled>Commit Suggestion</button>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Ingredient</th>
-              <th>Quantity</th>
-              <th>Next Version</th>
-              <th>Reasoning</th>
-              <th>Remove</th>
-            </tr>
-          </thead>
-          <tbody id="recipeContent"></tbody>
-        </table>
-      </section>
-
-      <!-- Global Ingredients View -->
-      <section class="ingredients-view" id="ingredientsView" style="display:none;">
-        <h2>All Ingredients</h2>
-        <div id="addGlobalIngredientContainer" class="sidebar-container">
-          <input
-            id="newGlobalIngredientInput"
-            class="sidebar-textbox"
-            type="text"
-            placeholder="Add New Ingredient"
-            disabled
-          />
-        </div>
-        <ul id="ingredientList"></ul>
-      </section>
-    </main>
-  </div>
-
-  <!-- Load main.js as a module -->
-  <script type="module" src="js/main.js"></script>
-</body>
-</html>
+/**
+ * Toggles authentication: if logged in, signs out; if not, shows the login form.
+ */
+export function toggleAuth() {
+  const magicLinkForm = document.getElementById('magicLinkForm');
+  if (window.editMode) {
+    supabaseClient.auth.signOut();
+  } else {
+    if (magicLinkForm) {
+      magicLinkForm.style.display = 'block';
+    }
+  }
+}
