@@ -186,3 +186,36 @@ export function initUI() {
     await reloadData();
   });
 }
+
+// New function to render a list of recipes as summary cards.
+export function renderRecipes(recipes) {
+    // Look for the container where recipes should be displayed.
+    const container = document.getElementById('recipesContainer');
+    if (!container) {
+        console.error("No container found with id 'recipesContainer'");
+        return;
+    }
+
+    // Clear any existing content.
+    container.innerHTML = '';
+
+    // Create a card for each recipe.
+    recipes.forEach(recipe => {
+        const recipeCard = document.createElement('div');
+        recipeCard.classList.add('recipe-card');
+        recipeCard.style.border = '1px solid #ccc';
+        recipeCard.style.padding = '10px';
+        recipeCard.style.margin = '5px';
+
+        // Display the recipe name (or a default text if not provided).
+        recipeCard.textContent = recipe.name || "Unnamed Recipe";
+
+        // When the card is clicked, show the recipe details.
+        recipeCard.addEventListener('click', () => {
+            showRecipeDetails(recipe);
+        });
+
+        // Append the card to the container.
+        container.appendChild(recipeCard);
+    });
+}
