@@ -70,7 +70,7 @@ function updateEditingState() {
 }
 
 /**
- * Updates the display of remove buttons inside ingredient details.
+ * Updates the display of remove buttons in ingredient details.
  */
 function updateRemoveButtons() {
   const removeBtns = document.querySelectorAll('.remove-ingredient-btn');
@@ -95,7 +95,7 @@ async function reloadData() {
 
 /**
  * Displays a temporary notification.
- * @param {string} message - The message.
+ * @param {string} message - The message text.
  * @param {string} type - "success", "error", or "info".
  */
 export function showNotification(message, type = "info") {
@@ -127,58 +127,63 @@ function updateIngredientDetailsBackgrounds() {
 
 /**
  * Initializes UI event listeners and sets initial state.
+ * This function is called from main.js after DOMContentLoaded.
  */
 export function initUI() {
-  document.addEventListener('DOMContentLoaded', async () => {
-    // Theme selection.
-    const themeSelect = document.getElementById('themeSelect');
-    themeSelect.addEventListener('change', (e) => {
-      updateTheme(e.target.value);
-      updateIngredientDetailsBackgrounds();
-      updateEditingState();
+  // Theme selection.
+  const themeSelect = document.getElementById('themeSelect');
+  themeSelect.addEventListener('change', (e) => {
+    updateTheme(e.target.value);
+    updateIngredientDetailsBackgrounds();
+    updateEditingState();
+  });
+  updateTheme(themeSelect.value);
+
+  // Standardize left-side buttons.
+  const btnIngredients = document.getElementById('btnIngredients');
+  if (btnIngredients) {
+    standardizeButton(btnIngredients);
+    btnIngredients.addEventListener('click', showAllIngredientsView);
+  } else {
+    console.warn('btnIngredients not found');
+  }
+  
+  const btnSendMagicLink = document.getElementById('btnSendMagicLink');
+  if (btnSendMagicLink) {
+    standardizeButton(btnSendMagicLink);
+    btnSendMagicLink.addEventListener('click', sendMagicLink);
+  } else {
+    console.warn('btnSendMagicLink not found');
+  }
+  
+  // Login/Logout button.
+  const btnLogIn = document.getElementById('btnLogIn');
+  if (btnLogIn) {
+    standardizeButton(btnLogIn);
+    btnLogIn.addEventListener('click', async () => {
+      await toggleAuth();
     });
-    updateTheme(themeSelect.value);
+  } else {
+    console.warn('btnLogIn not found');
+  }
+  
+  // Edit Mode checkbox.
+  const editCheckbox = document.getElementById('editModeCheckbox');
+  if (editCheckbox) {
+    editCheckbox.checked = isEditMode();
+    editCheckbox.addEventListener('change', async (e) => {
+      window.editMode = e.target.checked;
+      updateEditingState();
+      await reloadData();
+    });
+  } else {
+    console.warn("editModeCheckbox not found");
+  }
 
-    // Standardize left-side buttons.
-    const btnIngredients = document.getElementById('btnIngredients');
-    if (btnIngredients) {
-      standardizeButton(btnIngredients);
-      btnIngredients.addEventListener('click', showAllIngredientsView);
-    } else {
-      console.warn('btnIngredients not found');
-    }
-    const btnSendMagicLink = document.getElementById('btnSendMagicLink');
-    if (btnSendMagicLink) {
-      standardizeButton(btnSendMagicLink);
-      btnSendMagicLink.addEventListener('click', sendMagicLink);
-    } else {
-      console.warn('btnSendMagicLink not found');
-    }
-    // Login/Logout button.
-    const btnLogIn = document.getElementById('btnLogIn');
-    if (btnLogIn) {
-      standardizeButton(btnLogIn);
-      btnLogIn.addEventListener('click', async () => {
-        await toggleAuth();
-      });
-    } else {
-      console.warn('btnLogIn not found');
-    }
-    // Edit Mode checkbox.
-    const editCheckbox = document.getElementById('editModeCheckbox');
-    if (editCheckbox) {
-      editCheckbox.checked = isEditMode();
-      editCheckbox.addEventListener('change', async (e) => {
-        window.editMode = e.target.checked;
-        updateEditingState();
-        await reloadData();
-      });
-    } else {
-      console.warn("editModeCheckbox not found");
-    }
-
-    // CSV import.
-    document.getElementById('csvFile').addEventListener('change', async (e) => {
+  // CSV import.
+  const csvFile = document.getElementById('csvFile');
+  if (csvFile) {
+    csvFile.addEventListener('change', async (e) => {
       const file = e.target.files[0];
       if (!file) return;
       try {
@@ -189,16 +194,18 @@ export function initUI() {
         showNotification("Error importing CSV.", "error");
       }
     });
+  }
 
-    // New Recipe input (on Enter).
-    document.getElementById('newRecipeNameInput').addEventListener('keydown', async (e) => {
+  // New Recipe input (on Enter).
+  const newRecipeInput = document.getElementById('newRecipeNameInput');
+  if (newRecipeInput) {
+    newRecipeInput.addEventListener('keydown', async (e) => {
       if (e.key === 'Enter') {
         if (!isEditMode()) {
           showEditDisabledNotification();
           return;
         }
-        const input = e.target;
-        const recipeName = input.value.trim();
+        const recipeName = newRecipeInput.value.trim();
         if (!recipeName) {
           showNotification("Please enter a valid recipe name.", "error");
           return;
@@ -210,33 +217,35 @@ export function initUI() {
             window.recipes.push(newRecipe);
             renderRecipes(window.recipes);
             showNotification("Recipe created successfully!", "success");
-            input.value = '';
+            newRecipeInput.value = '';
           }
         } catch (error) {
           showNotification("Error creating recipe.", "error");
         }
       }
     });
-
-    // New Ingredient dropdown for adding an ingredient to a recipe.
-    document.getElementById('newIngredientDropdown').addEventListener('change', async function () {
+  }
+  
+  // New Ingredient dropdown for adding an ingredient to a recipe.
+  const ingredientDropdown = document.getElementById('newIngredientDropdown');
+  if (ingredientDropdown) {
+    ingredientDropdown.addEventListener('change', async function () {
       if (!isEditMode()) {
         showEditDisabledNotification();
         this.value = '';
         return;
       }
-      const dropdown = this;
-      if (!dropdown.value) return;
+      if (!this.value) return;
       if (window.currentRecipeIndex == null) {
         showNotification("Please select a recipe first.", "error");
-        dropdown.value = '';
+        this.value = '';
         return;
       }
-      const selectedId = dropdown.value;
+      const selectedId = this.value;
       const ingObj = window.allIngredients.find(ing => ing.id === selectedId);
       if (!ingObj) {
         showNotification("Invalid ingredient selected.", "error");
-        dropdown.value = '';
+        this.value = '';
         return;
       }
       const newIngredient = {
@@ -253,11 +262,11 @@ export function initUI() {
       } catch (error) {
         showNotification("Error adding ingredient to recipe.", "error");
       }
-      dropdown.value = '';
+      this.value = '';
     });
-
-    updateEditingState();
-  });
+  }
+  
+  updateEditingState();
 }
 
 /**
@@ -370,6 +379,7 @@ export function renderIngredients(ingredients) {
     standardizeButton(btn);
     btn.style.width = '25%';
     btn.classList.add('editable');
+    
     const details = document.createElement('div');
     details.className = 'ingredient-details';
     details.style.display = 'none';
@@ -378,12 +388,14 @@ export function renderIngredients(ingredients) {
     details.style.border = '1px solid rgba(255,255,255,0.2)';
     details.style.borderRadius = '4px';
     details.style.background = document.body.classList.contains('light-mode') ? '#f0f0f0' : 'rgba(255,255,255,0.07)';
+    
     details.innerHTML = `
       <p><strong>ID:</strong> ${ing.id || 'N/A'}</p>
       <p><strong>Name:</strong> ${ing.name || 'N/A'}</p>
       <p><strong>Created At:</strong> ${ing.created_at || 'N/A'}</p>
       <p><strong>Description:</strong> ${ing.description || 'No description available.'}</p>
     `;
+    
     const removeBtn = document.createElement('button');
     removeBtn.textContent = 'Remove';
     removeBtn.classList.add('editable');
@@ -404,9 +416,11 @@ export function renderIngredients(ingredients) {
     });
     removeBtn.style.display = isEditMode() ? 'block' : 'none';
     details.appendChild(removeBtn);
+    
     btn.addEventListener('click', () => {
       details.style.display = details.style.display === 'none' ? 'block' : 'none';
     });
+    
     li.appendChild(btn);
     li.appendChild(details);
     list.appendChild(li);
