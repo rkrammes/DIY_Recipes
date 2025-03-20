@@ -9,7 +9,7 @@ import {
   loadRecipes,
   loadAllIngredients
 } from './api.js';
-import { toggleEditMode, sendMagicLink } from './auth.js';
+import { sendMagicLink } from './auth.js';
 
 // Global flag for edit mode; false means anonymous (read-only).
 window.editMode = window.editMode || false;
@@ -40,7 +40,7 @@ function isEditMode() {
 }
 
 /**
- * Standardizes the styling of a button.
+ * Standardizes a button's style.
  * @param {HTMLElement} btn - The button element.
  */
 function standardizeButton(btn) {
@@ -66,7 +66,6 @@ function updateEditingState() {
       control.disabled = !isEditMode();
     }
   });
-  // Update Remove buttons for recipe details and global ingredients.
   updateRemoveButtons();
 }
 
@@ -81,7 +80,7 @@ function updateRemoveButtons() {
 }
 
 /**
- * Reloads recipes and ingredients from Supabase and re-renders the UI.
+ * Reloads recipes and global ingredients from Supabase and re-renders the UI.
  */
 async function reloadData() {
   try {
@@ -127,15 +126,14 @@ function updateIngredientDetailsBackgrounds() {
 // ----------------- Main UI Functions -----------------
 
 /**
- * Initializes UI event listeners and sets initial states.
+ * Initializes UI event listeners and sets initial state.
  */
 export function initUI() {
-  // Set up theme selection.
+  // Theme selection
   const themeSelect = document.getElementById('themeSelect');
   themeSelect.addEventListener('change', (e) => {
     updateTheme(e.target.value);
     updateIngredientDetailsBackgrounds();
-    updateEditingState();
   });
   updateTheme(themeSelect.value);
 
@@ -154,17 +152,32 @@ export function initUI() {
   } else {
     console.warn('btnSendMagicLink not found');
   }
-  const btnEditMode = document.getElementById('btnEditMode');
-  if (btnEditMode) {
-    standardizeButton(btnEditMode);
-    btnEditMode.addEventListener('click', async () => {
-      toggleEditMode();
-      window.editMode = !window.editMode;
+
+  // Use a checkbox for Edit Mode.
+  const editCheckbox = document.getElementById('editModeCheckbox');
+  if (editCheckbox) {
+    // Set initial state based on global flag.
+    editCheckbox.checked = isEditMode();
+    editCheckbox.addEventListener('change', async (e) => {
+      // If the checkbox is checked, check if user is logged in.
+      if (e.target.checked) {
+        // Here, you could optionally verify login state. We'll assume your auth.js manages session persistence.
+        if (!isEditMode()) {
+          // If not logged in, prevent checking.
+          showEditDisabledNotification();
+          e.target.checked = false;
+          return;
+        }
+        window.editMode = true;
+      } else {
+        // Simply disable editing; do not log out.
+        window.editMode = false;
+      }
       updateEditingState();
       await reloadData();
     });
   } else {
-    console.warn('btnEditMode not found');
+    console.warn('editModeCheckbox not found');
   }
 
   // CSV import.
@@ -180,7 +193,7 @@ export function initUI() {
     }
   });
 
-  // New Recipe input (on Enter).
+  // New Recipe input (on Enter)
   document.getElementById('newRecipeNameInput').addEventListener('keydown', async (e) => {
     if (e.key === 'Enter') {
       if (!isEditMode()) {
@@ -208,7 +221,7 @@ export function initUI() {
     }
   });
 
-  // New Ingredient dropdown (on change) for adding an ingredient to the selected recipe.
+  // New Ingredient dropdown for adding an ingredient to the selected recipe.
   document.getElementById('newIngredientDropdown').addEventListener('change', async function () {
     if (!isEditMode()) {
       showEditDisabledNotification();
@@ -246,7 +259,6 @@ export function initUI() {
     dropdown.value = '';
   });
 
-  // Initial state update.
   updateEditingState();
 }
 
@@ -339,8 +351,8 @@ export function showRecipeDetails(recipe) {
 
 /**
  * Renders the list of global ingredients.
- * Each ingredient is rendered as a clickable button (25% width) that toggles an expanded details section.
- * The details section displays extra info and includes a Remove button whose functionality depends on Edit Mode.
+ * Each ingredient is a clickable button (25% width) that toggles an expanded details section.
+ * The details section displays extra info and includes a Remove button.
  * @param {Array} ingredients - Array of ingredient objects.
  */
 export function renderIngredients(ingredients) {
