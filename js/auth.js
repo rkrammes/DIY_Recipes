@@ -15,15 +15,15 @@ export function initAuth() {
 }
 
 /**
- * Updates the UI based on whether the user is logged in.
- * Sets a global variable for edit mode and updates the Login/Logout button.
- * @param {object|null} session - The current authentication session object.
+ * Updates the UI based on the authentication state.
+ * Also sets a global variable for edit mode and updates the Login/Logout button.
+ * @param {object|null} session - The current authentication session.
  */
 export function handleAuthChange(session) {
   const isLoggedIn = !!(session && session.user);
   const btnLogIn = document.getElementById('btnLogIn');
   const magicLinkForm = document.getElementById('magicLinkForm');
-  
+
   if (isLoggedIn) {
     console.log('User is logged in:', session.user.email);
     if (btnLogIn) {
@@ -43,7 +43,7 @@ export function handleAuthChange(session) {
     window.editMode = false;
   }
   
-  // Refresh recipes and ingredients to update the UI.
+  // Reload data so the UI reflects the latest state.
   loadRecipes();
   loadAllIngredients();
 }
@@ -73,13 +73,15 @@ export async function sendMagicLink() {
 }
 
 /**
- * Toggles authentication: if logged in, signs out; if not, shows the login form.
+ * Toggles authentication: if logged in, sign out; if not, show the login form.
  */
-export function toggleAuth() {
-  const magicLinkForm = document.getElementById('magicLinkForm');
+export async function toggleAuth() {
   if (window.editMode) {
-    supabaseClient.auth.signOut();
+    // If logged in, sign out.
+    await supabaseClient.auth.signOut();
   } else {
+    // Otherwise, show the magic link form.
+    const magicLinkForm = document.getElementById('magicLinkForm');
     if (magicLinkForm) {
       magicLinkForm.style.display = 'block';
     }
