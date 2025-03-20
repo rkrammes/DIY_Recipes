@@ -97,3 +97,7 @@ When assisting on this project, ChatGPT should:
 - Offer **forward-thinking insights** and occasional **clever humor** (where it fits).  
 - **Prioritize truth-seeking** and thorough understanding of the code.  
 - **Ask clarifying questions** if documentation is ambiguous or insufficient.
+
+**New Patch Review Workflow**
+
+We have updated our development workflow to always use ChatGPT's patch review interface when making code changes. ChatGPT will provide a 'patch' block showing exactly what lines are being changed. You can then confirm or revert. Once confirmed, the patch is applied directly to our GitHub repository via the connected app. This ensures minimal friction and keeps the code changes clear and auditable.
