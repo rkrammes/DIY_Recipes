@@ -18,6 +18,7 @@ export function initAuth() {
  * Updates the UI based on the authentication state.
  * Sets a global variable for edit mode, updates the Login/Logout button,
  * and enables/disables the Edit Mode checkbox accordingly.
+ * Dispatches a custom "authChanged" event for UI to update editing controls immediately.
  * @param {object|null} session - The current authentication session object.
  */
 export function handleAuthChange(session) {
@@ -35,7 +36,6 @@ export function handleAuthChange(session) {
     if (magicLinkForm) {
       magicLinkForm.style.display = 'none';
     }
-    // Enable edit mode toggle when logged in.
     if (editCheckbox) {
       editCheckbox.checked = true;
       editCheckbox.disabled = false;
@@ -47,7 +47,6 @@ export function handleAuthChange(session) {
       btnLogIn.textContent = "Log In";
       btnLogIn.classList.remove("logged-in");
     }
-    // Disable edit mode toggle if not logged in.
     if (editCheckbox) {
       editCheckbox.checked = false;
       editCheckbox.disabled = true;
@@ -55,7 +54,10 @@ export function handleAuthChange(session) {
     window.editMode = false;
   }
   
-  // Reload data so the UI reflects the latest state.
+  // Dispatch custom event to notify UI that auth state has changed.
+  window.dispatchEvent(new CustomEvent("authChanged", { detail: { editMode: window.editMode } }));
+  
+  // Reload data (public read should work for both states).
   loadRecipes();
   loadAllIngredients();
 }
@@ -85,12 +87,10 @@ export async function sendMagicLink() {
 }
 
 /**
- * Toggles authentication: if logged in, signs out and reloads the page;
- * if not logged in, shows the login form.
+ * Toggles authentication: if logged in, signs out and reloads; if not, shows the login form.
  */
 export async function toggleAuth() {
   if (window.editMode) {
-    // Sign out and then force a page reload so that editing functions are disabled.
     await supabaseClient.auth.signOut();
     window.location.reload();
   } else {
