@@ -85,11 +85,14 @@ export async function sendMagicLink() {
 }
 
 /**
- * Toggles authentication: if logged in, signs out; if not, shows the login form.
+ * Toggles authentication: if logged in, signs out and reloads the page;
+ * if not logged in, shows the login form.
  */
 export async function toggleAuth() {
   if (window.editMode) {
+    // Sign out and then force a page reload so that editing functions are disabled.
     await supabaseClient.auth.signOut();
+    window.location.reload();
   } else {
     const magicLinkForm = document.getElementById('magicLinkForm');
     if (magicLinkForm) {
