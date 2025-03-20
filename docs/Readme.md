@@ -21,7 +21,20 @@ To streamline our development workflow:
 6. **Minimal Overwrites**: By referencing the correct file path each time, we minimize the risk of overwriting content in the wrong file.
 
 This approach keeps the code changes clear, auditable, and ensures a frictionless coding experience.
-<<END PROMPT>>
+
+## New Patch Review Workflow
+
+We have updated our development workflow to always use ChatGPT's patch review interface when making code changes. ChatGPT will provide a 'patch' block showing exactly what lines are being changed. You can then confirm or revert. Once confirmed, the patch is applied directly to our GitHub repository via the connected app. This ensures minimal friction and keeps the code changes clear and auditable.
+
+### Selecting the Correct File
+
+In this workflow, it's important to ensure that the correct file is open in the Visual Studio Code environment (or whichever tool you're using) before generating the patch. This way, ChatGPT's patch review mechanism applies the changes to the intended file, rather than overwriting another file by mistake.
+
+1. Identify the issue or fix needed.
+2. ChatGPT prompts you to open the relevant file in your IDE.
+3. ChatGPT presents the fix in a patch review block.
+4. You confirm or revert the patch, ensuring changes are applied exactly where intended.
+
 ------------------------------
 Project Overview
 
