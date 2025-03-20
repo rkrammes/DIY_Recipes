@@ -219,3 +219,33 @@ export function renderRecipes(recipes) {
         container.appendChild(recipeCard);
     });
 }
+// New function to render a list of ingredients as summary items.
+export function renderIngredients(ingredients) {
+    const container = document.getElementById('ingredientsContainer');
+    if (!container) {
+        console.error("No container found with id 'ingredientsContainer'");
+        return;
+    }
+
+    // Clear any existing content.
+    container.innerHTML = '';
+
+    // Create an element for each ingredient.
+    ingredients.forEach(ingredient => {
+        const ingredientItem = document.createElement('div');
+        ingredientItem.classList.add('ingredient-item');
+        ingredientItem.style.border = '1px solid #ccc';
+        ingredientItem.style.padding = '10px';
+        ingredientItem.style.margin = '5px';
+        ingredientItem.textContent = ingredient.name || "Unnamed Ingredient";
+        container.appendChild(ingredientItem);
+    });
+}
+
+// Assign exported functions to window.module for backward compatibility.
+window.module = {
+    showRecipeDetails,
+    initUI,
+    renderRecipes,
+    renderIngredients
+};
