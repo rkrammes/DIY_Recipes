@@ -2,7 +2,8 @@
 
 // Import necessary functions from ui.js
 import { initUI, renderRecipes, renderIngredients } from './ui.js';
-import { createClient } from '@supabase/supabase-js';
+// Use the ESM-compatible version of Supabase from a CDN.
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
 // Set up your Supabase client.
 // Replace these placeholders with your actual Supabase URL and anon key.
