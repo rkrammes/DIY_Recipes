@@ -15,25 +15,34 @@ export function initAuth() {
 }
 
 /**
- * Updates UI based on session state.
- * Sets global window.editMode.
+ * Updates the UI based on whether the user is logged in.
+ * Sets a global variable for Edit Mode.
+ * @param {object|null} session - The current authentication session object.
  */
 export function handleAuthChange(session) {
   const isLoggedIn = !!(session && session.user);
-  const btnEditMode = document.getElementById('btnEditMode');
+  const editModeCheckbox = document.getElementById('editModeCheckbox');
   const magicLinkForm = document.getElementById('magicLinkForm');
-  
+
   if (isLoggedIn) {
     console.log('User is logged in:', session.user.email);
-    btnEditMode.textContent = 'Edit Mode: ON';
-    magicLinkForm.style.display = 'none';
+    if (editModeCheckbox) {
+      // Automatically check the Edit Mode checkbox if logged in.
+      editModeCheckbox.checked = true;
+    }
+    if (magicLinkForm) {
+      magicLinkForm.style.display = 'none';
+    }
     window.editMode = true;
   } else {
     console.log('No user logged in');
-    btnEditMode.textContent = 'Edit Mode: OFF';
+    if (editModeCheckbox) {
+      editModeCheckbox.checked = false;
+    }
     window.editMode = false;
   }
-  // Reload data to update UI after login state changes.
+  
+  // Refresh recipes and ingredients to update the UI.
   loadRecipes();
   loadAllIngredients();
 }
@@ -56,20 +65,23 @@ export async function sendMagicLink() {
     alert(`Error sending magic link: ${error.message}`);
   } else {
     alert('Magic link sent—check your inbox!');
-    magicLinkForm.style.display = 'none';
+    if (document.getElementById('magicLinkForm')) {
+      document.getElementById('magicLinkForm').style.display = 'none';
+    }
   }
 }
 
 /**
- * Toggles edit mode by signing out if already logged in,
- * or showing the magic link form if not.
+ * Toggles edit mode by showing the magic link form if not logged in,
+ * or signing out if already logged in.
  */
 export function toggleEditMode() {
   const magicLinkForm = document.getElementById('magicLinkForm');
-  if (magicLinkForm.style.display === 'none' || magicLinkForm.style.display === '') {
-    magicLinkForm.style.display = 'block';
-  } else {
-    supabaseClient.auth.signOut();
+  if (magicLinkForm) {
+    if (magicLinkForm.style.display === 'none' || magicLinkForm.style.display === '') {
+      magicLinkForm.style.display = 'block';
+    } else {
+      supabaseClient.auth.signOut();
+    }
   }
-  // Optionally dispatch an event here if needed.
 }
