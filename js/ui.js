@@ -16,10 +16,6 @@ window.editMode = window.editMode || false;
 
 // ----------------- Helper Functions -----------------
 
-/**
- * Updates the website theme.
- * @param {string} theme - "light", "dark", or "system".
- */
 function updateTheme(theme) {
   document.body.classList.remove('light-mode', 'dark-mode');
   if (theme === 'light') {
@@ -31,27 +27,16 @@ function updateTheme(theme) {
   }
 }
 
-/**
- * Returns true if Edit Mode is active.
- * @returns {boolean}
- */
 function isEditMode() {
   return window.editMode === true;
 }
 
-/**
- * Standardizes a button's styling.
- * @param {HTMLElement} btn - The button element.
- */
 function standardizeButton(btn) {
   btn.classList.add('btn');
   btn.style.width = '100%';
   btn.style.textAlign = 'left';
 }
 
-/**
- * Updates the disabled state of editing controls.
- */
 function updateEditingState() {
   const controls = [
     document.getElementById('newRecipeNameInput'),
@@ -69,9 +54,6 @@ function updateEditingState() {
   updateRemoveButtons();
 }
 
-/**
- * Updates the display of remove buttons in ingredient details.
- */
 function updateRemoveButtons() {
   const removeBtns = document.querySelectorAll('.remove-ingredient-btn');
   removeBtns.forEach(btn => {
@@ -79,9 +61,6 @@ function updateRemoveButtons() {
   });
 }
 
-/**
- * Reloads recipes and global ingredients from Supabase and re-renders the UI.
- */
 async function reloadData() {
   try {
     const recipes = await loadRecipes();
@@ -93,11 +72,6 @@ async function reloadData() {
   }
 }
 
-/**
- * Displays a temporary notification.
- * @param {string} message - The message text.
- * @param {string} type - "success", "error", or "info".
- */
 export function showNotification(message, type = "info") {
   const notif = document.createElement('div');
   notif.className = `notification ${type}`;
@@ -106,16 +80,10 @@ export function showNotification(message, type = "info") {
   setTimeout(() => notif.remove(), 3000);
 }
 
-/**
- * Displays a notification that editing is disabled.
- */
 function showEditDisabledNotification() {
   showNotification("You must be logged in to make changes.", "error");
 }
 
-/**
- * Updates the background of all expanded ingredient details.
- */
 function updateIngredientDetailsBackgrounds() {
   const detailsDivs = document.querySelectorAll('.ingredient-details');
   detailsDivs.forEach(div => {
@@ -125,148 +93,128 @@ function updateIngredientDetailsBackgrounds() {
 
 // ----------------- Main UI Functions -----------------
 
-/**
- * Initializes UI event listeners and sets initial state.
- * This function is called from main.js after DOMContentLoaded.
- */
 export function initUI() {
-  // Theme selection.
-  const themeSelect = document.getElementById('themeSelect');
-  themeSelect.addEventListener('change', (e) => {
-    updateTheme(e.target.value);
-    updateIngredientDetailsBackgrounds();
-    updateEditingState();
-  });
-  updateTheme(themeSelect.value);
-
-  // Standardize left-side buttons.
-  const btnIngredients = document.getElementById('btnIngredients');
-  if (btnIngredients) {
-    standardizeButton(btnIngredients);
-    btnIngredients.addEventListener('click', showAllIngredientsView);
-  } else {
-    console.warn('btnIngredients not found');
-  }
-  
-  const btnSendMagicLink = document.getElementById('btnSendMagicLink');
-  if (btnSendMagicLink) {
-    standardizeButton(btnSendMagicLink);
-    btnSendMagicLink.addEventListener('click', sendMagicLink);
-  } else {
-    console.warn('btnSendMagicLink not found');
-  }
-  
-  // Login/Logout button.
-  const btnLogIn = document.getElementById('btnLogIn');
-  if (btnLogIn) {
-    standardizeButton(btnLogIn);
-    btnLogIn.addEventListener('click', async () => {
-      await toggleAuth();
-    });
-  } else {
-    console.warn('btnLogIn not found');
-  }
-  
-  // Edit Mode checkbox.
-  const editCheckbox = document.getElementById('editModeCheckbox');
-  if (editCheckbox) {
-    editCheckbox.checked = isEditMode();
-    editCheckbox.addEventListener('change', async (e) => {
-      window.editMode = e.target.checked;
+  document.addEventListener('DOMContentLoaded', async () => {
+    const themeSelect = document.getElementById('themeSelect');
+    themeSelect.addEventListener('change', (e) => {
+      updateTheme(e.target.value);
+      updateIngredientDetailsBackgrounds();
       updateEditingState();
-      await reloadData();
     });
-  } else {
-    console.warn("editModeCheckbox not found");
-  }
+    updateTheme(themeSelect.value);
 
-  // CSV import.
-  const csvFile = document.getElementById('csvFile');
-  if (csvFile) {
-    csvFile.addEventListener('change', async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      try {
-        await importCSVFile(file);
-        showNotification("CSV imported successfully!", "success");
+    const btnIngredients = document.getElementById('btnIngredients');
+    if (btnIngredients) {
+      standardizeButton(btnIngredients);
+      btnIngredients.addEventListener('click', showAllIngredientsView);
+    }
+    const btnSendMagicLink = document.getElementById('btnSendMagicLink');
+    if (btnSendMagicLink) {
+      standardizeButton(btnSendMagicLink);
+      btnSendMagicLink.addEventListener('click', sendMagicLink);
+    }
+    const btnLogIn = document.getElementById('btnLogIn');
+    if (btnLogIn) {
+      standardizeButton(btnLogIn);
+      btnLogIn.addEventListener('click', async () => {
+        await toggleAuth();
+      });
+    }
+    const editCheckbox = document.getElementById('editModeCheckbox');
+    if (editCheckbox) {
+      editCheckbox.checked = isEditMode();
+      editCheckbox.addEventListener('change', async (e) => {
+        window.editMode = e.target.checked;
+        updateEditingState();
         await reloadData();
-      } catch (error) {
-        showNotification("Error importing CSV.", "error");
-      }
-    });
-  }
+      });
+    }
+    
+    const csvFile = document.getElementById('csvFile');
+    if (csvFile) {
+      csvFile.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        try {
+          await importCSVFile(file);
+          showNotification("CSV imported successfully!", "success");
+          await reloadData();
+        } catch (error) {
+          showNotification("Error importing CSV.", "error");
+        }
+      });
+    }
 
-  // New Recipe input (on Enter).
-  const newRecipeInput = document.getElementById('newRecipeNameInput');
-  if (newRecipeInput) {
-    newRecipeInput.addEventListener('keydown', async (e) => {
-      if (e.key === 'Enter') {
+    const newRecipeInput = document.getElementById('newRecipeNameInput');
+    if (newRecipeInput) {
+      newRecipeInput.addEventListener('keydown', async (e) => {
+        if (e.key === 'Enter') {
+          if (!isEditMode()) {
+            showEditDisabledNotification();
+            return;
+          }
+          const recipeName = newRecipeInput.value.trim();
+          if (!recipeName) {
+            showNotification("Please enter a valid recipe name.", "error");
+            return;
+          }
+          try {
+            const newRecipe = await createNewRecipe(recipeName);
+            if (newRecipe) {
+              window.recipes = window.recipes || [];
+              window.recipes.push(newRecipe);
+              renderRecipes(window.recipes);
+              showNotification("Recipe created successfully!", "success");
+              newRecipeInput.value = '';
+            }
+          } catch (error) {
+            showNotification("Error creating recipe.", "error");
+          }
+        }
+      });
+    }
+    
+    const ingredientDropdown = document.getElementById('newIngredientDropdown');
+    if (ingredientDropdown) {
+      ingredientDropdown.addEventListener('change', async function () {
         if (!isEditMode()) {
           showEditDisabledNotification();
+          this.value = '';
           return;
         }
-        const recipeName = newRecipeInput.value.trim();
-        if (!recipeName) {
-          showNotification("Please enter a valid recipe name.", "error");
+        if (!this.value) return;
+        if (window.currentRecipeIndex == null) {
+          showNotification("Please select a recipe first.", "error");
+          this.value = '';
           return;
         }
+        const selectedId = this.value;
+        const ingObj = window.allIngredients.find(ing => ing.id === selectedId);
+        if (!ingObj) {
+          showNotification("Invalid ingredient selected.", "error");
+          this.value = '';
+          return;
+        }
+        const newIngredient = {
+          id: ingObj.id,
+          name: ingObj.name,
+          quantity: '',
+          nextVersion: '',
+          reasoning: ''
+        };
         try {
-          const newRecipe = await createNewRecipe(recipeName);
-          if (newRecipe) {
-            window.recipes = window.recipes || [];
-            window.recipes.push(newRecipe);
-            renderRecipes(window.recipes);
-            showNotification("Recipe created successfully!", "success");
-            newRecipeInput.value = '';
-          }
+          await addNewIngredientToRecipe(window.recipes[window.currentRecipeIndex], newIngredient);
+          showNotification("Ingredient added to recipe!", "success");
+          showRecipeDetails(window.recipes[window.currentRecipeIndex]);
         } catch (error) {
-          showNotification("Error creating recipe.", "error");
+          showNotification("Error adding ingredient to recipe.", "error");
         }
-      }
-    });
-  }
-  
-  // New Ingredient dropdown for adding an ingredient to a recipe.
-  const ingredientDropdown = document.getElementById('newIngredientDropdown');
-  if (ingredientDropdown) {
-    ingredientDropdown.addEventListener('change', async function () {
-      if (!isEditMode()) {
-        showEditDisabledNotification();
         this.value = '';
-        return;
-      }
-      if (!this.value) return;
-      if (window.currentRecipeIndex == null) {
-        showNotification("Please select a recipe first.", "error");
-        this.value = '';
-        return;
-      }
-      const selectedId = this.value;
-      const ingObj = window.allIngredients.find(ing => ing.id === selectedId);
-      if (!ingObj) {
-        showNotification("Invalid ingredient selected.", "error");
-        this.value = '';
-        return;
-      }
-      const newIngredient = {
-        id: ingObj.id,
-        name: ingObj.name,
-        quantity: '',
-        nextVersion: '',
-        reasoning: ''
-      };
-      try {
-        await addNewIngredientToRecipe(window.recipes[window.currentRecipeIndex], newIngredient);
-        showNotification("Ingredient added to recipe!", "success");
-        showRecipeDetails(window.recipes[window.currentRecipeIndex]);
-      } catch (error) {
-        showNotification("Error adding ingredient to recipe.", "error");
-      }
-      this.value = '';
-    });
-  }
-  
-  updateEditingState();
+      });
+    }
+    
+    updateEditingState();
+  });
 }
 
 /**
@@ -306,62 +254,128 @@ export function renderRecipes(recipes) {
 }
 
 /**
- * Displays the details of a recipe, including its ingredients.
+ * Displays the details of a recipe.
+ * This function now shows a two-column layout: 
+ * - Left: Current Recipe (read-only block)
+ * - Right: Next Iteration editing area with AI suggestion functions.
  * @param {Object} recipe - The recipe object.
  */
 export function showRecipeDetails(recipe) {
+  // Hide global ingredients view.
   document.getElementById('ingredientsView').style.display = 'none';
   const details = document.getElementById('recipeDetails');
   details.style.display = 'block';
-  document.getElementById('recipeTitle').textContent = recipe.name || 'Unnamed Recipe';
-  const content = document.getElementById('recipeContent');
-  content.innerHTML = '';
-  if (recipe.ingredients && recipe.ingredients.length > 0) {
-    recipe.ingredients.forEach((ing, index) => {
-      const tr = document.createElement('tr');
-      ['name', 'quantity', 'nextVersion', 'reasoning'].forEach(key => {
-        const td = document.createElement('td');
-        td.textContent = ing[key] || '';
-        tr.appendChild(td);
+  
+  // Clear existing content.
+  details.innerHTML = '';
+
+  // Create container with two columns.
+  const container = document.createElement('div');
+  container.style.display = 'flex';
+  container.style.gap = '20px';
+
+  // Left column: Current Recipe (read-only)
+  const currentDiv = document.createElement('div');
+  currentDiv.style.flex = '1';
+  currentDiv.style.border = '1px solid #ccc';
+  currentDiv.style.padding = '10px';
+  currentDiv.innerHTML = `<h3>Current Recipe</h3>`;
+  // Display current recipe details in a preformatted block.
+  const currentPre = document.createElement('pre');
+  currentPre.textContent = JSON.stringify(recipe, null, 2);
+  currentPre.style.backgroundColor = '#eee';
+  currentPre.style.padding = '10px';
+  currentPre.style.overflowX = 'auto';
+  currentDiv.appendChild(currentPre);
+
+  // Right column: Next Iteration (editable)
+  const nextDiv = document.createElement('div');
+  nextDiv.style.flex = '1';
+  nextDiv.style.border = '1px solid #ccc';
+  nextDiv.style.padding = '10px';
+  nextDiv.innerHTML = `<h3>Next Iteration</h3>`;
+  
+  // Textarea for next iteration content.
+  const nextTextarea = document.createElement('textarea');
+  nextTextarea.style.width = '100%';
+  nextTextarea.style.height = '150px';
+  // Pre-fill with existing next_iteration if any.
+  nextTextarea.value = recipe.next_iteration || "";
+  nextDiv.appendChild(nextTextarea);
+
+  // AI Suggestion container.
+  const aiContainer = document.createElement('div');
+  aiContainer.style.marginTop = '10px';
+  const aiInput = document.createElement('input');
+  aiInput.id = 'aiPrompt';
+  aiInput.placeholder = 'Enter prompt for AI suggestion';
+  aiInput.disabled = !isEditMode();
+  aiContainer.appendChild(aiInput);
+  const aiBtn = document.createElement('button');
+  aiBtn.textContent = 'Get AI Suggestion';
+  aiBtn.classList.add('btn');
+  aiBtn.disabled = !isEditMode();
+  aiBtn.addEventListener('click', async () => {
+    // Call your AI suggestion API (example below).
+    try {
+      // Simulate an API call:
+      const response = await fetch('/api/ai-suggestion', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          recipe: recipe,
+          userPrompt: aiInput.value
+        })
       });
-      const tdRemove = document.createElement('td');
-      const removeBtn = document.createElement('button');
-      removeBtn.textContent = 'Remove';
-      removeBtn.classList.add('editable');
-      removeBtn.classList.add('btn', 'remove-ingredient-btn');
-      removeBtn.addEventListener('click', async () => {
-        if (!isEditMode()) {
-          showEditDisabledNotification();
-          return;
-        }
-        try {
-          await removeIngredientFromRecipe(recipe, index);
-          showNotification("Ingredient removed", "success");
-          showRecipeDetails(recipe);
-        } catch (error) {
-          showNotification("Error removing ingredient", "error");
-        }
-      });
-      tdRemove.appendChild(removeBtn);
-      tr.appendChild(tdRemove);
-      content.appendChild(tr);
-    });
-  } else {
-    const tr = document.createElement('tr');
-    const td = document.createElement('td');
-    td.colSpan = 5;
-    td.textContent = 'No ingredients added yet.';
-    tr.appendChild(td);
-    content.appendChild(tr);
-  }
+      const data = await response.json();
+      if (data.suggestion) {
+        suggestionDiv.textContent = data.suggestion;
+      } else {
+        suggestionDiv.textContent = "No suggestion returned.";
+      }
+    } catch (error) {
+      suggestionDiv.textContent = "Error getting suggestion.";
+    }
+  });
+  aiContainer.appendChild(aiBtn);
+  const suggestionDiv = document.createElement('div');
+  suggestionDiv.id = 'aiSuggestionText';
+  suggestionDiv.style.marginTop = '10px';
+  aiContainer.appendChild(suggestionDiv);
+  nextDiv.appendChild(aiContainer);
+
+  // Commit Next Iteration button.
+  const commitBtn = document.createElement('button');
+  commitBtn.textContent = 'Commit Next Iteration';
+  commitBtn.classList.add('btn');
+  commitBtn.disabled = !isEditMode();
+  commitBtn.addEventListener('click', async () => {
+    // Here, you should call your API to update the recipe's next_iteration column.
+    // For example, using supabaseClient.from('All_Recipes').update({next_iteration: nextTextarea.value}).eq('id', recipe.id)
+    try {
+      const { error } = await supabaseClient
+        .from('All_Recipes')
+        .update({ next_iteration: nextTextarea.value })
+        .eq('id', recipe.id);
+      if (error) {
+        showNotification("Error committing next iteration.", "error");
+      } else {
+        showNotification("Next iteration committed!", "success");
+        await reloadData();
+      }
+    } catch (error) {
+      showNotification("Error committing next iteration.", "error");
+    }
+  });
+  nextDiv.appendChild(commitBtn);
+
+  // Append both columns to container and then to details.
+  container.appendChild(currentDiv);
+  container.appendChild(nextDiv);
+  details.appendChild(container);
 }
 
-/**
- * Renders the list of global ingredients.
- * Each ingredient is a clickable button (25% width) that toggles an expanded details section.
- * The details section displays extra info and includes a Remove button active only in Edit Mode.
- * @param {Array} ingredients - Array of ingredient objects.
- */
+// Renders the list of global ingredients.
 export function renderIngredients(ingredients) {
   window.allIngredients = ingredients;
   const list = document.getElementById('ingredientList');
@@ -379,7 +393,6 @@ export function renderIngredients(ingredients) {
     standardizeButton(btn);
     btn.style.width = '25%';
     btn.classList.add('editable');
-    
     const details = document.createElement('div');
     details.className = 'ingredient-details';
     details.style.display = 'none';
@@ -388,14 +401,12 @@ export function renderIngredients(ingredients) {
     details.style.border = '1px solid rgba(255,255,255,0.2)';
     details.style.borderRadius = '4px';
     details.style.background = document.body.classList.contains('light-mode') ? '#f0f0f0' : 'rgba(255,255,255,0.07)';
-    
     details.innerHTML = `
       <p><strong>ID:</strong> ${ing.id || 'N/A'}</p>
       <p><strong>Name:</strong> ${ing.name || 'N/A'}</p>
       <p><strong>Created At:</strong> ${ing.created_at || 'N/A'}</p>
       <p><strong>Description:</strong> ${ing.description || 'No description available.'}</p>
     `;
-    
     const removeBtn = document.createElement('button');
     removeBtn.textContent = 'Remove';
     removeBtn.classList.add('editable');
@@ -416,11 +427,9 @@ export function renderIngredients(ingredients) {
     });
     removeBtn.style.display = isEditMode() ? 'block' : 'none';
     details.appendChild(removeBtn);
-    
     btn.addEventListener('click', () => {
       details.style.display = details.style.display === 'none' ? 'block' : 'none';
     });
-    
     li.appendChild(btn);
     li.appendChild(details);
     list.appendChild(li);
