@@ -44,6 +44,7 @@ export async function loadAllIngredients() {
 
 /**
  * Creates a new recipe with the provided name.
+ * Inserts default values for ingredients, next_iteration, and suggestions.
  * @param {string} recipeName - Name of the new recipe.
  * @returns {object|null} The created recipe object, or null on error.
  */
@@ -51,7 +52,12 @@ export async function createNewRecipe(recipeName) {
   try {
     const { data, error } = await supabaseClient
       .from('All_Recipes')
-      .insert([{ name: recipeName, ingredients: [], suggestions: [] }])
+      .insert([{ 
+         name: recipeName, 
+         ingredients: [], 
+         next_iteration: "", 
+         suggestions: [] 
+      }])
       .select();
     if (error) {
       console.error('Error creating new recipe:', error);
@@ -158,7 +164,7 @@ export async function removeGlobalIngredient(ingredientId) {
 }
 
 /**
- * Parses CSV data using Papa Parse format.
+ * Parses CSV data using Papa Parse.
  * @param {object} data - The data object from Papa Parse.
  * @returns {Array} Array of recipe objects.
  */
@@ -199,7 +205,12 @@ export async function importCSVFile(file) {
           for (const recipe of recipes) {
             const { data, error } = await supabaseClient
               .from('All_Recipes')
-              .insert([{ name: recipe.name, ingredients: recipe.ingredients, suggestions: [] }])
+              .insert([{ 
+                name: recipe.name, 
+                ingredients: recipe.ingredients,
+                next_iteration: "",
+                suggestions: [] 
+              }])
               .select();
             if (error) {
               console.error('Error importing recipe:', error);
