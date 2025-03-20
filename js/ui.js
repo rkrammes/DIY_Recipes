@@ -14,12 +14,6 @@ import { toggleAuth, sendMagicLink } from './auth.js';
 // Global flag for edit mode; false means anonymous (read-only).
 window.editMode = window.editMode || false;
 
-// Listen for the custom "authChanged" event to update editing state immediately.
-window.addEventListener("authChanged", () => {
-  updateEditingState();
-  reloadData();
-});
-
 // ----------------- Helper Functions -----------------
 
 /**
@@ -56,7 +50,7 @@ function standardizeButton(btn) {
 }
 
 /**
- * Updates the disabled state of editing inputs and controls.
+ * Updates the disabled state of editing controls.
  */
 function updateEditingState() {
   const controls = [
@@ -101,7 +95,7 @@ async function reloadData() {
 
 /**
  * Displays a temporary notification.
- * @param {string} message - The message text.
+ * @param {string} message - The message.
  * @param {string} type - "success", "error", or "info".
  */
 export function showNotification(message, type = "info") {
@@ -135,7 +129,6 @@ function updateIngredientDetailsBackgrounds() {
  * Initializes UI event listeners and sets initial state.
  */
 export function initUI() {
-  // Wait for DOM to be fully loaded.
   document.addEventListener('DOMContentLoaded', async () => {
     // Theme selection.
     const themeSelect = document.getElementById('themeSelect');
@@ -225,7 +218,7 @@ export function initUI() {
       }
     });
 
-    // New Ingredient dropdown (on change) for adding an ingredient to the selected recipe.
+    // New Ingredient dropdown for adding an ingredient to a recipe.
     document.getElementById('newIngredientDropdown').addEventListener('change', async function () {
       if (!isEditMode()) {
         showEditDisabledNotification();
@@ -377,7 +370,6 @@ export function renderIngredients(ingredients) {
     standardizeButton(btn);
     btn.style.width = '25%';
     btn.classList.add('editable');
-    
     const details = document.createElement('div');
     details.className = 'ingredient-details';
     details.style.display = 'none';
@@ -386,14 +378,12 @@ export function renderIngredients(ingredients) {
     details.style.border = '1px solid rgba(255,255,255,0.2)';
     details.style.borderRadius = '4px';
     details.style.background = document.body.classList.contains('light-mode') ? '#f0f0f0' : 'rgba(255,255,255,0.07)';
-    
     details.innerHTML = `
       <p><strong>ID:</strong> ${ing.id || 'N/A'}</p>
       <p><strong>Name:</strong> ${ing.name || 'N/A'}</p>
       <p><strong>Created At:</strong> ${ing.created_at || 'N/A'}</p>
       <p><strong>Description:</strong> ${ing.description || 'No description available.'}</p>
     `;
-    
     const removeBtn = document.createElement('button');
     removeBtn.textContent = 'Remove';
     removeBtn.classList.add('editable');
@@ -414,11 +404,9 @@ export function renderIngredients(ingredients) {
     });
     removeBtn.style.display = isEditMode() ? 'block' : 'none';
     details.appendChild(removeBtn);
-    
     btn.addEventListener('click', () => {
       details.style.display = details.style.display === 'none' ? 'block' : 'none';
     });
-    
     li.appendChild(btn);
     li.appendChild(details);
     list.appendChild(li);
