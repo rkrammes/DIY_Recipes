@@ -24,7 +24,7 @@
   <header class="glass-panel main-header">
     <div class="header-inner">
       <span class="app-title">Iteration Station</span>
-      <!-- Right-side group: theme + edit mode -->
+      <!-- Right-side group: theme + edit mode toggle -->
       <div style="display:flex; align-items:center; gap:15px;">
         <div class="theme-toggle">
           <label for="themeSelect" class="theme-label">Appearance:</label>
@@ -34,8 +34,9 @@
             <option value="system">System</option>
           </select>
         </div>
-        <!-- Edit Mode button always visible -->
-        <button class="btn" id="btnEditMode">Edit Mode: OFF</button>
+        <!-- Persistent Edit Mode toggle using a checkbox -->
+        <label for="editModeCheckbox" class="theme-label">Edit Mode:</label>
+        <input type="checkbox" id="editModeCheckbox" />
       </div>
     </div>
 
