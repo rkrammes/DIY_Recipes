@@ -24,7 +24,6 @@ export function showRecipeDetails(recipe) {
       details.appendChild(title);
 
       // Optionally, add more detailed content about the recipe here.
-      // For example, if in edit mode, show an edit button.
       if (isEditMode()) {
           const editButton = document.createElement('button');
           editButton.textContent = "Edit Recipe";
@@ -55,56 +54,46 @@ export function initUI() {
       }
 
       // Load initial data.
-      // You may call your data-loading function here (e.g., reloadData()).
+      // You may call your data-loading function here.
   });
 }
 
-// New function to render a list of recipes as summary cards.
+// Revised function to render a list of recipes as list items in the existing <ul id="recipeList">.
 export function renderRecipes(recipes) {
-  // Look for the container where recipes should be displayed.
-  const container = document.getElementById('recipesContainer');
+  const container = document.getElementById('recipeList');
   if (!container) {
-      console.error("No container found with id 'recipesContainer'");
+      console.error("No container found with id 'recipeList'");
       return;
   }
   // Clear any existing content.
   container.innerHTML = '';
-  // Create a card for each recipe.
+  // Create a list item for each recipe.
   recipes.forEach(recipe => {
-      const recipeCard = document.createElement('div');
-      recipeCard.classList.add('recipe-card');
-      recipeCard.style.border = '1px solid #ccc';
-      recipeCard.style.padding = '10px';
-      recipeCard.style.margin = '5px';
-      // Display the recipe name (or a default text if not provided).
-      recipeCard.textContent = recipe.name || "Unnamed Recipe";
-      // When the card is clicked, show the recipe details.
-      recipeCard.addEventListener('click', () => {
+      const li = document.createElement('li');
+      li.classList.add('recipe-item');
+      li.textContent = recipe.name || "Unnamed Recipe";
+      li.addEventListener('click', () => {
           showRecipeDetails(recipe);
       });
-      // Append the card to the container.
-      container.appendChild(recipeCard);
+      container.appendChild(li);
   });
 }
 
-// New function to render a list of ingredients as summary items.
+// Revised function to render a list of ingredients as list items in the existing <ul id="ingredientList">.
 export function renderIngredients(ingredients) {
-  const container = document.getElementById('ingredientsContainer');
+  const container = document.getElementById('ingredientList');
   if (!container) {
-      console.error("No container found with id 'ingredientsContainer'");
+      console.error("No container found with id 'ingredientList'");
       return;
   }
   // Clear any existing content.
   container.innerHTML = '';
-  // Create an element for each ingredient.
+  // Create a list item for each ingredient.
   ingredients.forEach(ingredient => {
-      const ingredientItem = document.createElement('div');
-      ingredientItem.classList.add('ingredient-item');
-      ingredientItem.style.border = '1px solid #ccc';
-      ingredientItem.style.padding = '10px';
-      ingredientItem.style.margin = '5px';
-      ingredientItem.textContent = ingredient.name || "Unnamed Ingredient";
-      container.appendChild(ingredientItem);
+      const li = document.createElement('li');
+      li.classList.add('ingredient-item');
+      li.textContent = ingredient.name || "Unnamed Ingredient";
+      container.appendChild(li);
   });
 }
 
@@ -151,7 +140,6 @@ if (btnLogIn) {
       }
   });
 }
-// Initialize the authentication button state.
 updateAuthButton(window.isLoggedIn || false);
 
 // Assign exported functions to window.module for backward compatibility.
