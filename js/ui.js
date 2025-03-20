@@ -156,3 +156,33 @@ export function showRecipeDetails(recipe) {
   container.appendChild(nextDiv);
   details.appendChild(container);
 }
+
+// Export initUI to fix syntax error
+export function initUI() {
+  document.addEventListener('DOMContentLoaded', async () => {
+    // Setup theme selector
+    const themeSelect = document.getElementById('themeSelect');
+    if (themeSelect) {
+      themeSelect.addEventListener('change', (e) => {
+        updateTheme(e.target.value);
+        updateIngredientDetailsBackgrounds();
+        updateEditingState();
+      });
+      updateTheme(themeSelect.value);
+    }
+
+    // Setup edit mode toggle
+    const editCheckbox = document.getElementById('editModeCheckbox');
+    if (editCheckbox) {
+      editCheckbox.checked = window.editMode || false;
+      editCheckbox.addEventListener('change', async (e) => {
+        window.editMode = e.target.checked;
+        updateEditingState();
+        await reloadData();
+      });
+    }
+
+    // Load initial data
+    await reloadData();
+  });
+}
