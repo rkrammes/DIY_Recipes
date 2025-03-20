@@ -16,13 +16,15 @@ export function initAuth() {
 
 /**
  * Updates the UI based on the authentication state.
- * Also sets a global variable for edit mode and updates the Login/Logout button.
- * @param {object|null} session - The current authentication session.
+ * Sets a global variable for edit mode, updates the Login/Logout button,
+ * and enables/disables the Edit Mode checkbox accordingly.
+ * @param {object|null} session - The current authentication session object.
  */
 export function handleAuthChange(session) {
   const isLoggedIn = !!(session && session.user);
   const btnLogIn = document.getElementById('btnLogIn');
   const magicLinkForm = document.getElementById('magicLinkForm');
+  const editCheckbox = document.getElementById('editModeCheckbox');
 
   if (isLoggedIn) {
     console.log('User is logged in:', session.user.email);
@@ -33,12 +35,22 @@ export function handleAuthChange(session) {
     if (magicLinkForm) {
       magicLinkForm.style.display = 'none';
     }
+    // Enable edit mode toggle when logged in.
+    if (editCheckbox) {
+      editCheckbox.checked = true;
+      editCheckbox.disabled = false;
+    }
     window.editMode = true;
   } else {
     console.log('No user logged in');
     if (btnLogIn) {
       btnLogIn.textContent = "Log In";
       btnLogIn.classList.remove("logged-in");
+    }
+    // Disable edit mode toggle if not logged in.
+    if (editCheckbox) {
+      editCheckbox.checked = false;
+      editCheckbox.disabled = true;
     }
     window.editMode = false;
   }
@@ -73,14 +85,12 @@ export async function sendMagicLink() {
 }
 
 /**
- * Toggles authentication: if logged in, sign out; if not, show the login form.
+ * Toggles authentication: if logged in, signs out; if not, shows the login form.
  */
 export async function toggleAuth() {
   if (window.editMode) {
-    // If logged in, sign out.
     await supabaseClient.auth.signOut();
   } else {
-    // Otherwise, show the magic link form.
     const magicLinkForm = document.getElementById('magicLinkForm');
     if (magicLinkForm) {
       magicLinkForm.style.display = 'block';
