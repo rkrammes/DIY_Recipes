@@ -50,7 +50,7 @@ function standardizeButton(btn) {
 }
 
 /**
- * Updates the disabled state of editing controls.
+ * Updates the disabled state of editing inputs and controls.
  */
 function updateEditingState() {
   const controls = [
@@ -70,7 +70,7 @@ function updateEditingState() {
 }
 
 /**
- * Updates the display of remove buttons inside ingredient details.
+ * Updates the display of remove buttons in ingredient details.
  */
 function updateRemoveButtons() {
   const removeBtns = document.querySelectorAll('.remove-ingredient-btn');
@@ -80,7 +80,7 @@ function updateRemoveButtons() {
 }
 
 /**
- * Reloads recipes and global ingredients from Supabase and re-renders the UI.
+ * Reloads recipes and ingredients from Supabase and re-renders the UI.
  */
 async function reloadData() {
   try {
@@ -153,11 +153,20 @@ export function initUI() {
   } else {
     console.warn('btnSendMagicLink not found');
   }
+  // Login/Logout button.
+  const btnLogIn = document.getElementById('btnLogIn');
+  if (btnLogIn) {
+    standardizeButton(btnLogIn);
+    btnLogIn.addEventListener('click', async () => {
+      await toggleAuth();
+    });
+  } else {
+    console.warn('btnLogIn not found');
+  }
 
   // Use a checkbox for Edit Mode.
   const editCheckbox = document.getElementById('editModeCheckbox');
   if (editCheckbox) {
-    // Set initial state based on global flag.
     editCheckbox.checked = isEditMode();
     editCheckbox.addEventListener('change', async (e) => {
       window.editMode = e.target.checked;
@@ -209,7 +218,7 @@ export function initUI() {
     }
   });
 
-  // New Ingredient dropdown for adding an ingredient to a recipe.
+  // New Ingredient dropdown for adding an ingredient to the selected recipe.
   document.getElementById('newIngredientDropdown').addEventListener('change', async function () {
     if (!isEditMode()) {
       showEditDisabledNotification();
@@ -339,8 +348,8 @@ export function showRecipeDetails(recipe) {
 
 /**
  * Renders the list of global ingredients.
- * Each ingredient is rendered as a clickable button (25% width) that toggles an expanded details section.
- * The details section displays extra info and includes a Remove button (active only in Edit Mode).
+ * Each ingredient is a clickable button (25% width) that toggles an expanded details section.
+ * The details section displays extra info and includes a Remove button active only in Edit Mode.
  * @param {Array} ingredients - Array of ingredient objects.
  */
 export function renderIngredients(ingredients) {
@@ -360,7 +369,6 @@ export function renderIngredients(ingredients) {
     standardizeButton(btn);
     btn.style.width = '25%';
     btn.classList.add('editable');
-    
     const details = document.createElement('div');
     details.className = 'ingredient-details';
     details.style.display = 'none';
@@ -369,14 +377,12 @@ export function renderIngredients(ingredients) {
     details.style.border = '1px solid rgba(255,255,255,0.2)';
     details.style.borderRadius = '4px';
     details.style.background = document.body.classList.contains('light-mode') ? '#f0f0f0' : 'rgba(255,255,255,0.07)';
-    
     details.innerHTML = `
       <p><strong>ID:</strong> ${ing.id || 'N/A'}</p>
       <p><strong>Name:</strong> ${ing.name || 'N/A'}</p>
       <p><strong>Created At:</strong> ${ing.created_at || 'N/A'}</p>
       <p><strong>Description:</strong> ${ing.description || 'No description available.'}</p>
     `;
-    
     const removeBtn = document.createElement('button');
     removeBtn.textContent = 'Remove';
     removeBtn.classList.add('editable');
@@ -397,11 +403,9 @@ export function renderIngredients(ingredients) {
     });
     removeBtn.style.display = isEditMode() ? 'block' : 'none';
     details.appendChild(removeBtn);
-    
     btn.addEventListener('click', () => {
       details.style.display = details.style.display === 'none' ? 'block' : 'none';
     });
-    
     li.appendChild(btn);
     li.appendChild(details);
     list.appendChild(li);
