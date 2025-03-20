@@ -31,7 +31,8 @@ To ensure ChatGPT fully understands this project, **follow these steps** when st
 2. **Provide a link to this README** (or copy-paste the entire README below).  
 3. **Instruct ChatGPT to read each file by name** as listed in [Section 3](#3-files-to-read-by-name).  
 4. **Ensure ChatGPT confirms** that it has “read” or acknowledges each file.  
-5. **Proceed with your questions** or development tasks, knowing ChatGPT has the necessary context.
+5. **I no longer require full documents to be pasted into GitHub. Instead, please provide only the specific changes needed and, upon my confirmation, apply those edits directly to the respective GitHub files using the connected app.**  
+6. **Proceed with your questions** or development tasks, knowing ChatGPT has the necessary context.
 
 ---
 
