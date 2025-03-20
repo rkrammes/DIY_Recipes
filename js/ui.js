@@ -9,7 +9,7 @@ import {
   loadRecipes,
   loadAllIngredients
 } from './api.js';
-import { sendMagicLink } from './auth.js';
+import { toggleEditMode, sendMagicLink } from './auth.js';
 
 // Global flag for edit mode; false means anonymous (read-only).
 window.editMode = window.editMode || false;
@@ -50,7 +50,7 @@ function standardizeButton(btn) {
 }
 
 /**
- * Updates the disabled state of editing controls.
+ * Updates the disabled state of editing inputs and controls.
  */
 function updateEditingState() {
   const controls = [
@@ -94,8 +94,8 @@ async function reloadData() {
 }
 
 /**
- * Shows a notification message.
- * @param {string} message - The message.
+ * Displays a temporary notification.
+ * @param {string} message - The message text.
  * @param {string} type - "success", "error", or "info".
  */
 export function showNotification(message, type = "info") {
@@ -107,7 +107,7 @@ export function showNotification(message, type = "info") {
 }
 
 /**
- * Shows a warning that editing is disabled.
+ * Displays a notification that editing is disabled.
  */
 function showEditDisabledNotification() {
   showNotification("You must be logged in to make changes.", "error");
@@ -126,14 +126,18 @@ function updateIngredientDetailsBackgrounds() {
 // ----------------- Main UI Functions -----------------
 
 /**
- * Initializes UI event listeners and sets initial state.
+ * Initializes UI event listeners and sets the initial state.
+ * This function runs after the DOM is loaded.
  */
 export function initUI() {
-  // Theme selection
+  // All code below runs after DOMContentLoaded.
+  
+  // Theme selection.
   const themeSelect = document.getElementById('themeSelect');
   themeSelect.addEventListener('change', (e) => {
     updateTheme(e.target.value);
     updateIngredientDetailsBackgrounds();
+    updateEditingState();
   });
   updateTheme(themeSelect.value);
 
@@ -153,31 +157,20 @@ export function initUI() {
     console.warn('btnSendMagicLink not found');
   }
 
-  // Use a checkbox for Edit Mode.
+  // Edit Mode toggle via checkbox.
   const editCheckbox = document.getElementById('editModeCheckbox');
   if (editCheckbox) {
-    // Set initial state based on global flag.
+    // Set the checkbox's initial state.
     editCheckbox.checked = isEditMode();
     editCheckbox.addEventListener('change', async (e) => {
-      // If the checkbox is checked, check if user is logged in.
-      if (e.target.checked) {
-        // Here, you could optionally verify login state. We'll assume your auth.js manages session persistence.
-        if (!isEditMode()) {
-          // If not logged in, prevent checking.
-          showEditDisabledNotification();
-          e.target.checked = false;
-          return;
-        }
-        window.editMode = true;
-      } else {
-        // Simply disable editing; do not log out.
-        window.editMode = false;
-      }
+      // If checked, editing is enabled; otherwise, disabled.
+      window.editMode = e.target.checked;
       updateEditingState();
+      // Reload data so that changes (if any) are visible.
       await reloadData();
     });
   } else {
-    console.warn('editModeCheckbox not found');
+    console.warn("editModeCheckbox not found");
   }
 
   // CSV import.
@@ -193,7 +186,7 @@ export function initUI() {
     }
   });
 
-  // New Recipe input (on Enter)
+  // New Recipe input (on Enter).
   document.getElementById('newRecipeNameInput').addEventListener('keydown', async (e) => {
     if (e.key === 'Enter') {
       if (!isEditMode()) {
@@ -221,7 +214,7 @@ export function initUI() {
     }
   });
 
-  // New Ingredient dropdown for adding an ingredient to the selected recipe.
+  // New Ingredient dropdown for adding an ingredient to a recipe.
   document.getElementById('newIngredientDropdown').addEventListener('change', async function () {
     if (!isEditMode()) {
       showEditDisabledNotification();
@@ -352,7 +345,7 @@ export function showRecipeDetails(recipe) {
 /**
  * Renders the list of global ingredients.
  * Each ingredient is a clickable button (25% width) that toggles an expanded details section.
- * The details section displays extra info and includes a Remove button.
+ * The details section displays extra info and includes a Remove button active only in Edit Mode.
  * @param {Array} ingredients - Array of ingredient objects.
  */
 export function renderIngredients(ingredients) {
@@ -372,7 +365,6 @@ export function renderIngredients(ingredients) {
     standardizeButton(btn);
     btn.style.width = '25%';
     btn.classList.add('editable');
-    
     const details = document.createElement('div');
     details.className = 'ingredient-details';
     details.style.display = 'none';
@@ -381,14 +373,12 @@ export function renderIngredients(ingredients) {
     details.style.border = '1px solid rgba(255,255,255,0.2)';
     details.style.borderRadius = '4px';
     details.style.background = document.body.classList.contains('light-mode') ? '#f0f0f0' : 'rgba(255,255,255,0.07)';
-    
     details.innerHTML = `
       <p><strong>ID:</strong> ${ing.id || 'N/A'}</p>
       <p><strong>Name:</strong> ${ing.name || 'N/A'}</p>
       <p><strong>Created At:</strong> ${ing.created_at || 'N/A'}</p>
       <p><strong>Description:</strong> ${ing.description || 'No description available.'}</p>
     `;
-    
     const removeBtn = document.createElement('button');
     removeBtn.textContent = 'Remove';
     removeBtn.classList.add('editable');
@@ -409,11 +399,9 @@ export function renderIngredients(ingredients) {
     });
     removeBtn.style.display = isEditMode() ? 'block' : 'none';
     details.appendChild(removeBtn);
-    
     btn.addEventListener('click', () => {
       details.style.display = details.style.display === 'none' ? 'block' : 'none';
     });
-    
     li.appendChild(btn);
     li.appendChild(details);
     list.appendChild(li);
