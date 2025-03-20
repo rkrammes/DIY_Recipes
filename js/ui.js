@@ -1,6 +1,25 @@
 // ui.js
+import { 
+  createNewRecipe, 
+  addNewIngredientToRecipe, 
+  removeIngredientFromRecipe, 
+  addGlobalIngredient as apiAddGlobalIngredient, 
+  importCSVFile,
+  removeGlobalIngredient,
+  loadRecipes,
+  loadAllIngredients
+} from './api.js';
+import { toggleEditMode, sendMagicLink } from './auth.js';
 
-// --- Theme Function ---
+// Global flag for edit mode. false means anonymous (read-only).
+window.editMode = window.editMode || false;
+
+// --- Helper Functions ---
+
+/**
+ * Updates the website theme.
+ * @param {string} theme - "light", "dark", or "system".
+ */
 function updateTheme(theme) {
   document.body.classList.remove('light-mode', 'dark-mode');
   if (theme === 'light') {
@@ -12,31 +31,27 @@ function updateTheme(theme) {
   }
 }
 
-// --- Helper Functions ---
+/**
+ * Returns true if Edit Mode is active.
+ * @returns {boolean}
+ */
 function isEditMode() {
   return window.editMode === true;
 }
 
+/**
+ * Standardizes a button's styling.
+ * @param {HTMLElement} btn - The button element.
+ */
 function standardizeButton(btn) {
   btn.classList.add('btn');
   btn.style.width = '100%';
   btn.style.textAlign = 'left';
 }
 
-function updateIngredientDetailsBackgrounds() {
-  const detailsDivs = document.querySelectorAll('.ingredient-details');
-  detailsDivs.forEach(div => {
-    div.style.background = document.body.classList.contains('light-mode') ? '#f0f0f0' : 'rgba(255,255,255,0.07)';
-  });
-}
-
-function updateRemoveButtons() {
-  const removeBtns = document.querySelectorAll('.remove-ingredient-btn');
-  removeBtns.forEach(btn => {
-    btn.style.display = isEditMode() ? 'block' : 'none';
-  });
-}
-
+/**
+ * Updates the disabled state of all editing inputs and controls.
+ */
 function updateEditingState() {
   const controls = [
     document.getElementById('newRecipeNameInput'),
@@ -54,6 +69,19 @@ function updateEditingState() {
   updateRemoveButtons();
 }
 
+/**
+ * Updates the display of remove buttons in ingredient details.
+ */
+function updateRemoveButtons() {
+  const removeBtns = document.querySelectorAll('.remove-ingredient-btn');
+  removeBtns.forEach(btn => {
+    btn.style.display = isEditMode() ? 'block' : 'none';
+  });
+}
+
+/**
+ * Reloads recipes and global ingredients from Supabase and re-renders the UI.
+ */
 async function reloadData() {
   try {
     const recipes = await loadRecipes();
@@ -65,10 +93,11 @@ async function reloadData() {
   }
 }
 
-function showEditDisabledNotification() {
-  showNotification("You must be logged in to make changes.", "error");
-}
-
+/**
+ * Shows a notification.
+ * @param {string} message - The message.
+ * @param {string} type - "success", "error", or "info".
+ */
 export function showNotification(message, type = "info") {
   const notif = document.createElement('div');
   notif.className = `notification ${type}`;
@@ -77,9 +106,20 @@ export function showNotification(message, type = "info") {
   setTimeout(() => notif.remove(), 3000);
 }
 
+/**
+ * Shows a notification that editing is disabled.
+ */
+function showEditDisabledNotification() {
+  showNotification("You must be logged in to make changes.", "error");
+}
+
 // --- Main UI Functions ---
+
+/**
+ * Initializes UI event listeners and sets initial state.
+ */
 export function initUI() {
-  // Initialize theme first.
+  // Theme selection
   const themeSelect = document.getElementById('themeSelect');
   themeSelect.addEventListener('change', (e) => {
     updateTheme(e.target.value);
@@ -88,20 +128,16 @@ export function initUI() {
   });
   updateTheme(themeSelect.value);
 
-  // Standardize and attach left-side button listeners.
+  // Left-side buttons
   const btnIngredients = document.getElementById('btnIngredients');
   if (btnIngredients) {
     standardizeButton(btnIngredients);
     btnIngredients.addEventListener('click', showAllIngredientsView);
-  } else {
-    console.warn('btnIngredients not found');
   }
   const btnSendMagicLink = document.getElementById('btnSendMagicLink');
   if (btnSendMagicLink) {
     standardizeButton(btnSendMagicLink);
     btnSendMagicLink.addEventListener('click', sendMagicLink);
-  } else {
-    console.warn('btnSendMagicLink not found');
   }
   const btnEditMode = document.getElementById('btnEditMode');
   if (btnEditMode) {
@@ -112,8 +148,6 @@ export function initUI() {
       updateEditingState();
       await reloadData();
     });
-  } else {
-    console.warn('btnEditMode not found');
   }
 
   // CSV import
@@ -129,7 +163,7 @@ export function initUI() {
     }
   });
 
-  // New Recipe input
+  // New Recipe input (on Enter)
   document.getElementById('newRecipeNameInput').addEventListener('keydown', async (e) => {
     if (e.key === 'Enter') {
       if (!isEditMode()) {
@@ -157,7 +191,7 @@ export function initUI() {
     }
   });
 
-  // New Ingredient dropdown for adding an ingredient to a recipe
+  // New Ingredient dropdown for adding ingredient to a recipe.
   document.getElementById('newIngredientDropdown').addEventListener('change', async function () {
     if (!isEditMode()) {
       showEditDisabledNotification();
@@ -198,11 +232,28 @@ export function initUI() {
   updateEditingState();
 }
 
+/**
+ * Updates the background of all expanded ingredient details.
+ */
+function updateIngredientDetailsBackgrounds() {
+  const detailsDivs = document.querySelectorAll('.ingredient-details');
+  detailsDivs.forEach(div => {
+    div.style.background = document.body.classList.contains('light-mode') ? '#f0f0f0' : 'rgba(255,255,255,0.07)';
+  });
+}
+
+/**
+ * Displays the Ingredients view and hides the Recipe Details view.
+ */
 export function showAllIngredientsView() {
   document.getElementById('ingredientsView').style.display = 'block';
   document.getElementById('recipeDetails').style.display = 'none';
 }
 
+/**
+ * Renders the list of recipes.
+ * @param {Array} recipes - Array of recipe objects.
+ */
 export function renderRecipes(recipes) {
   window.recipes = recipes;
   const list = document.getElementById('recipeList');
@@ -227,6 +278,10 @@ export function renderRecipes(recipes) {
   });
 }
 
+/**
+ * Displays the details of a recipe, including its ingredients.
+ * @param {Object} recipe - The recipe object.
+ */
 export function showRecipeDetails(recipe) {
   document.getElementById('ingredientsView').style.display = 'none';
   const details = document.getElementById('recipeDetails');
@@ -274,6 +329,12 @@ export function showRecipeDetails(recipe) {
   }
 }
 
+/**
+ * Renders the list of global ingredients.
+ * Each ingredient is rendered as a clickable button (25% width) that toggles an expanded details section.
+ * The details section displays extra info and includes a Remove button that works only in Edit Mode.
+ * @param {Array} ingredients - Array of ingredient objects.
+ */
 export function renderIngredients(ingredients) {
   window.allIngredients = ingredients;
   const list = document.getElementById('ingredientList');
@@ -313,6 +374,7 @@ export function renderIngredients(ingredients) {
     removeBtn.textContent = 'Remove';
     removeBtn.classList.add('editable');
     removeBtn.classList.add('btn', 'remove-ingredient-btn');
+    removeBtn.style.marginTop = '10px';
     removeBtn.addEventListener('click', async () => {
       if (!isEditMode()) {
         showEditDisabledNotification();
