@@ -15,10 +15,9 @@ export function initAuth() {
 }
 
 /**
- * Updates the UI based on the authentication state.
- * Sets a global variable for edit mode, updates the Login/Logout button,
+ * Updates UI elements based on the current authentication state.
+ * Sets the global window.editMode flag, updates the Login/Logout button,
  * and enables/disables the Edit Mode checkbox accordingly.
- * Dispatches a custom "authChanged" event for UI to update editing controls immediately.
  * @param {object|null} session - The current authentication session object.
  */
 export function handleAuthChange(session) {
@@ -54,10 +53,7 @@ export function handleAuthChange(session) {
     window.editMode = false;
   }
   
-  // Dispatch custom event to notify UI that auth state has changed.
-  window.dispatchEvent(new CustomEvent("authChanged", { detail: { editMode: window.editMode } }));
-  
-  // Reload data (public read should work for both states).
+  // Reload data so the UI always reflects the current state.
   loadRecipes();
   loadAllIngredients();
 }
