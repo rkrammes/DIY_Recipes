@@ -9,7 +9,7 @@
   --text: #FFFFFF;               /* White */
   --muted-text: #BDBDBD;         /* Light Gray */
 
-  /* Use Roboto Mono ONLY */
+  /* Roboto Mono for the entire UI except the theme select */
   --font-family: 'Roboto Mono', monospace;
   --base-font-size: 16px;
   --line-height: 1.5;
@@ -36,7 +36,7 @@ html {
 }
 
 body {
-  /* Enforce Roboto Mono everywhere */
+  /* Entire app uses Roboto Mono */
   font-family: var(--font-family);
   line-height: var(--line-height);
   background-color: var(--primary);
@@ -52,41 +52,26 @@ body {
 }
 
 /* Typography & Headings */
-h1 {
-  font-size: 32px;
-  font-weight: bold;
-  margin-bottom: var(--spacing-medium);
+h1, h2, h3, h4 {
   font-family: var(--font-family);
-}
-h2 {
-  font-size: 28px;
   font-weight: bold;
-  margin-bottom: var(--spacing-medium);
-  font-family: var(--font-family);
 }
-h3 {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: var(--spacing-small);
-  font-family: var(--font-family);
-}
-h4 {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: var(--spacing-small);
-  font-family: var(--font-family);
-}
+h1 { font-size: 32px; margin-bottom: var(--spacing-medium); }
+h2 { font-size: 28px; margin-bottom: var(--spacing-medium); }
+h3 { font-size: 24px; margin-bottom: var(--spacing-small); }
+h4 { font-size: 20px; margin-bottom: var(--spacing-small); }
 
-/* Remove alpha from glass panels to ensure solid backgrounds */
+/* Glass Panels (top-level, second-level, etc.) */
 .glass-panel {
-  background-color: var(--secondary) !important;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25) !important;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
   padding: var(--spacing-medium);
   margin-bottom: var(--spacing-large);
 }
 
-/* Top-Level Layout classes (from the final version) */
+/* Page Layout: two-level design */
 .page-wrapper {
   display: flex;
   flex-direction: column;
@@ -130,36 +115,28 @@ h4 {
 aside.glass-panel {
   flex: 1 1 300px;
   max-width: 300px;
-  background-color: var(--secondary) !important;
+  background-color: var(--secondary);
   padding: var(--spacing-medium);
   border-radius: 8px;
 }
 
-/* Lists */
+/* The theme select uses system UI fonts, not Roboto Mono */
+.theme-select {
+  font-family: system-ui, sans-serif;
+  background-color: var(--secondary);
+  color: var(--text);
+  border: 1px solid var(--accent-blue);
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+/* Recipe & Ingredient Items */
 .recipe-list,
 #ingredientList {
   list-style: none;
   padding: 0;
   margin: 0;
   font-family: var(--font-family);
-}
-
-/* Recipe & Ingredient Items */
-.recipe-item,
-.ingredient-item {
-  padding: var(--spacing-small);
-  margin: var(--spacing-small) 0;
-  background-color: #2C2C2C; /* solid background */
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-  font-family: var(--font-family);
-}
-
-.recipe-item:hover,
-.ingredient-item:hover {
-  background-color: #3A3A3A;
 }
 
 /* Buttons - Gradient Text Effect */
@@ -202,8 +179,7 @@ aside.glass-panel {
 
 /* Input Fields */
 input,
-textarea,
-select {
+textarea {
   background-color: var(--secondary);
   color: var(--text);
   border: 1px solid var(--accent-blue);
@@ -250,7 +226,7 @@ select {
   animation: loadingAnimation 1.5s infinite;
 }
 
-/* Table Cell Force - black BG & white text */
+/* Table Cells: black BG & white text */
 .container table th,
 .container table td {
   background-color: #000 !important;
