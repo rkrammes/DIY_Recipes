@@ -1,329 +1,169 @@
-/* 1) "Add New Recipe" text box is 100% wide now */
-#createRecipeContainer .sidebar-textbox {
-  width: 100% !important;
-}
+/* style.css */
 
-/* 2) 3-stop gradient from #DF7027 -> #e6865b -> #699fa1 */
-:root {
-  --accent-color: linear-gradient(
-    135deg,
-    #df7027 0%,
-    #e6865b 50%,
-    #699fa1 100%
-  );
-  --btn-hover-color: #666;
-  --light-bg: #f0f0f0;
-  --light-text: #1a1a1a;
-  --dark-bg: #1a1a1a;
-  --dark-text: #f0f0f0;
-}
-
+/* Base styling */
 body {
   margin: 0;
-  padding: 0;
   font-family: 'Inter', sans-serif;
-  font-size: 15px;
-  background-color: var(--dark-bg);
-  color: var(--dark-text);
+}
+
+/* Dark and light mode settings */
+body.dark {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.light {
+  background-color: #ffffff;
+  color: #333333;
+}
+
+/* Glass panel effect for headers and sidebars */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 15px;
+  margin: 10px;
+}
+
+/* Header styling */
+.main-header {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  transition: background-color 0.4s ease, color 0.4s ease;
-}
-
-body.light-mode {
-  background-color: var(--light-bg);
-  color: var(--light-text);
-}
-
-.main-header {
-  padding: 20px;
-  text-align: center;
-  font-weight: 600;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  position: relative;
-}
-
-.header-inner {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
 }
 
-.app-title {
-  font-size: 22px;
-}
-
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.theme-label {
-  font-size: 14px;
-}
-
-.theme-select {
-  padding: 5px 8px;
-  border-radius: 4px;
-  background-color: #2a2a2a;
-  border: 1px solid #444;
-  color: #f0f0f0;
-  transition: background-color 0.3s;
-}
-body.light-mode .theme-select {
-  background-color: #ddd;
-  color: #333;
-}
-
+/* Container for the main content */
 .container {
   display: flex;
-  flex: 1;
-  overflow: hidden;
+  flex-wrap: wrap;
 }
 
-.glass-panel {
-  background: rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+/* Sidebar styling */
+aside.glass-panel {
+  flex: 1 1 300px;
+  max-width: 300px;
+  min-width: 250px;
 }
 
-aside {
-  width: 250px;
-  padding: 20px;
-  box-sizing: border-box;
-  overflow-y: auto;
-}
-
-aside h2 {
-  font-size: 18px;
-  margin-top: 10px;
-  font-weight: 600;
-}
-
+/* Main content styling */
 main {
-  flex: 1;
+  flex: 3;
   padding: 20px;
-  overflow-y: auto;
-  transition: background-color 0.4s ease;
 }
 
-.recipe-list {
+/* Recipe list styling */
+.recipe-list,
+.ingredient-list,
+#ingredientList {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.recipe-list li {
-  background-color: rgba(255, 255, 255, 0.05);
-  margin-bottom: 10px;
+/* Recipe item styling */
+.recipe-item,
+.ingredient-item {
   padding: 10px;
+  margin: 5px 0;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
 }
 
-.recipe-list li:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-  transform: translateY(-1px);
-}
-
-.recipe-details,
-.ingredients-view {
-  display: none;
-}
-
-.recipe-details h2,
-.ingredients-view h2 {
-  margin-top: 0;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px;
-  font-size: 14px;
-}
-
-th,
-td {
-  border: 1px solid #444;
-  padding: 10px;
-  text-align: left;
-  vertical-align: top;
-}
-
-th {
-  background-color: #333;
-  font-weight: 600;
-}
-
-td[contenteditable='true'] {
-  background-color: #2a2a2a;
-}
-
-body.light-mode td[contenteditable='true'] {
-  background-color: #ececec;
-}
-
-/* Buttons: reversed hover states */
+/* Button styling */
 .btn {
-  display: inline-block;
-  padding: 8px 12px;
-  background: var(--accent-color);
+  padding: 10px 15px;
+  background-color: #007BFF;
   color: #fff;
   border: none;
   border-radius: 4px;
-  margin-top: 10px;
   cursor: pointer;
-  text-decoration: none;
-  text-align: center;
-  font-size: 14px;
-  background-size: 200% 200%;
-  background-position: 100% 50%;
-  transition: background-position 0.5s ease, transform 0.2s ease;
+  font-size: 1em;
 }
 
 .btn:hover {
-  transform: translateY(-2px);
-  background-position: 0% 50%;
+  background-color: #0056b3;
 }
 
-#importCSVContainer {
-  margin-top: 20px;
-  display: none;
-}
-
-#aiSuggestionBox {
-  margin: 10px 0;
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
-  display: none;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  transition: background-color 0.3s;
-}
-
-#aiSuggestionText {
-  white-space: pre-wrap;
-  font-size: 14px;
-}
-
-.ai-prompt-container {
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.ai-prompt-input {
-  width: 30%;
+/* Input styling */
+.sidebar-textbox {
+  width: 100%;
   padding: 8px;
-  margin-right: 5px;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  border: 1px solid #444;
-  background-color: #2a2a2a;
-  color: #f0f0f0;
-  font-size: 14px;
-  transition: background-color 0.3s;
+  margin-bottom: 10px;
+  box-sizing: border-box;
 }
 
-body.light-mode .ai-prompt-input {
-  background-color: #ddd;
-  color: #333;
-  border: 1px solid #aaa;
+/* Ingredients view container.
+   By default, it's hidden.
+   When .active is added, it will be shown. */
+#ingredientsView {
+  display: none;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  margin: 10px 0;
 }
 
-#manageIngredientsBox {
-  margin: 15px 0;
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.05);
+/* When active, force display block */
+#ingredientsView.active {
+  display: block !important;
+}
+
+/* Recipe details container. */
+#recipeDetails {
+  display: none;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+/* Utility classes for hiding elements */
+.hidden {
+  display: none !important;
+}
+
+/* Ingredient container styling */
+.ingredient-container {
+  margin-bottom: 10px;
+}
+
+/* Ingredient button styling */
+.ingredient-button {
+  width: 100%;
+  text-align: left;
+  padding: 8px;
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
   border-radius: 4px;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  cursor: pointer;
 }
 
-#newIngredientDropdown {
-  width: 30%;
-  padding: 5px;
-  margin-right: 5px;
-  background-color: #2a2a2a;
-  border: 1px solid #444;
-  color: #f0f0f0;
-  border-radius: 4px;
-  font-size: 14px;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  transition: background-color 0.3s;
+/* Ingredient description styling */
+.ingredient-description {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  margin-top: 5px;
 }
 
-body.light-mode #newIngredientDropdown {
-  background-color: #ddd;
-  color: #333;
-  border: 1px solid #aaa;
-}
-
+/* Remove button styling for ingredients */
 .remove-ingredient-btn {
-  background-color: #a33;
-  margin-top: 0;
-  font-size: 12px;
-  transition: background-color 0.3s, transform 0.2s;
+  margin-top: 5px;
+  padding: 5px 10px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .remove-ingredient-btn:hover {
-  background-color: #c44;
-  transform: translateY(-2px);
-}
-
-#addGlobalIngredientContainer {
-  margin: 10px 0;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.ingredient-button {
-  width: 15%;
-  background-color: rgba(255, 255, 255, 0.05);
-  border: none;
-  color: #fff;
-  text-align: left;
-  padding: 10px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  font-size: 14px;
-  border-radius: 4px;
-  position: relative;
-  margin-top: 10px;
-  display: inline-block;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.ingredient-button:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-  transform: translateY(-2px);
-}
-
-.ingredient-details {
-  display: none;
-  background-color: rgba(255, 255, 255, 0.05);
-  margin-top: 5px;
-  padding: 8px;
-  border-radius: 4px;
-  font-size: 13px;
-  line-height: 1.4;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-}
-
-.sidebar-container {
-  margin: 10px 0;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  background-color: #c82333;
 }
