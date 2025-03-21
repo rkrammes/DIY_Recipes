@@ -1,6 +1,6 @@
-// ui.js
+/* ui.js */
 
-import { supabaseClient } from './supabaseClient.js';  // Ensure this file is in the correct relative path
+import { supabaseClient } from './supabaseClient.js';  // Ensure the correct relative path
 
 // Define isEditMode function.
 function isEditMode() {
@@ -183,7 +183,18 @@ export function initUI() {
     const themeSelect = document.getElementById('themeSelect');
     if (themeSelect) {
       themeSelect.addEventListener('change', (e) => {
-        document.body.className = e.target.value;
+        const value = e.target.value;
+        if (value === "system") {
+          // Use the OS theme preference.
+          if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.className = 'dark';
+          } else {
+            document.body.className = 'light';
+          }
+        } else {
+          document.body.className = value;
+        }
+        console.log("Theme changed to:", document.body.className);
       });
     }
 
@@ -253,7 +264,7 @@ export function renderRecipes(recipes) {
 
 /**
  * Renders a list of ingredients into the existing <ul id="ingredientList"> element.
- * Each ingredient is rendered as a button that toggles a description,
+ * Each ingredient is rendered as a button that toggles its description,
  * and, if in edit mode, shows a Remove button.
  * @param {Array} ingredients - Array of ingredient objects.
  */
