@@ -196,12 +196,21 @@ export function initUI() {
     const btnIngredients = document.getElementById('btnIngredients');
     if (btnIngredients) {
       btnIngredients.addEventListener('click', () => {
+        console.log("All Ingredients button clicked");
         // Hide recipe details view.
         const recipeDetails = document.getElementById('recipeDetails');
-        if (recipeDetails) recipeDetails.style.display = 'none';
+        if (recipeDetails) {
+          recipeDetails.style.display = 'none';
+          console.log("Recipe details hidden");
+        }
         // Show global ingredients view.
         const ingredientsView = document.getElementById('ingredientsView');
-        if (ingredientsView) ingredientsView.style.display = 'block';
+        if (ingredientsView) {
+          ingredientsView.style.display = 'block';
+          console.log("Ingredients view displayed");
+        } else {
+          console.error("No container found with id 'ingredientsView'");
+        }
       });
     }
   });
