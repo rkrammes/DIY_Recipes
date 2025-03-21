@@ -58,7 +58,7 @@
   <div class="container">
     <!-- Glass aside with subtle frosted background -->
     <aside class="glass-panel">
-      <!-- All Ingredients button -->
+      <!-- All Ingredients Button -->
       <button class="btn" id="btnIngredients">All Ingredients</button>
       <h2>Recipes</h2>
       <!-- New Recipe input -->
@@ -68,6 +68,7 @@
           class="sidebar-textbox"
           type="text"
           placeholder="Add New Recipe"
+          style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; background: #f0f0f0; color: #333;"
           disabled
         />
       </div>
@@ -80,44 +81,7 @@
 
     <main>
       <!-- Recipe Details view -->
-      <section class="recipe-details" id="recipeDetails" style="display:none;">
-        <h2 id="recipeTitle"></h2>
-        <!-- AI prompt container -->
-        <div class="ai-prompt-container">
-          <input
-            class="ai-prompt-input"
-            id="aiPrompt"
-            placeholder="Get AI Suggestion"
-            disabled
-          />
-        </div>
-        <!-- Manage Ingredients -->
-        <div id="manageIngredientsBox">
-          <select id="newIngredientDropdown" disabled>
-            <option value="">Add New Ingredient</option>
-          </select>
-        </div>
-        <!-- AI Suggestion UI -->
-        <div id="aiSuggestionBox" style="display:none;">
-          <h3 style="margin-top:0;">AI Suggestion</h3>
-          <div id="aiSuggestionText"></div>
-          <button class="btn" id="btnReroll" disabled>Reroll Suggestion</button>
-          <button class="btn" id="btnCommitSuggestion" disabled>Commit Suggestion</button>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Ingredient</th>
-              <th>Quantity</th>
-              <th>Next Version</th>
-              <th>Reasoning</th>
-              <th>Remove</th>
-            </tr>
-          </thead>
-          <tbody id="recipeContent"></tbody>
-        </table>
-      </section>
-
+      <section class="recipe-details" id="recipeDetails" style="display:none;"></section>
       <!-- Global Ingredients View -->
       <section class="ingredients-view" id="ingredientsView" style="display:none;">
         <h2>All Ingredients</h2>
@@ -137,8 +101,5 @@
 
   <!-- Load main.js as a module -->
   <script type="module" src="js/main.js"></script>
-  <!-- Containers for dynamic content -->
-  <div id="recipesContainer"></div>
-  <div id="ingredientsContainer"></div>
 </body>
 </html>
