@@ -8,7 +8,7 @@ function isEditMode() {
 
 /**
  * Displays detailed information for a given recipe.
- * This function replicates the original layout with two columns:
+ * This function replicates your original two-column layout:
  * - Left: Current Ingredients displayed in a table.
  * - Right: Next Iteration area with an editable textarea, AI suggestion input/button, and a commit button.
  * @param {object} recipe - The recipe object.
@@ -56,7 +56,6 @@ export function showRecipeDetails(recipe) {
     // Create a row for each ingredient.
     recipe.ingredients.forEach(ing => {
       const row = document.createElement('tr');
-
       const tdName = document.createElement('td');
       tdName.textContent = ing.name || '';
       tdName.style.border = '1px solid #ccc';
@@ -174,8 +173,8 @@ export function showRecipeDetails(recipe) {
  * Initializes UI elements and event listeners.
  */
 export function initUI() {
-  document.addEventListener('DOMContentLoaded', () => {
-    console.log("initUI: DOMContentLoaded event fired");
+  function setup() {
+    console.log("initUI: setup started");
 
     // Setup theme selector.
     const themeSelect = document.getElementById('themeSelect');
@@ -218,7 +217,13 @@ export function initUI() {
     } else {
       console.error("initUI: btnIngredients not found");
     }
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setup);
+  } else {
+    setup();
+  }
 }
 
 /**
