@@ -13,7 +13,7 @@
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    /* Minimal inline styles for header controls adjustments */
+    /* Additional inline styles for header controls layout */
     .header-controls {
       display: flex;
       justify-content: space-between;
@@ -29,11 +29,11 @@
       display: flex;
       align-items: center;
     }
-    /* Flat (2D) theme selector styling */
+    /* Flat theme selector styling */
     .theme-select {
-      background: #2C2C2C;
-      color: #FFFFFF;
-      border: 1px solid #3498DB;
+      background: var(--secondary);
+      color: var(--text);
+      border: 1px solid var(--accent-blue);
       border-radius: 4px;
       padding: 8px 12px;
       appearance: none;
@@ -53,7 +53,7 @@
           <input type="checkbox" id="editModeCheckbox" />
         </div>
         <div class="header-right">
-          <!-- Only the theme selector remains on the right -->
+          <label for="themeSelect" class="theme-label">Appearance:</label>
           <select id="themeSelect" class="theme-select">
             <option value="dark">Dark</option>
             <option value="light">Light</option>
@@ -63,13 +63,7 @@
       </div>
     </div>
     <div id="magicLinkForm" style="display:none; padding:10px; text-align:right;">
-      <input
-        type="email"
-        id="magicLinkEmail"
-        class="sidebar-textbox"
-        placeholder="Email"
-        style="margin-right:5px; width:180px;"
-      />
+      <input type="email" id="magicLinkEmail" class="sidebar-textbox" placeholder="Email" style="margin-right:5px; width:180px;" />
       <button class="btn" id="btnSendMagicLink">Send Magic Link</button>
     </div>
   </header>
@@ -83,6 +77,7 @@
           class="sidebar-textbox"
           type="text"
           placeholder="Add New Recipe"
+          style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; background: #f0f0f0; color: #333;"
           disabled
         />
       </div>
