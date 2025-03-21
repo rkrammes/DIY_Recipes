@@ -2,12 +2,12 @@
 
 /* Root Variables */
 :root {
-  --primary: #1A1A1A;           /* Dark Gray */
-  --secondary: #2C2C2C;         /* Lighter Gray */
-  --accent-blue: #3498DB;       /* Soft Blue */
-  --accent-orange: #FF9900;     /* Vibrant Orange */
-  --text: #FFFFFF;             /* White */
-  --muted: #BDBDBD;            /* Light Gray */
+  --primary: #1A1A1A;            /* Dark Gray */
+  --secondary: #2C2C2C;          /* Lighter Gray */
+  --accent-blue: #3498DB;        /* Soft Blue */
+  --accent-orange: #FF9900;      /* Vibrant Orange */
+  --text: #FFFFFF;              /* White */
+  --muted-text: #BDBDBD;         /* Light Gray */
   
   --font-family: 'Roboto Mono', monospace;
   --base-font-size: 16px;
@@ -39,34 +39,95 @@ body {
   line-height: var(--line-height);
   background-color: var(--primary);
   color: var(--text);
+  margin: 0 auto;
 }
 
-/* Container */
-.container {
+/* Header */
+.main-header {
+  padding: var(--spacing-large);
+  text-align: center;
+  background-color: var(--secondary);
+}
+
+.header-inner {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: var(--gutter);
 }
 
-/* Typography & Headings */
-h1 {
+.app-title {
   font-size: 32px;
-  font-weight: bold;
-  margin-bottom: var(--spacing-medium);
-}
-h2 {
-  font-size: 28px;
-  font-weight: bold;
-  margin-bottom: var(--spacing-medium);
-}
-h3 {
-  font-size: 24px;
   font-weight: bold;
   margin-bottom: var(--spacing-small);
 }
-h4 {
-  font-size: 20px;
-  font-weight: bold;
+
+.header-controls {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-medium);
+  align-items: center;
+}
+
+.magic-link-form {
+  display: none;
+  margin-top: var(--spacing-small);
+  text-align: center;
+}
+
+/* Layout - using CSS Grid */
+.page-container {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: var(--gutter);
+  max-width: var(--max-width);
+  margin: var(--spacing-large) auto;
+  padding: var(--gutter);
+}
+
+/* Sidebar */
+.sidebar {
+  background-color: var(--secondary);
+  padding: var(--spacing-medium);
+  border-radius: 8px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.recipe-list {
+  list-style: none;
+  margin-top: var(--spacing-medium);
+}
+
+/* Main Content */
+.main-content {
+  background-color: var(--secondary);
+  padding: var(--spacing-medium);
+  border-radius: 8px;
+}
+
+.recipe-details,
+.ingredients-view {
+  display: none;
+  margin-bottom: var(--spacing-large);
+  padding: var(--spacing-medium);
+  border-radius: 8px;
+  background-color: var(--secondary);
+}
+
+/* Show sections when active */
+.recipe-details.active,
+.ingredients-view.active {
+  display: block;
+}
+
+/* Textboxes */
+.sidebar-textbox {
+  background-color: var(--secondary);
+  color: var(--text);
+  border: 1px solid var(--accent-blue);
+  border-radius: 4px;
+  padding: 8px 12px;
   margin-bottom: var(--spacing-small);
 }
 
@@ -79,36 +140,70 @@ h4 {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-size: 1em;
 }
+
 .btn:hover {
   background-color: var(--accent-blue);
 }
 
-/* For secondary actions (e.g. remove buttons) */
-.secondary-btn {
-  background-color: var(--secondary);
-  color: var(--text);
-}
-.secondary-btn:hover {
-  background-color: var(--accent-orange);
+/* Sidebar Containers */
+.sidebar-container {
+  margin-bottom: var(--spacing-medium);
 }
 
-/* Input Fields */
-input,
-textarea,
-select {
+/* Lists */
+.ingredient-list {
+  list-style: none;
+  padding: 0;
+  margin-top: var(--spacing-medium);
+}
+
+/* Ingredient Item Styling */
+.ingredient-container {
+  margin-bottom: var(--spacing-small);
+}
+
+.ingredient-button {
+  width: 100%;
+  text-align: left;
+  padding: 10px;
   background-color: var(--secondary);
   color: var(--text);
-  border: 1px solid var(--accent-blue);
+  border: none;
   border-radius: 4px;
-  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-/* Layout */
-.container {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: var(--gutter);
+.ingredient-button:hover {
+  background-color: var(--accent-blue);
+}
+
+.ingredient-description {
+  padding: 8px 12px;
+  border: 1px solid var(--accent-blue);
+  background-color: var(--secondary);
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: var(--muted-text);
+  margin-top: var(--spacing-small);
+}
+
+/* Remove Button */
+.remove-ingredient-btn {
+  margin-top: var(--spacing-small);
+  padding: 12px 24px;
+  background-color: var(--accent-orange);
+  color: var(--text);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.remove-ingredient-btn:hover {
+  background-color: #e67e22;
 }
 
 /* Spacing Utilities */
@@ -118,12 +213,6 @@ select {
 .mb-small { margin-bottom: var(--spacing-small); }
 .mb-medium { margin-bottom: var(--spacing-medium); }
 .mb-large { margin-bottom: var(--spacing-large); }
-.ml-small { margin-left: var(--spacing-small); }
-.ml-medium { margin-left: var(--spacing-medium); }
-.ml-large { margin-left: var(--spacing-large); }
-.mr-small { margin-right: var(--spacing-small); }
-.mr-medium { margin-right: var(--spacing-medium); }
-.mr-large { margin-right: var(--spacing-large); }
 
 /* Icons */
 .icon-primary {
@@ -131,6 +220,7 @@ select {
   width: var(--icon-size);
   height: var(--icon-size);
 }
+
 .icon-secondary {
   fill: var(--accent-orange);
   width: var(--icon-size);
@@ -144,14 +234,10 @@ select {
 
 /* Loading Animation */
 @keyframes loadingAnimation {
-  0% { background-color: var(--accent-blue); }
-  50% { background-color: var(--accent-orange); }
-  100% { background-color: var(--accent-blue); }
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
 }
 .loading {
   animation: loadingAnimation 1.5s infinite;
 }
-
-/* Additional Elements */
-/* Use minimalist, line-based icons where needed (e.g., via an icon font or inline SVG) */
-/* You may add further specific styling for icons here */
