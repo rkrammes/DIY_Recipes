@@ -15,8 +15,7 @@ function isEditMode() {
 }
 
 /**
- * Updates the login/logout button text.
- * Enables or disables the edit mode checkbox.
+ * Updates the login/logout button text and enables/disables edit mode.
  */
 export function updateAuthButton() {
   const btnLogIn = document.getElementById('btnLogIn');
@@ -25,9 +24,7 @@ export function updateAuthButton() {
     btnLogIn.textContent = isLoggedIn ? 'Log Out' : 'Log In';
   }
   if (editCheckbox) {
-    // Enable edit mode checkbox only when logged in
     editCheckbox.disabled = !isLoggedIn;
-    // Optionally, uncheck it when logged out
     if (!isLoggedIn) {
       editCheckbox.checked = false;
     }
@@ -35,23 +32,18 @@ export function updateAuthButton() {
 }
 
 /**
- * Handles the click event on the login button.
- * If not logged in, expands the magic link form for email entry.
- * If already logged in, logs out.
+ * Handles the login button click.
  */
 function handleLoginButtonClick() {
   const magicLinkForm = document.getElementById('magicLinkForm');
   if (!isLoggedIn) {
-    // Show the magic link form to prompt for email
     if (magicLinkForm) {
       magicLinkForm.style.display = 'block';
     }
   } else {
-    // Already logged in: log out the user.
     signOut().then(() => {
       isLoggedIn = false;
       updateAuthButton();
-      // Hide magic link form if visible.
       if (magicLinkForm) {
         magicLinkForm.style.display = 'none';
       }
@@ -64,8 +56,6 @@ function handleLoginButtonClick() {
 
 /**
  * Sets up the "Send Magic Link" button event.
- * When clicked, it reads the email input and calls sendMagicLink().
- * On success, marks the user as logged in.
  */
 function setupMagicLink() {
   const btnSendMagicLink = document.getElementById('btnSendMagicLink');
@@ -75,11 +65,8 @@ function setupMagicLink() {
       if (emailInput && emailInput.value) {
         try {
           await sendMagicLink(emailInput.value);
-          // Assume that receiving the magic link (or clicking it externally) logs the user in.
-          // For this demo, we immediately mark as logged in.
           isLoggedIn = true;
           updateAuthButton();
-          // Hide the magic link form upon successful login.
           const magicLinkForm = document.getElementById('magicLinkForm');
           if (magicLinkForm) {
             magicLinkForm.style.display = 'none';
@@ -97,7 +84,6 @@ function setupMagicLink() {
 
 /**
  * Displays detailed information for a given recipe.
- * Uses a two-column layout for current ingredients and next iteration.
  */
 export function showRecipeDetails(recipe) {
   // Hide the global ingredients view.
@@ -106,7 +92,7 @@ export function showRecipeDetails(recipe) {
     ingredientsView.style.display = 'none';
   }
   
-  // Show recipe details section.
+  // Get the recipe details element.
   const details = document.getElementById('recipeDetails');
   if (!details) return;
   details.style.display = 'block';
@@ -117,7 +103,7 @@ export function showRecipeDetails(recipe) {
   container.style.display = 'flex';
   container.style.gap = '20px';
 
-  // Left column: Current Ingredients (table format)
+  // Left column: Current Ingredients.
   const currentDiv = document.createElement('div');
   currentDiv.style.flex = '1';
   currentDiv.style.border = '1px solid #ccc';
@@ -127,25 +113,21 @@ export function showRecipeDetails(recipe) {
     const table = document.createElement('table');
     table.style.width = '100%';
     table.style.borderCollapse = 'collapse';
-
-    // Create header row.
     const headerRow = document.createElement('tr');
-    ['Ingredient', 'Quantity', 'Unit', 'Notes'].forEach(headerText => {
+    ['Ingredient', 'Quantity', 'Unit', 'Notes'].forEach(text => {
       const th = document.createElement('th');
-      th.textContent = headerText;
+      th.textContent = text;
       th.style.border = '1px solid #ccc';
       th.style.padding = '8px';
       th.style.backgroundColor = '#f8f8f8';
       headerRow.appendChild(th);
     });
     table.appendChild(headerRow);
-
-    // Create a row for each ingredient.
     recipe.ingredients.forEach(ing => {
       const row = document.createElement('tr');
-      [ing.name, ing.quantity, ing.unit, ing.notes].forEach(text => {
+      [ing.name, ing.quantity, ing.unit, ing.notes].forEach(value => {
         const td = document.createElement('td');
-        td.textContent = text || '';
+        td.textContent = value || '';
         td.style.border = '1px solid #ccc';
         td.style.padding = '8px';
         row.appendChild(td);
@@ -157,20 +139,17 @@ export function showRecipeDetails(recipe) {
     currentDiv.innerHTML += `<p>No ingredients available.</p>`;
   }
 
-  // Right column: Next Iteration (editable)
+  // Right column: Next Iteration.
   const nextDiv = document.createElement('div');
   nextDiv.style.flex = '1';
   nextDiv.style.border = '1px solid #ccc';
   nextDiv.style.padding = '10px';
   nextDiv.innerHTML = `<h3>Next Iteration</h3>`;
-  
   const nextTextarea = document.createElement('textarea');
   nextTextarea.style.width = '100%';
   nextTextarea.style.height = '150px';
   nextTextarea.value = recipe.next_iteration || "";
   nextDiv.appendChild(nextTextarea);
-
-  // AI Suggestion container.
   const aiContainer = document.createElement('div');
   aiContainer.style.marginTop = '10px';
   const aiInput = document.createElement('input');
@@ -210,8 +189,6 @@ export function showRecipeDetails(recipe) {
   suggestionDiv.style.marginTop = '10px';
   aiContainer.appendChild(suggestionDiv);
   nextDiv.appendChild(aiContainer);
-
-  // Commit Next Iteration button.
   const commitBtn = document.createElement('button');
   commitBtn.textContent = 'Commit Next Iteration';
   commitBtn.classList.add('btn');
@@ -233,20 +210,13 @@ export function showRecipeDetails(recipe) {
     }
   });
   nextDiv.appendChild(commitBtn);
-
   container.appendChild(currentDiv);
   container.appendChild(nextDiv);
-  const details = document.getElementById('recipeDetails');
-  if (details) {
-    details.style.display = 'block';
-    details.innerHTML = '';
-    details.appendChild(container);
-  }
+  details.appendChild(container);
 }
 
 /**
- * Renders a list of recipes into the existing <ul id="recipeList"> element.
- * @param {Array} recipes - Array of recipe objects.
+ * Renders a list of recipes into the <ul id="recipeList"> element.
  */
 export function renderRecipes(recipes) {
   const container = document.getElementById('recipeList');
@@ -267,10 +237,9 @@ export function renderRecipes(recipes) {
 }
 
 /**
- * Renders a list of ingredients into the existing <ul id="ingredientList"> element.
- * Each ingredient is rendered as a button that toggles its description,
- * and, if in edit mode, shows a Remove button.
- * @param {Array} ingredients - Array of ingredient objects.
+ * Renders a list of ingredients into the <ul id="ingredientList"> element.
+ * Each ingredient appears as a button that toggles its description.
+ * If in edit mode, a "Remove" button is added.
  */
 export function renderIngredients(ingredients) {
   const container = document.getElementById('ingredientList');
@@ -283,13 +252,11 @@ export function renderIngredients(ingredients) {
     const div = document.createElement('div');
     div.classList.add('ingredient-container');
     div.style.marginBottom = '10px';
-    
     const nameBtn = document.createElement('button');
     nameBtn.classList.add('ingredient-button');
     nameBtn.textContent = ingredient.name || 'Unnamed Ingredient';
     nameBtn.style.width = '100%';
     nameBtn.style.textAlign = 'left';
-    
     const descDiv = document.createElement('div');
     descDiv.classList.add('ingredient-description');
     descDiv.style.display = 'none';
@@ -297,14 +264,11 @@ export function renderIngredients(ingredients) {
     descDiv.style.border = '1px solid #ccc';
     descDiv.style.backgroundColor = '#f9f9f9';
     descDiv.textContent = ingredient.description || 'No description available.';
-    
     nameBtn.addEventListener('click', () => {
       descDiv.style.display = descDiv.style.display === 'none' ? 'block' : 'none';
     });
-    
     div.appendChild(nameBtn);
     div.appendChild(descDiv);
-    
     if (isEditMode()) {
       const removeBtn = document.createElement('button');
       removeBtn.classList.add('remove-ingredient-btn');
@@ -332,7 +296,6 @@ export function renderIngredients(ingredients) {
       });
       div.appendChild(removeBtn);
     }
-    
     container.appendChild(div);
   });
 }
@@ -344,7 +307,6 @@ export function initUI() {
   function setup() {
     console.log("initUI: setup started");
 
-    // Setup theme selector.
     const themeSelect = document.getElementById('themeSelect');
     if (themeSelect) {
       themeSelect.addEventListener('change', (e) => {
@@ -362,17 +324,15 @@ export function initUI() {
       });
     }
 
-    // Setup edit mode toggle.
     const editCheckbox = document.getElementById('editModeCheckbox');
     if (editCheckbox) {
       editCheckbox.checked = window.editMode || false;
-      editCheckbox.disabled = !isLoggedIn; // Only enabled if logged in
+      editCheckbox.disabled = !isLoggedIn;
       editCheckbox.addEventListener('change', () => {
         window.editMode = editCheckbox.checked;
       });
     }
-    
-    // Setup login/logout button.
+
     const btnLogIn = document.getElementById('btnLogIn');
     if (btnLogIn) {
       btnLogIn.addEventListener('click', () => {
@@ -382,10 +342,8 @@ export function initUI() {
       console.error("initUI: btnLogIn not found");
     }
 
-    // Setup "Send Magic Link" button.
     setupMagicLink();
 
-    // Setup "All Ingredients" button.
     const btnIngredients = document.getElementById('btnIngredients');
     if (btnIngredients) {
       console.log("initUI: btnIngredients found");
@@ -417,7 +375,6 @@ export function initUI() {
 }
 
 // Stub functions for reloadData and showNotification.
-// Replace these with your actual implementations.
 async function reloadData() {
   console.log('Data reloaded.');
 }
@@ -426,10 +383,10 @@ function showNotification(message, type) {
   alert(`${type.toUpperCase()}: ${message}`);
 }
 
-// Attach login/logout event on page load.
+// Attach login/logout events.
 updateAuthButton();
 
-// Expose exported functions on window.module for backward compatibility.
+// Expose functions on window.module for backward compatibility.
 window.module = {
   showRecipeDetails,
   initUI,
