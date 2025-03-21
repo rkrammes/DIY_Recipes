@@ -13,17 +13,17 @@ html, body {
   scroll-behavior: smooth;
 }
 
-/* Color Variables: Modern Blue & Orange */
+/* Color Variables: Dark Slate & Warm Orange */
 :root {
-  --primary-blue: #1976D2;      /* A refined, vibrant blue */
-  --accent-orange: #FF8F00;     /* A strong, complementary orange */
-  --light-bg: #ffffff;
+  --primary-slate: #2e2e2e;     /* Sophisticated dark slate */
+  --accent-orange: #FF8F00;     /* Warm, tasteful accent */
+  --light-bg: #f7f7f7;
   --light-text: #333333;
-  --dark-bg: #121212;
+  --dark-bg: #1c1c1c;
   --dark-text: #e0e0e0;
-  --glass-bg: rgba(255, 255, 255, 0.15);
-  --glass-shadow: rgba(0, 0, 0, 0.25);
-  --border-color: rgba(25, 118, 210, 0.3);
+  --panel-bg: rgba(255, 255, 255, 0.15);
+  --panel-shadow: rgba(0, 0, 0, 0.2);
+  --border-color: rgba(46, 46, 46, 0.3);
 }
 
 /* Dark & Light Mode */
@@ -37,11 +37,11 @@ body.dark {
   color: var(--dark-text);
 }
 
-/* Glass Panel Effect */
+/* Glass Panel Effect for Headers and Sidebars */
 .glass-panel {
-  background: var(--glass-bg);
+  background: var(--panel-bg);
   backdrop-filter: blur(10px);
-  box-shadow: 0 4px 8px var(--glass-shadow);
+  box-shadow: 0 4px 8px var(--panel-shadow);
   border-radius: 8px;
   padding: 15px;
   margin: 10px;
@@ -95,7 +95,7 @@ main {
 .ingredient-item {
   padding: 10px;
   margin: 8px 0;
-  background: rgba(25, 118, 210, 0.08);
+  background: rgba(46, 46, 46, 0.08);
   border: 1px solid var(--border-color);
   border-radius: 6px;
   cursor: pointer;
@@ -104,14 +104,14 @@ main {
 
 .recipe-item:hover,
 .ingredient-item:hover {
-  background: rgba(25, 118, 210, 0.12);
+  background: rgba(46, 46, 46, 0.12);
 }
 
-/* Buttons */
+/* Button Styling */
 .btn {
   display: inline-block;
   padding: 10px 16px;
-  background-color: var(--primary-blue);
+  background-color: var(--primary-slate);
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -124,7 +124,7 @@ main {
   background-color: var(--accent-orange);
 }
 
-/* Sidebar Textbox */
+/* Sidebar Textbox Styling */
 .sidebar-textbox {
   width: 100%;
   padding: 10px;
@@ -138,7 +138,7 @@ main {
 #ingredientsView {
   display: none;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
   margin: 20px 0;
 }
@@ -151,7 +151,7 @@ main {
 #recipeDetails {
   display: none;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
   margin: 20px 0;
 }
@@ -165,12 +165,12 @@ main {
   margin-bottom: 12px;
 }
 
-/* Ingredient Button */
+/* Ingredient Button Styling */
 .ingredient-button {
   width: 100%;
   text-align: left;
   padding: 10px;
-  background-color: var(--primary-blue);
+  background-color: var(--primary-slate);
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -215,7 +215,7 @@ main {
   margin-right: 5px;
 }
 
-/* Additional Utility Classes */
+/* Utility Classes */
 .hidden {
   display: none !important;
 }
