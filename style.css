@@ -2,12 +2,12 @@
 
 /* Root Variables */
 :root {
-  --primary: #1A1A1A;            /* Dark Gray */
-  --secondary: #2C2C2C;          /* Lighter Gray */
-  --accent-blue: #3498DB;        /* Soft Blue */
-  --accent-orange: #FF9900;      /* Vibrant Orange */
-  --text: #FFFFFF;               /* White */
-  --muted-text: #BDBDBD;         /* Light Gray */
+  --primary: #1A1A1A;           /* Dark Gray */
+  --secondary: #2C2C2C;         /* Lighter Gray */
+  --accent-blue: #3498DB;       /* Soft Blue */
+  --accent-orange: #FF9900;     /* Vibrant Orange */
+  --text: #FFFFFF;              /* White */
+  --muted-text: #BDBDBD;        /* Light Gray */
   
   --font-family: 'Roboto Mono', monospace;
   --base-font-size: 16px;
@@ -71,11 +71,10 @@ h4 {
   margin-bottom: var(--spacing-small);
 }
 
-/* Header & Glass Panels */
+/* Remove alpha from glass panels to ensure solid backgrounds */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  background-color: var(--secondary) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25) !important;
   border-radius: 8px;
   padding: var(--spacing-medium);
   margin-bottom: var(--spacing-large);
@@ -95,11 +94,11 @@ h4 {
   margin-bottom: var(--spacing-small);
 }
 
-/* Sidebar */
+/* Sidebar Panels */
 aside.glass-panel {
   flex: 1 1 300px;
   max-width: 300px;
-  background-color: var(--secondary);
+  background-color: var(--secondary) !important;
   padding: var(--spacing-medium);
   border-radius: 8px;
 }
@@ -123,7 +122,7 @@ main {
 .ingredient-item {
   padding: var(--spacing-small);
   margin: var(--spacing-small) 0;
-  background: rgba(255, 255, 255, 0.1);
+  background-color: #2C2C2C; /* solid background, no alpha */
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 4px;
   cursor: pointer;
@@ -132,7 +131,7 @@ main {
 
 .recipe-item:hover,
 .ingredient-item:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background-color: #3A3A3A;
 }
 
 /* Buttons - Gradient Text Effect */
@@ -238,11 +237,20 @@ select {
   height: var(--icon-size);
 }
 
+/* Force table background black with white text & border */
+.container table,
+.container table th,
+.container table td {
+  background-color: #000 !important;
+  color: #FFF !important;
+  border: 1px solid #444 !important;
+}
+
 /* Ingredients View */
 #ingredientsView {
   display: none;
   padding: var(--spacing-medium);
-  background-color: var(--secondary);
+  background-color: var(--secondary) !important;
   border-radius: 8px;
   margin: var(--spacing-large) 0;
 }
@@ -254,7 +262,7 @@ select {
 #recipeDetails {
   display: none;
   padding: var(--spacing-medium);
-  background-color: var(--secondary);
+  background-color: #2C2C2C !important; /* removed alpha to ensure black table stands out */
   border-radius: 8px;
   margin: var(--spacing-large) 0;
 }
@@ -312,12 +320,4 @@ select {
 .theme-label {
   font-size: 0.9em;
   margin-right: var(--spacing-small);
-}
-
-/* FINAL OVERRIDE: Force black background & white text in all table cells */
-.container table,
-.container table * {
-  background-color: #000 !important;
-  color: #FFF !important;
-  border: 1px solid #444 !important;
 }
