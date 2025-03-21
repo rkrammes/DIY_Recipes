@@ -42,16 +42,51 @@ body {
   margin: 0 auto;
 }
 
-/* Header */
-.main-header {
-  padding: var(--spacing-large);
-  text-align: center;
-  background-color: var(--secondary);
-}
-
-.header-inner {
+/* Container */
+.container {
   max-width: var(--max-width);
   margin: 0 auto;
+  padding: var(--gutter);
+}
+
+/* Typography & Headings */
+h1 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: var(--spacing-medium);
+}
+h2 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: var(--spacing-medium);
+}
+h3 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: var(--spacing-small);
+}
+h4 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: var(--spacing-small);
+}
+
+/* Header & Glass Panels */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  padding: var(--spacing-medium);
+  margin-bottom: var(--spacing-large);
+}
+
+/* Header Styling */
+.main-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-large);
 }
 
 .app-title {
@@ -60,150 +95,89 @@ body {
   margin-bottom: var(--spacing-small);
 }
 
-.header-controls {
-  display: flex;
-  justify-content: center;
-  gap: var(--spacing-medium);
-  align-items: center;
-}
-
-.magic-link-form {
-  display: none;
-  margin-top: var(--spacing-small);
-  text-align: center;
-}
-
-/* Layout - using CSS Grid */
-.page-container {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: var(--gutter);
-  max-width: var(--max-width);
-  margin: var(--spacing-large) auto;
-  padding: var(--gutter);
-}
-
 /* Sidebar */
-.sidebar {
+aside.glass-panel {
+  flex: 1 1 300px;
+  max-width: 300px;
   background-color: var(--secondary);
   padding: var(--spacing-medium);
   border-radius: 8px;
-}
-
-.full-width {
-  width: 100%;
-}
-
-.recipe-list {
-  list-style: none;
-  margin-top: var(--spacing-medium);
 }
 
 /* Main Content */
-.main-content {
-  background-color: var(--secondary);
+main {
+  flex: 3;
   padding: var(--spacing-medium);
-  border-radius: 8px;
 }
 
-.recipe-details,
-.ingredients-view {
-  display: none;
-  margin-bottom: var(--spacing-large);
-  padding: var(--spacing-medium);
-  border-radius: 8px;
-  background-color: var(--secondary);
+/* Lists */
+.recipe-list,
+#ingredientList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-/* Show sections when active */
-.recipe-details.active,
-.ingredients-view.active {
-  display: block;
-}
-
-/* Textboxes */
-.sidebar-textbox {
-  background-color: var(--secondary);
-  color: var(--text);
-  border: 1px solid var(--accent-blue);
+/* Recipe & Ingredient Items */
+.recipe-item,
+.ingredient-item {
+  padding: var(--spacing-small);
+  margin: var(--spacing-small) 0;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 4px;
-  padding: 8px 12px;
-  margin-bottom: var(--spacing-small);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.recipe-item:hover,
+.ingredient-item:hover {
+  background: rgba(255, 255, 255, 0.15);
 }
 
 /* Buttons */
 .btn {
+  display: inline-block;
+  padding: 12px 24px;
   background-color: var(--secondary);
   color: var(--text);
-  padding: 12px 24px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
   font-size: 1em;
+  transition: background 0.3s ease;
 }
 
+/* Button Hover: Use gradient between accent-blue and accent-orange */
 .btn:hover {
-  background-color: var(--accent-blue);
+  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
 }
 
-/* Sidebar Containers */
-.sidebar-container {
-  margin-bottom: var(--spacing-medium);
-}
-
-/* Lists */
-.ingredient-list {
-  list-style: none;
-  padding: 0;
-  margin-top: var(--spacing-medium);
-}
-
-/* Ingredient Item Styling */
-.ingredient-container {
-  margin-bottom: var(--spacing-small);
-}
-
-.ingredient-button {
-  width: 100%;
-  text-align: left;
-  padding: 10px;
+/* Secondary Action Button (e.g., Remove) */
+.secondary-btn {
   background-color: var(--secondary);
   color: var(--text);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+}
+.secondary-btn:hover {
+  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
 }
 
-.ingredient-button:hover {
-  background-color: var(--accent-blue);
-}
-
-.ingredient-description {
-  padding: 8px 12px;
+/* Input Fields */
+input,
+textarea,
+select {
+  background-color: var(--secondary);
+  color: var(--text);
   border: 1px solid var(--accent-blue);
-  background-color: var(--secondary);
   border-radius: 4px;
-  font-size: 0.9em;
-  color: var(--muted-text);
-  margin-top: var(--spacing-small);
+  padding: 8px 12px;
 }
 
-/* Remove Button */
-.remove-ingredient-btn {
-  margin-top: var(--spacing-small);
-  padding: 12px 24px;
-  background-color: var(--accent-orange);
-  color: var(--text);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.remove-ingredient-btn:hover {
-  background-color: #e67e22;
+/* Layout */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--gutter);
 }
 
 /* Spacing Utilities */
@@ -220,7 +194,6 @@ body {
   width: var(--icon-size);
   height: var(--icon-size);
 }
-
 .icon-secondary {
   fill: var(--accent-orange);
   width: var(--icon-size);
@@ -229,10 +202,12 @@ body {
 
 /* Highlighting */
 .highlight {
-  color: var(--accent-orange);
+  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* Loading Animation */
+/* Loading Animations */
 @keyframes loadingAnimation {
   0% { opacity: 0.6; }
   50% { opacity: 1; }
@@ -240,4 +215,83 @@ body {
 }
 .loading {
   animation: loadingAnimation 1.5s infinite;
+}
+
+/* Additional Elements */
+/* Minimalist, line-based icons can be styled here if used */
+
+/* Ingredients View */
+#ingredientsView {
+  display: none;
+  padding: var(--spacing-medium);
+  background-color: var(--secondary);
+  border-radius: 8px;
+  margin: var(--spacing-large) 0;
+}
+#ingredientsView.active {
+  display: block;
+}
+
+/* Recipe Details */
+#recipeDetails {
+  display: none;
+  padding: var(--spacing-medium);
+  background-color: var(--secondary);
+  border-radius: 8px;
+  margin: var(--spacing-large) 0;
+}
+#recipeDetails.active {
+  display: block;
+}
+
+/* Ingredient Container & Button */
+.ingredient-container {
+  margin-bottom: var(--spacing-small);
+}
+
+.ingredient-button {
+  width: 100%;
+  text-align: left;
+  padding: 10px;
+  background-color: var(--secondary);
+  color: var(--text);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.ingredient-button:hover {
+  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
+}
+
+.ingredient-description {
+  padding: 8px 12px;
+  border: 1px solid var(--accent-blue);
+  background-color: var(--secondary);
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: var(--muted-text);
+  margin-top: var(--spacing-small);
+}
+
+/* Remove Ingredient Button */
+.remove-ingredient-btn {
+  margin-top: var(--spacing-small);
+  padding: 12px 24px;
+  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
+  color: var(--text);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.remove-ingredient-btn:hover {
+  background: linear-gradient(45deg, rgba(52,152,219,1), rgba(255,153,0,1));
+}
+
+/* Theme Toggle & Edit Mode Label */
+.theme-label {
+  font-size: 0.9em;
+  margin-right: var(--spacing-small);
 }
