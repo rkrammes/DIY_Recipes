@@ -4,14 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Iteration Station (Magic Link Edition)</title>
-
   <!-- Google Fonts: Roboto Mono -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet" />
-
   <!-- External CSS -->
   <link rel="stylesheet" href="style.css" />
-
   <!-- Papa Parse and Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -39,31 +36,32 @@
       <button class="btn" id="btnSendMagicLink">Send Magic Link</button>
     </div>
   </header>
-
-  <!-- Top Navigation Bar: Horizontal layout for navigation -->
-  <nav class="top-nav">
-    <button class="btn" id="btnIngredients">All Ingredients</button>
-    <div class="recipe-nav">
-      <h2>Recipes</h2>
-      <ul id="recipeList" class="recipe-list-horizontal"></ul>
-    </div>
-  </nav>
-
-  <!-- Main Content Area -->
-  <main class="main-content">
-    <!-- Recipe Details will be displayed here -->
-    <section id="recipeDetails" class="recipe-details"></section>
-    
-    <!-- Ingredients View (global) -->
-    <section id="ingredientsView" class="ingredients-view">
-      <h2>All Ingredients</h2>
-      <div id="addGlobalIngredientContainer" class="sidebar-container">
-        <input id="newGlobalIngredientInput" class="sidebar-textbox" type="text" placeholder="Add New Ingredient" disabled />
+  <div class="page-container">
+    <!-- Horizontal Navigation Bar (formerly left column) -->
+    <nav class="sidebar-horizontal">
+      <button class="btn" id="btnIngredients" style="flex: 0 0 auto;">All Ingredients</button>
+      <h2 class="nav-heading" style="flex: 0 0 auto; margin: 0 var(--spacing-medium);">Recipes</h2>
+      <div id="createRecipeContainer" class="sidebar-container" style="flex: 1;">
+        <input id="newRecipeNameInput" class="sidebar-textbox" type="text" placeholder="Add New Recipe" disabled />
       </div>
-      <ul id="ingredientList" class="ingredient-list"></ul>
-    </section>
-  </main>
-
+      <!-- Optionally, a horizontally scrollable recipe list -->
+      <ul id="recipeList" class="recipe-list-horizontal" style="flex: 2; overflow-x: auto; white-space: nowrap;"></ul>
+      <div id="importCSVContainer" class="import-csv" style="display:none; flex: 0 0 auto;">
+        <p>No recipes found. Import your CSV file:</p>
+        <input type="file" id="csvFile" accept=".csv" />
+      </div>
+    </nav>
+    <main class="main-content">
+      <section id="recipeDetails" class="recipe-details"></section>
+      <section id="ingredientsView" class="ingredients-view">
+        <h2>All Ingredients</h2>
+        <div id="addGlobalIngredientContainer" class="sidebar-container">
+          <input id="newGlobalIngredientInput" class="sidebar-textbox" type="text" placeholder="Add New Ingredient" disabled />
+        </div>
+        <ul id="ingredientList" class="ingredient-list"></ul>
+      </section>
+    </main>
+  </div>
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
