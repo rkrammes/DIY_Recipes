@@ -140,7 +140,7 @@ main {
   display: inline-block;
   padding: 12px 24px;
   background-color: var(--secondary);
-  color: var(--secondary); /* Set to secondary so text is invisible */
+  color: var(--secondary); /* so text is hidden */
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -157,7 +157,7 @@ main {
   -webkit-text-fill-color: transparent;
 }
 
-/* Secondary Action Button (e.g., Remove) */
+/* Secondary Action Button */
 .secondary-btn {
   background-color: var(--secondary);
   color: var(--secondary);
@@ -226,8 +226,7 @@ select {
   animation: loadingAnimation 1.5s infinite;
 }
 
-/* Additional Elements */
-/* Minimalist, line-based icons styling */
+/* Additional Elements: Minimalist Icons */
 .icon-primary {
   fill: var(--accent-blue);
   width: var(--icon-size);
@@ -307,6 +306,11 @@ select {
 }
 .remove-ingredient-btn:hover {
   background: linear-gradient(45deg, rgba(52,152,219,1), rgba(255,153,0,1));
+}
+
+/* Table Cell Background */
+table, th, td {
+  background-color: #000;
 }
 
 /* Theme Toggle & Edit Mode Label */
