@@ -175,6 +175,8 @@ export function showRecipeDetails(recipe) {
  */
 export function initUI() {
   document.addEventListener('DOMContentLoaded', () => {
+    console.log("initUI: DOMContentLoaded event fired");
+
     // Setup theme selector.
     const themeSelect = document.getElementById('themeSelect');
     if (themeSelect) {
@@ -195,6 +197,7 @@ export function initUI() {
     // Setup "All Ingredients" button.
     const btnIngredients = document.getElementById('btnIngredients');
     if (btnIngredients) {
+      console.log("initUI: btnIngredients found");
       btnIngredients.addEventListener('click', () => {
         console.log("All Ingredients button clicked");
         // Hide recipe details view.
@@ -212,6 +215,8 @@ export function initUI() {
           console.error("No container found with id 'ingredientsView'");
         }
       });
+    } else {
+      console.error("initUI: btnIngredients not found");
     }
   });
 }
