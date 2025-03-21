@@ -1,25 +1,109 @@
 /* ui.js */
 
-import { supabaseClient } from './supabaseClient.js';  // Ensure the correct relative path
+import { supabaseClient } from './supabaseClient.js';
+import { sendMagicLink, signOut } from './auth.js';
 
-// Define isEditMode function.
+// Global login state
+let isLoggedIn = false;
+
+/**
+ * Checks if edit mode is active.
+ */
 function isEditMode() {
   const editCheckbox = document.getElementById('editModeCheckbox');
   return editCheckbox ? editCheckbox.checked : false;
 }
 
 /**
+ * Updates the login/logout button text.
+ * Enables or disables the edit mode checkbox.
+ */
+export function updateAuthButton() {
+  const btnLogIn = document.getElementById('btnLogIn');
+  const editCheckbox = document.getElementById('editModeCheckbox');
+  if (btnLogIn) {
+    btnLogIn.textContent = isLoggedIn ? 'Log Out' : 'Log In';
+  }
+  if (editCheckbox) {
+    // Enable edit mode checkbox only when logged in
+    editCheckbox.disabled = !isLoggedIn;
+    // Optionally, uncheck it when logged out
+    if (!isLoggedIn) {
+      editCheckbox.checked = false;
+    }
+  }
+}
+
+/**
+ * Handles the click event on the login button.
+ * If not logged in, expands the magic link form for email entry.
+ * If already logged in, logs out.
+ */
+function handleLoginButtonClick() {
+  const magicLinkForm = document.getElementById('magicLinkForm');
+  if (!isLoggedIn) {
+    // Show the magic link form to prompt for email
+    if (magicLinkForm) {
+      magicLinkForm.style.display = 'block';
+    }
+  } else {
+    // Already logged in: log out the user.
+    signOut().then(() => {
+      isLoggedIn = false;
+      updateAuthButton();
+      // Hide magic link form if visible.
+      if (magicLinkForm) {
+        magicLinkForm.style.display = 'none';
+      }
+      console.log("User logged out.");
+    }).catch((error) => {
+      console.error("Error during sign out:", error);
+    });
+  }
+}
+
+/**
+ * Sets up the "Send Magic Link" button event.
+ * When clicked, it reads the email input and calls sendMagicLink().
+ * On success, marks the user as logged in.
+ */
+function setupMagicLink() {
+  const btnSendMagicLink = document.getElementById('btnSendMagicLink');
+  if (btnSendMagicLink) {
+    btnSendMagicLink.addEventListener('click', async () => {
+      const emailInput = document.getElementById('magicLinkEmail');
+      if (emailInput && emailInput.value) {
+        try {
+          await sendMagicLink(emailInput.value);
+          // Assume that receiving the magic link (or clicking it externally) logs the user in.
+          // For this demo, we immediately mark as logged in.
+          isLoggedIn = true;
+          updateAuthButton();
+          // Hide the magic link form upon successful login.
+          const magicLinkForm = document.getElementById('magicLinkForm');
+          if (magicLinkForm) {
+            magicLinkForm.style.display = 'none';
+          }
+          console.log("User logged in via magic link.");
+        } catch (error) {
+          console.error("Error sending magic link:", error);
+        }
+      } else {
+        alert("Please enter a valid email address.");
+      }
+    });
+  }
+}
+
+/**
  * Displays detailed information for a given recipe.
- * Replicates your original two-column layout:
- * - Left: Current Ingredients in a table.
- * - Right: Next Iteration area with an editable textarea, AI suggestion input/button, and a commit button.
- * @param {object} recipe - The recipe object.
+ * Uses a two-column layout for current ingredients and next iteration.
  */
 export function showRecipeDetails(recipe) {
   // Hide the global ingredients view.
   const ingredientsView = document.getElementById('ingredientsView');
   if (ingredientsView) {
-    ingredientsView.classList.add('hidden');
+    ingredientsView.style.display = 'none';
   }
   
   // Show recipe details section.
@@ -27,9 +111,6 @@ export function showRecipeDetails(recipe) {
   if (!details) return;
   details.style.display = 'block';
   details.innerHTML = '';
-
-  // Remove any hidden class from details (if applied previously)
-  details.classList.remove('hidden');
 
   // Create container with two columns.
   const container = document.createElement('div');
@@ -49,8 +130,7 @@ export function showRecipeDetails(recipe) {
 
     // Create header row.
     const headerRow = document.createElement('tr');
-    const headers = ['Ingredient', 'Quantity', 'Unit', 'Notes'];
-    headers.forEach(headerText => {
+    ['Ingredient', 'Quantity', 'Unit', 'Notes'].forEach(headerText => {
       const th = document.createElement('th');
       th.textContent = headerText;
       th.style.border = '1px solid #ccc';
@@ -63,31 +143,13 @@ export function showRecipeDetails(recipe) {
     // Create a row for each ingredient.
     recipe.ingredients.forEach(ing => {
       const row = document.createElement('tr');
-
-      const tdName = document.createElement('td');
-      tdName.textContent = ing.name || '';
-      tdName.style.border = '1px solid #ccc';
-      tdName.style.padding = '8px';
-      row.appendChild(tdName);
-
-      const tdQuantity = document.createElement('td');
-      tdQuantity.textContent = ing.quantity || '';
-      tdQuantity.style.border = '1px solid #ccc';
-      tdQuantity.style.padding = '8px';
-      row.appendChild(tdQuantity);
-
-      const tdUnit = document.createElement('td');
-      tdUnit.textContent = ing.unit || '';
-      tdUnit.style.border = '1px solid #ccc';
-      tdUnit.style.padding = '8px';
-      row.appendChild(tdUnit);
-
-      const tdNotes = document.createElement('td');
-      tdNotes.textContent = ing.notes || '';
-      tdNotes.style.border = '1px solid #ccc';
-      tdNotes.style.padding = '8px';
-      row.appendChild(tdNotes);
-
+      [ing.name, ing.quantity, ing.unit, ing.notes].forEach(text => {
+        const td = document.createElement('td');
+        td.textContent = text || '';
+        td.style.border = '1px solid #ccc';
+        td.style.padding = '8px';
+        row.appendChild(td);
+      });
       table.appendChild(row);
     });
     currentDiv.appendChild(table);
@@ -101,8 +163,7 @@ export function showRecipeDetails(recipe) {
   nextDiv.style.border = '1px solid #ccc';
   nextDiv.style.padding = '10px';
   nextDiv.innerHTML = `<h3>Next Iteration</h3>`;
-
-  // Textarea for next iteration content.
+  
   const nextTextarea = document.createElement('textarea');
   nextTextarea.style.width = '100%';
   nextTextarea.style.height = '150px';
@@ -132,12 +193,14 @@ export function showRecipeDetails(recipe) {
         })
       });
       const data = await response.json();
+      const suggestionDiv = document.getElementById('aiSuggestionText');
       if (data.suggestion) {
         suggestionDiv.textContent = data.suggestion;
       } else {
         suggestionDiv.textContent = "No suggestion returned.";
       }
     } catch (error) {
+      const suggestionDiv = document.getElementById('aiSuggestionText');
       suggestionDiv.textContent = "Error getting suggestion.";
     }
   });
@@ -171,76 +234,13 @@ export function showRecipeDetails(recipe) {
   });
   nextDiv.appendChild(commitBtn);
 
-  // Append both columns to container and then to details.
   container.appendChild(currentDiv);
   container.appendChild(nextDiv);
-  details.appendChild(container);
-}
-
-/**
- * Initializes UI elements and event listeners.
- */
-export function initUI() {
-  function setup() {
-    console.log("initUI: setup started");
-
-    // Setup theme selector.
-    const themeSelect = document.getElementById('themeSelect');
-    if (themeSelect) {
-      themeSelect.addEventListener('change', (e) => {
-        const value = e.target.value;
-        if (value === "system") {
-          if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.body.className = 'dark';
-          } else {
-            document.body.className = 'light';
-          }
-        } else {
-          document.body.className = value;
-        }
-        console.log("Theme changed to:", document.body.className);
-      });
-    }
-
-    // Setup edit mode toggle.
-    const editCheckbox = document.getElementById('editModeCheckbox');
-    if (editCheckbox) {
-      editCheckbox.checked = window.editMode || false;
-      editCheckbox.addEventListener('change', () => {
-        window.editMode = editCheckbox.checked;
-      });
-    }
-    
-    // Setup "All Ingredients" button.
-    const btnIngredients = document.getElementById('btnIngredients');
-    if (btnIngredients) {
-      console.log("initUI: btnIngredients found");
-      btnIngredients.addEventListener('click', () => {
-        console.log("All Ingredients button clicked");
-        // Hide recipe details view by adding the 'hidden' class.
-        const recipeDetails = document.getElementById('recipeDetails');
-        if (recipeDetails) {
-          recipeDetails.style.display = 'none';
-          console.log("Recipe details hidden");
-        }
-        // Show global ingredients view by removing the 'hidden' class.
-        const ingredientsView = document.getElementById('ingredientsView');
-        if (ingredientsView) {
-          ingredientsView.style.display = 'block';
-          console.log("Ingredients view displayed");
-        } else {
-          console.error("No container found with id 'ingredientsView'");
-        }
-      });
-    } else {
-      console.error("initUI: btnIngredients not found");
-    }
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", setup);
-  } else {
-    setup();
+  const details = document.getElementById('recipeDetails');
+  if (details) {
+    details.style.display = 'block';
+    details.innerHTML = '';
+    details.appendChild(container);
   }
 }
 
@@ -280,19 +280,16 @@ export function renderIngredients(ingredients) {
   }
   container.innerHTML = '';
   ingredients.forEach(ingredient => {
-    // Create a container div for each ingredient.
     const div = document.createElement('div');
     div.classList.add('ingredient-container');
     div.style.marginBottom = '10px';
     
-    // Create a button for the ingredient name.
     const nameBtn = document.createElement('button');
     nameBtn.classList.add('ingredient-button');
     nameBtn.textContent = ingredient.name || 'Unnamed Ingredient';
     nameBtn.style.width = '100%';
     nameBtn.style.textAlign = 'left';
     
-    // Create a div to hold the description; initially hidden.
     const descDiv = document.createElement('div');
     descDiv.classList.add('ingredient-description');
     descDiv.style.display = 'none';
@@ -301,7 +298,6 @@ export function renderIngredients(ingredients) {
     descDiv.style.backgroundColor = '#f9f9f9';
     descDiv.textContent = ingredient.description || 'No description available.';
     
-    // Toggle description visibility when the name button is clicked.
     nameBtn.addEventListener('click', () => {
       descDiv.style.display = descDiv.style.display === 'none' ? 'block' : 'none';
     });
@@ -309,14 +305,13 @@ export function renderIngredients(ingredients) {
     div.appendChild(nameBtn);
     div.appendChild(descDiv);
     
-    // If in edit mode, add a Remove button.
     if (isEditMode()) {
       const removeBtn = document.createElement('button');
       removeBtn.classList.add('remove-ingredient-btn');
       removeBtn.textContent = 'Remove';
       removeBtn.style.marginTop = '5px';
       removeBtn.addEventListener('click', async (e) => {
-        e.stopPropagation(); // Prevent toggling the description.
+        e.stopPropagation();
         const confirmed = confirm(`Remove ingredient "${ingredient.name}"?`);
         if (confirmed) {
           try {
@@ -343,25 +338,82 @@ export function renderIngredients(ingredients) {
 }
 
 /**
- * Updates the login/logout button text.
- * @param {boolean} isLoggedIn - Authentication state.
+ * Initializes UI elements and event listeners.
  */
-export function updateAuthButton(isLoggedIn) {
-  const btnLogIn = document.getElementById('btnLogIn');
-  if (btnLogIn) {
-    btnLogIn.textContent = isLoggedIn ? 'Log Out' : 'Log In';
+export function initUI() {
+  function setup() {
+    console.log("initUI: setup started");
+
+    // Setup theme selector.
+    const themeSelect = document.getElementById('themeSelect');
+    if (themeSelect) {
+      themeSelect.addEventListener('change', (e) => {
+        const value = e.target.value;
+        if (value === "system") {
+          if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.body.className = 'dark';
+          } else {
+            document.body.className = 'light';
+          }
+        } else {
+          document.body.className = value;
+        }
+        console.log("Theme changed to:", document.body.className);
+      });
+    }
+
+    // Setup edit mode toggle.
+    const editCheckbox = document.getElementById('editModeCheckbox');
+    if (editCheckbox) {
+      editCheckbox.checked = window.editMode || false;
+      editCheckbox.disabled = !isLoggedIn; // Only enabled if logged in
+      editCheckbox.addEventListener('change', () => {
+        window.editMode = editCheckbox.checked;
+      });
+    }
+    
+    // Setup login/logout button.
+    const btnLogIn = document.getElementById('btnLogIn');
+    if (btnLogIn) {
+      btnLogIn.addEventListener('click', () => {
+        handleLoginButtonClick();
+      });
+    } else {
+      console.error("initUI: btnLogIn not found");
+    }
+
+    // Setup "Send Magic Link" button.
+    setupMagicLink();
+
+    // Setup "All Ingredients" button.
+    const btnIngredients = document.getElementById('btnIngredients');
+    if (btnIngredients) {
+      console.log("initUI: btnIngredients found");
+      btnIngredients.addEventListener('click', () => {
+        console.log("All Ingredients button clicked");
+        const recipeDetails = document.getElementById('recipeDetails');
+        if (recipeDetails) {
+          recipeDetails.style.display = 'none';
+          console.log("Recipe details hidden");
+        }
+        const ingredientsView = document.getElementById('ingredientsView');
+        if (ingredientsView) {
+          ingredientsView.style.display = 'block';
+          console.log("Ingredients view displayed");
+        } else {
+          console.error("No container found with id 'ingredientsView'");
+        }
+      });
+    } else {
+      console.error("initUI: btnIngredients not found");
+    }
   }
-}
 
-// Dummy authentication functions (replace with your actual logic).
-async function logInUser() {
-  console.log('Logging in...');
-  return true;
-}
-
-async function logOutUser() {
-  console.log('Logging out...');
-  return true;
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setup);
+  } else {
+    setup();
+  }
 }
 
 // Stub functions for reloadData and showNotification.
@@ -374,32 +426,14 @@ function showNotification(message, type) {
   alert(`${type.toUpperCase()}: ${message}`);
 }
 
-// Attach event listener to the login/logout button.
-const btnLogIn = document.getElementById('btnLogIn');
-if (btnLogIn) {
-  btnLogIn.addEventListener('click', async () => {
-    window.isLoggedIn = window.isLoggedIn || false;
-    if (window.isLoggedIn) {
-      const success = await logOutUser();
-      if (success) {
-        window.isLoggedIn = false;
-        updateAuthButton(false);
-      }
-    } else {
-      const success = await logInUser();
-      if (success) {
-        window.isLoggedIn = true;
-        updateAuthButton(true);
-      }
-    }
-  });
-}
-updateAuthButton(window.isLoggedIn || false);
+// Attach login/logout event on page load.
+updateAuthButton();
 
 // Expose exported functions on window.module for backward compatibility.
 window.module = {
   showRecipeDetails,
   initUI,
   renderRecipes,
-  renderIngredients
+  renderIngredients,
+  updateAuthButton
 };
