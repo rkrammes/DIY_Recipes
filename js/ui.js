@@ -56,6 +56,7 @@ export function showRecipeDetails(recipe) {
     // Create a row for each ingredient.
     recipe.ingredients.forEach(ing => {
       const row = document.createElement('tr');
+
       const tdName = document.createElement('td');
       tdName.textContent = ing.name || '';
       tdName.style.border = '1px solid #ccc';
@@ -147,7 +148,6 @@ export function showRecipeDetails(recipe) {
   commitBtn.disabled = !isEditMode();
   commitBtn.addEventListener('click', async () => {
     try {
-      // Ensure that supabaseClient, reloadData, and showNotification are available.
       const { error } = await supabaseClient
         .from('All_Recipes')
         .update({ next_iteration: nextTextarea.value })
@@ -189,6 +189,19 @@ export function initUI() {
       editCheckbox.checked = window.editMode || false;
       editCheckbox.addEventListener('change', () => {
         window.editMode = editCheckbox.checked;
+      });
+    }
+    
+    // Setup "All Ingredients" button.
+    const btnIngredients = document.getElementById('btnIngredients');
+    if (btnIngredients) {
+      btnIngredients.addEventListener('click', () => {
+        // Hide recipe details view.
+        const recipeDetails = document.getElementById('recipeDetails');
+        if (recipeDetails) recipeDetails.style.display = 'none';
+        // Show global ingredients view.
+        const ingredientsView = document.getElementById('ingredientsView');
+        if (ingredientsView) ingredientsView.style.display = 'block';
       });
     }
   });
