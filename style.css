@@ -238,6 +238,14 @@ select {
   height: var(--icon-size);
 }
 
+/* Table Cell Backgrounds */
+table, th, td {
+  background-color: #000;
+}
+th {
+  color: var(--text);
+}
+
 /* Ingredients View */
 #ingredientsView {
   display: none;
@@ -306,11 +314,6 @@ select {
 }
 .remove-ingredient-btn:hover {
   background: linear-gradient(45deg, rgba(52,152,219,1), rgba(255,153,0,1));
-}
-
-/* Table Cell Background */
-table, th, td {
-  background-color: #000;
 }
 
 /* Theme Toggle & Edit Mode Label */
