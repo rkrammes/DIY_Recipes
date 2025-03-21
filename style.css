@@ -2,11 +2,11 @@
 
 /* Root Variables */
 :root {
-  --primary: #1A1A1A;            /* Dark Gray */
+  --primary: #1A1A1A;            /* Default Dark Gray */
   --secondary: #2C2C2C;          /* Lighter Gray */
   --accent-blue: #3498DB;        /* Soft Blue */
   --accent-orange: #FF9900;      /* Vibrant Orange */
-  --text: #FFFFFF;               /* White */
+  --text: #FFFFFF;               /* White for dark theme */
   --muted-text: #BDBDBD;         /* Light Gray */
 
   /* Roboto Mono ONLY */
@@ -35,12 +35,23 @@ html {
   font-size: var(--base-font-size);
 }
 
+/* Body Classes for Dark & Light */
 body {
   font-family: var(--font-family);
   line-height: var(--line-height);
   background-color: var(--primary);
   color: var(--text);
   margin: 0 auto;
+}
+
+body.dark {
+  background-color: #1A1A1A;  /* Real dark background */
+  color: #FFFFFF;             /* White text */
+}
+
+body.light {
+  background-color: #FFFFFF;  /* Light background */
+  color: #333333;             /* Dark text for contrast */
 }
 
 /* Container */
