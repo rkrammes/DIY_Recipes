@@ -19,7 +19,7 @@ export function showRecipeDetails(recipe) {
   // Hide the global ingredients view.
   const ingredientsView = document.getElementById('ingredientsView');
   if (ingredientsView) {
-    ingredientsView.style.display = 'none';
+    ingredientsView.classList.add('hidden');
   }
   
   // Show recipe details section.
@@ -28,7 +28,10 @@ export function showRecipeDetails(recipe) {
   details.style.display = 'block';
   details.innerHTML = '';
 
-  // Create a container with two columns.
+  // Remove any hidden class from details (if applied previously)
+  details.classList.remove('hidden');
+
+  // Create container with two columns.
   const container = document.createElement('div');
   container.style.display = 'flex';
   container.style.gap = '20px';
@@ -214,13 +217,13 @@ export function initUI() {
       console.log("initUI: btnIngredients found");
       btnIngredients.addEventListener('click', () => {
         console.log("All Ingredients button clicked");
-        // Hide recipe details view.
+        // Hide recipe details view by adding the 'hidden' class.
         const recipeDetails = document.getElementById('recipeDetails');
         if (recipeDetails) {
           recipeDetails.style.display = 'none';
           console.log("Recipe details hidden");
         }
-        // Show global ingredients view using inline style.
+        // Show global ingredients view by removing the 'hidden' class.
         const ingredientsView = document.getElementById('ingredientsView');
         if (ingredientsView) {
           ingredientsView.style.display = 'block';
