@@ -5,121 +5,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Iteration Station (Magic Link Edition)</title>
 
-  <!-- 
-    We are only using Roboto Mono throughout the entire app,
-    as per user request for a consistent monospace font.
-  -->
+  <!-- Roboto Mono for entire app -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap"
     rel="stylesheet"
   />
 
-  <!-- 
-    We load our external style.css, which includes:
-      1) Two-level wrapper layout
-      2) Black table cells with white text
-      3) Flat theme selector using Roboto Mono (no "Appearance:" label)
-      4) Everything pinned left/right as requested
-  -->
+  <!-- External CSS -->
   <link rel="stylesheet" href="style.css" />
 
-  <!-- Papa Parse and Supabase for CSV parsing and DB connectivity -->
+  <!-- Papa Parse & Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="dark">
   <div class="page-wrapper">
-    <!-- 
-      TOP-LEVEL WRAPPER
-      Left side: "All Ingredients" + "Add New Recipe"
-      Right side: flat theme selector (no "Appearance:" label) + log in + edit mode
-      This ensures pinned left & pinned right as requested.
-    -->
+    <!-- Top-Level (pinned left & right) -->
     <header class="top-level glass-panel">
       <div class="top-left">
-        <!-- "All Ingredients" pinned to left -->
         <button class="btn" id="btnIngredients">All Ingredients</button>
-
-        <!-- "Add New Recipe" input pinned left as well -->
         <div id="createRecipeContainer">
-          <input
-            id="newRecipeNameInput"
-            class="sidebar-textbox"
-            type="text"
-            placeholder="Add New Recipe"
-            disabled
-          />
+          <input id="newRecipeNameInput" class="sidebar-textbox" type="text" placeholder="Add New Recipe" disabled />
         </div>
       </div>
       <div class="top-right">
-        <!-- 
-          Flat theme selector in Roboto Mono, no "Appearance:" label
-          This ensures the user can pick dark/light/system, but the label is removed
-        -->
+        <!-- Flat theme select, Roboto Mono, no "Appearance:" label -->
         <select id="themeSelect" class="theme-select">
           <option value="dark">Dark</option>
           <option value="light">Light</option>
           <option value="system">System</option>
         </select>
-
-        <!-- Log In + Edit Mode pinned right -->
         <button class="btn" id="btnLogIn">Log In</button>
         <label for="editModeCheckbox" class="theme-label">Edit Mode:</label>
         <input type="checkbox" id="editModeCheckbox" />
       </div>
     </header>
 
-    <!-- 
-      Hidden Magic Link form (shown if user not logged in),
-      no changes to layout from previous versions
-    -->
+    <!-- Magic Link Form (hidden by default) -->
     <div id="magicLinkForm" style="display: none; padding:10px; text-align:center;">
-      <input
-        type="email"
-        id="magicLinkEmail"
-        class="sidebar-textbox"
-        placeholder="Email"
-        style="margin-right:5px; width:180px;"
-      />
+      <input type="email" id="magicLinkEmail" class="sidebar-textbox" placeholder="Email" style="margin-right:5px; width:180px;" />
       <button class="btn" id="btnSendMagicLink">Send Magic Link</button>
     </div>
 
-    <!-- 
-      SECOND-LEVEL WRAPPER
-      Displays horizontally centered recipe list (buttons).
-      This is pinned in the middle row for a two-level design.
-    -->
+    <!-- Second-Level (centered recipe list) -->
     <nav class="second-level glass-panel">
       <ul id="recipeList" class="recipe-list-horizontal"></ul>
     </nav>
 
-    <!-- MAIN CONTENT
-         Displays recipe details or ingredients view as needed.
-    -->
+    <!-- Main content (dark or light based on body class) -->
     <main class="main-content">
       <section class="recipe-details" id="recipeDetails" style="display:none;"></section>
       <section class="ingredients-view" id="ingredientsView" style="display:none;">
         <h2>All Ingredients</h2>
         <div id="addGlobalIngredientContainer" class="sidebar-container">
-          <input
-            id="newGlobalIngredientInput"
-            class="sidebar-textbox"
-            type="text"
-            placeholder="Add New Ingredient"
-            disabled
-          />
+          <input id="newGlobalIngredientInput" class="sidebar-textbox" type="text" placeholder="Add New Ingredient" disabled />
         </div>
         <ul id="ingredientList" class="ingredient-list"></ul>
       </section>
     </main>
   </div>
-
-  <!-- 
-    We load main.js as a module for our main app logic.
-    This file does not override table background colors,
-    so our style.css black table cells remain intact.
-  -->
+  <!-- main.js (assumes it toggles body.className = 'dark' or 'light') -->
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
