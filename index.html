@@ -4,27 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Iteration Station (Magic Link Edition)</title>
-
-  <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
-    rel="stylesheet"
-  />
-
-  <!-- External CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-
-  <!-- Papa Parse and Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="dark-mode">
-  <!-- Header with glass effect & minimal toggles -->
   <header class="glass-panel main-header">
     <div class="header-inner">
       <span class="app-title">Iteration Station</span>
-      <!-- Right-side group: theme, login/logout, & edit mode toggle -->
       <div style="display:flex; align-items:center; gap:15px;">
         <div class="theme-toggle">
           <label for="themeSelect" class="theme-label">Appearance:</label>
@@ -34,43 +23,22 @@
             <option value="system">System</option>
           </select>
         </div>
-        <!-- Login/Logout Button -->
         <button class="btn" id="btnLogIn">Log In</button>
-        <!-- Edit Mode toggle using a checkbox -->
         <label for="editModeCheckbox" class="theme-label">Edit Mode:</label>
         <input type="checkbox" id="editModeCheckbox" />
       </div>
     </div>
-
-    <!-- Hidden inline login form for magic link -->
     <div id="magicLinkForm" style="display:none; padding:10px; text-align:right;">
-      <input
-        type="email"
-        id="magicLinkEmail"
-        class="sidebar-textbox"
-        placeholder="Email"
-        style="margin-right:5px; width:180px;"
-      />
+      <input type="email" id="magicLinkEmail" class="sidebar-textbox" placeholder="Email" style="margin-right:5px; width:180px;" />
       <button class="btn" id="btnSendMagicLink">Send Magic Link</button>
     </div>
   </header>
-
   <div class="container">
-    <!-- Glass aside with subtle frosted background -->
     <aside class="glass-panel">
-      <!-- All Ingredients Button (set to 100% width) -->
       <button class="btn" id="btnIngredients" style="width: 100%;">All Ingredients</button>
       <h2>Recipes</h2>
-      <!-- New Recipe input -->
       <div id="createRecipeContainer" class="sidebar-container">
-        <input
-          id="newRecipeNameInput"
-          class="sidebar-textbox"
-          type="text"
-          placeholder="Add New Recipe"
-          style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; background: #f0f0f0; color: #333;"
-          disabled
-        />
+        <input id="newRecipeNameInput" class="sidebar-textbox" type="text" placeholder="Add New Recipe" style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; background: #f0f0f0; color: #333;" disabled />
       </div>
       <ul class="recipe-list" id="recipeList"></ul>
       <div id="importCSVContainer" style="display:none;">
@@ -78,28 +46,17 @@
         <input type="file" id="csvFile" accept=".csv" />
       </div>
     </aside>
-
     <main>
-      <!-- Recipe Details view -->
       <section class="recipe-details" id="recipeDetails" style="display:none;"></section>
-      <!-- Global Ingredients View -->
       <section class="ingredients-view" id="ingredientsView" style="display:none;">
         <h2>All Ingredients</h2>
         <div id="addGlobalIngredientContainer" class="sidebar-container">
-          <input
-            id="newGlobalIngredientInput"
-            class="sidebar-textbox"
-            type="text"
-            placeholder="Add New Ingredient"
-            disabled
-          />
+          <input id="newGlobalIngredientInput" class="sidebar-textbox" type="text" placeholder="Add New Ingredient" disabled />
         </div>
         <ul id="ingredientList"></ul>
       </section>
     </main>
   </div>
-
-  <!-- Load main.js as a module -->
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
