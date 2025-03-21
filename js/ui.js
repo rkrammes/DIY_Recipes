@@ -16,19 +16,19 @@ function isEditMode() {
  * @param {object} recipe - The recipe object.
  */
 export function showRecipeDetails(recipe) {
-  // Remove active class from ingredients view (if present)
+  // Hide the global ingredients view.
   const ingredientsView = document.getElementById('ingredientsView');
   if (ingredientsView) {
-    ingredientsView.classList.remove('active');
+    ingredientsView.style.display = 'none';
   }
   
-  // Show recipe details section by adding active class.
+  // Show recipe details section.
   const details = document.getElementById('recipeDetails');
   if (!details) return;
-  details.classList.add('active');
+  details.style.display = 'block';
   details.innerHTML = '';
 
-  // Create container with two columns.
+  // Create a container with two columns.
   const container = document.createElement('div');
   container.style.display = 'flex';
   container.style.gap = '20px';
@@ -217,13 +217,13 @@ export function initUI() {
         // Hide recipe details view.
         const recipeDetails = document.getElementById('recipeDetails');
         if (recipeDetails) {
-          recipeDetails.classList.remove('active');
+          recipeDetails.style.display = 'none';
           console.log("Recipe details hidden");
         }
-        // Show global ingredients view by adding active class.
+        // Show global ingredients view using inline style.
         const ingredientsView = document.getElementById('ingredientsView');
         if (ingredientsView) {
-          ingredientsView.classList.add('active');
+          ingredientsView.style.display = 'block';
           console.log("Ingredients view displayed");
         } else {
           console.error("No container found with id 'ingredientsView'");
@@ -313,7 +313,7 @@ export function renderIngredients(ingredients) {
       removeBtn.textContent = 'Remove';
       removeBtn.style.marginTop = '5px';
       removeBtn.addEventListener('click', async (e) => {
-        e.stopPropagation();
+        e.stopPropagation(); // Prevent toggling the description.
         const confirmed = confirm(`Remove ingredient "${ingredient.name}"?`);
         if (confirmed) {
           try {
