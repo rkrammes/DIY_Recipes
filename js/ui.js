@@ -10,23 +10,25 @@ function isEditMode() {
 
 /**
  * Displays detailed information for a given recipe.
- * This function replicates your original two-column layout:
- * - Left: Current Ingredients displayed in a table.
+ * Replicates your original two-column layout:
+ * - Left: Current Ingredients in a table.
  * - Right: Next Iteration area with an editable textarea, AI suggestion input/button, and a commit button.
  * @param {object} recipe - The recipe object.
  */
 export function showRecipeDetails(recipe) {
-  // Hide the global ingredients view.
+  // Remove active class from ingredients view (if present)
   const ingredientsView = document.getElementById('ingredientsView');
-  if (ingredientsView) ingredientsView.style.display = 'none';
-
-  // Show recipe details section.
+  if (ingredientsView) {
+    ingredientsView.classList.remove('active');
+  }
+  
+  // Show recipe details section by adding active class.
   const details = document.getElementById('recipeDetails');
   if (!details) return;
-  details.style.display = 'block';
+  details.classList.add('active');
   details.innerHTML = '';
 
-  // Create a container with two columns.
+  // Create container with two columns.
   const container = document.createElement('div');
   container.style.display = 'flex';
   container.style.gap = '20px';
@@ -185,7 +187,6 @@ export function initUI() {
       themeSelect.addEventListener('change', (e) => {
         const value = e.target.value;
         if (value === "system") {
-          // Use the OS theme preference.
           if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             document.body.className = 'dark';
           } else {
@@ -216,13 +217,13 @@ export function initUI() {
         // Hide recipe details view.
         const recipeDetails = document.getElementById('recipeDetails');
         if (recipeDetails) {
-          recipeDetails.style.display = 'none';
+          recipeDetails.classList.remove('active');
           console.log("Recipe details hidden");
         }
-        // Show global ingredients view.
+        // Show global ingredients view by adding active class.
         const ingredientsView = document.getElementById('ingredientsView');
         if (ingredientsView) {
-          ingredientsView.style.display = 'block';
+          ingredientsView.classList.add('active');
           console.log("Ingredients view displayed");
         } else {
           console.error("No container found with id 'ingredientsView'");
@@ -312,7 +313,7 @@ export function renderIngredients(ingredients) {
       removeBtn.textContent = 'Remove';
       removeBtn.style.marginTop = '5px';
       removeBtn.addEventListener('click', async (e) => {
-        e.stopPropagation(); // Prevent toggling the description.
+        e.stopPropagation();
         const confirmed = confirm(`Remove ingredient "${ingredient.name}"?`);
         if (confirmed) {
           try {
