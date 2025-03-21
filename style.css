@@ -9,7 +9,7 @@
   --text: #FFFFFF;               /* White */
   --muted-text: #BDBDBD;         /* Light Gray */
 
-  /* Roboto Mono for the entire UI except the theme select */
+  /* Roboto Mono ONLY */
   --font-family: 'Roboto Mono', monospace;
   --base-font-size: 16px;
   --line-height: 1.5;
@@ -36,7 +36,6 @@ html {
 }
 
 body {
-  /* Entire app uses Roboto Mono */
   font-family: var(--font-family);
   line-height: var(--line-height);
   background-color: var(--primary);
@@ -120,14 +119,17 @@ aside.glass-panel {
   border-radius: 8px;
 }
 
-/* The theme select uses system UI fonts, not Roboto Mono */
+/* Flattened theme select, uses Roboto Mono */
 .theme-select {
-  font-family: system-ui, sans-serif;
+  font-family: var(--font-family);
   background-color: var(--secondary);
   color: var(--text);
   border: 1px solid var(--accent-blue);
   border-radius: 4px;
   padding: 8px 12px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 /* Recipe & Ingredient Items */
