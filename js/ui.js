@@ -88,27 +88,28 @@ function setupMagicLink() {
 
 /**
  * Displays detailed information for a given recipe.
- * Removed all inline background color assignments for table cells.
+ * The left column shows current ingredients in a table.
+ * The right column is "Next Iteration," with AI prompt & buttons pinned to the right.
  */
 export function showRecipeDetails(recipe) {
-  // Hide global ingredients view.
+  // Hide the global ingredients view
   const ingredientsView = document.getElementById('ingredientsView');
   if (ingredientsView) {
     ingredientsView.style.display = 'none';
   }
 
-  // Show recipe details section.
+  // Show recipe details section
   const details = document.getElementById('recipeDetails');
   if (!details) return;
   details.style.display = 'block';
   details.innerHTML = '';
 
-  // Create a container with two columns.
+  // Create a container with two columns
   const container = document.createElement('div');
   container.style.display = 'flex';
   container.style.gap = '20px';
 
-  // Left column: Current Ingredients (table format)
+  // LEFT COLUMN: Current Ingredients (table format)
   const currentDiv = document.createElement('div');
   currentDiv.style.flex = '1';
   currentDiv.style.border = '1px solid #ccc';
@@ -120,7 +121,7 @@ export function showRecipeDetails(recipe) {
     table.style.width = '100%';
     table.style.borderCollapse = 'collapse';
 
-    // Create header row (NO inline background color).
+    // Create header row
     const headerRow = document.createElement('tr');
     const headers = ['Ingredient', 'Quantity', 'Unit', 'Notes'];
     headers.forEach(text => {
@@ -132,11 +133,10 @@ export function showRecipeDetails(recipe) {
     });
     table.appendChild(headerRow);
 
-    // Create a row for each ingredient (NO inline background color).
+    // Create a row for each ingredient
     recipe.ingredients.forEach(ing => {
       const row = document.createElement('tr');
-      const values = [ing.name, ing.quantity, ing.unit, ing.notes];
-      values.forEach(val => {
+      [ing.name, ing.quantity, ing.unit, ing.notes].forEach(val => {
         const td = document.createElement('td');
         td.textContent = val || '';
         td.style.padding = '8px';
@@ -150,29 +150,35 @@ export function showRecipeDetails(recipe) {
     currentDiv.innerHTML += '<p>No ingredients available.</p>';
   }
 
-  // Right column: Next Iteration (editable)
+  // RIGHT COLUMN: Next Iteration (editable)
   const nextDiv = document.createElement('div');
   nextDiv.style.flex = '1';
   nextDiv.style.border = '1px solid #ccc';
   nextDiv.style.padding = '10px';
-  nextDiv.innerHTML = '<h3>Next Iteration</h3>';
+  nextDiv.innerHTML = `<h3>Next Iteration</h3>`;
 
+  // Textarea for next iteration content
   const nextTextarea = document.createElement('textarea');
   nextTextarea.style.width = '100%';
   nextTextarea.style.height = '150px';
   nextTextarea.value = recipe.next_iteration || '';
   nextDiv.appendChild(nextTextarea);
 
-  // AI Suggestion container.
-  const aiContainer = document.createElement('div');
-  aiContainer.style.marginTop = '10px';
+  // A pinnedRow container that pins AI controls & commit button to the right
+  const pinnedRow = document.createElement('div');
+  pinnedRow.style.display = 'flex';
+  pinnedRow.style.justifyContent = 'flex-end';
+  pinnedRow.style.alignItems = 'center';
+  pinnedRow.style.gap = '10px';
+  pinnedRow.style.marginTop = '10px';
 
+  // AI prompt input
   const aiInput = document.createElement('input');
   aiInput.id = 'aiPrompt';
   aiInput.placeholder = 'Enter prompt for AI suggestion';
   aiInput.disabled = !isEditMode();
-  aiContainer.appendChild(aiInput);
 
+  // AI Suggestion button
   const aiBtn = document.createElement('button');
   aiBtn.textContent = 'Get AI Suggestion';
   aiBtn.classList.add('btn');
@@ -199,15 +205,13 @@ export function showRecipeDetails(recipe) {
       suggestionDiv.textContent = 'Error getting suggestion.';
     }
   });
-  aiContainer.appendChild(aiBtn);
 
+  // A hidden div to show the AI suggestion text
   const suggestionDiv = document.createElement('div');
   suggestionDiv.id = 'aiSuggestionText';
   suggestionDiv.style.marginTop = '10px';
-  aiContainer.appendChild(suggestionDiv);
-  nextDiv.appendChild(aiContainer);
 
-  // Commit Next Iteration button.
+  // Commit Next Iteration button
   const commitBtn = document.createElement('button');
   commitBtn.textContent = 'Commit Next Iteration';
   commitBtn.classList.add('btn');
@@ -228,17 +232,29 @@ export function showRecipeDetails(recipe) {
       showNotification('Error committing next iteration.', 'error');
     }
   });
-  nextDiv.appendChild(commitBtn);
 
+  // Append AI controls & commit button to pinnedRow
+  pinnedRow.appendChild(aiInput);
+  pinnedRow.appendChild(aiBtn);
+  pinnedRow.appendChild(commitBtn);
+
+  // Add pinnedRow to nextDiv
+  nextDiv.appendChild(pinnedRow);
+
+  // Add hidden AI suggestion text below pinnedRow
+  nextDiv.appendChild(suggestionDiv);
+
+  // Append both columns to container
   container.appendChild(currentDiv);
   container.appendChild(nextDiv);
+
+  // Clear and show details
   details.innerHTML = '';
   details.appendChild(container);
 }
 
 /**
  * Renders a list of recipes into the existing <ul id="recipeList"> element.
- * @param {Array} recipes - Array of recipe objects.
  */
 export function renderRecipes(recipes) {
   const container = document.getElementById('recipeList');
@@ -262,7 +278,6 @@ export function renderRecipes(recipes) {
  * Renders a list of ingredients into the existing <ul id="ingredientList"> element.
  * Each ingredient is rendered as a button that toggles its description,
  * and, if in edit mode, shows a Remove button.
- * @param {Array} ingredients - Array of ingredient objects.
  */
 export function renderIngredients(ingredients) {
   const container = document.getElementById('ingredientList');
@@ -275,25 +290,25 @@ export function renderIngredients(ingredients) {
     const div = document.createElement('div');
     div.classList.add('ingredient-container');
     div.style.marginBottom = '10px';
-    
+
     const nameBtn = document.createElement('button');
     nameBtn.classList.add('ingredient-button');
     nameBtn.textContent = ingredient.name || 'Unnamed Ingredient';
     nameBtn.style.width = '100%';
     nameBtn.style.textAlign = 'left';
-    
+
     const descDiv = document.createElement('div');
     descDiv.classList.add('ingredient-description');
     descDiv.style.display = 'none';
     descDiv.textContent = ingredient.description || 'No description available.';
-    
+
     nameBtn.addEventListener('click', () => {
       descDiv.style.display = (descDiv.style.display === 'none') ? 'block' : 'none';
     });
-    
+
     div.appendChild(nameBtn);
     div.appendChild(descDiv);
-    
+
     if (isEditMode()) {
       const removeBtn = document.createElement('button');
       removeBtn.classList.add('remove-ingredient-btn');
@@ -321,7 +336,7 @@ export function renderIngredients(ingredients) {
       });
       div.appendChild(removeBtn);
     }
-    
+
     container.appendChild(div);
   });
 }
@@ -338,6 +353,7 @@ export function initUI() {
       themeSelect.addEventListener('change', (e) => {
         const value = e.target.value;
         if (value === 'system') {
+          // auto-detect OS theme
           if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             document.body.className = 'dark';
           } else {
@@ -404,10 +420,10 @@ function showNotification(message, type) {
   alert(`${type.toUpperCase()}: ${message}`);
 }
 
-// Attach login/logout event on page load.
+// Attach login/logout event on page load
 updateAuthButton();
 
-// Expose exported functions on window.module for backward compatibility.
+// Expose exported functions on window.module for backward compatibility
 window.module = {
   showRecipeDetails,
   initUI,
