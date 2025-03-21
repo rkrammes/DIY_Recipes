@@ -1,221 +1,157 @@
 /* style.css */
 
-/* Reset & Base Styles */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html, body {
-  height: 100%;
-  font-family: 'Inter', sans-serif;
-  scroll-behavior: smooth;
-}
-
-/* Color Variables: Dark Slate & Warm Orange */
+/* Root Variables */
 :root {
-  --primary-slate: #2e2e2e;     /* Sophisticated dark slate */
-  --accent-orange: #FF8F00;     /* Warm, tasteful accent */
-  --light-bg: #f7f7f7;
-  --light-text: #333333;
-  --dark-bg: #1c1c1c;
-  --dark-text: #e0e0e0;
-  --panel-bg: rgba(255, 255, 255, 0.15);
-  --panel-shadow: rgba(0, 0, 0, 0.2);
-  --border-color: rgba(46, 46, 46, 0.3);
+  --primary: #1A1A1A;           /* Dark Gray */
+  --secondary: #2C2C2C;         /* Lighter Gray */
+  --accent-blue: #3498DB;       /* Soft Blue */
+  --accent-orange: #FF9900;     /* Vibrant Orange */
+  --text: #FFFFFF;             /* White */
+  --muted: #BDBDBD;            /* Light Gray */
+  
+  --font-family: 'Roboto Mono', monospace;
+  --base-font-size: 16px;
+  --line-height: 1.5;
+  
+  --max-width: 1200px;
+  --gutter: 24px;
+  
+  --spacing-small: 8px;
+  --spacing-medium: 16px;
+  --spacing-large: 32px;
+  
+  --icon-size: 24px;
 }
 
-/* Dark & Light Mode */
-body.light {
-  background-color: var(--light-bg);
-  color: var(--light-text);
-}
-
-body.dark {
-  background-color: var(--dark-bg);
-  color: var(--dark-text);
-}
-
-/* Glass Panel Effect for Headers and Sidebars */
-.glass-panel {
-  background: var(--panel-bg);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 8px var(--panel-shadow);
-  border-radius: 8px;
-  padding: 15px;
-  margin: 10px;
-}
-
-/* Header Styling */
-.main-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-}
-
-.app-title {
-  font-size: 2em;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-/* Container Layout */
-.container {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 20px;
-}
-
-/* Sidebar Styling */
-aside.glass-panel {
-  flex: 1 1 300px;
-  max-width: 300px;
-  min-width: 250px;
-  margin-right: 20px;
-}
-
-/* Main Content Styling */
-main {
-  flex: 3;
-  padding: 20px;
-}
-
-/* List Styles */
-.recipe-list,
-#ingredientList {
-  list-style: none;
-  padding: 0;
+/* Global Reset & Base Styles */
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Recipe & Ingredient Item Styling */
-.recipe-item,
-.ingredient-item {
-  padding: 10px;
-  margin: 8px 0;
-  background: rgba(46, 46, 46, 0.08);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s ease;
+html {
+  font-size: var(--base-font-size);
 }
 
-.recipe-item:hover,
-.ingredient-item:hover {
-  background: rgba(46, 46, 46, 0.12);
+body {
+  font-family: var(--font-family);
+  line-height: var(--line-height);
+  background-color: var(--primary);
+  color: var(--text);
 }
 
-/* Button Styling */
+/* Container */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--gutter);
+}
+
+/* Typography & Headings */
+h1 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: var(--spacing-medium);
+}
+h2 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: var(--spacing-medium);
+}
+h3 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: var(--spacing-small);
+}
+h4 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: var(--spacing-small);
+}
+
+/* Buttons */
 .btn {
-  display: inline-block;
-  padding: 10px 16px;
-  background-color: var(--primary-slate);
-  color: #fff;
+  background-color: var(--secondary);
+  color: var(--text);
+  padding: 12px 24px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 1em;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.3s ease;
 }
-
 .btn:hover {
+  background-color: var(--accent-blue);
+}
+
+/* For secondary actions (e.g. remove buttons) */
+.secondary-btn {
+  background-color: var(--secondary);
+  color: var(--text);
+}
+.secondary-btn:hover {
   background-color: var(--accent-orange);
 }
 
-/* Sidebar Textbox Styling */
-.sidebar-textbox {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
+/* Input Fields */
+input,
+textarea,
+select {
+  background-color: var(--secondary);
+  color: var(--text);
+  border: 1px solid var(--accent-blue);
   border-radius: 4px;
-  margin-bottom: 10px;
-  font-size: 1em;
-}
-
-/* Ingredients View Container */
-#ingredientsView {
-  display: none;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  margin: 20px 0;
-}
-
-#ingredientsView.active {
-  display: block !important;
-}
-
-/* Recipe Details Container */
-#recipeDetails {
-  display: none;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  margin: 20px 0;
-}
-
-#recipeDetails.active {
-  display: block !important;
-}
-
-/* Ingredient Container */
-.ingredient-container {
-  margin-bottom: 12px;
-}
-
-/* Ingredient Button Styling */
-.ingredient-button {
-  width: 100%;
-  text-align: left;
-  padding: 10px;
-  background-color: var(--primary-slate);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.ingredient-button:hover {
-  background-color: var(--accent-orange);
-}
-
-/* Ingredient Description */
-.ingredient-description {
   padding: 8px 12px;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-  margin-top: 6px;
-  border-radius: 4px;
-  font-size: 0.9em;
-  color: #333;
 }
 
-/* Remove Ingredient Button */
-.remove-ingredient-btn {
-  margin-top: 6px;
-  padding: 8px 12px;
-  background-color: var(--accent-orange);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+/* Layout */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--gutter);
 }
 
-.remove-ingredient-btn:hover {
-  background-color: #e65100;
+/* Spacing Utilities */
+.mt-small { margin-top: var(--spacing-small); }
+.mt-medium { margin-top: var(--spacing-medium); }
+.mt-large { margin-top: var(--spacing-large); }
+.mb-small { margin-bottom: var(--spacing-small); }
+.mb-medium { margin-bottom: var(--spacing-medium); }
+.mb-large { margin-bottom: var(--spacing-large); }
+.ml-small { margin-left: var(--spacing-small); }
+.ml-medium { margin-left: var(--spacing-medium); }
+.ml-large { margin-left: var(--spacing-large); }
+.mr-small { margin-right: var(--spacing-small); }
+.mr-medium { margin-right: var(--spacing-medium); }
+.mr-large { margin-right: var(--spacing-large); }
+
+/* Icons */
+.icon-primary {
+  fill: var(--accent-blue);
+  width: var(--icon-size);
+  height: var(--icon-size);
+}
+.icon-secondary {
+  fill: var(--accent-orange);
+  width: var(--icon-size);
+  height: var(--icon-size);
 }
 
-/* Theme Toggle & Edit Mode Label */
-.theme-label {
-  font-size: 0.9em;
-  margin-right: 5px;
+/* Highlighting */
+.highlight {
+  color: var(--accent-orange);
 }
 
-/* Utility Classes */
-.hidden {
-  display: none !important;
+/* Loading Animation */
+@keyframes loadingAnimation {
+  0% { background-color: var(--accent-blue); }
+  50% { background-color: var(--accent-orange); }
+  100% { background-color: var(--accent-blue); }
 }
+.loading {
+  animation: loadingAnimation 1.5s infinite;
+}
+
+/* Additional Elements */
+/* Use minimalist, line-based icons where needed (e.g., via an icon font or inline SVG) */
+/* You may add further specific styling for icons here */
