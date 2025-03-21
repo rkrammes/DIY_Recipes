@@ -15,7 +15,8 @@ function isEditMode() {
 }
 
 /**
- * Updates the login/logout button text and enables/disables edit mode.
+ * Updates the login/logout button text and enables/disables the edit mode checkbox.
+ * Also adds a red outline to the edit mode checkbox when disabled.
  */
 export function updateAuthButton() {
   const btnLogIn = document.getElementById('btnLogIn');
@@ -24,15 +25,21 @@ export function updateAuthButton() {
     btnLogIn.textContent = isLoggedIn ? 'Log Out' : 'Log In';
   }
   if (editCheckbox) {
+    // Enable the edit mode checkbox only when logged in.
     editCheckbox.disabled = !isLoggedIn;
     if (!isLoggedIn) {
       editCheckbox.checked = false;
+      editCheckbox.style.outline = "2px solid red";
+    } else {
+      editCheckbox.style.outline = "";
     }
   }
 }
 
 /**
- * Handles the login button click.
+ * Handles the login/logout button click.
+ * If not logged in, displays the magic link form.
+ * If logged in, logs the user out.
  */
 function handleLoginButtonClick() {
   const magicLinkForm = document.getElementById('magicLinkForm');
@@ -65,6 +72,7 @@ function setupMagicLink() {
       if (emailInput && emailInput.value) {
         try {
           await sendMagicLink(emailInput.value);
+          // For demonstration, assume login is immediate.
           isLoggedIn = true;
           updateAuthButton();
           const magicLinkForm = document.getElementById('magicLinkForm');
@@ -92,7 +100,7 @@ export function showRecipeDetails(recipe) {
     ingredientsView.style.display = 'none';
   }
   
-  // Get the recipe details element.
+  // Show recipe details section.
   const details = document.getElementById('recipeDetails');
   if (!details) return;
   details.style.display = 'block';
@@ -150,17 +158,29 @@ export function showRecipeDetails(recipe) {
   nextTextarea.style.height = '150px';
   nextTextarea.value = recipe.next_iteration || "";
   nextDiv.appendChild(nextTextarea);
+
+  // AI Suggestion container.
   const aiContainer = document.createElement('div');
   aiContainer.style.marginTop = '10px';
   const aiInput = document.createElement('input');
   aiInput.id = 'aiPrompt';
   aiInput.placeholder = 'Enter prompt for AI suggestion';
   aiInput.disabled = !isEditMode();
+  if (!isEditMode()) {
+    aiInput.style.outline = "2px solid red";
+  } else {
+    aiInput.style.outline = "";
+  }
   aiContainer.appendChild(aiInput);
   const aiBtn = document.createElement('button');
   aiBtn.textContent = 'Get AI Suggestion';
   aiBtn.classList.add('btn');
   aiBtn.disabled = !isEditMode();
+  if (!isEditMode()) {
+    aiBtn.style.outline = "2px solid red";
+  } else {
+    aiBtn.style.outline = "";
+  }
   aiBtn.addEventListener('click', async () => {
     try {
       const response = await fetch('/api/ai-suggestion', {
@@ -189,10 +209,16 @@ export function showRecipeDetails(recipe) {
   suggestionDiv.style.marginTop = '10px';
   aiContainer.appendChild(suggestionDiv);
   nextDiv.appendChild(aiContainer);
+
   const commitBtn = document.createElement('button');
   commitBtn.textContent = 'Commit Next Iteration';
   commitBtn.classList.add('btn');
   commitBtn.disabled = !isEditMode();
+  if (!isEditMode()) {
+    commitBtn.style.outline = "2px solid red";
+  } else {
+    commitBtn.style.outline = "";
+  }
   commitBtn.addEventListener('click', async () => {
     try {
       const { error } = await supabaseClient
@@ -210,6 +236,7 @@ export function showRecipeDetails(recipe) {
     }
   });
   nextDiv.appendChild(commitBtn);
+
   container.appendChild(currentDiv);
   container.appendChild(nextDiv);
   details.appendChild(container);
@@ -238,7 +265,7 @@ export function renderRecipes(recipes) {
 
 /**
  * Renders a list of ingredients into the <ul id="ingredientList"> element.
- * Each ingredient appears as a button that toggles its description.
+ * Each ingredient is rendered as a button that toggles its description.
  * If in edit mode, a "Remove" button is added.
  */
 export function renderIngredients(ingredients) {
@@ -252,11 +279,13 @@ export function renderIngredients(ingredients) {
     const div = document.createElement('div');
     div.classList.add('ingredient-container');
     div.style.marginBottom = '10px';
+    
     const nameBtn = document.createElement('button');
     nameBtn.classList.add('ingredient-button');
     nameBtn.textContent = ingredient.name || 'Unnamed Ingredient';
     nameBtn.style.width = '100%';
     nameBtn.style.textAlign = 'left';
+    
     const descDiv = document.createElement('div');
     descDiv.classList.add('ingredient-description');
     descDiv.style.display = 'none';
@@ -264,11 +293,14 @@ export function renderIngredients(ingredients) {
     descDiv.style.border = '1px solid #ccc';
     descDiv.style.backgroundColor = '#f9f9f9';
     descDiv.textContent = ingredient.description || 'No description available.';
+    
     nameBtn.addEventListener('click', () => {
       descDiv.style.display = descDiv.style.display === 'none' ? 'block' : 'none';
     });
+    
     div.appendChild(nameBtn);
     div.appendChild(descDiv);
+    
     if (isEditMode()) {
       const removeBtn = document.createElement('button');
       removeBtn.classList.add('remove-ingredient-btn');
@@ -296,6 +328,7 @@ export function renderIngredients(ingredients) {
       });
       div.appendChild(removeBtn);
     }
+    
     container.appendChild(div);
   });
 }
@@ -328,6 +361,11 @@ export function initUI() {
     if (editCheckbox) {
       editCheckbox.checked = window.editMode || false;
       editCheckbox.disabled = !isLoggedIn;
+      if (!isLoggedIn) {
+        editCheckbox.style.outline = "2px solid red";
+      } else {
+        editCheckbox.style.outline = "";
+      }
       editCheckbox.addEventListener('change', () => {
         window.editMode = editCheckbox.checked;
       });
@@ -383,7 +421,7 @@ function showNotification(message, type) {
   alert(`${type.toUpperCase()}: ${message}`);
 }
 
-// Attach login/logout events.
+// Attach login/logout event on page load.
 updateAuthButton();
 
 // Expose functions on window.module for backward compatibility.
