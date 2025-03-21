@@ -1,169 +1,220 @@
 /* style.css */
 
-/* Base styling */
-body {
+/* Reset & Base Styles */
+* {
+  box-sizing: border-box;
   margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
   font-family: 'Inter', sans-serif;
+  scroll-behavior: smooth;
 }
 
-/* Dark and light mode settings */
-body.dark {
-  background-color: #121212;
-  color: #e0e0e0;
+/* Color Variables (Blue and Orange) */
+:root {
+  --primary-blue: #007BFF;
+  --accent-orange: #FF6F00;
+  --light-bg: #ffffff;
+  --light-text: #333333;
+  --dark-bg: #121212;
+  --dark-text: #e0e0e0;
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-shadow: rgba(0, 0, 0, 0.2);
 }
 
+/* Dark & Light Mode */
 body.light {
-  background-color: #ffffff;
-  color: #333333;
+  background-color: var(--light-bg);
+  color: var(--light-text);
 }
 
-/* Glass panel effect for headers and sidebars */
+body.dark {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+/* Glass Panel Effect */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--glass-bg);
   backdrop-filter: blur(10px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px var(--glass-shadow);
   border-radius: 8px;
   padding: 15px;
   margin: 10px;
 }
 
-/* Header styling */
+/* Header Styling */
 .main-header {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 20px;
 }
 
-/* Container for the main content */
+/* Title */
+.app-title {
+  font-size: 2em;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* Container Layout */
 .container {
   display: flex;
   flex-wrap: wrap;
+  padding: 20px;
 }
 
-/* Sidebar styling */
+/* Sidebar Styling */
 aside.glass-panel {
   flex: 1 1 300px;
   max-width: 300px;
   min-width: 250px;
+  margin-right: 20px;
 }
 
-/* Main content styling */
+/* Main Content Styling */
 main {
   flex: 3;
   padding: 20px;
 }
 
-/* Recipe list styling */
-.recipe-list,
-.ingredient-list,
-#ingredientList {
+/* List Styles */
+.recipe-list, #ingredientList {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-/* Recipe item styling */
+/* Recipe & Ingredient Item Styling */
 .recipe-item,
 .ingredient-item {
   padding: 10px;
-  margin: 5px 0;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
+  margin: 8px 0;
+  background: rgba(0, 123, 255, 0.1);
+  border: 1px solid rgba(0, 123, 255, 0.2);
+  border-radius: 6px;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-/* Button styling */
+.recipe-item:hover,
+.ingredient-item:hover {
+  background: rgba(0, 123, 255, 0.15);
+}
+
+/* Buttons */
 .btn {
-  padding: 10px 15px;
-  background-color: #007BFF;
+  display: inline-block;
+  padding: 10px 16px;
+  background-color: var(--primary-blue);
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 1em;
+  transition: background-color 0.2s ease;
 }
 
 .btn:hover {
-  background-color: #0056b3;
+  background-color: var(--accent-orange);
 }
 
-/* Input styling */
+/* Sidebar Textbox */
 .sidebar-textbox {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-bottom: 10px;
-  box-sizing: border-box;
+  font-size: 1em;
 }
 
-/* Ingredients view container.
-   By default, it's hidden.
-   When .active is added, it will be shown. */
+/* Ingredients View */
 #ingredientsView {
   display: none;
-  padding: 15px;
+  padding: 20px;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
-  margin: 10px 0;
+  margin: 20px 0;
 }
 
-/* When active, force display block */
 #ingredientsView.active {
   display: block !important;
 }
 
-/* Recipe details container. */
+/* Recipe Details View */
 #recipeDetails {
   display: none;
-  padding: 15px;
+  padding: 20px;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
-  margin: 10px 0;
+  margin: 20px 0;
 }
 
-/* Utility classes for hiding elements */
-.hidden {
-  display: none !important;
+#recipeDetails.active {
+  display: block !important;
 }
 
-/* Ingredient container styling */
+/* Ingredient Container (for individual ingredient buttons) */
 .ingredient-container {
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
-/* Ingredient button styling */
+/* Ingredient Button */
 .ingredient-button {
   width: 100%;
   text-align: left;
-  padding: 8px;
-  background-color: #007BFF;
+  padding: 10px;
+  background-color: var(--primary-blue);
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-/* Ingredient description styling */
+.ingredient-button:hover {
+  background-color: var(--accent-orange);
+}
+
+/* Ingredient Description */
 .ingredient-description {
-  padding: 5px 10px;
+  padding: 8px 12px;
   border: 1px solid #ccc;
   background-color: #f9f9f9;
-  margin-top: 5px;
+  margin-top: 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: #333;
 }
 
-/* Remove button styling for ingredients */
+/* Remove Ingredient Button */
 .remove-ingredient-btn {
-  margin-top: 5px;
-  padding: 5px 10px;
-  background-color: #dc3545;
+  margin-top: 6px;
+  padding: 8px 12px;
+  background-color: var(--accent-orange);
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .remove-ingredient-btn:hover {
-  background-color: #c82333;
+  background-color: #e65100;
+}
+
+/* Theme Toggle & Edit Mode Label */
+.theme-label {
+  font-size: 0.9em;
+  margin-right: 5px;
+}
+
+/* Additional Utility Classes */
+.hidden {
+  display: none !important;
 }
