@@ -24,7 +24,7 @@ export function updateAuthButton() {
     btnLogIn.textContent = isLoggedIn ? 'Log Out' : 'Log In';
   }
   if (editCheckbox) {
-    // Enable the edit mode checkbox only when logged in.
+    // Enable edit mode checkbox only when logged in
     editCheckbox.disabled = !isLoggedIn;
     if (!isLoggedIn) {
       editCheckbox.checked = false;
@@ -58,7 +58,7 @@ function handleLoginButtonClick() {
 }
 
 /**
- * Sets up the 'Send Magic Link' button event.
+ * Sets up the "Send Magic Link" button event.
  */
 function setupMagicLink() {
   const btnSendMagicLink = document.getElementById('btnSendMagicLink');
@@ -68,7 +68,7 @@ function setupMagicLink() {
       if (emailInput && emailInput.value) {
         try {
           await sendMagicLink(emailInput.value);
-          // Assume login is immediate for demonstration.
+          // Assume login is immediate for demonstration
           isLoggedIn = true;
           updateAuthButton();
           const magicLinkForm = document.getElementById('magicLinkForm');
@@ -88,8 +88,8 @@ function setupMagicLink() {
 
 /**
  * Displays detailed information for a given recipe.
- * The left column shows current ingredients in a table.
- * The right column is "Next Iteration," with AI prompt & buttons pinned to the right.
+ * "Commit" button is now on the same row as "Next Iteration" heading, pinned right.
+ * The AI prompt and "Get AI Suggestion" remain pinned bottom-right in the same column.
  */
 export function showRecipeDetails(recipe) {
   // Hide the global ingredients view
@@ -121,7 +121,7 @@ export function showRecipeDetails(recipe) {
     table.style.width = '100%';
     table.style.borderCollapse = 'collapse';
 
-    // Create header row
+    // Header row
     const headerRow = document.createElement('tr');
     const headers = ['Ingredient', 'Quantity', 'Unit', 'Notes'];
     headers.forEach(text => {
@@ -133,7 +133,7 @@ export function showRecipeDetails(recipe) {
     });
     table.appendChild(headerRow);
 
-    // Create a row for each ingredient
+    // Rows for each ingredient
     recipe.ingredients.forEach(ing => {
       const row = document.createElement('tr');
       [ing.name, ing.quantity, ing.unit, ing.notes].forEach(val => {
@@ -150,12 +150,49 @@ export function showRecipeDetails(recipe) {
     currentDiv.innerHTML += '<p>No ingredients available.</p>';
   }
 
-  // RIGHT COLUMN: Next Iteration (editable)
+  // RIGHT COLUMN: Next Iteration
   const nextDiv = document.createElement('div');
   nextDiv.style.flex = '1';
   nextDiv.style.border = '1px solid #ccc';
   nextDiv.style.padding = '10px';
-  nextDiv.innerHTML = `<h3>Next Iteration</h3>`;
+
+  // A row for "Next Iteration" heading on left, "Commit" button on right
+  const iterationHeader = document.createElement('div');
+  iterationHeader.style.display = 'flex';
+  iterationHeader.style.justifyContent = 'space-between';
+  iterationHeader.style.alignItems = 'center';
+  iterationHeader.style.marginBottom = '10px';
+
+  // Heading
+  const heading = document.createElement('h3');
+  heading.textContent = 'Next Iteration';
+  iterationHeader.appendChild(heading);
+
+  // "Commit" button pinned right
+  const commitBtn = document.createElement('button');
+  commitBtn.textContent = 'Commit';
+  commitBtn.classList.add('btn');
+  commitBtn.disabled = !isEditMode();
+  commitBtn.addEventListener('click', async () => {
+    try {
+      const nextTextareaValue = nextTextarea.value;
+      const { error } = await supabaseClient
+        .from('All_Recipes')
+        .update({ next_iteration: nextTextareaValue })
+        .eq('id', recipe.id);
+      if (error) {
+        showNotification('Error committing next iteration.', 'error');
+      } else {
+        showNotification('Next iteration committed!', 'success');
+        await reloadData();
+      }
+    } catch (error) {
+      showNotification('Error committing next iteration.', 'error');
+    }
+  });
+  iterationHeader.appendChild(commitBtn);
+
+  nextDiv.appendChild(iterationHeader);
 
   // Textarea for next iteration content
   const nextTextarea = document.createElement('textarea');
@@ -164,7 +201,7 @@ export function showRecipeDetails(recipe) {
   nextTextarea.value = recipe.next_iteration || '';
   nextDiv.appendChild(nextTextarea);
 
-  // A pinnedRow container that pins AI controls & commit button to the right
+  // A pinned row for AI prompt & "Get AI Suggestion" button at bottom right
   const pinnedRow = document.createElement('div');
   pinnedRow.style.display = 'flex';
   pinnedRow.style.justifyContent = 'flex-end';
@@ -206,49 +243,20 @@ export function showRecipeDetails(recipe) {
     }
   });
 
-  // A hidden div to show the AI suggestion text
+  pinnedRow.appendChild(aiInput);
+  pinnedRow.appendChild(aiBtn);
+
+  nextDiv.appendChild(pinnedRow);
+
+  // Hidden AI suggestion text area
   const suggestionDiv = document.createElement('div');
   suggestionDiv.id = 'aiSuggestionText';
   suggestionDiv.style.marginTop = '10px';
-
-  // Commit Next Iteration button
-  const commitBtn = document.createElement('button');
-  commitBtn.textContent = 'Commit Next Iteration';
-  commitBtn.classList.add('btn');
-  commitBtn.disabled = !isEditMode();
-  commitBtn.addEventListener('click', async () => {
-    try {
-      const { error } = await supabaseClient
-        .from('All_Recipes')
-        .update({ next_iteration: nextTextarea.value })
-        .eq('id', recipe.id);
-      if (error) {
-        showNotification('Error committing next iteration.', 'error');
-      } else {
-        showNotification('Next iteration committed!', 'success');
-        await reloadData();
-      }
-    } catch (error) {
-      showNotification('Error committing next iteration.', 'error');
-    }
-  });
-
-  // Append AI controls & commit button to pinnedRow
-  pinnedRow.appendChild(aiInput);
-  pinnedRow.appendChild(aiBtn);
-  pinnedRow.appendChild(commitBtn);
-
-  // Add pinnedRow to nextDiv
-  nextDiv.appendChild(pinnedRow);
-
-  // Add hidden AI suggestion text below pinnedRow
   nextDiv.appendChild(suggestionDiv);
 
-  // Append both columns to container
   container.appendChild(currentDiv);
   container.appendChild(nextDiv);
 
-  // Clear and show details
   details.innerHTML = '';
   details.appendChild(container);
 }
@@ -353,7 +361,6 @@ export function initUI() {
       themeSelect.addEventListener('change', (e) => {
         const value = e.target.value;
         if (value === 'system') {
-          // auto-detect OS theme
           if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             document.body.className = 'dark';
           } else {
