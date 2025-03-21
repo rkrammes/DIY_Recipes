@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Iteration Station (Magic Link Edition)</title>
 
-  <!-- Roboto Mono for entire app -->
+  <!-- 
+    Roboto Mono ONLY
+    No references to other fonts 
+  -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap"
@@ -21,16 +24,26 @@
 </head>
 <body class="dark">
   <div class="page-wrapper">
-    <!-- Top-Level (pinned left & right) -->
+    <!-- 
+      TOP-LEVEL WRAPPER 
+      Left side: "All Ingredients" & "Add New Recipe"
+      Right side: theme select (flat, no label), "Log In", & "Edit Mode"
+    -->
     <header class="top-level glass-panel">
       <div class="top-left">
         <button class="btn" id="btnIngredients">All Ingredients</button>
         <div id="createRecipeContainer">
-          <input id="newRecipeNameInput" class="sidebar-textbox" type="text" placeholder="Add New Recipe" disabled />
+          <input
+            id="newRecipeNameInput"
+            class="sidebar-textbox"
+            type="text"
+            placeholder="Add New Recipe"
+            disabled
+          />
         </div>
       </div>
       <div class="top-right">
-        <!-- Flat theme select, Roboto Mono, no "Appearance:" label -->
+        <!-- Flat theme selector, Roboto Mono, no label -->
         <select id="themeSelect" class="theme-select">
           <option value="dark">Dark</option>
           <option value="light">Light</option>
@@ -42,30 +55,43 @@
       </div>
     </header>
 
-    <!-- Magic Link Form (hidden by default) -->
+    <!-- Hidden Magic Link Form (shown if user not logged in) -->
     <div id="magicLinkForm" style="display: none; padding:10px; text-align:center;">
-      <input type="email" id="magicLinkEmail" class="sidebar-textbox" placeholder="Email" style="margin-right:5px; width:180px;" />
+      <input
+        type="email"
+        id="magicLinkEmail"
+        class="sidebar-textbox"
+        placeholder="Email"
+        style="margin-right:5px; width:180px;"
+      />
       <button class="btn" id="btnSendMagicLink">Send Magic Link</button>
     </div>
 
-    <!-- Second-Level (centered recipe list) -->
+    <!-- SECOND-LEVEL WRAPPER: horizontally centered recipe list -->
     <nav class="second-level glass-panel">
       <ul id="recipeList" class="recipe-list-horizontal"></ul>
     </nav>
 
-    <!-- Main content (dark or light based on body class) -->
+    <!-- MAIN CONTENT: displays recipe details or ingredients view -->
     <main class="main-content">
       <section class="recipe-details" id="recipeDetails" style="display:none;"></section>
       <section class="ingredients-view" id="ingredientsView" style="display:none;">
         <h2>All Ingredients</h2>
         <div id="addGlobalIngredientContainer" class="sidebar-container">
-          <input id="newGlobalIngredientInput" class="sidebar-textbox" type="text" placeholder="Add New Ingredient" disabled />
+          <input
+            id="newGlobalIngredientInput"
+            class="sidebar-textbox"
+            type="text"
+            placeholder="Add New Ingredient"
+            disabled
+          />
         </div>
         <ul id="ingredientList" class="ingredient-list"></ul>
       </section>
     </main>
   </div>
-  <!-- main.js (assumes it toggles body.className = 'dark' or 'light') -->
+
+  <!-- main.js as a module -->
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
