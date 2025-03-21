@@ -5,12 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Iteration Station (Magic Link Edition)</title>
 
-  <!-- Google Fonts: Inter -->
+  <!-- Google Fonts: Roboto Mono -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet" />
 
   <!-- External CSS -->
   <link rel="stylesheet" href="style.css" />
@@ -20,11 +17,10 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="dark">
-  <!-- Header with glass effect & minimal toggles -->
-  <header class="glass-panel main-header">
+  <header class="main-header">
     <div class="header-inner">
-      <span class="app-title">Iteration Station</span>
-      <div style="display:flex; align-items:center; gap:15px;">
+      <h1 class="app-title">Iteration Station</h1>
+      <div class="header-controls">
         <div class="theme-toggle">
           <label for="themeSelect" class="theme-label">Appearance:</label>
           <select id="themeSelect" class="theme-select">
@@ -38,51 +34,32 @@
         <input type="checkbox" id="editModeCheckbox" />
       </div>
     </div>
-    <div id="magicLinkForm" style="display:none; padding:10px; text-align:right;">
-      <input
-        type="email"
-        id="magicLinkEmail"
-        class="sidebar-textbox"
-        placeholder="Email"
-        style="margin-right:5px; width:180px;"
-      />
+    <div id="magicLinkForm" class="magic-link-form">
+      <input type="email" id="magicLinkEmail" class="sidebar-textbox" placeholder="Email" />
       <button class="btn" id="btnSendMagicLink">Send Magic Link</button>
     </div>
   </header>
-  <div class="container">
-    <aside class="glass-panel">
-      <button class="btn" id="btnIngredients" style="width: 100%;">All Ingredients</button>
+  <div class="page-container">
+    <aside class="sidebar">
+      <button class="btn full-width" id="btnIngredients">All Ingredients</button>
       <h2>Recipes</h2>
       <div id="createRecipeContainer" class="sidebar-container">
-        <input
-          id="newRecipeNameInput"
-          class="sidebar-textbox"
-          type="text"
-          placeholder="Add New Recipe"
-          style="padding: 10px; border: 1px solid #ccc; border-radius: 4px; background: #f0f0f0; color: #333;"
-          disabled
-        />
+        <input id="newRecipeNameInput" class="sidebar-textbox" type="text" placeholder="Add New Recipe" disabled />
       </div>
-      <ul class="recipe-list" id="recipeList"></ul>
-      <div id="importCSVContainer" style="display:none;">
+      <ul id="recipeList" class="recipe-list"></ul>
+      <div id="importCSVContainer" class="import-csv" style="display:none;">
         <p>No recipes found. Import your CSV file:</p>
         <input type="file" id="csvFile" accept=".csv" />
       </div>
     </aside>
-    <main>
-      <section class="recipe-details" id="recipeDetails" style="display:none;"></section>
-      <section class="ingredients-view" id="ingredientsView" style="display:none;">
+    <main class="main-content">
+      <section id="recipeDetails" class="recipe-details"></section>
+      <section id="ingredientsView" class="ingredients-view">
         <h2>All Ingredients</h2>
         <div id="addGlobalIngredientContainer" class="sidebar-container">
-          <input
-            id="newGlobalIngredientInput"
-            class="sidebar-textbox"
-            type="text"
-            placeholder="Add New Ingredient"
-            disabled
-          />
+          <input id="newGlobalIngredientInput" class="sidebar-textbox" type="text" placeholder="Add New Ingredient" disabled />
         </div>
-        <ul id="ingredientList"></ul>
+        <ul id="ingredientList" class="ingredient-list"></ul>
       </section>
     </main>
   </div>
