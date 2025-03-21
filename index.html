@@ -13,7 +13,7 @@
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    /* Additional inline styles for header controls layout */
+    /* Inline styles for header controls layout */
     .header-controls {
       display: flex;
       justify-content: space-between;
@@ -63,7 +63,13 @@
       </div>
     </div>
     <div id="magicLinkForm" style="display:none; padding:10px; text-align:right;">
-      <input type="email" id="magicLinkEmail" class="sidebar-textbox" placeholder="Email" style="margin-right:5px; width:180px;" />
+      <input
+        type="email"
+        id="magicLinkEmail"
+        class="sidebar-textbox"
+        placeholder="Email"
+        style="margin-right:5px; width:180px;"
+      />
       <button class="btn" id="btnSendMagicLink">Send Magic Link</button>
     </div>
   </header>
