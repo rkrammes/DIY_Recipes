@@ -6,7 +6,7 @@
   --secondary: #2C2C2C;          /* Lighter Gray */
   --accent-blue: #3498DB;        /* Soft Blue */
   --accent-orange: #FF9900;      /* Vibrant Orange */
-  --text: #FFFFFF;              /* White */
+  --text: #FFFFFF;               /* White */
   --muted-text: #BDBDBD;         /* Light Gray */
   
   --font-family: 'Roboto Mono', monospace;
@@ -238,17 +238,6 @@ select {
   height: var(--icon-size);
 }
 
-/* Table Cell Backgrounds & Colors */
-table, th, td {
-  background-color: #000; /* Black background */
-  color: #FFF;           /* White text */
-  border-collapse: collapse; /* Optional: ensure borders line up */
-}
-th, td {
-  border: 1px solid #444; /* Subtle border for separation */
-  padding: 8px;
-}
-
 /* Ingredients View */
 #ingredientsView {
   display: none;
@@ -323,4 +312,12 @@ th, td {
 .theme-label {
   font-size: 0.9em;
   margin-right: var(--spacing-small);
+}
+
+/* FINAL Override: Force black background, white text, and subtle border on all table cells */
+.container table th,
+.container table td {
+  background-color: #000 !important;
+  color: #FFF !important;
+  border: 1px solid #444 !important;
 }
