@@ -13,17 +13,14 @@
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    /* Two-level wrapper layout */
-
-    /* The overall page wrapper fills the viewport */
+    /* Inline styles for two-level wrapper layout */
     .page-wrapper {
       display: flex;
       flex-direction: column;
       height: 100vh;
       overflow: hidden;
     }
-
-    /* Top-level: fixed header */
+    /* Top-level header */
     .top-level {
       display: flex;
       justify-content: space-between;
@@ -31,22 +28,24 @@
       padding: 16px;
       background-color: #2C2C2C;
     }
-
-    /* Left side of top-level: pinned elements */
-    .top-left {
+    .top-level .top-left,
+    .top-level .top-right {
       display: flex;
       align-items: center;
       gap: 16px;
     }
-
-    /* Right side of top-level: pinned elements */
-    .top-right {
-      display: flex;
-      align-items: center;
-      gap: 16px;
+    /* Flat theme selector styling */
+    .theme-select {
+      background: #2C2C2C;
+      color: #FFFFFF;
+      border: 1px solid #3498DB;
+      border-radius: 4px;
+      padding: 8px 12px;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
     }
-
-    /* Second-level: horizontal recipe list */
+    /* Second-level: centered recipe list */
     .second-level {
       padding: 8px 16px;
       background-color: #1A1A1A;
@@ -60,8 +59,7 @@
       margin: 0;
       padding: 0;
     }
-
-    /* Main content area: fills remaining space */
+    /* Main content area */
     .main-content {
       flex: 1;
       overflow-y: auto;
@@ -72,7 +70,7 @@
 </head>
 <body class="dark">
   <div class="page-wrapper">
-    <!-- Top-Level Wrapper -->
+    <!-- Top-Level Header -->
     <header class="top-level glass-panel">
       <div class="top-left">
         <button class="btn" id="btnIngredients">All Ingredients</button>
@@ -92,7 +90,7 @@
       </div>
     </header>
     <!-- Magic Link Form (hidden by default) -->
-    <div id="magicLinkForm" style="display: none; padding:10px; text-align:center;">
+    <div id="magicLinkForm" style="display:none; padding:10px; text-align:center;">
       <input type="email" id="magicLinkEmail" class="sidebar-textbox" placeholder="Email" style="margin-right:5px; width:180px;" />
       <button class="btn" id="btnSendMagicLink">Send Magic Link</button>
     </div>
@@ -102,13 +100,13 @@
     </nav>
     <!-- Main Content Area -->
     <main class="main-content">
-      <section class="recipe-details" id="recipeDetails" style="display: none;"></section>
-      <section class="ingredients-view" id="ingredientsView" style="display: none;">
+      <section class="recipe-details" id="recipeDetails" style="display:none;"></section>
+      <section class="ingredients-view" id="ingredientsView" style="display:none;">
         <h2>All Ingredients</h2>
         <div id="addGlobalIngredientContainer" class="sidebar-container">
           <input id="newGlobalIngredientInput" class="sidebar-textbox" type="text" placeholder="Add New Ingredient" disabled />
         </div>
-        <ul id="ingredientList"></ul>
+        <ul id="ingredientList" class="ingredient-list"></ul>
       </section>
     </main>
   </div>
