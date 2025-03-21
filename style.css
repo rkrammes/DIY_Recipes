@@ -1,23 +1,14 @@
-/* 
-  style.css
-
-  Contains:
-  1) Two-level wrapper layout for pinned left/right elements + centered recipe list
-  2) Roboto Mono for the entire UI
-  3) Flat theme selector, no "Appearance:" label
-  4) Black table cells with white text
-*/
+/* style.css */
 
 /* Root Variables */
 :root {
-  --primary: #1A1A1A;       /* Default Dark Gray background */
-  --secondary: #2C2C2C;     /* Lighter Gray for side panels, etc. */
-  --accent-blue: #3498DB;   /* Soft Blue for highlights */
-  --accent-orange: #FF9900; /* Vibrant Orange for highlights */
-  --text: #FFFFFF;          /* White text in dark mode */
-  --muted-text: #BDBDBD;    /* Light gray text for subtle elements */
+  --primary: #1A1A1A;       /* Dark background */
+  --secondary: #2C2C2C;     /* Dark gray for panels */
+  --accent-blue: #3498DB;
+  --accent-orange: #FF9900;
+  --text: #FFFFFF;          /* Default text color in dark mode */
+  --muted-text: #BDBDBD;
 
-  /* Single font family for entire app, as requested: Roboto Mono */
   --font-family: 'Roboto Mono', monospace;
   --base-font-size: 16px;
   --line-height: 1.5;
@@ -32,7 +23,7 @@
   --icon-size: 24px;
 }
 
-/* Global Reset & Base Styles */
+/* Basic Reset */
 * {
   margin: 0;
   padding: 0;
@@ -43,6 +34,7 @@ html {
   font-size: var(--base-font-size);
 }
 
+/* Dark is default if body has class "dark" */
 body {
   font-family: var(--font-family);
   line-height: var(--line-height);
@@ -50,38 +42,24 @@ body {
   color: var(--text);
   margin: 0 auto;
 }
+body.dark {
+  background-color: #1A1A1A;
+  color: #FFFFFF;
+}
+/* Light mode overrides */
+body.light {
+  background-color: #FFFFFF;
+  color: #333333;
+}
 
-/* Container for optional content width constraints */
+/* Container for optional content constraints */
 .container {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: var(--gutter);
 }
 
-/* Headings, all in Roboto Mono, bold */
-h1, h2, h3, h4 {
-  font-family: var(--font-family);
-  font-weight: bold;
-}
-
-h1 {
-  font-size: 32px;
-  margin-bottom: var(--spacing-medium);
-}
-h2 {
-  font-size: 28px;
-  margin-bottom: var(--spacing-medium);
-}
-h3 {
-  font-size: 24px;
-  margin-bottom: var(--spacing-small);
-}
-h4 {
-  font-size: 20px;
-  margin-bottom: var(--spacing-small);
-}
-
-/* Glass Panels for top-level, second-level, etc. */
+/* Glass Panels in dark mode by default */
 .glass-panel {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
@@ -91,7 +69,14 @@ h4 {
   margin-bottom: var(--spacing-large);
 }
 
-/* Two-Level Page Layout */
+/* Override glass panels in light mode to have a light background */
+body.light .glass-panel {
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  color: #333333;
+}
+
+/* Page Layout: pinned top-level, centered second-level */
 .page-wrapper {
   display: flex;
   flex-direction: column;
@@ -105,6 +90,11 @@ h4 {
   padding: 16px;
   background-color: var(--secondary);
 }
+/* Light mode override for top-level background */
+body.light .top-level {
+  background-color: #f0f0f0;
+  color: #333333;
+}
 .top-level .top-left,
 .top-level .top-right {
   display: flex;
@@ -115,6 +105,11 @@ h4 {
   padding: 8px 16px;
   background-color: #1A1A1A;
   text-align: center;
+}
+/* Light mode override for second-level */
+body.light .second-level {
+  background-color: #f9f9f9;
+  color: #333333;
 }
 .recipe-list-horizontal {
   display: inline-flex;
@@ -130,6 +125,11 @@ h4 {
   padding: 16px;
   background-color: #1A1A1A;
 }
+/* Light mode override for main-content */
+body.light .main-content {
+  background-color: #FFFFFF;
+  color: #333333;
+}
 
 /* Sidebar Panels */
 aside.glass-panel {
@@ -139,8 +139,13 @@ aside.glass-panel {
   padding: var(--spacing-medium);
   border-radius: 8px;
 }
+/* Light mode override for aside */
+body.light aside.glass-panel {
+  background-color: #f0f0f0;
+  color: #333333;
+}
 
-/* Flattened theme select in Roboto Mono, no "Appearance:" label */
+/* Theme select: flat, Roboto Mono, no label */
 .theme-select {
   font-family: var(--font-family);
   background-color: var(--secondary);
@@ -152,8 +157,13 @@ aside.glass-panel {
   -webkit-appearance: none;
   -moz-appearance: none;
 }
+/* Light mode override for theme select */
+body.light .theme-select {
+  background-color: #f0f0f0;
+  color: #333333;
+}
 
-/* Lists for recipes/ingredients */
+/* Basic Lists for recipes/ingredients */
 .recipe-list,
 #ingredientList {
   list-style: none;
@@ -162,12 +172,12 @@ aside.glass-panel {
   font-family: var(--font-family);
 }
 
-/* Buttons: Gradient Text Effect */
+/* Buttons: gradient text effect */
 .btn {
   display: inline-block;
   padding: 12px 24px;
   background-color: var(--secondary);
-  color: var(--secondary); /* so text is hidden behind gradient */
+  color: var(--secondary);
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -178,14 +188,18 @@ aside.glass-panel {
   -webkit-text-fill-color: transparent;
   transition: background 0.3s ease;
 }
-
 .btn:hover {
   background: linear-gradient(45deg, rgba(52,152,219,1), rgba(255,153,0,1));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+/* Light mode override for .btn if needed (still has gradient text, so no major changes) */
+body.light .btn {
+  background-color: #f0f0f0;
+  color: #f0f0f0; /* so gradient text is still visible */
+}
 
-/* Secondary Action Button with gradient text as well */
+/* Secondary Action Button */
 .secondary-btn {
   background-color: var(--secondary);
   color: var(--secondary);
@@ -199,6 +213,10 @@ aside.glass-panel {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+body.light .secondary-btn {
+  background-color: #f0f0f0;
+  color: #f0f0f0;
+}
 
 /* Input Fields (text, textarea) in Roboto Mono */
 input,
@@ -210,46 +228,15 @@ textarea {
   padding: 8px 12px;
   font-family: var(--font-family);
 }
-
-/* Spacing Utilities */
-.mt-small { margin-top: var(--spacing-small); }
-.mt-medium { margin-top: var(--spacing-medium); }
-.mt-large { margin-top: var(--spacing-large); }
-.mb-small { margin-bottom: var(--spacing-small); }
-.mb-medium { margin-bottom: var(--spacing-medium); }
-.mb-large { margin-bottom: var(--spacing-large); }
-
-/* Icons */
-.icon-primary {
-  fill: var(--accent-blue);
-  width: var(--icon-size);
-  height: var(--icon-size);
-}
-.icon-secondary {
-  fill: var(--accent-orange);
-  width: var(--icon-size);
-  height: var(--icon-size);
+/* Light mode override for inputs */
+body.light input,
+body.light textarea {
+  background-color: #f0f0f0;
+  color: #333333;
+  border: 1px solid #3498DB;
 }
 
-/* Highlighting with gradient text */
-.highlight {
-  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-family: var(--font-family);
-}
-
-/* Simple Loading Animation */
-@keyframes loadingAnimation {
-  0% { opacity: 0.6; }
-  50% { opacity: 1; }
-  100% { opacity: 0.6; }
-}
-.loading {
-  animation: loadingAnimation 1.5s infinite;
-}
-
-/* Force black BG & white text in table cells, as requested */
+/* Table Cells: black BG & white text (unchanged in light mode) */
 .container table th,
 .container table td {
   background-color: #000 !important;
@@ -262,7 +249,6 @@ textarea {
 .ingredient-container {
   margin-bottom: var(--spacing-small);
 }
-
 .ingredient-button {
   width: 100%;
   text-align: left;
@@ -275,11 +261,9 @@ textarea {
   transition: background 0.3s ease;
   font-family: var(--font-family);
 }
-
 .ingredient-button:hover {
   background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
 }
-
 .ingredient-description {
   padding: 8px 12px;
   border: 1px solid var(--accent-blue);
@@ -289,6 +273,15 @@ textarea {
   color: var(--muted-text);
   margin-top: var(--spacing-small);
   font-family: var(--font-family);
+}
+/* Light mode override for .ingredient-button, .ingredient-description */
+body.light .ingredient-button {
+  background-color: #f0f0f0;
+  color: #333333;
+}
+body.light .ingredient-description {
+  background-color: #f0f0f0;
+  color: #666666;
 }
 
 /* Remove Ingredient Button */
@@ -306,15 +299,19 @@ textarea {
 .remove-ingredient-btn:hover {
   background: linear-gradient(45deg, rgba(52,152,219,1), rgba(255,153,0,1));
 }
+body.light .remove-ingredient-btn {
+  background-color: #f0f0f0;
+  color: #f0f0f0; /* so gradient text effect remains visible */
+}
 
-/* Theme Toggle & Edit Mode Label in Roboto Mono */
+/* Theme Toggle & Edit Mode Label */
 .theme-label {
   font-size: 0.9em;
   margin-right: var(--spacing-small);
   font-family: var(--font-family);
 }
 
-/* Ingredients View & Recipe Details, pinned below in main content */
+/* Ingredients View & Recipe Details */
 #ingredientsView,
 #recipeDetails {
   display: none;
@@ -324,7 +321,39 @@ textarea {
   margin: var(--spacing-large) 0;
   font-family: var(--font-family);
 }
+/* Light mode override for .ingredients-view, .recipe-details */
+body.light #ingredientsView,
+body.light #recipeDetails {
+  background-color: #f0f0f0;
+  color: #333333;
+}
 #ingredientsView.active,
 #recipeDetails.active {
   display: block;
+}
+
+/* Basic Highlighting / Loading Animations / Icons remain same */
+.highlight {
+  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: var(--font-family);
+}
+@keyframes loadingAnimation {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+.loading {
+  animation: loadingAnimation 1.5s infinite;
+}
+.icon-primary {
+  fill: var(--accent-blue);
+  width: var(--icon-size);
+  height: var(--icon-size);
+}
+.icon-secondary {
+  fill: var(--accent-orange);
+  width: var(--icon-size);
+  height: var(--icon-size);
 }
