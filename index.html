@@ -39,30 +39,31 @@
       <button class="btn" id="btnSendMagicLink">Send Magic Link</button>
     </div>
   </header>
-  <div class="page-container">
-    <aside class="sidebar">
-      <button class="btn full-width" id="btnIngredients">All Ingredients</button>
+
+  <!-- Top Navigation Bar: Horizontal layout for navigation -->
+  <nav class="top-nav">
+    <button class="btn" id="btnIngredients">All Ingredients</button>
+    <div class="recipe-nav">
       <h2>Recipes</h2>
-      <div id="createRecipeContainer" class="sidebar-container">
-        <input id="newRecipeNameInput" class="sidebar-textbox" type="text" placeholder="Add New Recipe" disabled />
+      <ul id="recipeList" class="recipe-list-horizontal"></ul>
+    </div>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    <!-- Recipe Details will be displayed here -->
+    <section id="recipeDetails" class="recipe-details"></section>
+    
+    <!-- Ingredients View (global) -->
+    <section id="ingredientsView" class="ingredients-view">
+      <h2>All Ingredients</h2>
+      <div id="addGlobalIngredientContainer" class="sidebar-container">
+        <input id="newGlobalIngredientInput" class="sidebar-textbox" type="text" placeholder="Add New Ingredient" disabled />
       </div>
-      <ul id="recipeList" class="recipe-list"></ul>
-      <div id="importCSVContainer" class="import-csv" style="display:none;">
-        <p>No recipes found. Import your CSV file:</p>
-        <input type="file" id="csvFile" accept=".csv" />
-      </div>
-    </aside>
-    <main class="main-content">
-      <section id="recipeDetails" class="recipe-details"></section>
-      <section id="ingredientsView" class="ingredients-view">
-        <h2>All Ingredients</h2>
-        <div id="addGlobalIngredientContainer" class="sidebar-container">
-          <input id="newGlobalIngredientInput" class="sidebar-textbox" type="text" placeholder="Add New Ingredient" disabled />
-        </div>
-        <ul id="ingredientList" class="ingredient-list"></ul>
-      </section>
-    </main>
-  </div>
+      <ul id="ingredientList" class="ingredient-list"></ul>
+    </section>
+  </main>
+
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
