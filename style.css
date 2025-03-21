@@ -13,16 +13,17 @@ html, body {
   scroll-behavior: smooth;
 }
 
-/* Color Variables (Blue and Orange) */
+/* Color Variables: Modern Blue & Orange */
 :root {
-  --primary-blue: #007BFF;
-  --accent-orange: #FF6F00;
+  --primary-blue: #1976D2;      /* A refined, vibrant blue */
+  --accent-orange: #FF8F00;     /* A strong, complementary orange */
   --light-bg: #ffffff;
   --light-text: #333333;
   --dark-bg: #121212;
   --dark-text: #e0e0e0;
-  --glass-bg: rgba(255, 255, 255, 0.1);
-  --glass-shadow: rgba(0, 0, 0, 0.2);
+  --glass-bg: rgba(255, 255, 255, 0.15);
+  --glass-shadow: rgba(0, 0, 0, 0.25);
+  --border-color: rgba(25, 118, 210, 0.3);
 }
 
 /* Dark & Light Mode */
@@ -54,7 +55,6 @@ body.dark {
   padding: 20px;
 }
 
-/* Title */
 .app-title {
   font-size: 2em;
   font-weight: 600;
@@ -83,7 +83,8 @@ main {
 }
 
 /* List Styles */
-.recipe-list, #ingredientList {
+.recipe-list,
+#ingredientList {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -94,8 +95,8 @@ main {
 .ingredient-item {
   padding: 10px;
   margin: 8px 0;
-  background: rgba(0, 123, 255, 0.1);
-  border: 1px solid rgba(0, 123, 255, 0.2);
+  background: rgba(25, 118, 210, 0.08);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.2s ease;
@@ -103,7 +104,7 @@ main {
 
 .recipe-item:hover,
 .ingredient-item:hover {
-  background: rgba(0, 123, 255, 0.15);
+  background: rgba(25, 118, 210, 0.12);
 }
 
 /* Buttons */
@@ -133,11 +134,11 @@ main {
   font-size: 1em;
 }
 
-/* Ingredients View */
+/* Ingredients View Container */
 #ingredientsView {
   display: none;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 8px;
   margin: 20px 0;
 }
@@ -146,11 +147,11 @@ main {
   display: block !important;
 }
 
-/* Recipe Details View */
+/* Recipe Details Container */
 #recipeDetails {
   display: none;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 8px;
   margin: 20px 0;
 }
@@ -159,7 +160,7 @@ main {
   display: block !important;
 }
 
-/* Ingredient Container (for individual ingredient buttons) */
+/* Ingredient Container */
 .ingredient-container {
   margin-bottom: 12px;
 }
