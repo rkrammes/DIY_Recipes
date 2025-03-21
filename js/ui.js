@@ -15,8 +15,8 @@ function isEditMode() {
 }
 
 /**
- * Updates the login/logout button text and enables/disables the edit mode checkbox.
- * Also adds a red outline to the edit mode checkbox when disabled.
+ * Updates the login/logout button text and the enabled state of edit mode.
+ * Also calls updateEditingOutlines() to refresh red outlines.
  */
 export function updateAuthButton() {
   const btnLogIn = document.getElementById('btnLogIn');
@@ -34,12 +34,47 @@ export function updateAuthButton() {
       editCheckbox.style.outline = "";
     }
   }
+  updateEditingOutlines();
+}
+
+/**
+ * Updates red outlines for editing elements based on current edit mode state.
+ * When edit mode is off, applies a red outline to indicate disabled editing.
+ */
+function updateEditingOutlines() {
+  // Update AI input outline.
+  const aiInput = document.getElementById('aiPrompt');
+  if (aiInput) {
+    if (!isEditMode()) {
+      aiInput.style.outline = "2px solid red";
+    } else {
+      aiInput.style.outline = "";
+    }
+  }
+  // Update AI button outline.
+  const aiBtn = document.getElementById('aiBtn');
+  if (aiBtn) {
+    if (!isEditMode()) {
+      aiBtn.style.outline = "2px solid red";
+    } else {
+      aiBtn.style.outline = "";
+    }
+  }
+  // Update Commit button outline.
+  const commitBtn = document.getElementById('commitBtn');
+  if (commitBtn) {
+    if (!isEditMode()) {
+      commitBtn.style.outline = "2px solid red";
+    } else {
+      commitBtn.style.outline = "";
+    }
+  }
 }
 
 /**
  * Handles the login/logout button click.
  * If not logged in, displays the magic link form.
- * If logged in, logs the user out.
+ * If logged in, logs out the user.
  */
 function handleLoginButtonClick() {
   const magicLinkForm = document.getElementById('magicLinkForm');
@@ -72,7 +107,7 @@ function setupMagicLink() {
       if (emailInput && emailInput.value) {
         try {
           await sendMagicLink(emailInput.value);
-          // For demonstration, assume login is immediate.
+          // Assume login occurs immediately for demo purposes.
           isLoggedIn = true;
           updateAuthButton();
           const magicLinkForm = document.getElementById('magicLinkForm');
@@ -153,13 +188,13 @@ export function showRecipeDetails(recipe) {
   nextDiv.style.border = '1px solid #ccc';
   nextDiv.style.padding = '10px';
   nextDiv.innerHTML = `<h3>Next Iteration</h3>`;
+  
   const nextTextarea = document.createElement('textarea');
   nextTextarea.style.width = '100%';
   nextTextarea.style.height = '150px';
   nextTextarea.value = recipe.next_iteration || "";
   nextDiv.appendChild(nextTextarea);
 
-  // AI Suggestion container.
   const aiContainer = document.createElement('div');
   aiContainer.style.marginTop = '10px';
   const aiInput = document.createElement('input');
@@ -168,18 +203,15 @@ export function showRecipeDetails(recipe) {
   aiInput.disabled = !isEditMode();
   if (!isEditMode()) {
     aiInput.style.outline = "2px solid red";
-  } else {
-    aiInput.style.outline = "";
   }
   aiContainer.appendChild(aiInput);
   const aiBtn = document.createElement('button');
+  aiBtn.id = 'aiBtn';
   aiBtn.textContent = 'Get AI Suggestion';
   aiBtn.classList.add('btn');
   aiBtn.disabled = !isEditMode();
   if (!isEditMode()) {
     aiBtn.style.outline = "2px solid red";
-  } else {
-    aiBtn.style.outline = "";
   }
   aiBtn.addEventListener('click', async () => {
     try {
@@ -211,13 +243,12 @@ export function showRecipeDetails(recipe) {
   nextDiv.appendChild(aiContainer);
 
   const commitBtn = document.createElement('button');
+  commitBtn.id = 'commitBtn';
   commitBtn.textContent = 'Commit Next Iteration';
   commitBtn.classList.add('btn');
   commitBtn.disabled = !isEditMode();
   if (!isEditMode()) {
     commitBtn.style.outline = "2px solid red";
-  } else {
-    commitBtn.style.outline = "";
   }
   commitBtn.addEventListener('click', async () => {
     try {
@@ -265,8 +296,8 @@ export function renderRecipes(recipes) {
 
 /**
  * Renders a list of ingredients into the <ul id="ingredientList"> element.
- * Each ingredient is rendered as a button that toggles its description.
- * If in edit mode, a "Remove" button is added.
+ * Each ingredient appears as a button that toggles its description.
+ * In edit mode, a "Remove" button is added.
  */
 export function renderIngredients(ingredients) {
   const container = document.getElementById('ingredientList');
@@ -368,6 +399,7 @@ export function initUI() {
       }
       editCheckbox.addEventListener('change', () => {
         window.editMode = editCheckbox.checked;
+        updateEditingOutlines();
       });
     }
 
