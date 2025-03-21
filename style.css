@@ -1,15 +1,23 @@
-/* style.css */
+/* 
+  style.css
+
+  Contains:
+  1) Two-level wrapper layout for pinned left/right elements + centered recipe list
+  2) Roboto Mono for the entire UI
+  3) Flat theme selector, no "Appearance:" label
+  4) Black table cells with white text
+*/
 
 /* Root Variables */
 :root {
-  --primary: #1A1A1A;            /* Default Dark Gray */
-  --secondary: #2C2C2C;          /* Lighter Gray */
-  --accent-blue: #3498DB;        /* Soft Blue */
-  --accent-orange: #FF9900;      /* Vibrant Orange */
-  --text: #FFFFFF;               /* White for dark theme */
-  --muted-text: #BDBDBD;         /* Light Gray */
+  --primary: #1A1A1A;       /* Default Dark Gray background */
+  --secondary: #2C2C2C;     /* Lighter Gray for side panels, etc. */
+  --accent-blue: #3498DB;   /* Soft Blue for highlights */
+  --accent-orange: #FF9900; /* Vibrant Orange for highlights */
+  --text: #FFFFFF;          /* White text in dark mode */
+  --muted-text: #BDBDBD;    /* Light gray text for subtle elements */
 
-  /* Roboto Mono ONLY */
+  /* Single font family for entire app, as requested: Roboto Mono */
   --font-family: 'Roboto Mono', monospace;
   --base-font-size: 16px;
   --line-height: 1.5;
@@ -35,7 +43,6 @@ html {
   font-size: var(--base-font-size);
 }
 
-/* Body Classes for Dark & Light */
 body {
   font-family: var(--font-family);
   line-height: var(--line-height);
@@ -44,34 +51,37 @@ body {
   margin: 0 auto;
 }
 
-body.dark {
-  background-color: #1A1A1A;  /* Real dark background */
-  color: #FFFFFF;             /* White text */
-}
-
-body.light {
-  background-color: #FFFFFF;  /* Light background */
-  color: #333333;             /* Dark text for contrast */
-}
-
-/* Container */
+/* Container for optional content width constraints */
 .container {
   max-width: var(--max-width);
   margin: 0 auto;
   padding: var(--gutter);
 }
 
-/* Typography & Headings */
+/* Headings, all in Roboto Mono, bold */
 h1, h2, h3, h4 {
   font-family: var(--font-family);
   font-weight: bold;
 }
-h1 { font-size: 32px; margin-bottom: var(--spacing-medium); }
-h2 { font-size: 28px; margin-bottom: var(--spacing-medium); }
-h3 { font-size: 24px; margin-bottom: var(--spacing-small); }
-h4 { font-size: 20px; margin-bottom: var(--spacing-small); }
 
-/* Glass Panels (top-level, second-level, etc.) */
+h1 {
+  font-size: 32px;
+  margin-bottom: var(--spacing-medium);
+}
+h2 {
+  font-size: 28px;
+  margin-bottom: var(--spacing-medium);
+}
+h3 {
+  font-size: 24px;
+  margin-bottom: var(--spacing-small);
+}
+h4 {
+  font-size: 20px;
+  margin-bottom: var(--spacing-small);
+}
+
+/* Glass Panels for top-level, second-level, etc. */
 .glass-panel {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
@@ -81,7 +91,7 @@ h4 { font-size: 20px; margin-bottom: var(--spacing-small); }
   margin-bottom: var(--spacing-large);
 }
 
-/* Page Layout: two-level design */
+/* Two-Level Page Layout */
 .page-wrapper {
   display: flex;
   flex-direction: column;
@@ -130,7 +140,7 @@ aside.glass-panel {
   border-radius: 8px;
 }
 
-/* Flattened theme select, uses Roboto Mono */
+/* Flattened theme select in Roboto Mono, no "Appearance:" label */
 .theme-select {
   font-family: var(--font-family);
   background-color: var(--secondary);
@@ -143,7 +153,7 @@ aside.glass-panel {
   -moz-appearance: none;
 }
 
-/* Recipe & Ingredient Items */
+/* Lists for recipes/ingredients */
 .recipe-list,
 #ingredientList {
   list-style: none;
@@ -152,12 +162,12 @@ aside.glass-panel {
   font-family: var(--font-family);
 }
 
-/* Buttons - Gradient Text Effect */
+/* Buttons: Gradient Text Effect */
 .btn {
   display: inline-block;
   padding: 12px 24px;
   background-color: var(--secondary);
-  color: var(--secondary); /* so text is hidden */
+  color: var(--secondary); /* so text is hidden behind gradient */
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -175,7 +185,7 @@ aside.glass-panel {
   -webkit-text-fill-color: transparent;
 }
 
-/* Secondary Action Button */
+/* Secondary Action Button with gradient text as well */
 .secondary-btn {
   background-color: var(--secondary);
   color: var(--secondary);
@@ -190,7 +200,7 @@ aside.glass-panel {
   -webkit-text-fill-color: transparent;
 }
 
-/* Input Fields */
+/* Input Fields (text, textarea) in Roboto Mono */
 input,
 textarea {
   background-color: var(--secondary);
@@ -221,7 +231,7 @@ textarea {
   height: var(--icon-size);
 }
 
-/* Highlighting */
+/* Highlighting with gradient text */
 .highlight {
   background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
   -webkit-background-clip: text;
@@ -229,7 +239,7 @@ textarea {
   font-family: var(--font-family);
 }
 
-/* Loading Animation */
+/* Simple Loading Animation */
 @keyframes loadingAnimation {
   0% { opacity: 0.6; }
   50% { opacity: 1; }
@@ -239,7 +249,7 @@ textarea {
   animation: loadingAnimation 1.5s infinite;
 }
 
-/* Table Cells: black BG & white text */
+/* Force black BG & white text in table cells, as requested */
 .container table th,
 .container table td {
   background-color: #000 !important;
@@ -297,14 +307,14 @@ textarea {
   background: linear-gradient(45deg, rgba(52,152,219,1), rgba(255,153,0,1));
 }
 
-/* Theme Toggle & Edit Mode Label */
+/* Theme Toggle & Edit Mode Label in Roboto Mono */
 .theme-label {
   font-size: 0.9em;
   margin-right: var(--spacing-small);
   font-family: var(--font-family);
 }
 
-/* Ingredients View & Recipe Details */
+/* Ingredients View & Recipe Details, pinned below in main content */
 #ingredientsView,
 #recipeDetails {
   display: none;
