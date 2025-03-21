@@ -1,4 +1,6 @@
-/* ui.js */
+// ui.js
+
+import { supabaseClient } from './supabaseClient.js';  // Ensure this file is in the correct relative path
 
 // Define isEditMode function.
 function isEditMode() {
@@ -56,6 +58,7 @@ export function showRecipeDetails(recipe) {
     // Create a row for each ingredient.
     recipe.ingredients.forEach(ing => {
       const row = document.createElement('tr');
+
       const tdName = document.createElement('td');
       tdName.textContent = ing.name || '';
       tdName.style.border = '1px solid #ccc';
@@ -250,6 +253,8 @@ export function renderRecipes(recipes) {
 
 /**
  * Renders a list of ingredients into the existing <ul id="ingredientList"> element.
+ * Each ingredient is rendered as a button that toggles a description,
+ * and, if in edit mode, shows a Remove button.
  * @param {Array} ingredients - Array of ingredient objects.
  */
 export function renderIngredients(ingredients) {
@@ -260,10 +265,65 @@ export function renderIngredients(ingredients) {
   }
   container.innerHTML = '';
   ingredients.forEach(ingredient => {
-    const li = document.createElement('li');
-    li.classList.add('ingredient-item');
-    li.textContent = ingredient.name || 'Unnamed Ingredient';
-    container.appendChild(li);
+    // Create a container div for each ingredient.
+    const div = document.createElement('div');
+    div.classList.add('ingredient-container');
+    div.style.marginBottom = '10px';
+    
+    // Create a button for the ingredient name.
+    const nameBtn = document.createElement('button');
+    nameBtn.classList.add('ingredient-button');
+    nameBtn.textContent = ingredient.name || 'Unnamed Ingredient';
+    nameBtn.style.width = '100%';
+    nameBtn.style.textAlign = 'left';
+    
+    // Create a div to hold the description; initially hidden.
+    const descDiv = document.createElement('div');
+    descDiv.classList.add('ingredient-description');
+    descDiv.style.display = 'none';
+    descDiv.style.padding = '5px 10px';
+    descDiv.style.border = '1px solid #ccc';
+    descDiv.style.backgroundColor = '#f9f9f9';
+    descDiv.textContent = ingredient.description || 'No description available.';
+    
+    // Toggle description visibility when the name button is clicked.
+    nameBtn.addEventListener('click', () => {
+      descDiv.style.display = descDiv.style.display === 'none' ? 'block' : 'none';
+    });
+    
+    div.appendChild(nameBtn);
+    div.appendChild(descDiv);
+    
+    // If in edit mode, add a Remove button.
+    if (isEditMode()) {
+      const removeBtn = document.createElement('button');
+      removeBtn.classList.add('remove-ingredient-btn');
+      removeBtn.textContent = 'Remove';
+      removeBtn.style.marginTop = '5px';
+      removeBtn.addEventListener('click', async (e) => {
+        e.stopPropagation(); // Prevent toggling the description.
+        const confirmed = confirm(`Remove ingredient "${ingredient.name}"?`);
+        if (confirmed) {
+          try {
+            const { error } = await supabaseClient
+              .from('Ingredients')
+              .delete()
+              .eq('id', ingredient.id);
+            if (error) {
+              showNotification("Error removing ingredient.", "error");
+            } else {
+              showNotification("Ingredient removed successfully.", "success");
+              await reloadData();
+            }
+          } catch (err) {
+            showNotification("Error removing ingredient.", "error");
+          }
+        }
+      });
+      div.appendChild(removeBtn);
+    }
+    
+    container.appendChild(div);
   });
 }
 
