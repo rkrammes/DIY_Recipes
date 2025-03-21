@@ -238,12 +238,15 @@ select {
   height: var(--icon-size);
 }
 
-/* Table Cell Backgrounds */
+/* Table Cell Backgrounds & Colors */
 table, th, td {
-  background-color: #000;
+  background-color: #000; /* Black background */
+  color: #FFF;           /* White text */
+  border-collapse: collapse; /* Optional: ensure borders line up */
 }
-th {
-  color: var(--text);
+th, td {
+  border: 1px solid #444; /* Subtle border for separation */
+  padding: 8px;
 }
 
 /* Ingredients View */
