@@ -1,99 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Iteration Station (Magic Link Edition)</title>
   <!-- Google Fonts: Roboto Mono -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <!-- External CSS -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
   <!-- Papa Parse and Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    /* Inline styles to force one-screen layout */
-    html, body {
+    /* Inline styles for two-level wrapper layout */
+    body, html {
       height: 100vh;
-      overflow: hidden;
+      margin: 0;
     }
-    /* The header (including login controls) occupies a fixed height */
-    header {
-      flex: 0 0 120px;
-    }
-    /* Navigation bar below header occupies a fixed height */
-    .top-nav {
-      flex: 0 0 60px;
+    .page-wrapper {
       display: flex;
-      align-items: center;
-      justify-content: space-around;
-      background-color: #2C2C2C;
-      padding: 0 16px;
+      flex-direction: column;
+      height: 100%;
     }
-    .top-nav .nav-section {
+    /* Top-level bar: fixed height, horizontal distribution */
+    .top-level {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      background-color: #2C2C2C;
+    }
+    .top-level .left-section,
+    .top-level .right-section {
       display: flex;
       align-items: center;
       gap: 16px;
     }
-    /* Main content fills the remaining screen */
+    /* Second-level bar: centered recipe list */
+    .second-level {
+      padding: 8px 16px;
+      background-color: #1A1A1A;
+      text-align: center;
+    }
+    .recipe-list-horizontal {
+      display: inline-flex;
+      gap: 16px;
+      list-style: none;
+      overflow-x: auto;
+      padding: 0;
+      margin: 0;
+    }
+    /* Main content area fills remaining space */
     .main-content {
       flex: 1;
       overflow-y: auto;
       padding: 16px;
-    }
-    /* Wrap the entire page in a vertical flex container */
-    .page-wrapper {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
+      background-color: #1A1A1A;
     }
   </style>
 </head>
 <body class="dark">
   <div class="page-wrapper">
-    <header class="main-header">
-      <div class="header-inner" style="text-align: center; padding: 16px;">
-        <h1 class="app-title">Iteration Station</h1>
-        <div class="header-controls" style="display: flex; justify-content: center; gap: 16px; align-items: center;">
-          <div class="theme-toggle">
-            <label for="themeSelect" class="theme-label">Appearance:</label>
-            <select id="themeSelect" class="theme-select">
-              <option value="dark">Dark</option>
-              <option value="light">Light</option>
-              <option value="system">System</option>
-            </select>
-          </div>
-          <button class="btn" id="btnLogIn">Log In</button>
-          <label for="editModeCheckbox" class="theme-label">Edit Mode:</label>
-          <input type="checkbox" id="editModeCheckbox">
+    <!-- Top-Level Bar -->
+    <header class="top-level">
+      <div class="left-section">
+        <button class="btn" id="btnIngredients">All Ingredients</button>
+        <div id="createRecipeContainer">
+          <input id="newRecipeNameInput" class="sidebar-textbox" type="text" placeholder="Add New Recipe" disabled />
         </div>
       </div>
-      <div id="magicLinkForm" style="display: none; text-align: center; padding: 8px;">
-        <input type="email" id="magicLinkEmail" class="sidebar-textbox" placeholder="Email">
-        <button class="btn" id="btnSendMagicLink">Send Magic Link</button>
+      <div class="right-section">
+        <div class="header-controls">
+          <label for="themeSelect" class="theme-label">Appearance:</label>
+          <select id="themeSelect" class="theme-select">
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+            <option value="system">System</option>
+          </select>
+          <button class="btn" id="btnLogIn">Log In</button>
+          <label for="editModeCheckbox" class="theme-label">Edit Mode:</label>
+          <input type="checkbox" id="editModeCheckbox" />
+        </div>
       </div>
     </header>
-    <nav class="top-nav">
-      <!-- Horizontally distributed left-column elements -->
-      <button class="btn" id="btnIngredients">All Ingredients</button>
-      <div class="nav-section">
-        <h2 style="margin: 0; font-size: 20px;">Recipes</h2>
-      </div>
-      <div class="nav-section" style="flex: 1;">
-        <input id="newRecipeNameInput" class="sidebar-textbox" type="text" placeholder="Add New Recipe" disabled style="width: 100%;">
-      </div>
-      <div class="nav-section" style="flex: 2; overflow-x: auto;">
-        <ul id="recipeList" class="recipe-list-horizontal" style="display: flex; list-style: none; gap: 16px; margin: 0; padding: 0;"></ul>
-      </div>
+    <!-- Second-Level Bar -->
+    <nav class="second-level">
+      <ul id="recipeList" class="recipe-list-horizontal"></ul>
     </nav>
+    <!-- Main Content Area -->
     <main class="main-content">
-      <!-- The main content area where details or ingredients are displayed -->
       <section id="recipeDetails" class="recipe-details" style="display: none;"></section>
       <section id="ingredientsView" class="ingredients-view" style="display: none;">
         <h2>All Ingredients</h2>
         <div id="addGlobalIngredientContainer" class="sidebar-container">
-          <input id="newGlobalIngredientInput" class="sidebar-textbox" type="text" placeholder="Add New Ingredient" disabled>
+          <input id="newGlobalIngredientInput" class="sidebar-textbox" type="text" placeholder="Add New Ingredient" disabled />
         </div>
         <ul id="ingredientList" class="ingredient-list"></ul>
       </section>
