@@ -24,7 +24,6 @@ export function updateAuthButton() {
     btnLogIn.textContent = isLoggedIn ? 'Log Out' : 'Log In';
   }
   if (editCheckbox) {
-    // Enable the edit mode checkbox only when logged in
     editCheckbox.disabled = !isLoggedIn;
     if (!isLoggedIn) {
       editCheckbox.checked = false;
@@ -84,7 +83,7 @@ function setupMagicLink() {
 }
 
 /**
- * Helper: if user hits Enter in an input/textarea, we call the relevant action
+ * Helper: triggers an action if the user hits Enter in an input/textarea.
  */
 function onEnterKey(e, action) {
   if (e.key === 'Enter') {
@@ -94,25 +93,30 @@ function onEnterKey(e, action) {
 }
 
 /**
- * Show recipe details with pinned "Commit" and 
- * a single text input "Get AI Suggestion" that triggers fetch on Enter
+ * Show recipe details: 
+ *  - Left column: plain-text ingredients (no table)
+ *  - Right column: Next Iteration (with "Commit" pinned top-right)
+ *  - "Get AI Suggestion" placeholder input triggers fetch on Enter
  */
 export function showRecipeDetails(recipe) {
+  // Hide the global ingredients view
   const ingredientsView = document.getElementById('ingredientsView');
   if (ingredientsView) {
     ingredientsView.style.display = 'none';
   }
 
+  // Show recipe details section
   const details = document.getElementById('recipeDetails');
   if (!details) return;
   details.style.display = 'block';
   details.innerHTML = '';
 
+  // Container with two columns
   const container = document.createElement('div');
   container.style.display = 'flex';
   container.style.gap = '20px';
 
-  // LEFT: Current Ingredients
+  // LEFT COLUMN: Current Ingredients in plain text
   const currentDiv = document.createElement('div');
   currentDiv.style.flex = '1';
   currentDiv.style.border = '1px solid #ccc';
@@ -120,43 +124,32 @@ export function showRecipeDetails(recipe) {
   currentDiv.innerHTML = `<h3>Current Ingredients</h3>`;
 
   if (recipe.ingredients && Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0) {
-    const table = document.createElement('table');
-    table.style.width = '100%';
-    table.style.borderCollapse = 'collapse';
-
-    const headerRow = document.createElement('tr');
-    ['Ingredient', 'Quantity', 'Unit', 'Notes'].forEach(text => {
-      const th = document.createElement('th');
-      th.textContent = text;
-      th.style.padding = '8px';
-      th.style.border = '1px solid #444';
-      headerRow.appendChild(th);
-    });
-    table.appendChild(headerRow);
-
     recipe.ingredients.forEach(ing => {
-      const row = document.createElement('tr');
-      [ing.name, ing.quantity, ing.unit, ing.notes].forEach(val => {
-        const td = document.createElement('td');
-        td.textContent = val || '';
-        td.style.padding = '8px';
-        td.style.border = '1px solid #444';
-        row.appendChild(td);
-      });
-      table.appendChild(row);
+      const line = document.createElement('div');
+      line.style.marginBottom = '5px';
+      // Show name + quantity (and unit if present), plus notes
+      // e.g. "Carnauba Wax - 40% (some notes)"
+      let text = ing.name || 'Unnamed Ingredient';
+      if (ing.quantity || ing.unit) {
+        text += ` - ${ing.quantity || ''}${ing.unit || ''}`;
+      }
+      if (ing.notes) {
+        text += ` (${ing.notes})`;
+      }
+      line.textContent = text;
+      currentDiv.appendChild(line);
     });
-    currentDiv.appendChild(table);
   } else {
     currentDiv.innerHTML += '<p>No ingredients available.</p>';
   }
 
-  // RIGHT: Next Iteration
+  // RIGHT COLUMN: Next Iteration
   const nextDiv = document.createElement('div');
   nextDiv.style.flex = '1';
   nextDiv.style.border = '1px solid #ccc';
   nextDiv.style.padding = '10px';
 
-  // Header row with "Next Iteration" on left, "Commit" on right
+  // Header row: "Next Iteration" on left, "Commit" on right
   const iterationHeader = document.createElement('div');
   iterationHeader.style.display = 'flex';
   iterationHeader.style.justifyContent = 'space-between';
@@ -184,12 +177,10 @@ export function showRecipeDetails(recipe) {
   nextTextarea.style.width = '100%';
   nextTextarea.style.height = '150px';
   nextTextarea.value = recipe.next_iteration || '';
-
-  // Pressing Enter in the textarea commits
+  // Pressing Enter commits
   nextTextarea.addEventListener('keypress', (e) => {
-    onEnterKey(e, () => doCommit());
+    onEnterKey(e, doCommit);
   });
-
   nextDiv.appendChild(nextTextarea);
 
   // Single input "Get AI Suggestion"
@@ -200,12 +191,10 @@ export function showRecipeDetails(recipe) {
   aiInput.style.display = 'block';
   aiInput.style.marginTop = '10px';
   aiInput.style.width = '100%';
-
-  // Pressing Enter in "Get AI Suggestion" triggers fetch
+  // Pressing Enter triggers AI suggestion fetch
   aiInput.addEventListener('keypress', (e) => {
     onEnterKey(e, () => doAISuggestion(aiInput.value, recipe));
   });
-
   nextDiv.appendChild(aiInput);
 
   // Hidden AI suggestion text
@@ -220,7 +209,7 @@ export function showRecipeDetails(recipe) {
   details.innerHTML = '';
   details.appendChild(container);
 
-  // Action for commit
+  // Action to commit next iteration
   async function doCommit() {
     try {
       const { error } = await supabaseClient
@@ -238,7 +227,7 @@ export function showRecipeDetails(recipe) {
     }
   }
 
-  // Action for AI suggestion
+  // Action to fetch AI suggestion
   async function doAISuggestion(promptValue, recipeObj) {
     try {
       const response = await fetch('/api/ai-suggestion', {
@@ -275,9 +264,6 @@ export function renderRecipes(recipes) {
     const li = document.createElement('li');
     li.classList.add('recipe-item');
     li.textContent = recipe.name || 'Unnamed Recipe';
-
-    // Pressing Enter on the recipe item does nothing here, 
-    // since these are clickable items, not text fields
     li.addEventListener('click', () => {
       showRecipeDetails(recipe);
     });
@@ -454,7 +440,6 @@ export function initUI() {
  */
 async function createNewRecipe(recipeName) {
   console.log('Creating new recipe:', recipeName);
-  // Example logic:
   try {
     const { error } = await supabaseClient
       .from('All_Recipes')
@@ -475,7 +460,6 @@ async function createNewRecipe(recipeName) {
  */
 async function createNewGlobalIngredient(ingredientName) {
   console.log('Creating new global ingredient:', ingredientName);
-  // Example logic:
   try {
     const { error } = await supabaseClient
       .from('Ingredients')
