@@ -9,7 +9,7 @@ let isLoggedIn = false;
 /**
  * Checks if edit mode is active.
  */
-function isEditMode() {
+export function isEditMode() {
   const editCheckbox = document.getElementById('editModeCheckbox');
   return editCheckbox ? editCheckbox.checked : false;
 }
@@ -24,7 +24,7 @@ export function updateAuthButton() {
     btnLogIn.textContent = isLoggedIn ? 'Log Out' : 'Log In';
   }
   if (editCheckbox) {
-    // Enable edit mode checkbox only when logged in
+    // Only enable edit mode if truly logged in
     editCheckbox.disabled = !isLoggedIn;
     if (!isLoggedIn) {
       editCheckbox.checked = false;
@@ -38,10 +38,12 @@ export function updateAuthButton() {
 function handleLoginButtonClick() {
   const magicLinkForm = document.getElementById('magicLinkForm');
   if (!isLoggedIn) {
+    // Show magic link form
     if (magicLinkForm) {
       magicLinkForm.style.display = 'block';
     }
   } else {
+    // Log out
     signOut().then(() => {
       isLoggedIn = false;
       updateAuthButton();
@@ -56,7 +58,8 @@ function handleLoginButtonClick() {
 }
 
 /**
- * Sets up the "Send Magic Link" button event.
+ * Sends a magic link, then sets isLoggedIn = true for demonstration.
+ * In production, you'd wait for a real session confirmation or do a session check on page load.
  */
 function setupMagicLink() {
   const btnSendMagicLink = document.getElementById('btnSendMagicLink');
@@ -66,13 +69,14 @@ function setupMagicLink() {
       if (emailInput && emailInput.value) {
         try {
           await sendMagicLink(emailInput.value);
+          // For demonstration, assume user is logged in immediately:
           isLoggedIn = true;
           updateAuthButton();
           const magicLinkForm = document.getElementById('magicLinkForm');
           if (magicLinkForm) {
             magicLinkForm.style.display = 'none';
           }
-          console.log('User logged in via magic link.');
+          console.log('User logged in via magic link (demo).');
         } catch (error) {
           console.error('Error sending magic link:', error);
         }
@@ -183,6 +187,7 @@ export function showRecipeDetails(recipe) {
   nextTextarea.style.width = '100%';
   nextTextarea.style.height = '150px';
   nextTextarea.value = recipe.next_iteration || '';
+  // Pressing Enter commits
   nextTextarea.addEventListener('keypress', (e) => {
     onEnterKey(e, () => doCommit());
   });
@@ -351,20 +356,16 @@ export function showRecipeDetails(recipe) {
     }
   }
 
-  // Action to update an ingredient property
+  // Action to update an ingredient property in DB
   async function doUpdateIngredient(ingObj, prop, newValue) {
     try {
-      // For demonstration, we only update this single property in the DB
-      const updatedIng = { ...ingObj, [prop]: newValue };
-      // In real usage, you'd likely update the entire "ingredients" array for the recipe
-      // or store each ingredient separately in DB. Example approach:
       const { data, error } = await supabaseClient
         .from('Ingredients')
         .update({ [prop]: newValue })
         .eq('id', ingObj.id)
         .select();
       if (error) {
-        showNotification(`Error updating ingredient ${ingObj.name}.`, 'error');
+        showNotification(`Error updating ${prop} for ${ingObj.name}.`, 'error');
       } else {
         showNotification(`Updated ${prop} for ${ingObj.name}.`, 'success');
         console.log('Updated row:', data);
@@ -399,8 +400,6 @@ export function renderRecipes(recipes) {
 
 /**
  * Renders a list of ingredients into the existing <ul id="ingredientList"> element.
- * Each ingredient is rendered as a button that toggles its description,
- * and, if in edit mode, shows a Remove button.
  */
 export function renderIngredients(ingredients) {
   const container = document.getElementById('ingredientList');
@@ -468,8 +467,24 @@ export function renderIngredients(ingredients) {
  * Initializes UI elements and event listeners.
  */
 export function initUI() {
-  function setup() {
+  async function setup() {
     console.log('initUI: setup started');
+
+    // 1) On page load, try checking for an existing session
+    try {
+      const { data: { session }, error } = await supabaseClient.auth.getSession();
+      if (session) {
+        console.log('Session found on load, user is logged in.');
+        isLoggedIn = true;
+      } else {
+        console.log('No existing session found, user not logged in.');
+      }
+    } catch (err) {
+      console.error('Error checking session on load:', err);
+    }
+
+    // 2) Now that we might have updated isLoggedIn, update the UI
+    updateAuthButton();
 
     const themeSelect = document.getElementById('themeSelect');
     if (themeSelect) {
@@ -624,5 +639,6 @@ window.module = {
   initUI,
   renderRecipes,
   renderIngredients,
-  updateAuthButton
+  updateAuthButton,
+  isEditMode
 };
