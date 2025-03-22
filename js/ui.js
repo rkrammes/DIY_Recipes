@@ -24,6 +24,7 @@ export function updateAuthButton() {
     btnLogIn.textContent = isLoggedIn ? 'Log Out' : 'Log In';
   }
   if (editCheckbox) {
+    // Enable edit mode checkbox only when logged in
     editCheckbox.disabled = !isLoggedIn;
     if (!isLoggedIn) {
       editCheckbox.checked = false;
@@ -83,7 +84,7 @@ function setupMagicLink() {
 }
 
 /**
- * Helper: triggers an action if the user hits Enter in an input/textarea.
+ * Helper: triggers an action if user presses Enter in an input/textarea.
  */
 function onEnterKey(e, action) {
   if (e.key === 'Enter') {
@@ -93,10 +94,10 @@ function onEnterKey(e, action) {
 }
 
 /**
- * Show recipe details: 
- *  - Left column: plain-text ingredients (no table)
- *  - Right column: Next Iteration (with "Commit" pinned top-right)
- *  - "Get AI Suggestion" placeholder input triggers fetch on Enter
+ * Show recipe details in THREE columns:
+ * 1) Left: plain-text list of current ingredients
+ * 2) Center: Next Iteration (textarea + "Commit" button pinned top-right)
+ * 3) Right: editable table with placeholders from current recipe
  */
 export function showRecipeDetails(recipe) {
   // Hide the global ingredients view
@@ -111,24 +112,27 @@ export function showRecipeDetails(recipe) {
   details.style.display = 'block';
   details.innerHTML = '';
 
-  // Container with two columns
+  // Create container with THREE columns
   const container = document.createElement('div');
   container.style.display = 'flex';
   container.style.gap = '20px';
 
-  // LEFT COLUMN: Current Ingredients in plain text
+  // =========================
+  // 1) LEFT COLUMN: plain-text ingredients
+  // =========================
   const currentDiv = document.createElement('div');
   currentDiv.style.flex = '1';
   currentDiv.style.border = '1px solid #ccc';
   currentDiv.style.padding = '10px';
-  currentDiv.innerHTML = `<h3>Current Ingredients</h3>`;
+
+  const currentHeading = document.createElement('h3');
+  currentHeading.textContent = 'Current Ingredients';
+  currentDiv.appendChild(currentHeading);
 
   if (recipe.ingredients && Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0) {
     recipe.ingredients.forEach(ing => {
       const line = document.createElement('div');
       line.style.marginBottom = '5px';
-      // Show name + quantity (and unit if present), plus notes
-      // e.g. "Carnauba Wax - 40% (some notes)"
       let text = ing.name || 'Unnamed Ingredient';
       if (ing.quantity || ing.unit) {
         text += ` - ${ing.quantity || ''}${ing.unit || ''}`;
@@ -140,16 +144,19 @@ export function showRecipeDetails(recipe) {
       currentDiv.appendChild(line);
     });
   } else {
-    currentDiv.innerHTML += '<p>No ingredients available.</p>';
+    const noIng = document.createElement('p');
+    noIng.textContent = 'No ingredients available.';
+    currentDiv.appendChild(noIng);
   }
 
-  // RIGHT COLUMN: Next Iteration
+  // =========================
+  // 2) CENTER COLUMN: Next Iteration
+  // =========================
   const nextDiv = document.createElement('div');
   nextDiv.style.flex = '1';
   nextDiv.style.border = '1px solid #ccc';
   nextDiv.style.padding = '10px';
 
-  // Header row: "Next Iteration" on left, "Commit" on right
   const iterationHeader = document.createElement('div');
   iterationHeader.style.display = 'flex';
   iterationHeader.style.justifyContent = 'space-between';
@@ -160,7 +167,6 @@ export function showRecipeDetails(recipe) {
   heading.textContent = 'Next Iteration';
   iterationHeader.appendChild(heading);
 
-  // "Commit" button pinned right
   const commitBtn = document.createElement('button');
   commitBtn.textContent = 'Commit';
   commitBtn.classList.add('btn');
@@ -172,18 +178,17 @@ export function showRecipeDetails(recipe) {
 
   nextDiv.appendChild(iterationHeader);
 
-  // Textarea for next iteration content
+  // Next Iteration textarea
   const nextTextarea = document.createElement('textarea');
   nextTextarea.style.width = '100%';
   nextTextarea.style.height = '150px';
   nextTextarea.value = recipe.next_iteration || '';
-  // Pressing Enter commits
   nextTextarea.addEventListener('keypress', (e) => {
-    onEnterKey(e, doCommit);
+    onEnterKey(e, () => doCommit());
   });
   nextDiv.appendChild(nextTextarea);
 
-  // Single input "Get AI Suggestion"
+  // "Get AI Suggestion" input
   const aiInput = document.createElement('input');
   aiInput.id = 'aiPrompt';
   aiInput.placeholder = 'Get AI Suggestion';
@@ -191,20 +196,117 @@ export function showRecipeDetails(recipe) {
   aiInput.style.display = 'block';
   aiInput.style.marginTop = '10px';
   aiInput.style.width = '100%';
-  // Pressing Enter triggers AI suggestion fetch
   aiInput.addEventListener('keypress', (e) => {
     onEnterKey(e, () => doAISuggestion(aiInput.value, recipe));
   });
   nextDiv.appendChild(aiInput);
 
-  // Hidden AI suggestion text
   const suggestionDiv = document.createElement('div');
   suggestionDiv.id = 'aiSuggestionText';
   suggestionDiv.style.marginTop = '10px';
   nextDiv.appendChild(suggestionDiv);
 
+  // =========================
+  // 3) RIGHT COLUMN: Editable table placeholders
+  // =========================
+  const editableDiv = document.createElement('div');
+  editableDiv.style.flex = '1';
+  editableDiv.style.border = '1px solid #ccc';
+  editableDiv.style.padding = '10px';
+
+  const editHeading = document.createElement('h3');
+  editHeading.textContent = 'Editable Table';
+  editableDiv.appendChild(editHeading);
+
+  if (recipe.ingredients && Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0) {
+    const editTable = document.createElement('table');
+    editTable.style.width = '100%';
+    editTable.style.borderCollapse = 'collapse';
+
+    // Header row
+    const editHeaderRow = document.createElement('tr');
+    ['Ingredient', 'Quantity', 'Unit', 'Notes'].forEach(txt => {
+      const th = document.createElement('th');
+      th.textContent = txt;
+      th.style.padding = '8px';
+      th.style.border = '1px solid #444';
+      editHeaderRow.appendChild(th);
+    });
+    editTable.appendChild(editHeaderRow);
+
+    // For each ingredient, create a row with placeholders
+    recipe.ingredients.forEach(ing => {
+      const row = document.createElement('tr');
+
+      // Ingredient name cell
+      const nameCell = document.createElement('td');
+      nameCell.style.border = '1px solid #444';
+      nameCell.style.padding = '8px';
+      const nameInput = document.createElement('input');
+      nameInput.disabled = !isEditMode();
+      nameInput.placeholder = ing.name || 'Name?';
+      nameInput.style.width = '100%';
+      nameInput.addEventListener('keypress', (e) => {
+        onEnterKey(e, () => doUpdateIngredient(ing, 'name', nameInput.value));
+      });
+      nameCell.appendChild(nameInput);
+      row.appendChild(nameCell);
+
+      // Quantity cell
+      const qtyCell = document.createElement('td');
+      qtyCell.style.border = '1px solid #444';
+      qtyCell.style.padding = '8px';
+      const qtyInput = document.createElement('input');
+      qtyInput.disabled = !isEditMode();
+      qtyInput.placeholder = ing.quantity ? String(ing.quantity) : 'Qty?';
+      qtyInput.style.width = '100%';
+      qtyInput.addEventListener('keypress', (e) => {
+        onEnterKey(e, () => doUpdateIngredient(ing, 'quantity', qtyInput.value));
+      });
+      qtyCell.appendChild(qtyInput);
+      row.appendChild(qtyCell);
+
+      // Unit cell
+      const unitCell = document.createElement('td');
+      unitCell.style.border = '1px solid #444';
+      unitCell.style.padding = '8px';
+      const unitInput = document.createElement('input');
+      unitInput.disabled = !isEditMode();
+      unitInput.placeholder = ing.unit || 'Unit?';
+      unitInput.style.width = '100%';
+      unitInput.addEventListener('keypress', (e) => {
+        onEnterKey(e, () => doUpdateIngredient(ing, 'unit', unitInput.value));
+      });
+      unitCell.appendChild(unitInput);
+      row.appendChild(unitCell);
+
+      // Notes cell
+      const notesCell = document.createElement('td');
+      notesCell.style.border = '1px solid #444';
+      notesCell.style.padding = '8px';
+      const notesInput = document.createElement('input');
+      notesInput.disabled = !isEditMode();
+      notesInput.placeholder = ing.notes || 'Notes?';
+      notesInput.style.width = '100%';
+      notesInput.addEventListener('keypress', (e) => {
+        onEnterKey(e, () => doUpdateIngredient(ing, 'notes', notesInput.value));
+      });
+      notesCell.appendChild(notesInput);
+      row.appendChild(notesCell);
+
+      editTable.appendChild(row);
+    });
+
+    editableDiv.appendChild(editTable);
+  } else {
+    const noIng = document.createElement('p');
+    noIng.textContent = 'No ingredients to edit.';
+    editableDiv.appendChild(noIng);
+  }
+
   container.appendChild(currentDiv);
   container.appendChild(nextDiv);
+  container.appendChild(editableDiv);
 
   details.innerHTML = '';
   details.appendChild(container);
@@ -246,6 +348,30 @@ export function showRecipeDetails(recipe) {
       }
     } catch (error) {
       suggestionDiv.textContent = 'Error getting suggestion.';
+    }
+  }
+
+  // Action to update an ingredient property
+  async function doUpdateIngredient(ingObj, prop, newValue) {
+    try {
+      // For demonstration, we only update this single property in the DB
+      const updatedIng = { ...ingObj, [prop]: newValue };
+      // In real usage, you'd likely update the entire "ingredients" array for the recipe
+      // or store each ingredient separately in DB. Example approach:
+      const { data, error } = await supabaseClient
+        .from('Ingredients')
+        .update({ [prop]: newValue })
+        .eq('id', ingObj.id)
+        .select();
+      if (error) {
+        showNotification(`Error updating ingredient ${ingObj.name}.`, 'error');
+      } else {
+        showNotification(`Updated ${prop} for ${ingObj.name}.`, 'success');
+        console.log('Updated row:', data);
+        await reloadData();
+      }
+    } catch (err) {
+      showNotification(`Error updating ${prop}.`, 'error');
     }
   }
 }
