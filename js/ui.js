@@ -115,17 +115,15 @@ function onEnterKey(e, action) {
 }
 
 /**
- * Show recipe details in THREE columns (unchanged from your final 3-column layout).
- * ... (Truncated for brevity) ...
+ * Show recipe details in THREE columns (unchanged).
  */
 export function showRecipeDetails(recipe) {
-  // Your existing 3-column logic for plain-text left, Next Iteration center, 
-  // and editable table on the right, including doCommit, doAISuggestion, etc.
-  // ...
+  // ... your existing 3-column logic, doCommit, doAISuggestion, doUpdateIngredient ...
 }
 
 /**
  * Renders a list of recipes into the <ul id="recipeList"> element.
+ * => Restores the .recipe-item class & click listener for each <li>.
  */
 export function renderRecipes(recipes) {
   const container = document.getElementById('recipeList');
@@ -134,20 +132,25 @@ export function renderRecipes(recipes) {
     return;
   }
   container.innerHTML = '';
+
   recipes.forEach(recipe => {
+    // Make sure we add .recipe-item for gradient styling & attach the click event
     const li = document.createElement('li');
-    li.classList.add('recipe-item');
+    li.classList.add('recipe-item');  // ensures gradient styling & pointer
     li.textContent = recipe.name || 'Unnamed Recipe';
+
+    // Clicking calls showRecipeDetails
     li.addEventListener('click', () => {
       showRecipeDetails(recipe);
     });
+
     container.appendChild(li);
   });
 }
 
 /**
  * Renders a list of ingredients into the <ul id="ingredientList"> element.
- * => NOW uses .ingredient-item for the nameBtn to match your standard gradient styling
+ * => Now uses .ingredient-item for standard styling
  */
 export function renderIngredients(ingredients) {
   const container = document.getElementById('ingredientList');
@@ -156,12 +159,12 @@ export function renderIngredients(ingredients) {
     return;
   }
   container.innerHTML = '';
+
   ingredients.forEach(ingredient => {
     const div = document.createElement('div');
     div.classList.add('ingredient-container');
     div.style.marginBottom = '10px';
 
-    // Switch to .ingredient-item for standard styling
     const nameBtn = document.createElement('button');
     nameBtn.classList.add('ingredient-item');
     nameBtn.textContent = ingredient.name || 'Unnamed Ingredient';
@@ -232,7 +235,7 @@ export function initUI() {
 
     // 2) Now that we might have updated isLoggedIn, update UI
     updateAuthButton();
-    setEditModeFields(); // Make sure text boxes match current edit mode state
+    setEditModeFields();
 
     const themeSelect = document.getElementById('themeSelect');
     if (themeSelect) {
