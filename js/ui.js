@@ -1,4 +1,4 @@
-/* ui.js */
+// ui.js
 
 import { supabaseClient } from './supabaseClient.js';
 import { sendMagicLink, signOut } from './auth.js';
@@ -88,7 +88,7 @@ function setupMagicLink() {
           // For demonstration, assume user is logged in immediately:
           isLoggedIn = true;
           updateAuthButton();
-          setEditModeFields(); // re-check after logging in
+          setEditModeFields();
           const magicLinkForm = document.getElementById('magicLinkForm');
           if (magicLinkForm) {
             magicLinkForm.style.display = 'none';
@@ -115,15 +115,8 @@ function onEnterKey(e, action) {
 }
 
 /**
- * Show recipe details in THREE columns (unchanged).
- */
-export function showRecipeDetails(recipe) {
-  // ... your existing 3-column logic, doCommit, doAISuggestion, doUpdateIngredient ...
-}
-
-/**
  * Renders a list of recipes into the <ul id="recipeList"> element.
- * => Restores the .recipe-item class & click listener for each <li>.
+ * => Attaches .recipe-item and click => showRecipeDetails(recipe)
  */
 export function renderRecipes(recipes) {
   const container = document.getElementById('recipeList');
@@ -134,9 +127,8 @@ export function renderRecipes(recipes) {
   container.innerHTML = '';
 
   recipes.forEach(recipe => {
-    // Make sure we add .recipe-item for gradient styling & attach the click event
     const li = document.createElement('li');
-    li.classList.add('recipe-item');  // ensures gradient styling & pointer
+    li.classList.add('recipe-item');
     li.textContent = recipe.name || 'Unnamed Recipe';
 
     // Clicking calls showRecipeDetails
@@ -150,7 +142,7 @@ export function renderRecipes(recipes) {
 
 /**
  * Renders a list of ingredients into the <ul id="ingredientList"> element.
- * => Now uses .ingredient-item for standard styling
+ * => uses .ingredient-item for standard gradient styling
  */
 export function renderIngredients(ingredients) {
   const container = document.getElementById('ingredientList');
@@ -214,123 +206,389 @@ export function renderIngredients(ingredients) {
 }
 
 /**
- * Initializes UI elements and event listeners.
+ * The 3-column recipe details:
+ * - Left: plain-text ingredients
+ * - Center: Next Iteration + "Commit" pinned
+ * - Right: editable placeholders
  */
-export function initUI() {
-  async function setup() {
-    console.log('initUI: setup started');
+export function showRecipeDetails(recipe) {
+  const ingredientsView = document.getElementById('ingredientsView');
+  if (ingredientsView) {
+    ingredientsView.style.display = 'none';
+  }
 
-    // 1) On page load, try checking for an existing session
+  const details = document.getElementById('recipeDetails');
+  if (!details) return;
+  details.style.display = 'block';
+  details.innerHTML = '';
+
+  // Create a container with three columns
+  const container = document.createElement('div');
+  container.style.display = 'flex';
+  container.style.gap = '20px';
+
+  // LEFT COLUMN: plain text
+  const currentDiv = document.createElement('div');
+  currentDiv.style.flex = '1';
+  currentDiv.style.border = '1px solid #ccc';
+  currentDiv.style.padding = '10px';
+  currentDiv.innerHTML = '<h3>Current Ingredients</h3>';
+  if (recipe.ingredients && Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0) {
+    recipe.ingredients.forEach(ing => {
+      const line = document.createElement('div');
+      line.style.marginBottom = '5px';
+      let text = ing.name || 'Unnamed Ingredient';
+      if (ing.quantity || ing.unit) {
+        text += ` - ${ing.quantity || ''}${ing.unit || ''}`;
+      }
+      if (ing.notes) {
+        text += ` (${ing.notes})`;
+      }
+      line.textContent = text;
+      currentDiv.appendChild(line);
+    });
+  } else {
+    currentDiv.innerHTML += '<p>No ingredients available.</p>';
+  }
+
+  // CENTER COLUMN: Next Iteration
+  const nextDiv = document.createElement('div');
+  nextDiv.style.flex = '1';
+  nextDiv.style.border = '1px solid #ccc';
+  nextDiv.style.padding = '10px';
+
+  const iterationHeader = document.createElement('div');
+  iterationHeader.style.display = 'flex';
+  iterationHeader.style.justifyContent = 'space-between';
+  iterationHeader.style.alignItems = 'center';
+  iterationHeader.style.marginBottom = '10px';
+
+  const heading = document.createElement('h3');
+  heading.textContent = 'Next Iteration';
+  iterationHeader.appendChild(heading);
+
+  const commitBtn = document.createElement('button');
+  commitBtn.textContent = 'Commit';
+  commitBtn.classList.add('btn');
+  commitBtn.disabled = !isEditMode();
+  commitBtn.addEventListener('click', async () => {
+    doCommit();
+  });
+  iterationHeader.appendChild(commitBtn);
+
+  nextDiv.appendChild(iterationHeader);
+
+  const nextTextarea = document.createElement('textarea');
+  nextTextarea.style.width = '100%';
+  nextTextarea.style.height = '150px';
+  nextTextarea.value = recipe.next_iteration || '';
+  nextTextarea.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      doCommit();
+    }
+  });
+  nextDiv.appendChild(nextTextarea);
+
+  const aiInput = document.createElement('input');
+  aiInput.id = 'aiPrompt';
+  aiInput.placeholder = 'Get AI Suggestion';
+  aiInput.disabled = !isEditMode();
+  aiInput.style.display = 'block';
+  aiInput.style.marginTop = '10px';
+  aiInput.style.width = '100%';
+  aiInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      doAISuggestion(aiInput.value, recipe);
+    }
+  });
+  nextDiv.appendChild(aiInput);
+
+  const suggestionDiv = document.createElement('div');
+  suggestionDiv.id = 'aiSuggestionText';
+  suggestionDiv.style.marginTop = '10px';
+  nextDiv.appendChild(suggestionDiv);
+
+  // RIGHT COLUMN: Editable placeholders
+  const editableDiv = document.createElement('div');
+  editableDiv.style.flex = '1';
+  editableDiv.style.border = '1px solid #ccc';
+  editableDiv.style.padding = '10px';
+
+  const editHeading = document.createElement('h3');
+  editHeading.textContent = 'Editable Table';
+  editableDiv.appendChild(editHeading);
+
+  if (recipe.ingredients && Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0) {
+    const editTable = document.createElement('table');
+    editTable.style.width = '100%';
+    editTable.style.borderCollapse = 'collapse';
+
+    // Header row
+    const editHeaderRow = document.createElement('tr');
+    ['Ingredient', 'Quantity', 'Unit', 'Notes'].forEach(txt => {
+      const th = document.createElement('th');
+      th.textContent = txt;
+      th.style.padding = '8px';
+      th.style.border = '1px solid #444';
+      editHeaderRow.appendChild(th);
+    });
+    editTable.appendChild(editHeaderRow);
+
+    recipe.ingredients.forEach(ing => {
+      const row = document.createElement('tr');
+
+      // Ingredient name cell
+      const nameCell = document.createElement('td');
+      nameCell.style.border = '1px solid #444';
+      nameCell.style.padding = '8px';
+      const nameInput = document.createElement('input');
+      nameInput.disabled = !isEditMode();
+      nameInput.placeholder = ing.name || 'Name?';
+      nameInput.style.width = '100%';
+      nameInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          doUpdateIngredient(ing, 'name', nameInput.value);
+        }
+      });
+      nameCell.appendChild(nameInput);
+      row.appendChild(nameCell);
+
+      // Quantity cell
+      const qtyCell = document.createElement('td');
+      qtyCell.style.border = '1px solid #444';
+      qtyCell.style.padding = '8px';
+      const qtyInput = document.createElement('input');
+      qtyInput.disabled = !isEditMode();
+      qtyInput.placeholder = ing.quantity ? String(ing.quantity) : 'Qty?';
+      qtyInput.style.width = '100%';
+      qtyInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          doUpdateIngredient(ing, 'quantity', qtyInput.value);
+        }
+      });
+      qtyCell.appendChild(qtyInput);
+      row.appendChild(qtyCell);
+
+      // Unit cell
+      const unitCell = document.createElement('td');
+      unitCell.style.border = '1px solid #444';
+      unitCell.style.padding = '8px';
+      const unitInput = document.createElement('input');
+      unitInput.disabled = !isEditMode();
+      unitInput.placeholder = ing.unit || 'Unit?';
+      unitInput.style.width = '100%';
+      unitInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          doUpdateIngredient(ing, 'unit', unitInput.value);
+        }
+      });
+      unitCell.appendChild(unitInput);
+      row.appendChild(unitCell);
+
+      // Notes cell
+      const notesCell = document.createElement('td');
+      notesCell.style.border = '1px solid #444';
+      notesCell.style.padding = '8px';
+      const notesInput = document.createElement('input');
+      notesInput.disabled = !isEditMode();
+      notesInput.placeholder = ing.notes || 'Notes?';
+      notesInput.style.width = '100%';
+      notesInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          doUpdateIngredient(ing, 'notes', notesInput.value);
+        }
+      });
+      notesCell.appendChild(notesInput);
+      row.appendChild(notesCell);
+
+      editTable.appendChild(row);
+    });
+
+    editableDiv.appendChild(editTable);
+  } else {
+    const noIng = document.createElement('p');
+    noIng.textContent = 'No ingredients to edit.';
+    editableDiv.appendChild(noIng);
+  }
+
+  container.appendChild(currentDiv);
+  container.appendChild(nextDiv);
+  container.appendChild(editableDiv);
+
+  details.innerHTML = '';
+  details.appendChild(container);
+
+  async function doCommit() {
     try {
-      const { data: { session }, error } = await supabaseClient.auth.getSession();
-      if (session) {
-        console.log('Session found on load, user is logged in.');
-        isLoggedIn = true;
+      const { error } = await supabaseClient
+        .from('All_Recipes')
+        .update({ next_iteration: nextTextarea.value })
+        .eq('id', recipe.id);
+      if (error) {
+        showNotification('Error committing next iteration.', 'error');
       } else {
-        console.log('No existing session found, user not logged in.');
+        showNotification('Next iteration committed!', 'success');
+        await reloadData();
       }
     } catch (err) {
-      console.error('Error checking session on load:', err);
-    }
-
-    // 2) Now that we might have updated isLoggedIn, update UI
-    updateAuthButton();
-    setEditModeFields();
-
-    const themeSelect = document.getElementById('themeSelect');
-    if (themeSelect) {
-      themeSelect.addEventListener('change', (e) => {
-        const value = e.target.value;
-        if (value === 'system') {
-          if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.body.className = 'dark';
-          } else {
-            document.body.className = 'light';
-          }
-        } else {
-          document.body.className = value;
-        }
-        console.log('Theme changed to:', document.body.className);
-      });
-    }
-
-    const editCheckbox = document.getElementById('editModeCheckbox');
-    if (editCheckbox) {
-      editCheckbox.checked = window.editMode || false;
-      editCheckbox.disabled = !isLoggedIn;
-      editCheckbox.addEventListener('change', () => {
-        window.editMode = editCheckbox.checked;
-        setEditModeFields();
-      });
-    }
-
-    const btnLogIn = document.getElementById('btnLogIn');
-    if (btnLogIn) {
-      btnLogIn.addEventListener('click', () => {
-        handleLoginButtonClick();
-      });
-    } else {
-      console.error('initUI: btnLogIn not found');
-    }
-
-    setupMagicLink();
-
-    // "Add New Recipe" input triggers creation on Enter
-    const newRecipeInput = document.getElementById('newRecipeNameInput');
-    if (newRecipeInput) {
-      newRecipeInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          if (isEditMode() && newRecipeInput.value.trim() !== '') {
-            createNewRecipe(newRecipeInput.value.trim());
-            newRecipeInput.value = '';
-          }
-        }
-      });
-    }
-
-    // "Add New Ingredient" input triggers creation on Enter
-    const newGlobalIngredientInput = document.getElementById('newGlobalIngredientInput');
-    if (newGlobalIngredientInput) {
-      newGlobalIngredientInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          if (isEditMode() && newGlobalIngredientInput.value.trim() !== '') {
-            createNewGlobalIngredient(newGlobalIngredientInput.value.trim());
-            newGlobalIngredientInput.value = '';
-          }
-        }
-      });
-    }
-
-    const btnIngredients = document.getElementById('btnIngredients');
-    if (btnIngredients) {
-      btnIngredients.addEventListener('click', () => {
-        console.log('All Ingredients button clicked');
-        const recipeDetails = document.getElementById('recipeDetails');
-        if (recipeDetails) {
-          recipeDetails.style.display = 'none';
-        }
-        const ingredientsView = document.getElementById('ingredientsView');
-        if (ingredientsView) {
-          ingredientsView.style.display = 'block';
-        }
-      });
-    } else {
-      console.error('initUI: btnIngredients not found');
+      showNotification('Error committing next iteration.', 'error');
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setup);
-  } else {
-    setup();
+  async function doAISuggestion(promptValue, recipeObj) {
+    try {
+      const response = await fetch('/api/ai-suggestion', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          recipe: recipeObj,
+          userPrompt: promptValue
+        })
+      });
+      const data = await response.json();
+      if (data.suggestion) {
+        suggestionDiv.textContent = data.suggestion;
+      } else {
+        suggestionDiv.textContent = 'No suggestion returned.';
+      }
+    } catch (error) {
+      suggestionDiv.textContent = 'Error getting suggestion.';
+    }
+  }
+
+  async function doUpdateIngredient(ingObj, prop, newValue) {
+    try {
+      const { data, error } = await supabaseClient
+        .from('Ingredients')
+        .update({ [prop]: newValue })
+        .eq('id', ingObj.id)
+        .select();
+      if (error) {
+        showNotification(`Error updating ${prop} for ${ingObj.name}.`, 'error');
+      } else {
+        showNotification(`Updated ${prop} for ${ingObj.name}.`, 'success');
+        console.log('Updated row:', data);
+        await reloadData();
+      }
+    } catch (err) {
+      showNotification(`Error updating ${prop}.`, 'error');
+    }
   }
 }
 
 /**
- * Creates a new recipe in the DB (example stub).
+ * Initializes UI elements and event listeners.
  */
+export async function initUI() {
+  console.log('initUI: setup started');
+
+  // 1) On page load, check for an existing session
+  try {
+    const { data: { session }, error } = await supabaseClient.auth.getSession();
+    if (session) {
+      console.log('Session found on load, user is logged in.');
+      isLoggedIn = true;
+    } else {
+      console.log('No existing session found, user not logged in.');
+    }
+  } catch (err) {
+    console.error('Error checking session on load:', err);
+  }
+
+  // 2) Now that we might have updated isLoggedIn, update UI
+  updateAuthButton();
+  setEditModeFields();
+
+  const themeSelect = document.getElementById('themeSelect');
+  if (themeSelect) {
+    themeSelect.addEventListener('change', (e) => {
+      const value = e.target.value;
+      if (value === 'system') {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.body.className = 'dark';
+        } else {
+          document.body.className = 'light';
+        }
+      } else {
+        document.body.className = value;
+      }
+      console.log('Theme changed to:', document.body.className);
+    });
+  }
+
+  const editCheckbox = document.getElementById('editModeCheckbox');
+  if (editCheckbox) {
+    editCheckbox.checked = window.editMode || false;
+    editCheckbox.disabled = !isLoggedIn;
+    editCheckbox.addEventListener('change', () => {
+      window.editMode = editCheckbox.checked;
+      setEditModeFields();
+    });
+  }
+
+  const btnLogIn = document.getElementById('btnLogIn');
+  if (btnLogIn) {
+    btnLogIn.addEventListener('click', () => {
+      handleLoginButtonClick();
+    });
+  } else {
+    console.error('initUI: btnLogIn not found');
+  }
+
+  setupMagicLink();
+
+  // "Add New Recipe" input triggers creation on Enter
+  const newRecipeInput = document.getElementById('newRecipeNameInput');
+  if (newRecipeInput) {
+    newRecipeInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (isEditMode() && newRecipeInput.value.trim() !== '') {
+          createNewRecipe(newRecipeInput.value.trim());
+          newRecipeInput.value = '';
+        }
+      }
+    });
+  }
+
+  // "Add New Ingredient" input triggers creation on Enter
+  const newGlobalIngredientInput = document.getElementById('newGlobalIngredientInput');
+  if (newGlobalIngredientInput) {
+    newGlobalIngredientInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (isEditMode() && newGlobalIngredientInput.value.trim() !== '') {
+          createNewGlobalIngredient(newGlobalIngredientInput.value.trim());
+          newGlobalIngredientInput.value = '';
+        }
+      }
+    });
+  }
+
+  const btnIngredients = document.getElementById('btnIngredients');
+  if (btnIngredients) {
+    btnIngredients.addEventListener('click', () => {
+      console.log('All Ingredients button clicked');
+      const recipeDetails = document.getElementById('recipeDetails');
+      if (recipeDetails) {
+        recipeDetails.style.display = 'none';
+      }
+      const ingredientsView = document.getElementById('ingredientsView');
+      if (ingredientsView) {
+        ingredientsView.style.display = 'block';
+      }
+    });
+  } else {
+    console.error('initUI: btnIngredients not found');
+  }
+}
+
 async function createNewRecipe(recipeName) {
   console.log('Creating new recipe:', recipeName);
   try {
@@ -348,9 +606,6 @@ async function createNewRecipe(recipeName) {
   }
 }
 
-/**
- * Creates a new global ingredient in the DB (example stub).
- */
 async function createNewGlobalIngredient(ingredientName) {
   console.log('Creating new global ingredient:', ingredientName);
   try {
@@ -368,16 +623,10 @@ async function createNewGlobalIngredient(ingredientName) {
   }
 }
 
-/**
- * Reload data (stub).
- */
 async function reloadData() {
   console.log('Data reloaded.');
 }
 
-/**
- * Show notification (stub).
- */
 function showNotification(message, type) {
   alert(`${type.toUpperCase()}: ${message}`);
 }
