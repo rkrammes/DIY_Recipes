@@ -24,7 +24,7 @@ export function updateAuthButton() {
     btnLogIn.textContent = isLoggedIn ? 'Log Out' : 'Log In';
   }
   if (editCheckbox) {
-    // Enable edit mode checkbox only when logged in
+    // Enable the edit mode checkbox only when logged in
     editCheckbox.disabled = !isLoggedIn;
     if (!isLoggedIn) {
       editCheckbox.checked = false;
@@ -34,8 +34,6 @@ export function updateAuthButton() {
 
 /**
  * Handles the login/logout button click.
- * If not logged in, displays the magic link form.
- * If logged in, logs the user out.
  */
 function handleLoginButtonClick() {
   const magicLinkForm = document.getElementById('magicLinkForm');
@@ -68,7 +66,6 @@ function setupMagicLink() {
       if (emailInput && emailInput.value) {
         try {
           await sendMagicLink(emailInput.value);
-          // Assume login is immediate for demonstration
           isLoggedIn = true;
           updateAuthButton();
           const magicLinkForm = document.getElementById('magicLinkForm');
@@ -87,29 +84,35 @@ function setupMagicLink() {
 }
 
 /**
- * Displays detailed information for a given recipe.
- * "Commit" button is now on the same row as "Next Iteration" heading, pinned right.
- * The AI prompt and "Get AI Suggestion" remain pinned bottom-right in the same column.
+ * Helper: if user hits Enter in an input/textarea, we call the relevant action
+ */
+function onEnterKey(e, action) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    action();
+  }
+}
+
+/**
+ * Show recipe details with pinned "Commit" and 
+ * a single text input "Get AI Suggestion" that triggers fetch on Enter
  */
 export function showRecipeDetails(recipe) {
-  // Hide the global ingredients view
   const ingredientsView = document.getElementById('ingredientsView');
   if (ingredientsView) {
     ingredientsView.style.display = 'none';
   }
 
-  // Show recipe details section
   const details = document.getElementById('recipeDetails');
   if (!details) return;
   details.style.display = 'block';
   details.innerHTML = '';
 
-  // Create a container with two columns
   const container = document.createElement('div');
   container.style.display = 'flex';
   container.style.gap = '20px';
 
-  // LEFT COLUMN: Current Ingredients (table format)
+  // LEFT: Current Ingredients
   const currentDiv = document.createElement('div');
   currentDiv.style.flex = '1';
   currentDiv.style.border = '1px solid #ccc';
@@ -121,10 +124,8 @@ export function showRecipeDetails(recipe) {
     table.style.width = '100%';
     table.style.borderCollapse = 'collapse';
 
-    // Header row
     const headerRow = document.createElement('tr');
-    const headers = ['Ingredient', 'Quantity', 'Unit', 'Notes'];
-    headers.forEach(text => {
+    ['Ingredient', 'Quantity', 'Unit', 'Notes'].forEach(text => {
       const th = document.createElement('th');
       th.textContent = text;
       th.style.padding = '8px';
@@ -133,7 +134,6 @@ export function showRecipeDetails(recipe) {
     });
     table.appendChild(headerRow);
 
-    // Rows for each ingredient
     recipe.ingredients.forEach(ing => {
       const row = document.createElement('tr');
       [ing.name, ing.quantity, ing.unit, ing.notes].forEach(val => {
@@ -150,20 +150,19 @@ export function showRecipeDetails(recipe) {
     currentDiv.innerHTML += '<p>No ingredients available.</p>';
   }
 
-  // RIGHT COLUMN: Next Iteration
+  // RIGHT: Next Iteration
   const nextDiv = document.createElement('div');
   nextDiv.style.flex = '1';
   nextDiv.style.border = '1px solid #ccc';
   nextDiv.style.padding = '10px';
 
-  // A row for "Next Iteration" heading on left, "Commit" button on right
+  // Header row with "Next Iteration" on left, "Commit" on right
   const iterationHeader = document.createElement('div');
   iterationHeader.style.display = 'flex';
   iterationHeader.style.justifyContent = 'space-between';
   iterationHeader.style.alignItems = 'center';
   iterationHeader.style.marginBottom = '10px';
 
-  // Heading
   const heading = document.createElement('h3');
   heading.textContent = 'Next Iteration';
   iterationHeader.appendChild(heading);
@@ -173,22 +172,8 @@ export function showRecipeDetails(recipe) {
   commitBtn.textContent = 'Commit';
   commitBtn.classList.add('btn');
   commitBtn.disabled = !isEditMode();
-  commitBtn.addEventListener('click', async () => {
-    try {
-      const nextTextareaValue = nextTextarea.value;
-      const { error } = await supabaseClient
-        .from('All_Recipes')
-        .update({ next_iteration: nextTextareaValue })
-        .eq('id', recipe.id);
-      if (error) {
-        showNotification('Error committing next iteration.', 'error');
-      } else {
-        showNotification('Next iteration committed!', 'success');
-        await reloadData();
-      }
-    } catch (error) {
-      showNotification('Error committing next iteration.', 'error');
-    }
+  commitBtn.addEventListener('click', () => {
+    doCommit();
   });
   iterationHeader.appendChild(commitBtn);
 
@@ -199,56 +184,31 @@ export function showRecipeDetails(recipe) {
   nextTextarea.style.width = '100%';
   nextTextarea.style.height = '150px';
   nextTextarea.value = recipe.next_iteration || '';
-  nextDiv.appendChild(nextTextarea);
 
-  // A pinned row for AI prompt & "Get AI Suggestion" button at bottom right
-  const pinnedRow = document.createElement('div');
-  pinnedRow.style.display = 'flex';
-  pinnedRow.style.justifyContent = 'flex-end';
-  pinnedRow.style.alignItems = 'center';
-  pinnedRow.style.gap = '10px';
-  pinnedRow.style.marginTop = '10px';
-
-  // AI prompt input
-  const aiInput = document.createElement('input');
-  aiInput.id = 'aiPrompt';
-  aiInput.placeholder = 'Enter prompt for AI suggestion';
-  aiInput.disabled = !isEditMode();
-
-  // AI Suggestion button
-  const aiBtn = document.createElement('button');
-  aiBtn.textContent = 'Get AI Suggestion';
-  aiBtn.classList.add('btn');
-  aiBtn.disabled = !isEditMode();
-  aiBtn.addEventListener('click', async () => {
-    try {
-      const response = await fetch('/api/ai-suggestion', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          recipe: recipe,
-          userPrompt: aiInput.value
-        })
-      });
-      const data = await response.json();
-      const suggestionDiv = document.getElementById('aiSuggestionText');
-      if (data.suggestion) {
-        suggestionDiv.textContent = data.suggestion;
-      } else {
-        suggestionDiv.textContent = 'No suggestion returned.';
-      }
-    } catch (error) {
-      const suggestionDiv = document.getElementById('aiSuggestionText');
-      suggestionDiv.textContent = 'Error getting suggestion.';
-    }
+  // Pressing Enter in the textarea commits
+  nextTextarea.addEventListener('keypress', (e) => {
+    onEnterKey(e, () => doCommit());
   });
 
-  pinnedRow.appendChild(aiInput);
-  pinnedRow.appendChild(aiBtn);
+  nextDiv.appendChild(nextTextarea);
 
-  nextDiv.appendChild(pinnedRow);
+  // Single input "Get AI Suggestion"
+  const aiInput = document.createElement('input');
+  aiInput.id = 'aiPrompt';
+  aiInput.placeholder = 'Get AI Suggestion';
+  aiInput.disabled = !isEditMode();
+  aiInput.style.display = 'block';
+  aiInput.style.marginTop = '10px';
+  aiInput.style.width = '100%';
 
-  // Hidden AI suggestion text area
+  // Pressing Enter in "Get AI Suggestion" triggers fetch
+  aiInput.addEventListener('keypress', (e) => {
+    onEnterKey(e, () => doAISuggestion(aiInput.value, recipe));
+  });
+
+  nextDiv.appendChild(aiInput);
+
+  // Hidden AI suggestion text
   const suggestionDiv = document.createElement('div');
   suggestionDiv.id = 'aiSuggestionText';
   suggestionDiv.style.marginTop = '10px';
@@ -259,6 +219,46 @@ export function showRecipeDetails(recipe) {
 
   details.innerHTML = '';
   details.appendChild(container);
+
+  // Action for commit
+  async function doCommit() {
+    try {
+      const { error } = await supabaseClient
+        .from('All_Recipes')
+        .update({ next_iteration: nextTextarea.value })
+        .eq('id', recipe.id);
+      if (error) {
+        showNotification('Error committing next iteration.', 'error');
+      } else {
+        showNotification('Next iteration committed!', 'success');
+        await reloadData();
+      }
+    } catch (err) {
+      showNotification('Error committing next iteration.', 'error');
+    }
+  }
+
+  // Action for AI suggestion
+  async function doAISuggestion(promptValue, recipeObj) {
+    try {
+      const response = await fetch('/api/ai-suggestion', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          recipe: recipeObj,
+          userPrompt: promptValue
+        })
+      });
+      const data = await response.json();
+      if (data.suggestion) {
+        suggestionDiv.textContent = data.suggestion;
+      } else {
+        suggestionDiv.textContent = 'No suggestion returned.';
+      }
+    } catch (error) {
+      suggestionDiv.textContent = 'Error getting suggestion.';
+    }
+  }
 }
 
 /**
@@ -275,6 +275,9 @@ export function renderRecipes(recipes) {
     const li = document.createElement('li');
     li.classList.add('recipe-item');
     li.textContent = recipe.name || 'Unnamed Recipe';
+
+    // Pressing Enter on the recipe item does nothing here, 
+    // since these are clickable items, not text fields
     li.addEventListener('click', () => {
       showRecipeDetails(recipe);
     });
@@ -393,6 +396,34 @@ export function initUI() {
 
     setupMagicLink();
 
+    // "Add New Recipe" input triggers creation on Enter
+    const newRecipeInput = document.getElementById('newRecipeNameInput');
+    if (newRecipeInput) {
+      newRecipeInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          if (isEditMode() && newRecipeInput.value.trim() !== '') {
+            createNewRecipe(newRecipeInput.value.trim());
+            newRecipeInput.value = '';
+          }
+        }
+      });
+    }
+
+    // "Add New Ingredient" input triggers creation on Enter
+    const newGlobalIngredientInput = document.getElementById('newGlobalIngredientInput');
+    if (newGlobalIngredientInput) {
+      newGlobalIngredientInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          if (isEditMode() && newGlobalIngredientInput.value.trim() !== '') {
+            createNewGlobalIngredient(newGlobalIngredientInput.value.trim());
+            newGlobalIngredientInput.value = '';
+          }
+        }
+      });
+    }
+
     const btnIngredients = document.getElementById('btnIngredients');
     if (btnIngredients) {
       btnIngredients.addEventListener('click', () => {
@@ -418,11 +449,58 @@ export function initUI() {
   }
 }
 
-// Stub functions for reloadData and showNotification.
+/**
+ * Creates a new recipe in the DB (example stub).
+ */
+async function createNewRecipe(recipeName) {
+  console.log('Creating new recipe:', recipeName);
+  // Example logic:
+  try {
+    const { error } = await supabaseClient
+      .from('All_Recipes')
+      .insert({ name: recipeName, ingredients: [] });
+    if (error) {
+      showNotification('Error creating recipe.', 'error');
+    } else {
+      showNotification('New recipe created.', 'success');
+      await reloadData();
+    }
+  } catch (err) {
+    showNotification('Error creating recipe.', 'error');
+  }
+}
+
+/**
+ * Creates a new global ingredient in the DB (example stub).
+ */
+async function createNewGlobalIngredient(ingredientName) {
+  console.log('Creating new global ingredient:', ingredientName);
+  // Example logic:
+  try {
+    const { error } = await supabaseClient
+      .from('Ingredients')
+      .insert({ name: ingredientName, description: '' });
+    if (error) {
+      showNotification('Error creating ingredient.', 'error');
+    } else {
+      showNotification('New ingredient created.', 'success');
+      await reloadData();
+    }
+  } catch (err) {
+    showNotification('Error creating ingredient.', 'error');
+  }
+}
+
+/**
+ * Reload data (stub).
+ */
 async function reloadData() {
   console.log('Data reloaded.');
 }
 
+/**
+ * Show notification (stub).
+ */
 function showNotification(message, type) {
   alert(`${type.toUpperCase()}: ${message}`);
 }
