@@ -1,20 +1,12 @@
-/* 
-  style.css
-
-  1) Two-level layout
-  2) Roboto Mono for entire app
-  3) Flat theme selector, no "Appearance:" label
-  4) Black table cells with white text
-  5) .recipe-item and .ingredient-item now styled as .btn (like "All Ingredients" & "Log In")
-*/
+/* style.css */
 
 /* Root Variables */
 :root {
-  --primary: #1A1A1A;       
-  --secondary: #2C2C2C;     
+  --primary: #1A1A1A;
+  --secondary: #2C2C2C;
   --accent-blue: #3498DB;
   --accent-orange: #FF9900;
-  --text: #FFFFFF;          
+  --text: #FFFFFF;
   --muted-text: #BDBDBD;
 
   --font-family: 'Roboto Mono', monospace;
@@ -31,7 +23,7 @@
   --icon-size: 24px;
 }
 
-/* Reset & Base */
+/* Basic Reset */
 * {
   margin: 0;
   padding: 0;
@@ -57,7 +49,7 @@ body {
   padding: var(--gutter);
 }
 
-/* Headings in Roboto Mono, bold */
+/* Headings in Roboto Mono */
 h1, h2, h3, h4 {
   font-family: var(--font-family);
   font-weight: bold;
@@ -79,7 +71,7 @@ h4 {
   margin-bottom: var(--spacing-small);
 }
 
-/* Glass Panels for top-level, second-level, etc. */
+/* Glass Panels (top-level, second-level, etc.) */
 .glass-panel {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
@@ -89,7 +81,7 @@ h4 {
   margin-bottom: var(--spacing-large);
 }
 
-/* Page Layout: pinned top-level, centered second-level */
+/* Two-Level Layout */
 .page-wrapper {
   display: flex;
   flex-direction: column;
@@ -138,7 +130,7 @@ aside.glass-panel {
   border-radius: 8px;
 }
 
-/* Flattened theme select, uses Roboto Mono, no label */
+/* Flattened theme select in Roboto Mono, no label */
 .theme-select {
   font-family: var(--font-family);
   background-color: var(--secondary);
@@ -151,21 +143,12 @@ aside.glass-panel {
   -moz-appearance: none;
 }
 
-/* Recipe & Ingredient Lists */
-.recipe-list,
-#ingredientList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  font-family: var(--font-family);
-}
-
-/* Buttons - Gradient Text Effect */
+/* Buttons: Gradient Text Effect */
 .btn {
   display: inline-block;
   padding: 12px 24px;
   background-color: var(--secondary);
-  color: var(--secondary); 
+  color: var(--secondary);
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -182,7 +165,7 @@ aside.glass-panel {
   -webkit-text-fill-color: transparent;
 }
 
-/* Secondary Action Button, also gradient text */
+/* Secondary Action Button */
 .secondary-btn {
   background-color: var(--secondary);
   color: var(--secondary);
@@ -197,71 +180,39 @@ aside.glass-panel {
   -webkit-text-fill-color: transparent;
 }
 
-/* Input Fields (text, textarea) in Roboto Mono */
+/* 
+  All text fields have orange placeholders & orange typed text 
+  => unify across all input/textarea
+*/
 input,
 textarea {
   background-color: var(--secondary);
-  color: var(--text);
   border: 1px solid var(--accent-blue);
   border-radius: 4px;
   padding: 8px 12px;
   font-family: var(--font-family);
+  color: var(--accent-orange); /* typed text is orange */
+  outline: none; /* remove default focus outlines if desired */
 }
 
-/* Spacing Utilities */
-.mt-small { margin-top: var(--spacing-small); }
-.mt-medium { margin-top: var(--spacing-medium); }
-.mt-large { margin-top: var(--spacing-large); }
-.mb-small { margin-bottom: var(--spacing-small); }
-.mb-medium { margin-bottom: var(--spacing-medium); }
-.mb-large { margin-bottom: var(--spacing-large); }
-
-/* Icons */
-.icon-primary {
-  fill: var(--accent-blue);
-  width: var(--icon-size);
-  height: var(--icon-size);
-}
-.icon-secondary {
-  fill: var(--accent-orange);
-  width: var(--icon-size);
-  height: var(--icon-size);
+/* Placeholder text in orange as well */
+::placeholder {
+  color: var(--accent-orange);
+  opacity: 1; /* ensure it's fully visible */
 }
 
-/* Highlighting */
-.highlight {
-  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Lists for recipes/ingredients */
+.recipe-list,
+#ingredientList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   font-family: var(--font-family);
 }
 
-/* Loading Animation */
-@keyframes loadingAnimation {
-  0% { opacity: 0.6; }
-  50% { opacity: 1; }
-  100% { opacity: 0.6; }
-}
-.loading {
-  animation: loadingAnimation 1.5s infinite;
-}
-
-/* TABLE: black BG, white text */
-.container table th,
-.container table td {
-  background-color: #000 !important;
-  color: #FFF !important;
-  border: 1px solid #444 !important;
-  font-family: var(--font-family);
-}
-
-/* 
-  MAKE .recipe-item & .ingredient-item LOOK LIKE .btn 
-  So they match "All Ingredients" & "Log In" 
-*/
+/* Make .recipe-item & .ingredient-item look like .btn */
 .recipe-item,
 .ingredient-item {
-  /* same as .btn, plus any needed overrides for layout */
   display: inline-block;
   padding: 12px 24px;
   background-color: var(--secondary);
@@ -275,7 +226,7 @@ textarea {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   transition: background 0.3s ease;
-  margin: var(--spacing-small) 0; /* spacing between buttons */
+  margin: var(--spacing-small) 0;
 }
 .recipe-item:hover,
 .ingredient-item:hover {
@@ -284,16 +235,34 @@ textarea {
   -webkit-text-fill-color: transparent;
 }
 
-/* Ingredient Container & Button */
+/* Table cells forced black BG & white text */
+.container table th,
+.container table td {
+  background-color: #000 !important;
+  color: #FFF !important;
+  border: 1px solid #444 !important;
+  font-family: var(--font-family);
+}
+
+/* Ingredient Container & Buttons */
 .ingredient-container {
   margin-bottom: var(--spacing-small);
 }
-
-/* .ingredient-button uses same style as .btn by default? If needed, unify them. */
-
-/* 
-  .ingredient-description, remove old background for consistency
-*/
+.ingredient-button {
+  width: 100%;
+  text-align: left;
+  background-color: var(--secondary);
+  color: var(--text);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--font-family);
+  transition: background 0.3s ease;
+  padding: 10px;
+}
+.ingredient-button:hover {
+  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
+}
 .ingredient-description {
   padding: 8px 12px;
   border: 1px solid var(--accent-blue);
@@ -321,7 +290,7 @@ textarea {
   background: linear-gradient(45deg, rgba(52,152,219,1), rgba(255,153,0,1));
 }
 
-/* Theme Toggle & Edit Mode Label */
+/* Theme & Edit Mode Label */
 .theme-label {
   font-size: 0.9em;
   margin-right: var(--spacing-small);
@@ -341,4 +310,30 @@ textarea {
 #ingredientsView.active,
 #recipeDetails.active {
   display: block;
+}
+
+/* Utility classes for highlighting, loading, icons remain the same... */
+.highlight {
+  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: var(--font-family);
+}
+@keyframes loadingAnimation {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+.loading {
+  animation: loadingAnimation 1.5s infinite;
+}
+.icon-primary {
+  fill: var(--accent-blue);
+  width: var(--icon-size);
+  height: var(--icon-size);
+}
+.icon-secondary {
+  fill: var(--accent-orange);
+  width: var(--icon-size);
+  height: var(--icon-size);
 }
