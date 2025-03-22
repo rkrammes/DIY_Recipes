@@ -47,9 +47,6 @@ function setEditModeFields() {
   if (newGlobalIngredientInput) {
     newGlobalIngredientInput.disabled = !isEditMode();
   }
-
-  // If you want to disable Next Iteration fields too, do so in showRecipeDetails or here
-  // e.g., document.querySelector('#recipeDetails textarea') if it’s in the DOM at this time
 }
 
 /**
@@ -118,14 +115,12 @@ function onEnterKey(e, action) {
 }
 
 /**
- * Show recipe details in THREE columns...
- * (unchanged from your final 3-column layout)
+ * Show recipe details in THREE columns (unchanged from your final 3-column layout).
+ * ... (Truncated for brevity) ...
  */
 export function showRecipeDetails(recipe) {
-  // <Truncated to keep code short> 
-  // (Your existing three-column logic for plain-text left, Next Iteration center, 
-  //  and editable table on the right remains the same, 
-  //  with the same doCommit, doAISuggestion, doUpdateIngredient, etc.)
+  // Your existing 3-column logic for plain-text left, Next Iteration center, 
+  // and editable table on the right, including doCommit, doAISuggestion, etc.
   // ...
 }
 
@@ -152,6 +147,7 @@ export function renderRecipes(recipes) {
 
 /**
  * Renders a list of ingredients into the <ul id="ingredientList"> element.
+ * => NOW uses .ingredient-item for the nameBtn to match your standard gradient styling
  */
 export function renderIngredients(ingredients) {
   const container = document.getElementById('ingredientList');
@@ -165,11 +161,10 @@ export function renderIngredients(ingredients) {
     div.classList.add('ingredient-container');
     div.style.marginBottom = '10px';
 
+    // Switch to .ingredient-item for standard styling
     const nameBtn = document.createElement('button');
-    nameBtn.classList.add('ingredient-button');
+    nameBtn.classList.add('ingredient-item');
     nameBtn.textContent = ingredient.name || 'Unnamed Ingredient';
-    nameBtn.style.width = '100%';
-    nameBtn.style.textAlign = 'left';
 
     const descDiv = document.createElement('div');
     descDiv.classList.add('ingredient-description');
