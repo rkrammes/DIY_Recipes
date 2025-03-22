@@ -13,8 +13,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       .select('*');
     if (recipesError) {
       console.error('Error loading recipes:', recipesError);
-    } else if (recipes) {
+    } else if (recipes && recipes.length > 0) {
       renderRecipes(recipes);
+    } else {
+      console.log('No recipes found.');
     }
 
     // Load ingredients.
@@ -23,8 +25,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       .select('*');
     if (ingredientsError) {
       console.error('Error loading ingredients:', ingredientsError);
-    } else if (ingredients) {
+    } else if (ingredients && ingredients.length > 0) {
       renderIngredients(ingredients);
+    } else {
+      console.log('No ingredients found.');
     }
   } catch (err) {
     console.error('Initialization error:', err);
