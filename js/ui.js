@@ -435,7 +435,9 @@ export function showRecipeDetails(recipe) {
         .eq('id', recipe.id);
       if (error) {
         showNotification('Error committing next iteration.', 'error');
-      } else {
+      } else if (value === 'light') {
+          console.log('Applying light theme');
+          document.body.className = 'light';
         showNotification('Next iteration committed!', 'success');
         await reloadData();
       }
