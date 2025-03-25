@@ -257,6 +257,31 @@ export function showRecipeDetails(recipe) {
   }
 
   const details = document.getElementById('recipeDetails');
+  const removeBtn = document.createElement('button');
+  removeBtn.classList.add('remove-recipe-btn');
+  removeBtn.textContent = 'Remove';
+  removeBtn.style.marginTop = '10px';
+  removeBtn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const confirmed = confirm(`Remove recipe "${recipe.name}"?`);
+      if (confirmed) {
+          try {
+              const { error } = await supabaseClient
+                  .from('All_Recipes')
+                  .delete()
+                  .eq('id', recipe.id);
+              if (error) {
+                  showNotification('Error removing recipe.', 'error');
+              } else {
+                  showNotification('Recipe removed successfully.', 'success');
+                  await reloadData();
+              }
+          } catch (err) {
+              showNotification('Error removing recipe.', 'error');
+          }
+      }
+  });
+  details.appendChild(removeBtn); // Append the Remove button to the recipe details
   if (!details) return;
   details.style.display = 'block';
   details.innerHTML = '';
