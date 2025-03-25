@@ -120,6 +120,7 @@ function onEnterKey(e, action) {
  * => Attaches .recipe-item and click => showRecipeDetails(recipe)
  */
 export function renderRecipes(recipes) {
+  console.log('Rendering recipes:', recipes); // Log the recipes being rendered
   const container = document.getElementById('recipeList');
   if (!container) {
     console.error('No container found with id "recipeList"');
@@ -128,6 +129,7 @@ export function renderRecipes(recipes) {
   container.innerHTML = '';
 
   recipes.forEach(recipe => {
+  console.log('Appending recipe:', recipe.name); // Log each recipe being appended
       const li = document.createElement('li');
       li.classList.add('recipe-item');
       li.textContent = recipe.name || 'Unnamed Recipe';
