@@ -23,7 +23,16 @@
   --icon-size: 24px;
 }
 
-/* Global Reset & Base Styles */
+/* Theme Styles */
+.blue {
+    background-color: #3498DB; /* Blue background */
+    color: #FFFFFF; /* White text */
+}
+
+.green {
+    background-color: #2ECC71; /* Green background */
+    color: #FFFFFF; /* White text */
+}
 * {
   margin: 0;
   padding: 0;
