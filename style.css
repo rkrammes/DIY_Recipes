@@ -284,3 +284,20 @@ textarea {
     background-color: #FFFFFF; /* Light background */
     color: #1A1A1A; /* Dark text */
 }
+
+.light .btn {
+    background-color: #3498DB; /* Blue background for buttons */
+    color: #FFFFFF; /* White text for buttons */
+}
+
+.light input,
+.light textarea {
+    background-color: #F0F0F0; /* Light gray background for inputs */
+    color: #1A1A1A; /* Dark text for inputs */
+    border: 1px solid #3498DB; /* Blue border for inputs */
+}
+
+.light .glass-panel {
+    background: rgba(255, 255, 255, 0.8); /* Light glass panel */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Lighter shadow for light mode */
+}
