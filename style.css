@@ -268,6 +268,12 @@ textarea {
   margin: var(--spacing-large) 0;
   font-family: var(--font-family);
 }
+
+.light #ingredientsView,
+.light #recipeDetails {
+  background-color: #FFFFFF; /* Light background for ingredients and recipe details */
+  color: #1A1A1A; /* Dark text for light mode */
+}
 #ingredientsView.active,
 #recipeDetails.active {
   display: block;
