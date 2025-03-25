@@ -536,6 +536,7 @@ export async function initUI() {
             document.body.className = value;
         }
         console.log('Theme changed to:', document.body.className);
+        console.log('Current body class:', document.body.className);
         
         // Ensure sections are displayed correctly based on the theme
         const ingredientsView = document.getElementById('ingredientsView');
