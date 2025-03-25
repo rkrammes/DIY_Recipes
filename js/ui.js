@@ -132,6 +132,7 @@ export function renderRecipes(recipes) {
   recipes.forEach(recipe => {
   console.log('Appending recipe:', recipe.name); // Log each recipe being appended
       const li = document.createElement('li');
+      console.log('Created li for recipe:', recipe.name); // Log each li created
       li.classList.add('recipe-item');
       li.textContent = recipe.name || 'Unnamed Recipe';
 
