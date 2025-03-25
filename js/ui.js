@@ -85,8 +85,9 @@ function setupMagicLink() {
       if (emailInput && emailInput.value) {
         try {
           await sendMagicLink(emailInput.value);
-          // For demonstration, assume user is logged in immediately:
-          isLoggedIn = true;
+          // Wait for the user to log in via the magic link.
+          alert('A magic link has been sent to your email. Please check your inbox to log in.');
+          // Do not set isLoggedIn to true here.
           updateAuthButton();
           setEditModeFields();
           const magicLinkForm = document.getElementById('magicLinkForm');
@@ -507,6 +508,18 @@ export async function initUI() {
 
   const themeSelect = document.getElementById('themeSelect');
   if (themeSelect) {
+    // Set initial theme based on the user's system preference
+    const initialTheme = themeSelect.value;
+    if (initialTheme === 'system') {
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.className = 'dark';
+      } else {
+        document.body.className = 'light';
+      }
+    } else {
+      document.body.className = initialTheme;
+    }
+
     themeSelect.addEventListener('change', (e) => {
       const value = e.target.value;
       if (value === 'system') {
@@ -624,7 +637,18 @@ async function createNewGlobalIngredient(ingredientName) {
 }
 
 async function reloadData() {
-  console.log('Data reloaded.');
+  async function reloadData() {
+    console.log('Reloading data...');
+    try {
+      const recipes = await loadRecipes();
+      renderRecipes(recipes);
+      const ingredients = await loadAllIngredients();
+      renderIngredients(ingredients);
+      console.log('Data reloaded successfully.');
+    } catch (error) {
+      console.error('Error reloading data:', error);
+    }
+  }
 }
 
 function showNotification(message, type) {
