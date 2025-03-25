@@ -57,6 +57,10 @@ Suggest improvements for this recipe. Return a short summary with suggested chan
 
 app.use(express.static('public')); // Serve static files from the 'public' directory
 
+const PORT = process.env.PORT || 3001; // Define PORT variable
+
+app.use(express.static('public')); // Serve static files from the 'public' directory
+
 // Serve index.html on the root path
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
