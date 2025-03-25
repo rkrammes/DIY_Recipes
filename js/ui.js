@@ -412,7 +412,8 @@ export function showRecipeDetails(recipe) {
     });
 
     editableDiv.appendChild(editTable);
-  } else {
+  } else if (value === 'light') {
+      document.body.className = 'light';
     const noIng = document.createElement('p');
     noIng.textContent = 'No ingredients to edit.';
     editableDiv.appendChild(noIng);

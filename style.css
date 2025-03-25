@@ -271,4 +271,14 @@ textarea {
   display: block;
 }
 
-/* Additional highlighting, loading, icons, etc. remain as is. */
+/* Dark Theme */
+.dark {
+    background-color: #1A1A1A; /* Dark background */
+    color: #FFFFFF; /* Light text */
+}
+
+/* Light Theme */
+.light {
+    background-color: #FFFFFF; /* Light background */
+    color: #1A1A1A; /* Dark text */
+}
