@@ -55,7 +55,7 @@ Suggest improvements for this recipe. Return a short summary with suggested chan
   }
 });
 
-app.use(express.static('public')); // Serve static files from the 'public' directory
+app.use(express.static(__dirname)); // Serve static files from the current directory
 
 const PORT = process.env.PORT || 3001; // Define PORT variable
 
