@@ -122,6 +122,7 @@ function onEnterKey(e, action) {
 export function renderRecipes(recipes) {
   console.log('Rendering recipes:', recipes); // Log the recipes being rendered
   const container = document.getElementById('recipeList');
+  console.log('Parent container styles:', getComputedStyle(container.parentElement)); // Log computed styles of the parent container
   console.log('Recipe list dimensions:', container.getBoundingClientRect()); // Log dimensions of the recipe list
   console.log('Parent container dimensions:', container.parentElement.getBoundingClientRect()); // Log dimensions of the parent container
   console.log('Computed styles for recipeList:', getComputedStyle(container)); // Log computed styles
