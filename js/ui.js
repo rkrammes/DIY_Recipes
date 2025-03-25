@@ -248,7 +248,8 @@ export function showRecipeDetails(recipe) {
       line.textContent = text;
       currentDiv.appendChild(line);
     });
-  } else {
+  } else if (value === 'light') {
+      document.body.className = 'light';
     currentDiv.innerHTML += '<p>No ingredients available.</p>';
   }
 
