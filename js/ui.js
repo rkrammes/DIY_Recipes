@@ -122,6 +122,7 @@ function onEnterKey(e, action) {
 export function renderRecipes(recipes) {
   console.log('Rendering recipes:', recipes); // Log the recipes being rendered
   const container = document.getElementById('recipeList');
+  console.log('Computed styles for recipeList:', getComputedStyle(container)); // Log computed styles
   if (!container) {
     console.error('No container found with id "recipeList"');
     return;
