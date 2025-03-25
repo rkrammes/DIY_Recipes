@@ -304,9 +304,9 @@ textarea {
 
 /* Update top-level and main-content for light theme */
 .light .top-level {
-    background-color: var(--secondary); /* Use CSS variable */
+    background-color: #FFFFFF; /* Set to white for light mode */
 }
 
 .light .main-content {
-    background-color: var(--primary); /* Use CSS variable */
+    background-color: #FFFFFF; /* Set to white for light mode */
 }
