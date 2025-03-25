@@ -525,17 +525,27 @@ export async function initUI() {
     }
 
     themeSelect.addEventListener('change', (e) => {
-      const value = e.target.value;
-      if (value === 'system') {
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          document.body.className = 'dark';
+        const value = e.target.value;
+        if (value === 'system') {
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.body.className = 'dark';
+            } else {
+                document.body.className = 'light';
+            }
         } else {
-          document.body.className = 'light';
+            document.body.className = value;
         }
-      } else {
-        document.body.className = value;
-      }
-      console.log('Theme changed to:', document.body.className);
+        console.log('Theme changed to:', document.body.className);
+        
+        // Ensure sections are displayed correctly based on the theme
+        const ingredientsView = document.getElementById('ingredientsView');
+        const recipeDetails = document.getElementById('recipeDetails');
+        if (ingredientsView) {
+            ingredientsView.style.display = 'block'; // Show ingredients view
+        }
+        if (recipeDetails) {
+            recipeDetails.style.display = 'block'; // Show recipe details
+        }
     });
   }
 
