@@ -301,3 +301,12 @@ textarea {
     background: rgba(255, 255, 255, 0.8); /* Light glass panel */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Lighter shadow for light mode */
 }
+
+/* Update top-level and main-content for light theme */
+.light .top-level {
+    background-color: var(--secondary); /* Use CSS variable */
+}
+
+.light .main-content {
+    background-color: var(--primary); /* Use CSS variable */
+}
