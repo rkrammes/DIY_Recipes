@@ -55,7 +55,12 @@ Suggest improvements for this recipe. Return a short summary with suggested chan
   }
 });
 
-const PORT = process.env.PORT || 3001;
+app.use(express.static('public')); // Serve static files from the 'public' directory
+
+// Serve index.html on the root path
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+});
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
