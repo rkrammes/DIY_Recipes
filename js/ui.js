@@ -172,6 +172,8 @@ export function renderRecipes(recipes) {
       });
 
       li.appendChild(removeBtn); // Append the Remove button to the recipe item
+      container.appendChild(li); // Append the li to the container
+      console.log('Appended li to recipeList:', li); // Log the appended li element
   });
 }
 
@@ -186,6 +188,7 @@ export function renderIngredients(ingredients) {
     return;
   }
   container.innerHTML = '';
+  console.log('Recipe list inner HTML after appending:', container.innerHTML); // Log the inner HTML after appending
   console.log('Current recipe list HTML:', container.innerHTML); // Log the current HTML of the recipe list
 
   ingredients.forEach(ingredient => {
