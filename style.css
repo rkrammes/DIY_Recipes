@@ -23,15 +23,19 @@
   --icon-size: 24px;
 }
 
-/* Theme Styles */
-.blue {
-    background-color: #3498DB; /* Blue background */
+/* Button Styles for Themes */
+.btn {
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dark .btn {
+    background-color: #1A1A1A; /* Dark button background */
     color: #FFFFFF; /* White text */
 }
 
-.green {
-    background-color: #2ECC71; /* Green background */
-    color: #FFFFFF; /* White text */
+.light .btn {
+    background-color: #FFFFFF; /* Light button background */
+    color: #1A1A1A; /* Dark text */
 }
 * {
   margin: 0;
