@@ -54,7 +54,7 @@ export async function createNewRecipe(recipeName) {
       .from('All_Recipes')
       .insert([{ 
          name: recipeName, 
-         ingredients: [], 
+         ingredients: [{ name: '', quantity: '', unit: '', notes: '' }],
          next_iteration: "", 
          suggestions: [] 
       }])
