@@ -180,6 +180,7 @@ export function renderIngredients(ingredients) {
     return;
   }
   container.innerHTML = '';
+  console.log('Current recipe list HTML:', container.innerHTML); // Log the current HTML of the recipe list
 
   ingredients.forEach(ingredient => {
     const div = document.createElement('div');
