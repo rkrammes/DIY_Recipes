@@ -466,7 +466,7 @@ export function showRecipeDetails(recipe) {
  * Helper function to create a row for the editable ingredients table.
  */
 function createEditableIngredientRow(ingredientData) {
-    console.log('Creating editable row for:', ingredientData); // Log incoming data
+    console.log('Creating editable row for:', JSON.stringify(ingredientData, null, 2)); // Log incoming data
     const row = document.createElement('tr');
     // Use a unique temporary ID for new rows if ingredientData.id is missing
     row.dataset.ingredientId = ingredientData.id || `new_${Date.now()}`;
