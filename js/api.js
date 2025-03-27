@@ -79,6 +79,7 @@ export async function createNewRecipe(recipeName) {
 export async function addNewIngredientToRecipe(recipe, ingredient) {
   try {
     if (!recipe.ingredients) recipe.ingredients = [];
+    console.log('Adding ingredient:', ingredient); // Log the ingredient being added
     recipe.ingredients.push(ingredient);
     const { error } = await supabaseClient
       .from('All_Recipes')
