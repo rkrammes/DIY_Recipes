@@ -314,7 +314,7 @@ export function showRecipeDetails(recipe) {
   commitBtn.id = 'commitRecipeBtn'; // Added ID
   commitBtn.textContent = 'Commit';
   commitBtn.classList.add('btn');
-  commitBtn.disabled = !isEditMode();
+  // commitBtn.disabled = !isEditMode(); // Logic moved to setEditModeFields
   commitBtn.addEventListener('click', async () => {
     doCommit();
   });
