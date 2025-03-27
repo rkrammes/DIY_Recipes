@@ -73,10 +73,11 @@
     <main class="main-content">
       <section class="recipe-details" id="recipeDetails" style="display:none;"></section>
       <section class="ingredients-view" id="ingredientsView" style="display:none;">
-        <h2>All Ingredients</h2>
-        <div id="addGlobalIngredientContainer" class="sidebar-container" style="margin-bottom: var(--spacing-medium);">
-          <button id="btnAddGlobalIngredient" class="btn">Add Ingredient</button> <!-- Added Button -->
+        <div class="ingredients-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-medium);">
+          <h2>All Ingredients</h2>
+          <button id="btnAddGlobalIngredient" class="btn">Add Ingredient</button> <!-- Moved Button -->
         </div>
+        <!-- Removed the now empty addGlobalIngredientContainer div -->
         <ul id="ingredientList" class="ingredient-list"></ul>
       </section>
     </main>
