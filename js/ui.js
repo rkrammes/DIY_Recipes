@@ -337,7 +337,7 @@ export function showRecipeDetails(recipe) {
   const aiInput = document.createElement('input');
   aiInput.id = 'aiPrompt';
   aiInput.placeholder = 'Get AI Suggestion';
-  aiInput.disabled = !isEditMode();
+  // aiInput.disabled = !isEditMode(); // Logic moved to setEditModeFields
   aiInput.style.display = 'block';
   aiInput.style.marginTop = '10px';
   aiInput.style.width = '100%';
