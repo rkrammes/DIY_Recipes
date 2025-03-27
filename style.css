@@ -314,7 +314,7 @@ body.light {
 .light input,
 .light textarea {
     background-color: #F0F0F0;
-    color: #1A1A1A;
+    color: var(--accent-orange); /* Use accent orange like dark mode */
     border: 1px solid #3498DB;
 }
 .light ::placeholder {
