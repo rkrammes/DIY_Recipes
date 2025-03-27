@@ -172,6 +172,16 @@ aside.glass-panel {
   -webkit-text-fill-color: transparent;
 }
 
+/* Logo Text Gradient */
+#logoText {
+  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* Inherits font-family, font-size, font-weight from inline style or body */
+}
+
+
 /* Recipe/Ingredient Items - Base Gradient Text (Dark Theme Default) */
 .recipe-item,
 .ingredient-item {
