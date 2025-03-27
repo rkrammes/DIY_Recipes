@@ -537,22 +537,35 @@ export function showRecipeDetails(recipe) {
 export async function initUI() {
   console.log('initUI: setup started');
 
-  // 1) On page load, check for an existing session
-  try {
-    const { data: { session }, error } = await supabaseClient.auth.getSession();
-    if (session) {
-      console.log('Session found on load, user is logged in.');
-      isLoggedIn = true;
-    } else {
-      console.log('No existing session found, user not logged in.');
-    }
-  } catch (err) {
-    console.error('Error checking session on load:', err);
-  }
+  // 1) Set up real-time auth state listener
+  supabaseClient.auth.onAuthStateChange((event, session) => {
+    console.log('Auth state changed:', event, session);
+    const magicLinkForm = document.getElementById('magicLinkForm');
 
-  // 2) Now that we might have updated isLoggedIn, update UI
-  updateAuthButton();
-  setEditModeFields();
+    if (event === 'SIGNED_IN') {
+      isLoggedIn = true;
+      console.log('User signed in.');
+      if (magicLinkForm) magicLinkForm.style.display = 'none'; // Hide form on login
+    } else if (event === 'SIGNED_OUT') {
+      isLoggedIn = false;
+      console.log('User signed out.');
+      // Optionally show login form on logout, or handle as needed
+      // if (magicLinkForm) magicLinkForm.style.display = 'block';
+    }
+    // For INITIAL_SESSION, session might be null or contain the session
+    if (event === 'INITIAL_SESSION') {
+        isLoggedIn = !!session; // Set based on initial session presence
+        console.log('Initial session processed. Logged in:', isLoggedIn);
+    }
+
+    // Update UI based on new login state
+    updateAuthButton();
+    setEditModeFields(); // Ensure edit fields reflect login status
+  });
+
+
+  // 2) Initial UI setup (Theme, Checkbox, Buttons etc.)
+  // Note: Auth button and edit fields are now handled by onAuthStateChange listener
 
   const themeSelect = document.getElementById('themeSelect');
   if (themeSelect) {
