@@ -310,34 +310,7 @@ body.light {
     color: #1A1A1A;
     border: 1px solid #3498DB;
 }
-.light .btn {
-    background: #3498DB; /* Solid blue background */
-    color: #FFFFFF; /* White text */
-    -webkit-background-clip: initial; /* Reset gradient */
-    background-clip: initial;
-    -webkit-text-fill-color: initial;
-}
-.light .btn:hover {
-    background: #2980B9; /* Darker blue */
-    -webkit-background-clip: initial;
-    background-clip: initial;
-    -webkit-text-fill-color: initial;
-}
-.light .recipe-item,
-.light .ingredient-item {
-    background: #EAEAEA; /* Light grey background */
-    color: #1A1A1A; /* Dark text */
-    -webkit-background-clip: initial;
-    background-clip: initial;
-    -webkit-text-fill-color: initial;
-}
-.light .recipe-item:hover,
-.light .ingredient-item:hover {
-    background: #DADADA; /* Darker grey */
-    -webkit-background-clip: initial;
-    background-clip: initial;
-    -webkit-text-fill-color: initial;
-}
+/* Let light theme buttons inherit base gradient style */
 .light input,
 .light textarea {
     background-color: #F0F0F0;
