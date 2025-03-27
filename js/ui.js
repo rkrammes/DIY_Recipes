@@ -452,8 +452,8 @@ export function showRecipeDetails(recipe) {
     });
 
     editableDiv.appendChild(editTable);
-  } else if (value === 'light') {
-      document.body.className = 'light';
+  } else {
+    // If no ingredients, just show the message without changing theme
     const noIng = document.createElement('p');
     noIng.textContent = 'No ingredients to edit.';
     editableDiv.appendChild(noIng);
