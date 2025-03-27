@@ -479,6 +479,9 @@ function createEditableIngredientRow(ingredientData) {
         const input = document.createElement('input');
         input.dataset.field = field;
         input.placeholder = field.charAt(0).toUpperCase() + field.slice(1) + '?'; // e.g., "Name?"
+        if (field === 'quantity' || field === 'unit') {
+            console.log(`Setting ${field} to:`, ingredientData[field]);
+        }
         input.value = ingredientData[field] !== undefined ? ingredientData[field] : '';
         input.style.width = '100%';
         if (field === 'quantity') {
