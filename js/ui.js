@@ -388,7 +388,7 @@ export function showRecipeDetails(recipe) {
       nameCell.style.border = '1px solid #444';
       nameCell.style.padding = '8px';
       const nameInput = document.createElement('input');
-      nameInput.disabled = !isEditMode();
+      // nameInput.disabled = !isEditMode(); // Logic moved to setEditModeFields
       nameInput.placeholder = ing.name || 'Name?';
       nameInput.style.width = '100%';
       nameInput.addEventListener('keypress', (e) => {
