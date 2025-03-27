@@ -140,30 +140,7 @@ export function renderRecipes(recipes) {
       li.classList.add('recipe-item');
       li.textContent = recipe.name || 'Unnamed Recipe';
 
-      const removeBtn = document.createElement('button');
-      removeBtn.classList.add('remove-recipe-btn');
-      removeBtn.textContent = 'Remove';
-      removeBtn.style.marginLeft = '10px';
-      removeBtn.addEventListener('click', async (e) => {
-          e.stopPropagation();
-          const confirmed = confirm(`Remove recipe "${recipe.name}"?`);
-          if (confirmed) {
-              try {
-                  const { error } = await supabaseClient
-                      .from('All_Recipes')
-                      .delete()
-                      .eq('id', recipe.id);
-                  if (error) {
-                      showNotification('Error removing recipe.', 'error');
-                  } else {
-                      showNotification('Recipe removed successfully.', 'success');
-                      await reloadData();
-                  }
-              } catch (err) {
-                  showNotification('Error removing recipe.', 'error');
-              }
-          }
-      });
+      // Remove button creation and event listener
 
       // Clicking calls showRecipeDetails
       li.addEventListener('click', () => {
