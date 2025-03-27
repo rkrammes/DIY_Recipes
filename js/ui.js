@@ -474,9 +474,8 @@ export function showRecipeDetails(recipe) {
         .eq('id', recipe.id);
       if (error) {
         showNotification('Error committing next iteration.', 'error');
-      } else if (value === 'light') {
-          console.log('Applying light theme');
-          document.body.className = 'light';
+      } else {
+        // On successful commit, just show notification and reload
         showNotification('Next iteration committed!', 'success');
         await reloadData();
       }
