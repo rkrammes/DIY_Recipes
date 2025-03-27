@@ -6,7 +6,12 @@ require('dotenv').config();
 const { createClient } = require('@supabase/supabase-js');
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+let supabase;
+try {
+  supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+} catch (error) {
+  console.error('Error initializing Supabase client:', error);
+  process.exit(1);
 
 const app = express();
 app.use(bodyParser.json());
