@@ -264,6 +264,7 @@ export function renderIngredients(ingredients) {
  * - Right: New Iteration (editable table + actions)
  */
 export function showRecipeDetails(recipe) {
+  console.log('Showing recipe details for:', recipe); // Log the entire recipe object
   const ingredientsView = document.getElementById('ingredientsView');
   if (ingredientsView) {
     ingredientsView.style.display = 'none'; // Hide the global ingredients list
