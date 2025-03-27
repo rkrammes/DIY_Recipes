@@ -238,7 +238,7 @@ export function showRecipeDetails(recipe) {
   removeBtn.classList.add('remove-recipe-btn', 'btn'); // Add 'btn' class for consistent styling
   removeBtn.textContent = 'Remove';
   removeBtn.style.marginTop = '10px';
-  removeBtn.disabled = !isEditMode(); // Disable if not in edit mode
+  // removeBtn.disabled = !isEditMode(); // Logic moved to setEditModeFields
   removeBtn.addEventListener('click', async (e) => {
       e.stopPropagation();
       const confirmed = confirm(`Remove recipe "${recipe.name}"?`);
