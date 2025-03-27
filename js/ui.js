@@ -240,9 +240,10 @@ export function showRecipeDetails(recipe) {
 
   const details = document.getElementById('recipeDetails');
   const removeBtn = document.createElement('button');
-  removeBtn.classList.add('remove-recipe-btn');
+  removeBtn.classList.add('remove-recipe-btn', 'btn'); // Add 'btn' class for consistent styling
   removeBtn.textContent = 'Remove';
   removeBtn.style.marginTop = '10px';
+  removeBtn.disabled = !isEditMode(); // Disable if not in edit mode
   removeBtn.addEventListener('click', async (e) => {
       e.stopPropagation();
       const confirmed = confirm(`Remove recipe "${recipe.name}"?`);
