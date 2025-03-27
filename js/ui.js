@@ -311,6 +311,7 @@ export function showRecipeDetails(recipe) {
   iterationHeader.appendChild(heading);
 
   const commitBtn = document.createElement('button');
+  commitBtn.id = 'commitRecipeBtn'; // Added ID
   commitBtn.textContent = 'Commit';
   commitBtn.classList.add('btn');
   commitBtn.disabled = !isEditMode();
