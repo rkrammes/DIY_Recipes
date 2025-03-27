@@ -234,6 +234,7 @@ export function showRecipeDetails(recipe) {
 
   const details = document.getElementById('recipeDetails');
   const removeBtn = document.createElement('button');
+  removeBtn.id = 'removeRecipeBtn'; // Added ID
   removeBtn.classList.add('remove-recipe-btn', 'btn'); // Add 'btn' class for consistent styling
   removeBtn.textContent = 'Remove';
   removeBtn.style.marginTop = '10px';
