@@ -34,19 +34,80 @@ export function updateAuthButton() {
 
 /**
  * Enables or disables fields that depend on edit mode.
+ * This function is called on initial load and whenever edit mode or auth state changes.
  */
 function setEditModeFields() {
+  const editModeActive = isEditMode();
+  console.log('Setting edit mode fields. Active:', editModeActive);
+
+  // --- Always Present Elements ---
   // "Add New Recipe" input
   const newRecipeInput = document.getElementById('newRecipeNameInput');
   if (newRecipeInput) {
-    newRecipeInput.disabled = !isEditMode();
+    newRecipeInput.disabled = !editModeActive;
   }
 
-  // "Add Ingredient" button in All Ingredients view
+  // "Add Ingredient" button (All Ingredients view)
   const btnAddGlobalIngredient = document.getElementById('btnAddGlobalIngredient');
   if (btnAddGlobalIngredient) {
-    btnAddGlobalIngredient.disabled = !isEditMode();
+    btnAddGlobalIngredient.disabled = !editModeActive;
   }
+
+  // --- Dynamically Added Elements (within #recipeDetails) ---
+  // Check if the recipe details section is currently displayed/populated
+  const recipeDetailsSection = document.getElementById('recipeDetails');
+  if (recipeDetailsSection && recipeDetailsSection.style.display !== 'none') {
+
+    // "Remove Recipe" button
+    const removeRecipeBtn = document.getElementById('removeRecipeBtn');
+    if (removeRecipeBtn) {
+      removeRecipeBtn.disabled = !editModeActive;
+    }
+
+    // "Commit" button
+    const commitRecipeBtn = document.getElementById('commitRecipeBtn');
+    if (commitRecipeBtn) {
+      commitRecipeBtn.disabled = !editModeActive;
+    }
+
+    // AI Suggestion input
+    const aiPromptInput = document.getElementById('aiPrompt');
+    if (aiPromptInput) {
+      aiPromptInput.disabled = !editModeActive;
+    }
+
+    // Editable table inputs (select all inputs within the details section)
+    const editableInputs = recipeDetailsSection.querySelectorAll('input');
+    editableInputs.forEach(input => {
+      // Avoid disabling the AI prompt input again if it was selected
+      if (input.id !== 'aiPrompt') {
+        input.disabled = !editModeActive;
+      }
+    });
+    // Also handle the 'Next Iteration' textarea
+    const nextTextarea = recipeDetailsSection.querySelector('textarea');
+     if (nextTextarea) {
+        nextTextarea.disabled = !editModeActive;
+     }
+  }
+
+  // --- Dynamically Added Elements (within #ingredientList) ---
+  // "Remove Ingredient" buttons (need to re-query as list is re-rendered)
+  const removeIngredientBtns = document.querySelectorAll('.remove-ingredient-btn');
+  removeIngredientBtns.forEach(btn => {
+    // These buttons are only *added* if edit mode is active during render,
+    // but this ensures they are correctly disabled if edit mode is turned *off* later.
+    // However, the current render logic removes/adds them, so direct disable might be redundant.
+    // For safety/future changes, we can disable them here if found.
+    btn.disabled = !editModeActive;
+  });
+
+  // Note: The renderIngredients function currently only *adds* remove buttons
+  // if isEditMode() is true. If edit mode is toggled off, those buttons remain
+  // until the next render. Calling setEditModeFields will now disable them.
+  // A potentially cleaner approach would be for renderIngredients to always add
+  // the buttons but hide/show or disable/enable them based on isEditMode().
+  // For now, this consolidation handles the disabling part.
 }
 
 /**
