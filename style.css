@@ -325,6 +325,9 @@ textarea {
 .light .btn {
     background-color: #3498DB; /* Blue background for buttons */
     color: #FFFFFF; /* White text for buttons */
+    -webkit-background-clip: initial; /* Reset gradient clipping */
+    background-clip: initial; /* Reset gradient clipping */
+    -webkit-text-fill-color: initial; /* Reset text fill color */
 }
 
 .light input,
