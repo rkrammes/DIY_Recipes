@@ -653,6 +653,29 @@ export async function initUI() {
   } else {
     console.error('initUI: btnIngredients not found');
   }
+
+  // "Add Ingredient" button prompts for name and creates
+  const btnAddGlobalIngredient = document.getElementById('btnAddGlobalIngredient');
+  if (btnAddGlobalIngredient) {
+    // Initially disable if not in edit mode (will be updated by setEditModeFields)
+    btnAddGlobalIngredient.disabled = !isEditMode();
+
+    btnAddGlobalIngredient.addEventListener('click', () => {
+      if (!isEditMode()) {
+        alert('Please enable Edit Mode to add ingredients.');
+        return;
+      }
+      const ingredientName = prompt('Enter the name for the new ingredient:');
+      if (ingredientName && ingredientName.trim() !== '') {
+        // Call the existing function to create the ingredient
+        createNewGlobalIngredient(ingredientName.trim());
+      } else if (ingredientName !== null) { // Avoid alert if user cancelled prompt
+        alert('Ingredient name cannot be empty.');
+      }
+    });
+  } else {
+    console.error('initUI: btnAddGlobalIngredient not found');
+  }
 }
 
 async function createNewRecipe(recipeName) {
