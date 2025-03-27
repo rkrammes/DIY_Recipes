@@ -47,6 +47,12 @@ function setEditModeFields() {
   if (newGlobalIngredientInput) {
     newGlobalIngredientInput.disabled = !isEditMode();
   }
+
+  // "Add Ingredient" button in All Ingredients view
+  const btnAddGlobalIngredient = document.getElementById('btnAddGlobalIngredient');
+  if (btnAddGlobalIngredient) {
+    btnAddGlobalIngredient.disabled = !isEditMode();
+  }
 }
 
 /**
