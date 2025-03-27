@@ -287,8 +287,8 @@ export function showRecipeDetails(recipe) {
       line.textContent = text;
       currentDiv.appendChild(line);
     });
-  } else if (value === 'light') {
-      document.body.className = 'light';
+  } else {
+    // If no ingredients, just show the message without changing theme
     currentDiv.innerHTML += '<p>No ingredients available.</p>';
   }
 
