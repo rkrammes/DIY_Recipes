@@ -1,6 +1,6 @@
 /* style.css */
 
-/* Root Variables */
+/* Root Variables (Dark Theme Defaults) */
 :root {
   --primary: #1A1A1A;
   --secondary: #2C2C2C;
@@ -23,20 +23,7 @@
   --icon-size: 24px;
 }
 
-/* Button Styles for Themes */
-.btn {
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.dark .btn {
-    background-color: #1A1A1A; /* Dark button background */
-    color: #FFFFFF; /* White text */
-}
-
-.light .btn {
-    background-color: #FFFFFF; /* Light button background */
-    color: #1A1A1A; /* Dark text */
-}
+/* Base Styles */
 * {
   margin: 0;
   padding: 0;
@@ -53,6 +40,7 @@ body {
   background-color: var(--primary);
   color: var(--text);
   margin: 0 auto;
+  transition: background-color 0.3s, color 0.3s; /* Add transition for theme change */
 }
 
 /* Container */
@@ -72,7 +60,7 @@ h2 { font-size: 28px; margin-bottom: var(--spacing-medium); }
 h3 { font-size: 24px; margin-bottom: var(--spacing-small); }
 h4 { font-size: 20px; margin-bottom: var(--spacing-small); }
 
-/* Glass Panels */
+/* Glass Panels (Dark Default) */
 .glass-panel {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
@@ -80,9 +68,10 @@ h4 { font-size: 20px; margin-bottom: var(--spacing-small); }
   border-radius: 8px;
   padding: var(--spacing-medium);
   margin-bottom: var(--spacing-large);
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-/* Unified Header Layout */
+/* Unified Header Layout (Dark Default) */
 .page-wrapper {
   display: flex;
   flex-direction: column;
@@ -92,16 +81,17 @@ h4 { font-size: 20px; margin-bottom: var(--spacing-small); }
 
 .unified-header {
   display: flex;
-  flex-direction: column; /* Stack top row and recipe list */
-  padding: 0; /* Remove padding from header, apply to inner divs */
+  flex-direction: column;
+  padding: 0;
   background-color: var(--secondary);
+  transition: background-color 0.3s;
 }
 
 .header-top-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px; /* Apply padding here */
+  padding: 16px;
 }
 
 .header-left,
@@ -112,35 +102,32 @@ h4 { font-size: 20px; margin-bottom: var(--spacing-small); }
 }
 
 .header-recipe-list {
-  padding: 8px 16px; /* Padding for the recipe list area */
-  background-color: #1A1A1A; /* Keep the darker background for recipe list */
-  text-align: center; /* Center the inline-flex ul */
+  padding: 8px 16px;
+  background-color: var(--primary); /* Darker background for recipe list */
+  text-align: center;
   width: 100%;
+  transition: background-color 0.3s;
 }
 
 .recipe-list-horizontal {
-  display: inline-flex; /* Keep as inline-flex for horizontal scroll */
+  display: inline-flex;
   gap: 16px;
   list-style: none;
   overflow-x: auto;
   margin: 0;
   padding: 0;
-  min-height: 50px; /* Ensure the recipe list has a minimum height */
-  /* width: 100%; /* Let inline-flex and parent centering handle width */
-}
-
-.recipe-item {
-    background-color: transparent; /* Remove the background color */
+  min-height: 50px;
 }
 
 .main-content {
   flex: 1;
   overflow-y: auto;
   padding: 16px;
-  background-color: #1A1A1A;
+  background-color: var(--primary);
+  transition: background-color 0.3s;
 }
 
-/* Sidebar Panels */
+/* Sidebar Panels (Dark Default) */
 aside.glass-panel {
   flex: 1 1 300px;
   max-width: 300px;
@@ -149,7 +136,7 @@ aside.glass-panel {
   border-radius: 8px;
 }
 
-/* Flattened theme select in Roboto Mono */
+/* Theme Select (Dark Default) */
 .theme-select {
   font-family: var(--font-family);
   background-color: var(--secondary);
@@ -160,48 +147,47 @@ aside.glass-panel {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-/* Buttons - Gradient Text Effect */
+/* Buttons - Base Gradient Text Effect (Looks good in Dark) */
 .btn {
   display: inline-block;
   padding: 12px 24px;
-  background-color: var(--secondary);
-  color: var(--secondary); 
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 1em;
   font-family: var(--font-family);
   background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
-  background-clip: text; /* Standard property */
-  -webkit-background-clip: text; /* Vendor prefix */
+  background-clip: text;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, color 0.3s; /* Added color transition */
 }
 .btn:hover {
   background: linear-gradient(45deg, rgba(52,152,219,1), rgba(255,153,0,1));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* .recipe-item & .ingredient-item for gradient text effect as well */
+/* Recipe/Ingredient Items - Base Gradient Text (Dark) */
 .recipe-item,
 .ingredient-item {
   display: inline-block;
   padding: 12px 24px;
-  background-color: var(--secondary);
-  color: var(--secondary);
+  background-color: transparent; /* Use transparent background */
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 1em;
   font-family: var(--font-family);
   background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
-  -webkit-background-clip: text; /* Vendor prefix */
-  background-clip: text; /* Standard property */
+  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, color 0.3s;
   margin: var(--spacing-small) 0;
 }
 .recipe-item:hover,
@@ -212,21 +198,12 @@ aside.glass-panel {
   -webkit-text-fill-color: transparent;
 }
 
-/* Secondary Action Button */
+/* Secondary Action Button (Inherits .btn styles) */
 .secondary-btn {
-  background-color: var(--secondary);
-  color: var(--secondary);
-  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.secondary-btn:hover {
-  background: linear-gradient(45deg, rgba(52,152,219,1), rgba(255,153,0,1));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  /* Can add specific overrides if needed */
 }
 
-/* Input Fields */
+/* Input Fields (Dark Default) */
 input,
 textarea {
   background-color: var(--secondary);
@@ -236,22 +213,25 @@ textarea {
   padding: 8px 12px;
   font-family: var(--font-family);
   outline: none;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 ::placeholder {
   color: var(--accent-orange);
-  opacity: 1; 
+  opacity: 0.7; /* Slightly faded placeholder */
+  transition: color 0.3s;
 }
 
-/* Table Cells: black BG & white text */
+/* Table Cells (Dark Default) */
 .container table th,
 .container table td {
-  background-color: #000 !important;
-  color: #FFF !important;
-  border: 1px solid #444 !important;
+  background-color: #000 !important; /* Force black */
+  color: #FFF !important; /* Force white */
+  border: 1px solid #444 !important; /* Force dark border */
   font-family: var(--font-family);
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-/* Ingredient Container & Buttons */
+/* Ingredient Container & Desc (Dark Default) */
 .ingredient-container {
   margin-bottom: var(--spacing-small);
 }
@@ -264,32 +244,23 @@ textarea {
   color: var(--muted-text);
   margin-top: var(--spacing-small);
   font-family: var(--font-family);
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-/* Remove Ingredient Button */
+/* Remove Ingredient Button (Dark Default - uses .btn gradient) */
 .remove-ingredient-btn {
   margin-top: var(--spacing-small);
-  padding: 12px 24px;
-  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
-  color: var(--text);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  font-family: var(--font-family);
-}
-.remove-ingredient-btn:hover {
-  background: linear-gradient(45deg, rgba(52,152,219,1), rgba(255,153,0,1));
+  /* Inherits .btn styles */
 }
 
-/* Theme Toggle & Edit Mode Label */
+/* Theme Label */
 .theme-label {
   font-size: 0.9em;
   margin-right: var(--spacing-small);
   font-family: var(--font-family);
 }
 
-/* Ingredients View & Recipe Details */
+/* Ingredients View & Recipe Details (Dark Default) */
 #ingredientsView,
 #recipeDetails {
   display: none;
@@ -298,55 +269,130 @@ textarea {
   border-radius: 8px;
   margin: var(--spacing-large) 0;
   font-family: var(--font-family);
-}
-
-.light #ingredientsView,
-.light #recipeDetails {
-  background-color: #FFFFFF; /* Light background for ingredients and recipe details */
-  color: #1A1A1A; /* Dark text for light mode */
+  color: var(--text);
+  transition: background-color 0.3s, color 0.3s;
 }
 #ingredientsView.active,
 #recipeDetails.active {
   display: block;
 }
 
-/* Dark Theme */
-.dark {
-    background-color: #1A1A1A; /* Dark background */
-    color: #FFFFFF; /* Light text */
+
+/* ==================== */
+/* == Theme Overrides == */
+/* ==================== */
+
+/* --- Light Theme --- */
+body.light {
+    background-color: #FFFFFF;
+    color: #1A1A1A;
 }
 
-/* Light Theme */
-.light {
-    background-color: #FFFFFF; /* Light background */
-    color: #1A1A1A; /* Dark text */
+.light .unified-header {
+    background-color: #EAEAEA; /* Lighter secondary */
 }
-
+.light .header-recipe-list {
+    background-color: #FFFFFF;
+}
+.light .main-content {
+    background-color: #FFFFFF;
+}
+.light .glass-panel {
+    background: rgba(240, 240, 240, 0.8); /* Light grey glass */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #1A1A1A;
+}
+.light aside.glass-panel {
+    background-color: #EAEAEA; /* Lighter secondary */
+}
+.light .theme-select {
+    background-color: #FFFFFF;
+    color: #1A1A1A;
+    border: 1px solid #3498DB;
+}
 .light .btn {
-    background-color: #3498DB; /* Blue background for buttons */
-    color: #FFFFFF; /* White text for buttons */
-    -webkit-background-clip: initial; /* Reset gradient clipping */
-    background-clip: initial; /* Reset gradient clipping */
-    -webkit-text-fill-color: initial; /* Reset text fill color */
+    background: #3498DB; /* Solid blue background */
+    color: #FFFFFF; /* White text */
+    -webkit-background-clip: initial; /* Reset gradient */
+    background-clip: initial;
+    -webkit-text-fill-color: initial;
 }
-
+.light .btn:hover {
+    background: #2980B9; /* Darker blue */
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    -webkit-text-fill-color: initial;
+}
+.light .recipe-item,
+.light .ingredient-item {
+    background: #EAEAEA; /* Light grey background */
+    color: #1A1A1A; /* Dark text */
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    -webkit-text-fill-color: initial;
+}
+.light .recipe-item:hover,
+.light .ingredient-item:hover {
+    background: #DADADA; /* Darker grey */
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    -webkit-text-fill-color: initial;
+}
 .light input,
 .light textarea {
-    background-color: #F0F0F0; /* Light gray background for inputs */
-    color: #1A1A1A; /* Dark text for inputs */
-    border: 1px solid #3498DB; /* Blue border for inputs */
+    background-color: #F0F0F0;
+    color: #1A1A1A;
+    border: 1px solid #3498DB;
+}
+.light ::placeholder {
+    color: #555555; /* Darker placeholder */
+    opacity: 1;
+}
+.light #ingredientsView,
+.light #recipeDetails {
+    background-color: #FFFFFF;
+    color: #1A1A1A;
+}
+.light .container table th,
+.light .container table td {
+  background-color: #F8F8F8 !important;
+  color: #1A1A1A !important;
+  border: 1px solid #CCCCCC !important;
+}
+.light .ingredient-description {
+    background-color: #EAEAEA;
+    color: #555555;
+    border: 1px solid #3498DB;
+}
+.light .remove-ingredient-btn {
+    background: #E74C3C; /* Red background */
+    color: #FFFFFF;
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    -webkit-text-fill-color: initial;
+}
+.light .remove-ingredient-btn:hover {
+    background: #C0392B; /* Darker red */
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    -webkit-text-fill-color: initial;
 }
 
-.light .glass-panel {
-    background: rgba(255, 255, 255, 0.8); /* Light glass panel */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Lighter shadow for light mode */
+/* --- Dark Theme --- (Mostly handled by base styles) */
+body.dark {
+    /* Base styles use dark variables by default */
+    /* Add any specific .dark overrides here if needed */
 }
-
-/* Update top-level and main-content for light theme */
-.light .top-level {
-    background-color: #FFFFFF; /* Set to white for light mode */
+/* Example: If dark buttons needed a non-gradient style */
+/*
+.dark .btn {
+    background: var(--secondary);
+    color: var(--text);
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    -webkit-text-fill-color: initial;
 }
-
-.light .main-content {
-    background-color: #FFFFFF; /* Set to white for light mode */
+.dark .btn:hover {
+    background: #444444; // Slightly lighter dark
 }
+*/
