@@ -147,7 +147,7 @@ export function renderRecipes(recipes) {
           showRecipeDetails(recipe);
       });
 
-      li.appendChild(removeBtn); // Append the Remove button to the recipe item
+      // li.appendChild(removeBtn); // Removed: removeBtn is not defined here
       container.appendChild(li); // Append the li to the container
       console.log('Appended li to recipeList:', li); // Log the appended li element
   });
