@@ -690,7 +690,7 @@ async function createNewGlobalIngredient(ingredientName) {
   }
 }
 
-async function reloadData() {
+async function fetchData() {
 console.log('Reloading data...'); // Log when reloading data starts
   async function reloadData() {
     console.log('Reloading data...');
