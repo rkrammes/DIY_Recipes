@@ -42,12 +42,6 @@ function setEditModeFields() {
     newRecipeInput.disabled = !isEditMode();
   }
 
-  // "Add New Ingredient" input
-  const newGlobalIngredientInput = document.getElementById('newGlobalIngredientInput');
-  if (newGlobalIngredientInput) {
-    newGlobalIngredientInput.disabled = !isEditMode();
-  }
-
   // "Add Ingredient" button in All Ingredients view
   const btnAddGlobalIngredient = document.getElementById('btnAddGlobalIngredient');
   if (btnAddGlobalIngredient) {
