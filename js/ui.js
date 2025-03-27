@@ -265,6 +265,7 @@ export function renderIngredients(ingredients) {
  */
 export function showRecipeDetails(recipe) {
   console.log('Showing recipe details for:', recipe); // Log the entire recipe object
+  console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2)); // Log the recipe object
   const ingredientsView = document.getElementById('ingredientsView');
   if (ingredientsView) {
     ingredientsView.style.display = 'none'; // Hide the global ingredients list
