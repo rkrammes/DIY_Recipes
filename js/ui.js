@@ -405,7 +405,7 @@ export function showRecipeDetails(recipe) {
       qtyCell.style.border = '1px solid #444';
       qtyCell.style.padding = '8px';
       const qtyInput = document.createElement('input');
-      qtyInput.disabled = !isEditMode();
+      // qtyInput.disabled = !isEditMode(); // Logic moved to setEditModeFields
       qtyInput.placeholder = ing.quantity ? String(ing.quantity) : 'Qty?';
       qtyInput.style.width = '100%';
       qtyInput.addEventListener('keypress', (e) => {
