@@ -132,7 +132,7 @@ export function renderRecipes(recipes) {
   }
   container.innerHTML = '';
 
-  console.log('Recipes array:', recipes); // Log the entire recipes array
+  console.log('Fetched recipes:', recipes); // Log the fetched recipes
   recipes.forEach(recipe => {
   console.log('Appending recipe:', recipe.name); // Log each recipe being appended
       const li = document.createElement('li');
