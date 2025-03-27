@@ -439,7 +439,7 @@ export function showRecipeDetails(recipe) {
       notesCell.style.border = '1px solid #444';
       notesCell.style.padding = '8px';
       const notesInput = document.createElement('input');
-      notesInput.disabled = !isEditMode();
+      // notesInput.disabled = !isEditMode(); // Logic moved to setEditModeFields
       notesInput.placeholder = ing.notes || 'Notes?';
       notesInput.style.width = '100%';
       notesInput.addEventListener('keypress', (e) => {
