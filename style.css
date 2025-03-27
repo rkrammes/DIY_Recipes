@@ -82,46 +82,57 @@ h4 { font-size: 20px; margin-bottom: var(--spacing-small); }
   margin-bottom: var(--spacing-large);
 }
 
-/* Two-Level Layout */
+/* Unified Header Layout */
 .page-wrapper {
   display: flex;
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
 }
-.top-level {
+
+.unified-header {
+  display: flex;
+  flex-direction: column; /* Stack top row and recipe list */
+  padding: 0; /* Remove padding from header, apply to inner divs */
+  background-color: var(--secondary);
+}
+
+.header-top-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
-  background-color: var(--secondary);
+  padding: 16px; /* Apply padding here */
 }
-.top-level .top-left,
-.top-level .top-right {
+
+.header-left,
+.header-right {
   display: flex;
   align-items: center;
   gap: 16px;
 }
-.second-level {
-  padding: 8px 16px;
-  background-color: #1A1A1A;
-  text-align: center;
+
+.header-recipe-list {
+  padding: 8px 16px; /* Padding for the recipe list area */
+  background-color: #1A1A1A; /* Keep the darker background for recipe list */
+  text-align: center; /* Center the inline-flex ul */
+  width: 100%;
 }
+
 .recipe-list-horizontal {
-  display: inline-flex;
+  display: inline-flex; /* Keep as inline-flex for horizontal scroll */
   gap: 16px;
   list-style: none;
   overflow-x: auto;
   margin: 0;
   padding: 0;
+  min-height: 50px; /* Ensure the recipe list has a minimum height */
+  /* width: 100%; /* Let inline-flex and parent centering handle width */
 }
-#recipeList {
-    min-height: 50px; /* Ensure the recipe list has a minimum height */
-    width: 100%; /* Set a fixed width for testing */
-}
+
 .recipe-item {
     background-color: transparent; /* Remove the background color */
 }
+
 .main-content {
   flex: 1;
   overflow-y: auto;
