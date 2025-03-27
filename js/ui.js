@@ -422,7 +422,7 @@ export function showRecipeDetails(recipe) {
       unitCell.style.border = '1px solid #444';
       unitCell.style.padding = '8px';
       const unitInput = document.createElement('input');
-      unitInput.disabled = !isEditMode();
+      // unitInput.disabled = !isEditMode(); // Logic moved to setEditModeFields
       unitInput.placeholder = ing.unit || 'Unit?';
       unitInput.style.width = '100%';
       unitInput.addEventListener('keypress', (e) => {
