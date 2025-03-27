@@ -337,19 +337,7 @@ body.light {
     color: #555555;
     border: 1px solid #3498DB;
 }
-.light .remove-ingredient-btn {
-    background: #E74C3C; /* Red background */
-    color: #FFFFFF;
-    -webkit-background-clip: initial;
-    background-clip: initial;
-    -webkit-text-fill-color: initial;
-}
-.light .remove-ingredient-btn:hover {
-    background: #C0392B; /* Darker red */
-    -webkit-background-clip: initial;
-    background-clip: initial;
-    -webkit-text-fill-color: initial;
-}
+/* Let light theme remove button inherit base gradient style */
 
 /* --- Dark Theme --- (Mostly handled by base styles) */
 body.dark {
