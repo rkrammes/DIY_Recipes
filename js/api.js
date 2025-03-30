@@ -198,6 +198,7 @@ export function parseCSVData(data) {
  * @returns {Promise} Resolves to true when complete.
  */
 export async function importCSVFile(file) {
+    const requiredColumns = ['name', 'ingredients'];
   return new Promise((resolve, reject) => {
     Papa.parse(file, {
       complete: async function (results) {
