@@ -1,41 +1,8 @@
-import { initUI, renderRecipes, renderIngredients } from './ui.js';
-import { supabaseClient } from './supabaseClient.js';
+import { createClient } from '@supabase/supabase-js';
 
-async function loadRecipes() {
-  const response = await supabaseClient.from('Recipes').select('*');
-  console.log("Recipes full response:", response);
-  return response;
-}
+// Use environment variables for credentials. If running in a Node environment, process.env will be available.
+// In browser environments with Vite, use import.meta.env for environment variables.
+const supabaseUrl = typeof process !== 'undefined' && process.env.SUPABASE_URL ? process.env.SUPABASE_URL : import.meta.env.VITE_SUPABASE_URL;
+const supabaseKey = typeof process !== 'undefined' && process.env.SUPABASE_KEY ? process.env.SUPABASE_KEY : import.meta.env.VITE_SUPABASE_KEY;
 
-document.addEventListener('DOMContentLoaded', async () => {
-  try {
-    // Initialize UI.
-    initUI();
-
-    // Load recipes.
-    const recipesResponse = await loadRecipes();
-    console.log("Recipes full response:", recipesResponse);
-    const { data: recipes, error: recipesError } = recipesResponse;
-    if (recipesError) {
-      console.error('Error loading recipes:', recipesError);
-    } else if (recipes && recipes.length > 0) {
-      renderRecipes(recipes);
-    } else {
-      console.log('No recipes found.');
-    }
-
-    // Load ingredients.
-    const ingredientsResponse = await supabaseClient.from('Ingredients').select('*');
-    console.log("Ingredients full response:", ingredientsResponse);
-    const { data: ingredients, error: ingredientsError } = ingredientsResponse;
-    if (ingredientsError) {
-      console.error('Error loading ingredients:', ingredientsError);
-    } else if (ingredients && ingredients.length > 0) {
-      renderIngredients(ingredients);
-    } else {
-      console.log('No ingredients found.');
-    }
-  } catch (err) {
-    console.error('Initialization error:', err);
-  }
-});
+export const supabaseClient = createClient(supabaseUrl, supabaseKey);
