@@ -3,7 +3,9 @@ import { initUI, renderRecipes, renderIngredients } from './ui.js';
 import { supabaseClient } from './supabaseClient.js';
 
 async function loadRecipes() {
-  return await supabaseClient.from('Recipes').select('*');
+  const response = await supabaseClient.from('Recipes').select('*');
+  console.log("Recipes full response:", response);
+  return response;
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -12,7 +14,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     initUI();
 
     // Load recipes.
-    const { data: recipes, error: recipesError } = await loadRecipes();
+    const recipesResponse = await loadRecipes();
+    console.log("Recipes full response:", recipesResponse);
+    const { data: recipes, error: recipesError } = recipesResponse;
     if (recipesError) {
       console.error('Error loading recipes:', recipesError);
     } else if (recipes && recipes.length > 0) {
@@ -22,9 +26,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Load ingredients.
-    const { data: ingredients, error: ingredientsError } = await supabaseClient
-      .from('Ingredients')
-      .select('*');
+    const ingredientsResponse = await supabaseClient.from('Ingredients').select('*');
+    console.log("Ingredients full response:", ingredientsResponse);
+    const { data: ingredients, error: ingredientsError } = ingredientsResponse;
     if (ingredientsError) {
       console.error('Error loading ingredients:', ingredientsError);
     } else if (ingredients && ingredients.length > 0) {
