@@ -2,6 +2,10 @@
 import { initUI, renderRecipes, renderIngredients } from './ui.js';
 import { supabaseClient } from './supabaseClient.js';
 
+async function loadRecipes() {
+  return await supabaseClient.from('Recipes').select('*');
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     // Initialize UI.
