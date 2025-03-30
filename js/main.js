@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initUI();
 
     // Load recipes.
-    const recipes = await loadRecipes();
+    const { data: recipes, error: recipesError } = await loadRecipes();
     if (recipesError) {
       console.error('Error loading recipes:', recipesError);
     } else if (recipes && recipes.length > 0) {
