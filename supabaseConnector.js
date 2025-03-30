@@ -60,7 +60,7 @@ async function storeData(data) {
   try {
     // Replace 'recipes' with your actual table name in Supabase.
     const { data: insertedData, error } = await supabase
-      .from('All_Recipes')
+      .from('recipes') // Update to the new recipes table
       .insert(data);
     
     if (error) {
