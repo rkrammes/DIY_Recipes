@@ -1,7 +1,18 @@
 import { loadRecipes, loadAllIngredients, createNewRecipe, addNewIngredientToRecipe, addGlobalIngredient, removeIngredientFromRecipe, removeGlobalIngredient } from '../js/api.js';
 import { supabaseClient } from '../js/supabaseClient.js';
 
-jest.mock('../js/supabaseClient.js');
+jest.mock('../js/supabaseClient.js', () => {
+  return {
+    supabaseClient: {
+      from: jest.fn().mockReturnValue({
+        select: jest.fn().mockReturnValue({ data: [], error: null }),
+        insert: jest.fn().mockReturnValue({ data: [], error: null }),
+        update: jest.fn().mockReturnValue({ error: null }),
+        delete: jest.fn().mockReturnValue({ error: null }),
+      }),
+    },
+  };
+});
 
 describe('API Functions', () => {
   beforeEach(() => {
