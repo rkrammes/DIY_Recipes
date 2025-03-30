@@ -8,7 +8,7 @@ import { supabaseClient } from './supabaseClient.js';
 export async function loadRecipes() {
   try {
     const { data: recipes, error } = await supabaseClient
-      .from('All_Recipes')
+      .from('recipes')
       .select('*');
     if (error) {
       console.error('Error loading recipes:', error);
