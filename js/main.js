@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
 // Use environment variables for credentials. If running in a Node environment, process.env will be available.
 // In browser environments with Vite, use import.meta.env for environment variables.
