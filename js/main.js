@@ -8,9 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initUI();
 
     // Load recipes.
-    const { data: recipes, error: recipesError } = await supabaseClient
-          .from('All_Recipes')
-          .select('*');
+    const recipes = await loadRecipes();
     if (recipesError) {
       console.error('Error loading recipes:', recipesError);
     } else if (recipes && recipes.length > 0) {
