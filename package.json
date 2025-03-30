@@ -8,5 +8,8 @@
   },
   "scripts": {
     "start": "node server.js"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
