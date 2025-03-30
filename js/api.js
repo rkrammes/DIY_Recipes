@@ -128,7 +128,7 @@ export async function removeIngredientFromRecipe(recipe, ingredientIndex) {
   try {
     recipe.ingredients.splice(ingredientIndex, 1);
     const { error } = await supabaseClient
-      .from('All_Recipes')
+      .from('recipes')
       .update({ ingredients: recipe.ingredients })
       .eq('id', recipe.id);
     if (error) {
