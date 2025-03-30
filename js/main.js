@@ -1,4 +1,3 @@
-// main.js
 import { initUI, renderRecipes, renderIngredients } from './ui.js';
 import { supabaseClient } from './supabaseClient.js';
 
