@@ -46,6 +46,7 @@ app.post('/api/ai-suggestion', async (req, res) => {
       },
     ];
     
+    console.log('Requesting OpenAI API with messages:', messages);
     const response = await fetch(OPENAI_CHAT_ENDPOINT, {
       method: 'POST',
       headers: {
