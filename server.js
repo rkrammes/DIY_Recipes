@@ -1,4 +1,5 @@
 // server.js
+
 const express = require('express');
 const fetch = require('node-fetch');
 const bodyParser = require('body-parser');
@@ -21,6 +22,12 @@ app.use(bodyParser.json());
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY; // Securely stored in .env
 const OPENAI_CHAT_ENDPOINT = 'https://api.openai.com/v1/chat/completions';
 const OPENAI_MODEL = 'gpt-4';
+
+// Centralized error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
+});
 
 app.post('/api/ai-suggestion', async (req, res) => {
   try {
