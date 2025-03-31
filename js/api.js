@@ -206,9 +206,9 @@ export async function importCSVFile(file) {
           const recipes = parseCSVData(results);
           for (const recipe of recipes) {
             const { data, error } = await supabaseClient
-              .from('All_Recipes')
-              .insert([{ 
-                name: recipe.name, 
+              .from('recipes') // Corrected table name
+              .insert([{
+                name: recipe.name,
                 ingredients: recipe.ingredients,
                 next_iteration: "",
                 suggestions: [] 
