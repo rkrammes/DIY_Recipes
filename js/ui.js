@@ -291,7 +291,8 @@ export function showRecipeDetails(recipe) {
                            <p>Instructions: ${recipe.instructions || 'No instructions provided'}</p>
                            <p>Prep Time: ${recipe.prep_time_minutes || 'Not provided'} minutes</p>
                            <p>Cook Time: ${recipe.cook_time_minutes || 'Not provided'} minutes</p>
-                           <p>Difficulty: ${recipe.difficulty || 'Not provided'}</p>`;
+                           <p>Difficulty: ${recipe.difficulty || 'Not provided'}</p>
+                           <p>Ingredients: ${recipe.ingredients || 'No ingredients provided'}</p>`;
 
   const removeRecipeBtn = document.createElement('button');
   removeRecipeBtn.id = 'removeRecipeBtn';
