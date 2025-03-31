@@ -263,6 +263,7 @@ export function renderIngredients(ingredients) {
 export function showRecipeDetails(recipe) {
   console.log('Showing recipe details for:', recipe);
   console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
+  console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
   // Add this line to inspect the recipe object
 
   const ingredientsView = document.getElementById('ingredientsView');
