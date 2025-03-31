@@ -82,20 +82,20 @@ function setEditModeFields() {
      // "+ Add Ingredient Row" button
     const addIterationIngredientBtn = document.getElementById('addIterationIngredientBtn');
     if (addIterationIngredientBtn) {
-        addIterationIngredientBtn.disabled = !editModeActive;
+      addIterationIngredientBtn.disabled = !editModeActive;
     }
 
     // Editable table inputs and remove buttons (select all inputs/buttons within the iteration div)
     const iterationDiv = recipeDetailsSection.querySelector('.iteration-column'); // Assuming we add this class
     if (iterationDiv) {
-        const editableInputs = iterationDiv.querySelectorAll('input');
-        editableInputs.forEach(input => {
-            input.disabled = !editModeActive;
-        });
-        const removeIterationBtns = iterationDiv.querySelectorAll('.remove-iteration-ingredient-btn');
-        removeIterationBtns.forEach(btn => {
-            btn.disabled = !editModeActive;
-        });
+      const editableInputs = iterationDiv.querySelectorAll('input');
+      editableInputs.forEach(input => {
+        input.disabled = !editModeActive;
+      });
+      const removeIterationBtns = iterationDiv.querySelectorAll('.remove-iteration-ingredient-btn');
+      removeIterationBtns.forEach(btn => {
+        btn.disabled = !editModeActive;
+      });
     }
   }
 
@@ -181,10 +181,10 @@ export function renderRecipes(recipes) {
   container.innerHTML = ''; // Clear existing list
 
   recipes.forEach(recipe => {
-    console.log(`Rendering item: ID=${recipe.id}, Name=${recipe.name}`); // Log name being processed
+    console.log(`Rendering item: ID=${recipe.id}, Name=${recipe.name || recipe.title}`);
     const li = document.createElement('li');
     li.classList.add('recipe-item');
-    li.textContent = (recipe && recipe.name) || 'Unnamed Recipe'; // Check if recipe is valid
+    li.textContent = (recipe && (recipe.name || recipe.title)) || 'Unnamed Recipe';
     li.addEventListener('click', () => {
       showRecipeDetails(recipe);
     });
@@ -227,11 +227,11 @@ export function renderIngredients(ingredients) {
     // Add remove button only if in edit mode
     if (isEditMode()) {
       const removeBtn = document.createElement('button');
-      removeBtn.classList.add('remove-ingredient-btn', 'btn'); // Added .btn class
+      removeBtn.classList.add('remove-ingredient-btn', 'btn');
       removeBtn.textContent = 'Remove';
       removeBtn.style.marginTop = '5px';
       removeBtn.addEventListener('click', async (e) => {
-        e.stopPropagation(); // Prevent description toggle
+        e.stopPropagation();
         const confirmed = confirm(`Remove global ingredient "${ingredient.name}"? This cannot be undone.`);
         if (confirmed) {
           try {
@@ -241,7 +241,7 @@ export function renderIngredients(ingredients) {
               .eq('id', ingredient.id);
             if (error) throw error;
             showNotification('Ingredient removed successfully.', 'success');
-            await reloadData(); // Reload data to reflect changes
+            await reloadData();
           } catch (err) {
             console.error('Error removing ingredient:', err);
             showNotification(`Error removing ingredient: ${err.message}`, 'error');
@@ -253,7 +253,6 @@ export function renderIngredients(ingredients) {
 
     container.appendChild(div);
   });
-  // Ensure buttons are correctly enabled/disabled after render
   setEditModeFields();
 }
 
@@ -264,11 +263,11 @@ export function renderIngredients(ingredients) {
  * - Right: New Iteration (editable table + actions)
  */
 export function showRecipeDetails(recipe) {
-  console.log('Showing recipe details for:', recipe); // Log the entire recipe object
-  console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2)); // Log the recipe object
+  console.log('Showing recipe details for:', recipe);
+  console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
   const ingredientsView = document.getElementById('ingredientsView');
   if (ingredientsView) {
-    ingredientsView.style.display = 'none'; // Hide the global ingredients list
+    ingredientsView.style.display = 'none';
   }
 
   const details = document.getElementById('recipeDetails');
@@ -276,15 +275,14 @@ export function showRecipeDetails(recipe) {
     console.error('Recipe details container not found!');
     return;
   }
-  details.innerHTML = ''; // Clear previous details
+  details.innerHTML = '';
   details.style.display = 'block';
 
-  // --- Main 3-Column Container ---
   const container = document.createElement('div');
   container.style.display = 'flex';
-  container.style.gap = '20px'; // Space between columns
+  container.style.gap = '20px';
 
-  // --- LEFT COLUMN: Current Ingredients ---
+  // LEFT COLUMN: Current Ingredients
   const currentDiv = document.createElement('div');
   currentDiv.style.flex = '1';
   currentDiv.style.border = '1px solid #ccc';
@@ -307,7 +305,6 @@ export function showRecipeDetails(recipe) {
   } else {
     currentDiv.innerHTML += '<p>No ingredients listed for this recipe.</p>';
   }
-  // Add the "Remove Recipe" button at the bottom of the left column
   const removeRecipeBtn = document.createElement('button');
   removeRecipeBtn.id = 'removeRecipeBtn';
   removeRecipeBtn.classList.add('remove-recipe-btn', 'btn');
@@ -315,7 +312,7 @@ export function showRecipeDetails(recipe) {
   removeRecipeBtn.style.marginTop = 'var(--spacing-medium)';
   removeRecipeBtn.addEventListener('click', async (e) => {
     e.stopPropagation();
-    const confirmed = confirm(`Permanently remove recipe "${recipe.name}"? This cannot be undone.`);
+    const confirmed = confirm(`Permanently remove recipe "${recipe.name || recipe.title}"? This cannot be undone.`);
     if (confirmed) {
       try {
         const { error } = await supabaseClient
@@ -324,8 +321,8 @@ export function showRecipeDetails(recipe) {
           .eq('id', recipe.id);
         if (error) throw error;
         showNotification('Recipe removed successfully.', 'success');
-        details.style.display = 'none'; // Hide details view
-        await reloadData(); // Reload recipe list
+        details.style.display = 'none';
+        await reloadData();
       } catch (err) {
         console.error('Error removing recipe:', err);
         showNotification(`Error removing recipe: ${err.message}`, 'error');
@@ -334,7 +331,7 @@ export function showRecipeDetails(recipe) {
   });
   currentDiv.appendChild(removeRecipeBtn);
 
-  // --- CENTER COLUMN: AI Suggestions ---
+  // CENTER COLUMN: AI Suggestions
   const aiDiv = document.createElement('div');
   aiDiv.style.flex = '1';
   aiDiv.style.border = '1px solid #ccc';
@@ -361,7 +358,6 @@ export function showRecipeDetails(recipe) {
     if (e.key === 'Enter') {
       e.preventDefault();
       alert('AI Suggestions coming soon!');
-      // TODO: Implement doAISuggestion(aiInput.value, recipe);
     }
   });
   aiDiv.appendChild(aiInput);
@@ -372,9 +368,9 @@ export function showRecipeDetails(recipe) {
   suggestionDiv.textContent = '(AI suggestions will appear here)';
   aiDiv.appendChild(suggestionDiv);
 
-  // --- RIGHT COLUMN: New Iteration (Editable) ---
+  // RIGHT COLUMN: New Iteration (Editable)
   const iterationDiv = document.createElement('div');
-  iterationDiv.classList.add('iteration-column'); // Add class for easier selection in setEditModeFields
+  iterationDiv.classList.add('iteration-column');
   iterationDiv.style.flex = '1';
   iterationDiv.style.border = '1px solid #ccc';
   iterationDiv.style.padding = '10px';
@@ -390,12 +386,11 @@ export function showRecipeDetails(recipe) {
   tableContainer.style.overflowY = 'auto';
   tableContainer.style.marginBottom = 'var(--spacing-medium)';
 
-  const editTable = document.createElement('table'); // Define table outside the if block
+  const editTable = document.createElement('table');
   editTable.style.width = '100%';
   editTable.style.borderCollapse = 'collapse';
-  editTable.id = 'iterationEditTable'; // Give table an ID
+  editTable.id = 'iterationEditTable';
 
-  // Header row (always add header, even if no ingredients yet)
   const editHeaderRow = document.createElement('tr');
   ['Ingredient', 'Quantity', 'Unit', 'Notes', 'Actions'].forEach(txt => {
     const th = document.createElement('th');
@@ -404,60 +399,53 @@ export function showRecipeDetails(recipe) {
     th.style.border = '1px solid #444';
     editHeaderRow.appendChild(th);
   });
-  editTable.appendChild(editHeaderRow); // Add header to table
+  editTable.appendChild(editHeaderRow);
 
   if (recipe.ingredients && Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0) {
     recipe.ingredients.forEach(ing => {
-      const row = createEditableIngredientRow(ing); // Use helper function
+      const row = createEditableIngredientRow(ing);
       editTable.appendChild(row);
     });
   } else {
-    // Optionally add a placeholder row or message if table is empty
     const placeholderRow = editTable.insertRow();
     const cell = placeholderRow.insertCell();
-    cell.colSpan = 5; // Span across all columns
+    cell.colSpan = 5;
     cell.textContent = 'No ingredients yet. Add one below!';
     cell.style.textAlign = 'center';
     cell.style.padding = '10px';
     cell.style.fontStyle = 'italic';
   }
-  tableContainer.appendChild(editTable); // Add table to its container
-  iterationDiv.appendChild(tableContainer); // Add table container to iteration div
+  tableContainer.appendChild(editTable);
+  iterationDiv.appendChild(tableContainer);
 
-  // "+ Add Ingredient Row" Button
   const addIngredientBtn = document.createElement('button');
   addIngredientBtn.textContent = '+ Add Ingredient Row';
   addIngredientBtn.classList.add('btn');
   addIngredientBtn.id = 'addIterationIngredientBtn';
   addIngredientBtn.style.marginBottom = 'var(--spacing-small)';
   addIngredientBtn.addEventListener('click', () => {
-    const newRow = createEditableIngredientRow({}); // Create row with empty data
-    // Remove placeholder row if it exists
+    const newRow = createEditableIngredientRow({});
     const placeholder = editTable.querySelector('td[colspan="5"]');
     if (placeholder) placeholder.parentElement.remove();
     editTable.appendChild(newRow);
-    setEditModeFields(); // Ensure new inputs are correctly enabled/disabled
+    setEditModeFields();
   });
   iterationDiv.appendChild(addIngredientBtn);
 
-  // "Commit Iteration" Button
   const commitBtn = document.createElement('button');
   commitBtn.id = 'commitRecipeBtn';
   commitBtn.textContent = 'Commit Iteration';
   commitBtn.classList.add('btn');
   commitBtn.addEventListener('click', async () => {
-    await doCommitIteration(recipe, editTable); // Pass table element
+    await doCommitIteration(recipe, editTable);
   });
   iterationDiv.appendChild(commitBtn);
 
-  // --- Append Columns to Main Container ---
   container.appendChild(currentDiv);
   container.appendChild(aiDiv);
   container.appendChild(iterationDiv);
 
-  details.appendChild(container); // Add the 3-column container to the details section
-
-  // Ensure all dynamically added elements have correct disabled state
+  details.appendChild(container);
   setEditModeFields();
 }
 
@@ -465,9 +453,8 @@ export function showRecipeDetails(recipe) {
  * Helper function to create a row for the editable ingredients table.
  */
 function createEditableIngredientRow(ingredientData) {
-  console.log('Creating editable row for:', JSON.stringify(ingredientData, null, 2)); // Log incoming data
+  console.log('Creating editable row for:', JSON.stringify(ingredientData, null, 2));
   const row = document.createElement('tr');
-  // Use a unique temporary ID for new rows if ingredientData.id is missing
   row.dataset.ingredientId = ingredientData.id || `new_${Date.now()}`;
 
   const fields = ['name', 'quantity', 'unit', 'notes'];
@@ -477,20 +464,19 @@ function createEditableIngredientRow(ingredientData) {
     cell.style.padding = '8px';
     const input = document.createElement('input');
     input.dataset.field = field;
-    input.placeholder = field.charAt(0).toUpperCase() + field.slice(1) + '?'; // e.g., "Name?"
+    input.placeholder = field.charAt(0).toUpperCase() + field.slice(1) + '?';
     if (field === 'quantity' || field === 'unit') {
       console.log(`Setting ${field} to:`, ingredientData[field]);
     }
     input.value = ingredientData[field] !== undefined ? ingredientData[field] : '';
     input.style.width = '100%';
     if (field === 'quantity') {
-      input.type = 'number'; // Use number type for quantity
+      input.type = 'number';
     }
     cell.appendChild(input);
     row.appendChild(cell);
   });
 
-  // Actions cell
   const actionCell = document.createElement('td');
   actionCell.style.border = '1px solid #444';
   actionCell.style.padding = '8px';
@@ -499,12 +485,11 @@ function createEditableIngredientRow(ingredientData) {
   removeBtn.textContent = 'X';
   removeBtn.classList.add('btn', 'remove-iteration-ingredient-btn');
   removeBtn.style.padding = '4px 8px';
-  removeBtn.dataset.targetRowId = row.dataset.ingredientId; // Link button to row
+  removeBtn.dataset.targetRowId = row.dataset.ingredientId;
   removeBtn.addEventListener('click', (e) => {
-    e.target.closest('tr').remove(); // Remove the table row
-    // Check if table is now empty and add placeholder if needed
+    e.target.closest('tr').remove();
     const table = e.target.closest('table');
-    if (table && table.rows.length <= 1) { // Only header row left
+    if (table && table.rows.length <= 1) {
       const placeholderRow = table.insertRow();
       const cell = placeholderRow.insertCell();
       cell.colSpan = 5;
@@ -529,12 +514,11 @@ async function doCommitIteration(currentRecipe, iterationTable) {
   const updatedIngredients = [];
   const rows = iterationTable.querySelectorAll('tr');
 
-  // Start from 1 to skip header row
+  // Skip header row
   for (let i = 1; i < rows.length; i++) {
     const row = rows[i];
     const inputs = row.querySelectorAll('input[data-field]');
     const ingredient = {
-      // Keep original ID if it exists, otherwise it's a new ingredient
       id: row.dataset.ingredientId.startsWith('new_') ? undefined : row.dataset.ingredientId,
     };
     let isEmptyRow = true;
@@ -543,16 +527,13 @@ async function doCommitIteration(currentRecipe, iterationTable) {
       const value = input.value.trim();
       if (value) {
         ingredient[field] = value;
-        isEmptyRow = false; // Mark row as not empty if any field has value
+        isEmptyRow = false;
       }
     });
-
-    // Only add non-empty rows to the update
     if (!isEmptyRow) {
-      // Basic validation: Ensure name exists if it's not an empty row
       if (!ingredient.name) {
         alert(`Ingredient in row ${i} is missing a name.`);
-        return; // Stop commit
+        return;
       }
       updatedIngredients.push(ingredient);
     }
@@ -561,7 +542,6 @@ async function doCommitIteration(currentRecipe, iterationTable) {
   console.log("Updated ingredients data:", updatedIngredients);
 
   try {
-    // For simplicity, update the whole 'ingredients' JSONB column.
     const { error } = await supabaseClient
       .from('recipes')
       .update({ ingredients: updatedIngredients })
@@ -570,7 +550,7 @@ async function doCommitIteration(currentRecipe, iterationTable) {
     if (error) throw error;
 
     showNotification('Iteration committed successfully!', 'success');
-    await reloadData(); // Reload data to show updated "Current Ingredients"
+    await reloadData();
   } catch (err) {
     console.error('Error committing iteration:', err);
     showNotification(`Error committing iteration: ${err.message}`, 'error');
@@ -582,7 +562,6 @@ async function doCommitIteration(currentRecipe, iterationTable) {
  */
 async function doAISuggestion(promptValue, recipeObj) {
   alert('AI Suggestions feature coming soon!');
-  // Placeholder for future API call
 }
 
 /**
@@ -611,7 +590,6 @@ async function doUpdateIngredient(ingObj, prop, newValue) {
 export async function initUI() {
   console.log('initUI: setup started');
 
-  // 1) Set up real-time auth state listener
   supabaseClient.auth.onAuthStateChange((event, session) => {
     console.log('Auth state changed:', event, session);
     const magicLinkForm = document.getElementById('magicLinkForm');
@@ -633,12 +611,9 @@ export async function initUI() {
     }
 
     loggedInStateChanged = previousIsLoggedIn !== isLoggedIn;
-
-    // Reload data on auth state change OR initial load
     reloadData();
   });
 
-  // 2) Initial UI setup (Theme, Checkbox, Buttons etc.)
   const themeSelect = document.getElementById('themeSelect');
   if (themeSelect) {
     const initialTheme = themeSelect.value;
@@ -808,8 +783,7 @@ function showNotification(message, type) {
   alert(`${type.toUpperCase()}: ${message}`);
 }
 
-// Expose necessary functions to global scope or handle module interactions appropriately
-// Assuming main.js calls initUI()
+// Expose necessary functions to global scope
 window.DIYRecipeApp = {
   initUI,
   showRecipeDetails,
