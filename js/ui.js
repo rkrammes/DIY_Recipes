@@ -288,10 +288,10 @@ export async function showRecipeDetails(recipe) {
   currentDiv.style.padding = '10px';
 
   try {
-    // Fetch ingredients from recipeingredients table
+    // Fetch ingredients from recipeingredients table with proper join
     const { data: ingredientsData, error: ingredientsError } = await supabaseClient
       .from('recipeingredients')
-      .select('ingredients(name, quantity, unit, notes)')
+      .select('*, ingredients(*)')
       .eq('recipe_id', recipe.id)
       .order('ingredients.name');
 
