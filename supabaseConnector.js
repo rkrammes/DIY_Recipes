@@ -68,18 +68,17 @@ async function storeData(data, ingredients) {
       console.error('Error storing recipe data in Supabase:', recipeError);
       throw recipeError;
     }
+// Insert the ingredients data into the recipeingredients table
+const recipeId = insertedData[0].id;
+const recipeIngredientsData = ingredients.filter(ingredient => ingredient.id).map(ingredient => ({
+  recipe_id: recipeId,
+  ingredient_id: ingredient.id,
+  quantity: ingredient.quantity,
+  unit: ingredient.unit,
+  notes: ingredient.notes
+}));
+console.log('Inserting into recipeingredients table:', recipeIngredientsData);
 
-    // Insert the ingredients data into the recipeingredients table
-    const recipeId = insertedData[0].id;
-    const recipeIngredientsData = ingredients.filter(ingredient => ingredient.id).map(ingredient => ({
-      recipe_id: recipeId,
-      ingredient_id: ingredient.id,
-    }));
-    console.log('Inserting into recipeingredients table:', recipeIngredientsData);
-      quantity: ingredient.quantity,
-      unit: ingredient.unit,
-      notes: ingredient.notes
-    }));
 
     const { error: ingredientsError } = await supabase
       .from('recipeingredients')
