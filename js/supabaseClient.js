@@ -1,8 +1,8 @@
 // supabaseClient.js
-// Updated for browser compatibility using the "+esm" syntax with a specific Supabase version
-// Hardcoding credentials for direct browser use (ensure ANON key is used)
+// Using CDN import for direct browser compatibility
 
-import { createClient } from '@supabase/supabase-js';
+// Import directly from the Supabase CDN ESM build
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
 // Use the actual Supabase URL and the PUBLIC ANONYMOUS KEY
 const SUPABASE_URL = 'https://bzudglfxxywugesncjnz.supabase.co';
