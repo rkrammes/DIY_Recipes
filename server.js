@@ -74,7 +74,13 @@ app.post('/api/ai-suggestion', async (req, res) => {
   }
 });
 
-app.use(express.static(__dirname)); // Serve static files from the current directory
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(__dirname));
 
 const PORT = process.env.PORT || 3001; // Define PORT variable
 
