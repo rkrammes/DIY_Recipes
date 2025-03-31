@@ -109,7 +109,6 @@ function setEditModeFields() {
   });
 }
 
-
 /**
  * Handles the login/logout button click.
  */
@@ -175,19 +174,19 @@ function onEnterKey(e, action) {
 export function renderRecipes(recipes) {
   console.log('Rendering recipes:', recipes);
   const container = document.getElementById('recipeList');
-   if (!container) {
+  if (!container) {
     console.error('No container found with id "recipeList"');
     return;
   }
   container.innerHTML = ''; // Clear existing list
 
   recipes.forEach(recipe => {
-   console.log(`Rendering item: ID=${recipe.id}, Name=${recipe.name}`); // Log name being processed
-   const li = document.createElement('li');
-   li.classList.add('recipe-item');
-   li.textContent = (recipe && recipe.name) || 'Unnamed Recipe'; // Check if recipe is valid
-   li.addEventListener('click', () => {
-        showRecipeDetails(recipe);
+    console.log(`Rendering item: ID=${recipe.id}, Name=${recipe.name}`); // Log name being processed
+    const li = document.createElement('li');
+    li.classList.add('recipe-item');
+    li.textContent = (recipe && recipe.name) || 'Unnamed Recipe'; // Check if recipe is valid
+    li.addEventListener('click', () => {
+      showRecipeDetails(recipe);
     });
     container.appendChild(li);
   });
@@ -254,7 +253,7 @@ export function renderIngredients(ingredients) {
 
     container.appendChild(div);
   });
-   // Ensure buttons are correctly enabled/disabled after render
+  // Ensure buttons are correctly enabled/disabled after render
   setEditModeFields();
 }
 
@@ -274,8 +273,8 @@ export function showRecipeDetails(recipe) {
 
   const details = document.getElementById('recipeDetails');
   if (!details) {
-      console.error('Recipe details container not found!');
-      return;
+    console.error('Recipe details container not found!');
+    return;
   }
   details.innerHTML = ''; // Clear previous details
   details.style.display = 'block';
@@ -315,26 +314,25 @@ export function showRecipeDetails(recipe) {
   removeRecipeBtn.textContent = 'Remove This Recipe';
   removeRecipeBtn.style.marginTop = 'var(--spacing-medium)';
   removeRecipeBtn.addEventListener('click', async (e) => {
-      e.stopPropagation();
-      const confirmed = confirm(`Permanently remove recipe "${recipe.name}"? This cannot be undone.`);
-      if (confirmed) {
-          try {
-              const { error } = await supabaseClient
-                  .from('recipes')
-                  .delete()
-                  .eq('id', recipe.id);
-              if (error) throw error;
-              showNotification('Recipe removed successfully.', 'success');
-              details.style.display = 'none'; // Hide details view
-              await reloadData(); // Reload recipe list
-          } catch (err) {
-              console.error('Error removing recipe:', err);
-              showNotification(`Error removing recipe: ${err.message}`, 'error');
-          }
+    e.stopPropagation();
+    const confirmed = confirm(`Permanently remove recipe "${recipe.name}"? This cannot be undone.`);
+    if (confirmed) {
+      try {
+        const { error } = await supabaseClient
+          .from('recipes')
+          .delete()
+          .eq('id', recipe.id);
+        if (error) throw error;
+        showNotification('Recipe removed successfully.', 'success');
+        details.style.display = 'none'; // Hide details view
+        await reloadData(); // Reload recipe list
+      } catch (err) {
+        console.error('Error removing recipe:', err);
+        showNotification(`Error removing recipe: ${err.message}`, 'error');
       }
+    }
   });
   currentDiv.appendChild(removeRecipeBtn);
-
 
   // --- CENTER COLUMN: AI Suggestions ---
   const aiDiv = document.createElement('div');
@@ -373,7 +371,6 @@ export function showRecipeDetails(recipe) {
   suggestionDiv.style.marginTop = '10px';
   suggestionDiv.textContent = '(AI suggestions will appear here)';
   aiDiv.appendChild(suggestionDiv);
-
 
   // --- RIGHT COLUMN: New Iteration (Editable) ---
   const iterationDiv = document.createElement('div');
@@ -434,12 +431,12 @@ export function showRecipeDetails(recipe) {
   addIngredientBtn.id = 'addIterationIngredientBtn';
   addIngredientBtn.style.marginBottom = 'var(--spacing-small)';
   addIngredientBtn.addEventListener('click', () => {
-      const newRow = createEditableIngredientRow({}); // Create row with empty data
-      // Remove placeholder row if it exists
-      const placeholder = editTable.querySelector('td[colspan="5"]');
-      if (placeholder) placeholder.parentElement.remove();
-      editTable.appendChild(newRow);
-      setEditModeFields(); // Ensure new inputs are correctly enabled/disabled
+    const newRow = createEditableIngredientRow({}); // Create row with empty data
+    // Remove placeholder row if it exists
+    const placeholder = editTable.querySelector('td[colspan="5"]');
+    if (placeholder) placeholder.parentElement.remove();
+    editTable.appendChild(newRow);
+    setEditModeFields(); // Ensure new inputs are correctly enabled/disabled
   });
   iterationDiv.appendChild(addIngredientBtn);
 
@@ -452,7 +449,6 @@ export function showRecipeDetails(recipe) {
     await doCommitIteration(recipe, editTable); // Pass table element
   });
   iterationDiv.appendChild(commitBtn);
-
 
   // --- Append Columns to Main Container ---
   container.appendChild(currentDiv);
@@ -469,61 +465,60 @@ export function showRecipeDetails(recipe) {
  * Helper function to create a row for the editable ingredients table.
  */
 function createEditableIngredientRow(ingredientData) {
-    console.log('Creating editable row for:', JSON.stringify(ingredientData, null, 2)); // Log incoming data
-    const row = document.createElement('tr');
-    // Use a unique temporary ID for new rows if ingredientData.id is missing
-    row.dataset.ingredientId = ingredientData.id || `new_${Date.now()}`;
+  console.log('Creating editable row for:', JSON.stringify(ingredientData, null, 2)); // Log incoming data
+  const row = document.createElement('tr');
+  // Use a unique temporary ID for new rows if ingredientData.id is missing
+  row.dataset.ingredientId = ingredientData.id || `new_${Date.now()}`;
 
-    const fields = ['name', 'quantity', 'unit', 'notes'];
-    fields.forEach(field => {
-        const cell = document.createElement('td');
-        cell.style.border = '1px solid #444';
-        cell.style.padding = '8px';
-        const input = document.createElement('input');
-        input.dataset.field = field;
-        input.placeholder = field.charAt(0).toUpperCase() + field.slice(1) + '?'; // e.g., "Name?"
-        if (field === 'quantity' || field === 'unit') {
-            console.log(`Setting ${field} to:`, ingredientData[field]);
-        }
-        input.value = ingredientData[field] !== undefined ? ingredientData[field] : '';
-        input.style.width = '100%';
-        if (field === 'quantity') {
-            input.type = 'number'; // Use number type for quantity
-        }
-        cell.appendChild(input);
-        row.appendChild(cell);
-    });
+  const fields = ['name', 'quantity', 'unit', 'notes'];
+  fields.forEach(field => {
+    const cell = document.createElement('td');
+    cell.style.border = '1px solid #444';
+    cell.style.padding = '8px';
+    const input = document.createElement('input');
+    input.dataset.field = field;
+    input.placeholder = field.charAt(0).toUpperCase() + field.slice(1) + '?'; // e.g., "Name?"
+    if (field === 'quantity' || field === 'unit') {
+      console.log(`Setting ${field} to:`, ingredientData[field]);
+    }
+    input.value = ingredientData[field] !== undefined ? ingredientData[field] : '';
+    input.style.width = '100%';
+    if (field === 'quantity') {
+      input.type = 'number'; // Use number type for quantity
+    }
+    cell.appendChild(input);
+    row.appendChild(cell);
+  });
 
-    // Actions cell
-    const actionCell = document.createElement('td');
-    actionCell.style.border = '1px solid #444';
-    actionCell.style.padding = '8px';
-    actionCell.style.textAlign = 'center';
-    const removeBtn = document.createElement('button');
-    removeBtn.textContent = 'X';
-    removeBtn.classList.add('btn', 'remove-iteration-ingredient-btn');
-    removeBtn.style.padding = '4px 8px';
-    removeBtn.dataset.targetRowId = row.dataset.ingredientId; // Link button to row
-    removeBtn.addEventListener('click', (e) => {
-        e.target.closest('tr').remove(); // Remove the table row
-        // Check if table is now empty and add placeholder if needed
-        const table = e.target.closest('table');
-        if (table && table.rows.length <= 1) { // Only header row left
-             const placeholderRow = table.insertRow();
-             const cell = placeholderRow.insertCell();
-             cell.colSpan = 5;
-             cell.textContent = 'No ingredients yet. Add one below!';
-             cell.style.textAlign = 'center';
-             cell.style.padding = '10px';
-             cell.style.fontStyle = 'italic';
-        }
-    });
-    actionCell.appendChild(removeBtn);
-    row.appendChild(actionCell);
+  // Actions cell
+  const actionCell = document.createElement('td');
+  actionCell.style.border = '1px solid #444';
+  actionCell.style.padding = '8px';
+  actionCell.style.textAlign = 'center';
+  const removeBtn = document.createElement('button');
+  removeBtn.textContent = 'X';
+  removeBtn.classList.add('btn', 'remove-iteration-ingredient-btn');
+  removeBtn.style.padding = '4px 8px';
+  removeBtn.dataset.targetRowId = row.dataset.ingredientId; // Link button to row
+  removeBtn.addEventListener('click', (e) => {
+    e.target.closest('tr').remove(); // Remove the table row
+    // Check if table is now empty and add placeholder if needed
+    const table = e.target.closest('table');
+    if (table && table.rows.length <= 1) { // Only header row left
+      const placeholderRow = table.insertRow();
+      const cell = placeholderRow.insertCell();
+      cell.colSpan = 5;
+      cell.textContent = 'No ingredients yet. Add one below!';
+      cell.style.textAlign = 'center';
+      cell.style.padding = '10px';
+      cell.style.fontStyle = 'italic';
+    }
+  });
+  actionCell.appendChild(removeBtn);
+  row.appendChild(actionCell);
 
-    return row;
+  return row;
 }
-
 
 /**
  * Commits the new iteration data from the editable table.
@@ -539,96 +534,76 @@ async function doCommitIteration(currentRecipe, iterationTable) {
     const row = rows[i];
     const inputs = row.querySelectorAll('input[data-field]');
     const ingredient = {
-        // Keep original ID if it exists, otherwise it's a new ingredient
-        id: row.dataset.ingredientId.startsWith('new_') ? undefined : row.dataset.ingredientId,
+      // Keep original ID if it exists, otherwise it's a new ingredient
+      id: row.dataset.ingredientId.startsWith('new_') ? undefined : row.dataset.ingredientId,
     };
     let isEmptyRow = true;
     inputs.forEach(input => {
       const field = input.dataset.field;
       const value = input.value.trim();
       if (value) {
-          ingredient[field] = value;
-          isEmptyRow = false; // Mark row as not empty if any field has value
+        ingredient[field] = value;
+        isEmptyRow = false; // Mark row as not empty if any field has value
       }
     });
 
     // Only add non-empty rows to the update
     if (!isEmptyRow) {
-        // Basic validation: Ensure name exists if it's not an empty row
-        if (!ingredient.name) {
-            alert(`Ingredient in row ${i} is missing a name.`);
-            return; // Stop commit
-        }
-        updatedIngredients.push(ingredient);
+      // Basic validation: Ensure name exists if it's not an empty row
+      if (!ingredient.name) {
+        alert(`Ingredient in row ${i} is missing a name.`);
+        return; // Stop commit
+      }
+      updatedIngredients.push(ingredient);
     }
   }
 
   console.log("Updated ingredients data:", updatedIngredients);
 
   try {
-    // Here you would typically:
-    // 1. Compare updatedIngredients with currentRecipe.ingredients
-    // 2. Identify added, updated, and removed ingredients.
-    // 3. Make corresponding calls to Supabase (insert, update, delete).
-    // For simplicity now, we'll just update the whole 'ingredients' JSONB column.
-    // WARNING: This replaces the entire array. Need careful handling for relations if ingredients are separate table.
-    // Assuming 'ingredients' is a JSONB column in 'recipes' table.
-
+    // For simplicity, update the whole 'ingredients' JSONB column.
     const { error } = await supabaseClient
       .from('recipes')
-      .update({ ingredients: updatedIngredients }) // Update the ingredients array
+      .update({ ingredients: updatedIngredients })
       .eq('id', currentRecipe.id);
 
     if (error) throw error;
 
     showNotification('Iteration committed successfully!', 'success');
     await reloadData(); // Reload data to show updated "Current Ingredients"
-    // Potentially re-show details for the same recipe
-    // showRecipeDetails({ ...currentRecipe, ingredients: updatedIngredients }); // Show updated data immediately
-
   } catch (err) {
     console.error('Error committing iteration:', err);
     showNotification(`Error committing iteration: ${err.message}`, 'error');
   }
 }
 
-
 /**
  * Handles AI suggestion request (Placeholder).
  */
 async function doAISuggestion(promptValue, recipeObj) {
-    alert('AI Suggestions feature coming soon!');
-    // Placeholder for future API call
-    // try {
-    //   const response = await fetch('/api/ai-suggestion', { ... });
-    //   const data = await response.json();
-    //   document.getElementById('aiSuggestionText').textContent = data.suggestion || 'No suggestion.';
-    // } catch (error) {
-    //   document.getElementById('aiSuggestionText').textContent = 'Error getting suggestion.';
-    // }
+  alert('AI Suggestions feature coming soon!');
+  // Placeholder for future API call
 }
 
 /**
  * Updates a single property of an ingredient (Not used in the new iteration flow).
  */
 async function doUpdateIngredient(ingObj, prop, newValue) {
-    // This function might be deprecated or repurposed if all updates happen on commit.
-    console.warn('doUpdateIngredient called - consider removing if commit handles all updates.');
-    try {
-      const { data, error } = await supabaseClient
-        .from('Ingredients') // Assumes separate Ingredients table - adjust if using JSONB
-        .update({ [prop]: newValue })
-        .eq('id', ingObj.id)
-        .select();
-      if (error) throw error;
-      showNotification(`Updated ${prop} for ${ingObj.name}.`, 'success');
-      await reloadData();
-    } catch (err) {
-      console.error(`Error updating ${prop}:`, err);
-      showNotification(`Error updating ${prop}: ${err.message}`, 'error');
-    }
+  console.warn('doUpdateIngredient called - consider removing if commit handles all updates.');
+  try {
+    const { data, error } = await supabaseClient
+      .from('Ingredients')
+      .update({ [prop]: newValue })
+      .eq('id', ingObj.id)
+      .select();
+    if (error) throw error;
+    showNotification(`Updated ${prop} for ${ingObj.name}.`, 'success');
+    await reloadData();
+  } catch (err) {
+    console.error(`Error updating ${prop}:`, err);
+    showNotification(`Error updating ${prop}: ${err.message}`, 'error');
+  }
 }
-
 
 /**
  * Initializes UI elements and event listeners.
@@ -647,15 +622,14 @@ export async function initUI() {
     if (event === 'SIGNED_IN') {
       isLoggedIn = true;
       console.log('User signed in.');
-      if (magicLinkForm) magicLinkForm.style.display = 'none'; // Hide form on login
+      if (magicLinkForm) magicLinkForm.style.display = 'none';
     } else if (event === 'SIGNED_OUT') {
       isLoggedIn = false;
       console.log('User signed out.');
     }
-    // For INITIAL_SESSION, session might be null or contain the session
     if (event === 'INITIAL_SESSION') {
-        isLoggedIn = !!session; // Set based on initial session presence
-        console.log('Initial session processed. Logged in:', isLoggedIn);
+      isLoggedIn = !!session;
+      console.log('Initial session processed. Logged in:', isLoggedIn);
     }
 
     loggedInStateChanged = previousIsLoggedIn !== isLoggedIn;
@@ -664,13 +638,10 @@ export async function initUI() {
     reloadData();
   });
 
-
   // 2) Initial UI setup (Theme, Checkbox, Buttons etc.)
   const themeSelect = document.getElementById('themeSelect');
   if (themeSelect) {
-    // Set initial theme based on the user's system preference or saved preference
-    // TODO: Consider saving/loading theme preference from localStorage
-    const initialTheme = themeSelect.value; // Default to selected value
+    const initialTheme = themeSelect.value;
     if (initialTheme === 'system') {
       if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.className = 'dark';
@@ -683,36 +654,30 @@ export async function initUI() {
     console.log('Initial theme set to:', document.body.className);
 
     themeSelect.addEventListener('change', (e) => {
-        const value = e.target.value;
-        if (value === 'system') {
-            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.body.className = 'dark';
-            } else {
-                document.body.className = 'light';
-            }
+      const value = e.target.value;
+      if (value === 'system') {
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.body.className = 'dark';
         } else {
-            document.body.className = value;
+          document.body.className = 'light';
         }
-        console.log('Theme changed to:', document.body.className);
-        // TODO: Save theme preference to localStorage
+      } else {
+        document.body.className = value;
+      }
+      console.log('Theme changed to:', document.body.className);
     });
   }
 
   const editCheckbox = document.getElementById('editModeCheckbox');
   if (editCheckbox) {
-    // Initial state set by updateAuthButton via onAuthStateChange
     editCheckbox.addEventListener('change', () => {
-      // window.editMode = editCheckbox.checked; // Avoid global state if possible
-      setEditModeFields(); // Update fields when checkbox changes
-      // Re-render currently viewed details/ingredients if needed to show/hide buttons
+      setEditModeFields();
       const activeDetails = document.getElementById('recipeDetails');
       const activeIngredients = document.getElementById('ingredientsView');
       if (activeDetails && activeDetails.style.display !== 'none') {
-          // Need the current recipe object to re-render details
-          // This requires storing the currently viewed recipe or finding it again
-          console.warn("Re-rendering recipe details on edit mode toggle is not fully implemented.");
+        console.warn("Re-rendering recipe details on edit mode toggle is not fully implemented.");
       } else if (activeIngredients && activeIngredients.style.display !== 'none') {
-          reloadData(); // Easiest way to re-render global ingredients list with/without remove buttons
+        reloadData();
       }
     });
   }
@@ -728,7 +693,6 @@ export async function initUI() {
 
   setupMagicLink();
 
-  // "Add New Recipe" input triggers creation on Enter
   const newRecipeInput = document.getElementById('newRecipeNameInput');
   if (newRecipeInput) {
     newRecipeInput.addEventListener('keypress', (e) => {
@@ -742,7 +706,6 @@ export async function initUI() {
     });
   }
 
-  // "Add Ingredient" button (global list) listener
   const btnAddGlobalIngredient = document.getElementById('btnAddGlobalIngredient');
   if (btnAddGlobalIngredient) {
     btnAddGlobalIngredient.addEventListener('click', () => {
@@ -767,24 +730,59 @@ export async function initUI() {
       console.log('All Ingredients button clicked');
       const recipeDetails = document.getElementById('recipeDetails');
       if (recipeDetails) {
-        recipeDetails.style.display = 'none'; // Hide recipe details
+        recipeDetails.style.display = 'none';
       }
       const ingredientsView = document.getElementById('ingredientsView');
       if (ingredientsView) {
-        ingredientsView.style.display = 'block'; // Show ingredients view
+        ingredientsView.style.display = 'block';
       }
-      // Optionally reload ingredients data if needed
-      // reloadData();
     });
   } else {
     console.error('initUI: btnIngredients not found');
   }
 
-  // Initial data load is triggered by INITIAL_SESSION event in onAuthStateChange
-  reloadData(); // ENSURE reloadData is always called on init
+  reloadData();
 }
 
+/**
+ * Creates a new recipe.
+ */
+/*
+async function createNewRecipe(recipeName) {
+  console.log('Creating new recipe:', recipeName);
+  try {
+    const { error } = await supabaseClient
+      .from('recipes')
+      .insert({ name: recipeName, ingredients: [] });
+    if (error) throw error;
+    showNotification('New recipe created.', 'success');
+    await reloadData();
+  } catch (err) {
+    console.error('Error creating recipe:', err);
+    showNotification(`Error creating recipe: ${err.message}`, 'error');
+  }
+}
+*/
 
+/**
+ * Creates a new global ingredient.
+ */
+/*
+async function createNewGlobalIngredient(ingredientName) {
+  console.log('Creating new global ingredient:', ingredientName);
+  try {
+    const { error } = await supabaseClient
+      .from('Ingredients')
+      .insert({ name: ingredientName, description: '' });
+    if (error) throw error;
+    showNotification('New ingredient created.', 'success');
+    await reloadData();
+  } catch (err) {
+    console.error('Error creating ingredient:', err);
+    showNotification(`Error creating ingredient: ${err.message}`, 'error');
+  }
+}
+*/
 
 /**
  * Reloads both recipes and ingredients data and re-renders the lists.
@@ -807,18 +805,17 @@ async function reloadData() {
  * Shows a simple notification.
  */
 function showNotification(message, type) {
-  // Simple alert for now, could be replaced with a nicer UI element
   alert(`${type.toUpperCase()}: ${message}`);
 }
 
 // Expose necessary functions to global scope or handle module interactions appropriately
 // Assuming main.js calls initUI()
 window.DIYRecipeApp = {
-    initUI,
-    showRecipeDetails,
-    renderRecipes,
-    renderIngredients,
-    updateAuthButton,
-    isEditMode,
-    reloadData // Expose reloadData if needed elsewhere
+  initUI,
+  showRecipeDetails,
+  renderRecipes,
+  renderIngredients,
+  updateAuthButton,
+  isEditMode,
+  reloadData
 };
