@@ -265,6 +265,7 @@ export function showRecipeDetails(recipe) {
   console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
   console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
   console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
+  console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
   // Add this line to inspect the recipe object
 
   const ingredientsView = document.getElementById('ingredientsView');
