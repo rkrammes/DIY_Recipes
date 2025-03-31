@@ -265,9 +265,8 @@ export function renderIngredients(ingredients) {
 export function showRecipeDetails(recipe) {
   console.log('Showing recipe details for:', recipe);
   console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
-  console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
-  console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
   // Add this line to inspect the recipe object
+
   const ingredientsView = document.getElementById('ingredientsView');
   if (ingredientsView) {
     ingredientsView.style.display = 'none';
@@ -650,99 +649,6 @@ export async function initUI() {
   if (editCheckbox) {
     editCheckbox.addEventListener('change', () => {
       setEditModeFields();
-      const activeDetails = document.getElementById('recipeDetails');
-      const activeIngredients = document.getElementById('ingredientsView');
-      if (activeDetails && activeDetails.style.display !== 'none') {
-        console.warn("Re-rendering recipe details on edit mode toggle is not fully implemented.");
-      } else if (activeIngredients && activeIngredients.style.display !== 'none') {
-        reloadData();
-      }
-    });
-  }
-
-  const btnLogIn = document.getElementById('btnLogIn');
-  if (btnLogIn) {
-    btnLogIn.addEventListener('click', () => {
-      handleLoginButtonClick();
-    });
-  } else {
-    console.error('initUI: btnLogIn not found');
-  }
-
-  setupMagicLink();
-
-  const newRecipeInput = document.getElementById('newRecipeNameInput');
-  if (newRecipeInput) {
-    newRecipeInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        if (isEditMode() && newRecipeInput.value.trim() !== '') {
-          createNewRecipe(newRecipeInput.value.trim());
-          newRecipeInput.value = '';
-        }
-      }
-    });
-  }
-
-  const btnAddGlobalIngredient = document.getElementById('btnAddGlobalIngredient');
-  if (btnAddGlobalIngredient) {
-    btnAddGlobalIngredient.addEventListener('click', () => {
-      if (!isEditMode()) {
-        alert('Please enable Edit Mode to add ingredients.');
-        return;
-      }
-      const ingredientName = prompt('Enter the name for the new global ingredient:');
-      if (ingredientName && ingredientName.trim() !== '') {
-        addGlobalIngredient(ingredientName.trim());
-      } else if (ingredientName !== null) {
-        alert('Ingredient name cannot be empty.');
-      }
-    });
-  } else {
-    console.error('initUI: btnAddGlobalIngredient not found');
-  }
-
-  const btnIngredients = document.getElementById('btnIngredients');
-  if (btnIngredients) {
-    btnIngredients.addEventListener('click', () => {
-      console.log('All Ingredients button clicked');
-      const recipeDetails = document.getElementById('recipeDetails');
-      if (recipeDetails) {
-        recipeDetails.style.display = 'none';
-      }
-      const ingredientsView = document.getElementById('ingredientsView');
-      if (ingredientsView) {
-        ingredientsView.style.display = 'block';
-      }
-    });
-  } else {
-    console.error('initUI: btnIngredients not found');
-  }
-
-  reloadData();
-}
-
-/**
- * Creates a new recipe.
- */
-/*
-async function createNewRecipe(recipeName) {
-  console.log('Creating new recipe:', recipeName);
-  try {
-    const { error } = await supabaseClient
-      .from('recipes')
-      .insert({ name: recipeName, ingredients: [] });
-    if (error) throw error;
-    showNotification('New recipe created.', 'success');
-    await reloadData();
-  } catch (err) {
-    console.error('Error creating recipe:', err);
-    showNotification(`Error creating recipe: ${err.message}`, 'error');
-  }
-}
-*/
-
-/**
  * Creates a new global ingredient.
  */
 /*
