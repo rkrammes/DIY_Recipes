@@ -1,0 +1,369 @@
+/* style.css */
+
+/* Root Variables (Dark Theme Defaults) */
+:root {
+  --primary: #1A1A1A;
+  --secondary: #2C2C2C;
+  --accent-blue: #3498DB;
+  --accent-orange: #FF9900;
+  --text: #FFFFFF;
+  --muted-text: #BDBDBD;
+
+  --font-family: 'Roboto Mono', monospace;
+  --base-font-size: 16px;
+  --line-height: 1.5;
+
+  --max-width: 1200px;
+  --gutter: 24px;
+
+  --spacing-small: 8px;
+  --spacing-medium: 16px;
+  --spacing-large: 32px;
+
+  --icon-size: 24px;
+}
+
+/* Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: var(--base-font-size);
+}
+
+body {
+  font-family: var(--font-family);
+  line-height: var(--line-height);
+  background-color: var(--primary);
+  color: var(--text);
+  margin: 0 auto;
+  transition: background-color 0.3s, color 0.3s; /* Add transition for theme change */
+}
+
+/* Container */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--gutter);
+}
+
+/* Typography & Headings */
+h1, h2, h3, h4 {
+  font-family: var(--font-family);
+  font-weight: bold;
+}
+h1 { font-size: 32px; margin-bottom: var(--spacing-medium); }
+h2 { font-size: 28px; margin-bottom: var(--spacing-medium); }
+h3 { font-size: 24px; margin-bottom: var(--spacing-small); }
+h4 { font-size: 20px; margin-bottom: var(--spacing-small); }
+
+/* Glass Panels (Dark Default) */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  padding: var(--spacing-medium);
+  margin-bottom: var(--spacing-large);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* Unified Header Layout (Dark Default) */
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.unified-header {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  background-color: var(--secondary);
+  transition: background-color 0.3s;
+}
+
+.header-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-recipe-list {
+  padding: 8px 16px;
+  background-color: var(--primary); /* Darker background for recipe list */
+  text-align: center;
+  width: 100%;
+  transition: background-color 0.3s;
+}
+
+.recipe-list-horizontal {
+  display: inline-flex;
+  gap: 16px;
+  list-style: none;
+  overflow-x: auto;
+  margin: 0;
+  padding: 0;
+  min-height: 50px;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  background-color: var(--primary);
+  transition: background-color 0.3s;
+}
+
+/* Sidebar Panels (Dark Default) */
+aside.glass-panel {
+  flex: 1 1 300px;
+  max-width: 300px;
+  background-color: var(--secondary);
+  padding: var(--spacing-medium);
+  border-radius: 8px;
+}
+
+/* Theme Select (Dark Default) */
+.theme-select {
+  font-family: var(--font-family);
+  background-color: var(--secondary);
+  color: var(--text);
+  border: 1px solid var(--accent-blue);
+  border-radius: 4px;
+  padding: 8px 12px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+/* Buttons - Base Gradient Text Effect (Dark Theme Default) */
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  font-family: var(--font-family);
+  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background 0.3s ease, color 0.3s; /* Added color transition */
+}
+.btn:hover {
+  background: linear-gradient(45deg, rgba(52,152,219,1), rgba(255,153,0,1));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Logo Text Gradient */
+#logoText {
+  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* Inherits font-family, font-size, font-weight from inline style or body */
+}
+
+
+/* Recipe/Ingredient Items - Base Gradient Text (Dark Theme Default) */
+.recipe-item,
+.ingredient-item {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: transparent; /* Use transparent background for gradient */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  font-family: var(--font-family);
+  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background 0.3s ease, color 0.3s;
+  margin: var(--spacing-small) 0;
+}
+.recipe-item:hover,
+.ingredient-item:hover {
+  background: linear-gradient(45deg, rgba(52,152,219,1), rgba(255,153,0,1));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Secondary Action Button (Inherits .btn styles) */
+.secondary-btn {
+  /* Can add specific overrides if needed */
+}
+
+/* Input Fields (Dark Default) */
+input,
+textarea {
+  background-color: var(--secondary);
+  color: var(--accent-orange); /* typed text is orange */
+  border: 1px solid var(--accent-blue);
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-family: var(--font-family);
+  outline: none;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+::placeholder {
+  color: var(--accent-orange);
+  opacity: 0.7; /* Slightly faded placeholder */
+  transition: color 0.3s;
+}
+
+/* Table Cells (Dark Default) */
+.container table th,
+.container table td {
+  background-color: #000; /* Black background */
+  color: var(--text); /* Use theme text color */
+  border: 1px solid #444; /* Dark border */
+  font-family: var(--font-family);
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+/* Ingredient Container & Desc (Dark Default) */
+.ingredient-container {
+  margin-bottom: var(--spacing-small);
+}
+.ingredient-description {
+  padding: 8px 12px;
+  border: 1px solid var(--accent-blue);
+  background-color: var(--secondary);
+  border-radius: 4px;
+  font-size: 0.9em;
+  color: var(--muted-text);
+  margin-top: var(--spacing-small);
+  font-family: var(--font-family);
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+/* Remove Ingredient Button (Dark Default - uses .btn gradient) */
+.remove-ingredient-btn {
+  margin-top: var(--spacing-small);
+  /* Inherits .btn styles */
+}
+
+/* Theme Label */
+.theme-label {
+  font-size: 0.9em;
+  margin-right: var(--spacing-small);
+  font-family: var(--font-family);
+}
+
+/* Ingredients View & Recipe Details (Dark Default) */
+#ingredientsView,
+#recipeDetails {
+  display: none;
+  padding: var(--spacing-medium);
+  background-color: var(--secondary);
+  border-radius: 8px;
+  margin: var(--spacing-large) 0;
+  font-family: var(--font-family);
+  color: var(--text);
+  transition: background-color 0.3s, color 0.3s;
+}
+#ingredientsView.active,
+#recipeDetails.active {
+  display: block;
+}
+
+
+/* ==================== */
+/* == Theme Overrides == */
+/* ==================== */
+
+/* --- Light Theme --- */
+body.light {
+    background-color: #FFFFFF;
+    color: #1A1A1A;
+}
+
+.light .unified-header {
+    background-color: #EAEAEA; /* Lighter secondary */
+}
+.light .header-recipe-list {
+    background-color: #FFFFFF;
+}
+.light .main-content {
+    background-color: #FFFFFF;
+}
+.light .glass-panel {
+    background: rgba(240, 240, 240, 0.8); /* Light grey glass */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #1A1A1A;
+}
+.light aside.glass-panel {
+    background-color: #EAEAEA; /* Lighter secondary */
+}
+.light .theme-select {
+    background-color: #FFFFFF;
+    color: #1A1A1A;
+    border: 1px solid #3498DB;
+}
+/* Let light theme buttons inherit base gradient style */
+.light input,
+.light textarea {
+    background-color: #F0F0F0;
+    color: var(--accent-orange); /* Use accent orange like dark mode */
+    border: 1px solid #3498DB;
+}
+.light ::placeholder {
+    color: var(--accent-orange); /* Use accent orange like dark mode */
+    opacity: 0.7; /* Match dark mode opacity */
+}
+.light #ingredientsView,
+.light #recipeDetails {
+    background-color: #FFFFFF;
+    color: #1A1A1A;
+}
+.light .container table th,
+.light .container table td {
+  background-color: #F8F8F8 !important;
+  color: #1A1A1A !important;
+  border: 1px solid #CCCCCC !important;
+}
+.light .ingredient-description {
+    background-color: #EAEAEA;
+    color: #555555;
+    border: 1px solid #3498DB;
+}
+/* Let light theme remove button inherit base gradient style */
+
+/* --- Dark Theme --- (Mostly handled by base styles) */
+body.dark {
+    /* Base styles use dark variables by default */
+    /* Add any specific .dark overrides here if needed */
+}
+/* Example: If dark buttons needed a non-gradient style */
+/*
+.dark .btn {
+    background: var(--secondary);
+    color: var(--text);
+    -webkit-background-clip: initial;
+    background-clip: initial;
+    -webkit-text-fill-color: initial;
+}
+.dark .btn:hover {
+    background: #444444; // Slightly lighter dark
+}
+*/
