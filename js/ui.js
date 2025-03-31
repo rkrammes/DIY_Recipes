@@ -82,20 +82,20 @@ function setEditModeFields() {
      // "+ Add Ingredient Row" button
     const addIterationIngredientBtn = document.getElementById('addIterationIngredientBtn');
     if (addIterationIngredientBtn) {
-        addIterationIngredientBtn.disabled = !editModeActive;
+      addIterationIngredientBtn.disabled = !editModeActive;
     }
 
     // Editable table inputs and remove buttons (select all inputs/buttons within the iteration div)
     const iterationDiv = recipeDetailsSection.querySelector('.iteration-column'); // Assuming we add this class
     if (iterationDiv) {
-        const editableInputs = iterationDiv.querySelectorAll('input');
-        editableInputs.forEach(input => {
-            input.disabled = !editModeActive;
-        });
-        const removeIterationBtns = iterationDiv.querySelectorAll('.remove-iteration-ingredient-btn');
-        removeIterationBtns.forEach(btn => {
-            btn.disabled = !editModeActive;
-        });
+      const editableInputs = iterationDiv.querySelectorAll('input');
+      editableInputs.forEach(input => {
+        input.disabled = !editModeActive;
+      });
+      const removeIterationBtns = iterationDiv.querySelectorAll('.remove-iteration-ingredient-btn');
+      removeIterationBtns.forEach(btn => {
+        btn.disabled = !editModeActive;
+      });
     }
   }
 
@@ -259,8 +259,6 @@ export function renderIngredients(ingredients) {
 /**
  * The 3-column recipe details view.
  * - Left: Current Ingredients (read-only)
- * - Center: AI Suggestions (placeholder)
- * - Right: New Iteration (editable table + actions)
  */
 export function showRecipeDetails(recipe) {
   console.log('Showing recipe details for:', recipe);
@@ -285,29 +283,18 @@ export function showRecipeDetails(recipe) {
   container.style.display = 'flex';
   container.style.gap = '20px';
 
-  // LEFT COLUMN: Current Ingredients
+  // LEFT COLUMN: Recipe Details
   const currentDiv = document.createElement('div');
   currentDiv.style.flex = '1';
   currentDiv.style.border = '1px solid #ccc';
   currentDiv.style.padding = '10px';
-  currentDiv.innerHTML = '<h3>Current Ingredients</h3>';
-  if (recipe.ingredients && Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0) {
-    recipe.ingredients.forEach(ing => {
-      const line = document.createElement('div');
-      line.style.marginBottom = '5px';
-      let text = ing.name || 'Unnamed Ingredient';
-      if (ing.quantity || ing.unit) {
-        text += ` - ${ing.quantity || ''}${ing.unit || ''}`;
-      }
-      if (ing.notes) {
-        text += ` (${ing.notes})`;
-      }
-      line.textContent = text;
-      currentDiv.appendChild(line);
-    });
-  } else {
-    currentDiv.innerHTML += '<p>No ingredients listed for this recipe.</p>';
-  }
+  currentDiv.innerHTML = `<h3>${recipe.title}</h3>
+                           <p>Description: ${recipe.description || 'No description provided'}</p>
+                           <p>Instructions: ${recipe.instructions || 'No instructions provided'}</p>
+                           <p>Prep Time: ${recipe.prep_time_minutes || 'Not provided'} minutes</p>
+                           <p>Cook Time: ${recipe.cook_time_minutes || 'Not provided'} minutes</p>
+                           <p>Difficulty: ${recipe.difficulty || 'Not provided'}</p>`;
+
   const removeRecipeBtn = document.createElement('button');
   removeRecipeBtn.id = 'removeRecipeBtn';
   removeRecipeBtn.classList.add('remove-recipe-btn', 'btn');
@@ -688,90 +675,6 @@ export async function initUI() {
   if (btnAddGlobalIngredient) {
     btnAddGlobalIngredient.addEventListener('click', () => {
       if (!isEditMode()) {
-        alert('Please enable Edit Mode to add ingredients.');
-        return;
-      }
-      const ingredientName = prompt('Enter the name for the new global ingredient:');
-      if (ingredientName && ingredientName.trim() !== '') {
-        addGlobalIngredient(ingredientName.trim());
-      } else if (ingredientName !== null) {
-        alert('Ingredient name cannot be empty.');
-      }
-    });
-  } else {
-    console.error('initUI: btnAddGlobalIngredient not found');
-  }
-
-  const btnIngredients = document.getElementById('btnIngredients');
-  if (btnIngredients) {
-    btnIngredients.addEventListener('click', () => {
-      console.log('All Ingredients button clicked');
-      const recipeDetails = document.getElementById('recipeDetails');
-      if (recipeDetails) {
-        recipeDetails.style.display = 'none';
-      }
-      const ingredientsView = document.getElementById('ingredientsView');
-      if (ingredientsView) {
-        ingredientsView.style.display = 'block';
-      }
-    });
-  } else {
-    console.error('initUI: btnIngredients not found');
-  }
-
-  reloadData();
-}
-
-/**
- * Creates a new recipe.
- */
-/*
-async function createNewRecipe(recipeName) {
-  console.log('Creating new recipe:', recipeName);
-  try {
-    const { error } = await supabaseClient
-      .from('recipes')
-      .insert({ name: recipeName, ingredients: [] });
-    if (error) throw error;
-    showNotification('New recipe created.', 'success');
-    await reloadData();
-  } catch (err) {
-    console.error('Error creating recipe:', err);
-    showNotification(`Error creating recipe: ${err.message}`, 'error');
-  }
-}
-*/
-
-/**
- * Creates a new global ingredient.
- */
-/*
-async function createNewGlobalIngredient(ingredientName) {
-  console.log('Creating new global ingredient:', ingredientName);
-  try {
-    const { error } = await supabaseClient
-      .from('Ingredients')
-      .insert({ name: ingredientName, description: '' });
-    if (error) throw error;
-    showNotification('New ingredient created.', 'success');
-    await reloadData();
-  } catch (err) {
-    console.error('Error creating ingredient:', err);
-    showNotification(`Error creating ingredient: ${err.message}`, 'error');
-  }
-}
-*/
-
-/**
- * Reloads both recipes and ingredients data and re-renders the lists.
- */
-async function reloadData() {
-  console.log('Reloading data...');
-  try {
-    const recipes = await loadRecipes();
-    renderRecipes(recipes);
-    const ingredients = await loadAllIngredients();
-    renderIngredients(ingredients);
     console.log('Data reloaded successfully.');
   } catch (error) {
     console.error('Error reloading data:', error);
