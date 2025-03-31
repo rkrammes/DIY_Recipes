@@ -789,24 +789,6 @@ export async function initUI() {
 }
  
 /**
- * Creates a new global ingredient.
- */
-async function createNewGlobalIngredient(ingredientName) {
-  console.log('Creating new global ingredient:', ingredientName);
-  try {
-    const { error } = await supabaseClient
-      .from('Ingredients')
-      .insert({ name: ingredientName, description: '' });
-    if (error) throw error;
-    showNotification('New ingredient created.', 'success');
-    await reloadData(); // Reload ingredients list
-  } catch (err) {
-    console.error('Error creating ingredient:', err);
-    showNotification(`Error creating ingredient: ${err.message}`, 'error');
-  }
-}
-
-/**
  * Reloads both recipes and ingredients data and re-renders the lists.
  */
 async function reloadData() {
