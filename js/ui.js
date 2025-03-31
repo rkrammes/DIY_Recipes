@@ -784,41 +784,7 @@ export async function initUI() {
   reloadData(); // ENSURE reloadData is always called on init
 }
 
-/**
- * Creates a new recipe.
- */
-async function createNewRecipe(recipeName) {
-  console.log('Creating new recipe:', recipeName);
-  try {
-    const { error } = await supabaseClient
-      .from('recipes')
-      .insert({ name: recipeName, ingredients: [] }); // Initialize with empty ingredients
-    if (error) throw error;
-    showNotification('New recipe created.', 'success');
-    await reloadData(); // Reload recipe list
-  } catch (err) {
-    console.error('Error creating recipe:', err);
-    showNotification(`Error creating recipe: ${err.message}`, 'error');
-  }
-}
 
-/**
- * Creates a new global ingredient.
- */
-async function createNewGlobalIngredient(ingredientName) {
-  console.log('Creating new global ingredient:', ingredientName);
-  try {
-    const { error } = await supabaseClient
-      .from('Ingredients')
-      .insert({ name: ingredientName, description: '' });
-    if (error) throw error;
-    showNotification('New ingredient created.', 'success');
-    await reloadData(); // Reload ingredients list
-  } catch (err) {
-    console.error('Error creating ingredient:', err);
-    showNotification(`Error creating ingredient: ${err.message}`, 'error');
-  }
-}
 
 /**
  * Reloads both recipes and ingredients data and re-renders the lists.
