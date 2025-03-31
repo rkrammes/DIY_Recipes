@@ -787,25 +787,7 @@ export async function initUI() {
 
   // Initial data load is triggered by INITIAL_SESSION event in onAuthStateChange
 }
-
-/**
- * Creates a new recipe.
- */
-async function createNewRecipe(recipeName) {
-  console.log('Creating new recipe:', recipeName);
-  try {
-    const { error } = await supabaseClient
-      .from('All_Recipes')
-      .insert({ name: recipeName, ingredients: [] }); // Initialize with empty ingredients
-    if (error) throw error;
-    showNotification('New recipe created.', 'success');
-    await reloadData(); // Reload recipe list
-  } catch (err) {
-    console.error('Error creating recipe:', err);
-    showNotification(`Error creating recipe: ${err.message}`, 'error');
-  }
-}
-
+ 
 /**
  * Creates a new global ingredient.
  */
