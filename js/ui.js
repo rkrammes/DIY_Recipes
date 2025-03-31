@@ -319,7 +319,7 @@ export function showRecipeDetails(recipe) {
       if (confirmed) {
           try {
               const { error } = await supabaseClient
-                  .from('All_Recipes')
+                  .from('recipes') // Corrected table name
                   .delete()
                   .eq('id', recipe.id);
               if (error) throw error;
