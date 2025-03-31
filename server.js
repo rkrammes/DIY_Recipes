@@ -1,6 +1,6 @@
 // server.js
 
-const express = require('express');
+import express from 'express';
 const fetch = require('node-fetch');
 const bodyParser = require('body-parser');
 require('dotenv').config();
