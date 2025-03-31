@@ -1,7 +1,7 @@
 // server.js
 
 import express from 'express';
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
 const bodyParser = require('body-parser');
 require('dotenv').config();
 const { createClient } = require('@supabase/supabase-js');
