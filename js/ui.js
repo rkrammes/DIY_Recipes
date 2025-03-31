@@ -2,8 +2,8 @@
 
 import { supabaseClient } from './supabaseClient.js';
 import { sendMagicLink, signOut } from './auth.js';
-import { loadRecipes, loadAllIngredients } from './api.js'; // Assuming reloadData uses these
-
+import { loadRecipes, loadAllIngredients, createNewRecipe, addGlobalIngredient } from './api.js'; // Added createNewRecipe, addGlobalIngredient
+ 
 // Global login state
 let isLoggedIn = false;
 
