@@ -15,7 +15,9 @@ export async function loadRecipes() {
       return [];
     }
     console.log('Fetched recipes:', recipes); // Log fetched data
-    return recipes || [];
+    // Filter duplicates based on recipe id
+    const uniqueRecipes = Array.from(new Map((recipes || []).map(item => [item.id, item])).values());
+    return uniqueRecipes;
   } catch (error) {
     console.error('Error loading recipes:', error);
     return [];
