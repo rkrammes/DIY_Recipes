@@ -308,7 +308,7 @@ export async function showRecipeDetails(recipe) {
                              <p>Prep Time: ${recipe.prep_time_minutes || 'Not provided'} minutes</p>
                              <p>Cook Time: ${recipe.cook_time_minutes || 'Not provided'} minutes</p>
                              <p>Difficulty: ${recipe.difficulty || 'Not provided'} minutes</p>
-                             <p>Ingredients: ${ingredientsData ? ingredientsData.map(item => `${item.ingredients.name} (${item.ingredients.quantity} ${item.ingredients.unit})`).join(', ') : 'No ingredients provided'}</p>`;
+                             <p>Ingredients: ${recipe.ingredients ? recipe.ingredients.map(ing => `${ing.name} (${ing.quantity} ${ing.unit})`).join(', ') : 'No ingredients provided'}</p>`;
   } catch (error) {
     console.error('Error in showRecipeDetails:', error);
     currentDiv.innerHTML = `<p>Error loading recipe details.</p>`;
