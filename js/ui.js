@@ -182,6 +182,7 @@ export function renderRecipes(recipes) {
   container.innerHTML = ''; // Clear existing list
 
   recipes.forEach(recipe => {
+    console.log(`Rendering item: ID=${recipe.id}, Name=${recipe.name}`); // Log name being processed
     const li = document.createElement('li');
     li.classList.add('recipe-item');
     li.textContent = recipe.name || 'Unnamed Recipe';
