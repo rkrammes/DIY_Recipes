@@ -30,6 +30,7 @@ app.use((err, req, res, next) => {
 });
 
 app.post('/api/ai-suggestion', async (req, res) => {
+  console.log('Received request at /api/ai-suggestion');
   try {
     const { recipe, userPrompt } = req.body;
     if (!recipe || !userPrompt) {
