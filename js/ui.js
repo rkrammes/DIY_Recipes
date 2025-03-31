@@ -3,7 +3,7 @@
 import { supabaseClient } from './supabaseClient.js';
 import { sendMagicLink, signOut } from './auth.js';
 import { loadRecipes, loadAllIngredients, createNewRecipe, addGlobalIngredient } from './api.js'; // Added createNewRecipe, addGlobalIngredient
- 
+
 // Global login state
 let isLoggedIn = false;
 
@@ -320,7 +320,7 @@ export function showRecipeDetails(recipe) {
       if (confirmed) {
           try {
               const { error } = await supabaseClient
-                  .from('recipes') // Corrected table name
+                  .from('recipes')
                   .delete()
                   .eq('id', recipe.id);
               if (error) throw error;
@@ -575,7 +575,7 @@ async function doCommitIteration(currentRecipe, iterationTable) {
     // Assuming 'ingredients' is a JSONB column in 'recipes' table.
 
     const { error } = await supabaseClient
-      .from('recipes') // Corrected table name
+      .from('recipes')
       .update({ ingredients: updatedIngredients }) // Update the ingredients array
       .eq('id', currentRecipe.id);
 
@@ -660,13 +660,8 @@ export async function initUI() {
 
     loggedInStateChanged = previousIsLoggedIn !== isLoggedIn;
 
-    // Update UI based on new login state
-    updateAuthButton();
-    setEditModeFields(); // Ensure edit fields reflect login status
-// Reload data on auth state change OR initial load
-reloadData();
-});
-}
+    // Reload data on auth state change OR initial load
+    reloadData();
   });
 
 
@@ -757,7 +752,7 @@ reloadData();
       }
       const ingredientName = prompt('Enter the name for the new global ingredient:');
       if (ingredientName && ingredientName.trim() !== '') {
-        addGlobalIngredient(ingredientName.trim()); // Call imported API function
+        addGlobalIngredient(ingredientName.trim());
       } else if (ingredientName !== null) {
         alert('Ingredient name cannot be empty.');
       }
@@ -786,8 +781,45 @@ reloadData();
   }
 
   // Initial data load is triggered by INITIAL_SESSION event in onAuthStateChange
+  reloadData(); // ENSURE reloadData is always called on init
 }
- 
+
+/**
+ * Creates a new recipe.
+ */
+async function createNewRecipe(recipeName) {
+  console.log('Creating new recipe:', recipeName);
+  try {
+    const { error } = await supabaseClient
+      .from('recipes')
+      .insert({ name: recipeName, ingredients: [] }); // Initialize with empty ingredients
+    if (error) throw error;
+    showNotification('New recipe created.', 'success');
+    await reloadData(); // Reload recipe list
+  } catch (err) {
+    console.error('Error creating recipe:', err);
+    showNotification(`Error creating recipe: ${err.message}`, 'error');
+  }
+}
+
+/**
+ * Creates a new global ingredient.
+ */
+async function createNewGlobalIngredient(ingredientName) {
+  console.log('Creating new global ingredient:', ingredientName);
+  try {
+    const { error } = await supabaseClient
+      .from('Ingredients')
+      .insert({ name: ingredientName, description: '' });
+    if (error) throw error;
+    showNotification('New ingredient created.', 'success');
+    await reloadData(); // Reload ingredients list
+  } catch (err) {
+    console.error('Error creating ingredient:', err);
+    showNotification(`Error creating ingredient: ${err.message}`, 'error');
+  }
+}
+
 /**
  * Reloads both recipes and ingredients data and re-renders the lists.
  */
