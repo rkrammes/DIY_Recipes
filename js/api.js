@@ -51,6 +51,7 @@ export async function loadAllIngredients() {
  * @returns {object|null} The created recipe object, or null on error.
  */
 export async function createNewRecipe(recipeName, ingredients) {
+  console.log('createNewRecipe called with recipeName:', recipeName, 'ingredients:', ingredients);
   try {
     const recipeData = {
       name: recipeName,
