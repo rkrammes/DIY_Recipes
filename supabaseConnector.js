@@ -56,18 +56,37 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
  *   This function takes structured data (for example, from csvImporter.js) and inserts it into the Supabase database.
  *   It ensures that all data is persisted for later retrieval and use in the application.
  */
-async function storeData(data) {
+async function storeData(data, ingredients) {
   try {
-    // Replace 'recipes' with your actual table name in Supabase.
-    const { data: insertedData, error } = await supabase
-      .from('recipes') // Update to the new recipes table
+    // Insert the recipe data first
+    const { data: insertedData, error: recipeError } = await supabase
+      .from('recipes')
       .insert(data);
     
-    if (error) {
-      console.error('Error storing data in Supabase:', error);
-      throw error;
+    if (recipeError) {
+      console.error('Error storing recipe data in Supabase:', recipeError);
+      throw recipeError;
     }
-    
+
+    // Insert the ingredients data into the recipeingredients table
+    const recipeId = insertedData[0].id; // Assuming the inserted recipe returns an ID
+    const recipeIngredientsData = ingredients.map(ingredient => ({
+      recipe_id: recipeId,
+      ingredient_id: ingredient.id, // Assuming ingredient has an ID
+      quantity: ingredient.quantity,
+      unit: ingredient.unit,
+      notes: ingredient.notes
+    }));
+
+    const { error: ingredientsError } = await supabase
+      .from('recipeingredients')
+      .insert(recipeIngredientsData);
+
+    if (ingredientsError) {
+      console.error('Error storing ingredients data in Supabase:', ingredientsError);
+      throw ingredientsError;
+    }
+
     return insertedData;
   } catch (error) {
     console.error('storeData error:', error);
