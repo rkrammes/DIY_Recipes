@@ -74,6 +74,8 @@ async function storeData(data, ingredients) {
     const recipeIngredientsData = ingredients.filter(ingredient => ingredient.id).map(ingredient => ({
       recipe_id: recipeId,
       ingredient_id: ingredient.id,
+    }));
+    console.log('Inserting into recipeingredients table:', recipeIngredientsData);
       quantity: ingredient.quantity,
       unit: ingredient.unit,
       notes: ingredient.notes
