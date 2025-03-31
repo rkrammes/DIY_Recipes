@@ -51,9 +51,9 @@ export async function loadAllIngredients() {
 export async function createNewRecipe(recipeName) {
   try {
     const { data, error } = await supabaseClient
-      .from('All_Recipes')
-      .insert([{ 
-         name: recipeName, 
+      .from('recipes') // Corrected table name
+      .insert([{
+         name: recipeName,
          ingredients: [{ name: '', quantity: '', unit: '', notes: '' }],
          next_iteration: "", 
          suggestions: [] 
