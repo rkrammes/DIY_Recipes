@@ -62,7 +62,7 @@ async function storeData(data, ingredients) {
     console.log('Inserting into recipes table:', data);
     const { data: insertedData, error: recipeError } = await supabase
       .from('recipes')
-      .insert(data)
+      .insert({ title: data.name, next_iteration: data.next_iteration, suggestions: data.suggestions })
     
     if (recipeError) {
       console.error('Error storing recipe data in Supabase:', recipeError);
