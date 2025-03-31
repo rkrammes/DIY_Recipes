@@ -710,7 +710,7 @@ export async function initUI() {
 /**
  * Creates a new recipe.
  */
-async function createNewRecipe(recipeName) {
+async function addNewRecipe(recipeName) {
   console.log('Creating new recipe:', recipeName);
   try {
     const { error } = await supabaseClient
