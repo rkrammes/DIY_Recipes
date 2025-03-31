@@ -713,7 +713,7 @@ export async function initUI() {
 async function addNewRecipe(recipeName) {
   console.log('addNewRecipe called with recipeName:', recipeName);
   try {
-    await createNewRecipe(recipeName, []);
+    await createNewRecipe(recipeName, [{ name: '', quantity: '', unit: '', notes: '' }]);
     showNotification('New recipe created.', 'success');
     await reloadData();
   } catch (err) {
