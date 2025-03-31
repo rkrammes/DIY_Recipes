@@ -263,10 +263,6 @@ export function renderIngredients(ingredients) {
 export function showRecipeDetails(recipe) {
   console.log('Showing recipe details for:', recipe);
   console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
-  console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
-  console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
-  console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
-  // Add this line to inspect the recipe object
 
   const ingredientsView = document.getElementById('ingredientsView');
   if (ingredientsView) {
@@ -304,7 +300,7 @@ export function showRecipeDetails(recipe) {
   removeRecipeBtn.style.marginTop = 'var(--spacing-medium)';
   removeRecipeBtn.addEventListener('click', async (e) => {
     e.stopPropagation();
-    const confirmed = confirm(`Permanently remove recipe "${recipe.name || recipe.title}"? This cannot be undone.`);
+    const confirmed = confirm(`Permanently remove recipe "${recipe.title}"? This cannot be undone.`);
     if (confirmed) {
       try {
         const { error } = await supabaseClient
@@ -714,7 +710,6 @@ export async function initUI() {
 /**
  * Creates a new recipe.
  */
-/*
 async function createNewRecipe(recipeName) {
   console.log('Creating new recipe:', recipeName);
   try {
@@ -729,12 +724,10 @@ async function createNewRecipe(recipeName) {
     showNotification(`Error creating recipe: ${err.message}`, 'error');
   }
 }
-*/
 
 /**
  * Creates a new global ingredient.
  */
-/*
 async function createNewGlobalIngredient(ingredientName) {
   console.log('Creating new global ingredient:', ingredientName);
   try {
@@ -749,7 +742,6 @@ async function createNewGlobalIngredient(ingredientName) {
     showNotification(`Error creating ingredient: ${err.message}`, 'error');
   }
 }
-*/
 
 /**
  * Reloads both recipes and ingredients data and re-renders the lists.
