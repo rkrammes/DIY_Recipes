@@ -2,7 +2,7 @@
 
 import express from 'express';
 import fetch from 'node-fetch';
-const bodyParser = require('body-parser');
+import bodyParser from 'body-parser';
 require('dotenv').config();
 const { createClient } = require('@supabase/supabase-js');
 const SUPABASE_URL = process.env.SUPABASE_URL;
