@@ -662,7 +662,7 @@ export async function initUI() {
       if (e.key === 'Enter') {
         e.preventDefault();
         if (isEditMode() && newRecipeInput.value.trim() !== '') {
-          createNewRecipe(newRecipeInput.value.trim());
+          addNewRecipe(newRecipeInput.value.trim());
           newRecipeInput.value = '';
         }
       }
