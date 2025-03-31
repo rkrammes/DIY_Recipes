@@ -1,16 +1,23 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+// main.js - Application Entry Point
 
-// Determine Supabase credentials using environment variables if available, with fallback defaults.
-const supabaseUrl = (typeof process !== 'undefined' && process.env && process.env.SUPABASE_URL)
-  ? process.env.SUPABASE_URL
-  : (import.meta.env && import.meta.env.VITE_SUPABASE_URL
-      ? import.meta.env.VITE_SUPABASE_URL
-      : 'https://your-supabase-url.supabase.co');
+// Import the single, correctly configured Supabase client instance
+import { supabaseClient } from './supabaseClient.js';
 
-const supabaseKey = (typeof process !== 'undefined' && process.env && process.env.SUPABASE_KEY)
-  ? process.env.SUPABASE_KEY
-  : (import.meta.env && import.meta.env.VITE_SUPABASE_KEY
-      ? import.meta.env.VITE_SUPABASE_KEY
-      : 'your-anon-key');
+// Import the UI initializer function
+import { initUI } from './ui.js';
 
-export const supabaseClient = createClient(supabaseUrl, supabaseKey);
+// Wait for the DOM to be fully loaded before initializing the UI
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM fully loaded and parsed. Initializing UI...');
+  // Check if supabaseClient is available before initializing UI
+  if (supabaseClient) {
+    initUI(); // Call the UI initialization function
+  } else {
+    console.error('Supabase client failed to initialize. Cannot start UI.');
+    // Optionally display an error message to the user
+    alert('Error: Could not connect to the backend. Please try refreshing the page.');
+  }
+});
+
+// Note: The supabaseClient export from the original main.js is removed
+// as the client is now imported from supabaseClient.js where needed (e.g., in api.js, ui.js).
