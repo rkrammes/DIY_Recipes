@@ -263,7 +263,6 @@ export function renderIngredients(ingredients) {
 export function showRecipeDetails(recipe) {
   console.log('Showing recipe details for:', recipe);
   console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
-  console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
   // Add this line to inspect the recipe object
 
   const ingredientsView = document.getElementById('ingredientsView');
@@ -675,6 +674,90 @@ export async function initUI() {
   if (btnAddGlobalIngredient) {
     btnAddGlobalIngredient.addEventListener('click', () => {
       if (!isEditMode()) {
+        alert('Please enable Edit Mode to add ingredients.');
+        return;
+      }
+      const ingredientName = prompt('Enter the name for the new global ingredient:');
+      if (ingredientName && ingredientName.trim() !== '') {
+        addGlobalIngredient(ingredientName.trim());
+      } else if (ingredientName !== null) {
+        alert('Ingredient name cannot be empty.');
+      }
+    });
+  } else {
+    console.error('initUI: btnAddGlobalIngredient not found');
+  }
+
+  const btnIngredients = document.getElementById('btnIngredients');
+  if (btnIngredients) {
+    btnIngredients.addEventListener('click', () => {
+      console.log('All Ingredients button clicked');
+      const recipeDetails = document.getElementById('recipeDetails');
+      if (recipeDetails) {
+        recipeDetails.style.display = 'none';
+      }
+      const ingredientsView = document.getElementById('ingredientsView');
+      if (ingredientsView) {
+        ingredientsView.style.display = 'block';
+      }
+    });
+  } else {
+    console.error('initUI: btnIngredients not found');
+  }
+
+  reloadData();
+}
+
+/**
+ * Creates a new recipe.
+ */
+/*
+async function createNewRecipe(recipeName) {
+  console.log('Creating new recipe:', recipeName);
+  try {
+    const { error } = await supabaseClient
+      .from('recipes')
+      .insert({ name: recipeName, ingredients: [] });
+    if (error) throw error;
+    showNotification('New recipe created.', 'success');
+    await reloadData();
+  } catch (err) {
+    console.error('Error creating recipe:', err);
+    showNotification(`Error creating recipe: ${err.message}`, 'error');
+  }
+}
+*/
+
+/**
+ * Creates a new global ingredient.
+ */
+/*
+async function createNewGlobalIngredient(ingredientName) {
+  console.log('Creating new global ingredient:', ingredientName);
+  try {
+    const { error } = await supabaseClient
+      .from('Ingredients')
+      .insert({ name: ingredientName, description: '' });
+    if (error) throw error;
+    showNotification('New ingredient created.', 'success');
+    await reloadData();
+  } catch (err) {
+    console.error('Error creating ingredient:', err);
+    showNotification(`Error creating ingredient: ${err.message}`, 'error');
+  }
+}
+*/
+
+/**
+ * Reloads both recipes and ingredients data and re-renders the lists.
+ */
+async function reloadData() {
+  console.log('Reloading data...');
+  try {
+    const recipes = await loadRecipes();
+    renderRecipes(recipes);
+    const ingredients = await loadAllIngredients();
+    renderIngredients(ingredients);
     console.log('Data reloaded successfully.');
   } catch (error) {
     console.error('Error reloading data:', error);
