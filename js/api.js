@@ -82,7 +82,7 @@ export async function addNewIngredientToRecipe(recipe, ingredient) {
     console.log('Adding ingredient:', ingredient); // Log the ingredient being added
     recipe.ingredients.push(ingredient);
     const { error } = await supabaseClient
-      .from('All_Recipes')
+      .from('recipes') // Corrected table name
       .update({ ingredients: recipe.ingredients })
       .eq('id', recipe.id);
     if (error) {
