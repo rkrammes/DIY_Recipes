@@ -711,7 +711,7 @@ export async function initUI() {
  * Creates a new recipe.
  */
 async function addNewRecipe(recipeName) {
-  console.log('Creating new recipe:', recipeName);
+  console.log('addNewRecipe called with recipeName:', recipeName);
   try {
     await createNewRecipe(recipeName, []);
     showNotification('New recipe created.', 'success');
