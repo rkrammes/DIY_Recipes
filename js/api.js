@@ -50,22 +50,18 @@ export async function loadAllIngredients() {
  * @param {string} recipeName - Name of the new recipe.
  * @returns {object|null} The created recipe object, or null on error.
  */
-export async function createNewRecipe(recipeName) {
+export async function createNewRecipe(recipeName, ingredients) {
   try {
-    const { data, error } = await supabaseClient
-      .from('recipes') // Corrected table name
-      .insert([{
-         name: recipeName,
-         ingredients: [{ name: '', quantity: '', unit: '', notes: '' }],
-         next_iteration: "", 
-         suggestions: [] 
-      }])
-      .select();
-    if (error) {
-      console.error('Error creating new recipe:', error);
-      throw error;
-    }
-    return data && data.length > 0 ? data[0] : null;
+    const recipeData = {
+      name: recipeName,
+      next_iteration: "",
+      suggestions: []
+    };
+
+    // Assuming storeData is imported or available in this scope
+    // and handles inserting into both 'recipes' and 'recipeingredients'
+    const insertedRecipe = await storeData(recipeData, ingredients);
+    return insertedRecipe && insertedRecipe.length > 0 ? insertedRecipe[0] : null;
   } catch (error) {
     console.error('Error in createNewRecipe:', error);
     throw error;
