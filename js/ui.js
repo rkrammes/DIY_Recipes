@@ -713,10 +713,7 @@ export async function initUI() {
 async function addNewRecipe(recipeName) {
   console.log('Creating new recipe:', recipeName);
   try {
-    const { error } = await supabaseClient
-      .from('recipes')
-      .insert({ name: recipeName, ingredients: [] });
-    if (error) throw error;
+    await createNewRecipe(recipeName, []);
     showNotification('New recipe created.', 'success');
     await reloadData();
   } catch (err) {
