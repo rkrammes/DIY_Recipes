@@ -260,7 +260,7 @@ export function renderIngredients(ingredients) {
  * The 3-column recipe details view.
  * - Left: Current Ingredients (read-only)
  */
-export function showRecipeDetails(recipe) {
+export async function showRecipeDetails(recipe) {
   console.log('Showing recipe details for:', recipe);
   console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
 
@@ -286,13 +286,31 @@ export function showRecipeDetails(recipe) {
   currentDiv.style.flex = '1';
   currentDiv.style.border = '1px solid #ccc';
   currentDiv.style.padding = '10px';
-  currentDiv.innerHTML = `<h3>${recipe.title}</h3>
-                           <p>Description: ${recipe.description || 'No description provided'}</p>
-                           <p>Instructions: ${recipe.instructions || 'No instructions provided'}</p>
-                           <p>Prep Time: ${recipe.prep_time_minutes || 'Not provided'} minutes</p>
-                           <p>Cook Time: ${recipe.cook_time_minutes || 'Not provided'} minutes</p>
-                           <p>Difficulty: ${recipe.difficulty || 'Not provided'}</p>
-                           <p>Ingredients: ${recipe.ingredients || 'No ingredients provided'}</p>`;
+
+  try {
+    // Fetch ingredients from recipeingredients table
+    const { data: ingredientsData, error: ingredientsError } = await supabaseClient
+      .from('recipeingredients')
+      .select('ingredients(name, quantity, unit, notes)')
+      .eq('recipe_id', recipe.id)
+      .order('ingredients.name');
+
+    if (ingredientsError) {
+      console.error('Error fetching ingredients:', ingredientsError);
+    }
+
+    // Display recipe details
+    currentDiv.innerHTML = `<h3>${recipe.title}</h3>
+                             <p>Description: ${recipe.description || 'No description provided'}</p>
+                             <p>Instructions: ${recipe.instructions || 'No instructions provided'}</p>
+                             <p>Prep Time: ${recipe.prep_time_minutes || 'Not provided'} minutes</p>
+                             <p>Cook Time: ${recipe.cook_time_minutes || 'Not provided'} minutes</p>
+                             <p>Difficulty: ${recipe.difficulty || 'Not provided'} minutes</p>
+                             <p>Ingredients: ${ingredientsData ? ingredientsData.map(item => `${item.ingredients.name} (${item.ingredients.quantity} ${item.ingredients.unit})`).join(', ') : 'No ingredients provided'}</p>`;
+  } catch (error) {
+    console.error('Error in showRecipeDetails:', error);
+    currentDiv.innerHTML = `<p>Error loading recipe details.</p>`;
+  }
 
   const removeRecipeBtn = document.createElement('button');
   removeRecipeBtn.id = 'removeRecipeBtn';
