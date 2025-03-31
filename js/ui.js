@@ -663,11 +663,10 @@ export async function initUI() {
     // Update UI based on new login state
     updateAuthButton();
     setEditModeFields(); // Ensure edit fields reflect login status
-
-    // Reload data only if login state actually changed, to avoid unnecessary reloads
-    if (loggedInStateChanged) {
-        reloadData();
-    }
+// Reload data on auth state change OR initial load
+reloadData();
+});
+}
   });
 
 
