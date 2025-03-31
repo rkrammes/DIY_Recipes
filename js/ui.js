@@ -291,12 +291,15 @@ export async function showRecipeDetails(recipe) {
     // Fetch ingredients from recipeingredients table with proper join
     const { data: ingredientsData, error: ingredientsError } = await supabaseClient
       .from('recipeingredients')
-      .select('ingredients(name, quantity, unit, notes)')
+      .select('*, ingredients(*)')
       .eq('recipe_id', recipe.id)
       .order('ingredients.name');
-    if (ingredientsError) {
-      console.error('Error fetching ingredients:', ingredientsError);
-    }
+      if (ingredientsData && Array.isArray(ingredientsData)) {
+        recipe.ingredients = ingredientsData.map(item => item.ingredients);
+      }
+      if (ingredientsError) {
+        console.error('Error fetching ingredients:', ingredientsError);
+      }
     
     // Display recipe details
     currentDiv.innerHTML = `<h3>${recipe.title}</h3>
