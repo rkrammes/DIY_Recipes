@@ -14,6 +14,7 @@ export async function loadRecipes() {
       console.error('Error loading recipes:', error);
       return [];
     }
+    console.log('Fetched recipes:', recipes); // Log fetched data
     return recipes || [];
   } catch (error) {
     console.error('Error loading recipes:', error);
