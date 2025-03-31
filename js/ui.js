@@ -757,7 +757,7 @@ export async function initUI() {
       }
       const ingredientName = prompt('Enter the name for the new global ingredient:');
       if (ingredientName && ingredientName.trim() !== '') {
-        createNewGlobalIngredient(ingredientName.trim());
+        addGlobalIngredient(ingredientName.trim()); // Call imported API function
       } else if (ingredientName !== null) {
         alert('Ingredient name cannot be empty.');
       }
