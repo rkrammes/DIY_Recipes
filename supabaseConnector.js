@@ -59,9 +59,10 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 async function storeData(data, ingredients) {
   try {
     // Insert the recipe data first
+    console.log('Inserting into recipes table:', data);
     const { data: insertedData, error: recipeError } = await supabase
       .from('recipes')
-      .insert(data);
+      .insert(data)
     
     if (recipeError) {
       console.error('Error storing recipe data in Supabase:', recipeError);
