@@ -182,11 +182,11 @@ export function renderRecipes(recipes) {
   container.innerHTML = ''; // Clear existing list
 
   recipes.forEach(recipe => {
-    console.log(`Rendering item: ID=${recipe.id}, Name=${recipe.name}`); // Log name being processed
-    const li = document.createElement('li');
-    li.classList.add('recipe-item');
-    li.textContent = recipe.name || 'Unnamed Recipe';
-    li.addEventListener('click', () => {
+   console.log(`Rendering item: ID=${recipe.id}, Name=${recipe.name}`); // Log name being processed
+   const li = document.createElement('li');
+   li.classList.add('recipe-item');
+   li.textContent = (recipe && recipe.name) || 'Unnamed Recipe'; // Check if recipe is valid
+   li.addEventListener('click', () => {
         showRecipeDetails(recipe);
     });
     container.appendChild(li);
