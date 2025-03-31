@@ -571,10 +571,10 @@ async function doCommitIteration(currentRecipe, iterationTable) {
     // 3. Make corresponding calls to Supabase (insert, update, delete).
     // For simplicity now, we'll just update the whole 'ingredients' JSONB column.
     // WARNING: This replaces the entire array. Need careful handling for relations if ingredients are separate table.
-    // Assuming 'ingredients' is a JSONB column in 'All_Recipes' table.
+    // Assuming 'ingredients' is a JSONB column in 'recipes' table.
 
     const { error } = await supabaseClient
-      .from('All_Recipes')
+      .from('recipes') // Corrected table name
       .update({ ingredients: updatedIngredients }) // Update the ingredients array
       .eq('id', currentRecipe.id);
 
