@@ -599,7 +599,7 @@ export async function initUI() {
     }
 
     loggedInStateChanged = previousIsLoggedIn !== isLoggedIn;
-    reloadData();
+    //reloadData();
   });
 
   const themeSelect = document.getElementById('themeSelect');
