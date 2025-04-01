@@ -55,23 +55,28 @@ export async function loadAllIngredients() {
  */
 export async function createNewRecipe(recipeName, ingredients) {
   console.log('createNewRecipe called with recipeName:', recipeName, 'ingredients:', ingredients);
-  try {
-    const recipeData = {
-      name: recipeName,
-      next_iteration: "",
-      suggestions: []
-    };
+  const recipeData = {
+    name: recipeName,
+    next_iteration: "",
+    suggestions: []
+  };
 
-    // Assuming storeData is imported or available in this scope
-    // and handles inserting into both 'recipes' and 'recipeingredients'
-    // TODO: Ensure storeData is actually defined and correctly inserts ingredients into the 'recipes' table
-    // so that each recipe has its 'ingredients' array properly saved.
-    const insertedRecipe = await storeData(recipeData, ingredients);
-    return insertedRecipe && insertedRecipe.length > 0 ? insertedRecipe[0] : null;
-  } catch (error) {
-    console.error('Error in createNewRecipe:', error);
-    throw error;
+  recipeData.ingredients = Array.isArray(ingredients) ? ingredients : [];
+
+  const { data, error } = await supabaseClient
+    .from('recipes')
+    .insert([ recipeData ])
+    .select();
+
+  if (error) {
+    console.error('Error in createNewRecipe (Supabase insert):', error);
+    return null;
   }
+
+  return data && data.length > 0 ? data[0] : null;
+} catch (error) {
+  console.error('Error in createNewRecipe:', error);
+  throw error;
 }
 
 /**
