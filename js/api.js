@@ -54,29 +54,31 @@ export async function loadAllIngredients() {
  * @returns {object|null} The created recipe object, or null on error.
  */
 export async function createNewRecipe(recipeName, ingredients) {
-  console.log('createNewRecipe called with recipeName:', recipeName, 'ingredients:', ingredients);
-  const recipeData = {
-    name: recipeName,
-    next_iteration: "",
-    suggestions: []
-  };
+  try {
+    console.log('createNewRecipe called with recipeName:', recipeName, 'ingredients:', ingredients);
+    const recipeData = {
+      name: recipeName,
+      next_iteration: "",
+      suggestions: []
+    };
 
-  recipeData.ingredients = Array.isArray(ingredients) ? ingredients : [];
+    recipeData.ingredients = Array.isArray(ingredients) ? ingredients : [];
 
-  const { data, error } = await supabaseClient
-    .from('recipes')
-    .insert([ recipeData ])
-    .select();
+    const { data, error } = await supabaseClient
+      .from('recipes')
+      .insert([ recipeData ])
+      .select();
 
-  if (error) {
-    console.error('Error in createNewRecipe (Supabase insert):', error);
-    return null;
+    if (error) {
+      console.error('Error in createNewRecipe (Supabase insert):', error);
+      return null;
+    }
+
+    return data && data.length > 0 ? data[0] : null;
+  } catch (error) {
+    console.error('Error in createNewRecipe:', error);
+    throw error;
   }
-
-  return data && data.length > 0 ? data[0] : null;
-} catch (error) {
-  console.error('Error in createNewRecipe:', error);
-  throw error;
 }
 
 /**
