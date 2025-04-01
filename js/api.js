@@ -1,9 +1,8 @@
-// api.js
 import { supabaseClient } from './supabaseClient.js';
 
 /**
- * Loads all recipes from the All_Recipes table.
- * @returns {Array} Array of recipes.
+ * Loads all recipes from the 'recipes' table.
+ * @returns {Promise<Array>} A promise that resolves to an array of unique recipe objects, each containing its ingredients.
  */
 export async function loadRecipes() {
   try {
@@ -15,8 +14,10 @@ export async function loadRecipes() {
       return [];
     }
     console.log('Fetched recipes:', recipes); // Log fetched data
+    console.log('Filtering out duplicates by recipe id...');
     // Filter duplicates based on recipe id
     const uniqueRecipes = Array.from(new Map((recipes || []).map(item => [item.id, item])).values());
+    console.log('Unique recipes (after filtering):', uniqueRecipes);
     return uniqueRecipes;
   } catch (error) {
     console.error('Error loading recipes:', error);
@@ -63,6 +64,8 @@ export async function createNewRecipe(recipeName, ingredients) {
 
     // Assuming storeData is imported or available in this scope
     // and handles inserting into both 'recipes' and 'recipeingredients'
+    // TODO: Ensure storeData is actually defined and correctly inserts ingredients into the 'recipes' table
+    // so that each recipe has its 'ingredients' array properly saved.
     const insertedRecipe = await storeData(recipeData, ingredients);
     return insertedRecipe && insertedRecipe.length > 0 ? insertedRecipe[0] : null;
   } catch (error) {
