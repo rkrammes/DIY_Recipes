@@ -1,5 +1,5 @@
 {
-  "name": "DIY_Recipes",
+  "name": "diy-recipes",
   "version": "1.0.0",
   "description": "A web app for managing DIY recipes.",
   "main": "server.js",
