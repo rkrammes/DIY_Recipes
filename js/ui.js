@@ -658,6 +658,7 @@ async function doUpdateIngredient(ingObj, prop, newValue) {
  */
 export async function initUI() {
   console.log('Initializing UI...');
+  console.log('Initializing UI...');
   console.log('initUI: setup started');
 
   supabaseClient.auth.onAuthStateChange((event, session) => {
@@ -696,6 +697,7 @@ export async function initUI() {
   });
 
   // --- Theme Toggle Button Logic ---
+  // Theme Toggle
   // Theme Toggle
   const btnThemeToggle = document.getElementById('btnThemeToggle');
   if (btnThemeToggle) {
