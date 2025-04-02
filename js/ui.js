@@ -283,9 +283,13 @@ export async function showRecipeDetails(recipe) {
 
   // LEFT COLUMN: Recipe Details
   const currentDiv = document.createElement('div');
+  // Apply Flexbox styling for vertical distribution
   currentDiv.style.flex = '1';
   currentDiv.style.border = '1px solid #ccc';
   currentDiv.style.padding = '10px';
+  currentDiv.style.display = 'flex';
+  currentDiv.style.flexDirection = 'column';
+  currentDiv.style.justifyContent = 'space-between'; // Pushes top and bottom content apart
 
   try {
     // Fetch ingredients from recipeingredients table with proper join
@@ -327,10 +331,26 @@ export async function showRecipeDetails(recipe) {
     }
 
     // Set the innerHTML with the new order and formatting, removing labels
-    currentDiv.innerHTML = `<h3>${recipe.title}</h3>
+    // Create container for top content
+    const topContentDiv = document.createElement('div');
+    topContentDiv.innerHTML = `<h3>${recipe.title}</h3>
                              <p style="margin-bottom: var(--spacing-medium);">${recipe.description || 'No description provided'}</p>
-                             ${ingredientsHtml}
-                             <p>${recipe.instructions || 'No instructions provided'}</p>`; // Removed Instructions h4
+                             ${ingredientsHtml}`;
+    currentDiv.appendChild(topContentDiv); // Add top content
+
+    // Create container for bottom content (instructions + button)
+    const bottomContentDiv = document.createElement('div');
+    bottomContentDiv.style.marginTop = 'auto'; // Pushes this div down in flex container
+    bottomContentDiv.style.textAlign = 'center'; // Center the button
+
+    // Add instructions to bottom container
+    const instructionsP = document.createElement('p');
+    instructionsP.innerHTML = recipe.instructions || 'No instructions provided';
+    instructionsP.style.marginBottom = 'var(--spacing-medium)'; // Space between instructions and button
+    bottomContentDiv.appendChild(instructionsP);
+
+    // Button creation remains largely the same, but will be appended to bottomContentDiv
+    // (Button creation code follows, then append it to bottomContentDiv)
   } catch (error) {
     console.error('Error in showRecipeDetails:', error);
     currentDiv.innerHTML = `<p>Error loading recipe details.</p>`;
@@ -340,7 +360,7 @@ export async function showRecipeDetails(recipe) {
   removeRecipeBtn.id = 'removeRecipeBtn';
   removeRecipeBtn.classList.add('remove-recipe-btn', 'btn');
   removeRecipeBtn.textContent = 'Remove This Recipe';
-  removeRecipeBtn.style.marginTop = 'var(--spacing-medium)';
+  // removeRecipeBtn.style.marginTop = 'var(--spacing-medium)'; // Margin-top no longer needed due to flex layout
   removeRecipeBtn.addEventListener('click', async (e) => {
     e.stopPropagation();
     const confirmed = confirm(`Permanently remove recipe "${recipe.title}"? This cannot be undone.`);
@@ -360,7 +380,11 @@ export async function showRecipeDetails(recipe) {
       }
     }
   });
-  currentDiv.appendChild(removeRecipeBtn);
+  // Append button to the bottom container
+  bottomContentDiv.appendChild(removeRecipeBtn);
+
+  // Append the bottom container to the main currentDiv
+  currentDiv.appendChild(bottomContentDiv);
 
   // CENTER COLUMN: AI Suggestions
   const aiDiv = document.createElement('div');
