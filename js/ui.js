@@ -610,9 +610,10 @@ async function doCommitIteration(currentRecipe, iterationTable) {
   console.log("Updated ingredients data:", updatedIngredients);
 
   try {
+    const newVersion = (currentRecipe.version || 0) + 1; // Ensure version exists, default to 0 if not
     const { error } = await supabaseClient
       .from('recipes')
-      .update({ ingredients: updatedIngredients })
+      .update({ ingredients: updatedIngredients, version: newVersion })
       .eq('id', currentRecipe.id);
 
     if (error) throw error;
