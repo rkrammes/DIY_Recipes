@@ -831,17 +831,6 @@ export async function initUI() {
 /**
  * Creates a new recipe.
  */
-async function addNewRecipe(recipeName) {
-  console.log('addNewRecipe called with recipeName:', recipeName);
-  try {
-    await createNewRecipe(recipeName, [{ name: '', quantity: '', unit: '', notes: '' }]);
-    showNotification('New recipe created.', 'success');
-    await reloadData();
-  } catch (err) {
-    console.error('Error creating recipe:', err);
-    showNotification(`Error creating recipe: ${err.message}`, 'error');
-  }
-}
 
 /**
  * Creates a new global ingredient.
