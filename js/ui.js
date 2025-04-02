@@ -308,10 +308,24 @@ export async function showRecipeDetails(recipe) {
       }
     
     // Display recipe details
+    // Build the ingredients list HTML
+    let ingredientsHtml = '<h4>Ingredients:</h4>';
+    if (recipe.ingredients && recipe.ingredients.length > 0) {
+      ingredientsHtml += '<ul>';
+      recipe.ingredients.forEach(ing => {
+        ingredientsHtml += `<li>${ing.name} (${ing.quantity} ${ing.unit || ''}) ${ing.notes ? '- ' + ing.notes : ''}</li>`; // Added notes display
+      });
+      ingredientsHtml += '</ul>';
+    } else {
+      ingredientsHtml += '<p>No ingredients provided</p>';
+    }
+
+    // Set the innerHTML with the new order and formatting
     currentDiv.innerHTML = `<h3>${recipe.title}</h3>
                              <p>Description: ${recipe.description || 'No description provided'}</p>
-                             <p>Instructions: ${recipe.instructions || 'No instructions provided'}</p>
-                             <p>Ingredients: ${recipe.ingredients ? recipe.ingredients.map(ing => `${ing.name} (${ing.quantity} ${ing.unit})`).join(', ') : 'No ingredients provided'}</p>`;
+                             ${ingredientsHtml}
+                             <h4>Instructions:</h4>
+                             <p>${recipe.instructions || 'No instructions provided'}</p>`;
   } catch (error) {
     console.error('Error in showRecipeDetails:', error);
     currentDiv.innerHTML = `<p>Error loading recipe details.</p>`;
