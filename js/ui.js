@@ -669,7 +669,14 @@ export async function initUI() {
     }
 
     loggedInStateChanged = previousIsLoggedIn !== isLoggedIn;
-    //reloadData();
+
+    if (loggedInStateChanged) {
+      console.log('Login state changed, updating UI elements...');
+      updateAuthButton(); // Update the Log In/Log Out button
+      setEditModeFields(); // Update edit mode dependent fields
+      // Consider if reloadData() is needed here based on application logic
+      // reloadData();
+    }
   });
 
   const themeSelect = document.getElementById('themeSelect');
