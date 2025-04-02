@@ -777,15 +777,27 @@ export async function initUI() {
 
   setupMagicLink();
 
-  const newRecipeInput = document.getElementById('newRecipeNameInput');
-  if (newRecipeInput) {
-    newRecipeInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        if (isEditMode() && newRecipeInput.value.trim() !== '') {
-          addNewRecipe(newRecipeInput.value.trim());
-          newRecipeInput.value = '';
+  // Remove old recipe input listener since the textbox is removed.
+  // Instead, add a click listener for the new large plus button to create a recipe.
+  const btnAddRecipe = document.getElementById('btnAddRecipe');
+  if (btnAddRecipe) {
+    btnAddRecipe.addEventListener('click', async () => {
+      if (!isEditMode()) {
+        showNotification('Enable Edit Mode to add recipes.', 'info');
+        return;
+      }
+      const recipeName = prompt('Enter the name for the new recipe:');
+      if (recipeName && recipeName.trim()) {
+        try {
+          await createNewRecipe(recipeName.trim());
+          showNotification(`Recipe "${recipeName.trim()}" created!`, 'success');
+          await reloadData();
+        } catch (error) {
+          console.error('Error creating recipe:', error);
+          showNotification(`Error creating recipe: ${error.message}`, 'error');
         }
+      } else if (recipeName !== null) {
+        showNotification('Recipe name cannot be empty.', 'error');
       }
     });
   }
