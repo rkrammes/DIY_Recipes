@@ -11,26 +11,36 @@ let isLoggedIn = false;
  * Checks if edit mode is active.
  */
 export function isEditMode() {
-  const editCheckbox = document.getElementById('editModeCheckbox');
-  return editCheckbox ? editCheckbox.checked : false;
+  const editButton = document.getElementById('btnEditModeToggle');
+  // Check the data-active attribute, converting the string 'true' to a boolean
+  return editButton ? editButton.dataset.active === 'true' : false;
 }
 
 /**
- * Updates the login/logout button text and enables/disables the edit mode checkbox.
+ * Updates the login/logout button text and enables/disables the edit mode toggle button.
  */
 export function updateAuthButton() {
   const btnLogIn = document.getElementById('btnLogIn');
-  const editCheckbox = document.getElementById('editModeCheckbox');
+  const btnEditModeToggle = document.getElementById('btnEditModeToggle');
+
   if (btnLogIn) {
     btnLogIn.textContent = isLoggedIn ? 'Log Out' : 'Log In';
   }
-  if (editCheckbox) {
-    // Only enable edit mode if truly logged in
-    editCheckbox.disabled = !isLoggedIn;
+
+  if (btnEditModeToggle) {
+    // Enable the button only if logged in
+    btnEditModeToggle.disabled = !isLoggedIn;
+
     if (!isLoggedIn) {
-      editCheckbox.checked = false; // Ensure edit mode is off if logged out
-      // Manually trigger setEditModeFields if checkbox state changed due to logout
+      // If logged out, force edit mode off
+      btnEditModeToggle.dataset.active = 'false';
+      btnEditModeToggle.textContent = 'Edit Mode: OFF';
+      // Manually trigger setEditModeFields to disable relevant fields
       setEditModeFields();
+    } else {
+       // If logged in, ensure text reflects current state (might already be correct)
+       const isActive = btnEditModeToggle.dataset.active === 'true';
+       btnEditModeToggle.textContent = `Edit Mode: ${isActive ? 'ON' : 'OFF'}`;
     }
   }
 }
@@ -708,15 +718,27 @@ export async function initUI() {
     });
   }
 
-  const editCheckbox = document.getElementById('editModeCheckbox');
-  if (editCheckbox) {
-    editCheckbox.addEventListener('change', () => {
+  const btnEditModeToggle = document.getElementById('btnEditModeToggle');
+  if (btnEditModeToggle) {
+    btnEditModeToggle.addEventListener('click', () => {
+      // Toggle the active state
+      const currentState = btnEditModeToggle.dataset.active === 'true';
+      const newState = !currentState;
+      btnEditModeToggle.dataset.active = newState.toString(); // Store as string 'true' or 'false'
+      btnEditModeToggle.textContent = `Edit Mode: ${newState ? 'ON' : 'OFF'}`;
+
+      // Update UI fields based on the new state
       setEditModeFields();
+
+      // Reload data if necessary (e.g., to show/hide remove buttons)
       const activeDetails = document.getElementById('recipeDetails');
       const activeIngredients = document.getElementById('ingredientsView');
       if (activeDetails && activeDetails.style.display !== 'none') {
-        console.warn("Re-rendering recipe details on edit mode toggle is not fully implemented.");
+        // If recipe details are showing, might need a more specific update than reloadData()
+        console.warn("Re-rendering recipe details on edit mode toggle might be needed.");
+        // Potentially call showRecipeDetails again if elements need adding/removing
       } else if (activeIngredients && activeIngredients.style.display !== 'none') {
+        // If ingredients list is showing, reload to add/remove buttons
         reloadData();
       }
     });
