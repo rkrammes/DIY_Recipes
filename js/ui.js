@@ -194,7 +194,7 @@ export function renderRecipes(recipes) {
     console.log(`Rendering item: ID=${recipe.id}, Name=${recipe.name || recipe.title}`);
     const li = document.createElement('li');
     li.classList.add('recipe-item');
-    li.textContent = (recipe && (recipe.name || recipe.title)) || 'Unnamed Recipe';
+    li.textContent = `${recipe.title || recipe.name || 'Unnamed Recipe'} v.${recipe.version}`;
     li.addEventListener('click', () => {
       showRecipeDetails(recipe);
     });
