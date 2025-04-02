@@ -57,7 +57,7 @@ function setEditModeFields() {
   // "Add New Recipe" button (NEW)
   const btnAddRecipe = document.getElementById('btnAddRecipe');
   if (btnAddRecipe) {
-    btnAddRecipe.disabled = !editModeActive;
+    btnAddRecipe.disabled = false;
   }
 
   // "Add Ingredient" button (All Ingredients view)
