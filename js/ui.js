@@ -311,9 +311,6 @@ export async function showRecipeDetails(recipe) {
     currentDiv.innerHTML = `<h3>${recipe.title}</h3>
                              <p>Description: ${recipe.description || 'No description provided'}</p>
                              <p>Instructions: ${recipe.instructions || 'No instructions provided'}</p>
-                             <p>Prep Time: ${recipe.prep_time_minutes || 'Not provided'} minutes</p>
-                             <p>Cook Time: ${recipe.cook_time_minutes || 'Not provided'} minutes</p>
-                             <p>Difficulty: ${recipe.difficulty || 'Not provided'} minutes</p>
                              <p>Ingredients: ${recipe.ingredients ? recipe.ingredients.map(ing => `${ing.name} (${ing.quantity} ${ing.unit})`).join(', ') : 'No ingredients provided'}</p>`;
   } catch (error) {
     console.error('Error in showRecipeDetails:', error);
