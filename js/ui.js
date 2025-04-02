@@ -295,7 +295,13 @@ export async function showRecipeDetails(recipe) {
       .eq('recipe_id', recipe.id)
       .order('ingredients.name');
       if (ingredientsData && Array.isArray(ingredientsData)) {
-        recipe.ingredients = ingredientsData.map(item => item.ingredients);
+        // Combine ingredient details with quantity/unit from the join table
+        recipe.ingredients = ingredientsData.map(item => ({
+          ...item.ingredients, // Spread ingredient details (id, name, description)
+          quantity: item.quantity, // Add quantity from recipeingredients
+          unit: item.unit,         // Add unit from recipeingredients
+          notes: item.notes        // Add notes from recipeingredients (if exists)
+        }));
       }
       if (ingredientsError) {
         console.error('Error fetching ingredients:', ingredientsError);
