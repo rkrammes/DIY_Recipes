@@ -2,7 +2,7 @@
 
 import { supabaseClient } from './supabaseClient.js';
 import { sendMagicLink, signOut } from './auth.js';
-import { loadRecipes, loadAllIngredients, createNewRecipe, addGlobalIngredient } from './api.js'; // Added createNewRecipe, addGlobalIngredient
+import { loadRecipes, loadAllIngredients, createNewRecipe, addGlobalIngredient, reloadData } from './api.js'; // Added createNewRecipe, addGlobalIngredient, reloadData
 
 // Global login state
 let isLoggedIn = false;
@@ -54,10 +54,10 @@ function setEditModeFields() {
   console.log('Setting edit mode fields. Active:', editModeActive);
 
   // --- Always Present Elements ---
-  // "Add New Recipe" input
-  const newRecipeInput = document.getElementById('newRecipeNameInput');
-  if (newRecipeInput) {
-    newRecipeInput.disabled = !editModeActive;
+  // "Add New Recipe" button (NEW)
+  const btnAddRecipe = document.getElementById('btnAddRecipe');
+  if (btnAddRecipe) {
+    btnAddRecipe.disabled = !editModeActive;
   }
 
   // "Add Ingredient" button (All Ingredients view)
@@ -657,6 +657,7 @@ async function doUpdateIngredient(ingObj, prop, newValue) {
  * Initializes UI elements and event listeners.
  */
 export async function initUI() {
+  console.log('Initializing UI...');
   console.log('initUI: setup started');
 
   supabaseClient.auth.onAuthStateChange((event, session) => {
@@ -695,6 +696,7 @@ export async function initUI() {
   });
 
   // --- Theme Toggle Button Logic ---
+  // Theme Toggle
   const btnThemeToggle = document.getElementById('btnThemeToggle');
   if (btnThemeToggle) {
     // Function to apply theme based on value ('dark', 'light', 'system')
