@@ -293,7 +293,7 @@ export async function showRecipeDetails(recipe) {
       .from('recipeingredients')
       .select('*, ingredients(*)')
       .eq('recipe_id', recipe.id)
-      .order('ingredients.name');
+      .order('name', { foreignTable: 'ingredients' }); // Correct syntax for ordering by joined table column
       if (ingredientsData && Array.isArray(ingredientsData)) {
         // Combine ingredient details with quantity/unit from the join table
         recipe.ingredients = ingredientsData.map(item => ({
