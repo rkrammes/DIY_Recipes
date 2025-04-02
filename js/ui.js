@@ -689,33 +689,46 @@ export async function initUI() {
     }
   });
 
-  const themeSelect = document.getElementById('themeSelect');
-  if (themeSelect) {
-    const initialTheme = themeSelect.value;
-    if (initialTheme === 'system') {
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.className = 'dark';
-      } else {
-        document.body.className = 'light';
+  // --- Theme Toggle Button Logic ---
+  const btnThemeToggle = document.getElementById('btnThemeToggle');
+  if (btnThemeToggle) {
+    // Function to apply theme based on value ('dark', 'light', 'system')
+    const applyTheme = (themeValue) => {
+      let themeClass = themeValue;
+      if (themeValue === 'system') {
+        themeClass = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       }
-    } else {
-      document.body.className = initialTheme;
-    }
-    console.log('Initial theme set to:', document.body.className);
+      document.body.className = themeClass; // Set body class
+      console.log('Theme applied:', themeClass, '(Source:', themeValue, ')');
+    };
 
-    themeSelect.addEventListener('change', (e) => {
-      const value = e.target.value;
-      if (value === 'system') {
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          document.body.className = 'dark';
-        } else {
-          document.body.className = 'light';
-        }
-      } else {
-        document.body.className = value;
+    // Initial theme setup on load
+    const initialTheme = btnThemeToggle.dataset.theme || 'dark'; // Default to dark if unset
+    btnThemeToggle.dataset.theme = initialTheme; // Ensure data attribute is set
+    btnThemeToggle.textContent = `Theme: ${initialTheme.charAt(0).toUpperCase() + initialTheme.slice(1)}`;
+    applyTheme(initialTheme);
+
+    // Event listener for clicks
+    btnThemeToggle.addEventListener('click', () => {
+      const currentTheme = btnThemeToggle.dataset.theme;
+      let nextTheme;
+
+      // Cycle through themes: dark -> light -> system -> dark
+      if (currentTheme === 'dark') {
+        nextTheme = 'light';
+      } else if (currentTheme === 'light') {
+        nextTheme = 'system';
+      } else { // currentTheme === 'system'
+        nextTheme = 'dark';
       }
-      console.log('Theme changed to:', document.body.className);
+
+      // Update button state and apply theme
+      btnThemeToggle.dataset.theme = nextTheme;
+      btnThemeToggle.textContent = `Theme: ${nextTheme.charAt(0).toUpperCase() + nextTheme.slice(1)}`;
+      applyTheme(nextTheme);
     });
+  } else {
+    console.error('initUI: btnThemeToggle not found');
   }
 
   const btnEditModeToggle = document.getElementById('btnEditModeToggle');
