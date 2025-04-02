@@ -2,7 +2,7 @@
 
 import { supabaseClient } from './supabaseClient.js';
 import { sendMagicLink, signOut } from './auth.js';
-import { loadRecipes, loadAllIngredients, createNewRecipe, addGlobalIngredient, reloadData } from './api.js'; // Added createNewRecipe, addGlobalIngredient, reloadData
+import { loadRecipes, loadAllIngredients, createNewRecipe, addGlobalIngredient } from './api.js'; // Added createNewRecipe, addGlobalIngredient
 
 // Global login state
 let isLoggedIn = false;
