@@ -782,16 +782,17 @@ export async function initUI() {
   const btnAddRecipe = document.getElementById('btnAddRecipe');
   if (btnAddRecipe) {
     btnAddRecipe.addEventListener('click', async () => {
-      console.log("Add Recipe button clicked");
+      alert("Add Recipe button clicked");
       const recipeName = prompt('Enter the name for the new recipe:');
       if (recipeName && recipeName.trim()) {
         try {
           await createNewRecipe(recipeName.trim());
           showNotification(`Recipe "${recipeName.trim()}" created!`, 'success');
           await reloadData();
+          alert("Recipe created successfully.");
         } catch (error) {
+          alert("Error creating recipe: " + error.message);
           console.error('Error creating recipe:', error);
-          showNotification(`Error creating recipe: ${error.message}`, 'error');
         }
       } else if (recipeName !== null) {
         showNotification('Recipe name cannot be empty.', 'error');
