@@ -782,6 +782,7 @@ export async function initUI() {
   const btnAddRecipe = document.getElementById('btnAddRecipe');
   if (btnAddRecipe) {
     btnAddRecipe.addEventListener('click', async () => {
+      console.log("Add Recipe button clicked");
       const recipeName = prompt('Enter the name for the new recipe:');
       if (recipeName && recipeName.trim()) {
         try {
