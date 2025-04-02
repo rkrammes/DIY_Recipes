@@ -782,10 +782,6 @@ export async function initUI() {
   const btnAddRecipe = document.getElementById('btnAddRecipe');
   if (btnAddRecipe) {
     btnAddRecipe.addEventListener('click', async () => {
-      if (!isEditMode()) {
-        showNotification('Enable Edit Mode to add recipes.', 'info');
-        return;
-      }
       const recipeName = prompt('Enter the name for the new recipe:');
       if (recipeName && recipeName.trim()) {
         try {
