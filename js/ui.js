@@ -349,42 +349,45 @@ export async function showRecipeDetails(recipe) {
     instructionsP.style.marginBottom = 'var(--spacing-medium)'; // Space between instructions and button
     bottomContentDiv.appendChild(instructionsP);
 
-    // Button creation remains largely the same, but will be appended to bottomContentDiv
-    // (Button creation code follows, then append it to bottomContentDiv)
+    // Create and configure the remove button INSIDE the try block
+    const removeRecipeBtn = document.createElement('button');
+    removeRecipeBtn.id = 'removeRecipeBtn';
+    removeRecipeBtn.classList.add('remove-recipe-btn', 'btn');
+    removeRecipeBtn.textContent = 'Remove This Recipe';
+    // removeRecipeBtn.style.marginTop = 'var(--spacing-medium)'; // Margin-top no longer needed
+    removeRecipeBtn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const confirmed = confirm(`Permanently remove recipe "${recipe.title}"? This cannot be undone.`);
+      if (confirmed) {
+        try {
+          // Use the correct 'details' variable from the outer scope
+          const details = document.getElementById('recipeDetails');
+          const { error } = await supabaseClient
+            .from('recipes')
+            .delete()
+            .eq('id', recipe.id);
+          if (error) throw error;
+          showNotification('Recipe removed successfully.', 'success');
+          if (details) details.style.display = 'none'; // Hide details view
+          await reloadData(); // Reload recipe list
+        } catch (err) {
+          console.error('Error removing recipe:', err);
+          showNotification(`Error removing recipe: ${err.message}`, 'error');
+        }
+      }
+    });
+
+    // Append button to the bottom container
+    bottomContentDiv.appendChild(removeRecipeBtn);
+
+    // Append the bottom container to the main currentDiv
+    currentDiv.appendChild(bottomContentDiv);
   } catch (error) {
     console.error('Error in showRecipeDetails:', error);
     currentDiv.innerHTML = `<p>Error loading recipe details.</p>`;
   }
 
-  const removeRecipeBtn = document.createElement('button');
-  removeRecipeBtn.id = 'removeRecipeBtn';
-  removeRecipeBtn.classList.add('remove-recipe-btn', 'btn');
-  removeRecipeBtn.textContent = 'Remove This Recipe';
-  // removeRecipeBtn.style.marginTop = 'var(--spacing-medium)'; // Margin-top no longer needed due to flex layout
-  removeRecipeBtn.addEventListener('click', async (e) => {
-    e.stopPropagation();
-    const confirmed = confirm(`Permanently remove recipe "${recipe.title}"? This cannot be undone.`);
-    if (confirmed) {
-      try {
-        const { error } = await supabaseClient
-          .from('recipes')
-          .delete()
-          .eq('id', recipe.id);
-        if (error) throw error;
-        showNotification('Recipe removed successfully.', 'success');
-        details.style.display = 'none';
-        await reloadData();
-      } catch (err) {
-        console.error('Error removing recipe:', err);
-        showNotification(`Error removing recipe: ${err.message}`, 'error');
-      }
-    }
-  });
-  // Append button to the bottom container
-  bottomContentDiv.appendChild(removeRecipeBtn);
-
-  // Append the bottom container to the main currentDiv
-  currentDiv.appendChild(bottomContentDiv);
+  // --- Button creation and appending moved inside the try block ---
 
   // CENTER COLUMN: AI Suggestions
   const aiDiv = document.createElement('div');
