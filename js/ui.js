@@ -676,11 +676,15 @@ export async function initUI() {
     if (event === 'INITIAL_SESSION') {
       isLoggedIn = !!session;
       console.log('Initial session processed. Logged in:', isLoggedIn);
+      // Explicitly update auth buttons after initial check, regardless of change
+      updateAuthButton();
+      setEditModeFields(); // Also ensure fields are set based on initial auth state
     }
 
     loggedInStateChanged = previousIsLoggedIn !== isLoggedIn;
 
-    if (loggedInStateChanged) {
+    // Update UI only if the state actually changed *after* the initial check
+    if (loggedInStateChanged && event !== 'INITIAL_SESSION') {
       console.log('Login state changed, updating UI elements...');
       updateAuthButton(); // Update the Log In/Log Out button
       setEditModeFields(); // Update edit mode dependent fields
