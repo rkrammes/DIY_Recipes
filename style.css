@@ -213,7 +213,8 @@ aside.glass-panel {
 
 /* Input Fields (Dark Default) */
 input,
-textarea {
+textarea,
+select { /* Added select here */
   background-color: var(--secondary);
   color: var(--accent-orange); /* typed text is orange */
   border: 1px solid var(--accent-blue);
