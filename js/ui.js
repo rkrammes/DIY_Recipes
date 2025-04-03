@@ -731,3 +731,21 @@ export async function initUI() {
     btnLogIn.addEventListener('click', async () => {
       if (isLoggedIn) {
         // Log out
+        try {
+          const { error } = await supabaseClient.auth.signOut();
+          if (error) throw error;
+          showNotification('Logged out successfully.', 'success');
+        } catch (err) {
+          console.error('Error signing out:', err);
+          showNotification(`Error signing out: ${err.message}`, 'error');
+        }
+      } else {
+        // Show/hide magic link form
+        const magicLinkForm = document.getElementById('magicLinkForm');
+        if (magicLinkForm) {
+          btnLogIn.dataset.showForm = btnLogIn.dataset.showForm === 'true' ? 'false' : 'true';
+          magicLinkForm.style.display = btnLogIn.dataset.showForm === 'true' ? 'block' : 'none';
+        }
+      }
+    });
+  }
