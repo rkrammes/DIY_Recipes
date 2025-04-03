@@ -15,6 +15,7 @@ export async function loadRecipes() {
     }
     console.log('Fetched recipes:', recipes); // Log fetched data
     console.log('Filtering out duplicates by recipe id...');
+    console.log('Raw recipes from Supabase before filtering:', JSON.stringify(recipes)); // Added log
     // Filter duplicates based on recipe id
     const uniqueRecipes = Array.from(new Map((recipes || []).map(item => [item.id, item])).values());
     console.log('Unique recipes (after filtering):', uniqueRecipes);
