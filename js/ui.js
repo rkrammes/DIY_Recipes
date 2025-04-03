@@ -865,6 +865,7 @@ async function reloadData() {
   console.log('Reloading data...');
   try {
     const recipes = await loadRecipes();
+    console.log('Recipes loaded in reloadData, about to render:', JSON.stringify(recipes)); // Added log
     renderRecipes(recipes);
     const ingredients = await loadAllIngredients();
     renderIngredients(ingredients);
