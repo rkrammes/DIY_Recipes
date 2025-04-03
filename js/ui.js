@@ -665,12 +665,12 @@ export async function reloadData() {
   console.log('Reloading data...');
   try {
     // Fetch recipes
-    const recipes = await fetchRecipes();
+    const recipes = await loadRecipes();
     console.log('Recipes loaded in reloadData, about to render:', JSON.stringify(recipes));
     renderRecipes(recipes);
     
     // Fetch ingredients for the global list
-    allIngredients = await fetchIngredients();
+    allIngredients = await loadAllIngredients();
     renderIngredients(allIngredients);
     
     console.log('Data reloaded successfully.');
