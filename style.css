@@ -367,3 +367,28 @@ body.dark {
     background: #444444; // Slightly lighter dark
 }
 */
+
+/* Status Message Styling */
+.status-messages {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: bold;
+  opacity: 0; /* Start hidden */
+  transition: opacity 0.5s ease-in-out; /* Fade transition */
+  min-height: 1.5em; /* Prevent layout shift when empty */
+  display: none; /* Hide completely when not active */
+}
+
+.status-messages.success {
+  background-color: rgba(46, 204, 113, 0.2); /* Light green background */
+  color: #2ecc71; /* Green text */
+  border: 1px solid #2ecc71;
+}
+
+.status-messages.error {
+  background-color: rgba(231, 76, 60, 0.2); /* Light red background */
+  color: #e74c3c; /* Red text */
+  border: 1px solid #e74c3c;
+}
