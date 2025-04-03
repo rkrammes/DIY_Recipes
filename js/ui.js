@@ -538,9 +538,15 @@ function createEditableIngredientRow(ingredientData) {
   console.log('Available allIngredients:', JSON.stringify(allIngredients.map(i => ({id: i.id, name: i.name})), null, 2)); // Log available IDs/names
   const row = document.createElement('tr');
   // Use the ingredient's actual ID if available, otherwise generate a temporary one
-  const rowId = ingredientData.id !== undefined ? String(ingredientData.id) : `new_${Date.now()}`;
-  row.dataset.ingredientId = rowId;
-  console.log(`Set row.dataset.ingredientId to: ${rowId}`);
+  // Use the *actual* ingredient ID for the dataset if available.
+  // For new rows, it will be undefined initially.
+  const actualIngredientId = ingredientData.ingredient_id !== undefined ? String(ingredientData.ingredient_id) : `new_${Date.now()}`;
+  row.dataset.ingredientId = actualIngredientId;
+  // Store the recipe_ingredient_id separately if needed for updates/deletes later
+  if (ingredientData.recipe_ingredient_id) {
+      row.dataset.recipeIngredientId = String(ingredientData.recipe_ingredient_id);
+  }
+  console.log(`Set row.dataset.ingredientId to: ${actualIngredientId}`);
 
   const fields = ['name', 'quantity', 'unit', 'notes'];
   fields.forEach(field => {
@@ -565,12 +571,9 @@ function createEditableIngredientRow(ingredientData) {
         const option = document.createElement('option');
         option.value = ing.id; // Use ID as value
         option.textContent = ing.name;
-        // Pre-select if the ID matches the current ingredient's ID
-        const currentIngredientId = ingredientData.id !== undefined ? String(ingredientData.id) : null;
-        const optionIngredientId = ing.id !== undefined ? String(ing.id) : null;
-
-        // Compare the option's ingredient ID with the ingredient_id from the row data
+        // Get the actual ingredient ID from the row data being processed
         const currentIngredientId = ingredientData.ingredient_id !== undefined ? String(ingredientData.ingredient_id) : null;
+        // Get the ingredient ID for the current option in the dropdown
         const optionIngredientId = ing.id !== undefined ? String(ing.id) : null;
 
         // Log the comparison right before the check
