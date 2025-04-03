@@ -185,7 +185,7 @@ export function renderIngredients(ingredients) {
 /**
  * Shows the details of a recipe.
  */
-export function showRecipeDetails(recipe) {
+export async function showRecipeDetails(recipe) {
   console.log('Showing recipe details for:', recipe);
   console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
   
@@ -749,3 +749,162 @@ export async function initUI() {
       }
     });
   }
+
+  // Set up event listener for the magic link form
+  const btnSendMagicLink = document.getElementById('btnSendMagicLink');
+  const magicLinkEmail = document.getElementById('magicLinkEmail');
+  if (btnSendMagicLink && magicLinkEmail) {
+    btnSendMagicLink.addEventListener('click', async () => {
+      const email = magicLinkEmail.value.trim();
+      if (!email) {
+        showNotification('Please enter your email address.', 'error');
+        return;
+      }
+      
+      try {
+        const { error } = await supabaseClient.auth.signInWithOtp({
+          email,
+          options: {
+            emailRedirectTo: window.location.href,
+          },
+        });
+        
+        if (error) throw error;
+        
+        showNotification('Magic link sent! Check your email.', 'success');
+        // Hide the form after sending
+        const magicLinkForm = document.getElementById('magicLinkForm');
+        if (magicLinkForm) magicLinkForm.style.display = 'none';
+      } catch (err) {
+        console.error('Error sending magic link:', err);
+        showNotification(`Error sending magic link: ${err.message}`, 'error');
+      }
+    });
+  }
+
+  // Set up event listener for the theme toggle button
+  const btnThemeToggle = document.getElementById('btnThemeToggle');
+  if (btnThemeToggle) {
+    btnThemeToggle.addEventListener('click', () => {
+      const currentTheme = btnThemeToggle.dataset.theme || 'dark';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      // Update button text and dataset
+      btnThemeToggle.textContent = `Theme: ${newTheme.charAt(0).toUpperCase() + newTheme.slice(1)}`;
+      btnThemeToggle.dataset.theme = newTheme;
+      
+      // Apply theme to body
+      document.body.className = newTheme;
+      
+      console.log(`Theme applied: ${newTheme} (Source: ${currentTheme})`);
+    });
+  }
+
+  // Set up event listener for the edit mode toggle button
+  const btnEditModeToggle = document.getElementById('btnEditModeToggle');
+  if (btnEditModeToggle) {
+    btnEditModeToggle.addEventListener('click', () => {
+      if (!isLoggedIn) {
+        showNotification('Please log in to use edit mode.', 'error');
+        return;
+      }
+      
+      const currentActive = btnEditModeToggle.dataset.active === 'true';
+      const newActive = !currentActive;
+      
+      // Update button text and dataset
+      btnEditModeToggle.textContent = `Edit Mode: ${newActive ? 'ON' : 'OFF'}`;
+      btnEditModeToggle.dataset.active = newActive.toString();
+      
+      // Update edit mode dependent fields
+      setEditModeFields(newActive);
+    });
+  }
+
+  // Set up event listener for the ingredients button
+  const btnIngredients = document.getElementById('btnIngredients');
+  if (btnIngredients) {
+    btnIngredients.addEventListener('click', () => {
+      // Hide recipe details if visible
+      const recipeDetails = document.getElementById('recipeDetails');
+      if (recipeDetails) recipeDetails.style.display = 'none';
+      
+      // Show ingredients view
+      const ingredientsView = document.getElementById('ingredientsView');
+      if (ingredientsView) ingredientsView.style.display = 'block';
+    });
+  }
+
+  // Set up event listener for the add recipe button
+  const btnAddRecipe = document.getElementById('btnAddRecipe');
+  if (btnAddRecipe) {
+    btnAddRecipe.addEventListener('click', () => {
+      if (!isLoggedIn) {
+        showNotification('Please log in to add recipes.', 'error');
+        return;
+      }
+      
+      // Create a new recipe with default values
+      const newRecipe = {
+        title: 'New Recipe',
+        description: '',
+        instructions: '',
+        ingredients: [],
+        version: 1
+      };
+      
+      // Hide ingredients view if visible
+      const ingredientsView = document.getElementById('ingredientsView');
+      if (ingredientsView) ingredientsView.style.display = 'none';
+      
+      // Show recipe details with the new recipe
+      const recipeDetails = document.getElementById('recipeDetails');
+      if (recipeDetails) {
+        recipeDetails.style.display = 'block';
+        recipeDetails.innerHTML = ''; // Clear previous content
+        showRecipeDetails(newRecipe);
+      }
+    });
+  }
+
+  // Set up event listener for the add global ingredient button
+  const btnAddGlobalIngredient = document.getElementById('btnAddGlobalIngredient');
+  if (btnAddGlobalIngredient) {
+    btnAddGlobalIngredient.addEventListener('click', () => {
+      if (!isLoggedIn) {
+        showNotification('Please log in to add ingredients.', 'error');
+        return;
+      }
+      
+      // Prompt for ingredient name and description
+      const name = prompt('Enter ingredient name:');
+      if (!name) return;
+      
+      const description = prompt('Enter ingredient description (optional):');
+      
+      // Create a new ingredient
+      const newIngredient = {
+        name,
+        description: description || null
+      };
+      
+      // Add the ingredient to the database
+      supabaseClient
+        .from('ingredients')
+        .insert([newIngredient])
+        .then(({ data, error }) => {
+          if (error) {
+            console.error('Error adding ingredient:', error);
+            showNotification(`Error adding ingredient: ${error.message}`, 'error');
+            return;
+          }
+          
+          showNotification('Ingredient added successfully!', 'success');
+          reloadData(); // Reload to show the new ingredient
+        });
+    });
+  }
+
+  // Load initial data
+  await reloadData();
+}
