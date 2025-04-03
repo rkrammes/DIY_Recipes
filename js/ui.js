@@ -1,5 +1,6 @@
 // Import the Supabase client
 import { supabaseClient } from './supabaseClient.js';
+// Fixed import names to match api.js exports
 import { loadRecipes, loadAllIngredients } from './api.js';
 
 // Global variables
