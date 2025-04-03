@@ -788,7 +788,6 @@ export async function initUI() {
           await createNewRecipe(recipeName.trim());
           showNotification(`Recipe "${recipeName.trim()}" created!`, 'success');
           await reloadData();
-          showNotification(`Recipe "${recipeName.trim()}" created!`, 'success');
         } catch (error) {
           alert("Error creating recipe: " + error.message);
           console.error('Error creating recipe:', error);
