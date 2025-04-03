@@ -549,8 +549,9 @@ function createEditableIngredientRow(ingredientData) {
         const option = document.createElement('option');
         option.value = ing.id; // Use ID as value
         option.textContent = ing.name;
-        // Pre-select if the name matches the current ingredient's name
-        if (ingredientData.name && ing.name === ingredientData.name) {
+        // Pre-select if the ID matches the current ingredient's ID
+        // Ensure both IDs exist and are compared correctly (they might be numbers or strings)
+        if (ingredientData.id !== undefined && ing.id !== undefined && String(ing.id) === String(ingredientData.id)) {
           option.selected = true;
           defaultOption.disabled = false; // Allow re-selecting placeholder if needed
         }
