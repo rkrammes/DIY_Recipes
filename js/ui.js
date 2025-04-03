@@ -737,52 +737,6 @@ async function doCommitIteration(currentRecipe, iterationTable) {
     console.error('Error committing iteration:', err);
     showNotification(`Error committing iteration: ${err.message}`, 'error');
   }
-           value = input.options[input.selectedIndex].textContent;
-           ingredientName = value; // Store the name
-           isEmptyRow = false; // Selecting an ingredient makes the row non-empty
-        } else {
-            value = ''; // Treat placeholder as empty
-        }
-      } else if (input.tagName === 'INPUT' && value) {
-         // For regular inputs, check if they have a value
-         isEmptyRow = false;
-      }
-
-      // Store the value (name, quantity, unit, notes)
-      // For name, we store the text content fetched above
-      if (value) {
-          ingredient[field] = value;
-      }
-
-    });
-    if (!isEmptyRow) {
-      // Use the stored ingredientName for the check
-      if (!ingredientName) {
-        alert(`Ingredient in row ${i} is not selected.`);
-        return;
-      }
-      updatedIngredients.push(ingredient);
-    }
-  }
-
-  console.log("Updated ingredients data:", updatedIngredients);
-
-  try {
-    const newVersion = (currentRecipe.version || 0) + 1; // Ensure version exists, default to 0 if not
-    const { error } = await supabaseClient
-      .from('recipes')
-      .update({ ingredients: updatedIngredients, version: newVersion })
-      .eq('id', currentRecipe.id);
-
-    if (error) throw error;
-
-    showNotification('Iteration committed successfully!', 'success');
-    await reloadData();
-  } catch (err) {
-    console.error('Error committing iteration:', err);
-    showNotification(`Error committing iteration: ${err.message}`, 'error');
-  }
-}
 
 /**
  * Handles AI suggestion request (Placeholder).
