@@ -151,5 +151,6 @@ window.DIYRecipeApp = {
   renderIngredients,
   updateAuthButton,
   isEditMode,
-  reloadData
+  reloadData,
+  doCommitIteration // Ensure doCommitIteration is also exported
 };
