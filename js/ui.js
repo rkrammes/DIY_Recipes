@@ -782,14 +782,13 @@ export async function initUI() {
   const btnAddRecipe = document.getElementById('btnAddRecipe');
   if (btnAddRecipe) {
     btnAddRecipe.addEventListener('click', async () => {
-      alert("Add Recipe button clicked");
       const recipeName = prompt('Enter the name for the new recipe:');
       if (recipeName && recipeName.trim()) {
         try {
           await createNewRecipe(recipeName.trim());
           showNotification(`Recipe "${recipeName.trim()}" created!`, 'success');
           await reloadData();
-          alert("Recipe created successfully.");
+          showNotification(`Recipe "${recipeName.trim()}" created!`, 'success');
         } catch (error) {
           alert("Error creating recipe: " + error.message);
           console.error('Error creating recipe:', error);
