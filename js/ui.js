@@ -98,3 +98,58 @@ async function doCommitIteration(currentRecipe, iterationTable) {
     showNotification(`Error committing iteration: ${err.message}`, 'error');
   }
 }
+
+/**
+ * Initializes the UI components, sets up event listeners, and loads initial data.
+ */
+export async function initUI() {
+  console.log('Initializing UI...');
+  console.log('Initializing UI...');
+  console.log('initUI: setup started');
+
+  supabaseClient.auth.onAuthStateChange((event, session) => {
+    console.log('Auth state changed:', event, session);
+    const magicLinkForm = document.getElementById('magicLinkForm');
+
+    let loggedInStateChanged = false;
+    const previousIsLoggedIn = isLoggedIn;
+
+    if (event === 'SIGNED_IN') {
+      isLoggedIn = true;
+      console.log('User signed in.');
+      if (magicLinkForm) magicLinkForm.style.display = 'none';
+    } else if (event === 'SIGNED_OUT') {
+      isLoggedIn = false;
+      console.log('User signed out.');
+    }
+    if (event === 'INITIAL_SESSION') {
+      isLoggedIn = !!session;
+      console.log('Initial session processed. Logged in:', isLoggedIn);
+      // Explicitly update auth buttons after initial check, regardless of change
+      updateAuthButton();
+      setEditModeFields(); // Also ensure fields are set based on initial auth state
+    }
+
+    loggedInStateChanged = previousIsLoggedIn !== isLoggedIn;
+
+    // Update UI only if the state actually changed *after* the initial check
+    if (loggedInStateChanged && event !== 'INITIAL_SESSION') {
+      console.log('Login state changed, updating UI elements...');
+      updateAuthButton(); // Update the Log In/Log Out button
+      setEditModeFields(); // Update edit mode dependent fields
+      // Consider if reloadData() is needed here based on application logic
+      // reloadData();
+    }
+  });
+}
+
+// Expose necessary functions to global scope
+window.DIYRecipeApp = {
+  initUI,
+  showRecipeDetails,
+  renderRecipes,
+  renderIngredients,
+  updateAuthButton,
+  isEditMode,
+  reloadData
+};
