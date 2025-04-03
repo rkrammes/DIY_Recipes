@@ -59,6 +59,7 @@ export async function createNewRecipe(recipeName, ingredients) {
     console.log('createNewRecipe called with recipeName:', recipeName, 'ingredients:', ingredients);
     const recipeData = {
       title: recipeName, // Corrected column name from 'name' to 'title'
+      instructions: "" // Added default empty string to satisfy NOT NULL constraint
     };
     // Removed next_iteration, suggestions, and ingredients assignment
     // as these columns don't exist or are handled differently.
