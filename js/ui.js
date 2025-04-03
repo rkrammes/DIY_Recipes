@@ -522,9 +522,14 @@ export async function showRecipeDetails(recipe) {
  * Helper function to create a row for the editable ingredients table.
  */
 function createEditableIngredientRow(ingredientData) {
-  console.log('Creating editable row for:', JSON.stringify(ingredientData, null, 2));
+  console.log('--- Creating editable row ---');
+  console.log('Received ingredientData:', JSON.stringify(ingredientData, null, 2));
+  console.log('Available allIngredients:', JSON.stringify(allIngredients.map(i => ({id: i.id, name: i.name})), null, 2)); // Log available IDs/names
   const row = document.createElement('tr');
-  row.dataset.ingredientId = ingredientData.id || `new_${Date.now()}`;
+  // Use the ingredient's actual ID if available, otherwise generate a temporary one
+  const rowId = ingredientData.id !== undefined ? String(ingredientData.id) : `new_${Date.now()}`;
+  row.dataset.ingredientId = rowId;
+  console.log(`Set row.dataset.ingredientId to: ${rowId}`);
 
   const fields = ['name', 'quantity', 'unit', 'notes'];
   fields.forEach(field => {
@@ -550,10 +555,16 @@ function createEditableIngredientRow(ingredientData) {
         option.value = ing.id; // Use ID as value
         option.textContent = ing.name;
         // Pre-select if the ID matches the current ingredient's ID
-        // Ensure both IDs exist and are compared correctly (they might be numbers or strings)
-        if (ingredientData.id !== undefined && ing.id !== undefined && String(ing.id) === String(ingredientData.id)) {
+        const currentIngredientId = ingredientData.id !== undefined ? String(ingredientData.id) : null;
+        const optionIngredientId = ing.id !== undefined ? String(ing.id) : null;
+
+        // Log the comparison
+        // console.log(`Comparing: Option ID=${optionIngredientId} (${ing.name}) vs Current Data ID=${currentIngredientId} (${ingredientData.name || 'N/A'})`);
+
+        if (currentIngredientId !== null && optionIngredientId !== null && optionIngredientId === currentIngredientId) {
           option.selected = true;
           defaultOption.disabled = false; // Allow re-selecting placeholder if needed
+          console.log(`   MATCH FOUND! Selecting option: ID=${optionIngredientId}, Name=${ing.name}`);
         }
         select.appendChild(option);
       });
