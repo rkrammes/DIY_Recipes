@@ -348,10 +348,7 @@ body.light {
 /* Let light theme remove button inherit base gradient style */
 
 /* --- Dark Theme --- (Mostly handled by base styles) */
-body.dark {
-    /* Base styles use dark variables by default */
-    /* Add any specific .dark overrides here if needed */
-}
+/* body.dark ruleset removed as it was empty and base styles handle dark theme */
 /* Example: If dark buttons needed a non-gradient style */
 /*
 .dark .btn {
