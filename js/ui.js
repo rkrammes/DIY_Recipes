@@ -310,7 +310,6 @@ export async function showRecipeDetails(recipe) {
       .eq('recipe_id', recipe.id)
       .order('name', { foreignTable: 'ingredients' }); // Correct syntax for ordering by joined table column
       if (ingredientsData && Array.isArray(ingredientsData)) {
-        // Combine ingredient details with quantity/unit from the join table
         // Map the data, ensuring we have the actual ingredient ID clearly separated
         recipe.ingredients = ingredientsData.map(item => {
             // item is from recipeingredients table, item.ingredients is the joined data
@@ -619,12 +618,12 @@ function createEditableIngredientRow(ingredientData) {
   removeBtn.textContent = 'X';
   removeBtn.classList.add('btn', 'remove-iteration-ingredient-btn');
   removeBtn.style.padding = '4px 8px';
-  removeBtn.dataset.targetRowId = row.dataset.ingredientId;
+  removeBtn.dataset.targetRowId = row.dataset.ingredientId; // Use the actualIngredientId stored earlier
   removeBtn.addEventListener('click', (e) => {
     e.target.closest('tr').remove();
     const table = e.target.closest('table');
-    if (table && table.rows.length <= 1) {
-      const placeholderRow = table.insertRow();
+    if (table && table.rows.length <= 1) { // Check if only header row remains
+      const placeholderRow = table.insertRow(); // Add placeholder if table becomes empty
       const cell = placeholderRow.insertCell();
       cell.colSpan = 5;
       cell.textContent = 'No ingredients yet. Add one below!';
