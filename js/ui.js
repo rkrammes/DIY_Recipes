@@ -6,6 +6,7 @@ import { loadRecipes, loadAllIngredients, createNewRecipe, addGlobalIngredient }
 
 // Global login state
 let isLoggedIn = false;
+let allIngredients = []; // Store all available ingredients globally
 
 /**
  * Checks if edit mode is active.
@@ -530,18 +531,53 @@ function createEditableIngredientRow(ingredientData) {
     const cell = document.createElement('td');
     cell.style.border = '1px solid #444';
     cell.style.padding = '8px';
-    const input = document.createElement('input');
-    input.dataset.field = field;
-    input.placeholder = field.charAt(0).toUpperCase() + field.slice(1) + '?';
-    if (field === 'quantity' || field === 'unit') {
-      console.log(`Setting ${field} to:`, ingredientData[field]);
+
+    if (field === 'name') {
+      const select = document.createElement('select');
+      select.dataset.field = field;
+      select.style.width = '100%';
+
+      // Add a default placeholder option
+      const defaultOption = document.createElement('option');
+      defaultOption.value = '';
+      defaultOption.textContent = 'Select Ingredient...';
+      defaultOption.disabled = true; // Make it non-selectable unless it's the only option
+      select.appendChild(defaultOption);
+
+      // Populate with global ingredients
+      allIngredients.forEach(ing => {
+        const option = document.createElement('option');
+        option.value = ing.id; // Use ID as value
+        option.textContent = ing.name;
+        // Pre-select if the name matches the current ingredient's name
+        if (ingredientData.name && ing.name === ingredientData.name) {
+          option.selected = true;
+          defaultOption.disabled = false; // Allow re-selecting placeholder if needed
+        }
+        select.appendChild(option);
+      });
+
+       // If no ingredient was pre-selected, make the placeholder selected
+      if (!select.querySelector('option[selected]')) {
+        defaultOption.selected = true;
+      }
+
+
+      cell.appendChild(select);
+    } else {
+      // Handle other fields as before (quantity, unit, notes)
+      const input = document.createElement('input');
+      input.dataset.field = field;
+      input.placeholder = field.charAt(0).toUpperCase() + field.slice(1) + '?';
+      input.value = ingredientData[field] !== undefined ? ingredientData[field] : '';
+      input.style.width = '100%';
+      if (field === 'quantity') {
+        input.type = 'number';
+        input.min = '0'; // Optional: prevent negative quantities
+        input.step = 'any'; // Optional: allow decimals
+      }
+      cell.appendChild(input);
     }
-    input.value = ingredientData[field] !== undefined ? ingredientData[field] : '';
-    input.style.width = '100%';
-    if (field === 'quantity') {
-      input.type = 'number';
-    }
-    cell.appendChild(input);
     row.appendChild(cell);
   });
 
@@ -585,22 +621,46 @@ async function doCommitIteration(currentRecipe, iterationTable) {
   // Skip header row
   for (let i = 1; i < rows.length; i++) {
     const row = rows[i];
-    const inputs = row.querySelectorAll('input[data-field]');
+    const inputs = row.querySelectorAll('input[data-field], select[data-field]'); // Include select
     const ingredient = {
+      // Keep original ID if it exists, otherwise it's conceptually new for this iteration
+      // Note: This ID might be the *recipeingredient* ID if we were tracking that,
+      // but currently seems based on the ingredient's own ID or a temp ID.
+      // Let's keep the logic as is for now.
       id: row.dataset.ingredientId.startsWith('new_') ? undefined : row.dataset.ingredientId,
     };
     let isEmptyRow = true;
+    let ingredientName = ''; // To store the selected name
+
     inputs.forEach(input => {
       const field = input.dataset.field;
-      const value = input.value.trim();
-      if (value) {
-        ingredient[field] = value;
-        isEmptyRow = false;
+      let value = input.value.trim();
+
+      if (input.tagName === 'SELECT' && field === 'name') {
+        // Get name from selected option's text content
+        if (input.selectedIndex > 0) { // Ensure a valid ingredient is selected (not the placeholder)
+           value = input.options[input.selectedIndex].textContent;
+           ingredientName = value; // Store the name
+           isEmptyRow = false; // Selecting an ingredient makes the row non-empty
+        } else {
+            value = ''; // Treat placeholder as empty
+        }
+      } else if (input.tagName === 'INPUT' && value) {
+         // For regular inputs, check if they have a value
+         isEmptyRow = false;
       }
+
+      // Store the value (name, quantity, unit, notes)
+      // For name, we store the text content fetched above
+      if (value) {
+          ingredient[field] = value;
+      }
+
     });
     if (!isEmptyRow) {
-      if (!ingredient.name) {
-        alert(`Ingredient in row ${i} is missing a name.`);
+      // Use the stored ingredientName for the check
+      if (!ingredientName) {
+        alert(`Ingredient in row ${i} is not selected.`);
         return;
       }
       updatedIngredients.push(ingredient);
@@ -868,6 +928,7 @@ async function reloadData() {
     console.log('Recipes loaded in reloadData, about to render:', JSON.stringify(recipes)); // Added log
     renderRecipes(recipes);
     const ingredients = await loadAllIngredients();
+    allIngredients = ingredients; // Store globally
     renderIngredients(ingredients);
     console.log('Data reloaded successfully.');
   } catch (error) {
