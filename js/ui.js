@@ -880,7 +880,34 @@ async function reloadData() {
  * Shows a simple notification.
  */
 function showNotification(message, type) {
-  alert(`${type.toUpperCase()}: ${message}`);
+  const statusDiv = document.getElementById('statusMessages');
+  if (!statusDiv) {
+    console.error('Status message container not found!');
+    // Fallback to alert if the div isn't there for some reason
+    alert(`${type.toUpperCase()}: ${message}`);
+    return;
+  }
+
+  // Set message and style based on type
+  statusDiv.textContent = message;
+  statusDiv.className = `status-messages ${type}`; // Add type as a class (e.g., 'success', 'error') for styling
+
+  // Clear any existing timeout to prevent overlaps
+  if (statusDiv.timeoutId) {
+    clearTimeout(statusDiv.timeoutId);
+  }
+
+  // Make message visible
+  statusDiv.style.opacity = 1;
+  statusDiv.style.display = 'block'; // Ensure it's visible
+
+  // Set timeout to fade out after 3 seconds
+  statusDiv.timeoutId = setTimeout(() => {
+    statusDiv.style.opacity = 0;
+    // Optionally hide it completely after fade out
+    // setTimeout(() => { statusDiv.style.display = 'none'; }, 500); // 500ms matches typical transition duration
+    statusDiv.timeoutId = null; // Clear the stored timeout ID
+  }, 3000); // 3000 milliseconds = 3 seconds
 }
 
 // Expose necessary functions to global scope
