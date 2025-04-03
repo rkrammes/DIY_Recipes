@@ -483,17 +483,27 @@ export function createEditableIngredientRow(ingredientData) {
         // Log the comparison right before the check
         console.log(`  -> Comparing option ID: '${optionIngredientId}' (Type: ${typeof optionIngredientId}) with current data's ingredient_id: '${currentIngredientId}' (Type: ${typeof currentIngredientId})`);
 
+        // First try to match by ID
         if (currentIngredientId !== null && optionIngredientId !== null && optionIngredientId === currentIngredientId) {
-          option.selected = true;
+          option.setAttribute('selected', 'selected');
           defaultOption.disabled = false; // Allow re-selecting placeholder if needed
-          console.log(`     MATCH FOUND! Selecting option: ID=${optionIngredientId}, Name=${ing.name}`);
+          console.log(`     MATCH FOUND BY ID! Selecting option: ID=${optionIngredientId}, Name=${ing.name}`);
+        }
+        // If ID doesn't match, try to match by name
+        else if (ingredientData.name && ing.name && ingredientData.name === ing.name) {
+          option.setAttribute('selected', 'selected');
+          defaultOption.disabled = false;
+          console.log(`     MATCH FOUND BY NAME! Selecting option: ID=${optionIngredientId}, Name=${ing.name}`);
         }
         select.appendChild(option);
       });
 
-       // If no ingredient was pre-selected, make the placeholder selected
-      if (!select.querySelector('option[selected]')) {
-        defaultOption.selected = true;
+      // If no ingredient was pre-selected, make the placeholder selected
+      if (!select.querySelector('option[selected="selected"]')) {
+        defaultOption.setAttribute('selected', 'selected');
+      } else {
+        // Make sure the dropdown shows the selected value
+        select.value = select.querySelector('option[selected="selected"]').value;
       }
 
 
