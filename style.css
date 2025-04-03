@@ -223,6 +223,9 @@ select { /* Added select here */
   font-family: var(--font-family);
   outline: none;
   transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  appearance: none; /* Remove default browser styling */
+  -webkit-appearance: none; /* For Safari/Chrome */
+  -moz-appearance: none; /* For Firefox */
 }
 ::placeholder {
   color: var(--accent-orange);
