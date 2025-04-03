@@ -489,11 +489,20 @@ export function createEditableIngredientRow(ingredientData) {
           defaultOption.disabled = false; // Allow re-selecting placeholder if needed
           console.log(`     MATCH FOUND BY ID! Selecting option: ID=${optionIngredientId}, Name=${ing.name}`);
         }
-        // If ID doesn't match, try to match by name
-        else if (ingredientData.name && ing.name && ingredientData.name === ing.name) {
+        // If ID doesn't match, try to match by name (case-insensitive and trimmed)
+        else if (ingredientData.name && ing.name &&
+                 ingredientData.name.trim().toLowerCase() === ing.name.trim().toLowerCase()) {
           option.setAttribute('selected', 'selected');
           defaultOption.disabled = false;
           console.log(`     MATCH FOUND BY NAME! Selecting option: ID=${optionIngredientId}, Name=${ing.name}`);
+        }
+        // If name doesn't match exactly, try partial matching
+        else if (ingredientData.name && ing.name &&
+                 (ingredientData.name.trim().toLowerCase().includes(ing.name.trim().toLowerCase()) ||
+                  ing.name.trim().toLowerCase().includes(ingredientData.name.trim().toLowerCase()))) {
+          option.setAttribute('selected', 'selected');
+          defaultOption.disabled = false;
+          console.log(`     MATCH FOUND BY PARTIAL NAME! Selecting option: ID=${optionIngredientId}, Name=${ing.name}`);
         }
         select.appendChild(option);
       });
@@ -503,7 +512,13 @@ export function createEditableIngredientRow(ingredientData) {
         defaultOption.setAttribute('selected', 'selected');
       } else {
         // Make sure the dropdown shows the selected value
-        select.value = select.querySelector('option[selected="selected"]').value;
+        const selectedOption = select.querySelector('option[selected="selected"]');
+        if (selectedOption) {
+          select.value = selectedOption.value;
+          // Force a change event to ensure the UI updates
+          const event = new Event('change', { bubbles: true });
+          select.dispatchEvent(event);
+        }
       }
 
 
