@@ -263,7 +263,7 @@ export function renderIngredients(ingredients) {
 
     container.appendChild(div);
   });
-  setEditModeFields();
+  // setEditModeFields(); // Removed redundant call - already handled by toggle listener
 }
 
 /**
