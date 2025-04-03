@@ -558,13 +558,13 @@ function createEditableIngredientRow(ingredientData) {
         const currentIngredientId = ingredientData.id !== undefined ? String(ingredientData.id) : null;
         const optionIngredientId = ing.id !== undefined ? String(ing.id) : null;
 
-        // Log the comparison
-        // console.log(`Comparing: Option ID=${optionIngredientId} (${ing.name}) vs Current Data ID=${currentIngredientId} (${ingredientData.name || 'N/A'})`);
+        // Log the comparison right before the check
+        console.log(`  -> Comparing option ID: '${optionIngredientId}' (Type: ${typeof optionIngredientId}) with current data ID: '${currentIngredientId}' (Type: ${typeof currentIngredientId})`);
 
         if (currentIngredientId !== null && optionIngredientId !== null && optionIngredientId === currentIngredientId) {
           option.selected = true;
           defaultOption.disabled = false; // Allow re-selecting placeholder if needed
-          console.log(`   MATCH FOUND! Selecting option: ID=${optionIngredientId}, Name=${ing.name}`);
+          console.log(`     MATCH FOUND! Selecting option: ID=${optionIngredientId}, Name=${ing.name}`);
         }
         select.appendChild(option);
       });
