@@ -58,7 +58,7 @@ export async function createNewRecipe(recipeName, ingredients) {
   try {
     console.log('createNewRecipe called with recipeName:', recipeName, 'ingredients:', ingredients);
     const recipeData = {
-      name: recipeName,
+      title: recipeName, // Corrected column name from 'name' to 'title'
       next_iteration: "",
       suggestions: []
     };
