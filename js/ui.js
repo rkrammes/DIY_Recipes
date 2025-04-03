@@ -311,12 +311,23 @@ export async function showRecipeDetails(recipe) {
       .order('name', { foreignTable: 'ingredients' }); // Correct syntax for ordering by joined table column
       if (ingredientsData && Array.isArray(ingredientsData)) {
         // Combine ingredient details with quantity/unit from the join table
-        recipe.ingredients = ingredientsData.map(item => ({
-          ...item.ingredients, // Spread ingredient details (id, name, description)
-          quantity: item.quantity, // Add quantity from recipeingredients
-          unit: item.unit,         // Add unit from recipeingredients
-          notes: item.notes        // Add notes from recipeingredients (if exists)
-        }));
+        // Map the data, ensuring we have the actual ingredient ID clearly separated
+        recipe.ingredients = ingredientsData.map(item => {
+            // item is from recipeingredients table, item.ingredients is the joined data
+            if (!item.ingredients) {
+                console.warn(`Missing joined ingredient data for recipeingredients item ID: ${item.id}`);
+                return null; // Skip if join failed
+            }
+            return {
+              ingredient_id: item.ingredients.id, // The *actual* ingredient ID
+              name: item.ingredients.name,
+              description: item.ingredients.description,
+              quantity: item.quantity,
+              unit: item.unit,
+              notes: item.notes,
+              recipe_ingredient_id: item.id // The ID of the link row in recipeingredients
+            };
+        }).filter(item => item !== null); // Filter out any nulls from failed joins
       }
       if (ingredientsError) {
         console.error('Error fetching ingredients:', ingredientsError);
@@ -558,8 +569,12 @@ function createEditableIngredientRow(ingredientData) {
         const currentIngredientId = ingredientData.id !== undefined ? String(ingredientData.id) : null;
         const optionIngredientId = ing.id !== undefined ? String(ing.id) : null;
 
+        // Compare the option's ingredient ID with the ingredient_id from the row data
+        const currentIngredientId = ingredientData.ingredient_id !== undefined ? String(ingredientData.ingredient_id) : null;
+        const optionIngredientId = ing.id !== undefined ? String(ing.id) : null;
+
         // Log the comparison right before the check
-        console.log(`  -> Comparing option ID: '${optionIngredientId}' (Type: ${typeof optionIngredientId}) with current data ID: '${currentIngredientId}' (Type: ${typeof currentIngredientId})`);
+        console.log(`  -> Comparing option ID: '${optionIngredientId}' (Type: ${typeof optionIngredientId}) with current data's ingredient_id: '${currentIngredientId}' (Type: ${typeof currentIngredientId})`);
 
         if (currentIngredientId !== null && optionIngredientId !== null && optionIngredientId === currentIngredientId) {
           option.selected = true;
