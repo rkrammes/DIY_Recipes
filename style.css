@@ -209,9 +209,7 @@ aside.glass-panel {
 }
 
 /* Secondary Action Button (Inherits .btn styles) */
-.secondary-btn {
-  /* Can add specific overrides if needed */
-}
+/* .secondary-btn ruleset removed as it was empty */
 
 /* Input Fields (Dark Default) */
 input,
