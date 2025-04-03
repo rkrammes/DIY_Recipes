@@ -59,11 +59,9 @@ export async function createNewRecipe(recipeName, ingredients) {
     console.log('createNewRecipe called with recipeName:', recipeName, 'ingredients:', ingredients);
     const recipeData = {
       title: recipeName, // Corrected column name from 'name' to 'title'
-      next_iteration: "",
-      suggestions: []
     };
-
-    recipeData.ingredients = Array.isArray(ingredients) ? ingredients : [];
+    // Removed next_iteration, suggestions, and ingredients assignment
+    // as these columns don't exist or are handled differently.
 
     const { data, error } = await supabaseClient
       .from('recipes')
