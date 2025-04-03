@@ -1,6 +1,6 @@
 // Import the Supabase client
 import { supabaseClient } from './supabaseClient.js';
-import { fetchRecipes, fetchIngredients } from './api.js';
+import { loadRecipes, loadAllIngredients } from './api.js';
 
 // Global variables
 let isLoggedIn = false;
