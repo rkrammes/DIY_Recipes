@@ -1,6 +1,7 @@
 // Import the Supabase client
 import { supabaseClient } from './supabaseClient.js';
-// Fixed import names to match api.js exports
+// Fixed import names to match api.js exports - this fixes the SyntaxError
+// "Importing binding name 'fetchIngredients' is not found"
 import { loadRecipes, loadAllIngredients } from './api.js';
 
 // Global variables
