@@ -94,13 +94,16 @@ ChatGPT, please read each of these files by name and internalize their contents 
 12. **`CONTRIBUTING.md`**  
    - Guidelines for contributors (if retained).
 
-13. **`SESSION_CONTEXT.md`**  
-   - Helper doc for ChatGPT session context (if retained).
+13. **`SESSION_CONTEXT.md`**
+    - Helper doc for ChatGPT session context (if retained).
 
-14. **`Readme.md`** (any second or additional README in the repo)  
-   - Any extended or alternate README content.
+14. **`INGREDIENTS_TABLE_FIX.md`**
+    - Documentation of the ingredients table naming issue, its impact, and the implemented solution.
 
-15. **`env-2.example`**  
+15. **`Readme.md`** (any second or additional README in the repo)
+    - Any extended or alternate README content.
+
+16. **`env-2.example`**
    - Example environment variables file for local or production setups (if retained).
 
 (Feel free to add or remove items from this list as your final structure changes.)
