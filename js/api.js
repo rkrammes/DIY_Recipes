@@ -33,7 +33,7 @@ export async function loadRecipes() {
 export async function loadAllIngredients() {
   try {
     const { data, error } = await supabaseClient
-      .from('Ingredients')
+      .from('ingredients')
       .select('*')
       .order('name', { ascending: true });
     if (error) {
