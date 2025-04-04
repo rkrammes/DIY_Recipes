@@ -933,7 +933,7 @@ export async function initUI() {
 }
 
 // Simple notification function
-function showNotification(message, type = 'info') {
+window.showNotification = function(message, type = 'info') {
   const notification = document.createElement('div');
   notification.innerText = message;
 
