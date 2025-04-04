@@ -217,26 +217,41 @@ export function renderIngredients(ingredients) {
     // Create a container for the ingredient content
     const contentDiv = document.createElement('div');
     contentDiv.classList.add('ingredient-content');
+    contentDiv.style.display = 'flex';
+    contentDiv.style.flexDirection = 'column';
+    contentDiv.style.width = '100%';
+    
+    // Top row with name and quantity
+    const topRow = document.createElement('div');
+    topRow.style.display = 'flex';
+    topRow.style.justifyContent = 'space-between';
+    topRow.style.alignItems = 'center';
+    topRow.style.width = '100%';
     
     // Add ingredient name
     const nameDiv = document.createElement('div');
     nameDiv.classList.add('ingredient-name');
     nameDiv.textContent = ingredient.name;
-    contentDiv.appendChild(nameDiv);
+    nameDiv.style.fontWeight = 'bold';
+    topRow.appendChild(nameDiv);
     
     // Add quantity and unit if available
     if (ingredient.quantity || ingredient.unit) {
       const quantityDiv = document.createElement('div');
       quantityDiv.classList.add('ingredient-quantity');
       quantityDiv.textContent = `${ingredient.quantity || ''} ${ingredient.unit || ''}`.trim();
-      contentDiv.appendChild(quantityDiv);
+      topRow.appendChild(quantityDiv);
     }
+    
+    contentDiv.appendChild(topRow);
     
     // Add ingredient description if available
     if (ingredient.description) {
       const descDiv = document.createElement('div');
       descDiv.classList.add('ingredient-description');
       descDiv.textContent = ingredient.description;
+      descDiv.style.fontSize = '0.9em';
+      descDiv.style.marginTop = '3px';
       contentDiv.appendChild(descDiv);
     }
     
@@ -245,13 +260,16 @@ export function renderIngredients(ingredients) {
       const notesDiv = document.createElement('div');
       notesDiv.classList.add('ingredient-notes');
       notesDiv.textContent = `Note: ${ingredient.notes}`;
+      notesDiv.style.fontStyle = 'italic';
+      notesDiv.style.fontSize = '0.9em';
+      notesDiv.style.marginTop = '3px';
       contentDiv.appendChild(notesDiv);
     }
     
     // Add action buttons container
     const actionsDiv = document.createElement('div');
     actionsDiv.classList.add('ingredient-actions');
-    actionsDiv.style.marginTop = '5px';
+    actionsDiv.style.marginTop = '8px';
     actionsDiv.style.display = 'flex';
     actionsDiv.style.gap = '5px';
     
@@ -261,6 +279,8 @@ export function renderIngredients(ingredients) {
     copyBtn.classList.add('btn', 'btn-small');
     copyBtn.style.fontSize = '12px';
     copyBtn.style.padding = '2px 5px';
+    copyBtn.style.height = 'auto';
+    copyBtn.style.minHeight = 'unset';
     copyBtn.addEventListener('click', (e) => {
       e.stopPropagation(); // Prevent event bubbling
       console.log('Copy to Iteration clicked for ingredient:', ingredient.name);
@@ -291,6 +311,8 @@ export function renderIngredients(ingredients) {
     editBtn.classList.add('btn', 'btn-small');
     editBtn.style.fontSize = '12px';
     editBtn.style.padding = '2px 5px';
+    editBtn.style.height = 'auto';
+    editBtn.style.minHeight = 'unset';
     editBtn.addEventListener('click', (e) => {
       e.stopPropagation(); // Prevent event bubbling
       console.log('Edit clicked for ingredient:', ingredient.name);
@@ -348,6 +370,12 @@ export function renderIngredients(ingredients) {
     
     // Make the entire ingredient item clickable
     li.style.cursor = 'pointer';
+    li.style.padding = '8px';
+    li.style.marginBottom = '8px';
+    li.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+    li.style.borderRadius = '4px';
+    li.style.transition = 'all 0.2s ease';
+    
     li.addEventListener('click', () => {
       console.log('Ingredient clicked:', ingredient.name);
       // Toggle a selected class
