@@ -217,79 +217,63 @@ export async function showRecipeDetails(recipe) {
       .select('*, ingredients(*)')
       .eq('recipe_id', recipe.id)
       .order('name', { foreignTable: 'ingredients' }); // Correct syntax for ordering by joined table column
-      if (ingredientsData && Array.isArray(ingredientsData)) {
-        // Map the data, ensuring we have the actual ingredient ID clearly separated
-        recipe.ingredients = ingredientsData.map(item => {
-            // item is from recipeingredients table, item.ingredients is the joined data
-            if (!item.ingredients) {
-                console.warn(`Missing joined ingredient data for recipeingredients item ID: ${item.id}`);
-                return null; // Skip if join failed
-            }
-            return {
-              ingredient_id: item.ingredients.id, // The *actual* ingredient ID
-              name: item.ingredients.name,
-              description: item.ingredients.description,
-              quantity: item.quantity,
-              unit: item.unit,
-              notes: item.notes,
-              recipe_ingredient_id: item.id // The ID of the link row in recipeingredients
-            };
-        }).filter(item => item !== null); // Filter out any nulls from failed joins
-      }
-      if (ingredientsError) {
-        console.error('Error fetching ingredients:', ingredientsError);
-      }
-    
-    // Display recipe details
-    // Build the ingredients list HTML
-    let ingredientsHtml = ''; // Removed h4 title
-    if (recipe.ingredients && recipe.ingredients.length > 0) {
-      ingredientsHtml += '<ul>';
-      recipe.ingredients.forEach(ing => {
-        ingredientsHtml += `<li>${ing.name} (${ing.quantity} ${ing.unit || ''}) ${ing.notes ? '- ' + ing.notes : ''}</li>`; // Added notes display
-      });
-      ingredientsHtml += '</ul>';
-    } else {
-      ingredientsHtml += '<p>No ingredients provided</p>';
+    if (ingredientsData && Array.isArray(ingredientsData)) {
+      // Map the data, ensuring we have the actual ingredient ID clearly separated
+      recipe.ingredients = ingredientsData.map(item => {
+        if (!item.ingredients) {
+          console.warn(`Missing joined ingredient data for recipeingredients item ID: ${item.id}`);
+          return null; // Skip if join failed
+        }
+        return {
+          ingredient_id: item.ingredients.id,
+          name: item.ingredients.name,
+          description: item.ingredients.description,
+          quantity: item.quantity,
+          unit: item.unit,
+          notes: item.notes,
+          recipe_ingredient_id: item.id
+        };
+      }).filter(item => item !== null);
+    }
+    if (ingredientsError) {
+      console.error('Error fetching ingredients:', ingredientsError);
     }
 
-    // Set the innerHTML with the new order and formatting
-    // Add margin to the ingredients list if it exists
-    if (recipe.ingredients && recipe.ingredients.length > 0) {
-        ingredientsHtml = ingredientsHtml.replace('<ul>','<ul style="margin-bottom: var(--spacing-medium); padding-left: 20px;">'); // Add margin and padding
-    }
-
-    // Set the innerHTML with the new order and formatting, removing labels
     // Create container for top content
     const topContentDiv = document.createElement('div');
     topContentDiv.innerHTML = `<h3>${recipe.title}</h3>
-                             <p style="margin-bottom: var(--spacing-medium);">${recipe.description || 'No description provided'}</p>
-                             ${ingredientsHtml}`;
-    currentDiv.appendChild(topContentDiv); // Add top content
+                               <p style="margin-bottom: var(--spacing-medium);">${recipe.description || 'No description provided'}</p>`;
+    currentDiv.appendChild(topContentDiv);
+
+    // Add dedicated UL for current recipe ingredients
+    const currentIngredientsList = document.createElement('ul');
+    currentIngredientsList.id = 'currentRecipeIngredients';
+    currentIngredientsList.style.marginBottom = 'var(--spacing-medium)';
+    currentIngredientsList.style.paddingLeft = '20px';
+    currentDiv.appendChild(currentIngredientsList);
+
+    // Render current recipe ingredients
+    renderIngredients(recipe.ingredients || []);
 
     // Create container for bottom content (instructions + button)
     const bottomContentDiv = document.createElement('div');
-    bottomContentDiv.style.marginTop = 'auto'; // Pushes this div down in flex container
-    bottomContentDiv.style.textAlign = 'center'; // Center the button
+    bottomContentDiv.style.marginTop = 'auto';
+    bottomContentDiv.style.textAlign = 'center';
 
-    // Add instructions to bottom container
     const instructionsP = document.createElement('p');
     instructionsP.innerHTML = recipe.instructions || 'No instructions provided';
-    instructionsP.style.marginBottom = 'var(--spacing-medium)'; // Space between instructions and button
+    instructionsP.style.marginBottom = 'var(--spacing-medium)';
     bottomContentDiv.appendChild(instructionsP);
 
-    // Create and configure the remove button INSIDE the try block
     const removeRecipeBtn = document.createElement('button');
     removeRecipeBtn.id = 'removeRecipeBtn';
     removeRecipeBtn.classList.add('remove-recipe-btn', 'btn');
     removeRecipeBtn.textContent = 'Remove This Recipe';
-    // removeRecipeBtn.style.marginTop = 'var(--spacing-medium)'; // Margin-top no longer needed
     removeRecipeBtn.addEventListener('click', async (e) => {
       e.stopPropagation();
       const confirmed = confirm(`Permanently remove recipe "${recipe.title}"? This cannot be undone.`);
       if (confirmed) {
         try {
-          // Use the correct 'details' variable from the outer scope
           const details = document.getElementById('recipeDetails');
           const { error } = await supabaseClient
             .from('recipes')
@@ -297,8 +281,8 @@ export async function showRecipeDetails(recipe) {
             .eq('id', recipe.id);
           if (error) throw error;
           showNotification('Recipe removed successfully.', 'success');
-          if (details) details.style.display = 'none'; // Hide details view
-          await reloadData(); // Reload recipe list
+          if (details) details.style.display = 'none';
+          await reloadData();
         } catch (err) {
           console.error('Error removing recipe:', err);
           showNotification(`Error removing recipe: ${err.message}`, 'error');
@@ -306,10 +290,7 @@ export async function showRecipeDetails(recipe) {
       }
     });
 
-    // Append button to the bottom container
     bottomContentDiv.appendChild(removeRecipeBtn);
-
-    // Append the bottom container to the main currentDiv
     currentDiv.appendChild(bottomContentDiv);
   } catch (error) {
     console.error('Error in showRecipeDetails:', error);
