@@ -335,6 +335,12 @@ export async function showRecipeDetails(recipe) {
                                <p style="margin-bottom: var(--spacing-medium);">${recipe.description || 'No description provided'}</p>`;
     currentDiv.appendChild(topContentDiv);
 
+    // Create a heading for ingredients
+    const ingredientsHeading = document.createElement('h4');
+    ingredientsHeading.textContent = 'Ingredients:';
+    ingredientsHeading.style.marginBottom = 'var(--spacing-small)';
+    currentDiv.appendChild(ingredientsHeading);
+
     // Add dedicated UL for current recipe ingredients
     const currentIngredientsList = document.createElement('ul');
     currentIngredientsList.id = 'currentRecipeIngredients';
@@ -342,14 +348,17 @@ export async function showRecipeDetails(recipe) {
     currentIngredientsList.style.paddingLeft = '20px';
     currentDiv.appendChild(currentIngredientsList);
 
-    // Log ingredients before rendering
-    console.log('About to render ingredients for recipe:', recipe.id);
-    console.log('Final ingredients data to render:', JSON.stringify(recipe.ingredients || []));
-    
-    // Render current recipe ingredients
-    console.log('Calling renderIngredients with ingredients array');
-    renderIngredients(recipe.ingredients || []);
-    console.log('Returned from renderIngredients call');
+    // Force DOM update before rendering ingredients
+    setTimeout(() => {
+      // Log ingredients before rendering
+      console.log('About to render ingredients for recipe:', recipe.id);
+      console.log('Final ingredients data to render:', JSON.stringify(recipe.ingredients || []));
+      
+      // Render current recipe ingredients
+      console.log('Calling renderIngredients with ingredients array');
+      renderIngredients(recipe.ingredients || []);
+      console.log('Returned from renderIngredients call');
+    }, 0);
 
     // Create container for bottom content (instructions + button)
     const bottomContentDiv = document.createElement('div');
