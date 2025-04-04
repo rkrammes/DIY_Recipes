@@ -2,7 +2,7 @@
 import { supabaseClient } from './supabaseClient.js';
 // Fixed import names to match api.js exports - this fixes the SyntaxError
 // "Importing binding name 'fetchIngredients' is not found"
-import { loadRecipes, loadAllIngredients } from './api.js';
+import { loadRecipes, loadAllIngredients, updateRecipeIngredients } from './api.js';
 
 // Global variables
 let isLoggedIn = false;
@@ -644,31 +644,27 @@ export async function doCommitIteration(currentRecipe, iterationTable) {
   console.log("Final updated ingredients data to commit:", updatedIngredients);
 
   try {
-    const newVersion = (currentRecipe.version || 0) + 1; // Ensure version exists, default to 0 if not
-    // IMPORTANT: This assumes the 'recipes.ingredients' column is JSONB and
-    // expects an array of objects like [{id: 'ing_uuid', name: '...', quantity: ..., unit: ..., notes: ...}]
-    // The 'id' here MUST be the actual Ingredient ID.
-    const { error } = await supabaseClient
-      .from('recipes')
-      .update({
-          ingredients: updatedIngredients, // Send the structured list
-          version: newVersion
-       })
-      .eq('id', currentRecipe.id);
-
-    if (error) throw error;
-
-    showNotification('Iteration committed successfully!', 'success');
-    await reloadData(); // Reload to show the updated recipe list/details
-    // Optionally, re-show the details for the *just updated* recipe
-    // This requires fetching the updated recipe data again
-    // const updatedRecipeData = await fetchRecipeById(currentRecipe.id); // Assuming such a function exists in api.js
-    // if (updatedRecipeData) showRecipeDetails(updatedRecipeData);
-
-  } catch (err) {
-    console.error('Error committing iteration:', err);
-    showNotification(`Error committing iteration: ${err.message}`, 'error');
-  }
+      const newVersion = (currentRecipe.version || 0) + 1;
+  
+      // 1. Update the recipe version only
+      const { error: recipeUpdateError } = await supabaseClient
+        .from('recipes')
+        .update({ version: newVersion })
+        .eq('id', currentRecipe.id);
+  
+      if (recipeUpdateError) throw recipeUpdateError;
+  
+      // 2. Update the recipeingredients join table
+      const success = await updateRecipeIngredients(currentRecipe.id, updatedIngredients);
+      if (!success) throw new Error('Failed to update recipe ingredients');
+  
+      showNotification('Iteration committed successfully!', 'success');
+      await reloadData();
+  
+    } catch (err) {
+      console.error('Error committing iteration:', err);
+      showNotification(`Error committing iteration: ${err.message}`, 'error');
+    }
 }
 
 /**
@@ -934,4 +930,37 @@ export async function initUI() {
 
   // Load initial data
   await reloadData();
+}
+
+// Simple notification function
+function showNotification(message, type = 'info') {
+  const notification = document.createElement('div');
+  notification.innerText = message;
+
+  // Basic styles
+  notification.style.position = 'fixed';
+  notification.style.bottom = '20px';
+  notification.style.right = '20px';
+  notification.style.padding = '10px 15px';
+  notification.style.borderRadius = '5px';
+  notification.style.color = '#fff';
+  notification.style.fontSize = '14px';
+  notification.style.zIndex = 1000;
+  notification.style.opacity = '0.95';
+
+  // Color based on type
+  if (type === 'success') {
+    notification.style.backgroundColor = '#4CAF50';
+  } else if (type === 'error') {
+    notification.style.backgroundColor = '#f44336';
+  } else {
+    notification.style.backgroundColor = '#2196F3';
+  }
+
+  document.body.appendChild(notification);
+
+  // Remove after 3 seconds
+  setTimeout(() => {
+    notification.remove();
+  }, 3000);
 }

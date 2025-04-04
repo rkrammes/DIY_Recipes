@@ -83,31 +83,7 @@ export async function createNewRecipe(recipeName, ingredients) {
   }
 }
 
-/**
- * Adds a new ingredient to an existing recipe.
- * @param {object} recipe - The recipe object to update.
- * @param {object} ingredient - The ingredient object to add.
- * @returns {object} The updated recipe object.
- */
-export async function addNewIngredientToRecipe(recipe, ingredient) {
-  try {
-    if (!recipe.ingredients) recipe.ingredients = [];
-    console.log('Adding ingredient:', ingredient); // Log the ingredient being added
-    recipe.ingredients.push(ingredient);
-    const { error } = await supabaseClient
-      .from('recipes') // Corrected table name
-      .update({ ingredients: recipe.ingredients })
-      .eq('id', recipe.id);
-    if (error) {
-      console.error('Error adding ingredient to recipe:', error);
-      throw error;
-    }
-    return recipe;
-  } catch (error) {
-    console.error('Error in addNewIngredientToRecipe:', error);
-    throw error;
-  }
-}
+// Removed obsolete addNewIngredientToRecipe function
 
 /**
  * Adds a new global ingredient to the Ingredients table.
@@ -131,29 +107,7 @@ export async function addGlobalIngredient(newIngredientName) {
   }
 }
 
-/**
- * Removes an ingredient from a recipe.
- * @param {object} recipe - The recipe object to update.
- * @param {number} ingredientIndex - The index of the ingredient to remove.
- * @returns {object} The updated recipe object.
- */
-export async function removeIngredientFromRecipe(recipe, ingredientIndex) {
-  try {
-    recipe.ingredients.splice(ingredientIndex, 1);
-    const { error } = await supabaseClient
-      .from('recipes')
-      .update({ ingredients: recipe.ingredients })
-      .eq('id', recipe.id);
-    if (error) {
-      console.error('Error removing ingredient from recipe:', error);
-      throw error;
-    }
-    return recipe;
-  } catch (error) {
-    console.error('Error in removeIngredientFromRecipe:', error);
-    throw error;
-  }
-}
+// Removed obsolete removeIngredientFromRecipe function
 
 /**
  * Removes a global ingredient from the Ingredients table.
@@ -176,6 +130,61 @@ export async function removeGlobalIngredient(ingredientId) {
     throw error;
   }
 }
+/**
+ * Updates the ingredients for a specific recipe in the recipeingredients table.
+ * Deletes existing entries and inserts new ones based on the provided list.
+ * @param {string} recipeId - The UUID of the recipe to update.
+ * @param {Array<object>} ingredients - Array of ingredient objects, each needing { id, quantity, unit, notes }. 'id' is the ingredient_id.
+ * @returns {Promise<boolean>} True if successful, false otherwise.
+ */
+export async function updateRecipeIngredients(recipeId, ingredients) {
+  console.log(`Updating ingredients for recipe ${recipeId}:`, ingredients);
+  try {
+    // Step 1: Delete existing ingredients for this recipe
+    const { error: deleteError } = await supabaseClient
+      .from('recipeingredients')
+      .delete()
+      .eq('recipe_id', recipeId);
+
+    if (deleteError) {
+      console.error('Error deleting old ingredients:', deleteError);
+      throw deleteError; // Re-throw to be caught by the outer catch block
+    }
+    console.log(`Successfully deleted old ingredients for recipe ${recipeId}`);
+
+    // Step 2: Insert new ingredients if there are any
+    if (ingredients && ingredients.length > 0) {
+      const ingredientsToInsert = ingredients.map(ing => ({
+        recipe_id: recipeId,
+        ingredient_id: ing.id, // The 'id' from the UI data is the ingredient_id
+        quantity: ing.quantity,
+        unit: ing.unit,
+        notes: ing.notes
+      }));
+
+      console.log(`Inserting new ingredients for recipe ${recipeId}:`, ingredientsToInsert);
+      const { error: insertError } = await supabaseClient
+        .from('recipeingredients')
+        .insert(ingredientsToInsert);
+
+      if (insertError) {
+        console.error('Error inserting new ingredients:', insertError);
+        throw insertError; // Re-throw
+      }
+      console.log(`Successfully inserted ${ingredientsToInsert.length} new ingredients for recipe ${recipeId}`);
+    } else {
+      console.log(`No new ingredients to insert for recipe ${recipeId}.`);
+    }
+
+    return true; // Indicate success
+  } catch (error) {
+    console.error(`Error in updateRecipeIngredients for recipe ${recipeId}:`, error);
+    // Consider how to handle partial failures (e.g., delete succeeded, insert failed)
+    // For now, just return false to indicate the overall operation failed.
+    return false; // Indicate failure
+  }
+}
+
 
 /**
  * Parses CSV data using Papa Parse.
