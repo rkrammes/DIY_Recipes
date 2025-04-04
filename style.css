@@ -398,27 +398,97 @@ body.light {
   padding: 2px 5px !important;
   min-height: unset !important;
   height: auto !important;
+  line-height: 1.2 !important;
+  margin: 0 !important;
 }
 
 /* Ingredient item hover and selected states */
 .ingredient-item {
-  transition: background-color 0.2s, border-left 0.2s;
+  transition: all 0.2s ease;
   border-left: 3px solid transparent;
-  padding-left: 5px;
+  padding: 8px !important;
+  margin-bottom: 8px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 4px !important;
+  background-color: rgba(0, 0, 0, 0.2) !important;
+  display: block !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  -webkit-background-clip: initial !important;
+  background-clip: initial !important;
+  -webkit-text-fill-color: initial !important;
+  color: var(--text) !important;
 }
 
 .ingredient-item:hover {
-  background-color: rgba(0, 123, 255, 0.05);
+  background-color: rgba(0, 123, 255, 0.1) !important;
+  border-color: rgba(0, 123, 255, 0.3) !important;
 }
 
 .ingredient-item.selected {
-  background-color: rgba(0, 123, 255, 0.1);
-  border-left: 3px solid #007bff;
+  background-color: rgba(0, 123, 255, 0.15) !important;
+  border-left: 3px solid #007bff !important;
+}
+
+/* Ingredient content styling */
+.ingredient-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.ingredient-name {
+  font-weight: bold;
+  color: var(--accent-orange);
+  -webkit-text-fill-color: var(--accent-orange);
+}
+
+.ingredient-quantity {
+  color: var(--text);
+  -webkit-text-fill-color: var(--text);
+}
+
+.ingredient-description {
+  font-size: 0.9em;
+  margin-top: 3px;
+  color: var(--muted-text);
+  -webkit-text-fill-color: var(--muted-text);
+}
+
+.ingredient-notes {
+  font-style: italic;
+  font-size: 0.9em;
+  margin-top: 3px;
+  color: var(--muted-text);
+  -webkit-text-fill-color: var(--muted-text);
 }
 
 /* Ingredient actions container */
 .ingredient-actions {
-  margin-top: 5px;
+  margin-top: 8px;
   display: flex;
   gap: 5px;
+}
+
+/* Light theme overrides for ingredients */
+.light .ingredient-item {
+  background-color: rgba(240, 240, 240, 0.8) !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  color: #1A1A1A !important;
+}
+
+.light .ingredient-name {
+  color: var(--accent-orange);
+  -webkit-text-fill-color: var(--accent-orange);
+}
+
+.light .ingredient-quantity {
+  color: #1A1A1A;
+  -webkit-text-fill-color: #1A1A1A;
+}
+
+.light .ingredient-description,
+.light .ingredient-notes {
+  color: #555555;
+  -webkit-text-fill-color: #555555;
 }
