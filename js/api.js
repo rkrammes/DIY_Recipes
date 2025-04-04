@@ -35,7 +35,8 @@ export async function loadAllIngredients() {
     const { data, error } = await supabaseClient
       .from('ingredients')
       .select('*')
-      .order('name', { ascending: true });
+      .order('name', { ascending: true })
+      .limit(1000); // Explicitly set limit to fetch all ingredients
     if (error) {
       console.error('Error loading ingredients:', error);
       return [];
