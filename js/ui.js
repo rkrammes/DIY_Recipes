@@ -177,8 +177,14 @@ export function renderRecipes(recipes) {
  * Renders the ingredients list in the UI.
  */
 export function renderIngredients(ingredients) {
+  console.log('renderIngredients called with:', ingredients);
   const ingredientList = document.getElementById('currentRecipeIngredients');
-  if (!ingredientList) return;
+  if (!ingredientList) {
+    console.error('renderIngredients: Could not find element with ID "currentRecipeIngredients"');
+    return;
+  }
+
+  console.log('Found ingredientList element:', ingredientList);
 
   // Clear existing list
   ingredientList.innerHTML = '';
@@ -187,6 +193,8 @@ export function renderIngredients(ingredients) {
   const sortedIngredients = [...ingredients].sort((a, b) => {
     return a.name.localeCompare(b.name);
   });
+
+  console.log('Sorted ingredients for rendering:', sortedIngredients);
 
   // Create list items
   sortedIngredients.forEach(ingredient => {
@@ -215,6 +223,8 @@ export function renderIngredients(ingredients) {
     li.appendChild(contentDiv);
     ingredientList.appendChild(li);
   });
+  
+  console.log('Finished rendering ingredients, count:', sortedIngredients.length);
 }
 
 /**
@@ -286,6 +296,10 @@ export async function showRecipeDetails(recipe) {
     currentIngredientsList.style.paddingLeft = '20px';
     currentDiv.appendChild(currentIngredientsList);
 
+    // Log ingredients before rendering
+    console.log('About to render ingredients for recipe:', recipe.id);
+    console.log('Ingredients data:', recipe.ingredients || []);
+    
     // Render current recipe ingredients
     renderIngredients(recipe.ingredients || []);
 
