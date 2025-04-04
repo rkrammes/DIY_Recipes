@@ -603,10 +603,13 @@ export function createEditableIngredientRow(ingredientData) {
  * Commits the new iteration data from the editable table.
  */
 export async function doCommitIteration(currentRecipe, iterationTable) {
-  console.log("Commit button clicked. Recipe:", currentRecipe);
+  console.log("Commit button clicked. Recipe ID:", currentRecipe.id);
+  console.log("Recipe data:", JSON.stringify(currentRecipe, null, 2));
+  console.log("Iteration table found:", !!iterationTable);
 
   const updatedIngredients = [];
   const rows = iterationTable.querySelectorAll('tr');
+  console.log(`Found ${rows.length} rows in iteration table (including header)`);
   let commitError = null; // Flag to store potential errors during row processing
 
   // Skip header row
