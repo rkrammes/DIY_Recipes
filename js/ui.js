@@ -177,7 +177,7 @@ export function renderRecipes(recipes) {
  * Renders the ingredients list in the UI.
  */
 export function renderIngredients(ingredients) {
-  const ingredientList = document.getElementById('ingredientList');
+  const ingredientList = document.getElementById('currentRecipeIngredients');
   if (!ingredientList) return;
 
   // Clear existing list
