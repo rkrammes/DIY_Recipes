@@ -248,6 +248,119 @@ export function renderIngredients(ingredients) {
       contentDiv.appendChild(notesDiv);
     }
     
+    // Add action buttons container
+    const actionsDiv = document.createElement('div');
+    actionsDiv.classList.add('ingredient-actions');
+    actionsDiv.style.marginTop = '5px';
+    actionsDiv.style.display = 'flex';
+    actionsDiv.style.gap = '5px';
+    
+    // Add "Copy to Iteration" button
+    const copyBtn = document.createElement('button');
+    copyBtn.textContent = 'Copy to Iteration';
+    copyBtn.classList.add('btn', 'btn-small');
+    copyBtn.style.fontSize = '12px';
+    copyBtn.style.padding = '2px 5px';
+    copyBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent event bubbling
+      console.log('Copy to Iteration clicked for ingredient:', ingredient.name);
+      
+      // Find the iteration table
+      const iterationTable = document.getElementById('iterationEditTable');
+      if (!iterationTable) {
+        console.error('Iteration table not found');
+        showNotification('Could not find iteration table', 'error');
+        return;
+      }
+      
+      // Remove placeholder row if it exists
+      const placeholder = iterationTable.querySelector('td[colspan="5"]');
+      if (placeholder) placeholder.parentElement.remove();
+      
+      // Create a new row with this ingredient's data
+      const newRow = createEditableIngredientRow(ingredient);
+      iterationTable.appendChild(newRow);
+      
+      showNotification(`Added ${ingredient.name} to iteration`, 'success');
+    });
+    actionsDiv.appendChild(copyBtn);
+    
+    // Add "Edit" button
+    const editBtn = document.createElement('button');
+    editBtn.textContent = 'Edit';
+    editBtn.classList.add('btn', 'btn-small');
+    editBtn.style.fontSize = '12px';
+    editBtn.style.padding = '2px 5px';
+    editBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent event bubbling
+      console.log('Edit clicked for ingredient:', ingredient.name);
+      
+      // Toggle edit mode if not already on
+      const editModeBtn = document.getElementById('btnEditModeToggle');
+      if (editModeBtn && editModeBtn.dataset.active !== 'true' && isLoggedIn) {
+        editModeBtn.click();
+        showNotification('Edit mode enabled', 'info');
+      }
+      
+      // Find the ingredient in the iteration table or add it if not present
+      const iterationTable = document.getElementById('iterationEditTable');
+      if (!iterationTable) {
+        console.error('Iteration table not found');
+        showNotification('Could not find iteration table', 'error');
+        return;
+      }
+      
+      // Check if this ingredient is already in the iteration table
+      let found = false;
+      const rows = iterationTable.querySelectorAll('tr');
+      for (let i = 1; i < rows.length; i++) { // Skip header row
+        const row = rows[i];
+        if (row.dataset.ingredientId === li.dataset.id) {
+          // Highlight the row
+          row.style.backgroundColor = 'rgba(255, 255, 0, 0.2)';
+          setTimeout(() => {
+            row.style.backgroundColor = '';
+          }, 2000);
+          found = true;
+          break;
+        }
+      }
+      
+      if (!found) {
+        // Remove placeholder row if it exists
+        const placeholder = iterationTable.querySelector('td[colspan="5"]');
+        if (placeholder) placeholder.parentElement.remove();
+        
+        // Add the ingredient to the iteration table
+        const newRow = createEditableIngredientRow(ingredient);
+        iterationTable.appendChild(newRow);
+        
+        // Highlight the new row
+        newRow.style.backgroundColor = 'rgba(255, 255, 0, 0.2)';
+        setTimeout(() => {
+          newRow.style.backgroundColor = '';
+        }, 2000);
+      }
+    });
+    actionsDiv.appendChild(editBtn);
+    
+    contentDiv.appendChild(actionsDiv);
+    
+    // Make the entire ingredient item clickable
+    li.style.cursor = 'pointer';
+    li.addEventListener('click', () => {
+      console.log('Ingredient clicked:', ingredient.name);
+      // Toggle a selected class
+      li.classList.toggle('selected');
+      if (li.classList.contains('selected')) {
+        li.style.backgroundColor = 'rgba(0, 123, 255, 0.1)';
+        li.style.borderLeft = '3px solid #007bff';
+      } else {
+        li.style.backgroundColor = '';
+        li.style.borderLeft = '';
+      }
+    });
+    
     li.appendChild(contentDiv);
     ingredientList.appendChild(li);
   });
