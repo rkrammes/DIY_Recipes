@@ -1,4 +1,4 @@
-.// migrateIngredients.js
+// migrateIngredients.js
 import { supabaseClient } from './js/supabaseClient.js';
 import { loadAllIngredients, addGlobalIngredient } from './js/api.js';
 
@@ -117,13 +117,5 @@ async function migrateIngredients() {
   return migrationResults;
 }
 
-// If this script is run directly (not imported), execute the migration
-if (import.meta.url === document.currentScript?.src) {
-  migrateIngredients()
-    .then(results => {
-      console.log('Migration completed!');
-    })
-    .catch(error => {
-      console.error('Migration failed:', error);
-    });
-}
+// We'll use the HTML interface to run the migration
+// This prevents automatic execution when imported
