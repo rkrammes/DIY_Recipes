@@ -218,7 +218,6 @@ export async function showRecipeDetails(recipe) {
       .eq('recipe_id', recipe.id)
       .order('name', { foreignTable: 'ingredients' }); // Correct syntax for ordering by joined table column
       if (ingredientsData && Array.isArray(ingredientsData)) {
-        console.log('showRecipeDetails: Raw ingredientsData from Supabase join:', JSON.stringify(ingredientsData, null, 2)); // Added log for raw data
         // Map the data, ensuring we have the actual ingredient ID clearly separated
         recipe.ingredients = ingredientsData.map(item => {
             // item is from recipeingredients table, item.ingredients is the joined data
@@ -235,7 +234,6 @@ export async function showRecipeDetails(recipe) {
               notes: item.notes,
               recipe_ingredient_id: item.id // The ID of the link row in recipeingredients
             };
-+            console.log(`showRecipeDetails: Mapping item (recipeingredients ID: ${item.id}, ingredient ID: ${item.ingredients?.id}, name: ${item.ingredients?.name})`); // Added log
         }).filter(item => item !== null); // Filter out any nulls from failed joins
       }
       if (ingredientsError) {

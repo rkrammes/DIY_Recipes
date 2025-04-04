@@ -43,7 +43,6 @@ export async function loadAllIngredients() {
     }
     console.log('Fetched ingredients:', data); // Log fetched data
     console.log(`loadAllIngredients: Fetched ${data?.length || 0} ingredients. First few:`, data?.slice(0, 5).map(ing => ({ id: ing.id, name: ing.name }))); // Added detailed log
-+    console.log(`loadAllIngredients: Returning ${data?.length || 0} ingredients just before return.`); // Added final check log
     return data || [];
   } catch (error) {
     console.error('Error loading ingredients:', error);
