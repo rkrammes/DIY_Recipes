@@ -1,4 +1,4 @@
-// Import the Supabase client
+.// Import the Supabase client
 import { supabaseClient } from './supabaseClient.js';
 // Fixed import names to match api.js exports - this fixes the SyntaxError
 // "Importing binding name 'fetchIngredients' is not found"
@@ -195,6 +195,7 @@ export async function showRecipeDetails(recipe) {
   
   const details = document.getElementById('recipeDetails');
   if (!details) return;
+  details.innerHTML = ''; // Clear previous content to ensure fresh render
   
   // Create a flex container for the three columns
   const container = document.createElement('div');
