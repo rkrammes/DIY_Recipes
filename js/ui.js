@@ -189,6 +189,16 @@ export function renderIngredients(ingredients) {
   // Clear existing list
   ingredientList.innerHTML = '';
 
+  // Check if ingredients array is empty
+  if (!ingredients || ingredients.length === 0) {
+    console.log('No ingredients to render');
+    const emptyMessage = document.createElement('li');
+    emptyMessage.textContent = 'No ingredients available';
+    emptyMessage.style.fontStyle = 'italic';
+    ingredientList.appendChild(emptyMessage);
+    return;
+  }
+
   // Sort ingredients by name
   const sortedIngredients = [...ingredients].sort((a, b) => {
     return a.name.localeCompare(b.name);
@@ -198,9 +208,11 @@ export function renderIngredients(ingredients) {
 
   // Create list items
   sortedIngredients.forEach(ingredient => {
+    console.log('Rendering ingredient:', ingredient);
     const li = document.createElement('li');
     li.classList.add('ingredient-item');
-    li.dataset.id = ingredient.id;
+    // Use ingredient_id if available, fall back to id for compatibility
+    li.dataset.id = ingredient.ingredient_id || ingredient.id || '';
     
     // Create a container for the ingredient content
     const contentDiv = document.createElement('div');
@@ -212,12 +224,28 @@ export function renderIngredients(ingredients) {
     nameDiv.textContent = ingredient.name;
     contentDiv.appendChild(nameDiv);
     
+    // Add quantity and unit if available
+    if (ingredient.quantity || ingredient.unit) {
+      const quantityDiv = document.createElement('div');
+      quantityDiv.classList.add('ingredient-quantity');
+      quantityDiv.textContent = `${ingredient.quantity || ''} ${ingredient.unit || ''}`.trim();
+      contentDiv.appendChild(quantityDiv);
+    }
+    
     // Add ingredient description if available
     if (ingredient.description) {
       const descDiv = document.createElement('div');
       descDiv.classList.add('ingredient-description');
       descDiv.textContent = ingredient.description;
       contentDiv.appendChild(descDiv);
+    }
+    
+    // Add notes if available
+    if (ingredient.notes) {
+      const notesDiv = document.createElement('div');
+      notesDiv.classList.add('ingredient-notes');
+      notesDiv.textContent = `Note: ${ingredient.notes}`;
+      contentDiv.appendChild(notesDiv);
     }
     
     li.appendChild(contentDiv);
