@@ -482,12 +482,24 @@ export async function showRecipeDetails(recipe) {
     ingredientsHeading.style.marginBottom = 'var(--spacing-small)';
     currentDiv.appendChild(ingredientsHeading);
 
+    // Create a scrollable container for ingredients
+    const ingredientsContainer = document.createElement('div');
+    ingredientsContainer.style.maxHeight = '300px';
+    ingredientsContainer.style.overflowY = 'auto';
+    ingredientsContainer.style.marginBottom = 'var(--spacing-medium)';
+    ingredientsContainer.style.padding = '10px';
+    ingredientsContainer.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+    ingredientsContainer.style.borderRadius = '4px';
+    
     // Add dedicated UL for current recipe ingredients
     const currentIngredientsList = document.createElement('ul');
     currentIngredientsList.id = 'currentRecipeIngredients';
-    currentIngredientsList.style.marginBottom = 'var(--spacing-medium)';
-    currentIngredientsList.style.paddingLeft = '20px';
-    currentDiv.appendChild(currentIngredientsList);
+    currentIngredientsList.style.listStyle = 'none';
+    currentIngredientsList.style.padding = '0';
+    currentIngredientsList.style.margin = '0';
+    
+    ingredientsContainer.appendChild(currentIngredientsList);
+    currentDiv.appendChild(ingredientsContainer);
 
     // Force DOM update before rendering ingredients
     setTimeout(() => {
