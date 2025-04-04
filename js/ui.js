@@ -235,6 +235,7 @@ export async function showRecipeDetails(recipe) {
               notes: item.notes,
               recipe_ingredient_id: item.id // The ID of the link row in recipeingredients
             };
++            console.log(`showRecipeDetails: Mapping item (recipeingredients ID: ${item.id}, ingredient ID: ${item.ingredients?.id}, name: ${item.ingredients?.name})`); // Added log
         }).filter(item => item !== null); // Filter out any nulls from failed joins
       }
       if (ingredientsError) {
