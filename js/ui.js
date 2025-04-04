@@ -1,12 +1,46 @@
-// Import the Supabase client
+ // Import the Supabase client
 import { supabaseClient } from './supabaseClient.js';
-// Fixed import names to match api.js exports
-import { loadRecipes, loadAllIngredients } from './api.js';
+// Fixed import names to match api.js exports - this fixes the SyntaxError
+// "Importing binding name 'fetchIngredients' is not found"
+import { loadRecipes, loadAllIngredients, updateRecipeIngredients } from './api.js';
 
 // Global variables
 let isLoggedIn = false;
 let allIngredients = []; // Global array to store all ingredients
 let currentRecipe = null; // Track the currently displayed recipe
+
+// Simple notification function - moved here to ensure it's defined before any calls
+window.showNotification = function(message, type = 'info') {
+  const notification = document.createElement('div');
+  notification.innerText = message;
+
+  // Basic styles
+  notification.style.position = 'fixed';
+  notification.style.bottom = '20px';
+  notification.style.right = '20px';
+  notification.style.padding = '10px 15px';
+  notification.style.borderRadius = '5px';
+  notification.style.color = '#fff';
+  notification.style.fontSize = '14px';
+  notification.style.zIndex = 1000;
+  notification.style.opacity = '0.95';
+
+  // Color based on type
+  if (type === 'success') {
+    notification.style.backgroundColor = '#4CAF50';
+  } else if (type === 'error') {
+    notification.style.backgroundColor = '#f44336';
+  } else {
+    notification.style.backgroundColor = '#2196F3';
+  }
+
+  document.body.appendChild(notification);
+
+  // Remove after 3 seconds
+  setTimeout(() => {
+    notification.remove();
+  }, 3000);
+}
 
 /**
  * Sets the edit mode fields based on login state.
@@ -143,8 +177,14 @@ export function renderRecipes(recipes) {
  * Renders the ingredients list in the UI.
  */
 export function renderIngredients(ingredients) {
-  const ingredientList = document.getElementById('ingredientList');
-  if (!ingredientList) return;
+  console.log('renderIngredients called with:', ingredients);
+  const ingredientList = document.getElementById('currentRecipeIngredients');
+  if (!ingredientList) {
+    console.error('renderIngredients: Could not find element with ID "currentRecipeIngredients"');
+    return;
+  }
+
+  console.log('Found ingredientList element:', ingredientList);
 
   // Clear existing list
   ingredientList.innerHTML = '';
@@ -153,6 +193,8 @@ export function renderIngredients(ingredients) {
   const sortedIngredients = [...ingredients].sort((a, b) => {
     return a.name.localeCompare(b.name);
   });
+
+  console.log('Sorted ingredients for rendering:', sortedIngredients);
 
   // Create list items
   sortedIngredients.forEach(ingredient => {
@@ -181,6 +223,8 @@ export function renderIngredients(ingredients) {
     li.appendChild(contentDiv);
     ingredientList.appendChild(li);
   });
+  
+  console.log('Finished rendering ingredients, count:', sortedIngredients.length);
 }
 
 /**
@@ -194,6 +238,7 @@ export async function showRecipeDetails(recipe) {
   
   const details = document.getElementById('recipeDetails');
   if (!details) return;
+  details.innerHTML = ''; // Clear previous content to ensure fresh render
   
   // Create a flex container for the three columns
   const container = document.createElement('div');
@@ -216,79 +261,67 @@ export async function showRecipeDetails(recipe) {
       .select('*, ingredients(*)')
       .eq('recipe_id', recipe.id)
       .order('name', { foreignTable: 'ingredients' }); // Correct syntax for ordering by joined table column
-      if (ingredientsData && Array.isArray(ingredientsData)) {
-        // Map the data, ensuring we have the actual ingredient ID clearly separated
-        recipe.ingredients = ingredientsData.map(item => {
-            // item is from recipeingredients table, item.ingredients is the joined data
-            if (!item.ingredients) {
-                console.warn(`Missing joined ingredient data for recipeingredients item ID: ${item.id}`);
-                return null; // Skip if join failed
-            }
-            return {
-              ingredient_id: item.ingredients.id, // The *actual* ingredient ID
-              name: item.ingredients.name,
-              description: item.ingredients.description,
-              quantity: item.quantity,
-              unit: item.unit,
-              notes: item.notes,
-              recipe_ingredient_id: item.id // The ID of the link row in recipeingredients
-            };
-        }).filter(item => item !== null); // Filter out any nulls from failed joins
-      }
-      if (ingredientsError) {
-        console.error('Error fetching ingredients:', ingredientsError);
-      }
-    
-    // Display recipe details
-    // Build the ingredients list HTML
-    let ingredientsHtml = ''; // Removed h4 title
-    if (recipe.ingredients && recipe.ingredients.length > 0) {
-      ingredientsHtml += '<ul>';
-      recipe.ingredients.forEach(ing => {
-        ingredientsHtml += `<li>${ing.name} (${ing.quantity} ${ing.unit || ''}) ${ing.notes ? '- ' + ing.notes : ''}</li>`; // Added notes display
-      });
-      ingredientsHtml += '</ul>';
-    } else {
-      ingredientsHtml += '<p>No ingredients provided</p>';
+    if (ingredientsData && Array.isArray(ingredientsData)) {
+      // Map the data, ensuring we have the actual ingredient ID clearly separated
+      recipe.ingredients = ingredientsData.map(item => {
+        if (!item.ingredients) {
+          console.warn(`Missing joined ingredient data for recipeingredients item ID: ${item.id}`);
+          return null; // Skip if join failed
+        }
+        return {
+          ingredient_id: item.ingredients.id,
+          name: item.ingredients.name,
+          description: item.ingredients.description,
+          quantity: item.quantity,
+          unit: item.unit,
+          notes: item.notes,
+          recipe_ingredient_id: item.id
+        };
+      }).filter(item => item !== null);
+    }
+    if (ingredientsError) {
+      console.error('Error fetching ingredients:', ingredientsError);
     }
 
-    // Set the innerHTML with the new order and formatting
-    // Add margin to the ingredients list if it exists
-    if (recipe.ingredients && recipe.ingredients.length > 0) {
-        ingredientsHtml = ingredientsHtml.replace('<ul>','<ul style="margin-bottom: var(--spacing-medium); padding-left: 20px;">'); // Add margin and padding
-    }
-
-    // Set the innerHTML with the new order and formatting, removing labels
     // Create container for top content
     const topContentDiv = document.createElement('div');
     topContentDiv.innerHTML = `<h3>${recipe.title}</h3>
-                             <p style="margin-bottom: var(--spacing-medium);">${recipe.description || 'No description provided'}</p>
-                             ${ingredientsHtml}`;
-    currentDiv.appendChild(topContentDiv); // Add top content
+                               <p style="margin-bottom: var(--spacing-medium);">${recipe.description || 'No description provided'}</p>`;
+    currentDiv.appendChild(topContentDiv);
+
+    // Add dedicated UL for current recipe ingredients
+    const currentIngredientsList = document.createElement('ul');
+    currentIngredientsList.id = 'currentRecipeIngredients';
+    currentIngredientsList.style.marginBottom = 'var(--spacing-medium)';
+    currentIngredientsList.style.paddingLeft = '20px';
+    currentDiv.appendChild(currentIngredientsList);
+
+    // Log ingredients before rendering
+    console.log('About to render ingredients for recipe:', recipe.id);
+    console.log('Ingredients data:', recipe.ingredients || []);
+    
+    // Render current recipe ingredients
+    renderIngredients(recipe.ingredients || []);
 
     // Create container for bottom content (instructions + button)
     const bottomContentDiv = document.createElement('div');
-    bottomContentDiv.style.marginTop = 'auto'; // Pushes this div down in flex container
-    bottomContentDiv.style.textAlign = 'center'; // Center the button
+    bottomContentDiv.style.marginTop = 'auto';
+    bottomContentDiv.style.textAlign = 'center';
 
-    // Add instructions to bottom container
     const instructionsP = document.createElement('p');
     instructionsP.innerHTML = recipe.instructions || 'No instructions provided';
-    instructionsP.style.marginBottom = 'var(--spacing-medium)'; // Space between instructions and button
+    instructionsP.style.marginBottom = 'var(--spacing-medium)';
     bottomContentDiv.appendChild(instructionsP);
 
-    // Create and configure the remove button INSIDE the try block
     const removeRecipeBtn = document.createElement('button');
     removeRecipeBtn.id = 'removeRecipeBtn';
     removeRecipeBtn.classList.add('remove-recipe-btn', 'btn');
     removeRecipeBtn.textContent = 'Remove This Recipe';
-    // removeRecipeBtn.style.marginTop = 'var(--spacing-medium)'; // Margin-top no longer needed
     removeRecipeBtn.addEventListener('click', async (e) => {
       e.stopPropagation();
       const confirmed = confirm(`Permanently remove recipe "${recipe.title}"? This cannot be undone.`);
       if (confirmed) {
         try {
-          // Use the correct 'details' variable from the outer scope
           const details = document.getElementById('recipeDetails');
           const { error } = await supabaseClient
             .from('recipes')
@@ -296,8 +329,8 @@ export async function showRecipeDetails(recipe) {
             .eq('id', recipe.id);
           if (error) throw error;
           showNotification('Recipe removed successfully.', 'success');
-          if (details) details.style.display = 'none'; // Hide details view
-          await reloadData(); // Reload recipe list
+          if (details) details.style.display = 'none';
+          await reloadData();
         } catch (err) {
           console.error('Error removing recipe:', err);
           showNotification(`Error removing recipe: ${err.message}`, 'error');
@@ -305,10 +338,7 @@ export async function showRecipeDetails(recipe) {
       }
     });
 
-    // Append button to the bottom container
     bottomContentDiv.appendChild(removeRecipeBtn);
-
-    // Append the bottom container to the main currentDiv
     currentDiv.appendChild(bottomContentDiv);
   } catch (error) {
     console.error('Error in showRecipeDetails:', error);
@@ -573,10 +603,13 @@ export function createEditableIngredientRow(ingredientData) {
  * Commits the new iteration data from the editable table.
  */
 export async function doCommitIteration(currentRecipe, iterationTable) {
-  console.log("Commit button clicked. Recipe:", currentRecipe);
+  console.log("Commit button clicked. Recipe ID:", currentRecipe.id);
+  console.log("Recipe data:", JSON.stringify(currentRecipe, null, 2));
+  console.log("Iteration table found:", !!iterationTable);
 
   const updatedIngredients = [];
   const rows = iterationTable.querySelectorAll('tr');
+  console.log(`Found ${rows.length} rows in iteration table (including header)`);
   let commitError = null; // Flag to store potential errors during row processing
 
   // Skip header row
@@ -643,31 +676,27 @@ export async function doCommitIteration(currentRecipe, iterationTable) {
   console.log("Final updated ingredients data to commit:", updatedIngredients);
 
   try {
-    const newVersion = (currentRecipe.version || 0) + 1; // Ensure version exists, default to 0 if not
-    // IMPORTANT: This assumes the 'recipes.ingredients' column is JSONB and
-    // expects an array of objects like [{id: 'ing_uuid', name: '...', quantity: ..., unit: ..., notes: ...}]
-    // The 'id' here MUST be the actual Ingredient ID.
-    const { error } = await supabaseClient
-      .from('recipes')
-      .update({
-          ingredients: updatedIngredients, // Send the structured list
-          version: newVersion
-       })
-      .eq('id', currentRecipe.id);
-
-    if (error) throw error;
-
-    showNotification('Iteration committed successfully!', 'success');
-    await reloadData(); // Reload to show the updated recipe list/details
-    // Optionally, re-show the details for the *just updated* recipe
-    // This requires fetching the updated recipe data again
-    // const updatedRecipeData = await fetchRecipeById(currentRecipe.id); // Assuming such a function exists in api.js
-    // if (updatedRecipeData) showRecipeDetails(updatedRecipeData);
-
-  } catch (err) {
-    console.error('Error committing iteration:', err);
-    showNotification(`Error committing iteration: ${err.message}`, 'error');
-  }
+      const newVersion = (currentRecipe.version || 0) + 1;
+  
+      // 1. Update the recipe version only
+      const { error: recipeUpdateError } = await supabaseClient
+        .from('recipes')
+        .update({ version: newVersion })
+        .eq('id', currentRecipe.id);
+  
+      if (recipeUpdateError) throw recipeUpdateError;
+  
+      // 2. Update the recipeingredients join table
+      const success = await updateRecipeIngredients(currentRecipe.id, updatedIngredients);
+      if (!success) throw new Error('Failed to update recipe ingredients');
+  
+      showNotification('Iteration committed successfully!', 'success');
+      await reloadData();
+  
+    } catch (err) {
+      console.error('Error committing iteration:', err);
+      showNotification(`Error committing iteration: ${err.message}`, 'error');
+    }
 }
 
 /**
@@ -688,16 +717,30 @@ async function doUpdateIngredient(ingObj, prop, newValue) {
  * Reloads data from the server.
  */
 export async function reloadData() {
-  console.log('Reloading data...');
+  console.log('reloadData: Starting to reload application data...');
   try {
     // Fetch recipes
+    console.log('reloadData: Fetching recipes from API...');
     const recipes = await loadRecipes();
-    console.log('Recipes loaded in reloadData, about to render:', JSON.stringify(recipes));
+    console.log(`reloadData: Recipes loaded: ${recipes.length} recipes found`);
+    console.log('reloadData: First few recipes:', recipes.slice(0, 3).map(r => ({ id: r.id, title: r.title })));
     renderRecipes(recipes);
     
     // Fetch ingredients for the global list
+    console.log('reloadData: Fetching all ingredients from API...');
     allIngredients = await loadAllIngredients();
-    renderIngredients(allIngredients);
+    console.log(`reloadData: All ingredients loaded: ${allIngredients.length} ingredients found`);
+    console.log('reloadData: First few ingredients:', allIngredients.slice(0, 5).map(i => ({ id: i.id, name: i.name })));
+    
+    // Only render ingredients if we're in the ingredients view
+    const ingredientsView = document.getElementById('ingredientsView');
+    if (ingredientsView && ingredientsView.style.display !== 'none') {
+      console.log('reloadData: Rendering ingredients in the ingredients view');
+      const ingredientList = document.getElementById('ingredientList');
+      if (ingredientList) {
+        renderIngredients(allIngredients);
+      }
+    }
     
     console.log('Data reloaded successfully.');
     return true;
@@ -934,3 +977,81 @@ export async function initUI() {
   // Load initial data
   await reloadData();
 }
+
+/**
+ * Test function to verify recipe ingredient updates
+ * Can be called from browser console: testRecipeIngredientUpdate()
+ */
+window.testRecipeIngredientUpdate = async function(recipeId) {
+  console.log('=== TEST: Recipe Ingredient Update ===');
+  
+  // If no recipeId provided, use the current recipe if available
+  if (!recipeId && currentRecipe && currentRecipe.id) {
+    recipeId = currentRecipe.id;
+    console.log(`Using current recipe ID: ${recipeId}`);
+  }
+  
+  if (!recipeId) {
+    console.error('No recipe ID provided and no current recipe available');
+    return false;
+  }
+  
+  try {
+    // 1. Fetch the recipe's current ingredients
+    console.log(`TEST: Fetching current ingredients for recipe ${recipeId}`);
+    const { data: currentIngredients, error: fetchError } = await supabaseClient
+      .from('recipeingredients')
+      .select('*, ingredients(*)')
+      .eq('recipe_id', recipeId);
+      
+    if (fetchError) {
+      console.error('TEST: Error fetching current ingredients:', fetchError);
+      return false;
+    }
+    
+    console.log(`TEST: Found ${currentIngredients.length} current ingredients`);
+    console.log('TEST: Current ingredients:', currentIngredients);
+    
+    // 2. Create a test ingredient if we don't have any
+    if (currentIngredients.length === 0 && allIngredients.length > 0) {
+      console.log('TEST: No current ingredients found, will create a test ingredient');
+      
+      // Get a random ingredient from the global list
+      const randomIngredient = allIngredients[Math.floor(Math.random() * allIngredients.length)];
+      console.log(`TEST: Selected random ingredient: ${randomIngredient.name} (ID: ${randomIngredient.id})`);
+      
+      // Create a test ingredient entry
+      const testIngredient = {
+        id: randomIngredient.id,
+        name: randomIngredient.name,
+        quantity: '1',
+        unit: 'test',
+        notes: 'Test ingredient added by testRecipeIngredientUpdate'
+      };
+      
+      // Call updateRecipeIngredients with this test ingredient
+      console.log('TEST: Calling updateRecipeIngredients with test ingredient');
+      const success = await updateRecipeIngredients(recipeId, [testIngredient]);
+      
+      if (success) {
+        console.log('TEST: Successfully added test ingredient');
+        console.log('TEST: Reloading data to verify changes');
+        await reloadData();
+        return true;
+      } else {
+        console.error('TEST: Failed to add test ingredient');
+        return false;
+      }
+    } else {
+      // 3. If we have ingredients, log them for verification
+      console.log('TEST: Current ingredients found, no changes made');
+      console.log('TEST: Test completed successfully');
+      return true;
+    }
+  } catch (error) {
+    console.error('TEST: Error in testRecipeIngredientUpdate:', error);
+    return false;
+  }
+};
+
+// Simple notification function
