@@ -283,20 +283,33 @@ export async function showRecipeDetails(recipe) {
   currentDiv.style.flexDirection = 'column';
   
   try {
+    console.log('Fetching ingredients for recipe ID:', recipe.id);
     // Fetch ingredients from recipeingredients table with proper join
     const { data: ingredientsData, error: ingredientsError } = await supabaseClient
       .from('recipeingredients')
       .select('*, ingredients(*)')
       .eq('recipe_id', recipe.id)
       .order('name', { foreignTable: 'ingredients' }); // Correct syntax for ordering by joined table column
+    
+    console.log('Raw ingredients data from query:', ingredientsData);
+    
+    if (ingredientsError) {
+      console.error('Error fetching ingredients:', ingredientsError);
+    }
+    
     if (ingredientsData && Array.isArray(ingredientsData)) {
+      console.log(`Found ${ingredientsData.length} ingredients for recipe ${recipe.id}`);
+      
       // Map the data, ensuring we have the actual ingredient ID clearly separated
       recipe.ingredients = ingredientsData.map(item => {
+        console.log('Processing ingredient item:', item);
+        
         if (!item.ingredients) {
           console.warn(`Missing joined ingredient data for recipeingredients item ID: ${item.id}`);
           return null; // Skip if join failed
         }
-        return {
+        
+        const mappedIngredient = {
           ingredient_id: item.ingredients.id,
           name: item.ingredients.name,
           description: item.ingredients.description,
@@ -305,10 +318,15 @@ export async function showRecipeDetails(recipe) {
           notes: item.notes,
           recipe_ingredient_id: item.id
         };
+        
+        console.log('Mapped ingredient:', mappedIngredient);
+        return mappedIngredient;
       }).filter(item => item !== null);
-    }
-    if (ingredientsError) {
-      console.error('Error fetching ingredients:', ingredientsError);
+      
+      console.log(`After mapping: ${recipe.ingredients.length} valid ingredients`);
+    } else {
+      console.warn('No ingredients data returned or data is not an array');
+      recipe.ingredients = [];
     }
 
     // Create container for top content
@@ -326,10 +344,12 @@ export async function showRecipeDetails(recipe) {
 
     // Log ingredients before rendering
     console.log('About to render ingredients for recipe:', recipe.id);
-    console.log('Ingredients data:', recipe.ingredients || []);
+    console.log('Final ingredients data to render:', JSON.stringify(recipe.ingredients || []));
     
     // Render current recipe ingredients
+    console.log('Calling renderIngredients with ingredients array');
     renderIngredients(recipe.ingredients || []);
+    console.log('Returned from renderIngredients call');
 
     // Create container for bottom content (instructions + button)
     const bottomContentDiv = document.createElement('div');
