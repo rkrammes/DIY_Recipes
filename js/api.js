@@ -117,7 +117,7 @@ export async function addNewIngredientToRecipe(recipe, ingredient) {
 export async function addGlobalIngredient(newIngredientName) {
   try {
     const { data, error } = await supabaseClient
-      .from('Ingredients')
+      .from('ingredients')
       .insert([{ name: newIngredientName }])
       .select();
     if (error) {
@@ -163,7 +163,7 @@ export async function removeIngredientFromRecipe(recipe, ingredientIndex) {
 export async function removeGlobalIngredient(ingredientId) {
   try {
     const { error } = await supabaseClient
-      .from('Ingredients')
+      .from('ingredients')
       .delete()
       .eq('id', ingredientId);
     if (error) {
