@@ -526,6 +526,47 @@ export async function showRecipeDetails(recipe) {
   iterationHeading.textContent = 'Kraft'; // Renamed header
   iterationDiv.appendChild(iterationHeading);
 
+  // --- Add AI Suggestions Elements Here ---
+  const aiHeader = document.createElement('div');
+  aiHeader.style.display = 'flex';
+  aiHeader.style.justifyContent = 'space-between';
+  aiHeader.style.alignItems = 'center';
+  aiHeader.style.marginBottom = '10px';
+  aiHeader.style.marginTop = 'var(--spacing-medium)'; // Add some space above AI section
+
+  const aiHeading = document.createElement('h3');
+  aiHeading.textContent = 'AI Suggestions';
+  aiHeader.appendChild(aiHeading);
+  iterationDiv.appendChild(aiHeader); // Add AI Header to right column
+
+  const aiInput = document.createElement('input');
+  aiInput.id = 'aiPrompt';
+  aiInput.placeholder = 'Get AI Suggestion (coming soon)';
+  aiInput.classList.add('sidebar-textbox'); // Reuse existing style
+  aiInput.style.width = 'calc(100% - 22px)'; // Adjust width considering padding
+  aiInput.style.marginBottom = '5px';
+  iterationDiv.appendChild(aiInput); // Add AI Input to right column
+
+  const aiButton = document.createElement('button');
+  aiButton.id = 'btnGetAISuggestion';
+  aiButton.textContent = 'Suggest';
+  aiButton.classList.add('btn');
+  aiButton.disabled = true; // Feature coming soon
+  aiButton.style.marginBottom = '10px';
+  iterationDiv.appendChild(aiButton); // Add AI Button to right column
+
+  const aiSuggestionsList = document.createElement('ul');
+  aiSuggestionsList.id = 'aiSuggestionsList';
+  aiSuggestionsList.style.listStyle = 'none';
+  aiSuggestionsList.style.padding = '0';
+  aiSuggestionsList.style.maxHeight = '150px'; // Limit height
+  aiSuggestionsList.style.overflowY = 'auto';
+  aiSuggestionsList.style.border = '1px dashed #ccc';
+  aiSuggestionsList.style.padding = '5px';
+  aiSuggestionsList.textContent = 'Suggestions will appear here...'; // Placeholder
+  iterationDiv.appendChild(aiSuggestionsList); // Add AI List to right column
+  // --- End AI Suggestions Elements ---
+
   const tableContainer = document.createElement('div');
   tableContainer.style.flexGrow = '1';
   tableContainer.style.overflowY = 'auto';
