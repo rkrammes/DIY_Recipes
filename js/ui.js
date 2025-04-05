@@ -1203,29 +1203,21 @@ function setupIndividualCollapsibles() {
   });
 }
 
-// Update recipe stats in the quick stats section
-function updateRecipeStats(recipe) {
+ // Update recipe stats in the quick stats section
+ function safeSetText(elementId, value, fallback) {
+   const element = document.getElementById(elementId);
+   if (element) {
+     element.textContent = value || fallback;
+   }
+ }
+ function updateRecipeStats(recipe) {
   if (!recipe) return;
   
-  // Update quick stats if available - using DIY-appropriate terminology
-  const prepTimeElement = document.getElementById('prepTime');
-  if (prepTimeElement) {
-    prepTimeElement.textContent = recipe.prep_time || '--';
-  }
-  const cookTimeElement = document.getElementById('cookTime');
-  if (cookTimeElement) {
-    cookTimeElement.textContent = recipe.cook_time ? recipe.cook_time : 'N/A';
-  }
-  
-  const servingsElement = document.getElementById('servings');
-  if (servingsElement) {
-    servingsElement.textContent = recipe.servings ? recipe.servings : 'N/A';
-  }
-  
-  const difficultyElement = document.getElementById('difficulty');
-  if (difficultyElement) {
-    difficultyElement.textContent = recipe.difficulty || '--';
-  }
+    // Update quick stats using safeSetText helper
+    safeSetText('prepTime', recipe.prep_time, '--');
+    safeSetText('cookTime', recipe.cook_time, 'N/A');
+    safeSetText('servings', recipe.servings, 'N/A');
+    safeSetText('difficulty', recipe.difficulty, '--');
   
   // Update instructions summary
   const summaryEl = document.getElementById('instructionsSummary');
