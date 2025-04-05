@@ -1,4 +1,4 @@
-/**
+l/**
  * @jest-environment jsdom
  */
 
@@ -65,7 +65,7 @@ describe('Three-column layout with collapsibles', () => {
       <div class="instructions-summary">
         <h3 class="section-title">Instructions Summary</h3>
         <div id="instructionsSummary" class="summary-content">
-          <p>Mix ingredients, cook on skillet, serve warm.</p>
+          <p>Mix ingredients in spray bottle, shake well before use.</p>
         </div>
       </div>
     `;
@@ -88,14 +88,14 @@ describe('Three-column layout with collapsibles', () => {
     // Create and add collapsible sections to middle column
     const detailedInstructions = createTestCollapsible(
       'Detailed Instructions',
-      '<ol><li>Mix ingredients</li><li>Cook on skillet</li><li>Serve warm</li></ol>',
+      '<ol><li>Add vinegar and water to spray bottle</li><li>Add baking soda slowly</li><li>Add essential oil for fragrance</li><li>Shake well before use</li></ol>',
       'detailed-instructions',
       'blue'
     );
     
     const notes = createTestCollapsible(
       'Notes',
-      '<p>Try adding blueberries.</p>',
+      '<p>For stronger cleaning power, add more vinegar.</p>',
       'notes',
       'blue'
     );
@@ -123,9 +123,9 @@ describe('Three-column layout with collapsibles', () => {
     const sections = [
       { title: 'Version History', content: '<p>Version 1.0</p>', id: 'version-history', color: 'orange' },
       { title: 'Iteration Management', content: '<p>No iterations yet.</p>', id: 'iteration-management', color: 'orange' },
-      { title: 'AI Suggestions', content: '<p>Consider using almond milk.</p>', id: 'ai-suggestions', color: 'neutral' },
-      { title: 'Media', content: '<img src="pancakes.jpg" alt="Pancakes photo">', id: 'media', color: 'neutral' },
-      { title: 'Comments', content: '<p>Great recipe!</p>', id: 'comments', color: 'neutral' }
+      { title: 'AI Suggestions', content: '<p>Consider using lemon juice for citrus scent.</p>', id: 'ai-suggestions', color: 'neutral' },
+      { title: 'Media', content: '<img src="cleaner.jpg" alt="All-purpose cleaner photo">', id: 'media', color: 'neutral' },
+      { title: 'Comments', content: '<p>Works great on kitchen counters!</p>', id: 'comments', color: 'neutral' }
     ];
     
     sections.forEach(sec => {
@@ -198,7 +198,7 @@ describe('Three-column layout with collapsibles', () => {
     const title = document.getElementById('recipe-title');
     expect(title).toBeInTheDocument();
     expect(title.tagName).toBe('H1');
-    expect(title).toHaveTextContent('Delicious Pancakes');
+    expect(title).toHaveTextContent('DIY All-Purpose Cleaner');
 
     const removeBtn = document.getElementById('remove-recipe');
     expect(removeBtn).toBeInTheDocument();
@@ -211,12 +211,12 @@ describe('Three-column layout with collapsibles', () => {
     // Test ingredients
     const ingredientsList = leftColumn.querySelector('#currentRecipeIngredients');
     expect(ingredientsList).toBeInTheDocument();
-    
     const ingredients = ingredientsList.querySelectorAll('li');
     expect(ingredients.length).toBe(4);
-    expect(ingredients[0]).toHaveTextContent('Flour');
-    expect(ingredients[1]).toHaveTextContent('Milk');
-    expect(ingredients[2]).toHaveTextContent('Eggs');
+    expect(ingredients[0]).toHaveTextContent('White Vinegar');
+    expect(ingredients[1]).toHaveTextContent('Baking Soda');
+    expect(ingredients[2]).toHaveTextContent('Essential Oil');
+    expect(ingredients[3]).toHaveTextContent('Distilled Water');
     expect(ingredients[3]).toHaveTextContent('Sugar');
     
     // Test quick stats
@@ -228,15 +228,15 @@ describe('Three-column layout with collapsibles', () => {
     const cookTime = leftColumn.querySelector('#cookTime');
     expect(prepTime).toBeInTheDocument();
     expect(cookTime).toBeInTheDocument();
-    expect(prepTime).toHaveTextContent('15 min');
-    expect(cookTime).toHaveTextContent('10 min');
+    expect(prepTime).toHaveTextContent('5 min');
+    expect(cookTime).toHaveTextContent('3 months');
   });
 
   test('Middle column contains instructions summary and collapsible sections', () => {
     // Test instructions summary
     const instructionsSummary = middleColumn.querySelector('#instructionsSummary');
     expect(instructionsSummary).toBeInTheDocument();
-    expect(instructionsSummary).toHaveTextContent('Mix ingredients, cook on skillet, serve warm.');
+    expect(instructionsSummary).toHaveTextContent('Mix ingredients in spray bottle, shake well before use.');
     
     // Test collapsible group
     const collapsibleGroup = middleColumn.querySelector('#middleColumnCollapsibles');
