@@ -513,10 +513,38 @@ export async function showRecipeDetails(recipe) {
       ingredientsColumn.appendChild(commentsSection);
     }
 
-    const ingredientsHeading = document.createElement('h4');
-    ingredientsHeading.textContent = 'Ingredients';
-    ingredientsHeading.style.marginBottom = 'var(--spacing-small)';
-    ingredientsColumn.appendChild(ingredientsHeading);
+    // Create Ingredients collapsible container (expanded by default)
+    const ingredientsCollapsible = document.createElement('div');
+    ingredientsCollapsible.className = 'collapsible-container';
+    ingredientsCollapsible.setAttribute('aria-expanded', 'true');
+
+    const ingredientsHeader = document.createElement('button');
+    ingredientsHeader.type = 'button';
+    ingredientsHeader.className = 'collapsible-header';
+    ingredientsHeader.setAttribute('aria-controls', 'ingredients-content');
+    ingredientsHeader.setAttribute('aria-expanded', 'true');
+    ingredientsHeader.innerHTML = `
+      <span>Ingredients</span>
+      <span class="collapsible-icon">&#9654;</span>
+    `;
+
+    ingredientsHeader.addEventListener('click', () => {
+      const expanded = ingredientsCollapsible.getAttribute('aria-expanded') === 'true';
+      ingredientsCollapsible.setAttribute('aria-expanded', String(!expanded));
+      ingredientsHeader.setAttribute('aria-expanded', String(!expanded));
+      ingredientsCollapsible.classList.toggle('expanded', !expanded);
+    });
+
+    ingredientsHeader.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        ingredientsHeader.click();
+      }
+    });
+
+    const ingredientsContent = document.createElement('div');
+    ingredientsContent.className = 'collapsible-content';
+    ingredientsContent.id = 'ingredients-content';
 
     const ingredientsContainer = document.createElement('div');
     ingredientsContainer.style.maxHeight = '400px';
@@ -541,7 +569,11 @@ export async function showRecipeDetails(recipe) {
     currentIngredientsList.style.margin = '0';
 
     ingredientsContainer.appendChild(currentIngredientsList);
-    ingredientsColumn.appendChild(ingredientsContainer);
+    ingredientsContent.appendChild(ingredientsContainer);
+
+    ingredientsCollapsible.appendChild(ingredientsHeader);
+    ingredientsCollapsible.appendChild(ingredientsContent);
+    ingredientsColumn.appendChild(ingredientsCollapsible);
 
     setTimeout(() => {
       console.log('About to render ingredients for recipe:', recipe.id);
