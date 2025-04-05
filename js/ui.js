@@ -526,9 +526,9 @@ export async function showRecipeDetails(recipe) {
     descriptionSection.innerHTML = `
       <h4>Description</h4>
       <p>${recipe.description || 'No description provided'}</p>
-      <p><strong>Prep Time:</strong> ${recipe.prep_time || 'N/A'}</p>
-      <p><strong>Cook Time:</strong> ${recipe.cook_time || 'N/A'}</p>
-      <p><strong>Servings:</strong> ${recipe.servings || 'N/A'}</p>
+      <p><strong>Preparation Time:</strong> ${recipe.prep_time || 'N/A'}</p>
+      <p><strong>Shelf Life:</strong> ${recipe.cook_time || 'N/A'}</p>
+      <p><strong>Yield:</strong> ${recipe.servings || 'N/A'}</p>
       <p><strong>Category:</strong> ${recipe.category || 'N/A'}</p>
     `;
     middleContent.appendChild(descriptionSection);
