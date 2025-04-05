@@ -59,6 +59,27 @@ async function runPuppeteerTests() {
     console.log('Step 12: Resizing back to normal...');
     await puppeteerScreenshot('responsive_normal', 1200, 800);
     
+    // Step 13: Test the new iteration functionality
+    console.log('Step 13: Testing the new iteration functionality...');
+    // First, click on the Recipe Iterations section to expand it
+    await puppeteerClick('.right-column .collapsible-header:nth-of-type(2)');
+    await puppeteerScreenshot('iterations_section_expanded', 1200, 800);
+    
+    // Step 14: Click on the Create New Iteration button
+    console.log('Step 14: Clicking on the Create New Iteration button...');
+    await puppeteerClick('#createNewIterationBtn');
+    await puppeteerScreenshot('new_iteration_form', 1200, 800);
+    
+    // Step 15: Fill in the iteration notes
+    console.log('Step 15: Filling in the iteration notes...');
+    await puppeteerFill('#iterationNotes', 'This is a test iteration with improved ingredients');
+    await puppeteerScreenshot('iteration_notes_filled', 1200, 800);
+    
+    // Step 16: Click the Cancel button to close the form
+    console.log('Step 16: Clicking the Cancel button...');
+    await puppeteerClick('#cancelIterationBtn');
+    await puppeteerScreenshot('iteration_form_closed', 1200, 800);
+    
     console.log('Puppeteer UI tests completed successfully!');
   } catch (error) {
     console.error('Error running Puppeteer UI tests:', error);
