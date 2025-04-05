@@ -5,52 +5,19 @@
 import '@testing-library/jest-dom';
 import { fireEvent } from '@testing-library/dom';
 
-// Minimal helper to create a collapsible section (copied from collapsible.test.js)
-function createCollapsibleSection(title, contentHtml, idSuffix) {
-  const container = document.createElement('div');
-  container.className = 'collapsible-container';
-  container.setAttribute('aria-expanded', 'false');
-
-  const header = document.createElement('button');
-  header.type = 'button';
-  header.className = 'collapsible-header';
-  header.setAttribute('aria-controls', `${idSuffix}-content`);
-  header.setAttribute('aria-expanded', 'false');
-  header.innerHTML = `
-    <span>${title}</span>
-    <span class="collapsible-icon">&#9654;</span>
-  `;
-
-  const content = document.createElement('div');
-  content.className = 'collapsible-content';
-  content.id = `${idSuffix}-content`;
-  content.innerHTML = contentHtml;
-
-  header.addEventListener('click', () => {
-    const expanded = container.getAttribute('aria-expanded') === 'true';
-    container.setAttribute('aria-expanded', String(!expanded));
-    header.setAttribute('aria-expanded', String(!expanded));
-    container.classList.toggle('expanded', !expanded);
-  });
-
-  header.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      header.click();
-    }
-  });
-
-  container.appendChild(header);
-  container.appendChild(content);
-  return container;
-}
-
 describe('Three-column layout with collapsibles', () => {
-  let leftCol, middleCol, rightCol;
+  let contentGrid, leftColumn, middleColumn, rightColumn;
 
   beforeEach(() => {
     document.body.innerHTML = '';
-
+    
+    // Create the three-column layout
+    const layout = createTestLayout();
+    contentGrid = layout.contentGrid;
+    leftColumn = layout.leftColumn;
+    middleColumn = layout.middleColumn;
+    rightColumn = layout.rightColumn;
+    
     // Create header
     const header = document.createElement('header');
     header.id = 'recipe-header';
@@ -67,66 +34,160 @@ describe('Three-column layout with collapsibles', () => {
 
     header.appendChild(title);
     header.appendChild(removeBtn);
-
-    document.body.appendChild(header);
-
-    const container = document.createElement('div');
-    container.id = 'main-container';
-    container.style.display = 'flex';
-
-    // Left column with ingredients list
-    leftCol = document.createElement('aside');
-    leftCol.id = 'left-column';
-    leftCol.setAttribute('role', 'complementary');
-    leftCol.innerHTML = `
+    document.body.insertBefore(header, contentGrid);
+    
+    // Add content to left column
+    leftColumn.innerHTML = `
       <h2>Ingredients</h2>
-      <ul>
+      <ul id="currentRecipeIngredients">
         <li>Flour</li>
         <li>Milk</li>
         <li>Eggs</li>
         <li>Sugar</li>
       </ul>
+      <div class="quick-stats-container">
+        <h3 class="section-title">Quick Stats</h3>
+        <div id="quickStats" class="quick-stats">
+          <div class="stat-item">
+            <span class="stat-label">Prep Time:</span>
+            <span class="stat-value" id="prepTime">15 min</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Cook Time:</span>
+            <span class="stat-value" id="cookTime">10 min</span>
+          </div>
+        </div>
+      </div>
     `;
-
-    // Middle column with description and instructions
-    middleCol = document.createElement('main');
-    middleCol.id = 'middle-column';
-    middleCol.setAttribute('role', 'main');
-    middleCol.innerHTML = `
-      <h2>Description</h2>
-      <p>Fluffy pancakes perfect for breakfast.</p>
-      <h2>Instructions</h2>
-      <ol>
-        <li>Mix ingredients</li>
-        <li>Cook on skillet</li>
-        <li>Serve warm</li>
-      </ol>
+    
+    // Add content to middle column
+    middleColumn.innerHTML = `
+      <div class="instructions-summary">
+        <h3 class="section-title">Instructions Summary</h3>
+        <div id="instructionsSummary" class="summary-content">
+          <p>Mix ingredients, cook on skillet, serve warm.</p>
+        </div>
+      </div>
     `;
-
-    // Right column with multiple collapsible sections
-    rightCol = document.createElement('aside');
-    rightCol.id = 'right-column';
-    rightCol.setAttribute('role', 'complementary');
-
+    
+    // Add collapsible sections to middle column
+    const middleColumnCollapsibles = document.createElement('div');
+    middleColumnCollapsibles.className = 'collapsible-group';
+    middleColumnCollapsibles.id = 'middleColumnCollapsibles';
+    
+    const toggleMiddleColumnBtn = document.createElement('button');
+    toggleMiddleColumnBtn.id = 'toggleMiddleColumnBtn';
+    toggleMiddleColumnBtn.className = 'btn-expand-collapse';
+    toggleMiddleColumnBtn.setAttribute('aria-label', 'Toggle all middle column sections');
+    toggleMiddleColumnBtn.innerHTML = `
+      <span class="icon">⊕</span>
+      <span class="label">Expand All</span>
+    `;
+    middleColumnCollapsibles.appendChild(toggleMiddleColumnBtn);
+    
+    // Create and add collapsible sections to middle column
+    const detailedInstructions = createTestCollapsible(
+      'Detailed Instructions',
+      '<ol><li>Mix ingredients</li><li>Cook on skillet</li><li>Serve warm</li></ol>',
+      'detailed-instructions',
+      'blue'
+    );
+    
+    const notes = createTestCollapsible(
+      'Notes',
+      '<p>Try adding blueberries.</p>',
+      'notes',
+      'blue'
+    );
+    
+    middleColumnCollapsibles.appendChild(detailedInstructions);
+    middleColumnCollapsibles.appendChild(notes);
+    middleColumn.appendChild(middleColumnCollapsibles);
+    
+    // Add collapsible sections to right column
+    const rightColumnCollapsibles = document.createElement('div');
+    rightColumnCollapsibles.className = 'collapsible-group';
+    rightColumnCollapsibles.id = 'rightColumnCollapsibles';
+    
+    const toggleRightColumnBtn = document.createElement('button');
+    toggleRightColumnBtn.id = 'toggleRightColumnBtn';
+    toggleRightColumnBtn.className = 'btn-expand-collapse';
+    toggleRightColumnBtn.setAttribute('aria-label', 'Toggle all right column sections');
+    toggleRightColumnBtn.innerHTML = `
+      <span class="icon">⊕</span>
+      <span class="label">Expand All</span>
+    `;
+    rightColumnCollapsibles.appendChild(toggleRightColumnBtn);
+    
+    // Create and add collapsible sections to right column
     const sections = [
-      { title: 'Notes', content: '<p>Try adding blueberries.</p>', id: 'notes' },
-      { title: 'Nutrition Info', content: '<p>Calories: 200</p>', id: 'nutrition' },
-      { title: 'Media', content: '<img src="pancakes.jpg" alt="Pancakes photo">', id: 'media' },
-      { title: 'Comments', content: '<p>Great recipe!</p>', id: 'comments' },
-      { title: 'AI Suggestions', content: '<p>Consider using almond milk.</p>', id: 'ai' },
-      { title: 'Iteration Table', content: '<table><tr><td>v1</td><td>Initial</td></tr></table>', id: 'iterations' }
+      { title: 'Version History', content: '<p>Version 1.0</p>', id: 'version-history', color: 'orange' },
+      { title: 'Iteration Management', content: '<p>No iterations yet.</p>', id: 'iteration-management', color: 'orange' },
+      { title: 'AI Suggestions', content: '<p>Consider using almond milk.</p>', id: 'ai-suggestions', color: 'neutral' },
+      { title: 'Media', content: '<img src="pancakes.jpg" alt="Pancakes photo">', id: 'media', color: 'neutral' },
+      { title: 'Comments', content: '<p>Great recipe!</p>', id: 'comments', color: 'neutral' }
     ];
-
+    
     sections.forEach(sec => {
-      const coll = createCollapsibleSection(sec.title, sec.content, sec.id);
-      rightCol.appendChild(coll);
+      const coll = createTestCollapsible(sec.title, sec.content, sec.id, sec.color);
+      rightColumnCollapsibles.appendChild(coll);
     });
+    
+    rightColumn.appendChild(rightColumnCollapsibles);
+    
+    // Set up toggle functionality for middle column
+    toggleMiddleColumnBtn.addEventListener('click', () => {
+      const containers = middleColumnCollapsibles.querySelectorAll('.collapsible-container');
+      const shouldExpand = toggleMiddleColumnBtn.querySelector('.label').textContent === 'Expand All';
+      
+      containers.forEach(container => {
+        container.setAttribute('aria-expanded', String(shouldExpand));
+        const header = container.querySelector('.collapsible-header');
+        if (header) header.setAttribute('aria-expanded', String(shouldExpand));
+        container.classList.toggle('expanded', shouldExpand);
+      });
+      
+      toggleMiddleColumnBtn.querySelector('.label').textContent = shouldExpand ? 'Collapse All' : 'Expand All';
+      toggleMiddleColumnBtn.setAttribute('aria-pressed', String(shouldExpand));
+      toggleMiddleColumnBtn.querySelector('.icon').textContent = shouldExpand ? '⊖' : '⊕';
+    });
+    
+    // Set up toggle functionality for right column
+    toggleRightColumnBtn.addEventListener('click', () => {
+      const containers = rightColumnCollapsibles.querySelectorAll('.collapsible-container');
+      const shouldExpand = toggleRightColumnBtn.querySelector('.label').textContent === 'Expand All';
+      
+      containers.forEach(container => {
+        container.setAttribute('aria-expanded', String(shouldExpand));
+        const header = container.querySelector('.collapsible-header');
+        if (header) header.setAttribute('aria-expanded', String(shouldExpand));
+        container.classList.toggle('expanded', shouldExpand);
+      });
+      
+      toggleRightColumnBtn.querySelector('.label').textContent = shouldExpand ? 'Collapse All' : 'Expand All';
+      toggleRightColumnBtn.setAttribute('aria-pressed', String(shouldExpand));
+      toggleRightColumnBtn.querySelector('.icon').textContent = shouldExpand ? '⊖' : '⊕';
+    });
+  });
 
-    container.appendChild(leftCol);
-    container.appendChild(middleCol);
-    container.appendChild(rightCol);
-
-    document.body.appendChild(container);
+  test('Three-column layout structure is correctly rendered', () => {
+    // Test grid container
+    expect(contentGrid).toBeInTheDocument();
+    expect(contentGrid).toHaveClass('content-grid');
+    
+    // Test columns
+    expect(leftColumn).toBeInTheDocument();
+    expect(middleColumn).toBeInTheDocument();
+    expect(rightColumn).toBeInTheDocument();
+    
+    expect(leftColumn).toHaveClass('left-column');
+    expect(middleColumn).toHaveClass('middle-column');
+    expect(rightColumn).toHaveClass('right-column');
+    
+    // Test column IDs
+    expect(leftColumn).toHaveAttribute('id', 'left-column');
+    expect(middleColumn).toHaveAttribute('id', 'middle-column');
+    expect(rightColumn).toHaveAttribute('id', 'right-column');
   });
 
   test('Header contains recipe title and remove button with accessibility attributes', () => {
@@ -146,100 +207,202 @@ describe('Three-column layout with collapsibles', () => {
     expect(removeBtn).toHaveAttribute('aria-label', 'Remove recipe');
   });
 
-  test('Columns are inserted with correct roles and expected content', () => {
-    expect(leftCol).toBeInTheDocument();
-    expect(middleCol).toBeInTheDocument();
-    expect(rightCol).toBeInTheDocument();
-
-    expect(leftCol).toHaveAttribute('role', 'complementary');
-    expect(middleCol).toHaveAttribute('role', 'main');
-    expect(rightCol).toHaveAttribute('role', 'complementary');
-
-    expect(leftCol).toHaveTextContent('Ingredients');
-    expect(leftCol).toHaveTextContent('Flour');
-    expect(leftCol).toHaveTextContent('Milk');
-    expect(leftCol).toHaveTextContent('Eggs');
-    expect(leftCol).toHaveTextContent('Sugar');
-
-    expect(middleCol).toHaveTextContent('Description');
-    expect(middleCol).toHaveTextContent('Fluffy pancakes perfect for breakfast.');
-    expect(middleCol).toHaveTextContent('Instructions');
-    expect(middleCol).toHaveTextContent('Mix ingredients');
-    expect(middleCol).toHaveTextContent('Cook on skillet');
-    expect(middleCol).toHaveTextContent('Serve warm');
+  test('Left column contains ingredients and quick stats', () => {
+    // Test ingredients
+    const ingredientsList = leftColumn.querySelector('#currentRecipeIngredients');
+    expect(ingredientsList).toBeInTheDocument();
+    
+    const ingredients = ingredientsList.querySelectorAll('li');
+    expect(ingredients.length).toBe(4);
+    expect(ingredients[0]).toHaveTextContent('Flour');
+    expect(ingredients[1]).toHaveTextContent('Milk');
+    expect(ingredients[2]).toHaveTextContent('Eggs');
+    expect(ingredients[3]).toHaveTextContent('Sugar');
+    
+    // Test quick stats
+    const quickStats = leftColumn.querySelector('#quickStats');
+    expect(quickStats).toBeInTheDocument();
+    expect(quickStats).toHaveClass('quick-stats');
+    
+    const prepTime = leftColumn.querySelector('#prepTime');
+    const cookTime = leftColumn.querySelector('#cookTime');
+    expect(prepTime).toBeInTheDocument();
+    expect(cookTime).toBeInTheDocument();
+    expect(prepTime).toHaveTextContent('15 min');
+    expect(cookTime).toHaveTextContent('10 min');
   });
 
-  test('Right column contains all collapsible sections with correct initial state and accessibility', () => {
-    const collapsibles = rightCol.querySelectorAll('.collapsible-container');
-    expect(collapsibles.length).toBe(6);
+  test('Middle column contains instructions summary and collapsible sections', () => {
+    // Test instructions summary
+    const instructionsSummary = middleColumn.querySelector('#instructionsSummary');
+    expect(instructionsSummary).toBeInTheDocument();
+    expect(instructionsSummary).toHaveTextContent('Mix ingredients, cook on skillet, serve warm.');
+    
+    // Test collapsible group
+    const collapsibleGroup = middleColumn.querySelector('#middleColumnCollapsibles');
+    expect(collapsibleGroup).toBeInTheDocument();
+    expect(collapsibleGroup).toHaveClass('collapsible-group');
+    
+    // Test toggle button
+    const toggleBtn = collapsibleGroup.querySelector('#toggleMiddleColumnBtn');
+    expect(toggleBtn).toBeInTheDocument();
+    expect(toggleBtn).toHaveClass('btn-expand-collapse');
+    expect(toggleBtn).toHaveAttribute('aria-label', 'Toggle all middle column sections');
+    
+    // Test collapsible sections
+    const collapsibles = collapsibleGroup.querySelectorAll('.collapsible-container');
+    expect(collapsibles.length).toBe(2);
+    
+    // Test first collapsible (Detailed Instructions)
+    const detailedInstructions = collapsibles[0];
+    expect(detailedInstructions.querySelector('.collapsible-header')).toHaveTextContent('Detailed Instructions');
+    expect(detailedInstructions).toHaveAttribute('data-color', 'blue');
+    expect(detailedInstructions.querySelector('.collapsible-content')).toHaveAttribute('id', 'detailed-instructions-content');
+    expect(detailedInstructions.querySelector('ol')).toBeInTheDocument();
+    expect(detailedInstructions.querySelectorAll('li').length).toBe(3);
+    
+    // Test second collapsible (Notes)
+    const notes = collapsibles[1];
+    expect(notes.querySelector('.collapsible-header')).toHaveTextContent('Notes');
+    expect(notes).toHaveAttribute('data-color', 'blue');
+    expect(notes.querySelector('.collapsible-content')).toHaveAttribute('id', 'notes-content');
+    expect(notes.querySelector('p')).toHaveTextContent('Try adding blueberries.');
+  });
 
-    collapsibles.forEach(c => {
+  test('Right column contains collapsible sections with correct color coding', () => {
+    // Test collapsible group
+    const collapsibleGroup = rightColumn.querySelector('#rightColumnCollapsibles');
+    expect(collapsibleGroup).toBeInTheDocument();
+    expect(collapsibleGroup).toHaveClass('collapsible-group');
+    
+    // Test toggle button
+    const toggleBtn = collapsibleGroup.querySelector('#toggleRightColumnBtn');
+    expect(toggleBtn).toBeInTheDocument();
+    expect(toggleBtn).toHaveClass('btn-expand-collapse');
+    expect(toggleBtn).toHaveAttribute('aria-label', 'Toggle all right column sections');
+    
+    // Test collapsible sections
+    const collapsibles = collapsibleGroup.querySelectorAll('.collapsible-container');
+    expect(collapsibles.length).toBe(5);
+    
+    // Test color coding
+    const orangeCollapsibles = Array.from(collapsibles).filter(c => c.getAttribute('data-color') === 'orange');
+    const neutralCollapsibles = Array.from(collapsibles).filter(c => c.getAttribute('data-color') === 'neutral');
+    
+    expect(orangeCollapsibles.length).toBe(2);
+    expect(neutralCollapsibles.length).toBe(3);
+    
+    // Test specific sections
+    const versionHistory = collapsibleGroup.querySelector('.collapsible-container[data-color="orange"]:nth-child(2)');
+    const aiSuggestions = collapsibleGroup.querySelector('.collapsible-container[data-color="neutral"]:nth-child(4)');
+    
+    expect(versionHistory.querySelector('.collapsible-header')).toHaveTextContent('Version History');
+    expect(aiSuggestions.querySelector('.collapsible-header')).toHaveTextContent('AI Suggestions');
+  });
+
+  test('Toggle buttons expand and collapse all sections in their group', () => {
+    // Test middle column toggle
+    const middleToggleBtn = document.getElementById('toggleMiddleColumnBtn');
+    const middleCollapsibles = middleColumn.querySelectorAll('.collapsible-container');
+    
+    // Initially all collapsed
+    middleCollapsibles.forEach(c => {
       expect(c).toHaveAttribute('aria-expanded', 'false');
-      const header = c.querySelector('.collapsible-header');
-      expect(header).toHaveAttribute('aria-expanded', 'false');
-      expect(header).toHaveAttribute('aria-controls');
-      expect(header).toHaveAttribute('type', 'button');
     });
-
-    const titles = Array.from(collapsibles).map(c => c.querySelector('.collapsible-header span').textContent.trim());
-    expect(titles).toEqual(expect.arrayContaining([
-      'Notes',
-      'Nutrition Info',
-      'Media',
-      'Comments',
-      'AI Suggestions',
-      'Iteration Table'
-    ]));
+    
+    // Click to expand all
+    fireEvent.click(middleToggleBtn);
+    
+    // All should be expanded
+    middleCollapsibles.forEach(c => {
+      expect(c).toHaveAttribute('aria-expanded', 'true');
+    });
+    expect(middleToggleBtn.querySelector('.label')).toHaveTextContent('Collapse All');
+    expect(middleToggleBtn.querySelector('.icon')).toHaveTextContent('⊖');
+    
+    // Click to collapse all
+    fireEvent.click(middleToggleBtn);
+    
+    // All should be collapsed
+    middleCollapsibles.forEach(c => {
+      expect(c).toHaveAttribute('aria-expanded', 'false');
+    });
+    expect(middleToggleBtn.querySelector('.label')).toHaveTextContent('Expand All');
+    expect(middleToggleBtn.querySelector('.icon')).toHaveTextContent('⊕');
+    
+    // Test right column toggle
+    const rightToggleBtn = document.getElementById('toggleRightColumnBtn');
+    const rightCollapsibles = rightColumn.querySelectorAll('.collapsible-container');
+    
+    // Click to expand all
+    fireEvent.click(rightToggleBtn);
+    
+    // All should be expanded
+    rightCollapsibles.forEach(c => {
+      expect(c).toHaveAttribute('aria-expanded', 'true');
+    });
+    
+    // Click to collapse all
+    fireEvent.click(rightToggleBtn);
+    
+    // All should be collapsed
+    rightCollapsibles.forEach(c => {
+      expect(c).toHaveAttribute('aria-expanded', 'false');
+    });
   });
 
-  test('Collapsible sections in right column expand and collapse on click', () => {
-    const collapsibles = rightCol.querySelectorAll('.collapsible-container');
-    const first = collapsibles[0];
-    const header = first.querySelector('.collapsible-header');
-
+  test('Individual collapsible sections in each column can be toggled independently', () => {
+    // Test middle column collapsible
+    const detailedInstructions = middleColumn.querySelector('.collapsible-container:nth-child(2)');
+    const detailedHeader = detailedInstructions.querySelector('.collapsible-header');
+    
     // Initially collapsed
-    expect(first).not.toHaveClass('expanded');
-    expect(first).toHaveAttribute('aria-expanded', 'false');
-
+    expect(detailedInstructions).toHaveAttribute('aria-expanded', 'false');
+    
     // Click to expand
-    fireEvent.click(header);
-    expect(first).toHaveClass('expanded');
-    expect(first).toHaveAttribute('aria-expanded', 'true');
-    expect(header).toHaveAttribute('aria-expanded', 'true');
-
-    // Click again to collapse
-    fireEvent.click(header);
-    expect(first).not.toHaveClass('expanded');
-    expect(first).toHaveAttribute('aria-expanded', 'false');
-    expect(header).toHaveAttribute('aria-expanded', 'false');
+    fireEvent.click(detailedHeader);
+    expect(detailedInstructions).toHaveAttribute('aria-expanded', 'true');
+    
+    // Click to collapse
+    fireEvent.click(detailedHeader);
+    expect(detailedInstructions).toHaveAttribute('aria-expanded', 'false');
+    
+    // Test right column collapsible
+    const versionHistory = rightColumn.querySelector('.collapsible-container:nth-child(2)');
+    const versionHeader = versionHistory.querySelector('.collapsible-header');
+    
+    // Initially collapsed
+    expect(versionHistory).toHaveAttribute('aria-expanded', 'false');
+    
+    // Click to expand
+    fireEvent.click(versionHeader);
+    expect(versionHistory).toHaveAttribute('aria-expanded', 'true');
+    
+    // Click to collapse
+    fireEvent.click(versionHeader);
+    expect(versionHistory).toHaveAttribute('aria-expanded', 'false');
   });
 
-  test('Collapsible sections support keyboard navigation', () => {
-    const collapsibles = rightCol.querySelectorAll('.collapsible-container');
-    const header = collapsibles[1].querySelector('.collapsible-header');
-
-    fireEvent.keyDown(header, { key: 'Enter' });
-    expect(collapsibles[1]).toHaveClass('expanded');
-
-    fireEvent.keyDown(header, { key: ' ' });
-    expect(collapsibles[1]).not.toHaveClass('expanded');
-  });
-
-  test('Simulate responsive layout changes (basic)', () => {
-    const container = document.getElementById('main-container');
-
-    // Default flex layout
-    expect(container.style.display).toBe('flex');
-
+  test('Simulate responsive layout changes', () => {
+    // Default grid layout
+    expect(contentGrid.style.gridTemplateColumns).toBe('');
+    
     // Simulate narrow screen by changing width and applying a class
-    container.style.width = '400px';
-    container.classList.add('narrow');
-
-    expect(container.classList.contains('narrow')).toBe(true);
-
-    // In real app, CSS media queries would handle layout change
-    // Here, just verify class toggle works
-    container.classList.remove('narrow');
-    expect(container.classList.contains('narrow')).toBe(false);
+    contentGrid.style.width = '400px';
+    contentGrid.classList.add('narrow');
+    
+    // Apply media query effect manually (since JSDOM doesn't process media queries)
+    contentGrid.style.gridTemplateColumns = '1fr';
+    
+    expect(contentGrid.classList.contains('narrow')).toBe(true);
+    expect(contentGrid.style.gridTemplateColumns).toBe('1fr');
+    
+    // Restore normal layout
+    contentGrid.classList.remove('narrow');
+    contentGrid.style.gridTemplateColumns = '1fr 2fr 1fr';
+    contentGrid.style.width = '';
+    
+    expect(contentGrid.classList.contains('narrow')).toBe(false);
+    expect(contentGrid.style.gridTemplateColumns).toBe('1fr 2fr 1fr');
   });
 });
