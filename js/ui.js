@@ -550,6 +550,7 @@ export async function showRecipeDetails(recipe) {
   // --- End AI Suggestions Elements ---
 
   const tableContainer = document.createElement('div');
+  tableContainer.classList.add('tableContainer'); // Add class for styling hook
   tableContainer.style.flexGrow = '1';
   tableContainer.style.overflowY = 'auto';
   tableContainer.style.marginBottom = 'var(--spacing-medium)';
