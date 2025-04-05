@@ -102,6 +102,11 @@ async function puppeteerClick(selector) {
   console.log(`Clicking on ${selector}...`);
 }
 
+async function puppeteerFill(selector, value) {
+  // This function will be replaced with actual MCP tool usage at runtime
+  console.log(`Filling ${selector} with "${value}"...`);
+}
+
 // Export the test function
 module.exports = {
   runPuppeteerTests

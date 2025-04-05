@@ -25,7 +25,7 @@ describe('Three-column layout with collapsibles', () => {
 
     const title = document.createElement('h1');
     title.id = 'recipe-title';
-    title.textContent = 'Delicious Pancakes';
+    title.textContent = 'DIY All-Purpose Cleaner';
 
     const removeBtn = document.createElement('button');
     removeBtn.id = 'remove-recipe';
