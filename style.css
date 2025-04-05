@@ -498,6 +498,59 @@ body.light {
 }
 
 .ingredient-description {
+
+.collapsible-container {
+  margin-bottom: var(--spacing-medium);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.2);
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.collapsible-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px;
+  font-weight: bold;
+  font-family: var(--font-family);
+  background-color: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background-color 0.3s;
+}
+
+.collapsible-header:hover,
+.collapsible-header:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+  outline: none;
+}
+
+.collapsible-header:focus {
+  box-shadow: 0 0 0 2px var(--accent-blue);
+}
+
+.collapsible-icon {
+  transition: transform 0.3s ease;
+  font-size: var(--icon-size);
+}
+
+.collapsible-container[aria-expanded="true"] .collapsible-icon {
+  transform: rotate(90deg);
+}
+
+.collapsible-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  padding: 0 10px;
+}
+
+.collapsible-container[aria-expanded="true"] .collapsible-content {
+  padding: 10px;
+  max-height: 1000px; /* Large enough to fit content */
+}
   font-size: 0.9em;
   margin-bottom: 3px; /* Adjusted margin */
   color: var(--muted-text);
