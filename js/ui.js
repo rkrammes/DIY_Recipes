@@ -384,20 +384,32 @@ export async function showRecipeDetails(recipe) {
     titleH3.textContent = recipe.title;
     recipeHeader.appendChild(titleH3);
 
-    // --- Left column content (summary, metadata, quick actions) ---
-    const summaryDiv = document.createElement('div');
-    summaryDiv.className = 'recipe-summary';
-    summaryDiv.style.marginBottom = 'var(--spacing-medium)';
-    summaryDiv.innerHTML = `
-      <p><strong>Description:</strong> ${recipe.description || 'No description provided'}</p>
-      <p><strong>Prep Time:</strong> ${recipe.prep_time || 'N/A'}</p>
-      <p><strong>Cook Time:</strong> ${recipe.cook_time || 'N/A'}</p>
-      <p><strong>Servings:</strong> ${recipe.servings || 'N/A'}</p>
-      <p><strong>Category:</strong> ${recipe.category || 'N/A'}</p>
-    `;
-    details.appendChild(summaryDiv);
+    // Remove button in header
+    const removeRecipeBtn = document.createElement('button');
+    removeRecipeBtn.id = 'removeRecipeBtn';
+    removeRecipeBtn.classList.add('remove-recipe-btn', 'btn');
+    removeRecipeBtn.textContent = 'Remove This Recipe';
+    removeRecipeBtn.style.marginLeft = '1rem';
+    removeRecipeBtn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      if (confirm('Are you sure you want to remove this recipe?')) {
+        try {
+          const { error } = await supabaseClient
+            .from('recipes')
+            .delete()
+            .eq('id', recipe.id);
+          if (error) throw error;
+          alert('Recipe removed successfully.');
+          location.reload();
+        } catch (err) {
+          console.error('Error removing recipe:', err);
+          alert('Failed to remove recipe.');
+        }
+      }
+    });
+    recipeHeader.appendChild(removeRecipeBtn);
 
-    // --- Middle column content (ingredients only) ---
+    // --- Left column content (ingredients list) ---
     const toggleAllBtn = document.createElement('button');
     toggleAllBtn.className = 'btn';
     toggleAllBtn.textContent = 'Collapse All';
@@ -487,8 +499,26 @@ export async function showRecipeDetails(recipe) {
       console.log('Returned from renderIngredients call');
     }, 0);
 
-    // --- Right column content (collapsible sections) ---
-    // Collapsible Instructions Section
+    // --- Middle column content (description + instructions) ---
+    const middleContent = document.createElement('div');
+    middleContent.style.display = 'flex';
+    middleContent.style.flexDirection = 'column';
+    middleContent.style.gap = '1rem';
+
+    // Description section (non-collapsible)
+    const descriptionSection = document.createElement('div');
+    descriptionSection.className = 'description-section';
+    descriptionSection.innerHTML = `
+      <h4>Description</h4>
+      <p>${recipe.description || 'No description provided'}</p>
+      <p><strong>Prep Time:</strong> ${recipe.prep_time || 'N/A'}</p>
+      <p><strong>Cook Time:</strong> ${recipe.cook_time || 'N/A'}</p>
+      <p><strong>Servings:</strong> ${recipe.servings || 'N/A'}</p>
+      <p><strong>Category:</strong> ${recipe.category || 'N/A'}</p>
+    `;
+    middleContent.appendChild(descriptionSection);
+
+    // Instructions collapsible
     const instructionsCollapsible = document.createElement('div');
     instructionsCollapsible.className = 'collapsible-container';
     instructionsCollapsible.setAttribute('aria-expanded', 'false');
@@ -496,7 +526,7 @@ export async function showRecipeDetails(recipe) {
     const instructionsHeader = document.createElement('button');
     instructionsHeader.type = 'button';
     instructionsHeader.className = 'collapsible-header';
-    instructionsHeader.setAttribute('aria-controls', 'instructions-content-right');
+    instructionsHeader.setAttribute('aria-controls', 'instructions-content-middle');
     instructionsHeader.setAttribute('aria-expanded', 'false');
     instructionsHeader.innerHTML = `
       <span>Instructions</span>
@@ -505,7 +535,7 @@ export async function showRecipeDetails(recipe) {
 
     const instructionsContent = document.createElement('div');
     instructionsContent.className = 'collapsible-content';
-    instructionsContent.id = 'instructions-content-right';
+    instructionsContent.id = 'instructions-content-middle';
     instructionsContent.innerHTML = recipe.instructions || 'No instructions provided';
 
     instructionsHeader.addEventListener('click', () => {
@@ -524,7 +554,8 @@ export async function showRecipeDetails(recipe) {
 
     instructionsCollapsible.appendChild(instructionsHeader);
     instructionsCollapsible.appendChild(instructionsContent);
-    currentRecipeColumn.appendChild(instructionsCollapsible);
+    currentRecipeColumn.parentNode.insertBefore(middleContent, currentRecipeColumn);
+    middleContent.appendChild(instructionsCollapsible);
 
     // Helper to create other collapsible sections
     function createCollapsibleSection(title, contentHtml, idSuffix) {
