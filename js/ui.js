@@ -560,10 +560,11 @@ export async function showRecipeDetails(recipe) {
     middleContent.appendChild(instructionsCollapsible);
 
     // Helper to create other collapsible sections
-    function createCollapsibleSection(title, contentHtml, idSuffix) {
+    function createCollapsibleSection(title, contentHtml, idSuffix, colorType = 'neutral') {
       const container = document.createElement('div');
       container.className = 'collapsible-container';
       container.setAttribute('aria-expanded', 'false');
+      container.setAttribute('data-color', colorType); // Add color type attribute
 
       const header = document.createElement('button');
       header.type = 'button';
@@ -597,6 +598,30 @@ export async function showRecipeDetails(recipe) {
       container.appendChild(header);
       container.appendChild(content);
       return container;
+    }
+    
+    // Function to toggle all collapsible sections in a group
+    function setupCollapsibleGroup(groupId, buttonId) {
+      const toggleBtn = document.getElementById(buttonId);
+      if (!toggleBtn) return;
+      
+      toggleBtn.addEventListener('click', () => {
+        const group = document.getElementById(groupId);
+        if (!group) return;
+        
+        const containers = group.querySelectorAll('.collapsible-container');
+        const shouldExpand = toggleBtn.querySelector('.label').textContent === 'Expand All';
+        
+        containers.forEach(container => {
+          container.setAttribute('aria-expanded', String(shouldExpand));
+          const header = container.querySelector('.collapsible-header');
+          if (header) header.setAttribute('aria-expanded', String(shouldExpand));
+        });
+        
+        toggleBtn.querySelector('.label').textContent = shouldExpand ? 'Collapse All' : 'Expand All';
+        toggleBtn.setAttribute('aria-pressed', String(shouldExpand));
+        toggleBtn.querySelector('.icon').textContent = shouldExpand ? '⊖' : '⊕';
+      });
     }
 
     if (recipe.notes) {
