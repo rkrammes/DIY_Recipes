@@ -390,10 +390,105 @@ export async function showRecipeDetails(recipe) {
     descriptionP.style.marginBottom = 'var(--spacing-medium)';
     ingredientsColumn.appendChild(descriptionP);
 
-    const instructionsP = document.createElement('p');
-    instructionsP.innerHTML = recipe.instructions || 'No instructions provided';
-    instructionsP.style.marginBottom = 'var(--spacing-medium)';
-    ingredientsColumn.appendChild(instructionsP);
+    // Collapsible Instructions Section
+    const instructionsCollapsible = document.createElement('div');
+    instructionsCollapsible.className = 'collapsible-container';
+    instructionsCollapsible.setAttribute('aria-expanded', 'false');
+
+    const instructionsHeader = document.createElement('button');
+    instructionsHeader.type = 'button';
+    instructionsHeader.className = 'collapsible-header';
+    instructionsHeader.setAttribute('aria-controls', 'instructions-content');
+    instructionsHeader.setAttribute('aria-expanded', 'false');
+    instructionsHeader.innerHTML = `
+      <span>Instructions</span>
+      <span class="collapsible-icon">&#9654;</span>
+    `;
+
+    const instructionsContent = document.createElement('div');
+    instructionsContent.className = 'collapsible-content';
+    instructionsContent.id = 'instructions-content';
+    instructionsContent.innerHTML = recipe.instructions || 'No instructions provided';
+
+    instructionsHeader.addEventListener('click', () => {
+      const expanded = instructionsCollapsible.getAttribute('aria-expanded') === 'true';
+      instructionsCollapsible.setAttribute('aria-expanded', String(!expanded));
+      instructionsHeader.setAttribute('aria-expanded', String(!expanded));
+    });
+
+    instructionsHeader.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        instructionsHeader.click();
+      }
+    });
+
+    instructionsCollapsible.appendChild(instructionsHeader);
+    instructionsCollapsible.appendChild(instructionsContent);
+    ingredientsColumn.appendChild(instructionsCollapsible);
+
+    // Helper to create other collapsible sections
+    function createCollapsibleSection(title, contentHtml, idSuffix) {
+      const container = document.createElement('div');
+      container.className = 'collapsible-container';
+      container.setAttribute('aria-expanded', 'false');
+
+      const header = document.createElement('button');
+      header.type = 'button';
+      header.className = 'collapsible-header';
+      header.setAttribute('aria-controls', `${idSuffix}-content`);
+      header.setAttribute('aria-expanded', 'false');
+      header.innerHTML = `
+        <span>${title}</span>
+        <span class="collapsible-icon">&#9654;</span>
+      `;
+
+      const content = document.createElement('div');
+      content.className = 'collapsible-content';
+      content.id = `${idSuffix}-content`;
+      content.innerHTML = contentHtml;
+
+      header.addEventListener('click', () => {
+        const expanded = container.getAttribute('aria-expanded') === 'true';
+        container.setAttribute('aria-expanded', String(!expanded));
+        header.setAttribute('aria-expanded', String(!expanded));
+      });
+
+      header.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          header.click();
+        }
+      });
+
+      container.appendChild(header);
+      container.appendChild(content);
+      return container;
+    }
+
+    // Add Notes collapsible if present
+    if (recipe.notes) {
+      const notesSection = createCollapsibleSection('Notes', recipe.notes, 'notes');
+      ingredientsColumn.appendChild(notesSection);
+    }
+
+    // Add Nutrition collapsible if present
+    if (recipe.nutrition) {
+      const nutritionSection = createCollapsibleSection('Nutrition', recipe.nutrition, 'nutrition');
+      ingredientsColumn.appendChild(nutritionSection);
+    }
+
+    // Add Media collapsible if present
+    if (recipe.media) {
+      const mediaSection = createCollapsibleSection('Media', recipe.media, 'media');
+      ingredientsColumn.appendChild(mediaSection);
+    }
+
+    // Add Comments collapsible if present
+    if (recipe.comments) {
+      const commentsSection = createCollapsibleSection('Comments', recipe.comments, 'comments');
+      ingredientsColumn.appendChild(commentsSection);
+    }
 
     const ingredientsHeading = document.createElement('h4');
     ingredientsHeading.textContent = 'Ingredients';
