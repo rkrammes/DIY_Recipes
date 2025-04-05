@@ -62,9 +62,9 @@
     </header>
 
     <!-- Project Header Section -->
-    <div class="glass-panel recipe-header-section">
-      <h2 class="recipe-title" id="selectedRecipeTitle">Select a Project</h2>
-      <div class="recipe-actions">
+    <div class="glass-panel project-header-section">
+      <h2 class="project-title" id="selectedProjectTitle">Select a Project</h2>
+      <div class="project-actions">
         <button id="new-iteration-btn" class="btn btn-small">New Iteration</button>
       </div>
     </div>
@@ -87,13 +87,13 @@
         <div id="statusMessages" class="status-messages" style="text-align: center; padding: 10px; min-height: 1.5em;"></div>
         
         <!-- Materials List (Always Visible) -->
-        <div class="ingredients-container">
+        <div class="materials-container">
           <h3 class="section-title">Materials</h3>
-          <button id="toggleIngredientsBtn" class="btn-expand-collapse" aria-label="Toggle all ingredients">
+          <button id="toggleMaterialsBtn" class="btn-expand-collapse" aria-label="Toggle all materials">
             <span class="icon">⊕</span> <span class="label">Expand All</span>
           </button>
           <ul id="currentMaterials" class="material-list">
-            <!-- Expected format for each item: "Amount - Material Name" -->
+            <!-- Expected format for each item: "Amount — Material Name" -->
           </ul>
         </div>
       </div>
@@ -101,7 +101,7 @@
       <div class="middle-column">
         <!-- MAIN CONTENT: displays project details or instructions view -->
         <main class="main-content">
-          <section class="recipe-details" id="recipeDetails" style="display:none;">
+          <section class="project-details" id="projectDetails" style="display:none;">
             <div class="instructions-summary">
               <h3 class="section-title">Instructions Summary</h3>
               <div id="instructionsSummary" class="summary-content">
@@ -120,7 +120,7 @@
                   <span class="collapsible-icon">&#9654;</span>
                 </button>
                 <div class="collapsible-content" id="detailed-instructions-content">
-                  <div id="detailedInstructions">
+                  <div id="projectDetailedInstructions">
                     <p>Select a project to view detailed instructions.</p>
                   </div>
                 </div>
@@ -132,7 +132,7 @@
                   <span class="collapsible-icon">&#9654;</span>
                 </button>
                 <div class="collapsible-content" id="notes-content">
-                  <div id="recipeNotes">
+                  <div id="projectNotes">
                     <p>No notes available for this project.</p>
                   </div>
                 </div>
