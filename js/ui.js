@@ -618,26 +618,6 @@ export async function showRecipeDetails(recipe) {
     }
 
 
-      const confirmed = confirm(`Permanently remove recipe "${recipe.title}"? This cannot be undone.`);
-      if (confirmed) {
-        try {
-          const details = document.getElementById('recipeDetails');
-          const { error } = await supabaseClient
-            .from('recipes')
-            .delete()
-            .eq('id', recipe.id);
-          if (error) throw error;
-          showNotification('Recipe removed successfully.', 'success');
-          if (details) details.style.display = 'none';
-          await reloadData();
-        } catch (err) {
-          console.error('Error removing recipe:', err);
-          showNotification(`Error removing recipe: ${err.message}`, 'error');
-        }
-      }
-    });
-
-    bottomContentDiv.appendChild(removeRecipeBtn);
     details.appendChild(bottomContentDiv);
 
     // --- Right column content ---
