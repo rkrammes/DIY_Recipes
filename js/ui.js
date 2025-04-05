@@ -1065,7 +1065,6 @@ export async function reloadData() {
         renderIngredients(allIngredients);
       }
     }
-l    
     console.log('Data reloaded successfully.');
     return true;
   } catch (error) {
