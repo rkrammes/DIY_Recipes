@@ -17,7 +17,15 @@
 
   <!-- External CSS -->
   <link rel="stylesheet" href="style.css" />
-
+  
+  <!-- Inline adjustments for recipe list size -->
+  <style>
+    .recipe-list-horizontal li {
+      font-size: 0.8em;
+      padding: 5px;
+    }
+  </style>
+  
   <!-- Papa Parse & Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -31,8 +39,8 @@
           <button class="btn" id="btnIngredients">All Ingredients</button>
           <!-- Removed createRecipeContainer -->
         </div>
-        <div id="logoContainer" style="text-align: center; flex-grow: 1;"> <!-- Added container for logo -->
-          <span id="logoText" style="font-size: 24px; font-weight: bold;">DIY Projects</span> <!-- Logo Text -->
+        <div id="logoContainer" style="text-align: center; flex-grow: 1;">
+          <span id="logoText" style="font-size: 24px; font-weight: bold;">DIY Projects</span>
         </div>
         <div class="header-right">
           <button class="btn" id="btnThemeToggle" data-theme="dark">Theme: Dark</button>
@@ -48,11 +56,11 @@
       </div>
     </header>
 
+    <!-- Recipe Header Section -->
     <div class="glass-panel recipe-header-section">
-      <h2 class="recipe-title" id="selectedRecipeTitle"></h2>
+      <h2 class="recipe-title" id="selectedRecipeTitle">Select a Project</h2>
       <div class="recipe-actions">
         <button id="new-iteration-btn" class="btn btn-small">New Iteration</button>
-        <button class="btn btn-small remove-recipe-btn">Remove</button>
       </div>
     </div>
 
@@ -73,30 +81,27 @@
         <!-- Status Message Areas -->
         <div id="statusMessages" class="status-messages" style="text-align: center; padding: 10px; min-height: 1.5em;"></div>
         
-        <!-- Recipe Title and Description Header -->
-        <div id="recipe-header"></div>
-        
-        <!-- Ingredients List (Always Visible) -->
+        <!-- Materials List (Always Visible) -->
         <div class="ingredients-container">
           <h3 class="section-title">Materials</h3>
           <button id="toggleIngredientsBtn" class="btn-expand-collapse" aria-label="Toggle all ingredients">
             <span class="icon">⊕</span> <span class="label">Expand All</span>
           </button>
-          <ul id="currentMaterials" class="material-list"></ul>
+          <ul id="currentMaterials" class="material-list">
+            <!-- Expected format for each item: "Amount - Material Name" -->
+          </ul>
         </div>
-        
-        <!-- Removed Quick Stats section as it's not relevant for DIY household products -->
       </div>
 
       <div class="middle-column">
-        <!-- MAIN CONTENT: displays recipe details or ingredients view -->
+        <!-- MAIN CONTENT: displays project details or instructions view -->
         <main class="main-content">
           <section class="recipe-details" id="recipeDetails" style="display:none;">
             <!-- Basic Instructions Summary (Always Visible) -->
             <div class="instructions-summary">
               <h3 class="section-title">Instructions Summary</h3>
               <div id="instructionsSummary" class="summary-content">
-                <p>Select a recipe to view instructions.</p>
+                <p>Select a project to view instructions.</p>
               </div>
             </div>
             
@@ -114,7 +119,7 @@
                 </button>
                 <div class="collapsible-content" id="detailed-instructions-content">
                   <div id="detailedInstructions">
-                    <p>Select a recipe to view detailed instructions.</p>
+                    <p>Select a project to view detailed instructions.</p>
                   </div>
                 </div>
               </div>
@@ -127,44 +132,23 @@
                 </button>
                 <div class="collapsible-content" id="notes-content">
                   <div id="recipeNotes">
-                    <p>No notes available for this recipe.</p>
+                    <p>No notes available for this project.</p>
                   </div>
                 </div>
               </div>
             </div>
           </section>
-          
-          <section class="ingredients-view" id="ingredientsView" style="display:none;">
-            <div class="ingredients-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-medium);">
-              <h2>All Materials</h2>
-              <button id="btnAddGlobalIngredient" class="btn">Add Ingredient</button>
-            </div>
-            <ul id="materialList" class="material-list"></ul>
-          </section>
+          <!-- Removed ingredients-view section from middle column -->
         </main>
       </div>
 
       <div class="right-column">
-        <!-- Collapsible Sections Group -->
+        <!-- Iteration Management Panel -->
         <div class="collapsible-group" id="rightColumnCollapsibles">
-          <button id="toggleRightColumnBtn" class="btn-expand-collapse" aria-label="Toggle all right column sections">
-            <span class="icon">⊕</span> <span class="label">Expand All</span>
+          <button id="toggleRightColumnBtn" class="btn-expand-collapse" aria-label="Toggle iteration panel">
+            <span class="icon">⊕</span> <span class="label">Expand Iterations</span>
           </button>
           
-          <!-- Version History (Collapsible) -->
-          <div class="collapsible-container" aria-expanded="false" data-color="orange">
-            <button type="button" class="collapsible-header" aria-controls="version-history-content" aria-expanded="false">
-              <span>Project Versions</span>
-              <span class="collapsible-icon">&#9654;</span>
-            </button>
-            <div class="collapsible-content" id="version-history-content">
-              <div id="versionHistory">
-                <p>No version history available.</p>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Recipe Iteration Management (Collapsible) -->
           <div class="collapsible-container" aria-expanded="false" data-color="orange">
             <button type="button" class="collapsible-header" aria-controls="iteration-management-content" aria-expanded="false">
               <span>Project Iterations</span>
@@ -197,75 +181,14 @@
               </div>
             </div>
           </div>
-          
-          <!-- AI Suggestions (Collapsible) -->
-          <div class="collapsible-container" aria-expanded="false" data-color="neutral">
-            <button type="button" class="collapsible-header" aria-controls="ai-suggestions-content" aria-expanded="false">
-              <span>Suggestions</span>
-              <span class="collapsible-icon">&#9654;</span>
-            </button>
-            <div class="collapsible-content" id="ai-suggestions-content">
-              <div id="aiSuggestions">
-                <p>No AI suggestions available.</p>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Media (Collapsible) -->
-          <div class="collapsible-container" aria-expanded="false" data-color="neutral">
-            <button type="button" class="collapsible-header" aria-controls="media-content" aria-expanded="false">
-              <span>Media</span>
-              <span class="collapsible-icon">&#9654;</span>
-            </button>
-            <div class="collapsible-content" id="media-content">
-              <div id="recipeMedia">
-                <p>No media available for this recipe.</p>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Comments (Collapsible) -->
-          <div class="collapsible-container" aria-expanded="false" data-color="neutral">
-            <button type="button" class="collapsible-header" aria-controls="comments-content" aria-expanded="false">
-              <span>Comments</span>
-              <span class="collapsible-icon">&#9654;</span>
-            </button>
-            <div class="collapsible-content" id="comments-content">
-              <div id="recipeComments">
-                <p>No comments available for this recipe.</p>
-              </div>
-            </div>
-          </div>
         </div>
+        <!-- Removed other panels: Version History, AI Suggestions, Media, and Comments -->
       </div>
     </div>
-
   </div>
 
   <!-- main.js as a module -->
   <script type="module" src="js/main.js"></script>
-<div id="recipeDetails">
-  <h2 id="selectedRecipeTitle">Select a Recipe</h2>
-  <div id="recipeStats">
-    <div class="stat">
-       <span id="prepTime">--</span>
-       <label>Prep Time</label>
-    </div>
-    <div class="stat">
-       <span id="cookTime">N/A</span>
-       <label>Cook Time</label>
-    </div>
-    <div class="stat">
-       <span id="servings">N/A</span>
-       <label>Servings</label>
-    </div>
-    <div class="stat">
-       <span id="difficulty">--</span>
-       <label>Difficulty</label>
-    </div>
-  </div>
-  <div id="instructionsSummary"></div>
-  <div id="detailedInstructions"></div>
-</div>
+  <!-- Duplicate recipeDetails block removed -->
 </body>
 </html>
