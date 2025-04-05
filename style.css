@@ -553,6 +553,10 @@ select { /* Added select here */
 /* Quick Stats */
 .quick-stats-container {
   margin-bottom: var(--spacing-large);
+  padding: var(--spacing-small);
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  border-left: 3px solid var(--accent-orange);
 }
 
 .quick-stats {
@@ -567,6 +571,12 @@ select { /* Added select here */
   padding: var(--spacing-small);
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .stat-label {
