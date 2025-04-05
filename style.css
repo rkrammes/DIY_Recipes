@@ -121,6 +121,12 @@ h4 { font-size: 20px; margin-bottom: var(--spacing-small); }
 
 .main-content {
   flex: 1;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-large);
   overflow-y: auto;
   padding: 16px;
   background-color: var(--primary);
@@ -275,17 +281,25 @@ select { /* Added select here */
 /* Ingredients View & Recipe Details (Dark Default) */
 #ingredientsView,
 #recipeDetails {
-  display: none;
+  flex: 1 1 30%;
+  min-width: 250px;
+  max-width: 33%;
   padding: var(--spacing-medium);
   background-color: var(--secondary);
   border-radius: 8px;
-  margin: var(--spacing-large) 0;
+  margin: 0;
   font-family: var(--font-family);
   color: var(--text);
   transition: background-color 0.3s, color 0.3s;
 }
 #ingredientsView.active,
 #recipeDetails.active {
+  display: block;
+}
+
+/* Always show both sections side by side */
+#ingredientsView,
+#recipeDetails {
   display: block;
 }
 
