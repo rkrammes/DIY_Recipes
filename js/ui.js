@@ -1093,7 +1093,7 @@ function setupRecipeCollapsibles() {
   const toggleIngredientsBtn = document.getElementById('toggleMaterialsBtn');
   if (toggleIngredientsBtn) {
     toggleIngredientsBtn.addEventListener('click', () => {
-      const ingredientItems = document.querySelectorAll('#currentRecipeIngredients .ingredient-item');
+      const ingredientItems = document.querySelectorAll('#currentMaterials .ingredient-item');
       const shouldExpand = toggleIngredientsBtn.querySelector('.label').textContent === 'Expand All';
       
       ingredientItems.forEach(item => {
