@@ -385,6 +385,27 @@ export async function showRecipeDetails(recipe) {
     recipeHeader.appendChild(titleH3);
 
     // --- Middle column content ---
+
+    // Create Expand/Collapse All toggle button
+    const toggleAllBtn = document.createElement('button');
+    toggleAllBtn.className = 'btn';
+    toggleAllBtn.textContent = 'Collapse All';
+    toggleAllBtn.setAttribute('aria-pressed', 'false');
+    toggleAllBtn.style.marginBottom = 'var(--spacing-medium)';
+    toggleAllBtn.addEventListener('click', () => {
+      const containers = ingredientsColumn.querySelectorAll('.collapsible-container');
+      const shouldExpand = toggleAllBtn.textContent === 'Expand All';
+      containers.forEach(container => {
+        container.setAttribute('aria-expanded', String(shouldExpand));
+        const header = container.querySelector('.collapsible-header');
+        if (header) header.setAttribute('aria-expanded', String(shouldExpand));
+        container.classList.toggle('expanded', shouldExpand);
+      });
+      toggleAllBtn.textContent = shouldExpand ? 'Collapse All' : 'Expand All';
+      toggleAllBtn.setAttribute('aria-pressed', String(shouldExpand));
+    });
+    ingredientsColumn.prepend(toggleAllBtn);
+
     const descriptionP = document.createElement('p');
     descriptionP.textContent = recipe.description || 'No description provided';
     descriptionP.style.marginBottom = 'var(--spacing-medium)';
