@@ -311,8 +311,10 @@ export async function showRecipeDetails(recipe) {
   currentRecipe = recipe; // Store the current recipe
   
   const details = document.getElementById('recipeDetails');
-  if (!details) return;
+  const recipeHeader = document.getElementById('recipe-header'); // Get the new header element
+  if (!details || !recipeHeader) return; // Check for both elements
   details.innerHTML = ''; // Clear previous content to ensure fresh render
+  recipeHeader.innerHTML = ''; // Clear previous header content
   
   // Create a flex container for the three columns
   const container = document.createElement('div');
@@ -375,11 +377,17 @@ export async function showRecipeDetails(recipe) {
       recipe.ingredients = [];
     }
 
-    // Create container for top content
-    const topContentDiv = document.createElement('div');
-    topContentDiv.innerHTML = `<h3>${recipe.title}</h3>
-                               <p style="margin-bottom: var(--spacing-medium);">${recipe.description || 'No description provided'}</p>`;
-    currentDiv.appendChild(topContentDiv);
+    // Populate the new recipe header
+    const titleH3 = document.createElement('h3');
+    titleH3.textContent = recipe.title;
+    recipeHeader.appendChild(titleH3);
+
+    const descriptionP = document.createElement('p');
+    descriptionP.textContent = recipe.description || 'No description provided';
+    descriptionP.style.marginBottom = 'var(--spacing-medium)'; // Keep the margin for spacing below description
+    recipeHeader.appendChild(descriptionP);
+
+    // Remove the old topContentDiv creation and appending
 
     // Create a heading for ingredients
     const ingredientsHeading = document.createElement('h4');

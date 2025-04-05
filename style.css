@@ -289,7 +289,27 @@ select { /* Added select here */
   display: block;
 }
 
+/* Recipe Header (Centered above main content) */
+#recipe-header {
+  text-align: center; /* Center the text (title and description) */
+  padding: var(--spacing-medium) 0; /* Add some vertical padding */
+  margin-bottom: var(--spacing-large); /* Add space below the header */
+}
 
+/* Ensure header elements inherit theme colors */
+#recipe-header h3,
+#recipe-header p {
+  color: var(--text);
+  transition: color 0.3s; /* Add transition for theme change */
+}
+
+/* Light theme override for header text */
+.light #recipe-header h3,
+.light #recipe-header p {
+  color: #1A1A1A;
+}
+
+/* ==================== */
 /* ==================== */
 /* == Theme Overrides == */
 /* ==================== */
