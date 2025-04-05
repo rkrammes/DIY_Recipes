@@ -1212,9 +1212,20 @@ function updateRecipeStats(recipe) {
   if (prepTimeElement) {
     prepTimeElement.textContent = recipe.prep_time || '--';
   }
-  document.getElementById('cookTime').textContent = recipe.cook_time ? recipe.cook_time : 'N/A';
-  document.getElementById('servings').textContent = recipe.servings ? recipe.servings : 'N/A';
-  document.getElementById('difficulty').textContent = recipe.difficulty || '--';
+  const cookTimeElement = document.getElementById('cookTime');
+  if (cookTimeElement) {
+    cookTimeElement.textContent = recipe.cook_time ? recipe.cook_time : 'N/A';
+  }
+  
+  const servingsElement = document.getElementById('servings');
+  if (servingsElement) {
+    servingsElement.textContent = recipe.servings ? recipe.servings : 'N/A';
+  }
+  
+  const difficultyElement = document.getElementById('difficulty');
+  if (difficultyElement) {
+    difficultyElement.textContent = recipe.difficulty || '--';
+  }
   
   // Update instructions summary
   const summaryEl = document.getElementById('instructionsSummary');
