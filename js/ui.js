@@ -1055,7 +1055,7 @@ export async function reloadData() {
         renderIngredients(allIngredients);
       }
     }
-    
+l    
     console.log('Data reloaded successfully.');
     return true;
   } catch (error) {
@@ -1505,11 +1505,11 @@ export async function initUI() {
         return;
       }
       
-      // Create a new recipe with default values
+      // Create a new recipe with default values for DIY household products
       const newRecipe = {
-        title: 'New Recipe',
-        description: '',
-        instructions: '',
+        title: 'New DIY Formula',
+        description: 'A new household product formula',
+        instructions: 'Add your preparation steps here',
         ingredients: [],
         version: 1
       };
