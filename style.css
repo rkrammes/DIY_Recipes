@@ -121,14 +121,14 @@ h4 { font-size: 20px; margin-bottom: var(--spacing-small); }
 
 .recipe-list-horizontal {
   display: inline-flex;
-  gap: 16px;
+  gap: 12px;
   list-style: none;
   overflow-x: auto;
   overflow-y: hidden;
   margin: 0;
   padding: 0;
-  min-height: 50px;
-  max-height: 80px;
+  min-height: 30px;
+  max-height: 40px;
 }
 
 .main-content {
