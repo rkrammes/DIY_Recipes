@@ -358,7 +358,6 @@ select { /* Added select here */
 .collapsible-container[aria-expanded="false"] {
   transform: translateY(0);
 }
-}
 
 /* Accessibility focus outline */
 .collapsible-header:focus-visible {
