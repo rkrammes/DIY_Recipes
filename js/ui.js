@@ -601,28 +601,7 @@ export async function showRecipeDetails(recipe) {
     }
     
     // Function to toggle all collapsible sections in a group
-    function setupCollapsibleGroup(groupId, buttonId) {
-      const toggleBtn = document.getElementById(buttonId);
-      if (!toggleBtn) return;
-      
-      toggleBtn.addEventListener('click', () => {
-        const group = document.getElementById(groupId);
-        if (!group) return;
-        
-        const containers = group.querySelectorAll('.collapsible-container');
-        const shouldExpand = toggleBtn.querySelector('.label').textContent === 'Expand All';
-        
-        containers.forEach(container => {
-          container.setAttribute('aria-expanded', String(shouldExpand));
-          const header = container.querySelector('.collapsible-header');
-          if (header) header.setAttribute('aria-expanded', String(shouldExpand));
-        });
-        
-        toggleBtn.querySelector('.label').textContent = shouldExpand ? 'Collapse All' : 'Expand All';
-        toggleBtn.setAttribute('aria-pressed', String(shouldExpand));
-        toggleBtn.querySelector('.icon').textContent = shouldExpand ? '⊖' : '⊕';
-      });
-    }
+    // This function has been moved outside of showRecipeDetails to be accessible globally
 if (recipe.notes) {
   const notesSection = createCollapsibleSection('Notes', recipe.notes, 'notes', 'blue');
   currentRecipeColumn.appendChild(notesSection);
@@ -1096,6 +1075,35 @@ function setupRecipeCollapsibles() {
         if (detailsDiv && detailsDiv.hasChildNodes()) {
           item.classList.toggle('expanded', shouldExpand);
           detailsDiv.style.display = shouldExpand ? 'block' : 'none';
+/**
+ * Sets up a collapsible group with a toggle button.
+ * @param {string} groupId - The ID of the collapsible group container.
+ * @param {string} buttonId - The ID of the toggle button.
+ */
+export function setupCollapsibleGroup(groupId, buttonId) {
+  const toggleBtn = document.getElementById(buttonId);
+  if (!toggleBtn) return;
+  
+  toggleBtn.addEventListener('click', () => {
+    const group = document.getElementById(groupId);
+    if (!group) return;
+    
+    const containers = group.querySelectorAll('.collapsible-container');
+    const shouldExpand = toggleBtn.querySelector('.label').textContent === 'Expand All';
+    
+    containers.forEach(container => {
+      container.setAttribute('aria-expanded', String(shouldExpand));
+      const header = container.querySelector('.collapsible-header');
+      if (header) header.setAttribute('aria-expanded', String(shouldExpand));
+      container.classList.toggle('expanded', shouldExpand);
+    });
+    
+    toggleBtn.querySelector('.label').textContent = shouldExpand ? 'Collapse All' : 'Expand All';
+    toggleBtn.setAttribute('aria-pressed', String(shouldExpand));
+    toggleBtn.querySelector('.icon').textContent = shouldExpand ? '⊖' : '⊕';
+  });
+}
+
           if (shouldExpand) {
             item.style.backgroundColor = 'rgba(0, 123, 255, 0.05)';
           } else {
