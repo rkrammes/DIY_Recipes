@@ -163,15 +163,32 @@
             </div>
           </div>
           
-          <!-- Iteration Management (Collapsible) -->
+          <!-- Recipe Iteration Management (Collapsible) -->
           <div class="collapsible-container" aria-expanded="false" data-color="orange">
             <button type="button" class="collapsible-header" aria-controls="iteration-management-content" aria-expanded="false">
-              <span>Iteration Management</span>
+              <span>Recipe Iterations</span>
               <span class="collapsible-icon">&#9654;</span>
             </button>
             <div class="collapsible-content" id="iteration-management-content">
               <div id="iterationManagement">
-                <p>No iterations available.</p>
+                <div class="iteration-header">
+                  <h4>Current Iterations</h4>
+                  <button id="createNewIterationBtn" class="btn btn-primary">Create New Iteration</button>
+                </div>
+                <div id="iterationsList" class="iterations-list">
+                  <p>No iterations available.</p>
+                </div>
+                <div id="newIterationForm" class="new-iteration-form" style="display: none;">
+                  <h4>New Iteration</h4>
+                  <div class="form-group">
+                    <label for="iterationNotes">Notes:</label>
+                    <textarea id="iterationNotes" placeholder="What's different about this iteration?"></textarea>
+                  </div>
+                  <div class="form-actions">
+                    <button id="saveIterationBtn" class="btn">Save Iteration</button>
+                    <button id="cancelIterationBtn" class="btn btn-secondary">Cancel</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
