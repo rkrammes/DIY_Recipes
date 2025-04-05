@@ -498,23 +498,54 @@ body.light {
 
 /* Light theme overrides for ingredients */
 .light .ingredient-item {
-  background-color: rgba(240, 240, 240, 0.8) !important;
-  border: 1px solid rgba(0, 0, 0, 0.1) !important;
-  color: #1A1A1A !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  background-color: rgba(0, 0, 0, 0.02) !important;
+  color: var(--primary) !important;
+  -webkit-text-fill-color: var(--primary) !important;
 }
-
-.light .ingredient-name {
-  color: #1A1A1A; /* Changed from accent-orange */
-  -webkit-text-fill-color: #1A1A1A; /* Changed from accent-orange */
+.light .ingredient-item:hover {
+  background-color: rgba(0, 123, 255, 0.05) !important;
+  border-color: rgba(0, 123, 255, 0.2) !important;
 }
-
-.light .ingredient-quantity {
-  color: #1A1A1A;
-  -webkit-text-fill-color: #1A1A1A;
+.light .ingredient-item.selected {
+  background-color: rgba(0, 123, 255, 0.08) !important;
+  border-left-color: #007bff !important;
 }
-
+.light .ingredient-name,
+.light .ingredient-quantity,
 .light .ingredient-description,
 .light .ingredient-notes {
-  color: #555555;
-  -webkit-text-fill-color: #555555;
+  color: var(--primary) !important;
+  -webkit-text-fill-color: var(--primary) !important;
+}
+.light .ingredient-details {
+  border-left-color: rgba(0, 0, 0, 0.2);
+}
+
+/* style.css additions */
+
+/* Middle Column (Description/Instructions) Spacing */
+#recipe-info-column {
+  padding: var(--spacing-medium); /* Ensure consistent padding */
+}
+
+#recipe-info-column p {
+  margin-bottom: var(--spacing-medium); /* Add space between description and instructions */
+}
+
+/* Right Column (Kraft) Spacing Adjustments */
+.iteration-column .tableContainer { /* Target the table container specifically */
+  margin-bottom: var(--spacing-large); /* Add space below the ingredients table */
+}
+
+/* Ensure AI Input uses full width within its column */
+.iteration-column #aiPrompt {
+  width: 100%; /* Override inline style if necessary */
+  box-sizing: border-box; /* Include padding/border in width calculation */
+}
+
+/* Optional: Style for the AI Suggestions list */
+.iteration-column #aiSuggestionsList {
+  margin-top: var(--spacing-small);
+  background-color: rgba(0, 0, 0, 0.1); /* Subtle background */
 }
