@@ -618,17 +618,6 @@ export async function showRecipeDetails(recipe) {
     }
 
 
-    // Remove button (left column)
-    const bottomContentDiv = document.createElement('div');
-    bottomContentDiv.style.marginTop = 'auto';
-    bottomContentDiv.style.textAlign = 'center';
-
-    const removeRecipeBtn = document.createElement('button');
-    removeRecipeBtn.id = 'removeRecipeBtn';
-    removeRecipeBtn.classList.add('remove-recipe-btn', 'btn');
-    removeRecipeBtn.textContent = 'Remove This Recipe';
-    removeRecipeBtn.addEventListener('click', async (e) => {
-      e.stopPropagation();
       const confirmed = confirm(`Permanently remove recipe "${recipe.title}"? This cannot be undone.`);
       if (confirmed) {
         try {
