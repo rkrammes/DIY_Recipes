@@ -493,25 +493,7 @@ export async function showRecipeDetails(recipe) {
 
   // AI Suggestions elements will be created later and added to the right column
 
-  const aiInput = document.createElement('input');
-  aiInput.id = 'aiPrompt';
-  aiInput.placeholder = 'Get AI Suggestion (coming soon)';
-  aiInput.style.display = 'block';
-  aiInput.style.marginTop = '10px';
-  aiInput.style.width = '100%';
-  aiInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      alert('AI Suggestions coming soon!');
-    }
-  });
-  aiDiv.appendChild(aiInput);
-
-  const suggestionDiv = document.createElement('div');
-  suggestionDiv.id = 'aiSuggestionText';
-  suggestionDiv.style.marginTop = '10px';
-  suggestionDiv.textContent = '(AI suggestions will appear here)';
-  aiDiv.appendChild(suggestionDiv);
+  // Removed misplaced AI input and suggestion elements from here.
 
   // RIGHT COLUMN: New Iteration (Editable)
   const iterationDiv = document.createElement('div');
