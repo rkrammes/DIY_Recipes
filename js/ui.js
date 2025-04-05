@@ -1252,6 +1252,100 @@ function updateRecipeStats(recipe) {
   }
 }
 
+// Handle new iteration creation
+function setupIterationFunctionality() {
+  const createNewIterationBtn = document.getElementById('createNewIterationBtn');
+  const newIterationForm = document.getElementById('newIterationForm');
+  const saveIterationBtn = document.getElementById('saveIterationBtn');
+  const cancelIterationBtn = document.getElementById('cancelIterationBtn');
+  const iterationNotes = document.getElementById('iterationNotes');
+  
+  if (createNewIterationBtn) {
+    createNewIterationBtn.addEventListener('click', () => {
+      if (!isLoggedIn) {
+        showNotification('Please log in to create iterations.', 'error');
+        return;
+      }
+      
+      if (!currentRecipe) {
+        showNotification('Please select a recipe first.', 'error');
+        return;
+      }
+      
+      // Show the new iteration form
+      if (newIterationForm) {
+        newIterationForm.style.display = 'block';
+        // Pre-populate with current recipe info
+        if (iterationNotes) {
+          iterationNotes.value = `Based on "${currentRecipe.title}" (v${currentRecipe.version || 1})`;
+        }
+      }
+    });
+  }
+  
+  if (cancelIterationBtn) {
+    cancelIterationBtn.addEventListener('click', () => {
+      // Hide the form
+      if (newIterationForm) {
+        newIterationForm.style.display = 'none';
+      }
+    });
+  }
+  
+  if (saveIterationBtn) {
+    saveIterationBtn.addEventListener('click', async () => {
+      if (!currentRecipe) {
+        showNotification('No recipe selected.', 'error');
+        return;
+      }
+      
+      const notes = iterationNotes ? iterationNotes.value : '';
+      
+      try {
+        // Create a new iteration based on the current recipe
+        const newVersion = (currentRecipe.version || 0) + 1;
+        
+        // 1. Update the recipe version
+        const { error: recipeUpdateError } = await supabaseClient
+          .from('recipes')
+          .update({
+            version: newVersion,
+            notes: notes // Store the iteration notes
+          })
+          .eq('id', currentRecipe.id);
+        
+        if (recipeUpdateError) throw recipeUpdateError;
+        
+        // 2. Create an iteration record
+        const { error: iterationError } = await supabaseClient
+          .from('iterations')
+          .insert([{
+            recipe_id: currentRecipe.id,
+            version: newVersion,
+            notes: notes,
+            created_at: new Date().toISOString()
+          }]);
+        
+        if (iterationError) throw iterationError;
+        
+        showNotification('Iteration created successfully!', 'success');
+        
+        // Hide the form
+        if (newIterationForm) {
+          newIterationForm.style.display = 'none';
+        }
+        
+        // Reload data to show the new iteration
+        await reloadData();
+        
+      } catch (err) {
+        console.error('Error creating iteration:', err);
+        showNotification(`Error creating iteration: ${err.message}`, 'error');
+      }
+    });
+  }
+}
+
 export async function initUI() {
   console.log('Initializing UI...');
   console.log('Initializing UI...');
