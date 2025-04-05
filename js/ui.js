@@ -674,7 +674,6 @@ currentRecipeColumn.appendChild(aiSuggestionsSection);
 
 
 
-    details.appendChild(bottomContentDiv);
 
     // --- Right column content ---
     const iterationHeading = document.createElement('h3');
