@@ -51,30 +51,76 @@ describe('Three-column layout with collapsibles', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
 
+    // Create header
+    const header = document.createElement('header');
+    header.id = 'recipe-header';
+    header.setAttribute('role', 'banner');
+
+    const title = document.createElement('h1');
+    title.id = 'recipe-title';
+    title.textContent = 'Delicious Pancakes';
+
+    const removeBtn = document.createElement('button');
+    removeBtn.id = 'remove-recipe';
+    removeBtn.setAttribute('aria-label', 'Remove recipe');
+    removeBtn.textContent = 'Remove';
+
+    header.appendChild(title);
+    header.appendChild(removeBtn);
+
+    document.body.appendChild(header);
+
     const container = document.createElement('div');
     container.id = 'main-container';
     container.style.display = 'flex';
 
+    // Left column with ingredients list
     leftCol = document.createElement('aside');
     leftCol.id = 'left-column';
     leftCol.setAttribute('role', 'complementary');
-    leftCol.innerHTML = '<p>Left sidebar content</p>';
+    leftCol.innerHTML = `
+      <h2>Ingredients</h2>
+      <ul>
+        <li>Flour</li>
+        <li>Milk</li>
+        <li>Eggs</li>
+        <li>Sugar</li>
+      </ul>
+    `;
 
+    // Middle column with description and instructions
     middleCol = document.createElement('main');
     middleCol.id = 'middle-column';
     middleCol.setAttribute('role', 'main');
-    middleCol.innerHTML = '<h1>Main content area</h1>';
+    middleCol.innerHTML = `
+      <h2>Description</h2>
+      <p>Fluffy pancakes perfect for breakfast.</p>
+      <h2>Instructions</h2>
+      <ol>
+        <li>Mix ingredients</li>
+        <li>Cook on skillet</li>
+        <li>Serve warm</li>
+      </ol>
+    `;
 
+    // Right column with multiple collapsible sections
     rightCol = document.createElement('aside');
     rightCol.id = 'right-column';
     rightCol.setAttribute('role', 'complementary');
 
-    // Add collapsible sections inside right column
-    const coll1 = createCollapsibleSection('Nutrition Info', '<p>Calories: 200</p>', 'nutrition');
-    const coll2 = createCollapsibleSection('Tips', '<p>Use fresh herbs</p>', 'tips');
+    const sections = [
+      { title: 'Notes', content: '<p>Try adding blueberries.</p>', id: 'notes' },
+      { title: 'Nutrition Info', content: '<p>Calories: 200</p>', id: 'nutrition' },
+      { title: 'Media', content: '<img src="pancakes.jpg" alt="Pancakes photo">', id: 'media' },
+      { title: 'Comments', content: '<p>Great recipe!</p>', id: 'comments' },
+      { title: 'AI Suggestions', content: '<p>Consider using almond milk.</p>', id: 'ai' },
+      { title: 'Iteration Table', content: '<table><tr><td>v1</td><td>Initial</td></tr></table>', id: 'iterations' }
+    ];
 
-    rightCol.appendChild(coll1);
-    rightCol.appendChild(coll2);
+    sections.forEach(sec => {
+      const coll = createCollapsibleSection(sec.title, sec.content, sec.id);
+      rightCol.appendChild(coll);
+    });
 
     container.appendChild(leftCol);
     container.appendChild(middleCol);
@@ -83,7 +129,24 @@ describe('Three-column layout with collapsibles', () => {
     document.body.appendChild(container);
   });
 
-  test('Columns are inserted with correct roles and content', () => {
+  test('Header contains recipe title and remove button with accessibility attributes', () => {
+    const header = document.getElementById('recipe-header');
+    expect(header).toBeInTheDocument();
+    expect(header).toHaveAttribute('role', 'banner');
+
+    const title = document.getElementById('recipe-title');
+    expect(title).toBeInTheDocument();
+    expect(title.tagName).toBe('H1');
+    expect(title).toHaveTextContent('Delicious Pancakes');
+
+    const removeBtn = document.getElementById('remove-recipe');
+    expect(removeBtn).toBeInTheDocument();
+    expect(removeBtn.tagName).toBe('BUTTON');
+    expect(removeBtn).toHaveTextContent('Remove');
+    expect(removeBtn).toHaveAttribute('aria-label', 'Remove recipe');
+  });
+
+  test('Columns are inserted with correct roles and expected content', () => {
     expect(leftCol).toBeInTheDocument();
     expect(middleCol).toBeInTheDocument();
     expect(rightCol).toBeInTheDocument();
@@ -92,20 +155,41 @@ describe('Three-column layout with collapsibles', () => {
     expect(middleCol).toHaveAttribute('role', 'main');
     expect(rightCol).toHaveAttribute('role', 'complementary');
 
-    expect(leftCol).toHaveTextContent('Left sidebar content');
-    expect(middleCol).toHaveTextContent('Main content area');
+    expect(leftCol).toHaveTextContent('Ingredients');
+    expect(leftCol).toHaveTextContent('Flour');
+    expect(leftCol).toHaveTextContent('Milk');
+    expect(leftCol).toHaveTextContent('Eggs');
+    expect(leftCol).toHaveTextContent('Sugar');
+
+    expect(middleCol).toHaveTextContent('Description');
+    expect(middleCol).toHaveTextContent('Fluffy pancakes perfect for breakfast.');
+    expect(middleCol).toHaveTextContent('Instructions');
+    expect(middleCol).toHaveTextContent('Mix ingredients');
+    expect(middleCol).toHaveTextContent('Cook on skillet');
+    expect(middleCol).toHaveTextContent('Serve warm');
   });
 
-  test('Right column contains collapsible sections with correct initial state', () => {
+  test('Right column contains all collapsible sections with correct initial state and accessibility', () => {
     const collapsibles = rightCol.querySelectorAll('.collapsible-container');
-    expect(collapsibles.length).toBe(2);
+    expect(collapsibles.length).toBe(6);
 
     collapsibles.forEach(c => {
       expect(c).toHaveAttribute('aria-expanded', 'false');
       const header = c.querySelector('.collapsible-header');
       expect(header).toHaveAttribute('aria-expanded', 'false');
       expect(header).toHaveAttribute('aria-controls');
+      expect(header).toHaveAttribute('type', 'button');
     });
+
+    const titles = Array.from(collapsibles).map(c => c.querySelector('.collapsible-header span').textContent.trim());
+    expect(titles).toEqual(expect.arrayContaining([
+      'Notes',
+      'Nutrition Info',
+      'Media',
+      'Comments',
+      'AI Suggestions',
+      'Iteration Table'
+    ]));
   });
 
   test('Collapsible sections in right column expand and collapse on click', () => {
