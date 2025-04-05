@@ -623,26 +623,53 @@ export async function showRecipeDetails(recipe) {
         toggleBtn.querySelector('.icon').textContent = shouldExpand ? '⊖' : '⊕';
       });
     }
+if (recipe.notes) {
+  const notesSection = createCollapsibleSection('Notes', recipe.notes, 'notes', 'blue');
+  currentRecipeColumn.appendChild(notesSection);
+}
 
-    if (recipe.notes) {
-      const notesSection = createCollapsibleSection('Notes', recipe.notes, 'notes');
-      currentRecipeColumn.appendChild(notesSection);
-    }
+if (recipe.nutrition) {
+  const nutritionSection = createCollapsibleSection('Nutrition', recipe.nutrition, 'nutrition', 'blue');
+  currentRecipeColumn.appendChild(nutritionSection);
+}
 
-    if (recipe.nutrition) {
-      const nutritionSection = createCollapsibleSection('Nutrition', recipe.nutrition, 'nutrition');
-      currentRecipeColumn.appendChild(nutritionSection);
-    }
+if (recipe.media) {
+  const mediaSection = createCollapsibleSection('Media', recipe.media, 'media', 'neutral');
+  currentRecipeColumn.appendChild(mediaSection);
+}
 
-    if (recipe.media) {
-      const mediaSection = createCollapsibleSection('Media', recipe.media, 'media');
-      currentRecipeColumn.appendChild(mediaSection);
-    }
+if (recipe.comments) {
+  const commentsSection = createCollapsibleSection('Comments', recipe.comments, 'comments', 'neutral');
+  currentRecipeColumn.appendChild(commentsSection);
+}
 
-    if (recipe.comments) {
-      const commentsSection = createCollapsibleSection('Comments', recipe.comments, 'comments');
-      currentRecipeColumn.appendChild(commentsSection);
-    }
+// Version History
+const versionHistorySection = createCollapsibleSection(
+  'Version History',
+  recipe.version > 1 ? `<p>Current version: v${recipe.version}</p>` : '<p>This is the first version of this recipe.</p>',
+  'version-history',
+  'orange'
+);
+currentRecipeColumn.appendChild(versionHistorySection);
+
+// Iteration Management
+const iterationSection = createCollapsibleSection(
+  'Iteration Management',
+  '<p>No iterations available.</p>',
+  'iteration-management',
+  'orange'
+);
+currentRecipeColumn.appendChild(iterationSection);
+
+// AI Suggestions
+const aiSuggestionsSection = createCollapsibleSection(
+  'AI Suggestions',
+  '<p>No AI suggestions available.</p>',
+  'ai-suggestions',
+  'neutral'
+);
+currentRecipeColumn.appendChild(aiSuggestionsSection);
+
 
 
     details.appendChild(bottomContentDiv);
