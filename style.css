@@ -1,0 +1,675 @@
+/* style.css */
+
+:root {
+  --primary: #1A1A1A;
+  --secondary: #2C2C2C;
+  --accent-blue: #3498DB;
+  --accent-orange: #FF9900;
+  --text: #FFFFFF;
+  --muted-text: #BDBDBD;
+
+  --font-family: 'Roboto Mono', monospace;
+  --base-font-size: 16px;
+  --line-height: 1.5;
+
+  --max-width: 1200px;
+  --gutter: 24px;
+
+  --spacing-small: 8px;
+  --spacing-medium: 16px;
+  --spacing-large: 32px;
+
+  --icon-size: 24px;
+}
+
+/* Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: var(--base-font-size);
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: var(--font-family);
+  line-height: var(--line-height);
+  background-color: var(--primary);
+  color: var(--text);
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  transition: background-color 0.3s, color 0.3s; /* Add transition for theme change */
+}
+
+/* Container */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--gutter);
+}
+
+/* Typography & Headings */
+h1, h2, h3, h4 {
+  font-family: var(--font-family);
+  font-weight: bold;
+}
+h1 { font-size: 32px; margin-bottom: var(--spacing-medium); }
+h2 { font-size: 28px; margin-bottom: var(--spacing-medium); }
+h3 { font-size: 24px; margin-bottom: var(--spacing-small); }
+h4 { font-size: 20px; margin-bottom: var(--spacing-small); }
+
+/* Glass Panels (Dark Default) */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  padding: var(--spacing-medium);
+  margin-bottom: var(--spacing-large);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* Unified Header Layout (Dark Default) */
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.unified-header {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  background-color: var(--secondary);
+  transition: background-color 0.3s;
+}
+
+.header-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-recipe-list {
+  padding: 8px 16px;
+  background-color: var(--primary); /* Darker background for recipe list */
+  text-align: center;
+  width: 100%;
+  transition: background-color 0.3s;
+}
+
+.recipe-list-horizontal {
+  display: inline-flex;
+  gap: 16px;
+  list-style: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: 0;
+  padding: 0;
+  min-height: 50px;
+  max-height: 80px;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-large);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px;
+  background-color: var(--primary);
+  height: 100%;
+  transition: background-color 0.3s;
+}
+
+/* Sidebar Panels (Dark Default) */
+aside.glass-panel {
+  flex: 1 1 300px;
+  max-width: 300px;
+  background-color: var(--secondary);
+  padding: var(--spacing-medium);
+  border-radius: 8px;
+}
+
+/* Theme Select (Dark Default) */
+.theme-select {
+  font-family: var(--font-family);
+  background-color: var(--secondary);
+  color: var(--text);
+  border: 1px solid var(--accent-blue);
+  border-radius: 4px;
+  padding: 8px 12px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+/* Buttons - Base Gradient Text Effect (Dark Theme Default) */
+.btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  font-family: var(--font-family);
+  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background 0.3s ease, color 0.3s; /* Added color transition */
+}
+.btn:hover {
+  background: linear-gradient(45deg, rgba(52,152,219,1), rgba(255,153,0,1));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Logo Text Gradient */
+#logoText {
+  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* Inherits font-family, font-size, font-weight from inline style or body */
+}
+
+/* Recipe/Ingredient Items - Base Gradient Text (Dark Theme Default) */
+.recipe-item,
+.ingredient-item {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: transparent; /* Use transparent background for gradient */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  font-family: var(--font-family);
+  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background 0.3s ease, color 0.3s;
+  margin: var(--spacing-small) 0;
+}
+.recipe-item:hover,
+.ingredient-item:hover {
+  background: linear-gradient(45deg, rgba(52,152,219,1), rgba(255,153,0,1));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Secondary Action Button (Inherits .btn styles) */
+/* .secondary-btn ruleset removed as it was empty */
+
+/* Input Fields (Dark Default) */
+input,
+textarea,
+select { /* Added select here */
+  background-color: var(--secondary);
+  color: var(--accent-orange); /* typed text is orange */
+  border: 1px solid var(--accent-blue);
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-family: var(--font-family);
+  outline: none;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  appearance: none; /* Remove default browser styling */
+  -webkit-appearance: none; /* For Safari/Chrome */
+  -moz-appearance: none; /* For Firefox */
+}
+::placeholder {
+  color: var(--accent-orange);
+  opacity: 0.7; /* Slightly faded placeholder */
+  transition: color 0.3s;
+}
+
+/* Table Cells (Dark Default) */
+.container table th,
+.container table td {
+  background-color: #000; /* Black background */
+  color: var(--text); /* Use theme text color */
+  border: 1px solid #444; /* Dark border */
+}
+
+/* ========================= */
+/* Collapsible Enhancements  */
+/* ========================= */
+
+/* Collapsible Container */
+.collapsible-container {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  margin-bottom: var(--spacing-medium);
+  overflow: hidden;
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, transform 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.collapsible-container:hover {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Color-coding for collapsible containers */
+.collapsible-container[data-color="blue"] {
+  border-left: 3px solid var(--accent-blue);
+  background-color: rgba(52, 152, 219, 0.05);
+}
+
+.collapsible-container[data-color="orange"] {
+  border-left: 3px solid var(--accent-orange);
+  background-color: rgba(255, 153, 0, 0.05);
+}
+
+.collapsible-container[data-color="neutral"] {
+  border-left: 3px solid var(--muted-text);
+  background-color: rgba(189, 189, 189, 0.05);
+}
+
+/* Collapsible Header */
+.collapsible-header {
+  width: 100%;
+  background-color: var(--secondary);
+  color: var(--text);
+  font-family: var(--font-family);
+  font-size: 1em;
+  padding: var(--spacing-small) var(--spacing-medium);
+  text-align: left;
+  border: none;
+  outline: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+/* Color-coding for headers */
+.collapsible-container[data-color="blue"] .collapsible-header {
+  color: var(--accent-blue);
+}
+
+.collapsible-container[data-color="orange"] .collapsible-header {
+  color: var(--accent-orange);
+}
+
+.collapsible-header:hover,
+.collapsible-header:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.collapsible-icon {
+  display: inline-block;
+  transition: transform 0.3s ease-in-out;
+}
+
+.collapsible-container[aria-expanded="true"] .collapsible-icon {
+  transform: rotate(90deg);
+}
+/* Hide content by default */
+.collapsible-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  padding: 0 var(--spacing-medium);
+  opacity: 0;
+}
+
+/* Show content when expanded */
+.collapsible-container[aria-expanded="true"] .collapsible-content {
+  padding: var(--spacing-small) var(--spacing-medium);
+  max-height: 1000px; /* Large enough to fit content */
+  opacity: 1;
+}
+
+/* Add a subtle animation when expanding/collapsing */
+.collapsible-container[aria-expanded="true"] {
+  transform: translateY(0);
+}
+
+.collapsible-container[aria-expanded="false"] {
+  transform: translateY(0);
+}
+
+/* Accessibility focus outline */
+.collapsible-header:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 2px;
+}
+
+/* Collapsible Group Controls */
+.collapsible-group {
+  margin-bottom: var(--spacing-large);
+}
+
+.btn-expand-collapse {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-family: var(--font-family);
+  font-size: 0.9em;
+  cursor: pointer;
+  padding: 4px 8px;
+  margin-bottom: var(--spacing-small);
+  border-radius: 4px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.btn-expand-collapse:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-expand-collapse .icon {
+  font-size: 1.2em;
+  transition: transform 0.3s ease-in-out;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+}
+
+.btn-expand-collapse[aria-pressed="true"] .icon {
+  transform: rotate(45deg);
+}
+
+.btn-expand-collapse .label {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.btn-expand-collapse:hover .label {
+  color: var(--accent-blue);
+}
+
+/* ========================= */
+/* Responsive 3-Column Layout */
+/* ========================= */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: var(--spacing-large);
+  padding: var(--spacing-large);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  flex: 1;
+  overflow: hidden;
+  height: calc(100% - 180px); /* Adjust based on header height */
+  transition: all 0.3s ease;
+}
+
+.left-column,
+.middle-column,
+.right-column {
+  background-color: var(--secondary);
+  padding: var(--spacing-medium);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+  max-height: 100%;
+}
+
+/* Clear visual separation with color-coding */
+.left-column {
+  border: 1px solid rgba(255,255,255,0.2);
+  border-top: 3px solid var(--accent-blue);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background-color: rgba(52, 152, 219, 0.05);
+}
+.middle-column {
+  border: 1px solid rgba(255,255,255,0.2);
+  border-top: 3px solid var(--accent-blue);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background-color: rgba(52, 152, 219, 0.03);
+}
+.right-column {
+  border: 1px solid rgba(255,255,255,0.2);
+  border-top: 3px solid var(--accent-orange);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 153, 0, 0.03);
+}
+
+/* Responsive stacking on smaller screens */
+@media (max-width: 1024px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+    height: calc(100% - 180px);
+    overflow-y: auto;
+    padding: var(--spacing-medium);
+  }
+  .left-column,
+  .middle-column,
+  .right-column {
+    height: auto;
+    max-height: none;
+    margin-bottom: var(--spacing-large);
+    padding: var(--spacing-medium);
+  }
+}
+
+/* Additional responsive breakpoint for tablets */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .content-grid {
+    grid-template-columns: 35% 65%;
+    grid-template-areas:
+      "left middle"
+      "right right";
+  }
+  
+  .left-column {
+    grid-area: left;
+  }
+  
+  .middle-column {
+    grid-area: middle;
+  }
+  
+  .right-column {
+    grid-area: right;
+  }
+}
+
+/* Smooth transitions */
+.content-grid,
+.left-column,
+.middle-column,
+.right-column {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Section Titles */
+.section-title {
+  font-size: 1.2em;
+  margin-bottom: var(--spacing-small);
+  color: var(--text);
+}
+
+/* Ingredients Container */
+.ingredients-container {
+  margin-bottom: var(--spacing-large);
+  padding: var(--spacing-small);
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  border-left: 3px solid var(--accent-blue);
+}
+
+.ingredient-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 300px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-blue) rgba(0, 0, 0, 0.2);
+}
+
+.ingredient-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ingredient-list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.ingredient-list::-webkit-scrollbar-thumb {
+  background-color: var(--accent-blue);
+  border-radius: 3px;
+}
+
+/* Quick Stats */
+.quick-stats-container {
+  margin-bottom: var(--spacing-large);
+  padding: var(--spacing-small);
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  border-left: 3px solid var(--accent-orange);
+}
+
+.quick-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-small);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-small);
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.stat-label {
+  font-size: 0.8em;
+  color: var(--muted-text);
+}
+
+.stat-value {
+  font-size: 1em;
+  font-weight: bold;
+  color: var(--accent-blue);
+}
+
+/* Instructions Summary */
+.instructions-summary {
+  margin-bottom: var(--spacing-large);
+  padding: var(--spacing-medium);
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  border-left: 3px solid var(--accent-blue);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.summary-content {
+  line-height: 1.6;
+  padding: var(--spacing-small);
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+/* Ingredient Item Styling */
+.ingredient-item {
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  margin-bottom: 5px;
+  border-radius: 4px;
+}
+
+.ingredient-item:hover {
+  background-color: rgba(52, 152, 219, 0.1) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.ingredient-item.expanded {
+  background-color: rgba(52, 152, 219, 0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  border-left: 2px solid var(--accent-blue);
+}
+
+.ingredient-details {
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.ingredient-item.expanded .ingredient-details {
+  opacity: 1;
+}
+
+/* Recipe Header Section */
+.recipe-header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-medium);
+  margin: 0 auto var(--spacing-large) auto;
+  max-width: var(--max-width);
+  padding: var(--spacing-medium);
+  background: linear-gradient(to right, rgba(52, 152, 219, 0.1), rgba(255, 153, 0, 0.1));
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.recipe-title {
+  font-size: 1.8em;
+  color: var(--text);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  margin: 0;
+  background: linear-gradient(45deg, var(--accent-blue), var(--accent-orange));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Optional: style the remove button specifically if needed */
+.remove-recipe-btn {
+  /* inherits .btn styles */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.remove-recipe-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
