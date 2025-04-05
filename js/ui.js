@@ -1198,10 +1198,10 @@ function setupIndividualCollapsibles() {
 function updateRecipeStats(recipe) {
   if (!recipe) return;
   
-  // Update quick stats if available
+  // Update quick stats if available - using DIY-appropriate terminology
   document.getElementById('prepTime').textContent = recipe.prep_time || '--';
-  document.getElementById('cookTime').textContent = recipe.cook_time || '--';
-  document.getElementById('servings').textContent = recipe.servings || '--';
+  document.getElementById('cookTime').textContent = recipe.cook_time ? recipe.cook_time : 'N/A';
+  document.getElementById('servings').textContent = recipe.servings ? recipe.servings : 'N/A';
   document.getElementById('difficulty').textContent = recipe.difficulty || '--';
   
   // Update instructions summary
