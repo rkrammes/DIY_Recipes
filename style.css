@@ -431,16 +431,17 @@ body.light {
 }
 
 /* Ingredient content styling */
-.ingredient-content {
+.ingredient-summary { /* Renamed from ingredient-content */
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
 }
 
 .ingredient-name {
   font-weight: bold;
-  color: var(--accent-orange);
-  -webkit-text-fill-color: var(--accent-orange);
+  color: var(--text); /* Changed from accent-orange */
+  -webkit-text-fill-color: var(--text); /* Changed from accent-orange */
 }
 
 .ingredient-quantity {
@@ -448,9 +449,20 @@ body.light {
   -webkit-text-fill-color: var(--text);
 }
 
+.ingredient-details { /* New class for collapsible section */
+  display: none; /* Hidden by default */
+  margin-top: 5px;
+  padding-left: 10px;
+  border-left: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.ingredient-item.expanded .ingredient-details { /* Show when expanded */
+  display: block;
+}
+
 .ingredient-description {
   font-size: 0.9em;
-  margin-top: 3px;
+  margin-bottom: 3px; /* Adjusted margin */
   color: var(--muted-text);
   -webkit-text-fill-color: var(--muted-text);
 }
@@ -458,17 +470,11 @@ body.light {
 .ingredient-notes {
   font-style: italic;
   font-size: 0.9em;
-  margin-top: 3px;
   color: var(--muted-text);
   -webkit-text-fill-color: var(--muted-text);
 }
 
-/* Ingredient actions container */
-.ingredient-actions {
-  margin-top: 8px;
-  display: flex;
-  gap: 5px;
-}
+/* Removed .ingredient-actions styles */
 
 /* Light theme overrides for ingredients */
 .light .ingredient-item {
@@ -478,8 +484,8 @@ body.light {
 }
 
 .light .ingredient-name {
-  color: var(--accent-orange);
-  -webkit-text-fill-color: var(--accent-orange);
+  color: #1A1A1A; /* Changed from accent-orange */
+  -webkit-text-fill-color: #1A1A1A; /* Changed from accent-orange */
 }
 
 .light .ingredient-quantity {
