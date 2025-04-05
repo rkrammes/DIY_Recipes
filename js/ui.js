@@ -307,56 +307,60 @@ export function renderIngredients(ingredients) {
 export async function showRecipeDetails(recipe) {
   console.log('Showing recipe details for:', recipe);
   console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
-  
+
   currentRecipe = recipe; // Store the current recipe
-  
+
   const details = document.getElementById('recipeDetails'); // Left column container
   const recipeHeader = document.getElementById('recipe-header'); // Header above left column
-  // const ingredientsColumn = document.getElementById('ingredients-column'); // Middle column - Removed, element doesn't exist
-  // const currentRecipeColumn = document.getElementById('current-recipe-column'); // Right column ("Kraft") - Removed, element doesn't exist
 
-  // Check only for elements that exist in index.html
   if (!details || !recipeHeader) {
     console.error('Missing essential layout elements (recipeDetails or recipe-header)');
     return;
   }
-  
-  // Clear previous content from all relevant areas
+
+  // Dynamically create middle and right columns if missing
+  let ingredientsColumn = document.getElementById('ingredients-column');
+  if (!ingredientsColumn) {
+    ingredientsColumn = document.createElement('section');
+    ingredientsColumn.id = 'ingredients-column';
+    details.parentNode.insertBefore(ingredientsColumn, details.nextSibling);
+  }
+
+  let currentRecipeColumn = document.getElementById('current-recipe-column');
+  if (!currentRecipeColumn) {
+    currentRecipeColumn = document.createElement('section');
+    currentRecipeColumn.id = 'current-recipe-column';
+    ingredientsColumn.parentNode.insertBefore(currentRecipeColumn, ingredientsColumn.nextSibling);
+  }
+
+  // Clear previous content
   details.innerHTML = '';
   recipeHeader.innerHTML = '';
-  // ingredientsColumn.innerHTML = ''; // Removed, element doesn't exist
-  // currentRecipeColumn.innerHTML = ''; // Removed, element doesn't exist
-  
-  // LEFT COLUMN ('#recipeDetails'): Current Recipe Ingredients
-  // We will append directly to 'details' element which acts as the left column container now.
-  
+  ingredientsColumn.innerHTML = '';
+  currentRecipeColumn.innerHTML = '';
+
   try {
     console.log('Fetching ingredients for recipe ID:', recipe.id);
-    // Fetch ingredients from recipeingredients table with proper join
     const { data: ingredientsData, error: ingredientsError } = await supabaseClient
       .from('recipeingredients')
       .select('*, ingredients(*)')
       .eq('recipe_id', recipe.id)
-      .order('name', { foreignTable: 'ingredients' }); // Correct syntax for ordering by joined table column
-    
+      .order('name', { foreignTable: 'ingredients' });
+
     console.log('Raw ingredients data from query:', ingredientsData);
-    
+
     if (ingredientsError) {
       console.error('Error fetching ingredients:', ingredientsError);
     }
-    
+
     if (ingredientsData && Array.isArray(ingredientsData)) {
       console.log(`Found ${ingredientsData.length} ingredients for recipe ${recipe.id}`);
-      
-      // Map the data, ensuring we have the actual ingredient ID clearly separated
       recipe.ingredients = ingredientsData.map(item => {
         console.log('Processing ingredient item:', item);
-        
         if (!item.ingredients) {
           console.warn(`Missing joined ingredient data for recipeingredients item ID: ${item.id}`);
-          return null; // Skip if join failed
+          return null;
         }
-        
         const mappedIngredient = {
           ingredient_id: item.ingredients.id,
           name: item.ingredients.name,
@@ -366,88 +370,73 @@ export async function showRecipeDetails(recipe) {
           notes: item.notes,
           recipe_ingredient_id: item.id
         };
-        
         console.log('Mapped ingredient:', mappedIngredient);
         return mappedIngredient;
       }).filter(item => item !== null);
-      
       console.log(`After mapping: ${recipe.ingredients.length} valid ingredients`);
     } else {
       console.warn('No ingredients data returned or data is not an array');
       recipe.ingredients = [];
     }
 
-    // Populate the new recipe header
+    // Recipe title in header
     const titleH3 = document.createElement('h3');
     titleH3.textContent = recipe.title;
     recipeHeader.appendChild(titleH3);
 
-    // Description and Instructions will be created and appended later, directly to 'details'
-
-    // Remove the old topContentDiv creation and appending
-
-    // --- Populate Description and Instructions directly into 'details' ---
+    // --- Middle column content ---
     const descriptionP = document.createElement('p');
     descriptionP.textContent = recipe.description || 'No description provided';
     descriptionP.style.marginBottom = 'var(--spacing-medium)';
-    details.appendChild(descriptionP); // Append description to main details area
+    ingredientsColumn.appendChild(descriptionP);
 
     const instructionsP = document.createElement('p');
-    instructionsP.innerHTML = recipe.instructions || 'No instructions provided'; // Use innerHTML for potential formatting
+    instructionsP.innerHTML = recipe.instructions || 'No instructions provided';
     instructionsP.style.marginBottom = 'var(--spacing-medium)';
-    details.appendChild(instructionsP); // Append instructions to main details area
-    // --- End Description and Instructions ---
+    ingredientsColumn.appendChild(instructionsP);
 
-    // Create a heading for ingredients (Original code follows)
     const ingredientsHeading = document.createElement('h4');
+    ingredientsHeading.textContent = 'Ingredients';
     ingredientsHeading.style.marginBottom = 'var(--spacing-small)';
+    ingredientsColumn.appendChild(ingredientsHeading);
 
-    // Create a scrollable container for ingredients
     const ingredientsContainer = document.createElement('div');
-    ingredientsContainer.style.maxHeight = '400px'; // Increased height
+    ingredientsContainer.style.maxHeight = '400px';
     ingredientsContainer.style.overflowY = 'auto';
     ingredientsContainer.style.marginBottom = 'var(--spacing-medium)';
     ingredientsContainer.style.padding = '10px';
     ingredientsContainer.style.border = '1px solid rgba(255, 255, 255, 0.1)';
     ingredientsContainer.style.borderRadius = '4px';
     ingredientsContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
-    
-    // Add a heading for the ingredients container
+
     const ingredientsContainerHeading = document.createElement('div');
     ingredientsContainerHeading.style.marginBottom = '10px';
     ingredientsContainerHeading.style.fontSize = '14px';
     ingredientsContainerHeading.style.fontStyle = 'italic';
     ingredientsContainerHeading.style.color = 'var(--accent-orange)';
     ingredientsContainer.appendChild(ingredientsContainerHeading);
-    
-    // Add dedicated UL for current recipe ingredients
+
     const currentIngredientsList = document.createElement('ul');
     currentIngredientsList.id = 'currentRecipeIngredients';
     currentIngredientsList.style.listStyle = 'none';
     currentIngredientsList.style.padding = '0';
     currentIngredientsList.style.margin = '0';
-    
-    ingredientsContainer.appendChild(currentIngredientsList);
-    details.appendChild(ingredientsContainer); // Append ingredients to the main left details area
 
-    // Force DOM update before rendering ingredients
+    ingredientsContainer.appendChild(currentIngredientsList);
+    ingredientsColumn.appendChild(ingredientsContainer);
+
     setTimeout(() => {
-      // Log ingredients before rendering
       console.log('About to render ingredients for recipe:', recipe.id);
       console.log('Final ingredients data to render:', JSON.stringify(recipe.ingredients || []));
-      
-      // Render current recipe ingredients
       console.log('Calling renderIngredients with ingredients array');
       renderIngredients(recipe.ingredients || []);
       console.log('Returned from renderIngredients call');
     }, 0);
 
-    // Create container for bottom content (instructions + button)
+    // Remove button (left column)
     const bottomContentDiv = document.createElement('div');
     bottomContentDiv.style.marginTop = 'auto';
     bottomContentDiv.style.textAlign = 'center';
-
-    // Instructions element creation and appending moved earlier (before ingredients)
 
     const removeRecipeBtn = document.createElement('button');
     removeRecipeBtn.id = 'removeRecipeBtn';
@@ -475,133 +464,119 @@ export async function showRecipeDetails(recipe) {
     });
 
     bottomContentDiv.appendChild(removeRecipeBtn);
-    details.appendChild(bottomContentDiv); // Append button to the main left details area
+    details.appendChild(bottomContentDiv);
+
+    // --- Right column content ---
+    const iterationHeading = document.createElement('h3');
+    iterationHeading.textContent = 'Kraft';
+    currentRecipeColumn.appendChild(iterationHeading);
+
+    const aiHeader = document.createElement('div');
+    aiHeader.style.display = 'flex';
+    aiHeader.style.justifyContent = 'space-between';
+    aiHeader.style.alignItems = 'center';
+    aiHeader.style.marginBottom = '10px';
+    aiHeader.style.marginTop = 'var(--spacing-medium)';
+
+    const aiHeading = document.createElement('h3');
+    aiHeading.textContent = 'AI Suggestions';
+    aiHeader.appendChild(aiHeading);
+    currentRecipeColumn.appendChild(aiHeader);
+
+    const aiInput = document.createElement('input');
+    aiInput.id = 'aiPrompt';
+    aiInput.placeholder = 'Get AI Suggestion (coming soon)';
+    aiInput.classList.add('sidebar-textbox');
+    aiInput.style.width = 'calc(100% - 22px)';
+    aiInput.style.marginBottom = '5px';
+    currentRecipeColumn.appendChild(aiInput);
+
+    const aiButton = document.createElement('button');
+    aiButton.id = 'btnGetAISuggestion';
+    aiButton.textContent = 'Suggest';
+    aiButton.classList.add('btn');
+    aiButton.disabled = true;
+    aiButton.style.marginBottom = '10px';
+    currentRecipeColumn.appendChild(aiButton);
+
+    const aiSuggestionsList = document.createElement('ul');
+    aiSuggestionsList.id = 'aiSuggestionsList';
+    aiSuggestionsList.style.listStyle = 'none';
+    aiSuggestionsList.style.padding = '0';
+    aiSuggestionsList.style.maxHeight = '150px';
+    aiSuggestionsList.style.overflowY = 'auto';
+    aiSuggestionsList.style.border = '1px dashed #ccc';
+    aiSuggestionsList.style.padding = '5px';
+    aiSuggestionsList.textContent = 'Suggestions will appear here...';
+    currentRecipeColumn.appendChild(aiSuggestionsList);
+
+    const tableContainer = document.createElement('div');
+    tableContainer.classList.add('tableContainer');
+    tableContainer.style.flexGrow = '1';
+    tableContainer.style.overflowY = 'auto';
+    tableContainer.style.marginBottom = 'var(--spacing-medium)';
+
+    const editTable = document.createElement('table');
+    editTable.style.width = '100%';
+    editTable.style.borderCollapse = 'collapse';
+    editTable.id = 'iterationEditTable';
+
+    const editHeaderRow = document.createElement('tr');
+    ['Ingredient', 'Quantity', 'Unit', 'Notes', 'Actions'].forEach(txt => {
+      const th = document.createElement('th');
+      th.textContent = txt;
+      th.style.padding = '8px';
+      th.style.border = '1px solid #444';
+      editHeaderRow.appendChild(th);
+    });
+    editTable.appendChild(editHeaderRow);
+
+    if (recipe.ingredients && Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0) {
+      recipe.ingredients.forEach(ing => {
+        const row = createEditableIngredientRow(ing);
+        editTable.appendChild(row);
+      });
+    } else {
+      const placeholderRow = editTable.insertRow();
+      const cell = placeholderRow.insertCell();
+      cell.colSpan = 5;
+      cell.textContent = 'No ingredients yet. Add one below!';
+      cell.style.textAlign = 'center';
+      cell.style.padding = '10px';
+      cell.style.fontStyle = 'italic';
+    }
+    tableContainer.appendChild(editTable);
+    currentRecipeColumn.appendChild(tableContainer);
+
+    const addIngredientBtn = document.createElement('button');
+    addIngredientBtn.textContent = '+ Add Ingredient Row';
+    addIngredientBtn.classList.add('btn');
+    addIngredientBtn.id = 'addIterationIngredientBtn';
+    addIngredientBtn.style.marginBottom = 'var(--spacing-small)';
+    addIngredientBtn.addEventListener('click', () => {
+      const newRow = createEditableIngredientRow({});
+      const placeholder = editTable.querySelector('td[colspan="5"]');
+      if (placeholder) placeholder.parentElement.remove();
+      editTable.appendChild(newRow);
+      setEditModeFields();
+    });
+    currentRecipeColumn.appendChild(addIngredientBtn);
+
+    const commitBtn = document.createElement('button');
+    commitBtn.id = 'commitRecipeBtn';
+    commitBtn.textContent = 'Commit Iteration';
+    commitBtn.classList.add('btn');
+    commitBtn.addEventListener('click', async () => {
+      await doCommitIteration(recipe, editTable);
+    });
+    currentRecipeColumn.appendChild(commitBtn);
+
+    setEditModeFields();
+
   } catch (error) {
     console.error('Error in showRecipeDetails:', error);
-    details.innerHTML = `<p>Error loading recipe details.</p>`; // Show error in left details area
+    details.innerHTML = `<p>Error loading recipe details.</p>`;
   }
-
-  // --- Button creation and appending moved inside the try block ---
-
-  // MIDDLE COLUMN ('#ingredients-column'): Recipe Description & Instructions - Section Removed
-  // Description and Instructions are now appended directly to 'details' earlier in the function.
-
-  // AI Suggestions elements will be created later and added to the right column
-
-  // Removed misplaced AI input and suggestion elements from here.
-
-  // RIGHT COLUMN ('#current-recipe-column'): Kraft / AI / Editable Ingredients - Section Removed
-  // Content will be appended directly to 'details'
-
-  // --- Append Kraft/AI Section directly to 'details' ---
-  const iterationHeading = document.createElement('h3');
-  iterationHeading.textContent = 'Kraft'; // Renamed header
-  details.appendChild(iterationHeading); // Append header to main details area
-
-  // --- Add AI Suggestions Elements Here ---
-  const aiHeader = document.createElement('div');
-  aiHeader.style.display = 'flex';
-  aiHeader.style.justifyContent = 'space-between';
-  aiHeader.style.alignItems = 'center';
-  aiHeader.style.marginBottom = '10px';
-  aiHeader.style.marginTop = 'var(--spacing-medium)'; // Add some space above AI section
-
-  const aiHeading = document.createElement('h3');
-  aiHeading.textContent = 'AI Suggestions';
-  aiHeader.appendChild(aiHeading);
-  details.appendChild(aiHeader); // Add AI Header to main details area
-
-  const aiInput = document.createElement('input');
-  aiInput.id = 'aiPrompt';
-  aiInput.placeholder = 'Get AI Suggestion (coming soon)';
-  aiInput.classList.add('sidebar-textbox'); // Reuse existing style
-  aiInput.style.width = 'calc(100% - 22px)'; // Adjust width considering padding
-  aiInput.style.marginBottom = '5px';
-  details.appendChild(aiInput); // Add AI Input to main details area
-
-  const aiButton = document.createElement('button');
-  aiButton.id = 'btnGetAISuggestion';
-  aiButton.textContent = 'Suggest';
-  aiButton.classList.add('btn');
-  aiButton.disabled = true; // Feature coming soon
-  aiButton.style.marginBottom = '10px';
-  details.appendChild(aiButton); // Add AI Button to main details area
-
-  const aiSuggestionsList = document.createElement('ul');
-  aiSuggestionsList.id = 'aiSuggestionsList';
-  aiSuggestionsList.style.listStyle = 'none';
-  aiSuggestionsList.style.padding = '0';
-  aiSuggestionsList.style.maxHeight = '150px'; // Limit height
-  aiSuggestionsList.style.overflowY = 'auto';
-  aiSuggestionsList.style.border = '1px dashed #ccc';
-  aiSuggestionsList.style.padding = '5px';
-  aiSuggestionsList.textContent = 'Suggestions will appear here...'; // Placeholder
-  details.appendChild(aiSuggestionsList); // Add AI List to main details area
-  // --- End AI Suggestions Elements (now appended to details) ---
-
-  const tableContainer = document.createElement('div');
-  tableContainer.classList.add('tableContainer'); // Add class for styling hook
-  tableContainer.style.flexGrow = '1';
-  tableContainer.style.overflowY = 'auto';
-  tableContainer.style.marginBottom = 'var(--spacing-medium)';
-
-  const editTable = document.createElement('table');
-  editTable.style.width = '100%';
-  editTable.style.borderCollapse = 'collapse';
-  editTable.id = 'iterationEditTable';
-
-  const editHeaderRow = document.createElement('tr');
-  ['Ingredient', 'Quantity', 'Unit', 'Notes', 'Actions'].forEach(txt => {
-    const th = document.createElement('th');
-    th.textContent = txt;
-    th.style.padding = '8px';
-    th.style.border = '1px solid #444';
-    editHeaderRow.appendChild(th);
-  });
-  editTable.appendChild(editHeaderRow);
-
-  if (recipe.ingredients && Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0) {
-    recipe.ingredients.forEach(ing => {
-      const row = createEditableIngredientRow(ing);
-      editTable.appendChild(row);
-    });
-  } else {
-    const placeholderRow = editTable.insertRow();
-    const cell = placeholderRow.insertCell();
-    cell.colSpan = 5;
-    cell.textContent = 'No ingredients yet. Add one below!';
-    cell.style.textAlign = 'center';
-    cell.style.padding = '10px';
-    cell.style.fontStyle = 'italic';
-  }
-  tableContainer.appendChild(editTable);
-  currentRecipeColumn.appendChild(tableContainer); // Append editable table to right column
-
-  const addIngredientBtn = document.createElement('button');
-  addIngredientBtn.textContent = '+ Add Ingredient Row';
-  addIngredientBtn.classList.add('btn');
-  addIngredientBtn.id = 'addIterationIngredientBtn';
-  addIngredientBtn.style.marginBottom = 'var(--spacing-small)';
-  addIngredientBtn.addEventListener('click', () => {
-    const newRow = createEditableIngredientRow({});
-    const placeholder = editTable.querySelector('td[colspan="5"]');
-    if (placeholder) placeholder.parentElement.remove();
-    editTable.appendChild(newRow);
-    setEditModeFields();
-  });
-  currentRecipeColumn.appendChild(addIngredientBtn); // Append add button to right column
-
-  const commitBtn = document.createElement('button');
-  commitBtn.id = 'commitRecipeBtn';
-  commitBtn.textContent = 'Commit Iteration';
-  commitBtn.classList.add('btn');
-  commitBtn.addEventListener('click', async () => {
-    await doCommitIteration(recipe, editTable);
-  });
-  currentRecipeColumn.appendChild(commitBtn); // Append commit button to right column
- 
-  // Removed appending of dynamic divs and container
-  setEditModeFields();
 }
 
 /**
