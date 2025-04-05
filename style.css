@@ -35,14 +35,18 @@ html {
   height: 100%;
   width: 100%;
 }
-
 body {
   font-family: var(--font-family);
   line-height: var(--line-height);
   background-color: var(--primary);
   color: var(--text);
-  margin: 0 auto;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
   transition: background-color 0.3s, color 0.3s; /* Add transition for theme change */
+}
 }
 
 /* Container */
@@ -77,8 +81,12 @@ h4 { font-size: 20px; margin-bottom: var(--spacing-small); }
 .page-wrapper {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .unified-header {
@@ -116,9 +124,11 @@ h4 { font-size: 20px; margin-bottom: var(--spacing-small); }
   gap: 16px;
   list-style: none;
   overflow-x: auto;
+  overflow-y: hidden;
   margin: 0;
   padding: 0;
   min-height: 50px;
+  max-height: 80px;
 }
 
 .main-content {
@@ -130,8 +140,10 @@ h4 { font-size: 20px; margin-bottom: var(--spacing-small); }
   justify-content: space-between;
   gap: var(--spacing-large);
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 16px;
   background-color: var(--primary);
+  height: 100%;
   transition: background-color 0.3s;
 }
 
@@ -314,7 +326,6 @@ select { /* Added select here */
 /* ========================= */
 /* Responsive 3-Column Layout */
 /* ========================= */
-
 .content-grid {
   display: grid;
   grid-template-columns: 1fr 2fr 1fr;
@@ -322,9 +333,12 @@ select { /* Added select here */
   padding: var(--spacing-large);
   max-width: var(--max-width);
   margin: 0 auto;
+  flex: 1;
+  overflow: hidden;
+  height: calc(100% - 180px); /* Adjust based on header height */
   transition: all 0.3s ease;
 }
-
+}
 .left-column,
 .middle-column,
 .right-column {
@@ -333,7 +347,10 @@ select { /* Added select here */
   border-radius: 8px;
   transition: all 0.3s ease;
   overflow-y: auto;
-  max-height: calc(100vh - 200px);
+  overflow-x: hidden;
+  height: 100%;
+  max-height: 100%;
+}
 }
 
 /* Clear visual separation */
@@ -351,11 +368,15 @@ select { /* Added select here */
 @media (max-width: 1024px) {
   .content-grid {
     grid-template-columns: 1fr;
+    height: calc(100% - 180px);
+    overflow-y: auto;
   }
   .left-column,
   .middle-column,
   .right-column {
+    height: auto;
     max-height: none;
+    margin-bottom: var(--spacing-medium);
   }
 }
 
@@ -365,6 +386,8 @@ select { /* Added select here */
 .middle-column,
 .right-column {
   transition: all 0.3s ease;
+}
+
 /* Recipe Header Section */
 .recipe-header-section {
   display: flex;
