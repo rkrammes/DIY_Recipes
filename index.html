@@ -18,11 +18,17 @@
   <!-- External CSS -->
   <link rel="stylesheet" href="style.css" />
   
-  <!-- Inline adjustments for recipe list size -->
+  <!-- Inline adjustments for project list size -->
   <style>
-    .recipe-list-horizontal li {
+    .recipe-list-horizontal {
       font-size: 0.8em;
+      overflow-x: auto;
+      white-space: nowrap;
       padding: 5px;
+    }
+    .recipe-list-horizontal li {
+      display: inline-block;
+      margin-right: 10px;
     }
   </style>
   
@@ -32,12 +38,11 @@
 </head>
 <body class="dark">
   <div class="page-wrapper">
-    <!-- Unified Header containing controls and recipe list -->
+    <!-- Unified Header containing controls and project list -->
     <header class="glass-panel unified-header">
       <div class="header-top-row">
         <div class="header-left">
           <button class="btn" id="btnIngredients">All Ingredients</button>
-          <!-- Removed createRecipeContainer -->
         </div>
         <div id="logoContainer" style="text-align: center; flex-grow: 1;">
           <span id="logoText" style="font-size: 24px; font-weight: bold;">DIY Projects</span>
@@ -56,7 +61,7 @@
       </div>
     </header>
 
-    <!-- Recipe Header Section -->
+    <!-- Project Header Section -->
     <div class="glass-panel recipe-header-section">
       <h2 class="recipe-title" id="selectedRecipeTitle">Select a Project</h2>
       <div class="recipe-actions">
@@ -97,7 +102,6 @@
         <!-- MAIN CONTENT: displays project details or instructions view -->
         <main class="main-content">
           <section class="recipe-details" id="recipeDetails" style="display:none;">
-            <!-- Basic Instructions Summary (Always Visible) -->
             <div class="instructions-summary">
               <h3 class="section-title">Instructions Summary</h3>
               <div id="instructionsSummary" class="summary-content">
@@ -105,13 +109,11 @@
               </div>
             </div>
             
-            <!-- Collapsible Sections Group -->
             <div class="collapsible-group" id="middleColumnCollapsibles">
               <button id="toggleMiddleColumnBtn" class="btn-expand-collapse" aria-label="Toggle all middle column sections">
                 <span class="icon">⊕</span> <span class="label">Expand All</span>
               </button>
               
-              <!-- Detailed Instructions (Collapsible) -->
               <div class="collapsible-container" aria-expanded="false" data-color="blue">
                 <button type="button" class="collapsible-header" aria-controls="detailed-instructions-content" aria-expanded="false">
                   <span>Detailed Instructions</span>
@@ -124,7 +126,6 @@
                 </div>
               </div>
               
-              <!-- Notes (Collapsible) -->
               <div class="collapsible-container" aria-expanded="false" data-color="blue">
                 <button type="button" class="collapsible-header" aria-controls="notes-content" aria-expanded="false">
                   <span>Notes</span>
@@ -138,7 +139,6 @@
               </div>
             </div>
           </section>
-          <!-- Removed ingredients-view section from middle column -->
         </main>
       </div>
 
@@ -167,11 +167,19 @@
                   <h4>New Iteration</h4>
                   <div class="form-group">
                     <label for="iterationTitle">Title:</label>
-                    <input type="text" id="iterationTitle" class="iteration-input" placeholder="Iteration Title" />
+                    <input type="text" id="iterationTitle" class="iteration-input" placeholder="Prepopulated: [Current Project Title]" value="[Current Project Title]" />
+                  </div>
+                  <div class="form-group">
+                    <label for="iterationType">Iteration Type:</label>
+                    <select id="iterationType" class="iteration-select">
+                      <option value="design">Design</option>
+                      <option value="prototype">Prototype</option>
+                      <option value="final">Final</option>
+                    </select>
                   </div>
                   <div class="form-group">
                     <label for="iterationNotes">Notes:</label>
-                    <textarea id="iterationNotes" placeholder="Iteration Notes"></textarea>
+                    <textarea id="iterationNotes" placeholder="Prepopulated with current project details...">[Current Project Details]</textarea>
                   </div>
                   <div class="form-actions">
                     <button id="saveIterationBtn" class="btn">Save Iteration</button>
@@ -182,13 +190,11 @@
             </div>
           </div>
         </div>
-        <!-- Removed other panels: Version History, AI Suggestions, Media, and Comments -->
       </div>
     </div>
   </div>
 
   <!-- main.js as a module -->
   <script type="module" src="js/main.js"></script>
-  <!-- Duplicate recipeDetails block removed -->
 </body>
 </html>
