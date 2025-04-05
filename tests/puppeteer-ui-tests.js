@@ -20,8 +20,8 @@ async function runPuppeteerTests() {
     
     // Step 3: Click on a recipe to load the recipe details
     console.log('Step 3: Clicking on a recipe...');
-    // Click on the Beard Oil recipe
-    await puppeteerClick('.recipe-item:nth-child(2)');
+    // Click on a DIY recipe
+    await puppeteerClick('.recipe-item:nth-child(1)');
     
     // Step 4: Take a screenshot of the recipe details
     console.log('Step 4: Taking screenshot of recipe details...');
