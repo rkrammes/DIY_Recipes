@@ -311,6 +311,12 @@ export async function showRecipeDetails(recipe) {
   console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
 
   currentRecipe = recipe; // Store the current recipe
+  
+  // Update the selected recipe title in the header
+  const selectedRecipeTitle = document.getElementById('selectedRecipeTitle');
+  if (selectedRecipeTitle) {
+    selectedRecipeTitle.textContent = recipe.title || 'Select a Recipe';
+  }
 
   const details = document.getElementById('recipeDetails'); // Left column container
   const recipeHeader = document.getElementById('recipe-header'); // Header above left column
