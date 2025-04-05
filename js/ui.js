@@ -414,6 +414,7 @@ export async function showRecipeDetails(recipe) {
       const expanded = instructionsCollapsible.getAttribute('aria-expanded') === 'true';
       instructionsCollapsible.setAttribute('aria-expanded', String(!expanded));
       instructionsHeader.setAttribute('aria-expanded', String(!expanded));
+      instructionsCollapsible.classList.toggle('expanded', !expanded);
     });
 
     instructionsHeader.addEventListener('keydown', (e) => {
@@ -452,6 +453,7 @@ export async function showRecipeDetails(recipe) {
         const expanded = container.getAttribute('aria-expanded') === 'true';
         container.setAttribute('aria-expanded', String(!expanded));
         header.setAttribute('aria-expanded', String(!expanded));
+        container.classList.toggle('expanded', !expanded);
       });
 
       header.addEventListener('keydown', (e) => {

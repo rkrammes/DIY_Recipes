@@ -248,374 +248,67 @@ select { /* Added select here */
   background-color: #000; /* Black background */
   color: var(--text); /* Use theme text color */
   border: 1px solid #444; /* Dark border */
-  font-family: var(--font-family);
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-/* Ingredient Container & Desc (Dark Default) */
-.ingredient-container {
-  margin-bottom: var(--spacing-small);
-}
-.ingredient-description {
-  padding: 8px 12px;
-  border: 1px solid var(--accent-blue);
-  background-color: var(--secondary);
-  border-radius: 4px;
-  font-size: 0.9em;
-  color: var(--muted-text);
-  margin-top: var(--spacing-small);
-  font-family: var(--font-family);
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-}
-
-/* Remove Ingredient Button (Dark Default - uses .btn gradient) */
-.remove-ingredient-btn {
-  margin-top: var(--spacing-small);
-  /* Inherits .btn styles */
-}
-
-/* Theme Label */
-.theme-label {
-  font-size: 0.9em;
-  margin-right: var(--spacing-small);
-  font-family: var(--font-family);
-}
-
-/* Ingredients View & Recipe Details (Dark Default) */
-#ingredientsView,
-#recipeDetails {
-  flex: 1 1 30%;
-  min-width: 250px;
-  max-width: 33%;
-  padding: var(--spacing-medium);
-  background-color: var(--secondary);
-  border-radius: 8px;
-  margin: 0;
-  font-family: var(--font-family);
-  color: var(--text);
-  transition: background-color 0.3s, color 0.3s;
-}
-#ingredientsView.active,
-#recipeDetails.active {
-  display: block;
-}
-
-/* Always show both sections side by side */
-#ingredientsView,
-#recipeDetails {
-  display: block;
-}
-
-/* Recipe Header (Centered above main content) */
-#recipe-header {
-  text-align: center; /* Center the text (title and description) */
-  padding: var(--spacing-medium) 0; /* Add some vertical padding */
-  margin-bottom: var(--spacing-large); /* Add space below the header */
-}
-
-/* Ensure header elements inherit theme colors */
-#recipe-header h3,
-#recipe-header p {
-  color: var(--text);
-  transition: color 0.3s; /* Add transition for theme change */
-}
-
-/* Light theme override for header text */
-.light #recipe-header h3,
-.light #recipe-header p {
-  color: #1A1A1A;
-}
-
-/* ==================== */
-/* ==================== */
-/* == Theme Overrides == */
-/* ==================== */
-
-/* --- Light Theme --- */
-body.light {
-    background-color: #FFFFFF;
-    color: #1A1A1A;
-}
-
-.light .unified-header {
-    background-color: #EAEAEA; /* Lighter secondary */
-}
-.light .header-recipe-list {
-    background-color: #FFFFFF;
-}
-.light .main-content {
-    background-color: #FFFFFF;
-}
-.light .glass-panel {
-    background: rgba(240, 240, 240, 0.8); /* Light grey glass */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    color: #1A1A1A;
-}
-.light aside.glass-panel {
-    background-color: #EAEAEA; /* Lighter secondary */
-}
-.light .theme-select {
-    background-color: #FFFFFF;
-    color: #1A1A1A;
-    border: 1px solid #3498DB;
-}
-/* Let light theme buttons inherit base gradient style */
-.light input,
-.light textarea {
-    background-color: #F0F0F0;
-    color: var(--accent-orange); /* Use accent orange like dark mode */
-    border: 1px solid #3498DB;
-}
-.light ::placeholder {
-    color: var(--accent-orange); /* Use accent orange like dark mode */
-    opacity: 0.7; /* Match dark mode opacity */
-}
-.light #ingredientsView,
-.light #recipeDetails {
-    background-color: #FFFFFF;
-    color: #1A1A1A;
-}
-.light .container table th,
-.light .container table td {
-  background-color: #F8F8F8 !important;
-  color: #1A1A1A !important;
-  border: 1px solid #CCCCCC !important;
-}
-.light .ingredient-description {
-    background-color: #EAEAEA;
-    color: #555555;
-    border: 1px solid #3498DB;
-}
-/* Let light theme remove button inherit base gradient style */
-
-/* --- Dark Theme --- (Mostly handled by base styles) */
-/* body.dark ruleset removed as it was empty and base styles handle dark theme */
-/* Example: If dark buttons needed a non-gradient style */
-/*
-.dark .btn {
-    background: var(--secondary);
-    color: var(--text);
-    -webkit-background-clip: initial;
-    background-clip: initial;
-    -webkit-text-fill-color: initial;
-}
-.dark .btn:hover {
-    background: #444444; // Slightly lighter dark
-}
-*/
-
-/* Status Message Styling */
-.status-messages {
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 4px;
-  text-align: center;
-  font-weight: bold;
-  opacity: 0; /* Start hidden */
-  transition: opacity 0.5s ease-in-out; /* Fade transition */
-  min-height: 1.5em; /* Prevent layout shift when empty */
-  display: none; /* Hide completely when not active */
-}
-
-.status-messages.success {
-  background-color: rgba(46, 204, 113, 0.2); /* Light green background */
-  color: #2ecc71; /* Green text */
-  border: 1px solid #2ecc71;
-}
-
-.status-messages.error {
-  background-color: rgba(231, 76, 60, 0.2); /* Light red background */
-  color: #e74c3c; /* Red text */
-  border: 1px solid #e74c3c;
-}
-
-/* Button styles for small buttons */
-.btn-small {
-  font-size: 12px !important;
-  padding: 2px 5px !important;
-  min-height: unset !important;
-  height: auto !important;
-  line-height: 1.2 !important;
-  margin: 0 !important;
-}
-
-/* Ingredient item hover and selected states */
-.ingredient-item {
-  transition: all 0.2s ease;
-  border-left: 3px solid transparent;
-  padding: 8px !important;
-  margin-bottom: 8px !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: 4px !important;
-  background-color: rgba(0, 0, 0, 0.2) !important;
-  display: block !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-  -webkit-background-clip: initial !important;
-  background-clip: initial !important;
-  -webkit-text-fill-color: initial !important;
-  color: var(--text) !important;
-}
-
-.ingredient-item:hover {
-  background-color: rgba(0, 123, 255, 0.1) !important;
-  border-color: rgba(0, 123, 255, 0.3) !important;
-}
-
-.ingredient-item.selected {
-  background-color: rgba(0, 123, 255, 0.15) !important;
-  border-left: 3px solid #007bff !important;
-}
-
-/* Ingredient content styling */
-.ingredient-summary { /* Renamed from ingredient-content */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-.ingredient-name {
-  font-weight: bold;
-  color: var(--text); /* Changed from accent-orange */
-  -webkit-text-fill-color: var(--text); /* Changed from accent-orange */
-}
-
-.ingredient-quantity {
-  color: var(--text);
-  -webkit-text-fill-color: var(--text);
-}
-
-.ingredient-details { /* New class for collapsible section */
-  display: none; /* Hidden by default */
-  margin-top: 5px;
-  padding-left: 10px;
-  border-left: 2px solid rgba(255, 255, 255, 0.2);
-}
-
-.ingredient-item.expanded .ingredient-details { /* Show when expanded */
-  display: block;
-}
-
-.ingredient-description {
+/* ========================= */
+/* Collapsible Enhancements  */
+/* ========================= */
 
 .collapsible-container {
-  margin-bottom: var(--spacing-medium);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
+  border-radius: 6px;
+  margin-bottom: var(--spacing-medium);
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.2);
-  transition: border-color 0.3s, background-color 0.3s;
+  transition: border-color 0.3s ease;
 }
 
 .collapsible-header {
+  width: 100%;
+  background-color: var(--secondary);
+  color: var(--text);
+  font-family: var(--font-family);
+  font-size: 1em;
+  padding: var(--spacing-small) var(--spacing-medium);
+  text-align: left;
+  border: none;
+  outline: none;
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  padding: 10px;
-  font-weight: bold;
-  font-family: var(--font-family);
-  background-color: rgba(255, 255, 255, 0.05);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 .collapsible-header:hover,
 .collapsible-header:focus {
   background-color: rgba(255, 255, 255, 0.1);
-  outline: none;
-}
-
-.collapsible-header:focus {
-  box-shadow: 0 0 0 2px var(--accent-blue);
 }
 
 .collapsible-icon {
+  display: inline-block;
   transition: transform 0.3s ease;
-  font-size: var(--icon-size);
 }
 
 .collapsible-container[aria-expanded="true"] .collapsible-icon {
   transform: rotate(90deg);
 }
 
+/* Hide content by default */
 .collapsible-content {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.4s ease;
-  padding: 0 10px;
+  padding: 0 var(--spacing-medium);
 }
 
+/* Show content when expanded */
 .collapsible-container[aria-expanded="true"] .collapsible-content {
-  padding: 10px;
+  padding: var(--spacing-small) var(--spacing-medium);
   max-height: 1000px; /* Large enough to fit content */
 }
-  font-size: 0.9em;
-  margin-bottom: 3px; /* Adjusted margin */
-  color: var(--muted-text);
-  -webkit-text-fill-color: var(--muted-text);
-}
 
-.ingredient-notes {
-  font-style: italic;
-  font-size: 0.9em;
-  color: var(--muted-text);
-  -webkit-text-fill-color: var(--muted-text);
-}
-
-/* Removed .ingredient-actions styles */
-
-/* Light theme overrides for ingredients */
-.light .ingredient-item {
-  border-color: rgba(0, 0, 0, 0.1) !important;
-  background-color: rgba(0, 0, 0, 0.02) !important;
-  color: var(--primary) !important;
-  -webkit-text-fill-color: var(--primary) !important;
-}
-.light .ingredient-item:hover {
-  background-color: rgba(0, 123, 255, 0.05) !important;
-  border-color: rgba(0, 123, 255, 0.2) !important;
-}
-.light .ingredient-item.selected {
-  background-color: rgba(0, 123, 255, 0.08) !important;
-  border-left-color: #007bff !important;
-}
-.light .ingredient-name,
-.light .ingredient-quantity,
-.light .ingredient-description,
-.light .ingredient-notes {
-  color: var(--primary) !important;
-  -webkit-text-fill-color: var(--primary) !important;
-}
-.light .ingredient-details {
-  border-left-color: rgba(0, 0, 0, 0.2);
-}
-
-/* style.css additions */
-
-/* Middle Column (Description/Instructions) Spacing */
-#recipe-info-column {
-  padding: var(--spacing-medium); /* Ensure consistent padding */
-}
-
-#recipe-info-column p {
-  margin-bottom: var(--spacing-medium); /* Add space between description and instructions */
-}
-
-/* Right Column (Kraft) Spacing Adjustments */
-.iteration-column .tableContainer { /* Target the table container specifically */
-  margin-bottom: var(--spacing-large); /* Add space below the ingredients table */
-}
-
-/* Ensure AI Input uses full width within its column */
-.iteration-column #aiPrompt {
-  width: 100%; /* Override inline style if necessary */
-  box-sizing: border-box; /* Include padding/border in width calculation */
-}
-
-/* Optional: Style for the AI Suggestions list */
-.iteration-column #aiSuggestionsList {
-  margin-top: var(--spacing-small);
-  background-color: rgba(0, 0, 0, 0.1); /* Subtle background */
+/* Accessibility focus outline */
+.collapsible-header:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 2px;
 }
