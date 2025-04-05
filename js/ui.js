@@ -384,9 +384,20 @@ export async function showRecipeDetails(recipe) {
     titleH3.textContent = recipe.title;
     recipeHeader.appendChild(titleH3);
 
-    // --- Middle column content ---
+    // --- Left column content (summary, metadata, quick actions) ---
+    const summaryDiv = document.createElement('div');
+    summaryDiv.className = 'recipe-summary';
+    summaryDiv.style.marginBottom = 'var(--spacing-medium)';
+    summaryDiv.innerHTML = `
+      <p><strong>Description:</strong> ${recipe.description || 'No description provided'}</p>
+      <p><strong>Prep Time:</strong> ${recipe.prep_time || 'N/A'}</p>
+      <p><strong>Cook Time:</strong> ${recipe.cook_time || 'N/A'}</p>
+      <p><strong>Servings:</strong> ${recipe.servings || 'N/A'}</p>
+      <p><strong>Category:</strong> ${recipe.category || 'N/A'}</p>
+    `;
+    details.appendChild(summaryDiv);
 
-    // Create Expand/Collapse All toggle button
+    // --- Middle column content (ingredients only) ---
     const toggleAllBtn = document.createElement('button');
     toggleAllBtn.className = 'btn';
     toggleAllBtn.textContent = 'Collapse All';
@@ -406,11 +417,77 @@ export async function showRecipeDetails(recipe) {
     });
     ingredientsColumn.prepend(toggleAllBtn);
 
-    const descriptionP = document.createElement('p');
-    descriptionP.textContent = recipe.description || 'No description provided';
-    descriptionP.style.marginBottom = 'var(--spacing-medium)';
-    ingredientsColumn.appendChild(descriptionP);
+    // Ingredients collapsible (default expanded)
+    const ingredientsCollapsible = document.createElement('div');
+    ingredientsCollapsible.className = 'collapsible-container';
+    ingredientsCollapsible.setAttribute('aria-expanded', 'true');
 
+    const ingredientsHeader = document.createElement('button');
+    ingredientsHeader.type = 'button';
+    ingredientsHeader.className = 'collapsible-header';
+    ingredientsHeader.setAttribute('aria-controls', 'ingredients-content');
+    ingredientsHeader.setAttribute('aria-expanded', 'true');
+    ingredientsHeader.innerHTML = `
+      <span>Ingredients</span>
+      <span class="collapsible-icon">&#9654;</span>
+    `;
+
+    ingredientsHeader.addEventListener('click', () => {
+      const expanded = ingredientsCollapsible.getAttribute('aria-expanded') === 'true';
+      ingredientsCollapsible.setAttribute('aria-expanded', String(!expanded));
+      ingredientsHeader.setAttribute('aria-expanded', String(!expanded));
+      ingredientsCollapsible.classList.toggle('expanded', !expanded);
+    });
+
+    ingredientsHeader.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        ingredientsHeader.click();
+      }
+    });
+
+    const ingredientsContent = document.createElement('div');
+    ingredientsContent.className = 'collapsible-content';
+    ingredientsContent.id = 'ingredients-content';
+
+    const ingredientsContainer = document.createElement('div');
+    ingredientsContainer.style.maxHeight = '400px';
+    ingredientsContainer.style.overflowY = 'auto';
+    ingredientsContainer.style.marginBottom = 'var(--spacing-medium)';
+    ingredientsContainer.style.padding = '10px';
+    ingredientsContainer.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+    ingredientsContainer.style.borderRadius = '4px';
+    ingredientsContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+
+    const ingredientsContainerHeading = document.createElement('div');
+    ingredientsContainerHeading.style.marginBottom = '10px';
+    ingredientsContainerHeading.style.fontSize = '14px';
+    ingredientsContainerHeading.style.fontStyle = 'italic';
+    ingredientsContainerHeading.style.color = 'var(--accent-orange)';
+    ingredientsContainer.appendChild(ingredientsContainerHeading);
+
+    const currentIngredientsList = document.createElement('ul');
+    currentIngredientsList.id = 'currentRecipeIngredients';
+    currentIngredientsList.style.listStyle = 'none';
+    currentIngredientsList.style.padding = '0';
+    currentIngredientsList.style.margin = '0';
+
+    ingredientsContainer.appendChild(currentIngredientsList);
+    ingredientsContent.appendChild(ingredientsContainer);
+
+    ingredientsCollapsible.appendChild(ingredientsHeader);
+    ingredientsCollapsible.appendChild(ingredientsContent);
+    ingredientsColumn.appendChild(ingredientsCollapsible);
+
+    setTimeout(() => {
+      console.log('About to render ingredients for recipe:', recipe.id);
+      console.log('Final ingredients data to render:', JSON.stringify(recipe.ingredients || []));
+      console.log('Calling renderIngredients with ingredients array');
+      renderIngredients(recipe.ingredients || []);
+      console.log('Returned from renderIngredients call');
+    }, 0);
+
+    // --- Right column content (collapsible sections) ---
     // Collapsible Instructions Section
     const instructionsCollapsible = document.createElement('div');
     instructionsCollapsible.className = 'collapsible-container';
@@ -419,7 +496,7 @@ export async function showRecipeDetails(recipe) {
     const instructionsHeader = document.createElement('button');
     instructionsHeader.type = 'button';
     instructionsHeader.className = 'collapsible-header';
-    instructionsHeader.setAttribute('aria-controls', 'instructions-content');
+    instructionsHeader.setAttribute('aria-controls', 'instructions-content-right');
     instructionsHeader.setAttribute('aria-expanded', 'false');
     instructionsHeader.innerHTML = `
       <span>Instructions</span>
@@ -428,7 +505,7 @@ export async function showRecipeDetails(recipe) {
 
     const instructionsContent = document.createElement('div');
     instructionsContent.className = 'collapsible-content';
-    instructionsContent.id = 'instructions-content';
+    instructionsContent.id = 'instructions-content-right';
     instructionsContent.innerHTML = recipe.instructions || 'No instructions provided';
 
     instructionsHeader.addEventListener('click', () => {
@@ -447,7 +524,7 @@ export async function showRecipeDetails(recipe) {
 
     instructionsCollapsible.appendChild(instructionsHeader);
     instructionsCollapsible.appendChild(instructionsContent);
-    ingredientsColumn.appendChild(instructionsCollapsible);
+    currentRecipeColumn.appendChild(instructionsCollapsible);
 
     // Helper to create other collapsible sections
     function createCollapsibleSection(title, contentHtml, idSuffix) {
@@ -489,28 +566,24 @@ export async function showRecipeDetails(recipe) {
       return container;
     }
 
-    // Add Notes collapsible if present
     if (recipe.notes) {
       const notesSection = createCollapsibleSection('Notes', recipe.notes, 'notes');
-      ingredientsColumn.appendChild(notesSection);
+      currentRecipeColumn.appendChild(notesSection);
     }
 
-    // Add Nutrition collapsible if present
     if (recipe.nutrition) {
       const nutritionSection = createCollapsibleSection('Nutrition', recipe.nutrition, 'nutrition');
-      ingredientsColumn.appendChild(nutritionSection);
+      currentRecipeColumn.appendChild(nutritionSection);
     }
 
-    // Add Media collapsible if present
     if (recipe.media) {
       const mediaSection = createCollapsibleSection('Media', recipe.media, 'media');
-      ingredientsColumn.appendChild(mediaSection);
+      currentRecipeColumn.appendChild(mediaSection);
     }
 
-    // Add Comments collapsible if present
     if (recipe.comments) {
       const commentsSection = createCollapsibleSection('Comments', recipe.comments, 'comments');
-      ingredientsColumn.appendChild(commentsSection);
+      currentRecipeColumn.appendChild(commentsSection);
     }
 
     // Create Ingredients collapsible container (expanded by default)
