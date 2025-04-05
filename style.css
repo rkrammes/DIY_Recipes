@@ -1,6 +1,5 @@
 /* style.css */
 
-/* Root Variables (Dark Theme Defaults) */
 :root {
   --primary: #1A1A1A;
   --secondary: #2C2C2C;
@@ -190,7 +189,6 @@ aside.glass-panel {
   /* Inherits font-family, font-size, font-weight from inline style or body */
 }
 
-
 /* Recipe/Ingredient Items - Base Gradient Text (Dark Theme Default) */
 .recipe-item,
 .ingredient-item {
@@ -311,4 +309,60 @@ select { /* Added select here */
 .collapsible-header:focus-visible {
   outline: 2px solid var(--accent-blue);
   outline-offset: 2px;
+}
+
+/* ========================= */
+/* Responsive 3-Column Layout */
+/* ========================= */
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: var(--spacing-large);
+  padding: var(--spacing-large);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  transition: all 0.3s ease;
+}
+
+.left-column,
+.middle-column,
+.right-column {
+  background-color: var(--secondary);
+  padding: var(--spacing-medium);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  overflow-y: auto;
+  max-height: calc(100vh - 200px);
+}
+
+/* Clear visual separation */
+.left-column {
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.middle-column {
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.right-column {
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Responsive stacking on smaller screens */
+@media (max-width: 1024px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+  .left-column,
+  .middle-column,
+  .right-column {
+    max-height: none;
+  }
+}
+
+/* Smooth transitions */
+.content-grid,
+.left-column,
+.middle-column,
+.right-column {
+  transition: all 0.3s ease;
 }

@@ -48,39 +48,48 @@
       </div>
     </header>
 
-    <!-- Hidden Magic Link Form (shown if user not logged in) -->
-    <div id="magicLinkForm" style="display: none; padding:10px; text-align:center;">
-      <input
-        type="email"
-        id="magicLinkEmail"
-        class="sidebar-textbox"
-        placeholder="Email"
-        style="margin-right:5px; width:180px;"
-      />
-      <button class="btn" id="btnSendMagicLink">Send Magic Link</button>
+    <div class="content-grid">
+      <div class="left-column">
+        <!-- Hidden Magic Link Form (shown if user not logged in) -->
+        <div id="magicLinkForm" style="display: none; padding:10px; text-align:center;">
+          <input
+            type="email"
+            id="magicLinkEmail"
+            class="sidebar-textbox"
+            placeholder="Email"
+            style="margin-right:5px; width:180px;"
+          />
+          <button class="btn" id="btnSendMagicLink">Send Magic Link</button>
+        </div>
+
+        <!-- Status Message Areas -->
+        <div id="statusMessages" class="status-messages" style="text-align: center; padding: 10px; min-height: 1.5em;"></div>
+        <div id="statusMessages" class="status-messages" style="text-align: center; padding: 10px; min-height: 1.5em;"></div>
+
+        <!-- Recipe Title and Description Header -->
+        <div id="recipe-header"></div>
+      </div>
+
+      <div class="middle-column">
+        <!-- MAIN CONTENT: displays recipe details or ingredients view -->
+        <main class="main-content">
+          <section class="recipe-details" id="recipeDetails" style="display:none;"></section>
+          <section class="ingredients-view" id="ingredientsView" style="display:none;">
+            <div class="ingredients-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-medium);">
+              <h2>All Ingredients</h2>
+              <button id="btnAddGlobalIngredient" class="btn">Add Ingredient</button> <!-- Moved Button -->
+            </div>
+            <!-- Removed the now empty addGlobalIngredientContainer div -->
+            <ul id="ingredientList" class="ingredient-list"></ul>
+          </section>
+        </main>
+      </div>
+
+      <div class="right-column">
+        <!-- Placeholder for instructions, notes, media, comments -->
+      </div>
     </div>
 
-    <!-- Status Message Area -->
-    <div id="statusMessages" class="status-messages" style="text-align: center; padding: 10px; min-height: 1.5em;"></div>
-
-    <!-- Status Message Area -->
-    <div id="statusMessages" class="status-messages" style="text-align: center; padding: 10px; min-height: 1.5em;"></div>
-
-    <!-- Recipe Title and Description Header -->
-    <div id="recipe-header"></div>
-
-    <!-- MAIN CONTENT: displays recipe details or ingredients view -->
-    <main class="main-content">
-      <section class="recipe-details" id="recipeDetails" style="display:none;"></section>
-      <section class="ingredients-view" id="ingredientsView" style="display:none;">
-        <div class="ingredients-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-medium);">
-          <h2>All Ingredients</h2>
-          <button id="btnAddGlobalIngredient" class="btn">Add Ingredient</button> <!-- Moved Button -->
-        </div>
-        <!-- Removed the now empty addGlobalIngredientContainer div -->
-        <ul id="ingredientList" class="ingredient-list"></ul>
-      </section>
-    </main>
   </div>
 
   <!-- main.js as a module -->
