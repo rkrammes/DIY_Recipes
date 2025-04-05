@@ -1,4 +1,4 @@
-/* style.css */
+l/* style.css */
 
 :root {
   --primary: #1A1A1A;
@@ -46,7 +46,6 @@ body {
   overflow: hidden;
   position: fixed;
   transition: background-color 0.3s, color 0.3s; /* Add transition for theme change */
-}
 }
 
 /* Container */
@@ -338,7 +337,6 @@ select { /* Added select here */
   height: calc(100% - 180px); /* Adjust based on header height */
   transition: all 0.3s ease;
 }
-}
 .left-column,
 .middle-column,
 .right-column {
@@ -350,7 +348,6 @@ select { /* Added select here */
   overflow-x: hidden;
   height: 100%;
   max-height: 100%;
-}
 }
 
 /* Clear visual separation */
@@ -407,5 +404,4 @@ select { /* Added select here */
 /* Optional: style the remove button specifically if needed */
 .remove-recipe-btn {
   /* inherits .btn styles */
-}
 }
