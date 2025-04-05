@@ -1570,6 +1570,8 @@ export async function initUI() {
   await reloadData();
   // Setup collapsible sections
   setupRecipeCollapsibles();
+  // Setup iteration functionality
+  setupIterationFunctionality();
 }
 
 /**
