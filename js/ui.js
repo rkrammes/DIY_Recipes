@@ -178,7 +178,7 @@ export function renderRecipes(recipes) {
  */
 export function renderIngredients(ingredients) {
   console.log('renderIngredients called with:', ingredients);
-  const ingredientList = document.getElementById('currentRecipeIngredients');
+  const ingredientList = document.getElementById('currentMaterials');
   if (!ingredientList) {
     console.error('renderIngredients: Could not find element with ID "currentRecipeIngredients"');
     return;
@@ -232,10 +232,13 @@ export function renderIngredients(ingredients) {
     
     // Add quantity and unit if available
     if (ingredient.quantity || ingredient.unit) {
+      const divider = document.createElement('span');
+      divider.textContent = " | ";
+      divider.style.margin = "0 8px";
+      summaryDiv.appendChild(divider);
       const quantityDiv = document.createElement('div');
       quantityDiv.classList.add('ingredient-quantity');
       quantityDiv.textContent = `${ingredient.quantity || ''} ${ingredient.unit || ''}`.trim();
-      quantityDiv.style.marginLeft = '12px';
       quantityDiv.style.padding = '3px 8px';
       quantityDiv.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
       quantityDiv.style.borderRadius = '4px';

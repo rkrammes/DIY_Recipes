@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DIY Recipes - Household Products</title>
+  <title>DIY Projects - Household Products</title>
 
   <!-- 
     Roboto Mono ONLY
@@ -32,7 +32,7 @@
           <!-- Removed createRecipeContainer -->
         </div>
         <div id="logoContainer" style="text-align: center; flex-grow: 1;"> <!-- Added container for logo -->
-          <span id="logoText" style="font-size: 24px; font-weight: bold;">DIY_Recipes</span> <!-- Logo Text -->
+          <span id="logoText" style="font-size: 24px; font-weight: bold;">DIY Projects</span> <!-- Logo Text -->
         </div>
         <div class="header-right">
           <button class="btn" id="btnThemeToggle" data-theme="dark">Theme: Dark</button>
@@ -42,7 +42,7 @@
       </div>
       <div class="header-recipe-list">
          <ul id="recipeList" class="recipe-list-horizontal"></ul>
-         <button id="btnAddRecipe" class="btn btn-add-recipe" style="width:66px; height:66px; margin:0 auto; padding:0; display:flex; align-items:center; justify-content:center;">
+         <button id="btnAddRecipe" class="btn btn-add-recipe" style="width:50px; height:50px; margin:0 auto; padding:0; display:flex; align-items:center; justify-content:center;">
            +
          </button>
       </div>
@@ -78,11 +78,11 @@
         
         <!-- Ingredients List (Always Visible) -->
         <div class="ingredients-container">
-          <h3 class="section-title">Ingredients</h3>
+          <h3 class="section-title">Materials</h3>
           <button id="toggleIngredientsBtn" class="btn-expand-collapse" aria-label="Toggle all ingredients">
             <span class="icon">⊕</span> <span class="label">Expand All</span>
           </button>
-          <ul id="currentRecipeIngredients" class="ingredient-list"></ul>
+          <ul id="currentMaterials" class="material-list"></ul>
         </div>
         
         <!-- Removed Quick Stats section as it's not relevant for DIY household products -->
@@ -136,10 +136,10 @@
           
           <section class="ingredients-view" id="ingredientsView" style="display:none;">
             <div class="ingredients-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-medium);">
-              <h2>All Ingredients</h2>
+              <h2>All Materials</h2>
               <button id="btnAddGlobalIngredient" class="btn">Add Ingredient</button>
             </div>
-            <ul id="ingredientList" class="ingredient-list"></ul>
+            <ul id="materialList" class="material-list"></ul>
           </section>
         </main>
       </div>
@@ -154,7 +154,7 @@
           <!-- Version History (Collapsible) -->
           <div class="collapsible-container" aria-expanded="false" data-color="orange">
             <button type="button" class="collapsible-header" aria-controls="version-history-content" aria-expanded="false">
-              <span>Version History</span>
+              <span>Project Versions</span>
               <span class="collapsible-icon">&#9654;</span>
             </button>
             <div class="collapsible-content" id="version-history-content">
@@ -167,7 +167,7 @@
           <!-- Recipe Iteration Management (Collapsible) -->
           <div class="collapsible-container" aria-expanded="false" data-color="orange">
             <button type="button" class="collapsible-header" aria-controls="iteration-management-content" aria-expanded="false">
-              <span>Recipe Iterations</span>
+              <span>Project Iterations</span>
               <span class="collapsible-icon">&#9654;</span>
             </button>
             <div class="collapsible-content" id="iteration-management-content">
@@ -182,8 +182,12 @@
                 <div id="newIterationForm" class="new-iteration-form" style="display: none;">
                   <h4>New Iteration</h4>
                   <div class="form-group">
+                    <label for="iterationTitle">Title:</label>
+                    <input type="text" id="iterationTitle" class="iteration-input" placeholder="Iteration Title" />
+                  </div>
+                  <div class="form-group">
                     <label for="iterationNotes">Notes:</label>
-                    <textarea id="iterationNotes" placeholder="What's different about this iteration?"></textarea>
+                    <textarea id="iterationNotes" placeholder="Iteration Notes"></textarea>
                   </div>
                   <div class="form-actions">
                     <button id="saveIterationBtn" class="btn">Save Iteration</button>
@@ -197,7 +201,7 @@
           <!-- AI Suggestions (Collapsible) -->
           <div class="collapsible-container" aria-expanded="false" data-color="neutral">
             <button type="button" class="collapsible-header" aria-controls="ai-suggestions-content" aria-expanded="false">
-              <span>AI Suggestions</span>
+              <span>Suggestions</span>
               <span class="collapsible-icon">&#9654;</span>
             </button>
             <div class="collapsible-content" id="ai-suggestions-content">
