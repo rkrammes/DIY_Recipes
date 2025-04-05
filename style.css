@@ -520,6 +520,10 @@ select { /* Added select here */
 /* Ingredients Container */
 .ingredients-container {
   margin-bottom: var(--spacing-large);
+  padding: var(--spacing-small);
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  border-left: 3px solid var(--accent-blue);
 }
 
 .ingredient-list {
@@ -528,6 +532,22 @@ select { /* Added select here */
   margin: 0;
   max-height: 300px;
   overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-blue) rgba(0, 0, 0, 0.2);
+}
+
+.ingredient-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ingredient-list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.ingredient-list::-webkit-scrollbar-thumb {
+  background-color: var(--accent-blue);
+  border-radius: 3px;
 }
 
 /* Quick Stats */
