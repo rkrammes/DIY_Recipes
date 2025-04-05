@@ -1086,11 +1086,11 @@ function setupRecipeCollapsibles() {
   // Setup middle column collapsibles
   setupCollapsibleGroup('middleColumnCollapsibles', 'toggleMiddleColumnBtn');
   
-  // Setup right column collapsibles
-  setupCollapsibleGroup('rightColumnCollapsibles', 'toggleRightColumnBtn');
+  // Removed setup for nonexistent right column collapsibles
+  // setupCollapsibleGroup('rightColumnCollapsibles', 'toggleRightColumnBtn');
   
   // Setup ingredients toggle
-  const toggleIngredientsBtn = document.getElementById('toggleIngredientsBtn');
+  const toggleIngredientsBtn = document.getElementById('toggleMaterialsBtn');
   if (toggleIngredientsBtn) {
     toggleIngredientsBtn.addEventListener('click', () => {
       const ingredientItems = document.querySelectorAll('#currentRecipeIngredients .ingredient-item');
