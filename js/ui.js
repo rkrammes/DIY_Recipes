@@ -305,6 +305,8 @@ export function renderIngredients(ingredients) {
  * Shows the details of a recipe.
  */
 export async function showRecipeDetails(recipe) {
+  // Update recipe stats in the quick stats section
+  updateRecipeStats(recipe);
   console.log('Showing recipe details for:', recipe);
   console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
 
@@ -1022,6 +1024,99 @@ export async function reloadData() {
 /**
  * Initializes the UI components, sets up event listeners, and loads initial data.
  */
+// Setup collapsible sections for a recipe
+function setupRecipeCollapsibles() {
+  // Setup middle column collapsibles
+  setupCollapsibleGroup('middleColumnCollapsibles', 'toggleMiddleColumnBtn');
+  
+  // Setup right column collapsibles
+  setupCollapsibleGroup('rightColumnCollapsibles', 'toggleRightColumnBtn');
+  
+  // Setup ingredients toggle
+  const toggleIngredientsBtn = document.getElementById('toggleIngredientsBtn');
+  if (toggleIngredientsBtn) {
+    toggleIngredientsBtn.addEventListener('click', () => {
+      const ingredientItems = document.querySelectorAll('#currentRecipeIngredients .ingredient-item');
+      const shouldExpand = toggleIngredientsBtn.querySelector('.label').textContent === 'Expand All';
+      
+      ingredientItems.forEach(item => {
+        const detailsDiv = item.querySelector('.ingredient-details');
+        if (detailsDiv && detailsDiv.hasChildNodes()) {
+          item.classList.toggle('expanded', shouldExpand);
+          detailsDiv.style.display = shouldExpand ? 'block' : 'none';
+          if (shouldExpand) {
+            item.style.backgroundColor = 'rgba(0, 123, 255, 0.05)';
+          } else {
+            item.style.backgroundColor = '';
+          }
+        }
+      });
+      
+      toggleIngredientsBtn.querySelector('.label').textContent = shouldExpand ? 'Collapse All' : 'Expand All';
+      toggleIngredientsBtn.setAttribute('aria-pressed', String(shouldExpand));
+      toggleIngredientsBtn.querySelector('.icon').textContent = shouldExpand ? '⊖' : '⊕';
+    });
+  }
+}
+
+// Update recipe stats in the quick stats section
+function updateRecipeStats(recipe) {
+  if (!recipe) return;
+  
+  // Update quick stats if available
+  document.getElementById('prepTime').textContent = recipe.prep_time || '--';
+  document.getElementById('cookTime').textContent = recipe.cook_time || '--';
+  document.getElementById('servings').textContent = recipe.servings || '--';
+  document.getElementById('difficulty').textContent = recipe.difficulty || '--';
+  
+  // Update instructions summary
+  const summaryEl = document.getElementById('instructionsSummary');
+  if (summaryEl) {
+    if (recipe.summary) {
+      summaryEl.innerHTML = `<p>${recipe.summary}</p>`;
+    } else {
+      summaryEl.innerHTML = '<p>No summary available for this recipe.</p>';
+    }
+  }
+  
+  // Update detailed instructions
+  const detailedEl = document.getElementById('detailedInstructions');
+  if (detailedEl) {
+    if (recipe.instructions) {
+      let instructionsHtml = '<ol>';
+      const steps = recipe.instructions.split('\n').filter(step => step.trim() !== '');
+      steps.forEach(step => {
+        instructionsHtml += `<li>${step}</li>`;
+      });
+      instructionsHtml += '</ol>';
+      detailedEl.innerHTML = instructionsHtml;
+    } else {
+      detailedEl.innerHTML = '<p>No detailed instructions available.</p>';
+    }
+  }
+  
+  // Update notes
+  const notesEl = document.getElementById('recipeNotes');
+  if (notesEl) {
+    if (recipe.notes) {
+      notesEl.innerHTML = `<p>${recipe.notes}</p>`;
+    } else {
+      notesEl.innerHTML = '<p>No notes available for this recipe.</p>';
+    }
+  }
+  
+  // Update version history if available
+  const versionHistoryEl = document.getElementById('versionHistory');
+  if (versionHistoryEl) {
+    if (recipe.version && recipe.version > 1) {
+      versionHistoryEl.innerHTML = `<p>Current version: v${recipe.version}</p>`;
+      // Here you would typically fetch and display version history
+    } else {
+      versionHistoryEl.innerHTML = '<p>This is the first version of this recipe.</p>';
+    }
+  }
+}
+
 export async function initUI() {
   console.log('Initializing UI...');
   console.log('Initializing UI...');
@@ -1244,6 +1339,8 @@ export async function initUI() {
 
   // Load initial data
   await reloadData();
+  // Setup collapsible sections
+  setupRecipeCollapsibles();
 }
 
 /**

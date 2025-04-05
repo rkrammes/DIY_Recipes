@@ -264,14 +264,29 @@ select { /* Added select here */
 /* Collapsible Enhancements  */
 /* ========================= */
 
+/* Collapsible Container */
 .collapsible-container {
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 6px;
   margin-bottom: var(--spacing-medium);
   overflow: hidden;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
+/* Color-coding for collapsible containers */
+.collapsible-container[data-color="blue"] {
+  border-left: 3px solid var(--accent-blue);
+}
+
+.collapsible-container[data-color="orange"] {
+  border-left: 3px solid var(--accent-orange);
+}
+
+.collapsible-container[data-color="neutral"] {
+  border-left: 3px solid var(--muted-text);
+}
+
+/* Collapsible Header */
 .collapsible-header {
   width: 100%;
   background-color: var(--secondary);
@@ -286,7 +301,16 @@ select { /* Added select here */
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease-in-out;
+}
+
+/* Color-coding for headers */
+.collapsible-container[data-color="blue"] .collapsible-header {
+  color: var(--accent-blue);
+}
+
+.collapsible-container[data-color="orange"] .collapsible-header {
+  color: var(--accent-orange);
 }
 
 .collapsible-header:hover,
@@ -296,7 +320,7 @@ select { /* Added select here */
 
 .collapsible-icon {
   display: inline-block;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease-in-out;
 }
 
 .collapsible-container[aria-expanded="true"] .collapsible-icon {
@@ -307,7 +331,7 @@ select { /* Added select here */
 .collapsible-content {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease-in-out;
+  transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
   padding: 0 var(--spacing-medium);
 }
 
@@ -321,6 +345,40 @@ select { /* Added select here */
 .collapsible-header:focus-visible {
   outline: 2px solid var(--accent-blue);
   outline-offset: 2px;
+}
+
+/* Collapsible Group Controls */
+.collapsible-group {
+  margin-bottom: var(--spacing-large);
+}
+
+.btn-expand-collapse {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-family: var(--font-family);
+  font-size: 0.9em;
+  cursor: pointer;
+  padding: 4px 8px;
+  margin-bottom: var(--spacing-small);
+  border-radius: 4px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.btn-expand-collapse:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-expand-collapse .icon {
+  font-size: 1.2em;
+  transition: transform 0.3s ease-in-out;
+}
+
+.btn-expand-collapse[aria-pressed="true"] .icon {
+  transform: rotate(45deg);
 }
 
 /* ========================= */
@@ -352,15 +410,18 @@ select { /* Added select here */
   max-height: 100%;
 }
 
-/* Clear visual separation */
+/* Clear visual separation with color-coding */
 .left-column {
   border: 1px solid rgba(255,255,255,0.2);
+  border-top: 3px solid var(--accent-blue);
 }
 .middle-column {
   border: 1px solid rgba(255,255,255,0.2);
+  border-top: 3px solid var(--accent-blue);
 }
 .right-column {
   border: 1px solid rgba(255,255,255,0.2);
+  border-top: 3px solid var(--accent-orange);
 }
 
 /* Responsive stacking on smaller screens */
@@ -384,7 +445,70 @@ select { /* Added select here */
 .left-column,
 .middle-column,
 .right-column {
-  transition: all 0.3s ease;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Section Titles */
+.section-title {
+  font-size: 1.2em;
+  margin-bottom: var(--spacing-small);
+  color: var(--text);
+}
+
+/* Ingredients Container */
+.ingredients-container {
+  margin-bottom: var(--spacing-large);
+}
+
+.ingredient-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* Quick Stats */
+.quick-stats-container {
+  margin-bottom: var(--spacing-large);
+}
+
+.quick-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-small);
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-small);
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.stat-label {
+  font-size: 0.8em;
+  color: var(--muted-text);
+}
+
+.stat-value {
+  font-size: 1em;
+  font-weight: bold;
+  color: var(--accent-blue);
+}
+
+/* Instructions Summary */
+.instructions-summary {
+  margin-bottom: var(--spacing-large);
+  padding: var(--spacing-medium);
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  border-left: 3px solid var(--accent-blue);
+}
+
+.summary-content {
+  line-height: 1.6;
 }
 
 /* Recipe Header Section */
