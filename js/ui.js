@@ -312,19 +312,20 @@ export async function showRecipeDetails(recipe) {
   
   const details = document.getElementById('recipeDetails'); // Left column container
   const recipeHeader = document.getElementById('recipe-header'); // Header above left column
-  const ingredientsColumn = document.getElementById('ingredients-column'); // Middle column
-  const currentRecipeColumn = document.getElementById('current-recipe-column'); // Right column ("Kraft")
+  // const ingredientsColumn = document.getElementById('ingredients-column'); // Middle column - Removed, element doesn't exist
+  // const currentRecipeColumn = document.getElementById('current-recipe-column'); // Right column ("Kraft") - Removed, element doesn't exist
 
-  if (!details || !recipeHeader || !ingredientsColumn || !currentRecipeColumn) {
-    console.error('Missing one or more essential layout elements (recipeDetails, recipe-header, ingredients-column, current-recipe-column)');
+  // Check only for elements that exist in index.html
+  if (!details || !recipeHeader) {
+    console.error('Missing essential layout elements (recipeDetails or recipe-header)');
     return;
   }
   
   // Clear previous content from all relevant areas
   details.innerHTML = '';
   recipeHeader.innerHTML = '';
-  ingredientsColumn.innerHTML = '';
-  currentRecipeColumn.innerHTML = '';
+  // ingredientsColumn.innerHTML = ''; // Removed, element doesn't exist
+  // currentRecipeColumn.innerHTML = ''; // Removed, element doesn't exist
   
   // LEFT COLUMN ('#recipeDetails'): Current Recipe Ingredients
   // We will append directly to 'details' element which acts as the left column container now.
@@ -381,17 +382,25 @@ export async function showRecipeDetails(recipe) {
     titleH3.textContent = recipe.title;
     recipeHeader.appendChild(titleH3);
 
-    const descriptionP = document.createElement('p');
-    descriptionP.textContent = recipe.description || 'No description provided';
-    descriptionP.style.marginBottom = 'var(--spacing-medium)'; // Keep the margin for spacing below description
-    // Description moved to middle column (aiDiv)
+    // Description and Instructions will be created and appended later, directly to 'details'
 
     // Remove the old topContentDiv creation and appending
 
-    // Create a heading for ingredients
+    // --- Populate Description and Instructions directly into 'details' ---
+    const descriptionP = document.createElement('p');
+    descriptionP.textContent = recipe.description || 'No description provided';
+    descriptionP.style.marginBottom = 'var(--spacing-medium)';
+    details.appendChild(descriptionP); // Append description to main details area
+
+    const instructionsP = document.createElement('p');
+    instructionsP.innerHTML = recipe.instructions || 'No instructions provided'; // Use innerHTML for potential formatting
+    instructionsP.style.marginBottom = 'var(--spacing-medium)';
+    details.appendChild(instructionsP); // Append instructions to main details area
+    // --- End Description and Instructions ---
+
+    // Create a heading for ingredients (Original code follows)
     const ingredientsHeading = document.createElement('h4');
     ingredientsHeading.style.marginBottom = 'var(--spacing-small)';
-    // Removed append to currentDiv
 
     // Create a scrollable container for ingredients
     const ingredientsContainer = document.createElement('div');
@@ -438,10 +447,7 @@ export async function showRecipeDetails(recipe) {
     bottomContentDiv.style.marginTop = 'auto';
     bottomContentDiv.style.textAlign = 'center';
 
-    const instructionsP = document.createElement('p');
-    instructionsP.innerHTML = recipe.instructions || 'No instructions provided';
-    instructionsP.style.marginBottom = 'var(--spacing-medium)';
-    // Instructions moved to middle column (aiDiv)
+    // Instructions element creation and appending moved earlier (before ingredients)
 
     const removeRecipeBtn = document.createElement('button');
     removeRecipeBtn.id = 'removeRecipeBtn';
@@ -477,23 +483,20 @@ export async function showRecipeDetails(recipe) {
 
   // --- Button creation and appending moved inside the try block ---
 
-  // MIDDLE COLUMN ('#ingredients-column'): Recipe Description & Instructions
-  // We will append directly to 'ingredientsColumn'
-
-  // Add Description and Instructions to this middle column
-  ingredientsColumn.appendChild(descriptionP); // Append description to middle column
-  ingredientsColumn.appendChild(instructionsP); // Append instructions to middle column
+  // MIDDLE COLUMN ('#ingredients-column'): Recipe Description & Instructions - Section Removed
+  // Description and Instructions are now appended directly to 'details' earlier in the function.
 
   // AI Suggestions elements will be created later and added to the right column
 
   // Removed misplaced AI input and suggestion elements from here.
 
-  // RIGHT COLUMN ('#current-recipe-column'): Kraft / AI / Editable Ingredients
-  // We will append directly to 'currentRecipeColumn'
+  // RIGHT COLUMN ('#current-recipe-column'): Kraft / AI / Editable Ingredients - Section Removed
+  // Content will be appended directly to 'details'
 
+  // --- Append Kraft/AI Section directly to 'details' ---
   const iterationHeading = document.createElement('h3');
   iterationHeading.textContent = 'Kraft'; // Renamed header
-  currentRecipeColumn.appendChild(iterationHeading); // Append header to right column
+  details.appendChild(iterationHeading); // Append header to main details area
 
   // --- Add AI Suggestions Elements Here ---
   const aiHeader = document.createElement('div');
@@ -506,7 +509,7 @@ export async function showRecipeDetails(recipe) {
   const aiHeading = document.createElement('h3');
   aiHeading.textContent = 'AI Suggestions';
   aiHeader.appendChild(aiHeading);
-  currentRecipeColumn.appendChild(aiHeader); // Add AI Header to right column
+  details.appendChild(aiHeader); // Add AI Header to main details area
 
   const aiInput = document.createElement('input');
   aiInput.id = 'aiPrompt';
@@ -514,7 +517,7 @@ export async function showRecipeDetails(recipe) {
   aiInput.classList.add('sidebar-textbox'); // Reuse existing style
   aiInput.style.width = 'calc(100% - 22px)'; // Adjust width considering padding
   aiInput.style.marginBottom = '5px';
-  currentRecipeColumn.appendChild(aiInput); // Add AI Input to right column
+  details.appendChild(aiInput); // Add AI Input to main details area
 
   const aiButton = document.createElement('button');
   aiButton.id = 'btnGetAISuggestion';
@@ -522,7 +525,7 @@ export async function showRecipeDetails(recipe) {
   aiButton.classList.add('btn');
   aiButton.disabled = true; // Feature coming soon
   aiButton.style.marginBottom = '10px';
-  currentRecipeColumn.appendChild(aiButton); // Add AI Button to right column
+  details.appendChild(aiButton); // Add AI Button to main details area
 
   const aiSuggestionsList = document.createElement('ul');
   aiSuggestionsList.id = 'aiSuggestionsList';
@@ -533,8 +536,8 @@ export async function showRecipeDetails(recipe) {
   aiSuggestionsList.style.border = '1px dashed #ccc';
   aiSuggestionsList.style.padding = '5px';
   aiSuggestionsList.textContent = 'Suggestions will appear here...'; // Placeholder
-  currentRecipeColumn.appendChild(aiSuggestionsList); // Add AI List to right column
-  // --- End AI Suggestions Elements ---
+  details.appendChild(aiSuggestionsList); // Add AI List to main details area
+  // --- End AI Suggestions Elements (now appended to details) ---
 
   const tableContainer = document.createElement('div');
   tableContainer.classList.add('tableContainer'); // Add class for styling hook
