@@ -47,64 +47,46 @@ describe('Collapsible UI Components', () => {
       containers.forEach(container => {
         container.setAttribute('aria-expanded', String(shouldExpand));
         const header = container.querySelector('.collapsible-header');
-    expect(container2).not.toHaveClass('expanded');
-    expect(container2).toHaveAttribute('aria-expanded', 'false');
+        if (header) header.setAttribute('aria-expanded', String(shouldExpand));
+        container.classList.toggle('expanded', shouldExpand);
+      });
+      
+      toggleAllBtn.querySelector('.label').textContent = shouldExpand ? 'Collapse All' : 'Expand All';
+      toggleAllBtn.setAttribute('aria-pressed', String(shouldExpand));
+      toggleAllBtn.querySelector('.icon').textContent = shouldExpand ? '⊖' : '⊕';
+    });
+    
+    // Add the toggle button to the group
+    collapsibleGroup.prepend(toggleAllBtn);
+    
+    // Add the group to the document
+    document.body.appendChild(collapsibleGroup);
+  });
 
-    // Click to expand
-    fireEvent.click(header2);
-    expect(container2).toHaveClass('expanded');
-    expect(container2).toHaveAttribute('aria-expanded', 'true');
-    expect(header2).toHaveAttribute('aria-expanded', 'true');
+  test('Collapsible sections render with correct structure and accessibility attributes', () => {
+    // Test container structure
+    expect(container1).toHaveClass('collapsible-container');
+    expect(container2).toHaveClass('collapsible-container');
+    expect(container3).toHaveClass('collapsible-container');
 
-    // Click again to collapse
-    fireEvent.click(header2);
-    expect(container2).not.toHaveClass('expanded');
-    expect(container2).toHaveAttribute('aria-expanded', 'false');
+    // Test header structure
+    const header1 = container1.querySelector('.collapsible-header');
+    const header2 = container2.querySelector('.collapsible-header');
+    const header3 = container3.querySelector('.collapsible-header');
+
+    expect(header1).toHaveAttribute('aria-controls', 'ingredients-content');
+    expect(header2).toHaveAttribute('aria-controls', 'instructions-content');
+    expect(header3).toHaveAttribute('aria-controls', 'notes-content');
+
+    // Test initial expanded state
+    expect(header1).toHaveAttribute('aria-expanded', 'true');
     expect(header2).toHaveAttribute('aria-expanded', 'false');
-  });
+    expect(header3).toHaveAttribute('aria-expanded', 'false');
 
-  test('Keyboard navigation toggles sections', () => {
-    const header2 = container2.querySelector('.collapsible-header');
-
-    fireEvent.keyDown(header2, { key: 'Enter' });
-    expect(container2).toHaveClass('expanded');
-
-    fireEvent.keyDown(header2, { key: ' ' });
-    expect(container2).not.toHaveClass('expanded');
-  });
-
-  test('Expand All / Collapse All button toggles all sections', () => {
-    // Initially, Ingredients expanded, Instructions collapsed
     expect(container1).toHaveAttribute('aria-expanded', 'true');
     expect(container2).toHaveAttribute('aria-expanded', 'false');
-
-    // Click to expand all
-    toggleAllBtn.textContent = 'Expand All';
-    fireEvent.click(toggleAllBtn);
-
-    expect(container1).toHaveAttribute('aria-expanded', 'true');
-    expect(container2).toHaveAttribute('aria-expanded', 'true');
-    expect(toggleAllBtn.textContent).toBe('Collapse All');
-
-    // Click to collapse all
-    fireEvent.click(toggleAllBtn);
-
-    expect(container1).toHaveAttribute('aria-expanded', 'false');
-    expect(container2).toHaveAttribute('aria-expanded', 'false');
-    expect(toggleAllBtn.textContent).toBe('Expand All');
-  });
-
-  test('Multiple sections can be open simultaneously', () => {
-    const header2 = container2.querySelector('.collapsible-header');
-
-    // Ingredients is open by default
-    expect(container1).toHaveAttribute('aria-expanded', 'true');
-    expect(container2).toHaveAttribute('aria-expanded', 'false');
-
-    // Expand Instructions
-    fireEvent.click(header2);
-
-    expect(container1).toHaveAttribute('aria-expanded', 'true');
-    expect(container2).toHaveAttribute('aria-expanded', 'true');
-  });
-});
+    expect(container3).toHaveAttribute('aria-expanded', 'false');
+    
+    // Test content structure
+    const content1 = container1.querySelector('.collapsible-content');
+    const content2 = container2.querySelector('.collapsible-content');

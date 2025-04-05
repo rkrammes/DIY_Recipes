@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Iteration Station (Magic Link Edition)</title>
+
+  <!-- 
+    Roboto Mono ONLY
+    No references to other fonts 
+  -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Papa Parse & Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="dark">
+  <div class="page-wrapper">
+    <!-- Unified Header containing controls and recipe list -->
+    <header class="glass-panel unified-header">
+      <div class="header-top-row">
+        <div class="header-left">
+          <button class="btn" id="btnIngredients">All Ingredients</button>
+          <!-- Removed createRecipeContainer -->
+        </div>
+        <div id="logoContainer" style="text-align: center; flex-grow: 1;"> <!-- Added container for logo -->
+          <span id="logoText" style="font-size: 24px; font-weight: bold;">Kraft_AI</span> <!-- Logo Text -->
+        </div>
+        <div class="header-right">
+          <button class="btn" id="btnThemeToggle" data-theme="dark">Theme: Dark</button>
+          <button class="btn" id="btnLogIn">Log In</button>
+          <button class="btn" id="btnEditModeToggle" data-active="false">Edit Mode: OFF</button>
+        </div>
+      </div>
+      <div class="header-recipe-list">
+         <ul id="recipeList" class="recipe-list-horizontal"></ul>
+         <button id="btnAddRecipe" class="btn btn-add-recipe" style="width:66px; height:66px; margin:0 auto; padding:0; display:flex; align-items:center; justify-content:center;">
+           +
+         </button>
+      </div>
+    </header>
+
+    <div class="glass-panel recipe-header-section">
+      <h2 class="recipe-title">Recipe Title</h2>
+      <button class="btn remove-recipe-btn">Remove This Recipe</button>
+    </div>
+
+    <div class="content-grid">
+      <div class="left-column">
+        <!-- Hidden Magic Link Form (shown if user not logged in) -->
+        <div id="magicLinkForm" style="display: none; padding:10px; text-align:center;">
+          <input
+            type="email"
+            id="magicLinkEmail"
+            class="sidebar-textbox"
+            placeholder="Email"
+            style="margin-right:5px; width:180px;"
+          />
+          <button class="btn" id="btnSendMagicLink">Send Magic Link</button>
+        </div>
+
+        <!-- Status Message Areas -->
+        <div id="statusMessages" class="status-messages" style="text-align: center; padding: 10px; min-height: 1.5em;"></div>
+        
+        <!-- Recipe Title and Description Header -->
+        <div id="recipe-header"></div>
+        
+        <!-- Ingredients List (Always Visible) -->
+        <div class="ingredients-container">
+          <h3 class="section-title">Ingredients</h3>
+          <button id="toggleIngredientsBtn" class="btn-expand-collapse" aria-label="Toggle all ingredients">
+            <span class="icon">⊕</span> <span class="label">Expand All</span>
+          </button>
+          <ul id="currentRecipeIngredients" class="ingredient-list"></ul>
+        </div>
+        
+        <!-- Quick Stats (Always Visible) -->
+        <div class="quick-stats-container">
+          <h3 class="section-title">Quick Stats</h3>
+          <div id="quickStats" class="quick-stats">
+            <div class="stat-item">
+              <span class="stat-label">Prep Time:</span>
+              <span class="stat-value" id="prepTime">--</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Cook Time:</span>
+              <span class="stat-value" id="cookTime">--</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Servings:</span>
+              <span class="stat-value" id="servings">--</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Difficulty:</span>
+              <span class="stat-value" id="difficulty">--</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="middle-column">
+        <!-- MAIN CONTENT: displays recipe details or ingredients view -->
+        <main class="main-content">
+          <section class="recipe-details" id="recipeDetails" style="display:none;">
+            <!-- Basic Instructions Summary (Always Visible) -->
+            <div class="instructions-summary">
+              <h3 class="section-title">Instructions Summary</h3>
+              <div id="instructionsSummary" class="summary-content">
+                <p>Select a recipe to view instructions.</p>
+              </div>
+            </div>
+            
+            <!-- Collapsible Sections Group -->
+            <div class="collapsible-group" id="middleColumnCollapsibles">
+              <button id="toggleMiddleColumnBtn" class="btn-expand-collapse" aria-label="Toggle all middle column sections">
+                <span class="icon">⊕</span> <span class="label">Expand All</span>
+              </button>
+              
+              <!-- Detailed Instructions (Collapsible) -->
+              <div class="collapsible-container" aria-expanded="false" data-color="blue">
+                <button type="button" class="collapsible-header" aria-controls="detailed-instructions-content" aria-expanded="false">
+                  <span>Detailed Instructions</span>
+                  <span class="collapsible-icon">&#9654;</span>
+                </button>
+                <div class="collapsible-content" id="detailed-instructions-content">
+                  <div id="detailedInstructions">
+                    <p>Select a recipe to view detailed instructions.</p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Notes (Collapsible) -->
+              <div class="collapsible-container" aria-expanded="false" data-color="blue">
+                <button type="button" class="collapsible-header" aria-controls="notes-content" aria-expanded="false">
+                  <span>Notes</span>
+                  <span class="collapsible-icon">&#9654;</span>
+                </button>
+                <div class="collapsible-content" id="notes-content">
+                  <div id="recipeNotes">
+                    <p>No notes available for this recipe.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+          
+          <section class="ingredients-view" id="ingredientsView" style="display:none;">
+            <div class="ingredients-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-medium);">
+              <h2>All Ingredients</h2>
+              <button id="btnAddGlobalIngredient" class="btn">Add Ingredient</button>
+            </div>
+            <ul id="ingredientList" class="ingredient-list"></ul>
+          </section>
+        </main>
+      </div>
+
+      <div class="right-column">
+        <!-- Collapsible Sections Group -->
+        <div class="collapsible-group" id="rightColumnCollapsibles">
+          <button id="toggleRightColumnBtn" class="btn-expand-collapse" aria-label="Toggle all right column sections">
+            <span class="icon">⊕</span> <span class="label">Expand All</span>
+          </button>
+          
+          <!-- Version History (Collapsible) -->
+          <div class="collapsible-container" aria-expanded="false" data-color="orange">
+            <button type="button" class="collapsible-header" aria-controls="version-history-content" aria-expanded="false">
+              <span>Version History</span>
+              <span class="collapsible-icon">&#9654;</span>
+            </button>
+            <div class="collapsible-content" id="version-history-content">
+              <div id="versionHistory">
+                <p>No version history available.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Iteration Management (Collapsible) -->
+          <div class="collapsible-container" aria-expanded="false" data-color="orange">
+            <button type="button" class="collapsible-header" aria-controls="iteration-management-content" aria-expanded="false">
+              <span>Iteration Management</span>
+              <span class="collapsible-icon">&#9654;</span>
+            </button>
+            <div class="collapsible-content" id="iteration-management-content">
+              <div id="iterationManagement">
+                <p>No iterations available.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- AI Suggestions (Collapsible) -->
+          <div class="collapsible-container" aria-expanded="false" data-color="neutral">
+            <button type="button" class="collapsible-header" aria-controls="ai-suggestions-content" aria-expanded="false">
+              <span>AI Suggestions</span>
+              <span class="collapsible-icon">&#9654;</span>
+            </button>
+            <div class="collapsible-content" id="ai-suggestions-content">
+              <div id="aiSuggestions">
+                <p>No AI suggestions available.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Media (Collapsible) -->
+          <div class="collapsible-container" aria-expanded="false" data-color="neutral">
+            <button type="button" class="collapsible-header" aria-controls="media-content" aria-expanded="false">
+              <span>Media</span>
+              <span class="collapsible-icon">&#9654;</span>
+            </button>
+            <div class="collapsible-content" id="media-content">
+              <div id="recipeMedia">
+                <p>No media available for this recipe.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Comments (Collapsible) -->
+          <div class="collapsible-container" aria-expanded="false" data-color="neutral">
+            <button type="button" class="collapsible-header" aria-controls="comments-content" aria-expanded="false">
+              <span>Comments</span>
+              <span class="collapsible-icon">&#9654;</span>
+            </button>
+            <div class="collapsible-content" id="comments-content">
+              <div id="recipeComments">
+                <p>No comments available for this recipe.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- main.js as a module -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
