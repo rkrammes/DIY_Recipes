@@ -270,20 +270,28 @@ select { /* Added select here */
   border-radius: 6px;
   margin-bottom: var(--spacing-medium);
   overflow: hidden;
-  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, transform 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.collapsible-container:hover {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Color-coding for collapsible containers */
 .collapsible-container[data-color="blue"] {
   border-left: 3px solid var(--accent-blue);
+  background-color: rgba(52, 152, 219, 0.05);
 }
 
 .collapsible-container[data-color="orange"] {
   border-left: 3px solid var(--accent-orange);
+  background-color: rgba(255, 153, 0, 0.05);
 }
 
 .collapsible-container[data-color="neutral"] {
   border-left: 3px solid var(--muted-text);
+  background-color: rgba(189, 189, 189, 0.05);
 }
 
 /* Collapsible Header */
@@ -326,19 +334,30 @@ select { /* Added select here */
 .collapsible-container[aria-expanded="true"] .collapsible-icon {
   transform: rotate(90deg);
 }
-
 /* Hide content by default */
 .collapsible-content {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+  transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out, opacity 0.3s ease-in-out;
   padding: 0 var(--spacing-medium);
+  opacity: 0;
 }
 
 /* Show content when expanded */
 .collapsible-container[aria-expanded="true"] .collapsible-content {
   padding: var(--spacing-small) var(--spacing-medium);
   max-height: 1000px; /* Large enough to fit content */
+  opacity: 1;
+}
+
+/* Add a subtle animation when expanding/collapsing */
+.collapsible-container[aria-expanded="true"] {
+  transform: translateY(0);
+}
+
+.collapsible-container[aria-expanded="false"] {
+  transform: translateY(0);
+}
 }
 
 /* Accessibility focus outline */
@@ -375,10 +394,24 @@ select { /* Added select here */
 .btn-expand-collapse .icon {
   font-size: 1.2em;
   transition: transform 0.3s ease-in-out;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
 }
 
 .btn-expand-collapse[aria-pressed="true"] .icon {
   transform: rotate(45deg);
+}
+
+.btn-expand-collapse .label {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.btn-expand-collapse:hover .label {
+  color: var(--accent-blue);
 }
 
 /* ========================= */
@@ -414,14 +447,20 @@ select { /* Added select here */
 .left-column {
   border: 1px solid rgba(255,255,255,0.2);
   border-top: 3px solid var(--accent-blue);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background-color: rgba(52, 152, 219, 0.05);
 }
 .middle-column {
   border: 1px solid rgba(255,255,255,0.2);
   border-top: 3px solid var(--accent-blue);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background-color: rgba(52, 152, 219, 0.03);
 }
 .right-column {
   border: 1px solid rgba(255,255,255,0.2);
   border-top: 3px solid var(--accent-orange);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 153, 0, 0.03);
 }
 
 /* Responsive stacking on smaller screens */
@@ -430,13 +469,37 @@ select { /* Added select here */
     grid-template-columns: 1fr;
     height: calc(100% - 180px);
     overflow-y: auto;
+    padding: var(--spacing-medium);
   }
   .left-column,
   .middle-column,
   .right-column {
     height: auto;
     max-height: none;
-    margin-bottom: var(--spacing-medium);
+    margin-bottom: var(--spacing-large);
+    padding: var(--spacing-medium);
+  }
+}
+
+/* Additional responsive breakpoint for tablets */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .content-grid {
+    grid-template-columns: 35% 65%;
+    grid-template-areas:
+      "left middle"
+      "right right";
+  }
+  
+  .left-column {
+    grid-area: left;
+  }
+  
+  .middle-column {
+    grid-area: middle;
+  }
+  
+  .right-column {
+    grid-area: right;
   }
 }
 
