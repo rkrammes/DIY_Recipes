@@ -227,6 +227,7 @@ export function renderIngredients(ingredients) {
     nameDiv.classList.add('ingredient-name');
     nameDiv.textContent = ingredient.name;
     nameDiv.style.fontWeight = 'bold';
+    nameDiv.style.flex = '1';
     summaryDiv.appendChild(nameDiv);
     
     // Add quantity and unit if available
@@ -234,6 +235,12 @@ export function renderIngredients(ingredients) {
       const quantityDiv = document.createElement('div');
       quantityDiv.classList.add('ingredient-quantity');
       quantityDiv.textContent = `${ingredient.quantity || ''} ${ingredient.unit || ''}`.trim();
+      quantityDiv.style.marginLeft = '12px';
+      quantityDiv.style.padding = '3px 8px';
+      quantityDiv.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+      quantityDiv.style.borderRadius = '4px';
+      quantityDiv.style.fontWeight = 'bold';
+      quantityDiv.style.color = 'var(--accent-orange)';
       summaryDiv.appendChild(quantityDiv);
     }
     
