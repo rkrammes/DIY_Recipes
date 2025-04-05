@@ -385,7 +385,7 @@ export async function showRecipeDetails(recipe) {
     const descriptionP = document.createElement('p');
     descriptionP.textContent = recipe.description || 'No description provided';
     descriptionP.style.marginBottom = 'var(--spacing-medium)'; // Keep the margin for spacing below description
-    recipeHeader.appendChild(descriptionP);
+    // Description moved to middle column (aiDiv)
 
     // Remove the old topContentDiv creation and appending
 
@@ -442,7 +442,7 @@ export async function showRecipeDetails(recipe) {
     const instructionsP = document.createElement('p');
     instructionsP.innerHTML = recipe.instructions || 'No instructions provided';
     instructionsP.style.marginBottom = 'var(--spacing-medium)';
-    bottomContentDiv.appendChild(instructionsP);
+    // Instructions moved to middle column (aiDiv)
 
     const removeRecipeBtn = document.createElement('button');
     removeRecipeBtn.id = 'removeRecipeBtn';
@@ -478,22 +478,20 @@ export async function showRecipeDetails(recipe) {
 
   // --- Button creation and appending moved inside the try block ---
 
-  // CENTER COLUMN: AI Suggestions
-  const aiDiv = document.createElement('div');
+  // CENTER COLUMN: Recipe Description & Instructions
+  const aiDiv = document.createElement('div'); // Keeping the variable name for simplicity, but it now holds Description/Instructions
+  aiDiv.id = 'recipe-info-column'; // Add an ID for potential styling
   aiDiv.style.flex = '1';
   aiDiv.style.border = '1px solid #ccc';
   aiDiv.style.padding = '10px';
+  aiDiv.style.display = 'flex'; // Use flexbox for content arrangement
+  aiDiv.style.flexDirection = 'column'; // Stack content vertically
 
-  const aiHeader = document.createElement('div');
-  aiHeader.style.display = 'flex';
-  aiHeader.style.justifyContent = 'space-between';
-  aiHeader.style.alignItems = 'center';
-  aiHeader.style.marginBottom = '10px';
+  // Add Description and Instructions to this middle column
+  aiDiv.appendChild(descriptionP);
+  aiDiv.appendChild(instructionsP);
 
-  const aiHeading = document.createElement('h3');
-  aiHeading.textContent = 'AI Suggestions';
-  aiHeader.appendChild(aiHeading);
-  aiDiv.appendChild(aiHeader);
+  // AI Suggestions elements will be created later and added to the right column
 
   const aiInput = document.createElement('input');
   aiInput.id = 'aiPrompt';
@@ -525,7 +523,7 @@ export async function showRecipeDetails(recipe) {
   iterationDiv.style.flexDirection = 'column';
 
   const iterationHeading = document.createElement('h3');
-  iterationHeading.textContent = 'New Iteration';
+  iterationHeading.textContent = 'Kraft'; // Renamed header
   iterationDiv.appendChild(iterationHeading);
 
   const tableContainer = document.createElement('div');
