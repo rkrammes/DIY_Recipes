@@ -1080,7 +1080,7 @@ function setupRecipeCollapsibles() {
  * @param {string} groupId - The ID of the collapsible group container.
  * @param {string} buttonId - The ID of the toggle button.
  */
-export function setupCollapsibleGroup(groupId, buttonId) {
+function setupCollapsibleGroup(groupId, buttonId) {
   const toggleBtn = document.getElementById(buttonId);
   if (!toggleBtn) return;
   
