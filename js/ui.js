@@ -484,12 +484,22 @@ export async function showRecipeDetails(recipe) {
 
     // Create a scrollable container for ingredients
     const ingredientsContainer = document.createElement('div');
-    ingredientsContainer.style.maxHeight = '300px';
+    ingredientsContainer.style.maxHeight = '400px'; // Increased height
     ingredientsContainer.style.overflowY = 'auto';
     ingredientsContainer.style.marginBottom = 'var(--spacing-medium)';
     ingredientsContainer.style.padding = '10px';
     ingredientsContainer.style.border = '1px solid rgba(255, 255, 255, 0.1)';
     ingredientsContainer.style.borderRadius = '4px';
+    ingredientsContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+    
+    // Add a heading for the ingredients container
+    const ingredientsContainerHeading = document.createElement('div');
+    ingredientsContainerHeading.textContent = 'Click on ingredients to select or use buttons to edit/copy:';
+    ingredientsContainerHeading.style.marginBottom = '10px';
+    ingredientsContainerHeading.style.fontSize = '14px';
+    ingredientsContainerHeading.style.fontStyle = 'italic';
+    ingredientsContainerHeading.style.color = 'var(--accent-orange)';
+    ingredientsContainer.appendChild(ingredientsContainerHeading);
     
     // Add dedicated UL for current recipe ingredients
     const currentIngredientsList = document.createElement('ul');
