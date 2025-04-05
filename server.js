@@ -91,6 +91,11 @@ app.use(express.static('public')); // Serve static files from the 'public' direc
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
+
+// Fallback to index.html for SPA routing
+app.get('*', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+});
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
