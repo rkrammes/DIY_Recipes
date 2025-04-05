@@ -365,4 +365,24 @@ select { /* Added select here */
 .middle-column,
 .right-column {
   transition: all 0.3s ease;
+/* Recipe Header Section */
+.recipe-header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-medium);
+  margin: 0 auto var(--spacing-large) auto;
+  max-width: var(--max-width);
+  padding: var(--spacing-medium);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Optional: style the remove button specifically if needed */
+.remove-recipe-btn {
+  /* inherits .btn styles */
+}
 }
