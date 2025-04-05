@@ -5,102 +5,48 @@
 import '@testing-library/jest-dom';
 import { fireEvent } from '@testing-library/dom';
 
-// Minimal recreate of createCollapsibleSection from js/ui.js
-function createCollapsibleSection(title, contentHtml, idSuffix) {
-  const container = document.createElement('div');
-  container.className = 'collapsible-container';
-  container.setAttribute('aria-expanded', 'false');
-
-  const header = document.createElement('button');
-  header.type = 'button';
-  header.className = 'collapsible-header';
-  header.setAttribute('aria-controls', `${idSuffix}-content`);
-  header.setAttribute('aria-expanded', 'false');
-  header.innerHTML = `
-    <span>${title}</span>
-    <span class="collapsible-icon">&#9654;</span>
-  `;
-
-  const content = document.createElement('div');
-  content.className = 'collapsible-content';
-  content.id = `${idSuffix}-content`;
-  content.innerHTML = contentHtml;
-
-  header.addEventListener('click', () => {
-    const expanded = container.getAttribute('aria-expanded') === 'true';
-    container.setAttribute('aria-expanded', String(!expanded));
-    header.setAttribute('aria-expanded', String(!expanded));
-    container.classList.toggle('expanded', !expanded);
-  });
-
-  header.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      header.click();
-    }
-  });
-
-  container.appendChild(header);
-  container.appendChild(content);
-  return container;
-}
-
 describe('Collapsible UI Components', () => {
-  let container1, container2, toggleAllBtn;
+  let container1, container2, container3, toggleAllBtn;
 
   beforeEach(() => {
     document.body.innerHTML = '';
-
-    container1 = createCollapsibleSection('Ingredients', '<p>Ingredient list</p>', 'ingredients');
-    container2 = createCollapsibleSection('Instructions', '<p>Step by step</p>', 'instructions');
+    
+    // Create three collapsible sections with different color types
+    container1 = createTestCollapsible('Ingredients', '<p>Ingredient list</p>', 'ingredients', 'blue');
+    container2 = createTestCollapsible('Instructions', '<p>Step by step</p>', 'instructions', 'orange');
+    container3 = createTestCollapsible('Notes', '<p>Recipe notes</p>', 'notes', 'neutral');
 
     // Simulate Ingredients expanded by default
     container1.setAttribute('aria-expanded', 'true');
     container1.querySelector('.collapsible-header').setAttribute('aria-expanded', 'true');
     container1.classList.add('expanded');
 
-    document.body.appendChild(container1);
-    document.body.appendChild(container2);
-
+    // Create a container for the collapsibles
+    const collapsibleGroup = document.createElement('div');
+    collapsibleGroup.className = 'collapsible-group';
+    collapsibleGroup.id = 'test-collapsible-group';
+    
+    // Add the collapsibles to the group
+    collapsibleGroup.appendChild(container1);
+    collapsibleGroup.appendChild(container2);
+    collapsibleGroup.appendChild(container3);
+    
+    // Create toggle all button
     toggleAllBtn = document.createElement('button');
-    toggleAllBtn.textContent = 'Collapse All';
+    toggleAllBtn.className = 'btn-expand-collapse';
     toggleAllBtn.setAttribute('aria-pressed', 'false');
+    toggleAllBtn.innerHTML = `
+      <span class="icon">⊕</span>
+      <span class="label">Expand All</span>
+    `;
+    
     toggleAllBtn.addEventListener('click', () => {
-      const containers = document.querySelectorAll('.collapsible-container');
-      const shouldExpand = toggleAllBtn.textContent === 'Expand All';
-      containers.forEach(c => {
-        c.setAttribute('aria-expanded', String(shouldExpand));
-        const header = c.querySelector('.collapsible-header');
-        if (header) header.setAttribute('aria-expanded', String(shouldExpand));
-        c.classList.toggle('expanded', shouldExpand);
-      });
-      toggleAllBtn.textContent = shouldExpand ? 'Collapse All' : 'Expand All';
-      toggleAllBtn.setAttribute('aria-pressed', String(shouldExpand));
-    });
-    document.body.appendChild(toggleAllBtn);
-  });
-
-  test('Collapsible sections render with correct structure and accessibility attributes', () => {
-    expect(container1).toHaveClass('collapsible-container');
-    expect(container2).toHaveClass('collapsible-container');
-
-    const header1 = container1.querySelector('.collapsible-header');
-    const header2 = container2.querySelector('.collapsible-header');
-
-    expect(header1).toHaveAttribute('aria-controls', 'ingredients-content');
-    expect(header2).toHaveAttribute('aria-controls', 'instructions-content');
-
-    expect(header1).toHaveAttribute('aria-expanded', 'true');
-    expect(header2).toHaveAttribute('aria-expanded', 'false');
-
-    expect(container1).toHaveAttribute('aria-expanded', 'true');
-    expect(container2).toHaveAttribute('aria-expanded', 'false');
-  });
-
-  test('Toggle button expands and collapses individual sections', () => {
-    const header2 = container2.querySelector('.collapsible-header');
-
-    // Initially collapsed
+      const containers = collapsibleGroup.querySelectorAll('.collapsible-container');
+      const shouldExpand = toggleAllBtn.querySelector('.label').textContent === 'Expand All';
+      
+      containers.forEach(container => {
+        container.setAttribute('aria-expanded', String(shouldExpand));
+        const header = container.querySelector('.collapsible-header');
     expect(container2).not.toHaveClass('expanded');
     expect(container2).toHaveAttribute('aria-expanded', 'false');
 
