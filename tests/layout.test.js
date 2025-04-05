@@ -40,21 +40,21 @@ describe('Three-column layout with collapsibles', () => {
     leftColumn.innerHTML = `
       <h2>Ingredients</h2>
       <ul id="currentRecipeIngredients">
-        <li>Flour</li>
-        <li>Milk</li>
-        <li>Eggs</li>
-        <li>Sugar</li>
+        <li>White Vinegar</li>
+        <li>Baking Soda</li>
+        <li>Essential Oil</li>
+        <li>Distilled Water</li>
       </ul>
       <div class="quick-stats-container">
         <h3 class="section-title">Quick Stats</h3>
         <div id="quickStats" class="quick-stats">
           <div class="stat-item">
-            <span class="stat-label">Prep Time:</span>
-            <span class="stat-value" id="prepTime">15 min</span>
+            <span class="stat-label">Preparation Time:</span>
+            <span class="stat-value" id="prepTime">5 min</span>
           </div>
           <div class="stat-item">
-            <span class="stat-label">Cook Time:</span>
-            <span class="stat-value" id="cookTime">10 min</span>
+            <span class="stat-label">Shelf Life:</span>
+            <span class="stat-value" id="cookTime">3 months</span>
           </div>
         </div>
       </div>
