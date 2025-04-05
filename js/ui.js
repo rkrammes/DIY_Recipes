@@ -245,6 +245,13 @@ export function renderIngredients(ingredients) {
       quantityDiv.style.fontWeight = 'bold';
       quantityDiv.style.color = 'var(--accent-orange)';
       summaryDiv.appendChild(quantityDiv);
+      quantityDiv.textContent = `${ingredient.quantity || ''} ${ingredient.unit || ''}`.trim();
+      quantityDiv.style.padding = '3px 8px';
+      quantityDiv.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+      quantityDiv.style.borderRadius = '4px';
+      quantityDiv.style.fontWeight = 'bold';
+      quantityDiv.style.color = 'var(--accent-orange)';
+      summaryDiv.appendChild(quantityDiv);
     }
     
     li.appendChild(summaryDiv);
