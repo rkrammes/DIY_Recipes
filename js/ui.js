@@ -383,7 +383,6 @@ export async function showRecipeDetails(recipe) {
 
     // Create a heading for ingredients
     const ingredientsHeading = document.createElement('h4');
-    ingredientsHeading.textContent = 'Ingredients:';
     ingredientsHeading.style.marginBottom = 'var(--spacing-small)';
     currentDiv.appendChild(ingredientsHeading);
 
@@ -399,7 +398,6 @@ export async function showRecipeDetails(recipe) {
     
     // Add a heading for the ingredients container
     const ingredientsContainerHeading = document.createElement('div');
-    ingredientsContainerHeading.textContent = 'Click on ingredients to select or use buttons to edit/copy:';
     ingredientsContainerHeading.style.marginBottom = '10px';
     ingredientsContainerHeading.style.fontSize = '14px';
     ingredientsContainerHeading.style.fontStyle = 'italic';
