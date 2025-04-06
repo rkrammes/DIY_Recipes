@@ -405,9 +405,6 @@ export async function showRecipeDetails(recipe) {
     }
 
     // Recipe title in header
-    const titleH3 = document.createElement('h3');
-    titleH3.textContent = recipe.title;
-    recipeHeader.appendChild(titleH3);
 
     // Remove button in header
     const removeRecipeBtn = document.createElement('button');
@@ -432,7 +429,10 @@ export async function showRecipeDetails(recipe) {
         }
       }
     });
-    recipeHeader.appendChild(removeRecipeBtn);
+    const projectActions = document.querySelector('.project-actions');
+    if (projectActions) {
+      projectActions.appendChild(removeRecipeBtn);
+    }
 
     // --- Left column content (ingredients list) ---
     const toggleAllBtn = document.createElement('button');
