@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/13</span>
+                <span class='fraction'>0/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>11/11</span>
+                <span class='fraction'>0/11</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -102,7 +102,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -111,8 +111,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -121,33 +121,33 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Product Actions - Phase 2 Basic Implementation
 &nbsp;
 // Recipe scaling: adjust batch size
-export function scaleRecipe(originalIngredients, scaleFactor) {
-  return originalIngredients.map(ing =&gt; ({
+export function <span class="fstat-no" title="function not covered" >scaleRecipe(</span>originalIngredients, scaleFactor) {
+<span class="cstat-no" title="statement not covered" >  return originalIngredients.map(<span class="fstat-no" title="function not covered" >in</span>g =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
     ...ing,
     quantity: ing.quantity * scaleFactor
   }));
 }
 &nbsp;
 // Unit conversion: toggle metric/imperial
-export function convertUnits(ingredients, toMetric = <span class="branch-0 cbranch-no" title="branch not covered" >true)</span> {
+export function <span class="fstat-no" title="function not covered" >convertUnits(</span>ingredients, toMetric = <span class="branch-0 cbranch-no" title="branch not covered" >true)</span> {
   // Placeholder: simple toggle without actual unit logic
-  return ingredients.map(ing =&gt; {
-    return {
+<span class="cstat-no" title="statement not covered" >  return ingredients.map(<span class="fstat-no" title="function not covered" >in</span>g =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    return {</span>
       ...ing,
       unit: toMetric ? 'metric-unit' : 'imperial-unit'
     };
@@ -155,19 +155,19 @@ export function convertUnits(ingredients, toMetric = <span class="branch-0 cbran
 }
 &nbsp;
 // Print/export current recipe
-export function printRecipe(recipeHtmlElementId) {
-  const content = document.getElementById(recipeHtmlElementId).innerHTML;
-  const printWindow = window.open('', '_blank');
-  printWindow.document.write('&lt;html&gt;&lt;head&gt;&lt;title&gt;Print Recipe&lt;/title&gt;&lt;/head&gt;&lt;body&gt;' + content + '&lt;/body&gt;&lt;/html&gt;');
-  printWindow.document.close();
-  printWindow.focus();
-  printWindow.print();
-  printWindow.close();
+export function <span class="fstat-no" title="function not covered" >printRecipe(</span>recipeHtmlElementId) {
+  const content = <span class="cstat-no" title="statement not covered" >document.getElementById(recipeHtmlElementId).innerHTML;</span>
+  const printWindow = <span class="cstat-no" title="statement not covered" >window.open('', '_blank');</span>
+<span class="cstat-no" title="statement not covered" >  printWindow.document.write('&lt;html&gt;&lt;head&gt;&lt;title&gt;Print Recipe&lt;/title&gt;&lt;/head&gt;&lt;body&gt;' + content + '&lt;/body&gt;&lt;/html&gt;');</span>
+<span class="cstat-no" title="statement not covered" >  printWindow.document.close();</span>
+<span class="cstat-no" title="statement not covered" >  printWindow.focus();</span>
+<span class="cstat-no" title="statement not covered" >  printWindow.print();</span>
+<span class="cstat-no" title="statement not covered" >  printWindow.close();</span>
 }
 &nbsp;
 // Generate shopping list from ingredients
-export function generateShoppingList(ingredients) {
-  return ingredients.map(ing =&gt; `- ${ing.quantity} ${ing.unit} ${ing.name}`).join('\n');
+export function <span class="fstat-no" title="function not covered" >generateShoppingList(</span>ingredients) {
+<span class="cstat-no" title="statement not covered" >  return ingredients.map(<span class="fstat-no" title="function not covered" >in</span>g =&gt; <span class="cstat-no" title="statement not covered" >`- ${ing.quantity} ${ing.unit} ${ing.name}`)</span>.join('\n');</span>
 }</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -175,7 +175,7 @@ export function generateShoppingList(ingredients) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-06T07:36:36.797Z
+                at 2025-04-06T08:07:12.776Z
             </div>
         <script src="../prettify.js"></script>
         <script>

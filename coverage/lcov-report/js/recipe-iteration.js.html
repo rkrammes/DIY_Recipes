@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -105,8 +105,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -117,14 +117,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -133,18 +133,18 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Recipe Iteration Actions - Phase 2 Basic Implementation
 &nbsp;
 // Create a new recipe version based on existing
-export function createNewVersion(recipeData) {
-  const timestamp = new Date().toISOString();
-  return {
+export function <span class="fstat-no" title="function not covered" >createNewVersion(</span>recipeData) {
+  const timestamp = <span class="cstat-no" title="statement not covered" >new Date().toISOString();</span>
+<span class="cstat-no" title="statement not covered" >  return {</span>
     ...recipeData,
     id: `${recipeData.id}_v${timestamp}`,
     createdAt: timestamp,
@@ -154,15 +154,15 @@ export function createNewVersion(recipeData) {
 }
 &nbsp;
 // Substitute an ingredient
-export function substituteIngredient(ingredients, oldName, newIngredient) {
-  return ingredients.map(ing =&gt;
-    ing.name === oldName ? { ...ing, ...newIngredient } : ing
+export function <span class="fstat-no" title="function not covered" >substituteIngredient(</span>ingredients, oldName, newIngredient) {
+<span class="cstat-no" title="statement not covered" >  return ingredients.map(<span class="fstat-no" title="function not covered" >in</span>g =&gt;</span>
+<span class="cstat-no" title="statement not covered" >    ing.name === oldName ? { ...ing, ...newIngredient } : ing</span>
   );
 }
 &nbsp;
 // Save notes and results for a recipe version
-export function saveNotesAndResults(recipeVersion, notes, results) {
-  return {
+export function <span class="fstat-no" title="function not covered" >saveNotesAndResults(</span>recipeVersion, notes, results) {
+<span class="cstat-no" title="statement not covered" >  return {</span>
     ...recipeVersion,
     notes,
     results
@@ -170,10 +170,10 @@ export function saveNotesAndResults(recipeVersion, notes, results) {
 }
 &nbsp;
 // Compare two recipe versions (basic diff)
-export function compareVersions(versionA, versionB) {
-  return {
+export function <span class="fstat-no" title="function not covered" >compareVersions(</span>versionA, versionB) {
+<span class="cstat-no" title="statement not covered" >  return {</span>
     ingredientsChanged: versionA.ingredients.length !== versionB.ingredients.length ||
-      versionA.ingredients.some((ing, idx) =&gt; JSON.stringify(ing) !== JSON.stringify(versionB.ingredients[idx])),
+      versionA.ingredients.some(<span class="fstat-no" title="function not covered" >(i</span>ng, idx) =&gt; <span class="cstat-no" title="statement not covered" >JSON.stringify(ing) !== JSON.stringify(versionB.ingredients[idx]))</span>,
     notesChanged: versionA.notes !== versionB.notes,
     resultsChanged: versionA.results !== versionB.results
   };
@@ -184,7 +184,7 @@ export function compareVersions(versionA, versionB) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-06T07:36:36.797Z
+                at 2025-04-06T08:07:12.776Z
             </div>
         <script src="../prettify.js"></script>
         <script>
