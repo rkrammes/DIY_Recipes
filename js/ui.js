@@ -1,12 +1,12 @@
  // Import the Supabase client
 import { supabaseClient } from './supabaseClient.js';
+import { isLoggedIn } from './auth.js';
 // Fixed import names to match api.js exports - this fixes the SyntaxError
 // "Importing binding name 'fetchIngredients' is not found"
 import { loadRecipes, loadAllIngredients, updateRecipeIngredients, analyzeIngredients, getRecipeTimeline, getBatchHistory, estimateShelfLife } from './api.js';
 import { initRecipeActions } from './recipe-actions.js';
 
 // Global variables
-let isLoggedIn = false;
 let allIngredients = []; // Global array to store all ingredients
 let currentRecipe = null; // Track the currently displayed recipe
 let recipesCache = []; // Cache for loaded recipes
@@ -97,28 +97,6 @@ function setEditModeFields(active = null) {
 /**
  * Updates the authentication button based on login state.
  */
-export function updateAuthButton() {
-  const loginBtn = document.getElementById('btnLogIn');
-  const magicLinkForm = document.getElementById('magicLinkForm');
-  const editModeBtn = document.getElementById('btnEditModeToggle');
-
-  if (loginBtn) {
-    loginBtn.textContent = isLoggedIn ? 'Log Out' : 'Log In';
-  }
-
-  if (magicLinkForm) {
-    magicLinkForm.style.display = (!isLoggedIn && loginBtn && loginBtn.dataset.showForm === 'true') ? 'block' : 'none';
-  }
-
-  if (editModeBtn) {
-    editModeBtn.style.display = isLoggedIn ? 'inline-block' : 'none';
-    // If logging out, ensure edit mode is turned off
-    if (!isLoggedIn && editModeBtn.dataset.active === 'true') {
-      editModeBtn.dataset.active = 'false';
-      setEditModeFields(false);
-    }
-  }
-}
 
 /**
  * Returns the current edit mode state.
@@ -1062,117 +1040,10 @@ function setupIterationFunctionality() {
 export async function initUI() {
  console.log('Initializing UI...');
 
-  supabaseClient.auth.onAuthStateChange((event, session) => {
-    console.log('Auth state changed:', event, session);
-    const magicLinkForm = document.getElementById('magicLinkForm');
-
-    let loggedInStateChanged = false;
-    const previousIsLoggedIn = isLoggedIn;
-
-    if (event === 'SIGNED_IN') {
-      isLoggedIn = true;
-      console.log('User signed in.');
-      if (magicLinkForm) magicLinkForm.style.display = 'none';
-    } else if (event === 'SIGNED_OUT') {
-      isLoggedIn = false;
-      console.log('User signed out.');
-    }
-    if (event === 'INITIAL_SESSION') {
-      isLoggedIn = !!session;
-      console.log('Initial session processed. Logged in:', isLoggedIn);
-      // Explicitly update auth buttons after initial check, regardless of change
-      updateAuthButton();
-      setEditModeFields(); // Also ensure fields are set based on initial auth state
-    }
-
-    loggedInStateChanged = previousIsLoggedIn !== isLoggedIn;
-
-   // Update UI elements based on auth state
-   updateAuthButton();
-   setEditModeFields(); // Ensure edit mode reflects login state
-
-   // Optionally reload data or adjust UI further based on login/logout
-   if (loggedInStateChanged) {
-       console.log('Login state changed, potentially reloading data or adjusting views...');
-       // If logging out, ensure recipe views are cleared
-       if (!isLoggedIn) {
-           currentRecipe = null;
-           document.getElementById('recipeDetailsView').style.display = 'none';
-           // document.getElementById('recipeMetadataView').style.display = 'none';
-           document.getElementById('noRecipeSelectedView').style.display = 'block';
-           // document.getElementById('noRecipeMetadataView').style.display = 'block';
-           document.getElementById('recipeHeaderSection').style.display = 'none';
-
-           // Clear right column actions
-           const rightColumn = document.getElementById('right-column');
-           ActionRenderer.render(rightColumn, null);
-           // Clear selected state in recipe list
-            const recipeList = document.getElementById('recipeList');
-            if (recipeList) {
-                recipeList.querySelectorAll('.recipe-item.selected').forEach(li => li.classList.remove('selected'));
-            }
-       }
-       // Maybe reload data on login? Depends on requirements.
-       // await reloadData();
-   }
-  });
 
   // Set up event listeners for UI elements
-  const btnLogIn = document.getElementById('btnLogIn');
-  if (btnLogIn) {
-    btnLogIn.addEventListener('click', async () => {
-      if (isLoggedIn) {
-        // Log out
-        try {
-          const { error } = await supabaseClient.auth.signOut();
-          if (error) throw error;
-          showNotification('Logged out successfully.', 'success');
-        } catch (err) {
-          console.error('Error signing out:', err);
-          showNotification(`Error signing out: ${err.message}`, 'error');
-        }
-      } else {
-        // Show/hide magic link form
-        const magicLinkForm = document.getElementById('magicLinkForm');
-        if (magicLinkForm) {
-          btnLogIn.dataset.showForm = btnLogIn.dataset.showForm === 'true' ? 'false' : 'true';
-          magicLinkForm.style.display = btnLogIn.dataset.showForm === 'true' ? 'block' : 'none';
-        }
-      }
-    });
-  }
 
   // Set up event listener for the magic link form
-  const btnSendMagicLink = document.getElementById('btnSendMagicLink');
-  const magicLinkEmail = document.getElementById('magicLinkEmail');
-  if (btnSendMagicLink && magicLinkEmail) {
-    btnSendMagicLink.addEventListener('click', async () => {
-      const email = magicLinkEmail.value.trim();
-      if (!email) {
-        showNotification('Please enter your email address.', 'error');
-        return;
-      }
-      
-      try {
-        const { error } = await supabaseClient.auth.signInWithOtp({
-          email,
-          options: {
-            emailRedirectTo: window.location.href,
-          },
-        });
-        
-        if (error) throw error;
-        
-        showNotification('Magic link sent! Check your email.', 'success');
-        // Hide the form after sending
-        const magicLinkForm = document.getElementById('magicLinkForm');
-        if (magicLinkForm) magicLinkForm.style.display = 'none';
-      } catch (err) {
-        console.error('Error sending magic link:', err);
-        showNotification(`Error sending magic link: ${err.message}`, 'error');
-      }
-    });
-  }
 
   // Set up event listener for the theme toggle button
   const btnThemeToggle = document.getElementById('btnThemeToggle');

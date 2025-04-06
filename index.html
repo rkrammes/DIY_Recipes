@@ -38,16 +38,51 @@
           <span id="logoText" class="logo-large">Kraft_AI</span>
         </div>
         <div class="header-right">
-          <button class="btn btn-header" id="btnThemeToggle" data-theme="dark" aria-label="Toggle theme">Theme: Dark</button>
-          <!-- Log In button removed, replaced by inline auth form -->
-          <button class="btn btn-header" id="btnEditModeToggle" data-active="false" aria-label="Toggle edit mode">Edit Mode: OFF</button>
-          <!-- Auth elements moved here -->
-          <div id="headerAuthContainer" style="display: flex; align-items: center; gap: 8px;">
-            <div id="magicLinkForm" style="display: none; padding: 0; text-align:left;"> <!-- Adjusted style -->
-              <input type="email" id="magicLinkEmail" placeholder="Email" aria-label="Email for magic link" class="input-small"/>
-              <button class="btn btn-small" id="btnSendMagicLink">Send Link</button>
+          <button class="btn btn-header" id="btnSettings" aria-label="Settings" aria-expanded="false">
+            Settings <span class="settings-icon">⚙️</span>
+          </button>
+          
+          <!-- Collapsible Settings Panel -->
+          <div id="settingsPanel" class="settings-panel collapsible-container" data-color="neutral" aria-expanded="false">
+            <div class="collapsible-content" id="settings-content">
+              <!-- Authentication Section -->
+              <div class="settings-section auth-section">
+                <h3>Authentication</h3>
+                <div id="authControls">
+                  <!-- When logged out -->
+                  <div id="loggedOutView">
+                    <div id="magicLinkForm">
+                      <input type="email" id="magicLinkEmail" placeholder="Email" aria-label="Email for magic link" class="input-small"/>
+                      <button class="btn btn-small" id="btnSendMagicLink">Send Link</button>
+                    </div>
+                  </div>
+                  <!-- When logged in -->
+                  <div id="loggedInView" style="display: none;">
+                    <span id="loggedInEmail"></span>
+                    <button class="btn btn-small" id="btnLogOut">Log Out</button>
+                  </div>
+                </div>
+                <div id="statusMessages" aria-live="polite"></div>
+              </div>
+              
+              <!-- Edit Mode Section -->
+              <div class="settings-section">
+                <h3>Edit Mode</h3>
+                <div class="toggle-container">
+                  <label for="editModeToggle">Edit Mode:</label>
+                  <button class="btn btn-small" id="btnEditModeToggle" data-active="false">OFF</button>
+                </div>
+              </div>
+              
+              <!-- Theme Section -->
+              <div class="settings-section">
+                <h3>Theme</h3>
+                <div class="toggle-container">
+                  <label for="themeToggle">Theme:</label>
+                  <button class="btn btn-small" id="btnThemeToggle" data-theme="dark">Dark</button>
+                </div>
+              </div>
             </div>
-            <div id="statusMessages" aria-live="polite" style="font-size: 0.8em;"></div> <!-- Status messages container -->
           </div>
         </div>
       </div>    </header>
