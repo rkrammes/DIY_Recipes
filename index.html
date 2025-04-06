@@ -37,8 +37,16 @@
         </div>
         <div class="header-right">
           <button class="btn btn-header" id="btnThemeToggle" data-theme="dark" aria-label="Toggle theme">Theme: Dark</button>
-          <button class="btn btn-header" id="btnLogIn">Log In</button>
+          <!-- Log In button removed, replaced by inline auth form -->
           <button class="btn btn-header" id="btnEditModeToggle" data-active="false" aria-label="Toggle edit mode">Edit Mode: OFF</button>
+          <!-- Auth elements moved here -->
+          <div id="headerAuthContainer" style="display: flex; align-items: center; gap: 8px;">
+            <div id="magicLinkForm" style="display: none; padding: 0; text-align:left;"> <!-- Adjusted style -->
+              <input type="email" id="magicLinkEmail" placeholder="Email" aria-label="Email for magic link" class="input-small"/>
+              <button class="btn btn-small" id="btnSendMagicLink">Send Link</button>
+            </div>
+            <div id="statusMessages" aria-live="polite" style="font-size: 0.8em;"></div> <!-- Status messages container -->
+          </div>
         </div>
       </div>
       <nav class="header-recipe-list" role="navigation" aria-label="Recipe selector">
@@ -62,21 +70,8 @@
       <aside class="left-column" id="left-column" role="complementary" aria-labelledby="left-column-heading">
         <h2 id="left-column-heading" class="section-title">Info & Ingredients</h2>
 
-        <!-- Auth Section -->
-        <div id="authSection" class="collapsible-container" data-color="neutral" aria-expanded="true">
-           <button type="button" class="collapsible-header" aria-controls="auth-content" aria-expanded="true">
-             <span>Authentication</span>
-             <span class="collapsible-icon" style="transform: rotate(90deg);">&#9654;</span>
-           </button>
-           <div class="collapsible-content" id="auth-content" style="max-height: 1000px; padding: 8px 16px; opacity: 1;">
-              <div id="magicLinkForm" style="display: none; padding:10px; text-align:center;">
-                <input type="email" id="magicLinkEmail" placeholder="Email" aria-label="Email for magic link"/>
-                <button class="btn btn-small" id="btnSendMagicLink">Send Link</button>
-              </div>
-              <div id="statusMessages" aria-live="polite"></div>
-           </div>
-        </div>
-
+        <!-- Global Ingredients Section -->
+        <!-- Original Auth Section Removed -->
         <!-- Global Ingredients Section -->
         <div id="globalIngredientsSection" class="collapsible-container" data-color="blue" aria-expanded="true">
           <button type="button" class="collapsible-header" aria-controls="global-ingredients-content" aria-expanded="true">

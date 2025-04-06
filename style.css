@@ -736,6 +736,12 @@ select:focus-visible {
   opacity: 0.7;
 }
 
+/* Smaller input variant for header */
+.input-small {
+  padding: 6px 10px; /* Reduced padding */
+  font-size: 0.85em; /* Smaller font */
+}
+ 
 /* Iteration Management Styles */
 .iteration-header {
   display: flex;
@@ -1110,4 +1116,9 @@ body.light .remove-recipe-btn:hover {
 /* Larger Logo Text */
 .logo-large {
   font-size: 36px !important; /* Make it significantly larger */
+}
+/* Header Auth Specific Styles */
+#headerAuthContainer #magicLinkForm input,
+#headerAuthContainer #magicLinkForm button {
+  vertical-align: middle; /* Align items vertically */
 }
