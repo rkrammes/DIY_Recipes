@@ -88,23 +88,102 @@ async function runPuppeteerTests() {
 
 // Helper functions to interact with the Puppeteer MCP server
 async function puppeteerNavigate(url) {
-  // This function will be replaced with actual MCP tool usage at runtime
-  console.log(`Navigating to ${url}...`);
+  try {
+    console.log(`Navigating to ${url}...`);
+    
+    // Use MCP tool to navigate
+    const result = await useMCPTool('puppeteer', 'puppeteer_navigate', {
+      url: url
+    });
+    
+    if (!result || result.error) {
+      throw new Error(result?.error || 'Failed to navigate');
+    }
+    
+    return result;
+  } catch (error) {
+    console.error(`MCP Error - Failed to navigate to ${url}:`, error);
+    throw error;
+  }
 }
 
-async function puppeteerScreenshot(name, width, height) {
-  // This function will be replaced with actual MCP tool usage at runtime
-  console.log(`Taking screenshot ${name} at ${width}x${height}...`);
+async function puppeteerScreenshot(name, width = 1200, height = 800) {
+  try {
+    console.log(`Taking screenshot ${name} at ${width}x${height}...`);
+    
+    // Use MCP tool to take screenshot
+    const result = await useMCPTool('puppeteer', 'puppeteer_screenshot', {
+      name: name,
+      width: width,
+      height: height
+    });
+    
+    if (!result || result.error) {
+      throw new Error(result?.error || 'Failed to take screenshot');
+    }
+    
+    return result;
+  } catch (error) {
+    console.error(`MCP Error - Failed to take screenshot ${name}:`, error);
+    throw error;
+  }
 }
 
 async function puppeteerClick(selector) {
-  // This function will be replaced with actual MCP tool usage at runtime
-  console.log(`Clicking on ${selector}...`);
+  try {
+    console.log(`Clicking on ${selector}...`);
+    
+    // Use MCP tool to click
+    const result = await useMCPTool('puppeteer', 'puppeteer_click', {
+      selector: selector
+    });
+    
+    if (!result || result.error) {
+      throw new Error(result?.error || 'Failed to click element');
+    }
+    
+    return result;
+  } catch (error) {
+    console.error(`MCP Error - Failed to click on ${selector}:`, error);
+    throw error;
+  }
 }
 
 async function puppeteerFill(selector, value) {
-  // This function will be replaced with actual MCP tool usage at runtime
-  console.log(`Filling ${selector} with "${value}"...`);
+  try {
+    console.log(`Filling ${selector} with "${value}"...`);
+    
+    // Use MCP tool to fill form
+    const result = await useMCPTool('puppeteer', 'puppeteer_fill', {
+      selector: selector,
+      value: value
+    });
+    
+    if (!result || result.error) {
+      throw new Error(result?.error || 'Failed to fill form field');
+    }
+    
+    return result;
+  } catch (error) {
+    console.error(`MCP Error - Failed to fill ${selector}:`, error);
+    throw error;
+  }
+}
+
+// Helper function to handle MCP tool usage
+async function useMCPTool(serverName, toolName, arguments) {
+  try {
+    // This is a placeholder that would be replaced by the actual MCP client library
+    // In a real implementation, this would use something like:
+    // return await mcpClient.useTool(serverName, toolName, arguments);
+    
+    // For now, we'll simulate success but log that we're using a mock
+    console.log(`MCP Tool called: ${serverName}.${toolName} with args:`, JSON.stringify(arguments));
+    return { success: true };
+  } catch (error) {
+    console.error(`MCP Error in ${serverName}.${toolName}:`, error);
+    return { error: error.message || 'Unknown MCP error' };
+  }
 }
 
 // Export the test function
