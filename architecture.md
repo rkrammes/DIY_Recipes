@@ -1,132 +1,128 @@
-# Button Standardization Architecture Plan
+alri# Right Column Action Architecture for DIY Recipes
 
 ## Overview
 
-This document outlines the architectural plan for standardizing all buttons in the left column of the DIY_Recipes application to have a consistent gradient text style with no backgrounds.
+This document outlines the actions that would be useful in the right column when a DIY home product recipe (skin/hair care, etc.) is selected in the left column. The right column serves two primary purposes:
 
-## Current State
+1. **Making Products**: Facilitate the creation of products based on the current recipe
+2. **Recipe Iteration**: Support editing recipes to create the next iteration/version
 
-The left column currently contains several different button styles:
+## Proposed Right Column Actions
 
-1. Collapsible section header buttons (`.collapsible-header`)
-2. "Add Recipe" button (`.btn.btn-small.btn-add-recipe`)
-3. "Add Global Ingredient" button (`.btn.btn-small.edit-mode-element`)
+### 1. Product Creation Actions
 
-These buttons have inconsistent styling, with some having solid backgrounds and others having different text styles.
+#### 1.1 Scale Recipe Quantities
+- **Purpose**: Adjust all ingredient quantities proportionally based on desired batch size
+- **UI Element**: Slider or numeric input with "×0.5", "×1", "×2", "×5" quick options
+- **Output**: Updated quantities in the recipe view
 
-## Target State
+#### 1.2 Convert Units
+- **Purpose**: Switch between measurement systems (metric/imperial)
+- **UI Element**: Toggle button (Metric/Imperial)
+- **Output**: Converted measurements in the recipe view
 
-All buttons in the left column should have:
-- Gradient text styling (similar to the `.btn-header` class)
-- No backgrounds
-- Consistent hover effects
-- Maintain their existing functionality
+#### 1.3 Check Ingredient Availability
+- **Purpose**: Verify if all ingredients are available or suggest substitutes
+- **UI Element**: "Check Availability" button with results list
+- **Output**: List of missing ingredients with possible substitutions
 
-## CSS Implementation Plan
+#### 1.4 Calculate Cost
+- **Purpose**: Estimate the cost of making the product
+- **UI Element**: "Calculate Cost" button
+- **Output**: Estimated total cost and cost per unit/application
 
-### 1. Create a New CSS Class for Left Column Buttons
+#### 1.5 Print/Export Recipe
+- **Purpose**: Generate printable/shareable version
+- **UI Element**: "Print" and "Export" (PDF/Image) buttons
+- **Output**: Formatted recipe for physical use or sharing
 
-```css
-/* Left Column Button Style - Gradient Text */
-.left-column-btn {
-  /* Remove background */
-  background: none !important;
-  border: none;
-  
-  /* Apply gradient text */
-  background: var(--button-gradient-dark);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: bold;
-}
+#### 1.6 Create Shopping List
+- **Purpose**: Generate a list of ingredients to purchase
+- **UI Element**: "Create Shopping List" button
+- **Output**: Exportable list of required ingredients
 
-.left-column-btn:hover {
-  filter: brightness(1.2); /* Brighten gradient on hover */
-}
-```
+#### 1.7 Shelf-life Calculator
+- **Purpose**: Estimate how long the product will last
+- **UI Element**: Input for environmental factors (temperature, exposure)
+- **Output**: Estimated shelf life and storage recommendations
 
-### 2. Apply the Style to Specific Button Types
+### 2. Recipe Iteration Actions
 
-#### Collapsible Header Buttons in Left Column
+#### 2.1 Create New Version
+- **Purpose**: Start a new iteration of the recipe
+- **UI Element**: "Create New Version" button
+- **Output**: New recipe version with current recipe as baseline
 
-```css
-.left-column .collapsible-header {
-  background: var(--button-gradient-dark);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: bold;
-  border: none;
-}
+#### 2.2 Ingredient Substitution
+- **Purpose**: Replace ingredients with alternatives
+- **UI Element**: Ingredient editor with substitute suggestions
+- **Output**: Updated recipe with substituted ingredients
 
-.left-column .collapsible-header:hover {
-  filter: brightness(1.2);
-  background-color: transparent !important;
-}
-```
+#### 2.3 Adjust Properties
+- **Purpose**: Modify recipe properties (texture, scent, etc.)
+- **UI Element**: Property sliders with suggestions for ingredient changes
+- **Output**: Ingredient adjustment recommendations
 
-#### Add Recipe Button and Add Global Ingredient Button
+#### 2.4 Add Notes/Results
+- **Purpose**: Document observations from previous batches
+- **UI Element**: Notes field with date stamps
+- **Output**: Chronological record of recipe performance
 
-```css
-.left-column .btn-small,
-.left-column .btn-add-recipe,
-#btnAddRecipe,
-#btnAddGlobalIngredient {
-  background: var(--button-gradient-dark);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: bold;
-  border: none;
-  padding: 6px 0;
-}
+#### 2.5 Compare Versions
+- **Purpose**: See differences between recipe iterations
+- **UI Element**: "Compare Versions" dropdown
+- **Output**: Side-by-side or highlighted diff view of versions
 
-.left-column .btn-small:hover,
-.left-column .btn-add-recipe:hover,
-#btnAddRecipe:hover,
-#btnAddGlobalIngredient:hover {
-  filter: brightness(1.2);
-  background-color: transparent !important;
-}
-```
+#### 2.6 Rate Results
+- **Purpose**: Score the outcome of a recipe iteration
+- **UI Element**: Star rating system with criteria (effectiveness, scent, texture)
+- **Output**: Performance metrics across versions
 
-### 3. Light Theme Support
+#### 2.7 Tag/Categorize
+- **Purpose**: Organize recipes with metadata
+- **UI Element**: Tag input field with autocomplete
+- **Output**: Filterable tags for recipe organization
 
-For the light theme, we need to ensure the gradient uses the light theme variables:
+### 3. Advanced Features
 
-```css
-body.light .left-column .collapsible-header,
-body.light .left-column .btn-small,
-body.light .left-column .btn-add-recipe,
-body.light #btnAddRecipe,
-body.light #btnAddGlobalIngredient {
-  background: var(--button-gradient-light);
-  background-clip: text;
-  -webkit-background-clip: text;
-}
-```
+#### 3.1 Ingredient Analysis
+- **Purpose**: Review ingredient properties and interactions
+- **UI Element**: "Analyze Ingredients" button
+- **Output**: Compatibility check, pH estimation, potential reactions
 
-## Implementation Steps
+#### 3.2 Share/Collaborate
+- **Purpose**: Allow others to view or edit the recipe
+- **UI Element**: "Share" button with permission options
+- **Output**: Shareable link with specified permissions
 
-1. Add the new CSS classes to the style.css file
-2. Test the changes in both dark and light themes
-3. Ensure all buttons in the left column maintain their functionality
-4. Verify that the gradient text is readable and visually consistent
+#### 3.3 Recipe Timeline
+- **Purpose**: Track the evolution of a recipe over time
+- **UI Element**: Visual timeline of iterations
+- **Output**: Interactive history of recipe development
 
-## Benefits
+#### 3.4 Batch Tracking
+- **Purpose**: Record specific batches made from a recipe
+- **UI Element**: "Record Batch" button with date and quantity
+- **Output**: Log of all batches with dates and notes
 
-1. **Visual Consistency**: All buttons in the left column will have a unified appearance
-2. **Reduced Visual Clutter**: Removing button backgrounds will create a cleaner, more modern interface
-3. **Brand Consistency**: The gradient text style will reinforce the application's visual identity
-4. **Improved User Experience**: Consistent button styling makes the interface more intuitive and predictable
+## UI Design Recommendations
 
-## Potential Challenges
+1. **Collapsible Sections**: Group related actions into collapsible panels for clean organization
+2. **Context-Sensitive Display**: Show only relevant actions based on the selected recipe type
+3. **Visual Hierarchy**: Prioritize common actions with prominent placement and styling
+4. **Consistent Styling**: Maintain the orange accent color scheme for the right column
+5. **Responsive Design**: Ensure actions remain accessible on smaller screens
 
-1. **Text Readability**: Gradient text may be less readable on some displays or for users with visual impairments
-2. **Browser Compatibility**: Some older browsers might not fully support background-clip for text
-3. **Contrast Ratios**: Need to ensure sufficient contrast for accessibility
+## Implementation Considerations
+
+1. **State Management**: Actions should update the UI immediately but only persist changes when explicitly saved
+2. **Calculation Logic**: Unit conversions and scaling should handle rounding appropriately
+3. **Data Structure**: Recipe versions should maintain relationship to parent recipes
+4. **Performance**: Heavy calculations (like ingredient analysis) should be asynchronous
 
 ## Next Steps
 
-After implementing these CSS changes, conduct a brief usability review to ensure the new button styles maintain good readability and usability across different devices and screen sizes.
+1. Prioritize actions based on user needs and development complexity
+2. Create wireframes for the right column layout incorporating the key actions
+3. Develop UI components with appropriate styling to match the application theme
+4. Implement the core functionality with proper state management
