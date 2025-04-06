@@ -1468,16 +1468,15 @@ body.light .left-column i {
 
 /* Settings Panel Styles */
 .settings-panel {
-  position: absolute;
+  position: relative;
   top: 100%;
   right: 0;
   width: 280px;
-  background-color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(15px);
+  background-color: #2a2a2a;
   border: 3px dashed red;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-elevation-medium);
-  z-index: 9999;
+  z-index: 99999;
   overflow: hidden;
   transition: max-height 0.3s ease, opacity 0.3s ease;
   max-height: 0;
@@ -1486,7 +1485,10 @@ body.light .left-column i {
 
 .settings-panel[aria-expanded="true"] {
   max-height: none;
+  overflow: visible;
   opacity: 1;
+  background-color: #2a2a2a;
+  z-index: 99999;
 }
 
 .settings-panel .collapsible-content {
