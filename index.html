@@ -23,6 +23,8 @@
   <!-- Papa Parse & Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="js/product-actions.js"></script>
+  <script type="module" src="js/recipe-iteration.js"></script>
 </head>
 <body class="dark">
   <div class="page-wrapper">
@@ -210,6 +212,39 @@
                <div class="collapsible-content" id="version-history-content">
                  <div id="recipeVersionHistory"><p>Version history not available.</p></div>
                </div>
+            </div>
+
+            <!-- Product Creation Actions -->
+            <div class="collapsible-container" aria-expanded="false" data-color="orange">
+              <button type="button" class="collapsible-header" aria-controls="product-actions-content" aria-expanded="false">
+                <span>Product Creation</span>
+                <span class="collapsible-icon">&#9654;</span>
+              </button>
+              <div class="collapsible-content" id="product-actions-content" style="padding: 8px 16px;">
+                <label for="scaleSlider">Scale Recipe:</label>
+                <input type="range" id="scaleSlider" min="0.5" max="3" step="0.1" value="1">
+                <span id="scaleValue">1x</span>
+                <br/>
+                <button class="btn btn-small" id="toggleUnitsBtn">Toggle Units</button>
+                <button class="btn btn-small" id="printRecipeBtn">Print/Export</button>
+                <button class="btn btn-small" id="shoppingListBtn">Generate Shopping List</button>
+              </div>
+            </div>
+
+            <!-- Recipe Iteration Actions -->
+            <div class="collapsible-container" aria-expanded="false" data-color="orange">
+              <button type="button" class="collapsible-header" aria-controls="recipe-iteration-content" aria-expanded="false">
+                <span>Recipe Iteration</span>
+                <span class="collapsible-icon">&#9654;</span>
+              </button>
+              <div class="collapsible-content" id="recipe-iteration-content" style="padding:8px 16px;">
+                <button class="btn btn-small" id="createVersionBtn">Create New Version</button>
+                <button class="btn btn-small" id="substituteIngredientBtn">Substitute Ingredient</button>
+                <textarea id="notesInput" placeholder="Notes..." rows="3" style="width:100%;margin-top:8px;"></textarea>
+                <textarea id="resultsInput" placeholder="Results..." rows="3" style="width:100%;margin-top:8px;"></textarea>
+                <button class="btn btn-small" id="saveNotesBtn" style="margin-top:8px;">Save Notes</button>
+                <button class="btn btn-small" id="compareVersionsBtn" style="margin-top:8px;">Compare Versions</button>
+              </div>
             </div>
 
             <!-- Iteration Management & Editing (Only shown in Edit Mode) -->
