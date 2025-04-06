@@ -1,7 +1,10 @@
 // main.js - Application Entry Point
  // ActionRegistry is a default export; import it directly, not as a named import
 import ActionRegistry from './action-registry.js';
+import { createErrorBoundary } from './ui-error-boundary.js';
 import './action-renderer.js';
+import AppStore from './app-store.js';
+import RecipeRenderer from './recipe-renderer.js';
 
 // Import the single, correctly configured Supabase client instance
 import { supabaseClient } from './supabaseClient.js';
@@ -20,14 +23,15 @@ import './actions/recipe-utility-actions.js';
 // Wait for the DOM to be fully loaded before initializing the UI
 document.addEventListener('DOMContentLoaded', () => {
   console.log('DOM fully loaded and parsed. Initializing UI...');
-  // Check if supabaseClient is available before initializing UI
   if (supabaseClient) {
-    initUI(); // Call the UI initialization function
-    initAuth();     // Initialize authentication
-    initSettingsUI(); // Initialize settings panel
+    createErrorBoundary('app', () => {
+      initUI();
+      initAuth();
+      initSettingsUI();
+      RecipeRenderer.initialize();
+    });
   } else {
     console.error('Supabase client failed to initialize. Cannot start UI.');
-    // Optionally display an error message to the user
     alert('Error: Could not connect to the backend. Please try refreshing the page.');
   }
 });

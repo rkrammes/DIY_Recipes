@@ -24,7 +24,6 @@ jest.mock('../js/supabaseClient.js', () => ({
 }));
 
 // Import Jest
-const jest = require('jest');
 
 // Import testing-library/jest-dom for DOM assertions
 require('@testing-library/jest-dom');

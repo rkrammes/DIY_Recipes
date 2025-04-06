@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>0/15</span>
             </div>
         
             
@@ -267,7 +267,7 @@ const editRecipeDetailsAction = <span class="cstat-no" title="statement not cove
   name: 'Edit Recipe Details',
   icon: 'fas fa-edit',
   category: 'primary',
-  applicableTo: <span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" >item.type === 'recipe',</span>
+  applicableTo: <span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" >item &amp;&amp; item.title &amp;&amp; Array.isArray(item.ingredients),</span>
   render: <span class="fstat-no" title="function not covered" >(c</span>ontainer, item) =&gt; {
     const btn = <span class="cstat-no" title="statement not covered" >document.createElement('button');</span>
 <span class="cstat-no" title="statement not covered" >    btn.innerHTML = '&lt;i class="fas fa-edit"&gt;&lt;/i&gt; Edit Details';</span>
@@ -285,7 +285,7 @@ const editIngredientsAction = <span class="cstat-no" title="statement not covere
   name: 'Edit Ingredients',
   icon: 'fas fa-carrot',
   category: 'primary',
-  applicableTo: <span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" >item.type === 'recipe',</span>
+  applicableTo: <span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" >item &amp;&amp; item.title &amp;&amp; Array.isArray(item.ingredients),</span>
   render: <span class="fstat-no" title="function not covered" >(c</span>ontainer, item) =&gt; {
     const btn = <span class="cstat-no" title="statement not covered" >document.createElement('button');</span>
 <span class="cstat-no" title="statement not covered" >    btn.innerHTML = '&lt;i class="fas fa-carrot"&gt;&lt;/i&gt; Edit Ingredients';</span>
@@ -303,7 +303,7 @@ const adjustVolumeAction = <span class="cstat-no" title="statement not covered" 
   name: 'Adjust Volume',
   icon: 'fas fa-balance-scale',
   category: 'primary',
-  applicableTo: <span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" >item.type === 'recipe',</span>
+  applicableTo: <span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" >item &amp;&amp; item.title &amp;&amp; Array.isArray(item.ingredients),</span>
   render: <span class="fstat-no" title="function not covered" >(c</span>ontainer, item) =&gt; {
     const btn = <span class="cstat-no" title="statement not covered" >document.createElement('button');</span>
 <span class="cstat-no" title="statement not covered" >    btn.innerHTML = '&lt;i class="fas fa-balance-scale"&gt;&lt;/i&gt; Adjust Volume';</span>
@@ -321,7 +321,7 @@ const editInstructionsAction = <span class="cstat-no" title="statement not cover
   name: 'Edit Instructions',
   icon: 'fas fa-list-ol',
   category: 'primary',
-  applicableTo: <span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" >item.type === 'recipe',</span>
+  applicableTo: <span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" >item &amp;&amp; item.title &amp;&amp; Array.isArray(item.ingredients),</span>
   render: <span class="fstat-no" title="function not covered" >(c</span>ontainer, item) =&gt; {
     const btn = <span class="cstat-no" title="statement not covered" >document.createElement('button');</span>
 <span class="cstat-no" title="statement not covered" >    btn.innerHTML = '&lt;i class="fas fa-list-ol"&gt;&lt;/i&gt; Edit Instructions';</span>
@@ -339,7 +339,7 @@ const editNotesAction = <span class="cstat-no" title="statement not covered" >{<
   name: 'Edit Notes',
   icon: 'fas fa-sticky-note',
   category: 'primary',
-  applicableTo: <span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" >item.type === 'recipe',</span>
+  applicableTo: <span class="fstat-no" title="function not covered" >(i</span>tem) =&gt; <span class="cstat-no" title="statement not covered" >item &amp;&amp; item.title &amp;&amp; Array.isArray(item.ingredients),</span>
   render: <span class="fstat-no" title="function not covered" >(c</span>ontainer, item) =&gt; {
     const btn = <span class="cstat-no" title="statement not covered" >document.createElement('button');</span>
 <span class="cstat-no" title="statement not covered" >    btn.innerHTML = '&lt;i class="fas fa-sticky-note"&gt;&lt;/i&gt; Edit Notes';</span>
@@ -364,7 +364,7 @@ const editNotesAction = <span class="cstat-no" title="statement not covered" >{<
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-06T15:53:35.750Z
+                at 2025-04-06T20:52:39.793Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

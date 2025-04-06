@@ -1,4 +1,6 @@
-import { supabaseClient } from './supabaseClient.js';
+import ApiClient from './api-client.js';
+import ErrorHandler from './error-handler.js';
+import { handleApiResponse } from './response-handler.js';
 import {
   checkIngredientCompatibility,
   estimatePH,
@@ -14,26 +16,24 @@ import {
  * @throws {Error} If fetching recipes from Supabase fails.
  */
 export async function loadRecipes() {
-  try {
-    const { data: recipes, error } = await supabaseClient
-      .from('recipes')
-      .select('*');
-    if (error) {
-      console.error('Supabase error loading recipes:', error);
-      throw new Error(`Failed to load recipes: ${error.message}`);
+  const recipes = await handleApiResponse(
+    ApiClient.recipes.getAll(),
+    (data) => {
+      console.log('Fetched recipes:', data);
+    },
+    (error) => {
+      console.warn('Failed to load recipes:', error);
     }
-    console.log('Fetched recipes:', recipes); // Log fetched data
-    console.log('Filtering out duplicates by recipe id...');
-    console.log('Raw recipes from Supabase before filtering:', JSON.stringify(recipes)); // Added log
-    // Filter duplicates based on recipe id
-    const uniqueRecipes = Array.from(new Map((recipes || []).map(item => [item.id, item])).values());
-    console.log('Unique recipes (after filtering):', uniqueRecipes);
-    return uniqueRecipes;
-  } catch (error) {
-    console.error('Unexpected error in loadRecipes:', error);
-    // Re-throw the original error or a new one wrapping it
-    throw new Error(`Could not load recipes. ${error.message}`);
-  }
+  );
+
+  console.log('Filtering out duplicates by recipe id...');
+  console.log('Raw recipes from API before filtering:', JSON.stringify(recipes));
+
+  const uniqueRecipes = Array.from(new Map((recipes || []).map(item => [item.id, item])).values());
+
+  console.log('Unique recipes (after filtering):', uniqueRecipes);
+
+  return uniqueRecipes;
 }
 
 /**
@@ -43,56 +43,23 @@ export async function loadRecipes() {
  * @throws {Error} If fetching ingredients from Supabase fails.
  */
 export async function loadAllIngredients() {
-  try {
-    // Try to fetch with ordering first
-    try {
-      console.log('Attempting to fetch ingredients with ordering');
-      const { data, error } = await supabaseClient
-        .from('ingredients')
-        .select('*')
-        .order('name', { ascending: true })
-        .limit(1000);
-      
-      if (!error) {
-        console.log('Fetched ingredients with ordering:', data);
-        console.log(`loadAllIngredients: Fetched ${data?.length || 0} ingredients with ordering. First few:`,
-          data?.slice(0, 5).map(ing => ({ id: ing.id, name: ing.name })));
-        
-        // Sort the data manually just to be sure
-        const sortedData = [...(data || [])].sort((a, b) =>
-          (a.name || '').localeCompare(b.name || ''));
-        
-        return sortedData;
-      }
-    } catch (orderError) {
-      console.warn('Error using order method, falling back to basic select:', orderError);
-      // Fall through to basic select
+  const ingredients = await handleApiResponse(
+    ApiClient.ingredients.getAll(),
+    (data) => {
+      console.log('Fetched ingredients:', data);
+    },
+    (error) => {
+      console.warn('Failed to load ingredients:', error);
     }
-    
-    // Fallback: basic select without ordering
-    console.log('Falling back to basic select without ordering');
-    const { data, error } = await supabaseClient
-      .from('ingredients')
-      .select('*');
-    
-    if (error) {
-      console.error('Supabase error loading ingredients:', error);
-      throw new Error(`Failed to load ingredients: ${error.message}`);
-    }
-    
-    console.log('Fetched ingredients without ordering:', data);
-    console.log(`loadAllIngredients: Fetched ${data?.length || 0} ingredients without ordering. First few:`,
-      data?.slice(0, 5).map(ing => ({ id: ing.id, name: ing.name })));
-    
-    // Sort the data manually since we couldn't use .order()
-    const sortedData = [...(data || [])].sort((a, b) =>
-      (a.name || '').localeCompare(b.name || ''));
-    
-    return sortedData;
-  } catch (error) {
-    console.error('Unexpected error in loadAllIngredients:', error);
-    throw new Error(`Could not load ingredients. ${error.message}`);
-  }
+  );
+
+  const sortedData = [...(ingredients || [])].sort((a, b) =>
+    (a.name || '').localeCompare(b.name || '')
+  );
+
+  console.log('Sorted ingredients:', sortedData);
+
+  return sortedData;
 }
 
 /**
@@ -104,32 +71,26 @@ export async function loadAllIngredients() {
  * @returns {Promise<Object|null>} Resolves with the created recipe object, or null if insertion failed.
  * @throws {Error} If recipe creation encounters an error.
  */
-export async function createNewRecipe(recipeName) { // Removed ingredients parameter
-  try {
-    console.log('createNewRecipe called with recipeName:', recipeName);
-    // Basic recipe data - other fields can be added/updated later via editing
-    const recipeData = {
-      title: recipeName,
-      // Set defaults for potentially non-nullable fields if needed by your schema
-      // e.g., description: '', instructions: '', version: 1
-      version: 1 // Start at version 1
-    };
-    const { data, error } = await supabaseClient
-      .from('recipes')
-      .insert([ recipeData ])
-      .select();
+export async function createNewRecipe(recipeName) {
+  const recipeData = {
+    title: recipeName,
+    version: 1
+  };
 
-    if (error) {
-      console.error('Supabase error creating new recipe:', error);
-      throw new Error(`Failed to create recipe: ${error.message}`);
+  const result = await handleApiResponse(
+    ApiClient.recipes.create(recipeData),
+    (data) => {
+      console.log('Created recipe:', data);
+    },
+    (error) => {
+      console.warn('Failed to create recipe:', error);
     }
+  );
 
-    return data && data.length > 0 ? data[0] : null;
-  } catch (error) {
-    console.error('Unexpected error in createNewRecipe:', error);
-    // Throw a new error for consistency, even if it was already thrown
-    throw new Error(`Could not create new recipe. ${error.message}`);
+  if (result && result.length > 0) {
+    return result[0];
   }
+  return null;
 }
 
 // Removed obsolete addNewIngredientToRecipe function
@@ -142,21 +103,26 @@ export async function createNewRecipe(recipeName) { // Removed ingredients param
  * @returns {Promise<Object|null>} Resolves with the created ingredient object, or null if insertion failed.
  * @throws {Error} If insertion into Supabase fails.
  */
-export async function addGlobalIngredient(newIngredientName, description = null) { // Added optional description
-  try {
-    const { data, error } = await supabaseClient
-      .from('ingredients')
-      .insert([{ name: newIngredientName, description: description }]) // Include description
-      .select();
-    if (error) {
-      console.error('Supabase error adding global ingredient:', error);
-      throw new Error(`Failed to add global ingredient: ${error.message}`);
+export async function addGlobalIngredient(newIngredientName, description = null) {
+  const ingredientData = {
+    name: newIngredientName,
+    description: description
+  };
+
+  const result = await handleApiResponse(
+    ApiClient.ingredients.create(ingredientData),
+    (data) => {
+      console.log('Added ingredient:', data);
+    },
+    (error) => {
+      console.warn('Failed to add ingredient:', error);
     }
-    return data && data.length > 0 ? data[0] : null;
-  } catch (error) {
-    console.error('Unexpected error in addGlobalIngredient:', error);
-    throw new Error(`Could not add global ingredient. ${error.message}`);
+  );
+
+  if (result && result.length > 0) {
+    return result[0];
   }
+  return null;
 }
 
 // Removed obsolete removeIngredientFromRecipe function
@@ -169,20 +135,17 @@ export async function addGlobalIngredient(newIngredientName, description = null)
  * @throws {Error} If deletion from Supabase fails.
  */
 export async function removeGlobalIngredient(ingredientId) {
-  try {
-    const { error } = await supabaseClient
-      .from('ingredients')
-      .delete()
-      .eq('id', ingredientId);
-    if (error) {
-      console.error('Supabase error removing global ingredient:', error);
-      throw new Error(`Failed to remove global ingredient: ${error.message}`);
+  const result = await handleApiResponse(
+    ApiClient.ingredients.delete(ingredientId),
+    () => {
+      console.log(`Removed ingredient ${ingredientId}`);
+    },
+    (error) => {
+      console.warn('Failed to remove ingredient:', error);
     }
-    return true;
-  } catch (error) {
-    console.error('Unexpected error in removeGlobalIngredient:', error);
-    throw new Error(`Could not remove global ingredient. ${error.message}`);
-  }
+  );
+
+  return result === true;
 }
 /**
  * Updates the ingredients for a specific recipe in the 'recipeingredients' table.
@@ -217,7 +180,7 @@ export async function updateRecipeIngredients(recipeId, ingredients) {
       .eq('recipe_id', recipeId);
 
     if (deleteError) {
-      console.error('Supabase error deleting old ingredients:', deleteError);
+      ErrorHandler.handleApiError(deleteError, 'Failed to update recipe ingredients.');
       throw new Error(`Failed to delete old ingredients: ${deleteError.message}`);
     }
     console.log(`Successfully deleted old ingredients for recipe ${recipeId}`);
@@ -256,7 +219,7 @@ export async function updateRecipeIngredients(recipeId, ingredients) {
         .select();
 
       if (insertError) {
-        console.error('Supabase error inserting new ingredients:', insertError);
+        ErrorHandler.handleApiError(insertError, 'Failed to update recipe ingredients.');
         throw new Error(`Failed to insert new ingredients: ${insertError.message}`);
       }
       console.log(`Successfully inserted ${ingredientsToInsert.length} new ingredients for recipe ${recipeId}`);
@@ -267,7 +230,7 @@ export async function updateRecipeIngredients(recipeId, ingredients) {
 
     return true; // Indicate success
   } catch (error) {
-    console.error(`Error during updateRecipeIngredients for recipe ${recipeId}:`, error);
+    ErrorHandler.logError(error, { component: 'updateRecipeIngredients', recipeId });
     // Throw a consolidated error message
     throw new Error(`Failed to update ingredients for recipe ${recipeId}. ${error.message}`);
   }
@@ -325,7 +288,7 @@ export async function importCSVFile(file) {
               }])
               .select();
             if (error) {
-              console.error(`Error importing recipe "${recipe.name}":`, error);
+              ErrorHandler.handleApiError(error, `Failed to import recipe "${recipe.name}".`);
               // Stop import on first error and reject the promise
               reject(new Error(`Failed to import recipe "${recipe.name}": ${error.message}`));
               return; // Exit the loop and function
