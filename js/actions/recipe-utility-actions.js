@@ -6,7 +6,7 @@ const printRecipeAction = {
   name: 'Print Recipe',
   icon: 'fas fa-print',
   category: 'utility',
-  applicableTo: (item) => item.type === 'recipe',
+  applicableTo: (item) => item && item.title && Array.isArray(item.ingredients),
   render: (container, item) => {
     const btn = document.createElement('button');
     btn.innerHTML = '<i class="fas fa-print"></i> Print';
@@ -25,7 +25,7 @@ const exportRecipeAction = {
   name: 'Export Recipe',
   icon: 'fas fa-file-export',
   category: 'utility',
-  applicableTo: (item) => item.type === 'recipe',
+  applicableTo: (item) => item && item.title && Array.isArray(item.ingredients),
   render: (container, item) => {
     const btn = document.createElement('button');
     btn.innerHTML = '<i class="fas fa-file-export"></i> Export';
@@ -43,7 +43,7 @@ const generateShoppingListAction = {
   name: 'Generate Shopping List',
   icon: 'fas fa-shopping-cart',
   category: 'utility',
-  applicableTo: (item) => item.type === 'recipe',
+  applicableTo: (item) => item && item.title && Array.isArray(item.ingredients),
   render: (container, item) => {
     const btn = document.createElement('button');
     btn.innerHTML = '<i class="fas fa-shopping-cart"></i> Shopping List';
@@ -61,7 +61,7 @@ const calculateCostsAction = {
   name: 'Calculate Costs',
   icon: 'fas fa-dollar-sign',
   category: 'utility',
-  applicableTo: (item) => item.type === 'recipe',
+  applicableTo: (item) => item && item.title && Array.isArray(item.ingredients),
   render: (container, item) => {
     const btn = document.createElement('button');
     btn.innerHTML = '<i class="fas fa-dollar-sign"></i> Calculate Costs';

@@ -1269,7 +1269,7 @@ export async function initUI() {
                await showRecipeDetails(recipeId);
 
                // Update right column actions
-               const rightColumn = document.getElementById('right-column');
+               const rightColumn = document.getElementById('right-column-actions');
                ActionRenderer.render(rightColumn, currentRecipe);
            }
        });

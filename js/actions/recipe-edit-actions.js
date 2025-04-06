@@ -6,7 +6,7 @@ const editRecipeDetailsAction = {
   name: 'Edit Recipe Details',
   icon: 'fas fa-edit',
   category: 'primary',
-  applicableTo: (item) => item.type === 'recipe',
+  applicableTo: (item) => item && item.title && Array.isArray(item.ingredients),
   render: (container, item) => {
     const btn = document.createElement('button');
     btn.innerHTML = '<i class="fas fa-edit"></i> Edit Details';
@@ -24,7 +24,7 @@ const editIngredientsAction = {
   name: 'Edit Ingredients',
   icon: 'fas fa-carrot',
   category: 'primary',
-  applicableTo: (item) => item.type === 'recipe',
+  applicableTo: (item) => item && item.title && Array.isArray(item.ingredients),
   render: (container, item) => {
     const btn = document.createElement('button');
     btn.innerHTML = '<i class="fas fa-carrot"></i> Edit Ingredients';
@@ -42,7 +42,7 @@ const adjustVolumeAction = {
   name: 'Adjust Volume',
   icon: 'fas fa-balance-scale',
   category: 'primary',
-  applicableTo: (item) => item.type === 'recipe',
+  applicableTo: (item) => item && item.title && Array.isArray(item.ingredients),
   render: (container, item) => {
     const btn = document.createElement('button');
     btn.innerHTML = '<i class="fas fa-balance-scale"></i> Adjust Volume';
@@ -60,7 +60,7 @@ const editInstructionsAction = {
   name: 'Edit Instructions',
   icon: 'fas fa-list-ol',
   category: 'primary',
-  applicableTo: (item) => item.type === 'recipe',
+  applicableTo: (item) => item && item.title && Array.isArray(item.ingredients),
   render: (container, item) => {
     const btn = document.createElement('button');
     btn.innerHTML = '<i class="fas fa-list-ol"></i> Edit Instructions';
@@ -78,7 +78,7 @@ const editNotesAction = {
   name: 'Edit Notes',
   icon: 'fas fa-sticky-note',
   category: 'primary',
-  applicableTo: (item) => item.type === 'recipe',
+  applicableTo: (item) => item && item.title && Array.isArray(item.ingredients),
   render: (container, item) => {
     const btn = document.createElement('button');
     btn.innerHTML = '<i class="fas fa-sticky-note"></i> Edit Notes';

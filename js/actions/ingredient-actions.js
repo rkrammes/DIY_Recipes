@@ -6,7 +6,7 @@ const editIngredientDetailsAction = {
   name: 'Edit Ingredient Details',
   icon: 'fas fa-seedling',
   category: 'primary',
-  applicableTo: (item) => item.type === 'ingredient',
+  applicableTo: (item) => item && item.name && item.ingredient_id,
   render: (container, item) => {
     const btn = document.createElement('button');
     btn.innerHTML = '<i class="fas fa-seedling"></i> Edit Details';
@@ -24,7 +24,7 @@ const findSubstitutesAction = {
   name: 'Find Substitutes',
   icon: 'fas fa-exchange-alt',
   category: 'utility',
-  applicableTo: (item) => item.type === 'ingredient',
+  applicableTo: (item) => item && item.name && item.ingredient_id,
   render: (container, item) => {
     const btn = document.createElement('button');
     btn.innerHTML = '<i class="fas fa-exchange-alt"></i> Find Substitutes';
@@ -42,7 +42,7 @@ const viewUsageAction = {
   name: 'View Usage',
   icon: 'fas fa-eye',
   category: 'utility',
-  applicableTo: (item) => item.type === 'ingredient',
+  applicableTo: (item) => item && item.name && item.ingredient_id,
   render: (container, item) => {
     const btn = document.createElement('button');
     btn.innerHTML = '<i class="fas fa-eye"></i> View Usage';
