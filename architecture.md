@@ -1,3 +1,105 @@
+# DIY Recipes System Architecture
+
+## Overview
+
+DIY Recipes is a web application for managing, analyzing, and iterating on home product recipes. It integrates a JavaScript frontend with Supabase backend services.
+
+---
+
+## High-Level Architecture
+
+```mermaid
+flowchart TD
+    Browser[Client-side UI]
+    subgraph Frontend
+      UI[UI Components]
+      API[API Module]
+      Auth[Auth Module]
+    end
+    Supabase[(Supabase Backend)]
+    DB[(Postgres Database)]
+    Storage[(File Storage)]
+    AuthService[(Supabase Auth)]
+
+    Browser --> UI
+    UI --> API
+    UI --> Auth
+    API --> Supabase
+    Auth --> AuthService
+    Supabase --> DB
+    Supabase --> Storage
+    AuthService --> DB
+```
+
+---
+
+## Main Components
+
+### Frontend
+- **UI Components:** Render recipe views, iteration panels, ingredient tables.
+- **API Module (`js/api.js`):** Handles data fetching, updates, CSV import/export.
+- **Auth Module (`js/auth.js`, `js/auth-ui.js`):** Manages user login/logout via Supabase.
+- **Recipe Logic:** Analysis, compatibility checks, versioning.
+
+### Backend (Supabase)
+- **Postgres Database:** Stores recipes, ingredients, iterations, user info.
+- **Authentication Service:** Email magic link login, session management.
+- **File Storage:** (Optional) For media, images.
+
+---
+
+## Authentication Flow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant SupabaseAuth
+
+    User->>Frontend: Enter email, request login
+    Frontend->>SupabaseAuth: sendMagicLink(email)
+    SupabaseAuth-->>User: Email with magic link
+    User->>SupabaseAuth: Click magic link
+    SupabaseAuth->>Frontend: Session token
+    Frontend->>SupabaseAuth: Authenticated API calls
+```
+
+- Email-based magic link login
+- Session persisted in browser
+- Auth guards API requests
+
+---
+
+## Data Flow: Recipe & Ingredient Management
+
+```mermaid
+sequenceDiagram
+    participant UI
+    participant API
+    participant Supabase
+
+    UI->>API: Create/Update/Delete recipe or ingredient
+    API->>Supabase: RESTful call (insert/select/update/delete)
+    Supabase-->>API: Response data or error
+    API-->>UI: Updated data or error message
+    UI-->>User: UI updates accordingly
+```
+
+---
+
+## Deployment Overview
+
+- **Frontend:** Static hosting (Vercel, Netlify, etc.)
+- **Backend:** Managed by Supabase cloud
+- **Local Dev:** `npm start` runs local dev server
+- **Environment Variables:** API keys stored in `.env`
+
+---
+
+# Existing UI Action Architecture
+
+(Original content preserved below)
+
 alri# Right Column Action Architecture for DIY Recipes
 
 ## Overview

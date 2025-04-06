@@ -7,7 +7,11 @@ import {
 
 /**
  * Loads all recipes from the 'recipes' table.
- * @returns {Promise<Array>} A promise that resolves to an array of unique recipe objects, each containing its ingredients.
+ *
+ * Filters out duplicate recipes based on ID.
+ *
+ * @returns {Promise<Object[]>} Resolves with an array of unique recipe objects.
+ * @throws {Error} If fetching recipes from Supabase fails.
  */
 export async function loadRecipes() {
   try {
@@ -33,8 +37,10 @@ export async function loadRecipes() {
 }
 
 /**
- * Loads all ingredients from the Ingredients table.
- * @returns {Array} Array of ingredients.
+ * Loads all ingredients from the 'ingredients' table.
+ *
+ * @returns {Promise<Object[]>} Resolves with an array of ingredient objects (possibly empty).
+ * @throws {Error} If fetching ingredients from Supabase fails.
  */
 export async function loadAllIngredients() {
   try {
@@ -57,10 +63,13 @@ export async function loadAllIngredients() {
 }
 
 /**
- * Creates a new recipe with the provided name.
- * Inserts default values for ingredients, next_iteration, and suggestions.
+ * Creates a new recipe with the given name.
+ *
+ * Sets initial default values such as version number.
+ *
  * @param {string} recipeName - Name of the new recipe.
- * @returns {object|null} The created recipe object, or null on error.
+ * @returns {Promise<Object|null>} Resolves with the created recipe object, or null if insertion failed.
+ * @throws {Error} If recipe creation encounters an error.
  */
 export async function createNewRecipe(recipeName) { // Removed ingredients parameter
   try {
@@ -93,9 +102,12 @@ export async function createNewRecipe(recipeName) { // Removed ingredients param
 // Removed obsolete addNewIngredientToRecipe function
 
 /**
- * Adds a new global ingredient to the Ingredients table.
- * @param {string} newIngredientName - Name of the ingredient.
- * @returns {object|null} The created ingredient object, or null on error.
+ * Adds a new global ingredient to the 'ingredients' table.
+ *
+ * @param {string} newIngredientName - Name of the new ingredient.
+ * @param {string|null} [description=null] - Optional description of the ingredient.
+ * @returns {Promise<Object|null>} Resolves with the created ingredient object, or null if insertion failed.
+ * @throws {Error} If insertion into Supabase fails.
  */
 export async function addGlobalIngredient(newIngredientName, description = null) { // Added optional description
   try {
@@ -117,9 +129,11 @@ export async function addGlobalIngredient(newIngredientName, description = null)
 // Removed obsolete removeIngredientFromRecipe function
 
 /**
- * Removes a global ingredient from the Ingredients table.
+ * Removes a global ingredient from the 'ingredients' table.
+ *
  * @param {number} ingredientId - The ID of the ingredient to remove.
- * @returns {boolean} True if removed successfully.
+ * @returns {Promise<boolean>} Resolves with true if removed successfully.
+ * @throws {Error} If deletion from Supabase fails.
  */
 export async function removeGlobalIngredient(ingredientId) {
   try {
@@ -138,11 +152,14 @@ export async function removeGlobalIngredient(ingredientId) {
   }
 }
 /**
- * Updates the ingredients for a specific recipe in the recipeingredients table.
+ * Updates the ingredients for a specific recipe in the 'recipeingredients' table.
+ *
  * Deletes existing entries and inserts new ones based on the provided list.
+ *
  * @param {string} recipeId - The UUID of the recipe to update.
- * @param {Array<object>} ingredients - Array of ingredient objects, each needing { id, quantity, unit, notes }. 'id' is the ingredient_id.
- * @returns {Promise<boolean>} True if successful, false otherwise.
+ * @param {Array<{id: number, quantity: number, unit: string, notes: string}>} ingredients - Array of ingredient objects.
+ * @returns {Promise<boolean>} Resolves with true if update succeeded.
+ * @throws {Error} If any Supabase operation fails.
  */
 export async function updateRecipeIngredients(recipeId, ingredients) {
   console.log(`Updating ingredients for recipe ${recipeId}`);
@@ -225,9 +242,10 @@ export async function updateRecipeIngredients(recipeId, ingredients) {
 
 
 /**
- * Parses CSV data using Papa Parse.
- * @param {object} data - The data object from Papa Parse.
- * @returns {Array} Array of recipe objects.
+ * Parses CSV data using Papa Parse format.
+ *
+ * @param {object} data - The data object returned by Papa Parse, containing `.data` as rows.
+ * @returns {Array<Object>} Array of parsed recipe objects.
  */
 export function parseCSVData(data) {
   const rows = data.data;

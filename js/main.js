@@ -1,4 +1,5 @@
 // main.js - Application Entry Point
+ // ActionRegistry is a default export; import it directly, not as a named import
 import ActionRegistry from './action-registry.js';
 import './action-renderer.js';
 

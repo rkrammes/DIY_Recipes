@@ -313,7 +313,13 @@ export function renderRecipeIngredientsTable(ingredients) {
 }
 
 /**
- * Shows the details of a recipe.
+ * Loads a recipe by ID, fetches its ingredients, updates UI panels, and caches results.
+ *
+ * Handles errors gracefully by updating the UI with error messages.
+ *
+ * @param {string|number} recipeId - The unique ID of the recipe to display.
+ * @returns {Promise<void>} Resolves when UI is updated.
+ * @throws {Error} If fetching recipe or ingredients fails.
  */
 export async function showRecipeDetails(recipeId) {
  console.log(`showRecipeDetails called for recipeId: ${recipeId}`);
@@ -555,7 +561,15 @@ if (document.querySelector('#iterationEditTable tbody')) {
 } // End of showRecipeDetails
 
 /**
- * Helper function to create a row for the editable ingredients table.
+ * Creates a table row element for editing a single ingredient.
+ *
+ * @param {Object} ingredientData - Ingredient data object.
+ * @param {number} ingredientData.id - Ingredient ID.
+ * @param {string} ingredientData.name - Ingredient name.
+ * @param {number} [ingredientData.quantity] - Quantity.
+ * @param {string} [ingredientData.unit] - Unit of measurement.
+ * @param {string} [ingredientData.notes] - Additional notes.
+ * @returns {HTMLElement} The created `<tr>` element with editable fields.
  */
 export function createEditableIngredientRow(ingredientData) {
   console.log('--- Creating editable row ---');
@@ -695,6 +709,13 @@ export async function doCommitIteration(currentRecipe, iterationTable) {
   console.log("Commit button clicked. Recipe ID:", currentRecipe.id);
   console.log("Recipe data:", JSON.stringify(currentRecipe, null, 2));
   console.log("Iteration table found:", !!iterationTable);
+
+  // If the iteration table is missing, skip commit gracefully.
+  // This is expected if the iteration editing UI is not present in the current app version.
+  if (!iterationTable) {
+    console.warn('doCommitIteration: iterationTable not found — skipping commit. This is expected if iteration editing UI is not present.');
+    return;
+  }
 
   const updatedIngredients = [];
   const rows = iterationTable.querySelectorAll('tr');
