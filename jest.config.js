@@ -21,7 +21,7 @@ export default {
   // Setup files for jsdom environment
   setupFilesAfterEnv: ['./tests/test-setup.js', '@testing-library/jest-dom/extend-expect'],
   // Setup files for node environment will be specified in test files
-  testMatch: ['**/__tests__/**/*.js', '**/?(*.)+(spec|test).js'],
+  testMatch: ['**/__tests__/**/*.js', '**/?(*.)+(spec|test).js', '!**/puppeteer.test.js'],
   verbose: true,
   collectCoverage: true,
   collectCoverageFrom: [

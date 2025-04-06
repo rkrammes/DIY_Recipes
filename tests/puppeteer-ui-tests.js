@@ -88,23 +88,23 @@ async function runPuppeteerTests() {
 
 // Helper functions to interact with the Puppeteer MCP server
 async function puppeteerNavigate(url) {
-  // This function will be replaced with actual MCP tool usage at runtime
   console.log(`Navigating to ${url}...`);
+  await useMcpTool('puppeteer', 'puppeteer_navigate', { url });
 }
 
 async function puppeteerScreenshot(name, width, height) {
-  // This function will be replaced with actual MCP tool usage at runtime
   console.log(`Taking screenshot ${name} at ${width}x${height}...`);
+  await useMcpTool('puppeteer', 'puppeteer_screenshot', { name, width, height });
 }
 
 async function puppeteerClick(selector) {
-  // This function will be replaced with actual MCP tool usage at runtime
   console.log(`Clicking on ${selector}...`);
+  await useMcpTool('puppeteer', 'puppeteer_click', { selector });
 }
 
 async function puppeteerFill(selector, value) {
-  // This function will be replaced with actual MCP tool usage at runtime
   console.log(`Filling ${selector} with "${value}"...`);
+  await useMcpTool('puppeteer', 'puppeteer_fill', { selector, value });
 }
 
 // Export the test function

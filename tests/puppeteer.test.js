@@ -3,7 +3,7 @@
  */
 
 // Import node setup instead of using the default JSDOM setup
-import '../jest.setup-node.js';
+// import '../jest.setup-node.js';
 
 // This file contains Puppeteer tests for the DIY_Recipes web app's collapsible UI components
 describe('Puppeteer UI Tests', () => {

@@ -1,50 +1,14 @@
 // Mock Supabase client for tests
-export const supabaseClient = {
+const supabaseClient = {
   from: jest.fn(() => ({
-    select: jest.fn(() => ({
-      eq: jest.fn(() => ({
-        single: jest.fn(() => ({
-          data: null,
-          error: null
-        })),
-        data: null,
-        error: null
-      })),
-      data: null,
-      error: null
-    })),
-    insert: jest.fn(() => ({
-      select: jest.fn(() => ({
-        data: null,
-        error: null
-      })),
-      data: null,
-      error: null
-    })),
-    delete: jest.fn(() => ({
-      eq: jest.fn(() => ({
-        data: null,
-        error: null
-      })),
-      data: null,
-      error: null
-    })),
-    update: jest.fn(() => ({
-      eq: jest.fn(() => ({
-        data: null,
-        error: null
-      })),
-      data: null,
-      error: null
-    }))
+    delete: jest.fn(() => Promise.resolve({ data: [], error: null })),
+    insert: jest.fn(() => Promise.resolve({ data: [], error: null })),
+    update: jest.fn(() => Promise.resolve({ data: [], error: null })),
+    select: jest.fn(() => Promise.resolve({ data: [], error: null })),
   })),
-  auth: {
-    signUp: jest.fn(),
-    signIn: jest.fn(),
-    signOut: jest.fn(),
-    onAuthStateChange: jest.fn()
-  }
 };
+
+export { supabaseClient };
 
 // Export default for ESM compatibility
 export default supabaseClient;
