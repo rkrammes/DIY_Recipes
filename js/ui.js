@@ -513,58 +513,9 @@ export async function showRecipeDetails(recipe) {
     middleContent.style.gap = '1rem';
 
     // Conditionally render description section only if there is meaningful content
-    if (recipe.description || recipe.prep_time || recipe.cook_time || recipe.servings || recipe.category) {
       const descriptionSection = document.createElement('div');
       descriptionSection.className = 'description-section';
       descriptionSection.innerHTML = `
-        <h4>Description</h4>
-        ${recipe.description ? `<p>${recipe.description}</p>` : ''}
-        ${recipe.prep_time ? `<p><strong>Preparation Time:</strong> ${recipe.prep_time}</p>` : ''}
-        ${recipe.cook_time ? `<p><strong>Shelf Life:</strong> ${recipe.cook_time}</p>` : ''}
-        ${recipe.servings ? `<p><strong>Yield:</strong> ${recipe.servings}</p>` : ''}
-        ${recipe.category ? `<p><strong>Category:</strong> ${recipe.category}</p>` : ''}
-      `;
-      middleContent.appendChild(descriptionSection);
-    }
-
-    // Instructions collapsible
-    const instructionsCollapsible = document.createElement('div');
-    instructionsCollapsible.className = 'collapsible-container';
-    instructionsCollapsible.setAttribute('aria-expanded', 'false');
-
-    const instructionsHeader = document.createElement('button');
-    instructionsHeader.type = 'button';
-    instructionsHeader.className = 'collapsible-header';
-    instructionsHeader.setAttribute('aria-controls', 'instructions-content-middle');
-    instructionsHeader.setAttribute('aria-expanded', 'false');
-    instructionsHeader.innerHTML = `
-      <span>Instructions</span>
-      <span class="collapsible-icon">&#9654;</span>
-    `;
-
-    const instructionsContent = document.createElement('div');
-    instructionsContent.className = 'collapsible-content';
-    instructionsContent.id = 'instructions-content-middle';
-    instructionsContent.innerHTML = recipe.instructions || 'No instructions provided';
-
-    instructionsHeader.addEventListener('click', () => {
-      const expanded = instructionsCollapsible.getAttribute('aria-expanded') === 'true';
-      instructionsCollapsible.setAttribute('aria-expanded', String(!expanded));
-      instructionsHeader.setAttribute('aria-expanded', String(!expanded));
-      instructionsCollapsible.classList.toggle('expanded', !expanded);
-    });
-
-    instructionsHeader.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        instructionsHeader.click();
-      }
-    });
-
-    instructionsCollapsible.appendChild(instructionsHeader);
-    instructionsCollapsible.appendChild(instructionsContent);
-    currentRecipeColumn.parentNode.insertBefore(middleContent, currentRecipeColumn);
-    middleContent.appendChild(instructionsCollapsible);
 
     // Helper to create other collapsible sections
     function createCollapsibleSection(title, contentHtml, idSuffix, colorType = 'neutral') {
