@@ -6,8 +6,8 @@ import { showNotification } from './ui-utils.js';
  * Initialize the settings panel UI and event handlers
  */
 export function initSettingsUI() {
+  console.log('Initializing Settings UI');
   const btnSettings = document.getElementById('btnSettings');
-  const settingsPanel = document.getElementById('settingsPanel');
   const settingsPortal = document.getElementById('settings-portal');
   
   // Create overlay element
@@ -15,31 +15,77 @@ export function initSettingsUI() {
   overlay.id = 'settings-overlay';
   document.body.appendChild(overlay);
   
-  // Move the original settings panel DOM node into the portal container
-  if (settingsPanel && settingsPortal) {
+  // Create the settings panel from scratch with proper ID
+  const settingsPanel = document.createElement('div');
+  settingsPanel.id = 'settingsPanel'; // Match the ID used in CSS
+  settingsPanel.className = 'settings-panel'; // Add class for CSS targeting
+  
+  // Create the panel content
+  settingsPanel.innerHTML = `
+    <div class="settings-section auth-section">
+      <h3>Authentication</h3>
+      <div id="authControls">
+        <!-- When logged out -->
+        <div id="loggedOutView">
+          <div id="magicLinkForm">
+            <input type="email" id="magicLinkEmail" placeholder="Email" aria-label="Email for magic link" class="input-small"/>
+            <button class="btn btn-small" id="btnSendMagicLink">Send Link</button>
+          </div>
+        </div>
+        <!-- When logged in -->
+        <div id="loggedInView" style="display: none;">
+          <span id="loggedInEmail"></span>
+          <button class="btn btn-small" id="btnLogOut">Log Out</button>
+        </div>
+      </div>
+      <div id="statusMessages" aria-live="polite"></div>
+    </div>
+    
+    <!-- Edit Mode Section -->
+    <div class="settings-section">
+      <h3>Edit Mode</h3>
+      <div class="toggle-container">
+        <label for="btnEditModeToggle">Edit Mode:</label>
+        <button class="btn btn-small" id="btnEditModeToggle" data-active="false">OFF</button>
+      </div>
+    </div>
+    
+    <!-- Theme Section -->
+    <div class="settings-section">
+      <h3>Theme</h3>
+      <div class="toggle-container">
+        <label for="btnThemeToggle">Theme:</label>
+        <button class="btn btn-small" id="btnThemeToggle" data-theme="dark">Dark</button>
+      </div>
+    </div>
+  `;
+  
+  // Add the panel to the portal
+  if (settingsPortal) {
     settingsPortal.appendChild(settingsPanel);
     setupPanelEventListeners(settingsPanel);
+    console.log('Settings panel created and added to portal container');
+  } else {
+    console.error('Failed to create settings panel: settings-portal not found');
   }
   
-  // Toggle settings panel visibility
-  if (btnSettings && settingsPortal) {
-    btnSettings.addEventListener('click', (e) => {
+  // Set up event listeners for opening/closing the panel
+  if (btnSettings) {
+    btnSettings.addEventListener('click', function(e) {
+      console.log('Settings button clicked');
       e.stopPropagation();
-      const panel = settingsPortal.querySelector('.settings-panel');
-      if (panel) {
-        const isActive = panel.classList.contains('active');
-        toggleSettingsPanel(!isActive);
-      }
+      toggleSettingsPanel();
     });
     
     // Close panel when clicking overlay
-    overlay.addEventListener('click', () => {
+    overlay.addEventListener('click', function() {
+      console.log('Overlay clicked');
       toggleSettingsPanel(false);
     });
     
     // Close panel when clicking outside
-    document.addEventListener('click', (e) => {
-      const panel = settingsPortal.querySelector('.settings-panel');
+    document.addEventListener('click', function(e) {
+      const panel = document.getElementById('settings-panel');
       if (panel && !panel.contains(e.target) && e.target !== btnSettings) {
         toggleSettingsPanel(false);
       }
@@ -50,7 +96,7 @@ export function initSettingsUI() {
 }
 
 /**
- * Set up event listeners for the cloned panel elements
+ * Set up event listeners for the panel elements
  */
 function setupPanelEventListeners(panel) {
   const btnSendMagicLink = panel.querySelector('#btnSendMagicLink');
@@ -81,18 +127,74 @@ function setupPanelEventListeners(panel) {
  * @param {boolean} show - Whether to show or hide the panel
  */
 export function toggleSettingsPanel(show) {
-  const settingsPortal = document.getElementById('settings-portal');
+  const panel = document.getElementById('settingsPanel');
   const overlay = document.getElementById('settings-overlay');
-  const panel = settingsPortal ? settingsPortal.querySelector('.settings-panel') : null;
+  const btnSettings = document.getElementById('btnSettings');
+  
+  // If show parameter is not provided, toggle based on current state
+  if (show === undefined) {
+    show = !panel.classList.contains('active');
+  }
+  
+  console.log('Toggling settings panel:', show ? 'show' : 'hide');
   
   if (panel && overlay) {
     if (show) {
+      // Apply direct styles for immediate visibility
+      panel.style.position = 'fixed';
+      panel.style.top = '60px';
+      panel.style.right = '20px';
+      panel.style.width = '280px';
+      panel.style.backgroundColor = '#2a2a2a';
+      panel.style.color = 'white';
+      panel.style.padding = '15px';
+      panel.style.borderRadius = '6px';
+      panel.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3)';
+      panel.style.zIndex = '1000000';
+      panel.style.display = 'block';
+      panel.style.opacity = '1';
+      panel.style.visibility = 'visible';
+      panel.style.transform = 'none';
+      panel.style.pointerEvents = 'auto';
+      
+      // Ensure overlay is visible
+      overlay.style.display = 'block';
+      overlay.style.opacity = '0.5';
+      overlay.style.pointerEvents = 'auto';
+      
+      // Add active classes
       panel.classList.add('active');
       overlay.classList.add('active');
+      
+      // Update button state
+      if (btnSettings) {
+        btnSettings.setAttribute('aria-expanded', 'true');
+      }
     } else {
+      // Hide the panel
       panel.classList.remove('active');
       overlay.classList.remove('active');
+      
+      panel.style.opacity = '0';
+      panel.style.transform = 'translateY(-10px)';
+      overlay.style.opacity = '0';
+      overlay.style.pointerEvents = 'none';
+      
+      // Update button state
+      if (btnSettings) {
+        btnSettings.setAttribute('aria-expanded', 'false');
+      }
+      
+      // After transition completes, hide completely
+      setTimeout(() => {
+        if (!panel.classList.contains('active')) {
+          panel.style.display = 'none';
+          overlay.style.display = 'none';
+        }
+      }, 300);
     }
+  } else {
+    console.error('Cannot toggle panel: panel or overlay not found');
   }
 }
 

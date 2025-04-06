@@ -42,49 +42,7 @@
           <button class="btn btn-header" id="btnSettings" aria-label="Settings" aria-expanded="false">
             Settings <span class="settings-icon">⚙️</span>
           </button>
-          
-          <!-- Collapsible Settings Panel -->
-          <div id="settingsPanel" class="settings-panel collapsible-container" data-color="neutral" aria-expanded="false">
-            <div class="collapsible-content" id="settings-content">
-              <!-- Authentication Section -->
-              <div class="settings-section auth-section">
-                <h3>Authentication</h3>
-                <div id="authControls">
-                  <!-- When logged out -->
-                  <div id="loggedOutView">
-                    <div id="magicLinkForm">
-                      <input type="email" id="magicLinkEmail" placeholder="Email" aria-label="Email for magic link" class="input-small"/>
-                      <button class="btn btn-small" id="btnSendMagicLink">Send Link</button>
-                    </div>
-                  </div>
-                  <!-- When logged in -->
-                  <div id="loggedInView" style="display: none;">
-                    <span id="loggedInEmail"></span>
-                    <button class="btn btn-small" id="btnLogOut">Log Out</button>
-                  </div>
-                </div>
-                <div id="statusMessages" aria-live="polite"></div>
-              </div>
-              
-              <!-- Edit Mode Section -->
-              <div class="settings-section">
-                <h3>Edit Mode</h3>
-                <div class="toggle-container">
-                  <label for="editModeToggle">Edit Mode:</label>
-                  <button class="btn btn-small" id="btnEditModeToggle" data-active="false">OFF</button>
-                </div>
-              </div>
-              
-              <!-- Theme Section -->
-              <div class="settings-section">
-                <h3>Theme</h3>
-                <div class="toggle-container">
-                  <label for="themeToggle">Theme:</label>
-                  <button class="btn btn-small" id="btnThemeToggle" data-theme="dark">Dark</button>
-                </div>
-              </div>
-            </div>
-          </div>
+          <!-- Settings panel now moved to portal container at the bottom of the page -->
         </div>
       </div>    </header>
 
@@ -228,6 +186,7 @@
 
   <!-- main.js as a module -->
   <script type="module" src="js/main.js"></script>
-  <div id="settings-portal"></div>
+  <!-- Settings portal container - positioned outside page layout -->
+  <div id="settings-portal" aria-live="polite"></div>
 </body>
 </html>
