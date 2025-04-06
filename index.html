@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DIY Projects - Household Products</title>
+
+  <!-- 
+    Roboto Mono ONLY
+    No references to other fonts 
+  -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css" />
+  
+  <!-- Inline styles removed - moved to style.css -->
+  
+  <!-- Papa Parse & Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="dark">
+  <div class="page-wrapper">
+    <!-- Unified Header containing controls and project list -->
+    <header class="glass-panel unified-header" role="banner">
+      <div class="header-top-row">
+        <div class="header-left">
+          <button class="btn" id="btnIngredients">All Ingredients</button>
+        </div>
+        <div id="logoContainer">
+          <span id="logoText">DIY Projects</span>
+        </div>
+        <div class="header-right">
+          <button class="btn" id="btnThemeToggle" data-theme="dark" aria-label="Toggle theme">Theme: Dark</button>
+          <button class="btn" id="btnLogIn">Log In</button>
+          <button class="btn" id="btnEditModeToggle" data-active="false" aria-label="Toggle edit mode">Edit Mode: OFF</button>
+        </div>
+      </div>
+      <nav class="header-recipe-list" role="navigation" aria-label="Recipe selector">
+         <ul id="recipeList" class="recipe-list-horizontal"></ul>
+         <button id="btnAddRecipe" class="btn btn-add-recipe" aria-label="Add new recipe">
+           +
+         </button>
+      </nav>
+    </header>
+
+    <!-- Project Header Section -->
+    <div class="glass-panel project-header-section">
+      <div class="project-actions">
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <aside class="left-column" role="complementary" aria-labelledby="left-column-heading">
+        <h2 id="left-column-heading" class="visually-hidden">Sidebar Information</h2> <!-- Hidden heading for ARIA -->
+
+        <!-- Hidden Magic Link Form (shown if user not logged in) -->
+        <div id="magicLinkForm" style="display: none; padding:10px; text-align:center;">
+          <input
+            type="email"
+            id="magicLinkEmail"
+            class="sidebar-textbox"
+            placeholder="Email"
+            aria-label="Email for magic link"
+          />
+          <button class="btn" id="btnSendMagicLink">Send Magic Link</button>
+        </div>
+
+        <!-- Status Message Areas -->
+        <div id="statusMessages" class="status-messages" aria-live="polite"></div>
+        
+        <!-- Materials List (Always Visible) -->
+        <div class="materials-container">
+          <ul id="currentMaterials" class="material-list">
+            <!-- Expected format for each item: "Amount — Material Name" -->
+          </ul>
+        </div>
+      </aside>
+
+      <section class="middle-column" role="region" aria-labelledby="middle-column-heading">
+        <h2 id="middle-column-heading" class="visually-hidden">Recipe Details</h2> <!-- Hidden heading for ARIA -->
+        <div id="recipe-header" class="glass-panel"></div>
+        <div id="recipeDetails" class="glass-panel"></div>
+        <!-- MAIN CONTENT: displays project details or instructions view -->
+        <main class="main-content" role="main">
+          <section class="project-details" id="projectDetails" style="display:none;">
+            <div class="instructions-summary">
+              <h3 class="section-title">Instructions Summary</h3>
+              <div id="instructionsSummary" class="summary-content">
+                <p>Select a project to view instructions.</p>
+              </div>
+            </div>
+            
+            <div class="collapsible-group" id="middleColumnCollapsibles">
+              
+              <div class="collapsible-container" aria-expanded="false" data-color="blue">
+                <button type="button" class="collapsible-header" aria-controls="detailed-instructions-content" aria-expanded="false">
+                  <span>Detailed Instructions</span>
+                  <span class="collapsible-icon">&#9654;</span>
+                </button>
+                <div class="collapsible-content" id="detailed-instructions-content">
+                  <div id="projectDetailedInstructions">
+                    <p>Select a project to view detailed instructions.</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="collapsible-container" aria-expanded="false" data-color="blue">
+                <button type="button" class="collapsible-header" aria-controls="notes-content" aria-expanded="false">
+                  <span>Notes</span>
+                  <span class="collapsible-icon">&#9654;</span>
+                </button>
+                <div class="collapsible-content" id="notes-content">
+                  <div id="projectNotes">
+                    <p>No notes available for this project.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- main.js as a module -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
