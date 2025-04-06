@@ -19,3 +19,15 @@ Implemented an expandable settings panel integrated with an authentication syste
 
 ## Recommendations
 Add automated tests targeting panel toggle behavior and integration points to ensure long-term stability during future development.
+
+## Settings Panel Refactor & Overlay Architecture
+
+Persistent z-index issues caused the settings panel to appear behind interface elements, despite multiple CSS attempts. This was identified as a fundamental stacking context problem inherent to the DOM structure.
+
+An architectural solution was implemented using a portal pattern. The panel was moved outside the normal DOM hierarchy into a dedicated container appended to the end of the body. This container uses fixed positioning with a high z-index, ensuring the panel overlays all content reliably. An overlay element blocks interaction with underlying UI during panel display.
+
+Implementation involved minimal HTML changes (adding the portal container), CSS updates for fixed positioning and overlay styling, and JavaScript logic to move the panel dynamically and manage events.
+
+This resolved all z-index conflicts. The settings panel now consistently appears above all elements with full functionality and smooth transitions.
+
+Key lessons: understanding CSS stacking contexts is critical; some UI issues require architectural—not cosmetic—solutions. The portal pattern proved highly effective for overlays and will inform future UI design.
