@@ -9,6 +9,12 @@ import { supabaseClient } from './supabaseClient.js';
 // Import the UI initializer function
 import { initUI } from './ui.js';
 
+// Import action modules
+import './actions/global-actions.js';
+import './actions/ingredient-actions.js';
+import './actions/recipe-edit-actions.js';
+import './actions/recipe-utility-actions.js';
+
 // Wait for the DOM to be fully loaded before initializing the UI
 document.addEventListener('DOMContentLoaded', () => {
   console.log('DOM fully loaded and parsed. Initializing UI...');
