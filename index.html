@@ -18,19 +18,7 @@
   <!-- External CSS -->
   <link rel="stylesheet" href="style.css" />
   
-  <!-- Inline adjustments for project list size -->
-  <style>
-    .recipe-list-horizontal {
-      font-size: 0.8em;
-      overflow-x: auto;
-      white-space: nowrap;
-      padding: 5px;
-    }
-    .recipe-list-horizontal li {
-      display: inline-block;
-      margin-right: 10px;
-    }
-  </style>
+  <!-- Inline styles removed - moved to style.css -->
   
   <!-- Papa Parse & Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
@@ -39,26 +27,26 @@
 <body class="dark">
   <div class="page-wrapper">
     <!-- Unified Header containing controls and project list -->
-    <header class="glass-panel unified-header">
+    <header class="glass-panel unified-header" role="banner">
       <div class="header-top-row">
         <div class="header-left">
           <button class="btn" id="btnIngredients">All Ingredients</button>
         </div>
-        <div id="logoContainer" style="text-align: center; flex-grow: 1;">
-          <span id="logoText" style="font-size: 24px; font-weight: bold;">DIY Projects</span>
+        <div id="logoContainer">
+          <span id="logoText">DIY Projects</span>
         </div>
         <div class="header-right">
-          <button class="btn" id="btnThemeToggle" data-theme="dark">Theme: Dark</button>
+          <button class="btn" id="btnThemeToggle" data-theme="dark" aria-label="Toggle theme">Theme: Dark</button>
           <button class="btn" id="btnLogIn">Log In</button>
-          <button class="btn" id="btnEditModeToggle" data-active="false">Edit Mode: OFF</button>
+          <button class="btn" id="btnEditModeToggle" data-active="false" aria-label="Toggle edit mode">Edit Mode: OFF</button>
         </div>
       </div>
-      <div class="header-recipe-list">
+      <nav class="header-recipe-list" role="navigation" aria-label="Recipe selector">
          <ul id="recipeList" class="recipe-list-horizontal"></ul>
-         <button id="btnAddRecipe" class="btn btn-add-recipe" style="width:50px; height:50px; margin:0 auto; padding:0; display:flex; align-items:center; justify-content:center;">
+         <button id="btnAddRecipe" class="btn btn-add-recipe" aria-label="Add new recipe">
            +
          </button>
-      </div>
+      </nav>
     </header>
 
     <!-- Project Header Section -->
@@ -68,7 +56,8 @@
     </div>
 
     <div class="content-grid">
-      <div class="left-column">
+      <aside class="left-column" role="complementary" aria-labelledby="left-column-heading">
+        <h2 id="left-column-heading" class="visually-hidden">Sidebar Information</h2> <!-- Hidden heading for ARIA -->
 
         <!-- Hidden Magic Link Form (shown if user not logged in) -->
         <div id="magicLinkForm" style="display: none; padding:10px; text-align:center;">
@@ -77,13 +66,13 @@
             id="magicLinkEmail"
             class="sidebar-textbox"
             placeholder="Email"
-            style="margin-right:5px; width:180px;"
+            aria-label="Email for magic link"
           />
           <button class="btn" id="btnSendMagicLink">Send Magic Link</button>
         </div>
 
         <!-- Status Message Areas -->
-        <div id="statusMessages" class="status-messages" style="text-align: center; padding: 10px; min-height: 1.5em;"></div>
+        <div id="statusMessages" class="status-messages" aria-live="polite"></div>
         
         <!-- Materials List (Always Visible) -->
         <div class="materials-container">
@@ -91,13 +80,14 @@
             <!-- Expected format for each item: "Amount — Material Name" -->
           </ul>
         </div>
-      </div>
+      </aside>
 
-      <div class="middle-column">
+      <section class="middle-column" role="region" aria-labelledby="middle-column-heading">
+        <h2 id="middle-column-heading" class="visually-hidden">Recipe Details</h2> <!-- Hidden heading for ARIA -->
         <div id="recipe-header" class="glass-panel"></div>
         <div id="recipeDetails" class="glass-panel"></div>
         <!-- MAIN CONTENT: displays project details or instructions view -->
-        <main class="main-content">
+        <main class="main-content" role="main">
           <section class="project-details" id="projectDetails" style="display:none;">
             <div class="instructions-summary">
               <h3 class="section-title">Instructions Summary</h3>
@@ -134,7 +124,7 @@
             </div>
           </section>
         </main>
-      </div>
+      </section>
 
     </div>
   </div>
