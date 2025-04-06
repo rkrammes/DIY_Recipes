@@ -1158,15 +1158,51 @@ body.light .remove-recipe-btn:hover {
   border: none !important;
 }
 
-/* Light theme overrides */
-body.light .left-column .collapsible-header,
+/* --- Left Column Standard: Orange text, white accents, no background or outlines --- */
+.left-column *,
+.left-column .btn,
+.left-column button,
+.left-column .collapsible-header {
+  background: none !important;
+  background-image: none !important;
+  color: var(--accent-orange-dark) !important;
+  border: none !important;
+  box-shadow: none !important;
+  -webkit-text-fill-color: var(--accent-orange-dark) !important;
+  font-weight: bold;
+}
+
+/* White accents for icons or secondary elements inside left column */
+.left-column .collapsible-icon,
+.left-column svg,
+.left-column i {
+  color: #fff !important;
+  fill: #fff !important;
+}
+
+/* Hover states: slightly brighter orange */
+.left-column .btn:hover,
+.left-column button:hover,
+.left-column .collapsible-header:hover {
+  filter: brightness(1.2);
+  background: none !important;
+  border: none !important;
+}
+
+/* Light theme: keep orange text */
+body.light .left-column *,
 body.light .left-column .btn,
-body.light .left-column .btn-small,
-body.light .left-column .btn-add-recipe,
-body.light #btnAddRecipe,
-body.light #btnAddGlobalIngredient {
-  background-image: var(--button-gradient-light) !important;
-  background-clip: text !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
+body.light .left-column button,
+body.light .left-column .collapsible-header {
+  background: none !important;
+  background-image: none !important;
+  color: var(--accent-orange-light) !important;
+  -webkit-text-fill-color: var(--accent-orange-light) !important;
+}
+
+body.light .left-column .collapsible-icon,
+body.light .left-column svg,
+body.light .left-column i {
+  color: #fff !important;
+  fill: #fff !important;
 }
