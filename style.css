@@ -241,8 +241,8 @@ aside.glass-panel {
 
 /* Header Button Specific Style (Gradient Text) */
 .btn-header {
-  background: none !important; /* Remove background */
-  border: none !important; /* Remove border */
+  /* background: none !important; /* Removed - Gradient is needed for text */
+  border: none; /* Remove border */
   padding: 10px 0; /* Adjust padding if needed */
   background: var(--button-gradient-dark); /* Use theme variable for gradient */
   background-clip: text;
