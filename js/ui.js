@@ -331,16 +331,39 @@ export async function showRecipeDetails(recipeId) {
      recipe = recipesCache.find(r => String(r.id) === String(recipeId));
      if (!recipe) {
          console.log(`Recipe ${recipeId} not in cache, fetching...`);
-         const { data: fetchedRecipe, error } = await supabaseClient
-             .from('recipes')
-             .select('*')
-             .eq('id', recipeId)
-             .single(); // Fetch a single record
-
-         if (error) throw error;
-         if (!fetchedRecipe) throw new Error(`Recipe with ID ${recipeId} not found.`);
-         recipe = fetchedRecipe;
-         // Update cache (optional, depends on caching strategy)
+         
+         // Try to fetch with eq() first
+         try {
+             console.log('Attempting to fetch recipe with eq()');
+             const { data: fetchedRecipe, error } = await supabaseClient
+                 .from('recipes')
+                 .select('*')
+                 .eq('id', recipeId)
+                 .single(); // Fetch a single record
+                 
+             if (!error && fetchedRecipe) {
+                 recipe = fetchedRecipe;
+                 console.log(`Recipe fetched successfully with eq(): ${recipe.id}`);
+             } else {
+                 throw error || new Error('No recipe found with eq()');
+             }
+         } catch (eqError) {
+             // Fallback: fetch all recipes and filter manually
+             console.warn('Error using eq() method, falling back to manual filtering:', eqError);
+             const { data: allRecipes, error } = await supabaseClient
+                 .from('recipes')
+                 .select('*');
+                 
+             if (error) throw error;
+             
+             const filteredRecipe = (allRecipes || []).find(r => String(r.id) === String(recipeId));
+             if (!filteredRecipe) throw new Error(`Recipe with ID ${recipeId} not found.`);
+             
+             recipe = filteredRecipe;
+             console.log(`Recipe found through manual filtering: ${recipe.id}`);
+         }
+         
+         // Update cache
          const index = recipesCache.findIndex(r => String(r.id) === String(recipeId));
          if (index > -1) recipesCache[index] = recipe;
          else recipesCache.push(recipe);
@@ -348,11 +371,40 @@ export async function showRecipeDetails(recipeId) {
          console.log(`Recipe ${recipeId} found in cache.`);
      }
 
-     // Fetch associated ingredients
-     const { data: ingredientsData, error: ingredientsError } = await supabaseClient
-         .from('recipeingredients')
-         .select('*, ingredients(*)') // Join with ingredients table
-         .eq('recipe_id', recipeId);
+     // Fetch associated ingredients with fallback mechanism
+     let ingredientsData;
+     let ingredientsError;
+     
+     // Try to fetch with eq() first
+     try {
+         console.log('Attempting to fetch ingredients with eq()');
+         const result = await supabaseClient
+             .from('recipeingredients')
+             .select('*, ingredients(*)') // Join with ingredients table
+             .eq('recipe_id', recipeId);
+             
+         ingredientsData = result.data;
+         ingredientsError = result.error;
+         
+         if (!ingredientsError) {
+             console.log(`Ingredients fetched successfully with eq(): ${ingredientsData?.length || 0} items`);
+         }
+     } catch (eqError) {
+         // Fallback: fetch all ingredients and filter manually
+         console.warn('Error using eq() method for ingredients, falling back to manual filtering:', eqError);
+         const result = await supabaseClient
+             .from('recipeingredients')
+             .select('*, ingredients(*)');
+             
+         if (result.error) {
+             ingredientsError = result.error;
+         } else {
+             // Filter manually
+             ingredientsData = (result.data || []).filter(item =>
+                 String(item.recipe_id) === String(recipeId));
+             console.log(`Ingredients found through manual filtering: ${ingredientsData.length} items`);
+         }
+     }
 
      if (ingredientsError) throw ingredientsError;
 

@@ -61,6 +61,7 @@ function createMockQuery(tableName) {
   query.textSearch = function() { return query; };
   query.filter = function() { return query; };
   query.match = function() { return query; };
+  query.single = function() { return query; };
   
   return query;
 }
@@ -80,7 +81,7 @@ export const supabaseClient = new Proxy(realClient, {
               'order', 'limit', 'eq', 'neq', 'gt', 'lt', 'gte', 'lte',
               'like', 'ilike', 'is', 'in', 'contains', 'containedBy',
               'rangeLt', 'rangeGt', 'rangeGte', 'rangeLte', 'rangeAdjacent',
-              'overlaps', 'textSearch', 'filter', 'match'
+              'overlaps', 'textSearch', 'filter', 'match', 'single'
             ];
             
             // Handle terminal methods (that execute the query and return data)
