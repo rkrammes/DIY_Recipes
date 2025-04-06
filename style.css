@@ -1472,7 +1472,7 @@ body.light .left-column i {
   top: 100%;
   right: 0;
   width: 280px;
-  background-color: var(--color-glass-bg);
+  background-color: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
@@ -1485,7 +1485,7 @@ body.light .left-column i {
 }
 
 .settings-panel[aria-expanded="true"] {
-  max-height: 500px;
+  max-height: none;
   opacity: 1;
 }
 
