@@ -513,9 +513,12 @@ export async function showRecipeDetails(recipe) {
     middleContent.style.gap = '1rem';
 
     // Conditionally render description section only if there is meaningful content
+    if (recipe.description && recipe.description.trim()) {
       const descriptionSection = document.createElement('div');
       descriptionSection.className = 'description-section';
-      descriptionSection.innerHTML = `
+      descriptionSection.innerHTML = `<p>${recipe.description}</p>`;
+      middleContent.appendChild(descriptionSection);
+    }
 
     // Helper to create other collapsible sections
     function createCollapsibleSection(title, contentHtml, idSuffix, colorType = 'neutral') {
@@ -597,10 +600,7 @@ const iterationSection = createCollapsibleSection(
   'orange'
 );
 currentRecipeColumn.appendChild(iterationSection);
-
-// AI Suggestions
-
-
+// AI Suggestions section removed as required
 
 
     // --- Right column content ---
