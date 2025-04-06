@@ -63,15 +63,12 @@
 
     <!-- Project Header Section -->
     <div class="glass-panel project-header-section">
-      <h2 class="project-title" id="selectedRecipeTitle">Select a Project</h2>
       <div class="project-actions">
-        <button id="new-iteration-btn" class="btn btn-small">New Iteration</button>
       </div>
     </div>
 
     <div class="content-grid">
       <div class="left-column">
-        <h2 style="margin-bottom: 16px; color: var(--accent-blue);">Current Recipe</h2>
 
         <!-- Hidden Magic Link Form (shown if user not logged in) -->
         <div id="magicLinkForm" style="display: none; padding:10px; text-align:center;">
@@ -90,10 +87,6 @@
         
         <!-- Materials List (Always Visible) -->
         <div class="materials-container">
-          <h3 class="section-title">Ingredients & Quantities</h3>
-          <button id="toggleMaterialsBtn" class="btn-expand-collapse" aria-label="Toggle all materials">
-            <span class="icon">⊕</span> <span class="label">Expand All</span>
-          </button>
           <ul id="currentMaterials" class="material-list">
             <!-- Expected format for each item: "Amount — Material Name" -->
           </ul>
@@ -114,9 +107,6 @@
             </div>
             
             <div class="collapsible-group" id="middleColumnCollapsibles">
-              <button id="toggleMiddleColumnBtn" class="btn-expand-collapse" aria-label="Toggle all middle column sections">
-                <span class="icon">⊕</span> <span class="label">Expand All</span>
-              </button>
               
               <div class="collapsible-container" aria-expanded="false" data-color="blue">
                 <button type="button" class="collapsible-header" aria-controls="detailed-instructions-content" aria-expanded="false">
