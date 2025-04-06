@@ -57,16 +57,16 @@ export async function loadAllIngredients() {
  * @param {string} recipeName - Name of the new recipe.
  * @returns {object|null} The created recipe object, or null on error.
  */
-export async function createNewRecipe(recipeName, ingredients) {
+export async function createNewRecipe(recipeName) { // Removed ingredients parameter
   try {
-    console.log('createNewRecipe called with recipeName:', recipeName, 'ingredients:', ingredients);
+    console.log('createNewRecipe called with recipeName:', recipeName);
+    // Basic recipe data - other fields can be added/updated later via editing
     const recipeData = {
-      title: recipeName, // Corrected column name from 'name' to 'title'
-      instructions: "" // Added default empty string to satisfy NOT NULL constraint
+      title: recipeName,
+      // Set defaults for potentially non-nullable fields if needed by your schema
+      // e.g., description: '', instructions: '', version: 1
+      version: 1 // Start at version 1
     };
-    // Removed next_iteration, suggestions, and ingredients assignment
-    // as these columns don't exist or are handled differently.
-
     const { data, error } = await supabaseClient
       .from('recipes')
       .insert([ recipeData ])
@@ -92,11 +92,11 @@ export async function createNewRecipe(recipeName, ingredients) {
  * @param {string} newIngredientName - Name of the ingredient.
  * @returns {object|null} The created ingredient object, or null on error.
  */
-export async function addGlobalIngredient(newIngredientName) {
+export async function addGlobalIngredient(newIngredientName, description = null) { // Added optional description
   try {
     const { data, error } = await supabaseClient
       .from('ingredients')
-      .insert([{ name: newIngredientName }])
+      .insert([{ name: newIngredientName, description: description }]) // Include description
       .select();
     if (error) {
       console.error('Supabase error adding global ingredient:', error);

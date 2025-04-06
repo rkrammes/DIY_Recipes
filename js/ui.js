@@ -8,6 +8,7 @@ import { loadRecipes, loadAllIngredients, updateRecipeIngredients } from './api.
 let isLoggedIn = false;
 let allIngredients = []; // Global array to store all ingredients
 let currentRecipe = null; // Track the currently displayed recipe
+let recipesCache = []; // Cache for loaded recipes
 
 // Simple notification function - moved here to ensure it's defined before any calls
 window.showNotification = function(message, type = 'info') {
@@ -48,8 +49,9 @@ window.showNotification = function(message, type = 'info') {
 function setEditModeFields(active = null) {
   console.log('Setting edit mode fields. Active:', active);
   const editModeBtn = document.getElementById('btnEditModeToggle');
-  const addRecipeBtn = document.getElementById('btnAddRecipe');
-  const addGlobalIngredientBtn = document.getElementById('btnAddGlobalIngredient');
+  const addRecipeBtn = document.getElementById('btnAddRecipe'); // In header
+  const addGlobalIngredientBtn = document.getElementById('btnAddGlobalIngredient'); // In left column
+  const iterationSection = document.getElementById('iterationSection'); // Right column edit section
 
   // If active is null, use the current state from the button
   if (active === null && editModeBtn) {
@@ -69,11 +71,25 @@ function setEditModeFields(active = null) {
   if (addGlobalIngredientBtn) {
     addGlobalIngredientBtn.style.display = (active && isLoggedIn) ? 'inline-block' : 'none';
   }
+  if (iterationSection) {
+     iterationSection.style.display = (active && isLoggedIn && currentRecipe) ? 'block' : 'none';
+  }
 
-  // Update any other edit-mode dependent elements
-  const editElements = document.querySelectorAll('.edit-mode-element');
-  editElements.forEach(el => {
-    el.style.display = (active && isLoggedIn) ? 'block' : 'none';
+  // Also update specific buttons within the iteration section if needed
+  const addIterationIngredientBtn = document.getElementById('addIterationIngredientBtn');
+  const commitRecipeBtn = document.getElementById('commitRecipeBtn');
+  const createNewIterationBtn = document.getElementById('createNewIterationBtn'); // Added this button
+
+  if(addIterationIngredientBtn) addIterationIngredientBtn.style.display = (active && isLoggedIn && currentRecipe) ? 'inline-block' : 'none';
+  if(commitRecipeBtn) commitRecipeBtn.style.display = (active && isLoggedIn && currentRecipe) ? 'inline-block' : 'none';
+  if(createNewIterationBtn) createNewIterationBtn.style.display = (active && isLoggedIn && currentRecipe) ? 'inline-block' : 'none';
+
+  // General edit elements (if any remain outside specific sections)
+  document.querySelectorAll('.edit-mode-element').forEach(el => {
+      // Avoid hiding the main iteration section again if it was already handled
+      if (el.id !== 'iterationSection') {
+          el.style.display = (active && isLoggedIn) ? 'block' : 'none';
+      }
   });
 }
 
@@ -162,12 +178,15 @@ export function renderRecipes(recipes) {
 /**
  * Renders the ingredients list in the UI, making it collapsible.
  */
-export function renderIngredients(ingredients) {
-  console.log('renderIngredients called with:', ingredients);
-  const ingredientList = document.getElementById('currentMaterials');
-  if (!ingredientList) {
-    console.error('renderIngredients: Could not find element with ID "currentRecipeIngredients"');
-    return;
+/**
+* Renders the GLOBAL ingredients list in the left column.
+*/
+export function renderGlobalIngredients(ingredients) {
+ console.log('renderGlobalIngredients called with:', ingredients);
+ const ingredientList = document.getElementById('globalIngredientList'); // Target left column list
+ if (!ingredientList) {
+   console.error('renderGlobalIngredients: Could not find element with ID "globalIngredientList"');
+   return;
   }
 
   console.log('Found ingredientList element:', ingredientList);
@@ -175,14 +194,10 @@ export function renderIngredients(ingredients) {
   // Clear existing list
   ingredientList.innerHTML = '';
 
-  // Check if ingredients array is empty
-  if (!ingredients || ingredients.length === 0) {
-    console.log('No ingredients to render');
-    const emptyMessage = document.createElement('li');
-    emptyMessage.textContent = 'No ingredients available';
-    emptyMessage.style.fontStyle = 'italic';
-    ingredientList.appendChild(emptyMessage);
-    return;
+ if (!ingredients || ingredients.length === 0) {
+   console.log('No global ingredients to render');
+   ingredientList.innerHTML = '<li>No global ingredients found.</li>';
+   return;
   }
 
   // Sort ingredients by name
@@ -194,11 +209,10 @@ export function renderIngredients(ingredients) {
 
   // Create list items
   sortedIngredients.forEach(ingredient => {
-    console.log('Rendering ingredient:', ingredient);
+    // console.log('Rendering global ingredient:', ingredient); // Less verbose logging
     const li = document.createElement('li');
-    li.classList.add('ingredient-item');
-    // Use ingredient_id if available, fall back to id for compatibility
-    li.dataset.id = ingredient.ingredient_id || ingredient.id || '';
+    li.classList.add('ingredient-item'); // Keep class for potential styling/interaction
+    li.dataset.id = ingredient.id; // Use the actual ingredient ID
     
     // --- Summary Section (Always Visible) ---
     const summaryDiv = document.createElement('div');
@@ -216,29 +230,7 @@ export function renderIngredients(ingredients) {
     nameDiv.style.flex = '1';
     summaryDiv.appendChild(nameDiv);
     
-    // Add quantity and unit if available
-    if (ingredient.quantity || ingredient.unit) {
-      const divider = document.createElement('span');
-      divider.textContent = " | ";
-      divider.style.margin = "0 8px";
-      summaryDiv.appendChild(divider);
-      const quantityDiv = document.createElement('div');
-      quantityDiv.classList.add('ingredient-quantity');
-      quantityDiv.textContent = `${ingredient.quantity || ''} ${ingredient.unit || ''}`.trim();
-      quantityDiv.style.padding = '3px 8px';
-      quantityDiv.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-      quantityDiv.style.borderRadius = '4px';
-      quantityDiv.style.fontWeight = 'bold';
-      quantityDiv.style.color = 'var(--accent-orange)';
-      summaryDiv.appendChild(quantityDiv);
-      quantityDiv.textContent = `${ingredient.quantity || ''} ${ingredient.unit || ''}`.trim();
-      quantityDiv.style.padding = '3px 8px';
-      quantityDiv.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-      quantityDiv.style.borderRadius = '4px';
-      quantityDiv.style.fontWeight = 'bold';
-      quantityDiv.style.color = 'var(--accent-orange)';
-      summaryDiv.appendChild(quantityDiv);
-    }
+    // No quantity/unit needed for global list
     
     li.appendChild(summaryDiv);
     
@@ -260,15 +252,7 @@ export function renderIngredients(ingredients) {
       detailsDiv.appendChild(descDiv);
     }
     
-    // Add notes if available
-    if (ingredient.notes) {
-      const notesDiv = document.createElement('div');
-      notesDiv.classList.add('ingredient-notes');
-      notesDiv.textContent = `Note: ${ingredient.notes}`;
-      notesDiv.style.fontStyle = 'italic';
-      notesDiv.style.fontSize = '0.9em';
-      detailsDiv.appendChild(notesDiv);
-    }
+    // No notes needed for global list
     
     // Only add detailsDiv if it has content
     if (detailsDiv.hasChildNodes()) {
@@ -283,368 +267,262 @@ export function renderIngredients(ingredients) {
     li.style.borderRadius = '4px';
     li.style.transition = 'background-color 0.2s ease';
     
-    // Click listener moved to initUI using event delegation
-    
+    // Click listener for global ingredients (if needed later) can be added via delegation
     ingredientList.appendChild(li);
   });
   
-  console.log('Finished rendering ingredients, count:', sortedIngredients.length);
+ // console.log('Finished rendering global ingredients, count:', sortedIngredients.length); // Less verbose
+}
+
+/**
+* Renders the ingredients for the *currently selected recipe* into the editable table in the right column.
+*/
+export function renderRecipeIngredientsTable(ingredients) {
+   console.log('renderRecipeIngredientsTable called with:', ingredients);
+   const tableBody = document.querySelector('#iterationEditTable tbody');
+   if (!tableBody) {
+       console.error('renderRecipeIngredientsTable: Could not find table body "#iterationEditTable tbody"');
+       return;
+   }
+
+   tableBody.innerHTML = ''; // Clear existing rows
+
+   if (!ingredients || ingredients.length === 0) {
+       console.log('No ingredients for this recipe iteration.');
+       const placeholderRow = tableBody.insertRow();
+       const cell = placeholderRow.insertCell();
+       cell.colSpan = 5; // Match number of columns
+       cell.textContent = 'No ingredients in this iteration. Add one below!';
+       cell.style.textAlign = 'center';
+       cell.style.padding = '10px';
+       cell.style.fontStyle = 'italic';
+       return;
+   }
+
+   // Sort ingredients (optional, might want to preserve order)
+   // const sortedIngredients = [...ingredients].sort((a, b) => a.name.localeCompare(b.name));
+
+   ingredients.forEach(ingredient => {
+       console.log('Rendering recipe ingredient row:', ingredient);
+       const row = createEditableIngredientRow(ingredient); // Use the existing helper
+       tableBody.appendChild(row);
+   });
+
+   console.log('Finished rendering recipe ingredients table, count:', ingredients.length);
 }
 
 /**
  * Shows the details of a recipe.
  */
-export async function showRecipeDetails(recipe) {
-  // Update recipe stats in the quick stats section
-  updateRecipeStats(recipe);
-  console.log('Showing recipe details for:', recipe);
-  console.log('Recipe object before showing details:', JSON.stringify(recipe, null, 2));
+export async function showRecipeDetails(recipeId) {
+ console.log(`showRecipeDetails called for recipeId: ${recipeId}`);
 
-  currentRecipe = recipe; // Store the current recipe
-  
-  // Update the selected recipe title in the header
-  const selectedRecipeTitle = document.getElementById('selectedRecipeTitle');
-  if (selectedRecipeTitle) {
-    selectedRecipeTitle.textContent = recipe.title || 'Select a Recipe';
+ // --- 1. Fetch Full Recipe Data ---
+ let recipe;
+ try {
+     // Use cache first
+     recipe = recipesCache.find(r => String(r.id) === String(recipeId));
+     if (!recipe) {
+         console.log(`Recipe ${recipeId} not in cache, fetching...`);
+         const { data: fetchedRecipe, error } = await supabaseClient
+             .from('recipes')
+             .select('*')
+             .eq('id', recipeId)
+             .single(); // Fetch a single record
+
+         if (error) throw error;
+         if (!fetchedRecipe) throw new Error(`Recipe with ID ${recipeId} not found.`);
+         recipe = fetchedRecipe;
+         // Update cache (optional, depends on caching strategy)
+         const index = recipesCache.findIndex(r => String(r.id) === String(recipeId));
+         if (index > -1) recipesCache[index] = recipe;
+         else recipesCache.push(recipe);
+     } else {
+         console.log(`Recipe ${recipeId} found in cache.`);
+     }
+
+     // Fetch associated ingredients
+     const { data: ingredientsData, error: ingredientsError } = await supabaseClient
+         .from('recipeingredients')
+         .select('*, ingredients(*)') // Join with ingredients table
+         .eq('recipe_id', recipeId);
+
+     if (ingredientsError) throw ingredientsError;
+
+     // Map ingredients data correctly
+     recipe.ingredients = (ingredientsData || []).map(item => {
+         if (!item.ingredients) {
+             console.warn(`Missing joined ingredient data for recipeingredients item ID: ${item.id}`);
+             return null;
+         }
+         return {
+             ingredient_id: item.ingredients.id, // Actual ingredient ID
+             name: item.ingredients.name,
+             description: item.ingredients.description, // From ingredients table
+             quantity: item.quantity, // From recipeingredients table
+             unit: item.unit,         // From recipeingredients table
+             notes: item.notes,       // From recipeingredients table
+             recipe_ingredient_id: item.id // The ID of the join table row itself
+         };
+     }).filter(item => item !== null); // Filter out any nulls from missing joins
+
+ } catch (error) {
+     console.error('Error fetching full recipe details:', error);
+     showNotification(`Error loading recipe: ${error.message}`, 'error');
+     // Hide all recipe views and show error message?
+     document.getElementById('recipeDetailsView').style.display = 'none';
+     document.getElementById('recipeMetadataView').style.display = 'none';
+     document.getElementById('noRecipeSelectedView').innerHTML = `<p>Error loading recipe ${recipeId}.</p>`;
+     document.getElementById('noRecipeSelectedView').style.display = 'block';
+     document.getElementById('noRecipeMetadataView').style.display = 'block';
+     document.getElementById('recipeHeaderSection').style.display = 'none';
+     return;
+ }
+
+ console.log('Full recipe object with ingredients:', JSON.stringify(recipe, null, 2));
+
+ currentRecipe = recipe; // Store the fetched full recipe object globally
+
+ // --- 2. Update UI Elements ---
+
+ // Get references to the main view containers
+ const recipeDetailsView = document.getElementById('recipeDetailsView');
+ const recipeMetadataView = document.getElementById('recipeMetadataView');
+ const noRecipeSelectedView = document.getElementById('noRecipeSelectedView');
+ const noRecipeMetadataView = document.getElementById('noRecipeMetadataView');
+ const recipeHeaderSection = document.getElementById('recipeHeaderSection'); // The header above the columns
+
+ if (!recipeDetailsView || !recipeMetadataView || !noRecipeSelectedView || !noRecipeMetadataView || !recipeHeaderSection) {
+   console.error('Missing essential layout elements for recipe display.');
+   return;
+ }
+
+ // Show the recipe views and hide placeholders
+ recipeDetailsView.style.display = 'block';
+ recipeMetadataView.style.display = 'block';
+ noRecipeSelectedView.style.display = 'none';
+ noRecipeMetadataView.style.display = 'none';
+ recipeHeaderSection.style.display = 'flex'; // Show the recipe header
+
+ // Update Recipe Header (above columns)
+ const selectedRecipeTitleEl = document.getElementById('selectedRecipeTitle');
+ if (selectedRecipeTitleEl) {
+   selectedRecipeTitleEl.textContent = recipe.title || 'Untitled Recipe';
+ }
+ const recipeActionsEl = document.getElementById('recipeActions');
+ if (recipeActionsEl) {
+     recipeActionsEl.innerHTML = ''; // Clear previous buttons
+     const removeRecipeBtn = document.createElement('button');
+     removeRecipeBtn.id = 'removeRecipeBtn';
+     removeRecipeBtn.classList.add('remove-recipe-btn', 'btn', 'btn-small'); // Use btn-small
+     removeRecipeBtn.textContent = 'Remove Recipe';
+     removeRecipeBtn.style.marginLeft = '1rem';
+     removeRecipeBtn.addEventListener('click', async (e) => {
+         e.stopPropagation();
+         if (confirm(`Are you sure you want to remove "${recipe.title}"?`)) {
+             try {
+                 const { error } = await supabaseClient
+                     .from('recipes')
+                     .delete()
+                     .eq('id', recipe.id);
+                 if (error) throw error;
+                 showNotification('Recipe removed successfully.', 'success');
+                 currentRecipe = null; // Clear current recipe
+                 await reloadData(); // Reload recipe list
+                 // Hide recipe views after deletion
+                 recipeDetailsView.style.display = 'none';
+                 recipeMetadataView.style.display = 'none';
+                 noRecipeSelectedView.style.display = 'block';
+                 noRecipeMetadataView.style.display = 'block';
+                 recipeHeaderSection.style.display = 'none';
+             } catch (err) {
+                 console.error('Error removing recipe:', err);
+                 showNotification(`Failed to remove recipe: ${err.message}`, 'error');
+             }
+         }
+     });
+     recipeActionsEl.appendChild(removeRecipeBtn);
+ }
+
+ // --- 3. Populate Middle Column (Recipe Details View) ---
+ const recipeDescriptionEl = document.getElementById('recipeDescription');
+ const detailedInstructionsEl = document.getElementById('recipeDetailedInstructions');
+ const notesEl = document.getElementById('recipeNotes');
+ const nutritionEl = document.getElementById('recipeNutrition'); // Added
+ const mediaEl = document.getElementById('recipeMedia'); // Added
+
+ if (recipeDescriptionEl) {
+     recipeDescriptionEl.innerHTML = recipe.description ? `<p>${recipe.description}</p>` : '<p>No description provided.</p>';
+ }
+ if (detailedInstructionsEl) {
+     if (recipe.instructions) {
+         let instructionsHtml = '<ol>';
+         const steps = recipe.instructions.split('\n').filter(step => step.trim() !== '');
+         steps.forEach(step => {
+             instructionsHtml += `<li>${step}</li>`;
+         });
+         instructionsHtml += '</ol>';
+         detailedInstructionsEl.innerHTML = instructionsHtml;
+     } else {
+         detailedInstructionsEl.innerHTML = '<p>No detailed instructions available.</p>';
+     }
+ }
+ if (notesEl) {
+     notesEl.innerHTML = recipe.notes ? `<p>${recipe.notes}</p>` : '<p>No notes available for this recipe.</p>';
+ }
+  if (nutritionEl) {
+      nutritionEl.innerHTML = recipe.nutrition ? `<p>${recipe.nutrition}</p>` : '<p>Nutrition information not available.</p>';
+  }
+  if (mediaEl) {
+      // Basic media handling - assumes 'media' field contains simple text/links
+      mediaEl.innerHTML = recipe.media ? `<p>${recipe.media}</p>` : '<p>No media available.</p>';
+      // TODO: Add more robust media handling (images, videos) if needed
   }
 
-  const details = document.getElementById('recipeDetails'); // Left column container
-  const recipeHeader = document.getElementById('recipe-header'); // Header above left column
+ // --- 4. Populate Right Column (Metadata & Editing View) ---
+ updateRecipeStats(recipe); // Update quick stats (already targets elements in right column)
 
-  if (!details || !recipeHeader) {
-    console.error('Missing essential layout elements (recipeDetails or recipe-header)');
-    return;
-  }
+ const versionHistoryEl = document.getElementById('recipeVersionHistory'); // Target right column element
+ if (versionHistoryEl) {
+     if (recipe.version && recipe.version > 1) {
+         versionHistoryEl.innerHTML = `<p>Current version: v${recipe.version}</p>`;
+         // TODO: Fetch and display actual version history if needed
+     } else {
+         versionHistoryEl.innerHTML = '<p>This is the first version of this recipe.</p>';
+     }
+ }
 
-  // Create a flex container to hold the three columns
-  let container = document.getElementById('recipeContainer');
-  if (!container) {
-    container = document.createElement('div');
-    container.id = 'recipeContainer';
-    container.style.display = 'flex';
-    container.style.width = '100%';
-    container.style.gap = '1rem';
-    // Insert the container before the current 'details' element
-    details.parentNode.insertBefore(container, details);
-  }
-  // Ensure the left column (details) is a child of the container
-  if (details.parentNode !== container) {
-    container.appendChild(details);
-  }
-  // Create or reparent the middle column for ingredients
-  let ingredientsColumn = document.getElementById('ingredients-column');
-  if (!ingredientsColumn) {
-    ingredientsColumn = document.createElement('section');
-    ingredientsColumn.id = 'ingredients-column';
-    container.appendChild(ingredientsColumn);
-  } else if (ingredientsColumn.parentNode !== container) {
-    container.appendChild(ingredientsColumn);
-  }
-  // Create or reparent the right column for version history, iteration management, and iteration editing
-  let currentRecipeColumn = document.getElementById('current-recipe-column');
-  if (!currentRecipeColumn) {
-    currentRecipeColumn = document.createElement('section');
-    currentRecipeColumn.id = 'current-recipe-column';
-    container.appendChild(currentRecipeColumn);
-  } else if (currentRecipeColumn.parentNode !== container) {
-    container.appendChild(currentRecipeColumn);
-  }
-currentRecipeColumn.style.minWidth = '300px';
-currentRecipeColumn.style.flex = '1';
-currentRecipeColumn.style.display = 'block';
+ // Populate the editable ingredients table
+ renderRecipeIngredientsTable(recipe.ingredients || []);
 
-  // Clear previous content
-  details.innerHTML = '';
-  recipeHeader.innerHTML = '';
-  ingredientsColumn.innerHTML = '';
-  currentRecipeColumn.innerHTML = '';
+ // --- 5. Update Edit Mode Visibility ---
+ // Call setEditModeFields AFTER currentRecipe is set and the right column is populated
+ setEditModeFields();
 
-  try {
-    console.log('Fetching ingredients for recipe ID:', recipe.id);
-    const { data: ingredientsData, error: ingredientsError } = await supabaseClient
-      .from('recipeingredients')
-      .select('*, ingredients(*)')
-      .eq('recipe_id', recipe.id)
-      .order('name', { foreignTable: 'ingredients' });
-
-    console.log('Raw ingredients data from query:', ingredientsData);
-
-    if (ingredientsError) {
-      console.error('Error fetching ingredients:', ingredientsError);
-    }
-
-    if (ingredientsData && Array.isArray(ingredientsData)) {
-      console.log(`Found ${ingredientsData.length} ingredients for recipe ${recipe.id}`);
-      recipe.ingredients = ingredientsData.map(item => {
-        console.log('Processing ingredient item:', item);
-        if (!item.ingredients) {
-          console.warn(`Missing joined ingredient data for recipeingredients item ID: ${item.id}`);
-          return null;
-        }
-        const mappedIngredient = {
-          ingredient_id: item.ingredients.id,
-          name: item.ingredients.name,
-          description: item.ingredients.description,
-          quantity: item.quantity,
-          unit: item.unit,
-          notes: item.notes,
-          recipe_ingredient_id: item.id
-        };
-        console.log('Mapped ingredient:', mappedIngredient);
-        return mappedIngredient;
-      }).filter(item => item !== null);
-      console.log(`After mapping: ${recipe.ingredients.length} valid ingredients`);
-    } else {
-      console.warn('No ingredients data returned or data is not an array');
-      recipe.ingredients = [];
-    }
-
-    // Recipe title in header
-
-    // Remove button in header
-    const removeRecipeBtn = document.createElement('button');
-    removeRecipeBtn.id = 'removeRecipeBtn';
-    removeRecipeBtn.classList.add('remove-recipe-btn', 'btn');
-    removeRecipeBtn.textContent = 'Remove This Recipe';
-    removeRecipeBtn.style.marginLeft = '1rem';
-    removeRecipeBtn.addEventListener('click', async (e) => {
-      e.stopPropagation();
-      if (confirm('Are you sure you want to remove this recipe?')) {
-        try {
-          const { error } = await supabaseClient
-            .from('recipes')
-            .delete()
-            .eq('id', recipe.id);
-          if (error) throw error;
-          alert('Recipe removed successfully.');
-          location.reload();
-        } catch (err) {
-          console.error('Error removing recipe:', err);
-          alert('Failed to remove recipe.');
-        }
-      }
-    });
-    const projectActions = document.querySelector('.project-actions');
-    if (projectActions) {
-      projectActions.appendChild(removeRecipeBtn);
-    }
-
-    // --- Left column content (ingredients list) ---
-
-    // Ingredients collapsible (default expanded)
-    const ingredientsCollapsible = document.createElement('div');
-    ingredientsCollapsible.className = 'collapsible-container';
-    ingredientsCollapsible.setAttribute('aria-expanded', 'true');
-
-    const ingredientsHeader = document.createElement('button');
-    ingredientsHeader.type = 'button';
-    ingredientsHeader.className = 'collapsible-header';
-    ingredientsHeader.setAttribute('aria-controls', 'ingredients-content');
-    ingredientsHeader.setAttribute('aria-expanded', 'true');
-    ingredientsHeader.innerHTML = `
-      <span>Ingredients</span>
-      <span class="collapsible-icon">&#9654;</span>
-    `;
-
-    // Event listeners for header click/keydown moved to initUI via delegation
-
-    const ingredientsContent = document.createElement('div');
-    ingredientsContent.className = 'collapsible-content';
-    ingredientsContent.id = 'ingredients-content';
-
-    const ingredientsContainer = document.createElement('div');
-    ingredientsContainer.style.maxHeight = '400px';
-    ingredientsContainer.style.overflowY = 'auto';
-    ingredientsContainer.style.marginBottom = 'var(--spacing-medium)';
-    ingredientsContainer.style.padding = '10px';
-    ingredientsContainer.style.border = '1px solid rgba(255, 255, 255, 0.1)';
-    ingredientsContainer.style.borderRadius = '4px';
-    ingredientsContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
-
-    const ingredientsContainerHeading = document.createElement('div');
-    ingredientsContainerHeading.style.marginBottom = '10px';
-    ingredientsContainerHeading.style.fontSize = '14px';
-    ingredientsContainerHeading.style.fontStyle = 'italic';
-    ingredientsContainerHeading.style.color = 'var(--accent-orange)';
-    ingredientsContainer.appendChild(ingredientsContainerHeading);
-
-    const currentIngredientsList = document.createElement('ul');
-    currentIngredientsList.id = 'currentRecipeIngredients';
-    currentIngredientsList.style.listStyle = 'none';
-    currentIngredientsList.style.padding = '0';
-    currentIngredientsList.style.margin = '0';
-
-    ingredientsContainer.appendChild(currentIngredientsList);
-    ingredientsContent.appendChild(ingredientsContainer);
-
-    ingredientsCollapsible.appendChild(ingredientsHeader);
-    ingredientsCollapsible.appendChild(ingredientsContent);
-    ingredientsColumn.appendChild(ingredientsCollapsible);
-
-    setTimeout(() => {
-      console.log('About to render ingredients for recipe:', recipe.id);
-      console.log('Final ingredients data to render:', JSON.stringify(recipe.ingredients || []));
-      console.log('Calling renderIngredients with ingredients array');
-      renderIngredients(recipe.ingredients || []);
-      console.log('Returned from renderIngredients call');
-    }, 0);
-
-    // --- Middle column content (description + instructions) ---
-    const middleContent = document.createElement('div');
-    middleContent.style.display = 'flex';
-    middleContent.style.flexDirection = 'column';
-    middleContent.style.gap = '1rem';
-
-    // Conditionally render description section only if there is meaningful content
-    if (recipe.description && recipe.description.trim()) {
-      const descriptionSection = document.createElement('div');
-      descriptionSection.className = 'description-section';
-      descriptionSection.innerHTML = `<p>${recipe.description}</p>`;
-      middleContent.appendChild(descriptionSection);
-    }
-
-    // Helper to create other collapsible sections
-    function createCollapsibleSection(title, contentHtml, idSuffix, colorType = 'neutral') {
-      const container = document.createElement('div');
-      container.className = 'collapsible-container';
-      container.setAttribute('aria-expanded', 'false');
-      container.setAttribute('data-color', colorType); // Add color type attribute
-
-      const header = document.createElement('button');
-      header.type = 'button';
-      header.className = 'collapsible-header';
-      header.setAttribute('aria-controls', `${idSuffix}-content`);
-      header.setAttribute('aria-expanded', 'false');
-      header.innerHTML = `
-        <span>${title}</span>
-        <span class="collapsible-icon">&#9654;</span>
-      `;
-
-      const content = document.createElement('div');
-      content.className = 'collapsible-content';
-      content.id = `${idSuffix}-content`;
-      content.innerHTML = contentHtml;
-
-      // Event listeners for header click/keydown moved to initUI via delegation
-
-      container.appendChild(header);
-      container.appendChild(content);
-      return container;
-    }
-    
-    // Function to toggle all collapsible sections in a group
-    // This function has been moved outside of showRecipeDetails to be accessible globally
-if (recipe.notes) {
-  const notesSection = createCollapsibleSection('Notes', recipe.notes, 'notes', 'blue');
-  currentRecipeColumn.appendChild(notesSection);
-}
-
-if (recipe.nutrition) {
-  const nutritionSection = createCollapsibleSection('Nutrition', recipe.nutrition, 'nutrition', 'blue');
-  currentRecipeColumn.appendChild(nutritionSection);
-}
-
-if (recipe.media) {
-  const mediaSection = createCollapsibleSection('Media', recipe.media, 'media', 'neutral');
-  currentRecipeColumn.appendChild(mediaSection);
-}
-
-if (recipe.comments) {
-  const commentsSection = createCollapsibleSection('Comments', recipe.comments, 'comments', 'neutral');
-  currentRecipeColumn.appendChild(commentsSection);
-}
-
-// Version History
-const versionHistorySection = createCollapsibleSection(
-  'Version History',
-  recipe.version > 1 ? `<p>Current version: v${recipe.version}</p>` : '<p>This is the first version of this recipe.</p>',
-  'version-history',
-  'orange'
-);
-currentRecipeColumn.appendChild(versionHistorySection);
-
-// Iteration Management
-const iterationSection = createCollapsibleSection(
-  'Iteration Management',
-  '<p>No iterations available.</p>',
-  'iteration-management',
-  'orange'
-);
-currentRecipeColumn.appendChild(iterationSection);
-// AI Suggestions section removed as required
-
-
-    // --- Right column content ---
-
-
-    const tableContainer = document.createElement('div');
-    tableContainer.classList.add('tableContainer');
-    tableContainer.style.flexGrow = '1';
-    tableContainer.style.overflowY = 'auto';
-    tableContainer.style.marginBottom = 'var(--spacing-medium)';
-
-    const editTable = document.createElement('table');
-    editTable.style.width = '100%';
-    editTable.style.borderCollapse = 'collapse';
-    editTable.id = 'iterationEditTable';
-
-    const editHeaderRow = document.createElement('tr');
-    ['Ingredient', 'Quantity', 'Unit', 'Notes', 'Actions'].forEach(txt => {
-      const th = document.createElement('th');
-      th.textContent = txt;
-      th.style.padding = '8px';
-      th.style.border = '1px solid #444';
-      editHeaderRow.appendChild(th);
-    });
-    editTable.appendChild(editHeaderRow);
-
-    if (recipe.ingredients && Array.isArray(recipe.ingredients) && recipe.ingredients.length > 0) {
-      recipe.ingredients.forEach(ing => {
-        const row = createEditableIngredientRow(ing);
-        editTable.appendChild(row);
+ // --- 6. Update Selected State in Recipe List ---
+ const recipeList = document.getElementById('recipeList');
+  if (recipeList) {
+      recipeList.querySelectorAll('.recipe-item').forEach(li => {
+          if (li.dataset.id === String(recipeId)) {
+              li.classList.add('selected');
+          } else {
+              li.classList.remove('selected');
+          }
       });
-    } else {
-      const placeholderRow = editTable.insertRow();
-      const cell = placeholderRow.insertCell();
-      cell.colSpan = 5;
-      cell.textContent = 'No ingredients yet. Add one below!';
-      cell.style.textAlign = 'center';
-      cell.style.padding = '10px';
-      cell.style.fontStyle = 'italic';
-    }
-    tableContainer.appendChild(editTable);
-    currentRecipeColumn.appendChild(tableContainer);
-
-    const addIngredientBtn = document.createElement('button');
-    addIngredientBtn.textContent = '+ Add Ingredient Row';
-    addIngredientBtn.classList.add('btn');
-    addIngredientBtn.id = 'addIterationIngredientBtn';
-    addIngredientBtn.style.marginBottom = 'var(--spacing-small)';
-    addIngredientBtn.addEventListener('click', () => {
-      const newRow = createEditableIngredientRow({});
-      const placeholder = editTable.querySelector('td[colspan="5"]');
-      if (placeholder) placeholder.parentElement.remove();
-      editTable.appendChild(newRow);
-      setEditModeFields();
-    });
-    currentRecipeColumn.appendChild(addIngredientBtn);
-
-    const commitBtn = document.createElement('button');
-    commitBtn.id = 'commitRecipeBtn';
-    commitBtn.textContent = 'Commit Iteration';
-    commitBtn.classList.add('btn');
-    commitBtn.addEventListener('click', async () => {
-      await doCommitIteration(recipe, editTable);
-    });
-    currentRecipeColumn.appendChild(commitBtn);
-
-    setEditModeFields();
-
-  } catch (error) {
-    console.error('Error in showRecipeDetails:', error);
-    details.innerHTML = `<p>Error loading recipe details.</p>`;
   }
-}
+
+ console.log(`Finished showing details for recipe ${recipeId}`);
+
+ // This logic is now moved to the beginning of the function
+
+    // This logic is now moved to update the #recipeHeaderSection
+
+    // This logic is now handled by renderRecipeIngredientsTable targeting the right column table
+
+    // This logic is now handled by populating elements within #recipeDetailsView and #recipeMetadataView
+
+
+} // End of showRecipeDetails
 
 /**
  * Helper function to create a row for the editable ingredients table.
@@ -901,26 +779,37 @@ export async function reloadData() {
   console.log('reloadData: Starting to reload application data...');
   try {
     // Fetch recipes
-    console.log('reloadData: Fetching recipes from API...');
-    const recipes = await loadRecipes();
-    console.log(`reloadData: Recipes loaded: ${recipes.length} recipes found`);
-    console.log('reloadData: First few recipes:', recipes.slice(0, 3).map(r => ({ id: r.id, title: r.title })));
-    renderRecipes(recipes);
+    console.log('reloadData: Fetching recipes...');
+    recipesCache = await loadRecipes(); // Load recipes and update cache
+    console.log(`reloadData: Recipes loaded: ${recipesCache.length} recipes found`);
+    console.log('reloadData: First few recipes:', recipesCache.slice(0, 3).map(r => ({ id: r.id, title: r.title })));
+    renderRecipes(recipesCache); // Render from cache
     
     // Fetch ingredients for the global list
-    console.log('reloadData: Fetching all ingredients from API...');
-    allIngredients = await loadAllIngredients();
-    console.log(`reloadData: All ingredients loaded: ${allIngredients.length} ingredients found`);
-    console.log('reloadData: First few ingredients:', allIngredients.slice(0, 5).map(i => ({ id: i.id, name: i.name })));
+    console.log('reloadData: Fetching all global ingredients...');
+    allIngredients = await loadAllIngredients(); // Load global ingredients
+    console.log(`reloadData: All global ingredients loaded: ${allIngredients.length} ingredients found`);
+    console.log('reloadData: First few global ingredients:', allIngredients.slice(0, 5).map(i => ({ id: i.id, name: i.name })));
     
-    // Only render ingredients if we're in the ingredients view
-    const ingredientsView = document.getElementById('ingredientsView');
-    if (ingredientsView && ingredientsView.style.display !== 'none') {
-      console.log('reloadData: Rendering ingredients in the ingredients view');
-      const ingredientList = document.getElementById('ingredientList');
-      if (ingredientList) {
-        renderIngredients(allIngredients);
-      }
+    // Render the global ingredients list in the left column
+    console.log('reloadData: Rendering global ingredients list');
+    renderGlobalIngredients(allIngredients);
+
+    // If a recipe is currently selected, re-render its details and ingredients table
+    if (currentRecipe && currentRecipe.id) {
+        console.log(`reloadData: Re-rendering details for current recipe ${currentRecipe.id}`);
+        // We need the full recipe object again, potentially refetch or use cache carefully
+        // For simplicity, let's just re-render the table with the cached ingredients
+        renderRecipeIngredientsTable(currentRecipe.ingredients || []);
+        // Optionally, fully call showRecipeDetails again if more complex updates are needed
+        // await showRecipeDetails(currentRecipe.id);
+    } else {
+        // Ensure recipe views are hidden if no recipe is selected
+        document.getElementById('recipeDetailsView').style.display = 'none';
+        document.getElementById('recipeMetadataView').style.display = 'none';
+        document.getElementById('noRecipeSelectedView').style.display = 'block';
+        document.getElementById('noRecipeMetadataView').style.display = 'block';
+        document.getElementById('recipeHeaderSection').style.display = 'none';
     }
     console.log('Data reloaded successfully.');
     return true;
@@ -948,7 +837,12 @@ export async function reloadData() {
    }
  }
  function updateRecipeStats(recipe) {
-  if (!recipe) return;
+  if (!recipe) {
+      console.warn("updateRecipeStats called with null recipe");
+      // Optionally clear stats here
+      return;
+  }
+  console.log("Updating stats for recipe:", recipe.title);
   
     // Update quick stats using safeSetText helper
     safeSetText('prepTime', recipe.prep_time, '--');
@@ -956,52 +850,14 @@ export async function reloadData() {
     safeSetText('servings', recipe.servings, 'N/A');
     safeSetText('difficulty', recipe.difficulty, '--');
   
-  // Update instructions summary
-  const summaryEl = document.getElementById('instructionsSummary');
-  if (summaryEl) {
-    if (recipe.summary) {
-      summaryEl.innerHTML = `<p>${recipe.summary}</p>`;
-    } else {
-      summaryEl.innerHTML = '<p>No summary available for this recipe.</p>';
-    }
-  }
+  // Instructions summary is part of the middle column now (recipeDescription)
+  // This function now only updates the quick stats in the right column
   
-  // Update detailed instructions
-  const detailedEl = document.getElementById('detailedInstructions');
-  if (detailedEl) {
-    if (recipe.instructions) {
-      let instructionsHtml = '<ol>';
-      const steps = recipe.instructions.split('\n').filter(step => step.trim() !== '');
-      steps.forEach(step => {
-        instructionsHtml += `<li>${step}</li>`;
-      });
-      instructionsHtml += '</ol>';
-      detailedEl.innerHTML = instructionsHtml;
-    } else {
-      detailedEl.innerHTML = '<p>No detailed instructions available.</p>';
-    }
-  }
+  // Detailed instructions are handled in showRecipeDetails (middle column)
   
-  // Update notes
-  const notesEl = document.getElementById('recipeNotes');
-  if (notesEl) {
-    if (recipe.notes) {
-      notesEl.innerHTML = `<p>${recipe.notes}</p>`;
-    } else {
-      notesEl.innerHTML = '<p>No notes available for this recipe.</p>';
-    }
-  }
+  // Notes are handled in showRecipeDetails (middle column)
   
-  // Update version history if available
-  const versionHistoryEl = document.getElementById('versionHistory');
-  if (versionHistoryEl) {
-    if (recipe.version && recipe.version > 1) {
-      versionHistoryEl.innerHTML = `<p>Current version: v${recipe.version}</p>`;
-      // Here you would typically fetch and display version history
-    } else {
-      versionHistoryEl.innerHTML = '<p>This is the first version of this recipe.</p>';
-    }
-  }
+  // Version history is handled in showRecipeDetails (right column)
 }
 
 // Handle new iteration creation
@@ -1099,8 +955,7 @@ function setupIterationFunctionality() {
 }
 
 export async function initUI() {
-  console.log('Initializing UI...');
-  console.log('initUI: setup started');
+ console.log('Initializing UI...');
 
   supabaseClient.auth.onAuthStateChange((event, session) => {
     console.log('Auth state changed:', event, session);
@@ -1127,14 +982,30 @@ export async function initUI() {
 
     loggedInStateChanged = previousIsLoggedIn !== isLoggedIn;
 
-    // Update UI only if the state actually changed *after* the initial check
-    if (loggedInStateChanged && event !== 'INITIAL_SESSION') {
-      console.log('Login state changed, updating UI elements...');
-      updateAuthButton(); // Update the Log In/Log Out button
-      setEditModeFields(); // Update edit mode dependent fields
-      // Consider if reloadData() is needed here based on application logic
-      // reloadData();
-    }
+   // Update UI elements based on auth state
+   updateAuthButton();
+   setEditModeFields(); // Ensure edit mode reflects login state
+
+   // Optionally reload data or adjust UI further based on login/logout
+   if (loggedInStateChanged) {
+       console.log('Login state changed, potentially reloading data or adjusting views...');
+       // If logging out, ensure recipe views are cleared
+       if (!isLoggedIn) {
+           currentRecipe = null;
+           document.getElementById('recipeDetailsView').style.display = 'none';
+           document.getElementById('recipeMetadataView').style.display = 'none';
+           document.getElementById('noRecipeSelectedView').style.display = 'block';
+           document.getElementById('noRecipeMetadataView').style.display = 'block';
+           document.getElementById('recipeHeaderSection').style.display = 'none';
+           // Clear selected state in recipe list
+            const recipeList = document.getElementById('recipeList');
+            if (recipeList) {
+                recipeList.querySelectorAll('.recipe-item.selected').forEach(li => li.classList.remove('selected'));
+            }
+       }
+       // Maybe reload data on login? Depends on requirements.
+       // await reloadData();
+   }
   });
 
   // Set up event listeners for UI elements
@@ -1233,89 +1104,94 @@ export async function initUI() {
     });
   }
 
-  // Set up event listener for the ingredients button
-  const btnIngredients = document.getElementById('btnIngredients');
-  if (btnIngredients) {
-    btnIngredients.addEventListener('click', () => {
-      // Hide recipe details if visible
-      const recipeDetails = document.getElementById('recipeDetails');
-      if (recipeDetails) recipeDetails.style.display = 'none';
-      
-      // Show ingredients view
-      const ingredientsView = document.getElementById('ingredientsView');
-      if (ingredientsView) ingredientsView.style.display = 'block';
-    });
-  }
+  // Event listener for the "All Ingredients" button (now toggles left column section)
+   const btnIngredients = document.getElementById('btnIngredients');
+   if (btnIngredients) {
+       btnIngredients.addEventListener('click', () => {
+           // This button might now just ensure the left column is visible,
+           // or toggle the 'All Ingredients' collapsible section within it.
+           const ingredientsSection = document.getElementById('globalIngredientsSection');
+           if (ingredientsSection) {
+               const header = ingredientsSection.querySelector('.collapsible-header');
+               if (header && ingredientsSection.getAttribute('aria-expanded') === 'false') {
+                   // Simulate a click on the header to expand it
+                   header.click();
+               }
+               // Ensure left column is visible if layout changes dynamically
+               document.getElementById('left-column').style.display = 'block';
+           }
+           console.log('"All Ingredients" button clicked - ensuring section is visible/expanded.');
+       });
+   }
 
-  // Set up event listener for the add recipe button
-  const btnAddRecipe = document.getElementById('btnAddRecipe');
-  if (btnAddRecipe) {
-    btnAddRecipe.addEventListener('click', () => {
-      if (!isLoggedIn) {
-        showNotification('Please log in to add recipes.', 'error');
-        return;
-      }
-      
-      // Create a new recipe with default values for DIY household products
-      const newRecipe = {
-        title: 'New DIY Formula',
-        description: 'A new household product formula',
-        instructions: 'Add your preparation steps here',
-        ingredients: [],
-        version: 1
-      };
-      
-      // Hide ingredients view if visible
-      const ingredientsView = document.getElementById('ingredientsView');
-      if (ingredientsView) ingredientsView.style.display = 'none';
-      
-      // Show recipe details with the new recipe
-      const recipeDetails = document.getElementById('recipeDetails');
-      if (recipeDetails) {
-        recipeDetails.style.display = 'block';
-        recipeDetails.innerHTML = ''; // Clear previous content
-        showRecipeDetails(newRecipe);
-      }
-    });
-  }
+  // Add Recipe Button (Improved Flow)
+   const btnAddRecipe = document.getElementById('btnAddRecipe');
+   if (btnAddRecipe) {
+       btnAddRecipe.addEventListener('click', async () => {
+           if (!isLoggedIn) {
+               showNotification('Please log in to add recipes.', 'error');
+               return;
+           }
+           if (!isEditMode()) {
+                showNotification('Enable Edit Mode to add recipes.', 'error');
+                return;
+           }
 
-  // Set up event listener for the add global ingredient button
-  const btnAddGlobalIngredient = document.getElementById('btnAddGlobalIngredient');
-  if (btnAddGlobalIngredient) {
-    btnAddGlobalIngredient.addEventListener('click', () => {
-      if (!isLoggedIn) {
-        showNotification('Please log in to add ingredients.', 'error');
-        return;
-      }
-      
-      // Prompt for ingredient name and description
-      const name = prompt('Enter ingredient name:');
-      if (!name) return;
-      
-      const description = prompt('Enter ingredient description (optional):');
-      
-      // Create a new ingredient
-      const newIngredient = {
-        name,
-        description: description || null
-      };
-      
-      // Add the ingredient to the database
-      supabaseClient
-        .from('ingredients')
-        .insert([newIngredient])
-        .then(({ data, error }) => {
-          if (error) {
-            console.error('Error adding ingredient:', error);
-            showNotification(`Error adding ingredient: ${error.message}`, 'error');
-            return;
-          }
-          
-          showNotification('Ingredient added successfully!', 'success');
-          reloadData(); // Reload to show the new ingredient
-        });
-    });
-  }
+           const recipeName = prompt('Enter a name for the new recipe:');
+           if (!recipeName || recipeName.trim() === '') {
+               showNotification('Recipe name cannot be empty.', 'info');
+               return;
+           }
+
+           try {
+               console.log(`Attempting to create recipe: ${recipeName}`);
+               // Use the API function to create the recipe in the database
+               const newRecipe = await createNewRecipe(recipeName.trim()); // Pass only the name
+
+               if (newRecipe && newRecipe.id) {
+                   showNotification(`Recipe "${recipeName}" created successfully!`, 'success');
+                   await reloadData(); // Reload the recipe list
+                   // Automatically select and show the new recipe
+                   await showRecipeDetails(newRecipe.id);
+               } else {
+                   throw new Error('Failed to create recipe or retrieve its ID.');
+               }
+           } catch (error) {
+               console.error('Error creating new recipe:', error);
+               showNotification(`Error creating recipe: ${error.message}`, 'error');
+           }
+       });
+   }
+
+  // Add Global Ingredient Button (in left column)
+   const btnAddGlobalIngredient = document.getElementById('btnAddGlobalIngredient');
+   if (btnAddGlobalIngredient) {
+       btnAddGlobalIngredient.addEventListener('click', async () => {
+           if (!isLoggedIn || !isEditMode()) {
+               showNotification('Log in and enable Edit Mode to add global ingredients.', 'error');
+               return;
+           }
+
+           const name = prompt('Enter new global ingredient name:');
+           if (!name || name.trim() === '') return;
+
+           const description = prompt('Enter ingredient description (optional):');
+
+           try {
+               // Use API function
+               const addedIngredient = await addGlobalIngredient(name.trim(), description ? description.trim() : null);
+               if (addedIngredient) {
+                   showNotification(`Ingredient "${addedIngredient.name}" added globally.`, 'success');
+                   await reloadData(); // Reload global ingredients list
+               } else {
+                    throw new Error('Failed to add ingredient or retrieve result.');
+               }
+           } catch (error) {
+               console.error('Error adding global ingredient:', error);
+               showNotification(`Error: ${error.message}`, 'error');
+           }
+       });
+   }
 
   // --- Delegated Event Listeners ---
 
@@ -1323,100 +1199,178 @@ export async function initUI() {
   const recipeList = document.getElementById('recipeList');
   if (recipeList) {
     recipeList.addEventListener('click', async (event) => {
-      const targetLi = event.target.closest('.recipe-item');
-      if (targetLi && targetLi.dataset.id) {
-        const recipeId = targetLi.dataset.id;
-        console.log(`Recipe item clicked: ID=${recipeId}`);
-        // Fetch the full recipe data based on ID (assuming recipes array is available or fetchable)
-        // This requires access to the recipes array or a function to fetch by ID.
-        // For now, let's assume `recipes` is accessible or refetch.
-        const recipes = await loadRecipes(); // Consider caching this
-        const selectedRecipe = recipes.find(r => String(r.id) === recipeId);
+           const targetLi = event.target.closest('.recipe-item');
+           if (targetLi && targetLi.dataset.id) {
+               const recipeId = targetLi.dataset.id;
+               console.log(`Recipe item clicked: ID=${recipeId}`);
 
-        if (selectedRecipe) {
-          // Update selected state visually
-          recipeList.querySelectorAll('.recipe-item').forEach(li => li.classList.remove('selected'));
-          targetLi.classList.add('selected');
+               // Update selected state visually immediately
+               recipeList.querySelectorAll('.recipe-item').forEach(li => li.classList.remove('selected'));
+               targetLi.classList.add('selected');
 
-          // Hide ingredients view if visible
-          const ingredientsView = document.getElementById('ingredientsView');
-          if (ingredientsView) ingredientsView.style.display = 'none';
+               // Call showRecipeDetails with the ID
+               await showRecipeDetails(recipeId);
+           }
+       });
+   }
 
-          // Show recipe details
-          const recipeDetails = document.getElementById('recipeDetails');
-          if (recipeDetails) {
-            recipeDetails.style.display = 'block';
-            recipeDetails.innerHTML = ''; // Clear previous content
-            showRecipeDetails(selectedRecipe); // Pass the full recipe object
-          }
-        } else {
-          console.error(`Recipe with ID ${recipeId} not found.`);
-        }
-      }
-    });
-  }
+  // Global Ingredient List Click Handler (Left Column) - currently no action on click
+   const globalIngredientList = document.getElementById('globalIngredientList');
+   if (globalIngredientList) {
+       globalIngredientList.addEventListener('click', (event) => {
+           const targetLi = event.target.closest('.ingredient-item');
+           if (targetLi) {
+               console.log('Global ingredient clicked:', targetLi.dataset.id);
+               // Add functionality here if needed (e.g., show details, add to recipe)
+           }
+       });
+   }
 
-  // Ingredient List Click Handler (for expanding/collapsing)
-  const materialsList = document.getElementById('currentMaterials');
-  if (materialsList) {
-    materialsList.addEventListener('click', (event) => {
-      const targetLi = event.target.closest('.ingredient-item');
-      if (targetLi) {
-        const detailsDiv = targetLi.querySelector('.ingredient-details');
-        console.log('Ingredient item clicked:', targetLi.dataset.id);
-        targetLi.classList.toggle('expanded');
-        if (detailsDiv && detailsDiv.hasChildNodes()) {
-          detailsDiv.style.display = targetLi.classList.contains('expanded') ? 'block' : 'none';
-        }
-        // Visual feedback
-        targetLi.style.backgroundColor = targetLi.classList.contains('expanded') ? 'rgba(0, 123, 255, 0.05)' : '';
-      }
-    });
-  }
+   // Editable Ingredient Table Button Handler (Right Column)
+   const iterationEditContainer = document.getElementById('iterationEditContainer'); // Container in right column
+   if (iterationEditContainer) {
+       iterationEditContainer.addEventListener('click', async (event) => {
+           // Add Ingredient Row Button
+           if (event.target.matches('#addIterationIngredientBtn')) {
+                console.log("Add ingredient row button clicked");
+                const tableBody = document.querySelector('#iterationEditTable tbody');
+                if (tableBody) {
+                    const newRow = createEditableIngredientRow({}); // Create row with empty data
+                    const placeholder = tableBody.querySelector('td[colspan="5"]');
+                    if (placeholder) placeholder.parentElement.remove(); // Remove placeholder if exists
+                    tableBody.appendChild(newRow);
+                    console.log("New ingredient row added to table");
+                } else {
+                    console.error("Could not find iteration edit table body");
+                }
+           }
+           // Remove Ingredient Row Button
+           else if (event.target.matches('.remove-iteration-ingredient-btn')) {
+                console.log("Remove ingredient button clicked");
+                const rowToRemove = event.target.closest('tr');
+                const table = event.target.closest('table');
+                if (rowToRemove) {
+                    rowToRemove.remove();
+                    console.log("Ingredient row removed");
+                    // Add placeholder if table becomes empty (excluding header)
+                    if (table && table.rows.length <= 1) {
+                        const placeholderRow = table.tBodies[0].insertRow();
+                        const cell = placeholderRow.insertCell();
+                        cell.colSpan = 5;
+                        cell.textContent = 'No ingredients yet. Add one below!';
+                        cell.style.textAlign = 'center';
+                        cell.style.padding = '10px';
+                        cell.style.fontStyle = 'italic';
+                        console.log("Placeholder row added");
+                    }
+                }
+           }
+           // Commit Changes Button
+           else if (event.target.matches('#commitRecipeBtn')) {
+                console.log("Commit changes button clicked");
+                if (currentRecipe && currentRecipe.id) {
+                    const editTable = document.getElementById('iterationEditTable');
+                    if (editTable) {
+                        await doCommitIteration(currentRecipe, editTable);
+                    } else {
+                        console.error("Could not find iteration edit table for commit");
+                    }
+                } else {
+                    showNotification("No recipe selected to commit changes for.", "error");
+                }
+           }
+       });
+   }
 
   // Collapsible Header Click/Keydown Handler (delegated to content-grid)
-  const contentGrid = document.querySelector('.content-grid');
-  if (contentGrid) {
-    const handleCollapsibleToggle = (header) => {
-      const container = header.closest('.collapsible-container');
-      if (!container) return;
+  // Delegated listener for ALL collapsible headers within the page wrapper
+   const pageWrapper = document.querySelector('.page-wrapper');
+   if (pageWrapper) {
+       const handleCollapsibleToggle = (header) => {
+           const container = header.closest('.collapsible-container');
+           if (!container) return;
 
-      const isExpanded = container.getAttribute('aria-expanded') === 'true';
-      const newExpandedState = !isExpanded;
+           const isExpanded = container.getAttribute('aria-expanded') === 'true';
+           const newExpandedState = !isExpanded;
 
-      container.setAttribute('aria-expanded', String(newExpandedState));
-      header.setAttribute('aria-expanded', String(newExpandedState));
-      container.classList.toggle('expanded', newExpandedState);
+           container.setAttribute('aria-expanded', String(newExpandedState));
+           header.setAttribute('aria-expanded', String(newExpandedState));
+           // container.classList.toggle('expanded', newExpandedState); // Optional class
 
-      const icon = header.querySelector('.collapsible-icon');
-      if (icon) {
-        icon.style.transform = newExpandedState ? 'rotate(90deg)' : 'rotate(0deg)';
-      }
-    };
+           const content = container.querySelector('.collapsible-content');
+           const icon = header.querySelector('.collapsible-icon');
 
-    contentGrid.addEventListener('click', (event) => {
-      const header = event.target.closest('.collapsible-header');
-      if (header) {
-        handleCollapsibleToggle(header);
-      }
-    });
+           if (content) {
+                // Use max-height for animation
+                if (newExpandedState) {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    content.style.opacity = 1;
+                    content.style.padding = 'var(--spacing-small) var(--spacing-medium)'; // Adjust as needed
+                } else {
+                    content.style.maxHeight = '0';
+                    content.style.opacity = 0;
+                    content.style.padding = '0 var(--spacing-medium)';
+                }
+           }
+           if (icon) {
+               icon.style.transform = newExpandedState ? 'rotate(90deg)' : 'rotate(0deg)';
+           }
+       };
 
-    contentGrid.addEventListener('keydown', (event) => {
-      const header = event.target.closest('.collapsible-header');
-      if (header && (event.key === 'Enter' || event.key === ' ')) {
-        event.preventDefault();
-        handleCollapsibleToggle(header);
-      }
-    });
-  }
+       pageWrapper.addEventListener('click', (event) => {
+           const header = event.target.closest('.collapsible-header');
+           if (header) {
+               handleCollapsibleToggle(header);
+           }
+
+           // Handle Expand/Collapse All Button
+           const expandCollapseBtn = event.target.closest('.btn-expand-collapse');
+           if (expandCollapseBtn) {
+                const targetGroupId = expandCollapseBtn.dataset.targetGroup;
+                const targetGroup = document.getElementById(targetGroupId);
+                if (targetGroup) {
+                    const isPressed = expandCollapseBtn.getAttribute('aria-pressed') === 'true';
+                    const newState = !isPressed;
+                    expandCollapseBtn.setAttribute('aria-pressed', String(newState));
+                    expandCollapseBtn.querySelector('.label').textContent = newState ? 'Collapse All' : 'Expand All';
+                    expandCollapseBtn.querySelector('.icon').textContent = newState ? '-' : '+';
+
+                    targetGroup.querySelectorAll('.collapsible-container .collapsible-header').forEach(header => {
+                        const container = header.closest('.collapsible-container');
+                        const currentExpanded = container.getAttribute('aria-expanded') === 'true';
+                        if (currentExpanded !== newState) {
+                            handleCollapsibleToggle(header); // Toggle only if state needs changing
+                        }
+                    });
+                }
+           }
+       });
+
+       pageWrapper.addEventListener('keydown', (event) => {
+           const header = event.target.closest('.collapsible-header');
+           if (header && (event.key === 'Enter' || event.key === ' ')) {
+               event.preventDefault();
+               handleCollapsibleToggle(header);
+           }
+       });
+   }
 
   // --- End Delegated Listeners ---
 
 
   // Load initial data
   await reloadData();
-  // Setup iteration functionality (still needed)
-  setupIterationFunctionality();
+  // Iteration functionality setup (buttons are now handled by delegated listener)
+  // setupIterationFunctionality(); // Might not be needed if buttons handled by delegation
+
+  // Initial UI state
+  document.getElementById('recipeDetailsView').style.display = 'none';
+  document.getElementById('recipeMetadataView').style.display = 'none';
+  document.getElementById('noRecipeSelectedView').style.display = 'block';
+  document.getElementById('noRecipeMetadataView').style.display = 'block';
+  document.getElementById('recipeHeaderSection').style.display = 'none';
+
+
   console.log('initUI: setup complete');
 }
 
@@ -1496,4 +1450,4 @@ window.testRecipeIngredientUpdate = async function(recipeId) {
   }
 };
 
-// Simple notification function
+// Test function remains the same
