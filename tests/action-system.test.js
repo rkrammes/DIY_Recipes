@@ -1,10 +1,13 @@
 jest.mock('../js/supabaseClient.js');
 
+import ActionRegistry from '../js/action-registry.js';
+
+window.ActionRegistry = ActionRegistry;
+
 /**
  * @jest-environment jsdom
  */
 
-import ActionRegistry from '../js/action-registry.js';
 import '../js/action-renderer.js'; // attaches to window
 import '@testing-library/jest-dom';
 import { fireEvent } from '@testing-library/dom';
