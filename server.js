@@ -83,11 +83,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(__dirname));
 app.use('/js', express.static(__dirname + '/js'));
-app.use(express.static(__dirname));
+app.use('/public', express.static(__dirname + '/public'));
 
 const PORT = process.env.PORT || 3001; // Define PORT variable
-
-app.use(express.static('public')); // Serve static files from the 'public' directory
 
 // Serve index.html on the root path
 app.get('/', (req, res) => {
