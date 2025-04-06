@@ -835,7 +835,7 @@ export async function reloadData() {
         document.getElementById('recipeDetailsView').style.display = 'none';
         // document.getElementById('recipeMetadataView').style.display = 'none';
         document.getElementById('noRecipeSelectedView').style.display = 'block';
-        document.getElementById('noRecipeMetadataView').style.display = 'block';
+        // document.getElementById('noRecipeMetadataView').style.display = 'block';
         document.getElementById('recipeHeaderSection').style.display = 'none';
     }
     console.log('Data reloaded successfully.');
@@ -1402,7 +1402,7 @@ export async function initUI() {
   document.getElementById('recipeDetailsView').style.display = 'none';
   // document.getElementById('recipeMetadataView').style.display = 'none';
   document.getElementById('noRecipeSelectedView').style.display = 'block';
-  document.getElementById('noRecipeMetadataView').style.display = 'block';
+  // document.getElementById('noRecipeMetadataView').style.display = 'block';
   document.getElementById('recipeHeaderSection').style.display = 'none';
 
 
