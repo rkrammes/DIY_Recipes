@@ -450,7 +450,7 @@ export async function showRecipeDetails(recipeId) {
  const notesEl = document.getElementById('recipeNotes');
  const nutritionEl = document.getElementById('recipeNutrition'); // Added
  const mediaEl = document.getElementById('recipeMedia'); // Added
-+ const recipeIngredientsDisplayEl = document.getElementById('recipeIngredientListDisplay'); // NEW: Target for recipe ingredients
+const recipeIngredientsDisplayEl = document.getElementById('recipeIngredientListDisplay'); // NEW: Target for recipe ingredients
 
  if (recipeDescriptionEl) {
      recipeDescriptionEl.innerHTML = recipe.description ? `<p>${recipe.description}</p>` : '<p>No description provided.</p>';
