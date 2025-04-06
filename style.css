@@ -623,6 +623,9 @@ select:focus-visible {
   overflow-x: hidden;
   height: 100%; /* This might be problematic if header grows */
   max-height: 100%; /* This might be problematic if header grows */
+  min-width: 250px;
+  flex-grow: 1;
+  display: block;
 }
 
 /* Clear visual separation with color-coding */
