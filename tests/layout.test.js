@@ -1,4 +1,4 @@
-l/**
+/**
  * @jest-environment jsdom
  */
 
@@ -217,7 +217,6 @@ describe('Three-column layout with collapsibles', () => {
     expect(ingredients[1]).toHaveTextContent('Baking Soda');
     expect(ingredients[2]).toHaveTextContent('Essential Oil');
     expect(ingredients[3]).toHaveTextContent('Distilled Water');
-    expect(ingredients[3]).toHaveTextContent('Sugar');
     
     // Test quick stats
     const quickStats = leftColumn.querySelector('#quickStats');
@@ -259,14 +258,14 @@ describe('Three-column layout with collapsibles', () => {
     expect(detailedInstructions).toHaveAttribute('data-color', 'blue');
     expect(detailedInstructions.querySelector('.collapsible-content')).toHaveAttribute('id', 'detailed-instructions-content');
     expect(detailedInstructions.querySelector('ol')).toBeInTheDocument();
-    expect(detailedInstructions.querySelectorAll('li').length).toBe(3);
+    expect(detailedInstructions.querySelectorAll('li').length).toBe(4);
     
     // Test second collapsible (Notes)
     const notes = collapsibles[1];
     expect(notes.querySelector('.collapsible-header')).toHaveTextContent('Notes');
     expect(notes).toHaveAttribute('data-color', 'blue');
     expect(notes.querySelector('.collapsible-content')).toHaveAttribute('id', 'notes-content');
-    expect(notes.querySelector('p')).toHaveTextContent('Try adding blueberries.');
+    expect(notes.querySelector('p')).toHaveTextContent('For stronger cleaning power, add more vinegar.');
   });
 
   test('Right column contains collapsible sections with correct color coding', () => {

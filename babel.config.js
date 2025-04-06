@@ -2,17 +2,8 @@ export default {
   presets: [
     ['@babel/preset-env', {
       targets: { node: 'current' },
-      modules: false
+      // Always transform modules to CommonJS for Jest compatibility
+      modules: 'commonjs'
     }]
-  ],
-  env: {
-    test: {
-      presets: [
-        ['@babel/preset-env', {
-          targets: { node: 'current' },
-          modules: 'commonjs'
-        }]
-      ]
-    }
-  }
+  ]
 };

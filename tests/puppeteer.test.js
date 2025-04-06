@@ -1,8 +1,11 @@
-l/**
+/**
  * @jest-environment node
  */
 
 // This file contains Puppeteer tests for the DIY_Recipes web app's collapsible UI components
+
+// Use global instead of window for Node environment
+global.jest = jest;
 
 describe('Puppeteer UI Tests', () => {
   // These tests will be implemented using the Puppeteer MCP server
