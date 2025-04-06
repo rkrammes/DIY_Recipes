@@ -1,3 +1,5 @@
+jest.mock('../js/supabaseClient.js');
+
 /**
  * @jest-environment jsdom
  */
