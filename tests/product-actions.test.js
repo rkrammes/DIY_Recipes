@@ -1,4 +1,8 @@
-const { scaleRecipe, convertUnits, printRecipe, generateShoppingList } = require('../js/product-actions.js');
+/**
+ * @jest-environment jsdom
+ */
+
+import { scaleRecipe, convertUnits, printRecipe, generateShoppingList } from '../js/product-actions.js';
 
 describe('Product Actions', () => {
   const sampleIngredients = [
