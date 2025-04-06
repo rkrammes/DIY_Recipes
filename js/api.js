@@ -1,4 +1,9 @@
 import { supabaseClient } from './supabaseClient.js';
+import {
+  checkIngredientCompatibility,
+  estimatePH,
+  calculateShelfLife
+} from './recipe-analysis.js';
 
 /**
  * Loads all recipes from the 'recipes' table.
@@ -370,4 +375,34 @@ export function calculateRecipeCost(recipe, ingredientPrices) {
   console.log('Calculating cost for recipe:', recipe, ingredientPrices);
   // TODO: Implement actual calculation
   return createCostStructure({});
+}
+
+/* ================================
+   Phase 3: Advanced Analysis API
+   ================================ */
+
+// Analyze ingredient compatibility and pH
+export function analyzeIngredients(recipe) {
+  const compatible = checkIngredientCompatibility(recipe.ingredients);
+  const pH = estimatePH(recipe.ingredients);
+  return { compatible, pH };
+}
+
+// Get recipe timeline as list of steps
+export function getRecipeTimeline(recipe) {
+  return recipe.steps?.map((step, idx) => ({
+    stepNumber: idx + 1,
+    description: step.description,
+    duration: step.duration || null
+  })) || [];
+}
+
+// Get batch history (placeholder, assumes recipe.batches)
+export function getBatchHistory(recipe) {
+  return recipe.batches || [];
+}
+
+// Estimate shelf-life based on ingredients
+export function estimateShelfLife(recipe) {
+  return calculateShelfLife(recipe.ingredients);
 }
