@@ -1114,48 +1114,59 @@ body.light .remove-recipe-btn:hover {
 #headerAuthContainer #magicLinkForm input,
 #headerAuthContainer #magicLinkForm button {
   vertical-align: middle; /* Align items vertically */
+}
+
 /* Standardize left column collapsible header text */
 .left-column .collapsible-header span {
   font-size: 1em;
 }
+
 /* Standardize ALL text in left column */
 .left-column,
 .left-column * {
   font-size: 1em !important;
 }
+
 /* --- Left Column Button Standardization --- */
+/* Reset existing button styles in left column */
 .left-column .collapsible-header,
+.left-column .btn,
 .left-column .btn-small,
 .left-column .btn-add-recipe,
 #btnAddRecipe,
 #btnAddGlobalIngredient {
-  background: var(--button-gradient-dark) !important;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: bold;
-  border: none;
-  padding: 6px 0;
+  background-color: transparent !important;
+  background-image: var(--button-gradient-dark) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  font-weight: bold !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 8px 12px !important;
 }
 
+/* Ensure hover states don't add backgrounds */
 .left-column .collapsible-header:hover,
+.left-column .btn:hover,
 .left-column .btn-small:hover,
 .left-column .btn-add-recipe:hover,
 #btnAddRecipe:hover,
 #btnAddGlobalIngredient:hover {
   filter: brightness(1.2);
   background-color: transparent !important;
+  border: none !important;
 }
 
 /* Light theme overrides */
 body.light .left-column .collapsible-header,
+body.light .left-column .btn,
 body.light .left-column .btn-small,
 body.light .left-column .btn-add-recipe,
 body.light #btnAddRecipe,
 body.light #btnAddGlobalIngredient {
-  background: var(--button-gradient-light) !important;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+  background-image: var(--button-gradient-light) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
 }
