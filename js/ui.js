@@ -2,7 +2,7 @@
 import { supabaseClient } from './supabaseClient.js';
 // Fixed import names to match api.js exports - this fixes the SyntaxError
 // "Importing binding name 'fetchIngredients' is not found"
-import { loadRecipes, loadAllIngredients, updateRecipeIngredients } from './api.js';
+import { loadRecipes, loadAllIngredients, updateRecipeIngredients, analyzeIngredients, getRecipeTimeline, getBatchHistory, estimateShelfLife } from './api.js';
 import { initRecipeActions } from './recipe-actions.js';
 
 // Global variables
@@ -1474,3 +1474,59 @@ window.testRecipeIngredientUpdate = async function(recipeId) {
 };
 
 // Test function remains the same
+/**
+ * Render advanced analysis panels in the given container for a recipe
+ * @param {Object} recipe - Recipe object
+ * @param {HTMLElement} container - Target container element
+ */
+export function renderAdvancedAnalysis(recipe, container) {
+  container.innerHTML = '';
+
+  const analysis = analyzeIngredients(recipe);
+  const timeline = getRecipeTimeline(recipe);
+  const batches = getBatchHistory(recipe);
+  const shelfLife = estimateShelfLife(recipe);
+
+  // Compatibility & pH
+  const compatDiv = document.createElement('div');
+  compatDiv.className = 'action-panel ingredient-analysis';
+  compatDiv.innerHTML = `
+    <h3>Ingredient Analysis</h3>
+    <p>Compatibility: ${analysis.compatible ? 'Compatible' : 'Incompatible'}</p>
+    <p>Estimated pH: ${analysis.pH.toFixed(1)}</p>
+  `;
+  container.appendChild(compatDiv);
+
+  // Timeline
+  const timelineDiv = document.createElement('div');
+  timelineDiv.className = 'action-panel recipe-timeline';
+  const timelineList = timeline.map(step =>
+    `<li>Step ${step.stepNumber}: ${step.description} (${step.duration || 'N/A'} mins)</li>`
+  ).join('');
+  timelineDiv.innerHTML = `
+    <h3>Recipe Timeline</h3>
+    <ul>${timelineList}</ul>
+  `;
+  container.appendChild(timelineDiv);
+
+  // Batch history
+  const batchDiv = document.createElement('div');
+  batchDiv.className = 'action-panel batch-tracking';
+  const batchList = batches.map((batch, idx) =>
+    `<li>Batch ${idx + 1}: ${batch.date || batch.created_at || 'N/A'} - ${batch.status || 'Unknown'}</li>`
+  ).join('');
+  batchDiv.innerHTML = `
+    <h3>Batch Tracking</h3>
+    <ul>${batchList}</ul>
+  `;
+  container.appendChild(batchDiv);
+
+  // Shelf-life
+  const shelfDiv = document.createElement('div');
+  shelfDiv.className = 'action-panel shelf-life';
+  shelfDiv.innerHTML = `
+    <h3>Shelf-life Estimate</h3>
+    <p>Estimated shelf-life: ${shelfLife} days</p>
+  `;
+  container.appendChild(shelfDiv);
+}
