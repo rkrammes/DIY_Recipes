@@ -1,6 +1,6 @@
 # DIY Recipes: Modern Architecture Implementation Plan
 
-This document provides a detailed implementation plan for migrating the DIY Recipes application to a modern architecture. It outlines specific tasks, timelines, and technical considerations for each phase of the migration.
+This document provides a detailed implementation plan for migrating the DIY Recipes application to a modern architecture. It outlines specific tasks, timelines, and technical considerations for each phase of the migration. The plan now includes a dedicated phase for MCP server setup to ensure proper tooling and integration before beginning the new project architecture.
 
 ## Phase 1: Current Codebase Cleanup (4-6 Weeks)
 
@@ -96,7 +96,6 @@ This document provides a detailed implementation plan for migrating the DIY Reci
    - Success Criteria: All MCP servers passing integration tests with >90% coverage
 
 ## Phase 2: Modern Architecture Implementation (8-12 Weeks)
-## Phase 2: Modern Architecture Implementation (8-12 Weeks)
 
 ### Week 1-3: Project Setup & Core Infrastructure
 
@@ -180,7 +179,16 @@ This document provides a detailed implementation plan for migrating the DIY Reci
    - Prepare documentation for the new system
    - Create user migration plan
    - Configure production environment
+## Updated Timeline Overview
 
+| Phase | Duration | Dependencies |
+|-------|----------|--------------|
+| Phase 1: Current Codebase Cleanup | 4-6 Weeks | None |
+| Phase 1.5: MCP Server Setup & Integration | 3-4 Weeks | Phase 1 Completion |
+| Phase 2: Modern Architecture Implementation | 8-12 Weeks | Phase 1.5 Completion |
+| Parallel Running Strategy | 2-4 Weeks | Phase 2 Completion |
+
+## Parallel Running Strategy (2-4 Weeks)
 ## Parallel Running Strategy (2-4 Weeks)
 
 ### Tasks:
@@ -199,7 +207,20 @@ This document provides a detailed implementation plan for migrating the DIY Reci
    - Implement opt-in mechanism for early access
    - Collect feedback from early adopters
    - Plan for full cutover timing
+## Integration Points Between Phases
 
+### Phase 1 → Phase 1.5
+- Cleaned and optimized codebase provides foundation for MCP integration
+- Refactored state management simplifies MCP server data flow
+- Enhanced testing framework enables validation of MCP functionality
+
+### Phase 1.5 → Phase 2
+- GitHub MCP server facilitates repository management for new project
+- Supabase MCP server ensures data continuity between old and new systems
+- Next.js/TypeScript MCPs accelerate component development
+- Vercel MCP enables seamless deployment pipeline setup
+
+## Technical Considerations
 ## Technical Considerations
 
 ### State Management
@@ -247,7 +268,6 @@ This document provides a detailed implementation plan for migrating the DIY Reci
 
 5. **MCP Server Integration Challenges**
    - Mitigation: Phased integration with fallback mechanisms and comprehensive testing
-   - Mitigation: Modular approach allowing partial deployments
 
 ## Success Metrics
 
@@ -256,6 +276,15 @@ This document provides a detailed implementation plan for migrating the DIY Reci
 - Bundle size reduction
 - Load time improvement
 - Test coverage percentage
+- MCP server integration reliability (>99% uptime)
+- MCP operation success rate (>95% completed operations)
+- MCP response time (<500ms for standard operations)
+
+### MCP Integration Metrics:
+- Number of successful GitHub operations through MCP
+- Database operation throughput via Supabase MCP
+- Code generation efficiency with Next.js/TypeScript MCPs
+- Deployment success rate through Vercel MCP
 
 ### User Experience Metrics:
 - Reduced error rates
