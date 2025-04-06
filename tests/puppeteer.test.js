@@ -2,11 +2,10 @@
  * @jest-environment node
  */
 
+// Import node setup instead of using the default JSDOM setup
+import '../jest.setup-node.js';
+
 // This file contains Puppeteer tests for the DIY_Recipes web app's collapsible UI components
-
-// Use global instead of window for Node environment
-global.jest = jest;
-
 describe('Puppeteer UI Tests', () => {
   // These tests will be implemented using the Puppeteer MCP server
   // The actual implementation will be done at runtime using the MCP tools

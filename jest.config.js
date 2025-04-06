@@ -18,7 +18,9 @@ export default {
   moduleFileExtensions: ['js', 'json', 'jsx', 'node'],
   // Default to jsdom environment
   testEnvironment: 'jest-environment-jsdom',
+  // Setup files for jsdom environment
   setupFilesAfterEnv: ['./tests/test-setup.js', '@testing-library/jest-dom/extend-expect'],
+  // Setup files for node environment will be specified in test files
   testMatch: ['**/__tests__/**/*.js', '**/?(*.)+(spec|test).js'],
   verbose: true,
   collectCoverage: true,

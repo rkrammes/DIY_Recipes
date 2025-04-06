@@ -46,4 +46,5 @@ export const supabaseClient = {
   }
 };
 
+// Export default for ESM compatibility
 export default supabaseClient;
