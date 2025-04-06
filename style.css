@@ -1573,3 +1573,50 @@ body.light .left-column i {
   z-index: 1000;
   position: relative;
 }
+/* Modal overlay to dim background and enforce stacking */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0); /* transparent overlay, adjust if dimming desired */
+  z-index: 999998 !important;
+  display: none;
+}
+
+/* Show overlay when active */
+.modal-overlay.active {
+  display: block;
+}
+
+/* Settings panel as fixed modal */
+.settings-panel {
+  position: fixed !important;
+  top: 60px !important;  /* adjust as needed */
+  right: 20px !important; /* adjust as needed */
+  z-index: 999999 !important;
+}
+
+/* Force panel visible state even higher z-index */
+.settings-panel[aria-expanded="true"] {
+  z-index: 999999 !important;
+}
+
+/* Lower problematic buttons when modal is active */
+.modal-overlay.active ~ .page-wrapper .btn,
+.modal-overlay.active ~ .page-wrapper .primary-action,
+.modal-overlay.active ~ .page-wrapper .secondary-action,
+.modal-overlay.active ~ .page-wrapper .utility-action,
+.modal-overlay.active ~ .page-wrapper .action-button,
+.modal-overlay.active ~ .page-wrapper .collapsible-header {
+  z-index: 1 !important;
+  position: relative !important;
+}
+
+/* Optionally dim the overlay if desired */
+/*
+.modal-overlay {
+  background: rgba(0,0,0,0.3);
+}
+*/

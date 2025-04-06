@@ -36,6 +36,7 @@ export function initSettingsUI() {
 export function toggleSettingsPanel(show) {
   const btnSettings = document.getElementById('btnSettings');
   const settingsPanel = document.getElementById('settingsPanel');
+  const modalOverlay = document.getElementById('modalOverlay');
   
   if (btnSettings && settingsPanel) {
     settingsPanel.setAttribute('aria-expanded', show.toString());
@@ -53,6 +54,14 @@ export function toggleSettingsPanel(show) {
         content.style.opacity = 0;
         content.style.padding = '0 var(--spacing-medium)';
       }
+    }
+  }
+
+  if (modalOverlay) {
+    if (show) {
+      modalOverlay.classList.add('active');
+    } else {
+      modalOverlay.classList.remove('active');
     }
   }
 }
