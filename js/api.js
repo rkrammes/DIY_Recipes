@@ -44,18 +44,51 @@ export async function loadRecipes() {
  */
 export async function loadAllIngredients() {
   try {
+    // Try to fetch with ordering first
+    try {
+      console.log('Attempting to fetch ingredients with ordering');
+      const { data, error } = await supabaseClient
+        .from('ingredients')
+        .select('*')
+        .order('name', { ascending: true })
+        .limit(1000);
+      
+      if (!error) {
+        console.log('Fetched ingredients with ordering:', data);
+        console.log(`loadAllIngredients: Fetched ${data?.length || 0} ingredients with ordering. First few:`,
+          data?.slice(0, 5).map(ing => ({ id: ing.id, name: ing.name })));
+        
+        // Sort the data manually just to be sure
+        const sortedData = [...(data || [])].sort((a, b) =>
+          (a.name || '').localeCompare(b.name || ''));
+        
+        return sortedData;
+      }
+    } catch (orderError) {
+      console.warn('Error using order method, falling back to basic select:', orderError);
+      // Fall through to basic select
+    }
+    
+    // Fallback: basic select without ordering
+    console.log('Falling back to basic select without ordering');
     const { data, error } = await supabaseClient
       .from('ingredients')
-      .select('*')
-      .order('name', { ascending: true })
-      .limit(1000); // Explicitly set limit to fetch all ingredients
+      .select('*');
+    
     if (error) {
       console.error('Supabase error loading ingredients:', error);
       throw new Error(`Failed to load ingredients: ${error.message}`);
     }
-    console.log('Fetched ingredients:', data); // Log fetched data
-    console.log(`loadAllIngredients: Fetched ${data?.length || 0} ingredients. First few:`, data?.slice(0, 5).map(ing => ({ id: ing.id, name: ing.name }))); // Added detailed log
-    return data || [];
+    
+    console.log('Fetched ingredients without ordering:', data);
+    console.log(`loadAllIngredients: Fetched ${data?.length || 0} ingredients without ordering. First few:`,
+      data?.slice(0, 5).map(ing => ({ id: ing.id, name: ing.name })));
+    
+    // Sort the data manually since we couldn't use .order()
+    const sortedData = [...(data || [])].sort((a, b) =>
+      (a.name || '').localeCompare(b.name || ''));
+    
+    return sortedData;
   } catch (error) {
     console.error('Unexpected error in loadAllIngredients:', error);
     throw new Error(`Could not load ingredients. ${error.message}`);
