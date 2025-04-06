@@ -81,9 +81,23 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use(express.static(__dirname));
+
+// Set correct MIME types, especially for CSS files
+app.use(express.static(__dirname, {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css');
+    }
+  }
+}));
 app.use('/js', express.static(__dirname + '/js'));
 app.use('/public', express.static(__dirname + '/public'));
+
+// Explicitly handle style.css requests to ensure proper MIME type
+app.get('/style.css', (req, res) => {
+  res.setHeader('Content-Type', 'text/css');
+  res.sendFile(__dirname + '/style.css');
+});
 
 const PORT = process.env.PORT || 3001; // Define PORT variable
 
