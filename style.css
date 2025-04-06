@@ -172,14 +172,14 @@ aside.glass-panel {
 .btn {
   display: inline-block;
   padding: 10px 15px; /* Adjusted padding for potentially wrapped text */
-  border: 1px solid transparent; /* Add border for structure */
+  border: 1px solid transparent; /* Transparent border initially */
   border-radius: 4px;
   cursor: pointer;
   font-size: 0.95em; /* Slightly smaller font */
   font-family: var(--font-family);
-  background-color: var(--accent-blue); /* Use accent color */
-  color: var(--primary); /* Dark text on light button */
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8)); /* Apply gradient */
+  color: var(--text); /* White text for contrast */
+  transition: border-color 0.3s ease, filter 0.3s ease, color 0.3s ease; /* Updated transition */
   font-weight: bold;
   text-align: center; /* Center text */
   white-space: normal; /* Allow text wrapping */
@@ -188,9 +188,9 @@ aside.glass-panel {
   line-height: 1.2; /* Adjust line height for wrapped text */
 }
 .btn:hover {
-  background-color: var(--accent-orange); /* Orange on hover */
-  border-color: var(--accent-orange);
-  color: var(--primary);
+  border-color: var(--accent-orange); /* Add orange border on hover */
+  filter: brightness(1.1); /* Slightly brighten gradient on hover */
+  color: var(--text); /* Keep text color white */
 }
 .btn:focus-visible {
   outline: 2px solid var(--accent-orange);
