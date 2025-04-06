@@ -43,11 +43,47 @@ const ActionRenderer = {
     groupContainer.className = `action-group action-group-${category}`;
 
     for (const action of actions) {
-      const button = action.render
-        ? action.render(document.createElement('div'), item)
-        : this.createActionButton(action, item);
-      button.classList.add('action-button', `action-${category}`);
-      groupContainer.appendChild(button);
+      if (action.subActions && Array.isArray(action.subActions) && action.subActions.length > 0) {
+        // Create expandable container
+        const expandable = document.createElement('div');
+        expandable.className = 'expandable-action';
+        expandable.setAttribute('aria-expanded', 'false');
+
+        // Toggle button
+        const toggle = document.createElement('div');
+        toggle.className = 'expand-toggle';
+        toggle.innerHTML = `
+          <span>${action.name}</span>
+          <span class="expand-icon">&#9654;</span>
+        `;
+        toggle.onclick = () => {
+          const expanded = expandable.getAttribute('aria-expanded') === 'true';
+          expandable.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+        };
+
+        // Sub-actions container
+        const subContainer = document.createElement('div');
+        subContainer.className = 'sub-actions';
+
+        // Render sub-actions recursively (flat buttons)
+        for (const subAction of action.subActions) {
+          const subButton = subAction.render
+            ? subAction.render(document.createElement('div'), item)
+            : this.createActionButton(subAction, item);
+          subButton.classList.add('action-button', `action-${subAction.category || category}`);
+          subContainer.appendChild(subButton);
+        }
+
+        expandable.appendChild(toggle);
+        expandable.appendChild(subContainer);
+        groupContainer.appendChild(expandable);
+      } else {
+        const button = action.render
+          ? action.render(document.createElement('div'), item)
+          : this.createActionButton(action, item);
+        button.classList.add('action-button', `action-${category}`);
+        groupContainer.appendChild(button);
+      }
     }
 
     container.appendChild(groupContainer);

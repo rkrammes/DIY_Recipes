@@ -212,6 +212,122 @@ aside.glass-panel {
 }
 /* Add specific styles for different button types if needed later */
 
+/* ===================== */
+/* Phase 4 - Action Styling */
+/* ===================== */
+
+/* Base action button */
+.action-button {
+  padding: 10px 15px;
+  font-family: var(--font-family);
+  font-weight: bold;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  white-space: normal;
+  word-wrap: break-word;
+  display: inline-block;
+  margin: 4px;
+}
+
+/* Primary action */
+.primary-action {
+  background: var(--accent-blue-dark);
+  color: #fff;
+  border-color: var(--accent-blue-dark);
+}
+.primary-action:hover {
+  filter: brightness(1.1);
+}
+
+/* Secondary action */
+.secondary-action {
+  background: var(--secondary-bg-dark);
+  color: var(--accent-blue-dark);
+  border: 1px solid var(--accent-blue-dark);
+}
+.secondary-action:hover {
+  background: var(--accent-blue-dark);
+  color: #fff;
+}
+
+/* Utility action */
+.utility-action {
+  background: transparent;
+  color: var(--muted-text-dark);
+  border: 1px dashed var(--muted-text-dark);
+}
+.utility-action:hover {
+  background: var(--panel-bg-dark);
+  color: #fff;
+}
+
+/* Action group container */
+.action-group {
+  margin-bottom: var(--spacing-medium);
+  padding: var(--spacing-small);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--panel-border-dark);
+  background-color: var(--panel-bg-dark);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-small);
+}
+
+/* Expandable action container */
+.expandable-action {
+  width: 100%;
+}
+
+.expand-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--secondary-bg-dark);
+  color: var(--text-dark);
+  padding: 8px 12px;
+  font-weight: bold;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border: 1px solid var(--panel-border-dark);
+  margin-bottom: 4px;
+}
+
+.expand-toggle:hover {
+  background-color: var(--panel-bg-dark);
+}
+
+.expand-icon {
+  transition: transform 0.3s ease;
+}
+
+.expandable-action[aria-expanded="true"] .expand-icon {
+  transform: rotate(90deg);
+}
+
+.sub-actions {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+  padding: 0 8px;
+}
+
+.expandable-action[aria-expanded="true"] .sub-actions {
+  max-height: 500px;
+  opacity: 1;
+  padding: 8px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .action-group {
+    flex-direction: column;
+  }
+}
+
 /* Logo Text Gradient */
 #logoText {
   background: var(--button-gradient-dark); /* Use theme variable for consistency */
@@ -1197,6 +1313,7 @@ body.light .remove-recipe-btn:hover {
 .left-column h4 {
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
+}
 
 /* Light theme: keep orange text */
 body.light .left-column *,
