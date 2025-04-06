@@ -53,9 +53,11 @@ export async function loadAllIngredients() {
     }
   );
 
-  const sortedData = [...(ingredients || [])].sort((a, b) =>
-    (a.name || '').localeCompare(b.name || '')
-  );
+  const sortedData = [...(ingredients || [])]
+    .filter(item => item && typeof item === 'object') // Filter out null/undefined values
+    .sort((a, b) =>
+      ((a && a.name) || '').localeCompare((b && b.name) || '')
+    );
 
   console.log('Sorted ingredients:', sortedData);
 
@@ -172,62 +174,14 @@ export async function updateRecipeIngredients(recipeId, ingredients) {
   }
   
   try {
-    // Step 1: Delete existing ingredients for this recipe
-    console.log(`Step 1: Deleting existing ingredients for recipe ${recipeId}`);
-    const { error: deleteError } = await supabaseClient
-      .from('recipeingredients')
-      .delete()
-      .eq('recipe_id', recipeId);
-
-    if (deleteError) {
-      ErrorHandler.handleApiError(deleteError, 'Failed to update recipe ingredients.');
-      throw new Error(`Failed to delete old ingredients: ${deleteError.message}`);
+    // Use the centralized ApiClient instead of direct supabaseClient access
+    const { data, error } = await ApiClient.recipeIngredients.update(recipeId, ingredients);
+    
+    if (error) {
+      throw error;
     }
-    console.log(`Successfully deleted old ingredients for recipe ${recipeId}`);
-
-    // Step 2: Insert new ingredients if there are any
-    if (ingredients && ingredients.length > 0) {
-      console.log(`Step 2: Preparing to insert ${ingredients.length} ingredients for recipe ${recipeId}`);
-      
-      // Validate each ingredient has required fields
-      const validIngredients = ingredients.filter(ing => {
-        if (!ing.id) {
-          console.error('Missing ingredient_id for ingredient:', ing);
-          return false;
-        }
-        return true;
-      });
-      
-      console.log(`${validIngredients.length} of ${ingredients.length} ingredients are valid for insertion`);
-      
-      const ingredientsToInsert = validIngredients.map(ing => {
-        const mappedIngredient = {
-          recipe_id: recipeId,
-          ingredient_id: ing.id, // The 'id' from the UI data is the ingredient_id
-          quantity: ing.quantity,
-          unit: ing.unit,
-          notes: ing.notes
-        };
-        console.log(`Mapped ingredient for insertion:`, mappedIngredient);
-        return mappedIngredient;
-      });
-
-      console.log(`Inserting new ingredients for recipe ${recipeId}:`, JSON.stringify(ingredientsToInsert, null, 2));
-      const { data: insertData, error: insertError } = await supabaseClient
-        .from('recipeingredients')
-        .insert(ingredientsToInsert)
-        .select();
-
-      if (insertError) {
-        ErrorHandler.handleApiError(insertError, 'Failed to update recipe ingredients.');
-        throw new Error(`Failed to insert new ingredients: ${insertError.message}`);
-      }
-      console.log(`Successfully inserted ${ingredientsToInsert.length} new ingredients for recipe ${recipeId}`);
-      console.log(`Insert response data:`, insertData);
-    } else {
-      console.log(`No new ingredients to insert for recipe ${recipeId}.`);
-    }
-
+    
+    console.log(`Successfully updated ingredients for recipe ${recipeId}`);
     return true; // Indicate success
   } catch (error) {
     ErrorHandler.logError(error, { component: 'updateRecipeIngredients', recipeId });

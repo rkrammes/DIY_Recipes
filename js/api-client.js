@@ -113,10 +113,50 @@ const ApiClient = {
       }
     }
   },
+users: {
+  // Placeholder for user-related API calls
+},
 
-  users: {
-    // Placeholder for user-related API calls
+recipeIngredients: {
+  async update(recipeId, ingredients) {
+    try {
+      // Step 1: Delete existing ingredients
+      const { error: deleteError } = await supabaseClient
+        .from('recipeingredients')
+        .delete()
+        .eq('recipe_id', recipeId);
+        
+      if (deleteError) throw deleteError;
+      
+      // Step 2: If there are ingredients to add, insert them
+      if (ingredients && ingredients.length > 0) {
+        const ingredientsToInsert = ingredients
+          .filter(ing => ing.id) // Validate each ingredient has required ID
+          .map(ing => ({
+            recipe_id: recipeId,
+            ingredient_id: ing.id,
+            quantity: ing.quantity,
+            unit: ing.unit,
+            notes: ing.notes
+          }));
+          
+        if (ingredientsToInsert.length > 0) {
+          const { data: insertData, error: insertError } = await supabaseClient
+            .from('recipeingredients')
+            .insert(ingredientsToInsert)
+            .select();
+            
+          if (insertError) throw insertError;
+        }
+      }
+      
+      return { data: true, error: null };
+    } catch (error) {
+      ErrorHandler.handleApiError(error, `Failed to update ingredients for recipe ${recipeId}.`);
+      return { data: null, error };
+    }
   }
+}
 };
 
 export default ApiClient;

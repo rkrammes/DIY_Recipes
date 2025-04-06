@@ -1,7 +1,9 @@
 // Set up JSDOM environment properly
-window.showNotification = jest.fn();
-window.alert = jest.fn();
-window.confirm = jest.fn(() => true); // Default to confirming dialogs
+if (typeof window !== 'undefined') {
+  window.showNotification = jest.fn();
+  window.alert = jest.fn();
+  window.confirm = jest.fn(() => true); // Default to confirming dialogs
+}
 
 // Helper function to create a collapsible section for testing
 global.createTestCollapsible = (title, contentHtml, idSuffix, colorType = 'neutral') => {
