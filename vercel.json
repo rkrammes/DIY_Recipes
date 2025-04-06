@@ -24,6 +24,10 @@
       "destination": "/favicon.ico"
     },
     {
+      "source": "/style.css",
+      "destination": "/style.css"
+    },
+    {
       "source": "/(.*)",
       "destination": "/server.js"
     }
