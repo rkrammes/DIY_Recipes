@@ -1467,156 +1467,54 @@ body.light .left-column i {
 /* END PHASE 1 comment block */
 
 /* Settings Panel Styles */
-.settings-panel {
-  position: absolute;
-  top: calc(100% + 8px); /* offset panel slightly below button */
-  right: 0;
-  width: 320px; /* slightly wider for better content fit */
-  background-color: #2a2a2a;
-  border: 1px solid var(--panel-border-dark); /* subtle consistent border */
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-elevation-medium);
-  z-index: 99999;
-  overflow: hidden;
-  transition: max-height 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
-  max-height: 0;
-  opacity: 0;
-  transform: scaleY(0);
-  transform-origin: top;
-}
-
-.settings-panel[aria-expanded="true"] {
-  max-height: 1000px; /* large enough for content */
-  overflow: visible;
-  opacity: 1;
-  background-color: #2a2a2a;
-  z-index: 99999;
-  transform: scaleY(1);
-}
-
-.settings-panel .collapsible-content {
-  padding: var(--spacing-medium);
-  overflow: visible;
-}
-
-.settings-section {
-  margin-bottom: var(--spacing-medium);
-  padding-bottom: var(--spacing-small);
-  border-bottom: 1px solid var(--panel-border-dark);
-}
-
-.settings-section:last-child {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: none;
-}
-
-.settings-section h3 {
-  font-size: 1rem;
-  margin-top: 0;
-  margin-bottom: var(--spacing-small);
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.settings-section h3:hover {
-  color: var(--accent-orange-dark);
-}
-
-.toggle-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#authControls {
-  margin-bottom: var(--spacing-small);
-}
-
-#magicLinkForm {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-small);
-}
-
-#statusMessages {
-  font-size: 0.8em;
-  margin-top: var(--spacing-small);
-  min-height: 1.2em;
-}
-
-#loggedInEmail {
-  font-weight: bold;
-  margin-right: var(--spacing-small);
-}
-
-.settings-icon {
-  margin-left: var(--spacing-small);
-}
-
-/* Auth status indicator */
-.auth-status-indicator {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  margin-left: 6px;
-}
-
-/* Z-index fix to ensure settings panel overlays right column buttons */
-.settings-panel,
-.settings-panel[aria-expanded="true"] {
-  z-index: 999999 !important;
-}
-
-#right-column-actions .collapsible-container {
-  z-index: 1000;
-  position: relative;
-}
-/* Modal overlay to dim background and enforce stacking */
-.modal-overlay {
+/* Portal container */
+#settings-portal {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0); /* transparent overlay, adjust if dimming desired */
+  width: 100%;
+  height: 0; /* No height by default */
+  pointer-events: none; /* Allow clicks to pass through when inactive */
+  z-index: 999999 !important;
+}
+
+/* Settings panel inside portal */
+#settings-portal .settings-panel {
+  position: absolute;
+  top: 60px; /* Adjust based on header height */
+  right: 20px;
+  pointer-events: auto; /* Re-enable click events */
+  width: 280px;
+  background-color: #2a2a2a;
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-elevation-medium);
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Active state */
+#settings-portal .settings-panel.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Optional overlay */
+#settings-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
   z-index: 999998 !important;
-  display: none;
 }
 
-/* Show overlay when active */
-.modal-overlay.active {
-  display: block;
+#settings-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
 }
-
-/* Settings panel as fixed modal */
-.settings-panel {
-  position: fixed !important;
-  top: 60px !important;  /* adjust as needed */
-  right: 20px !important; /* adjust as needed */
-  z-index: 999999 !important;
-}
-
-/* Force panel visible state even higher z-index */
-.settings-panel[aria-expanded="true"] {
-  z-index: 999999 !important;
-}
-
-/* Lower problematic buttons when modal is active */
-.modal-overlay.active ~ .page-wrapper .btn,
-.modal-overlay.active ~ .page-wrapper .primary-action,
-.modal-overlay.active ~ .page-wrapper .secondary-action,
-.modal-overlay.active ~ .page-wrapper .utility-action,
-.modal-overlay.active ~ .page-wrapper .action-button,
-.modal-overlay.active ~ .page-wrapper .collapsible-header {
-  z-index: 1 !important;
-  position: relative !important;
-}
-
-/* Optionally dim the overlay if desired */
-/*
-.modal-overlay {
-  background: rgba(0,0,0,0.3);
-}
-*/

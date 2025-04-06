@@ -8,25 +8,79 @@ import { showNotification } from './ui-utils.js';
 export function initSettingsUI() {
   const btnSettings = document.getElementById('btnSettings');
   const settingsPanel = document.getElementById('settingsPanel');
+  const settingsPortal = document.getElementById('settings-portal');
+  
+  // Create overlay element
+  const overlay = document.createElement('div');
+  overlay.id = 'settings-overlay';
+  document.body.appendChild(overlay);
+  
+  // Move settings panel to portal
+  if (settingsPanel && settingsPortal) {
+    const panelClone = settingsPanel.cloneNode(true);
+    
+    if (settingsPanel.parentNode) {
+      settingsPanel.parentNode.removeChild(settingsPanel);
+    }
+    
+    settingsPortal.appendChild(panelClone);
+    
+    setupPanelEventListeners(panelClone);
+  }
   
   // Toggle settings panel visibility
-  if (btnSettings && settingsPanel) {
+  if (btnSettings && settingsPortal) {
     btnSettings.addEventListener('click', (e) => {
       e.stopPropagation();
-      const isExpanded = settingsPanel.getAttribute('aria-expanded') === 'true';
-      toggleSettingsPanel(!isExpanded);
+      const panel = settingsPortal.querySelector('.settings-panel');
+      if (panel) {
+        const isActive = panel.classList.contains('active');
+        toggleSettingsPanel(!isActive);
+      }
+    });
+    
+    // Close panel when clicking overlay
+    overlay.addEventListener('click', () => {
+      toggleSettingsPanel(false);
     });
     
     // Close panel when clicking outside
     document.addEventListener('click', (e) => {
-      if (!settingsPanel.contains(e.target) && e.target !== btnSettings) {
+      const panel = settingsPortal.querySelector('.settings-panel');
+      if (panel && !panel.contains(e.target) && e.target !== btnSettings) {
         toggleSettingsPanel(false);
       }
     });
   }
   
-  // Update settings UI to match current state
   updateSettingsUI();
+}
+
+/**
+ * Set up event listeners for the cloned panel elements
+ */
+function setupPanelEventListeners(panel) {
+  const btnSendMagicLink = panel.querySelector('#btnSendMagicLink');
+  const magicLinkEmail = panel.querySelector('#magicLinkEmail');
+  const btnLogOut = panel.querySelector('#btnLogOut');
+  
+  if (btnSendMagicLink && magicLinkEmail) {
+    btnSendMagicLink.addEventListener('click', handleMagicLinkRequest);
+  }
+  
+  if (btnLogOut) {
+    btnLogOut.addEventListener('click', handleLogout);
+  }
+  
+  const btnEditModeToggle = panel.querySelector('#btnEditModeToggle');
+  if (btnEditModeToggle) {
+    btnEditModeToggle.addEventListener('click', handleEditModeToggle);
+  }
+  
+  const btnThemeToggle = panel.querySelector('#btnThemeToggle');
+  if (btnThemeToggle) {
+    btnThemeToggle.addEventListener('click', handleThemeToggle);
+  }
 }
 
 /**
@@ -34,36 +88,36 @@ export function initSettingsUI() {
  * @param {boolean} show - Whether to show or hide the panel
  */
 export function toggleSettingsPanel(show) {
-  const btnSettings = document.getElementById('btnSettings');
-  const settingsPanel = document.getElementById('settingsPanel');
-  const modalOverlay = document.getElementById('modalOverlay');
+  const settingsPortal = document.getElementById('settings-portal');
+  const overlay = document.getElementById('settings-overlay');
+  const panel = settingsPortal ? settingsPortal.querySelector('.settings-panel') : null;
   
-  if (btnSettings && settingsPanel) {
-    settingsPanel.setAttribute('aria-expanded', show.toString());
-    btnSettings.setAttribute('aria-expanded', show.toString());
-    
-    // Update content visibility
-    const content = settingsPanel.querySelector('.collapsible-content');
-    if (content) {
-      if (show) {
-        content.style.maxHeight = content.scrollHeight + "px";
-        content.style.opacity = 1;
-        content.style.padding = 'var(--spacing-medium)';
-      } else {
-        content.style.maxHeight = '0';
-        content.style.opacity = 0;
-        content.style.padding = '0 var(--spacing-medium)';
-      }
-    }
-  }
-
-  if (modalOverlay) {
+  if (panel && overlay) {
     if (show) {
-      modalOverlay.classList.add('active');
+      panel.classList.add('active');
+      overlay.classList.add('active');
     } else {
-      modalOverlay.classList.remove('active');
+      panel.classList.remove('active');
+      overlay.classList.remove('active');
     }
   }
+}
+
+// Event handler implementations
+function handleMagicLinkRequest() {
+  // Implementation for sending magic link
+}
+
+function handleLogout() {
+  // Implementation for logout
+}
+
+function handleEditModeToggle() {
+  // Implementation for edit mode toggle
+}
+
+function handleThemeToggle() {
+  // Implementation for theme toggle
 }
 
 /**
