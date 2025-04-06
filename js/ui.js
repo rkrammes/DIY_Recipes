@@ -343,19 +343,41 @@ export async function showRecipeDetails(recipe) {
     return;
   }
 
-  // Dynamically create middle and right columns if missing
+:start_line:346
+:end_line:359
+-------
+  // Create a flex container to hold the three columns
+  let container = document.getElementById('recipeContainer');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'recipeContainer';
+    container.style.display = 'flex';
+    container.style.width = '100%';
+    container.style.gap = '1rem';
+    // Insert the container before the current 'details' element
+    details.parentNode.insertBefore(container, details);
+  }
+  // Ensure the left column (details) is a child of the container
+  if (details.parentNode !== container) {
+    container.appendChild(details);
+  }
+  // Create or reparent the middle column for ingredients
   let ingredientsColumn = document.getElementById('ingredients-column');
   if (!ingredientsColumn) {
     ingredientsColumn = document.createElement('section');
     ingredientsColumn.id = 'ingredients-column';
-    details.parentNode.insertBefore(ingredientsColumn, details.nextSibling);
+    container.appendChild(ingredientsColumn);
+  } else if (ingredientsColumn.parentNode !== container) {
+    container.appendChild(ingredientsColumn);
   }
-
+  // Create or reparent the right column for version history, iteration management, and iteration editing
   let currentRecipeColumn = document.getElementById('current-recipe-column');
   if (!currentRecipeColumn) {
     currentRecipeColumn = document.createElement('section');
     currentRecipeColumn.id = 'current-recipe-column';
-    ingredientsColumn.parentNode.insertBefore(currentRecipeColumn, ingredientsColumn.nextSibling);
+    container.appendChild(currentRecipeColumn);
+  } else if (currentRecipeColumn.parentNode !== container) {
+    container.appendChild(currentRecipeColumn);
   }
 
   // Clear previous content
