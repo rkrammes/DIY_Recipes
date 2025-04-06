@@ -1,115 +1,97 @@
-# Recipe Display Architecture Fix
+# Authentication and Settings System Architecture
 
-## Issue Identified
+## Overview
 
-When a recipe is selected from the left column, the information displayed in the middle column is messy with "+" signs and the actual information isn't populating correctly. This is occurring in the recipe ingredients display section.
+This document outlines the architecture for implementing an expandable authentication and settings section in the DIY Recipes application. The section will contain login functionality, edit mode selection, and theme selection, replacing the current standalone theme selector.
 
-## Root Cause Analysis
+## Current Architecture
 
-The issue is caused by diff markers ("+") that were accidentally left in the index.html file. These markers are typically used when showing code changes in version control systems, but they should never be part of the actual HTML content.
+Currently, the application has:
 
-The "+" signs appear at the beginning of lines 113-126 in the index.html file, which is exactly the section that renders the recipe ingredients in the middle column. These markers are being interpreted as actual content and displayed in the UI.
+1. A theme toggle button in the header-right section
+2. An edit mode toggle button in the header-right section 
+3. A magic link form for authentication (hidden by default)
+4. Authentication using Supabase with magic links
 
-## Proposed Solution
+## Proposed Architecture
 
-### 1. Remove Diff Markers from HTML
+### UI Components
 
-The primary solution is to remove all the "+" signs from the HTML file while preserving the actual HTML content:
+#### 1. Expandable Settings Section
 
-```html
-<!-- Before (with diff markers) -->
-+               <!-- Recipe Ingredients (NEW - Expanded by Default) -->
-+               <div class="collapsible-container" aria-expanded="true" data-color="blue"> <!-- Expanded -->
+Create a collapsible container in the header-right section that replaces the current theme selector position:
 
-<!-- After (without diff markers) -->
-                <!-- Recipe Ingredients (NEW - Expanded by Default) -->
-                <div class="collapsible-container" aria-expanded="true" data-color="blue"> <!-- Expanded -->
+```
+Header Right
+└── Settings Button (replaces current theme button)
+    └── Collapsible Settings Container
+        ├── Authentication Section
+        │   ├── Email Input (for magic link)
+        │   ├── Send Link Button
+        │   └── Login/Logout Button
+        ├── Edit Mode Toggle
+        └── Theme Toggle
 ```
 
-### 2. Update index.html
+#### 2. Authentication Status Indicator
 
-Update the index.html file to remove all the "+" signs from lines 113-126:
+Add a visual indicator showing the current authentication status:
 
-```html
-                <!-- Recipe Ingredients (NEW - Expanded by Default) -->
-                <div class="collapsible-container" aria-expanded="true" data-color="blue"> <!-- Expanded -->
-                  <button type="button" class="collapsible-header" aria-controls="recipe-ingredients-content" aria-expanded="true"> <!-- Expanded -->
-                    <span>Recipe Ingredients</span>
-                    <span class="collapsible-icon" style="transform: rotate(90deg);">&#9654;</span> <!-- Rotated icon -->
-                  </button>
-                  <div class="collapsible-content" id="recipe-ingredients-content" style="max-height: 1000px; padding: 8px 16px; opacity: 1;"> <!-- Visible -->
-                    <div id="recipeIngredientListDisplay">
-                      <p>Select a recipe to view its ingredients.</p>
-                      <!-- Recipe ingredients will be loaded here by JS -->
-                    </div>
-                  </div>
-                </div>
+- Logged out: Settings button appears neutral
+- Logged in: Settings button includes a visual indicator (icon or color)
+
+### JavaScript Architecture
+
+#### 1. Authentication Module Enhancement
+
+Extend the existing auth.js to include:
+
+- Session persistence
+- Clear authentication state management
+- Proper error handling
+
+#### 2. Settings UI Module
+
+Create a new settings-ui.js module to handle:
+
+- Settings panel expansion/collapse
+- Settings state persistence (remember user preferences)
+- Unified event handling for all settings components
+
+#### 3. Authentication State Integration
+
+Ensure authentication state is properly integrated with:
+
+- Edit mode functionality (only available when logged in)
+- Recipe editing capabilities
+- User-specific content visibility
+
+### Data Flow
+
 ```
-
-### 3. Implement Code Review Process
-
-To prevent similar issues in the future:
-
-1. Implement a code review process that checks for diff markers or other development artifacts before merging code
-2. Add a pre-commit hook that scans HTML files for unexpected characters like diff markers
-3. Implement automated testing that validates the HTML structure
+User Interaction → Settings UI → Authentication Module → Supabase Client
+                                                      ↓
+App Features ← Permission Management ← Authentication State
+```
 
 ## Implementation Plan
 
-### HTML Changes Required
+1. Create the collapsible settings container in HTML structure
+2. Implement settings-ui.js for handling the settings panel behavior
+3. Modify auth.js and auth-ui.js to work with the new settings panel
+4. Update UI state management to reflect authentication status across the application
+5. Implement proper permission checks throughout the application based on auth state
 
-Since Architect mode is restricted to editing only Markdown files, the actual HTML changes will need to be implemented by switching to Code mode. Here are the specific changes needed in index.html:
+## Security Considerations
 
-1. Remove all "+" signs from lines 113-126 while preserving the HTML content:
+1. Ensure edit mode is strictly tied to authentication status
+2. Implement proper client-side validation for all inputs
+3. Add appropriate error handling for authentication failures
+4. Consider session timeout handling
 
-```html
-<!-- Lines 113-126 in index.html - BEFORE -->
-+               <!-- Recipe Ingredients (NEW - Expanded by Default) -->
-+               <div class="collapsible-container" aria-expanded="true" data-color="blue"> <!-- Expanded -->
-+                 <button type="button" class="collapsible-header" aria-controls="recipe-ingredients-content" aria-expanded="true"> <!-- Expanded -->
-+                   <span>Recipe Ingredients</span>
-+                   <span class="collapsible-icon" style="transform: rotate(90deg);">&#9654;</span> <!-- Rotated icon -->
-+                 </button>
-+                 <div class="collapsible-content" id="recipe-ingredients-content" style="max-height: 1000px; padding: 8px 16px; opacity: 1;"> <!-- Visible -->
-+                   <div id="recipeIngredientListDisplay">
-+                     <p>Select a recipe to view its ingredients.</p>
-+                     <!-- Recipe ingredients will be loaded here by JS -->
-+                   </div>
-+                 </div>
-+               </div>
-+
+## User Experience Improvements
 
-<!-- Lines 113-126 in index.html - AFTER -->
-                <!-- Recipe Ingredients (NEW - Expanded by Default) -->
-                <div class="collapsible-container" aria-expanded="true" data-color="blue"> <!-- Expanded -->
-                  <button type="button" class="collapsible-header" aria-controls="recipe-ingredients-content" aria-expanded="true"> <!-- Expanded -->
-                    <span>Recipe Ingredients</span>
-                    <span class="collapsible-icon" style="transform: rotate(90deg);">&#9654;</span> <!-- Rotated icon -->
-                  </button>
-                  <div class="collapsible-content" id="recipe-ingredients-content" style="max-height: 1000px; padding: 8px 16px; opacity: 1;"> <!-- Visible -->
-                    <div id="recipeIngredientListDisplay">
-                      <p>Select a recipe to view its ingredients.</p>
-                      <!-- Recipe ingredients will be loaded here by JS -->
-                    </div>
-                  </div>
-                </div>
-```
-
-### Mode Switch Recommendation
-
-To implement this fix, I recommend:
-
-1. Switch to Code mode using:
-   ```
-   /switch code
-   ```
-
-2. In Code mode, apply the changes to index.html to remove all the "+" signs from lines 113-126
-
-3. Test the application to verify that the recipe ingredients display correctly without any "+" signs
-
-## Conclusion
-
-The issue with the recipe display showing "+" signs is caused by diff markers accidentally left in the HTML file during development. These markers are being interpreted as actual content and displayed in the UI. By removing these markers from the index.html file, the recipe information will display correctly without any "+" signs.
-
-This is a simple fix that requires only editing the HTML file to remove the unwanted characters while preserving the actual HTML structure. No changes to the JavaScript code or CSS are needed for this specific issue.
+1. Provide clear visual feedback on authentication status
+2. Ensure smooth transitions when expanding/collapsing the settings panel
+3. Maintain consistent styling with the rest of the application
+4. Add helpful tooltips and instructions for authentication process
