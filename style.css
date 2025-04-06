@@ -1468,37 +1468,41 @@ body.light .left-column i {
 
 /* Settings Panel Styles */
 .settings-panel {
-  position: relative;
-  top: 100%;
+  position: absolute;
+  top: calc(100% + 8px); /* offset panel slightly below button */
   right: 0;
-  width: 280px;
+  width: 320px; /* slightly wider for better content fit */
   background-color: #2a2a2a;
-  border: 3px dashed red;
+  border: 1px solid var(--panel-border-dark); /* subtle consistent border */
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-elevation-medium);
   z-index: 99999;
   overflow: hidden;
-  transition: max-height 0.3s ease, opacity 0.3s ease;
+  transition: max-height 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
   max-height: 0;
   opacity: 0;
+  transform: scaleY(0);
+  transform-origin: top;
 }
 
 .settings-panel[aria-expanded="true"] {
-  max-height: none;
+  max-height: 1000px; /* large enough for content */
   overflow: visible;
   opacity: 1;
   background-color: #2a2a2a;
   z-index: 99999;
+  transform: scaleY(1);
 }
 
 .settings-panel .collapsible-content {
   padding: var(--spacing-medium);
+  overflow: visible;
 }
 
 .settings-section {
   margin-bottom: var(--spacing-medium);
   padding-bottom: var(--spacing-small);
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--panel-border-dark);
 }
 
 .settings-section:last-child {
@@ -1511,6 +1515,12 @@ body.light .left-column i {
   font-size: 1rem;
   margin-top: 0;
   margin-bottom: var(--spacing-small);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.settings-section h3:hover {
+  color: var(--accent-orange-dark);
 }
 
 .toggle-container {
