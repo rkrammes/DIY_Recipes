@@ -1290,6 +1290,8 @@ body.light .left-column i {
 
 /* ===== Phase 3: Advanced Analysis Panels ===== */
 
+/* PHASE 1: Commented out right column content styles
+
 .right-column .action-panel {
   background-color: var(--panel-bg-dark);
   border: 1px solid var(--accent-orange-dark);
@@ -1341,4 +1343,5 @@ body.light .left-column i {
     width: 100%;
   }
 }
-}
+
+/* END PHASE 1 comment block */

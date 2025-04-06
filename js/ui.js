@@ -372,7 +372,7 @@ export async function showRecipeDetails(recipeId) {
      showNotification(`Error loading recipe: ${error.message}`, 'error');
      // Hide all recipe views and show error message?
      document.getElementById('recipeDetailsView').style.display = 'none';
-     document.getElementById('recipeMetadataView').style.display = 'none';
+     // document.getElementById('recipeMetadataView').style.display = 'none';
      document.getElementById('noRecipeSelectedView').innerHTML = `<p>Error loading recipe ${recipeId}.</p>`;
      document.getElementById('noRecipeSelectedView').style.display = 'block';
      document.getElementById('noRecipeMetadataView').style.display = 'block';
@@ -388,19 +388,19 @@ export async function showRecipeDetails(recipeId) {
 
  // Get references to the main view containers
  const recipeDetailsView = document.getElementById('recipeDetailsView');
- const recipeMetadataView = document.getElementById('recipeMetadataView');
+ // const recipeMetadataView = document.getElementById('recipeMetadataView');
  const noRecipeSelectedView = document.getElementById('noRecipeSelectedView');
  const noRecipeMetadataView = document.getElementById('noRecipeMetadataView');
  const recipeHeaderSection = document.getElementById('recipeHeaderSection'); // The header above the columns
 
- if (!recipeDetailsView || !recipeMetadataView || !noRecipeSelectedView || !noRecipeMetadataView || !recipeHeaderSection) {
+ if (!recipeDetailsView || !noRecipeSelectedView || !noRecipeMetadataView || !recipeHeaderSection) {
    console.error('Missing essential layout elements for recipe display.');
    return;
  }
 
  // Show the recipe views and hide placeholders
  recipeDetailsView.style.display = 'block';
- recipeMetadataView.style.display = 'block';
+ // recipeMetadataView.style.display = 'block';
  noRecipeSelectedView.style.display = 'none';
  noRecipeMetadataView.style.display = 'none';
  recipeHeaderSection.style.display = 'flex'; // Show the recipe header
@@ -501,23 +501,23 @@ const recipeIngredientsDisplayEl = document.getElementById('recipeIngredientList
   }
  
  // --- 4. Populate Right Column (Metadata & Editing View) ---
- updateRecipeStats(recipe); // Update quick stats (already targets elements in right column)
+ // updateRecipeStats(recipe); // Disabled Phase 1
 
- // Render Advanced Analysis Panel
- const advPanel = document.getElementById('advancedAnalysisPanel');
- if (advPanel && recipe) {
-   renderAdvancedAnalysis(recipe, advPanel);
- }
+ // Render Advanced Analysis Panel disabled Phase 1
+ // const advPanel = document.getElementById('advancedAnalysisPanel');
+ // if (advPanel && recipe) {
+ //   renderAdvancedAnalysis(recipe, advPanel);
+ // }
 
- const versionHistoryEl = document.getElementById('recipeVersionHistory'); // Target right column element
- if (versionHistoryEl) {
-     if (recipe.version && recipe.version > 1) {
-         versionHistoryEl.innerHTML = `<p>Current version: v${recipe.version}</p>`;
-         // TODO: Fetch and display actual version history if needed
-     } else {
-         versionHistoryEl.innerHTML = '<p>This is the first version of this recipe.</p>';
-     }
- }
+ // const versionHistoryEl = document.getElementById('recipeVersionHistory');
+ // if (versionHistoryEl) {
+ //     if (recipe.version && recipe.version > 1) {
+ //         versionHistoryEl.innerHTML = `<p>Current version: v${recipe.version}</p>`;
+ //         // TODO: Fetch and display actual version history if needed
+ //     } else {
+ //         versionHistoryEl.innerHTML = '<p>This is the first version of this recipe.</p>';
+ //     }
+ // }
 
  // Populate the editable ingredients table
  renderRecipeIngredientsTable(recipe.ingredients || []);
@@ -833,7 +833,7 @@ export async function reloadData() {
     } else {
         // Ensure recipe views are hidden if no recipe is selected
         document.getElementById('recipeDetailsView').style.display = 'none';
-        document.getElementById('recipeMetadataView').style.display = 'none';
+        // document.getElementById('recipeMetadataView').style.display = 'none';
         document.getElementById('noRecipeSelectedView').style.display = 'block';
         document.getElementById('noRecipeMetadataView').style.display = 'block';
         document.getElementById('recipeHeaderSection').style.display = 'none';
@@ -1020,10 +1020,14 @@ export async function initUI() {
        if (!isLoggedIn) {
            currentRecipe = null;
            document.getElementById('recipeDetailsView').style.display = 'none';
-           document.getElementById('recipeMetadataView').style.display = 'none';
+           // document.getElementById('recipeMetadataView').style.display = 'none';
            document.getElementById('noRecipeSelectedView').style.display = 'block';
            document.getElementById('noRecipeMetadataView').style.display = 'block';
            document.getElementById('recipeHeaderSection').style.display = 'none';
+
+           // Clear right column actions
+           const rightColumn = document.getElementById('right-column');
+           ActionRenderer.render(rightColumn, null);
            // Clear selected state in recipe list
             const recipeList = document.getElementById('recipeList');
             if (recipeList) {
@@ -1237,6 +1241,10 @@ export async function initUI() {
 
                // Call showRecipeDetails with the ID
                await showRecipeDetails(recipeId);
+
+               // Update right column actions
+               const rightColumn = document.getElementById('right-column');
+               ActionRenderer.render(rightColumn, currentRecipe);
            }
        });
    }
@@ -1392,7 +1400,7 @@ export async function initUI() {
 
   // Initial UI state
   document.getElementById('recipeDetailsView').style.display = 'none';
-  document.getElementById('recipeMetadataView').style.display = 'none';
+  // document.getElementById('recipeMetadataView').style.display = 'none';
   document.getElementById('noRecipeSelectedView').style.display = 'block';
   document.getElementById('noRecipeMetadataView').style.display = 'block';
   document.getElementById('recipeHeaderSection').style.display = 'none';

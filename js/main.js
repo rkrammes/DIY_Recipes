@@ -1,4 +1,5 @@
 // main.js - Application Entry Point
+import ActionRegistry from './action-registry.js';
 
 // Import the single, correctly configured Supabase client instance
 import { supabaseClient } from './supabaseClient.js';
