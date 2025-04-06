@@ -1187,7 +1187,9 @@ body.light .remove-recipe-btn:hover {
   filter: brightness(1.2);
   background: none !important;
   border: none !important;
-/* --- Left Column: Categories, version numbers, titles in white for contrast --- */
+}
+  /* --- Left Column: Categories, version numbers, titles in white for contrast --- */
+}
 .left-column .section-title,
 .left-column .version,
 .left-column .version-number,
@@ -1196,7 +1198,6 @@ body.light .remove-recipe-btn:hover {
 .left-column h4 {
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
-}
 }
 
 /* Light theme: keep orange text */
@@ -1287,4 +1288,59 @@ body.light .left-column i {
   border-radius: 4px;
   font-size: 0.95em;
   line-height: 1.4;
+}
+
+/* ===== Phase 3: Advanced Analysis Panels ===== */
+
+.right-column .action-panel {
+  background-color: var(--panel-bg-dark);
+  border: 1px solid var(--accent-orange-dark);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-medium);
+  margin-bottom: var(--spacing-medium);
+  box-shadow: 0 2px 6px var(--shadow-dark);
+  transition: all 0.3s ease;
+}
+
+.right-column .action-panel h3 {
+  color: var(--accent-orange-dark);
+  margin-bottom: var(--spacing-small);
+}
+
+.right-column .action-panel p,
+.right-column .action-panel li {
+  color: var(--text-dark);
+  font-size: 0.95em;
+  line-height: 1.4;
+}
+
+.right-column .action-panel ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.right-column .action-panel ul li {
+  margin-bottom: 0.3em;
+  padding-left: 1em;
+  position: relative;
+}
+
+.right-column .action-panel ul li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--accent-orange-dark);
+}
+
+/* Responsive stacking */
+@media (max-width: 900px) {
+  .right-column {
+    order: 3;
+    width: 100%;
+  }
+  .right-column .action-panel {
+    width: 100%;
+  }
+}
 }
