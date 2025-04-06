@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1743921932861" clover="3.2.0">
-  <project timestamp="1743921932861" name="All files">
-    <metrics statements="1322" coveredstatements="182" conditionals="603" coveredconditionals="59" methods="210" coveredmethods="39" elements="2135" coveredelements="280" complexity="0" loc="1322" ncloc="1322" packages="2" files="15" classes="15"/>
+<coverage generated="1743923083246" clover="3.2.0">
+  <project timestamp="1743923083246" name="All files">
+    <metrics statements="1320" coveredstatements="182" conditionals="603" coveredconditionals="59" methods="210" coveredmethods="39" elements="2133" coveredelements="280" complexity="0" loc="1320" ncloc="1320" packages="2" files="15" classes="15"/>
     <package name="js">
-      <metrics statements="1186" coveredstatements="182" conditionals="603" coveredconditionals="59" methods="150" coveredmethods="39"/>
+      <metrics statements="1184" coveredstatements="182" conditionals="603" coveredconditionals="59" methods="150" coveredmethods="39"/>
       <file name="action-registry.js" path="/Users/ryankrammes/Documents/GitHub/DIY_Recipes/js/action-registry.js">
         <metrics statements="7" coveredstatements="7" conditionals="4" coveredconditionals="4" methods="3" coveredmethods="3"/>
         <line num="1" count="1" type="stmt"/>
@@ -427,7 +427,7 @@
         <line num="21" count="0" type="stmt"/>
       </file>
       <file name="ui.js" path="/Users/ryankrammes/Documents/GitHub/DIY_Recipes/js/ui.js">
-        <metrics statements="794" coveredstatements="0" conditionals="455" coveredconditionals="0" methods="64" coveredmethods="0"/>
+        <metrics statements="792" coveredstatements="0" conditionals="455" coveredconditionals="0" methods="64" coveredmethods="0"/>
         <line num="9" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
@@ -864,7 +864,6 @@
         <line num="830" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="835" count="0" type="stmt"/>
         <line num="837" count="0" type="stmt"/>
-        <line num="838" count="0" type="stmt"/>
         <line num="839" count="0" type="stmt"/>
         <line num="841" count="0" type="stmt"/>
         <line num="842" count="0" type="stmt"/>
@@ -1158,7 +1157,6 @@
         <line num="1397" count="0" type="stmt"/>
         <line num="1402" count="0" type="stmt"/>
         <line num="1404" count="0" type="stmt"/>
-        <line num="1405" count="0" type="stmt"/>
         <line num="1406" count="0" type="stmt"/>
         <line num="1409" count="0" type="stmt"/>
         <line num="1411" count="0" type="stmt"/>

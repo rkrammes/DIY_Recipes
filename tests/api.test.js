@@ -2,20 +2,46 @@ import { loadRecipes, loadAllIngredients, createNewRecipe, addGlobalIngredient, 
 import { supabaseClient } from '../js/supabaseClient.js';
 
 jest.mock('../js/supabaseClient.js', () => {
+  const mockResponse = { data: null, error: null };
+  const eqChain = () => ({
+    data: null,
+    error: null,
+  });
+
+  const mockFromReturn = {
+    select: jest.fn(() => Promise.resolve(mockResponse)),
+    insert: jest.fn(() => ({
+      select: jest.fn(() => Promise.resolve(mockResponse)),
+      data: null,
+      error: null,
+    })),
+    update: jest.fn(() => ({
+      eq: jest.fn(() => ({
+        data: null,
+        error: null,
+      })),
+      data: null,
+      error: null,
+    })),
+    delete: jest.fn(() => ({
+      eq: jest.fn(() => ({
+        data: null,
+        error: null,
+      })),
+      data: null,
+      error: null,
+    })),
+    eq: jest.fn(() => ({
+      data: null,
+      error: null,
+    })),
+    order: jest.fn(() => mockFromReturn),
+    limit: jest.fn(() => mockFromReturn),
+  };
+
   return {
     supabaseClient: {
-      from: jest.fn().mockReturnValue({
-        // More granular mocking needed for chained methods
-        select: jest.fn().mockReturnThis(), // Return `this` to allow chaining
-        insert: jest.fn().mockReturnThis(),
-        update: jest.fn().mockReturnThis(),
-        delete: jest.fn().mockReturnThis(),
-        eq: jest.fn().mockReturnThis(),
-        order: jest.fn().mockReturnThis(),
-        limit: jest.fn().mockReturnThis(),
-        // Mock the final promise resolution
-        then: jest.fn((resolve) => resolve({ data: [], error: null })), // Default success
-      }),
+      from: jest.fn(() => mockFromReturn),
     },
   };
 });
