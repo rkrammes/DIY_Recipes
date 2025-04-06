@@ -1114,4 +1114,8 @@ body.light .remove-recipe-btn:hover {
 #headerAuthContainer #magicLinkForm input,
 #headerAuthContainer #magicLinkForm button {
   vertical-align: middle; /* Align items vertically */
+/* Standardize left column collapsible header text */
+.left-column .collapsible-header span {
+  font-size: 1em;
+}
 }
