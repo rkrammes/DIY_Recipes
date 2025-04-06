@@ -282,7 +282,7 @@ export function renderRecipeIngredientsTable(ingredients) {
    console.log('renderRecipeIngredientsTable called with:', ingredients);
    const tableBody = document.querySelector('#iterationEditTable tbody');
    if (!tableBody) {
-       console.error('renderRecipeIngredientsTable: Could not find table body "#iterationEditTable tbody"');
+       console.warn('renderRecipeIngredientsTable: Could not find table body "#iterationEditTable tbody" - this is expected in the current UI version');
        return;
    }
 
@@ -375,7 +375,7 @@ export async function showRecipeDetails(recipeId) {
      // document.getElementById('recipeMetadataView').style.display = 'none';
      document.getElementById('noRecipeSelectedView').innerHTML = `<p>Error loading recipe ${recipeId}.</p>`;
      document.getElementById('noRecipeSelectedView').style.display = 'block';
-     document.getElementById('noRecipeMetadataView').style.display = 'block';
+     // document.getElementById('noRecipeMetadataView').style.display = 'block';
      document.getElementById('recipeHeaderSection').style.display = 'none';
      return;
  }
@@ -390,10 +390,10 @@ export async function showRecipeDetails(recipeId) {
  const recipeDetailsView = document.getElementById('recipeDetailsView');
  // const recipeMetadataView = document.getElementById('recipeMetadataView');
  const noRecipeSelectedView = document.getElementById('noRecipeSelectedView');
- const noRecipeMetadataView = document.getElementById('noRecipeMetadataView');
+ // const noRecipeMetadataView = document.getElementById('noRecipeMetadataView');
  const recipeHeaderSection = document.getElementById('recipeHeaderSection'); // The header above the columns
 
- if (!recipeDetailsView || !noRecipeSelectedView || !noRecipeMetadataView || !recipeHeaderSection) {
+ if (!recipeDetailsView || !noRecipeSelectedView || !recipeHeaderSection) {
    console.error('Missing essential layout elements for recipe display.');
    return;
  }
@@ -402,7 +402,7 @@ export async function showRecipeDetails(recipeId) {
  recipeDetailsView.style.display = 'block';
  // recipeMetadataView.style.display = 'block';
  noRecipeSelectedView.style.display = 'none';
- noRecipeMetadataView.style.display = 'none';
+ // noRecipeMetadataView.style.display = 'none';
  recipeHeaderSection.style.display = 'flex'; // Show the recipe header
 
  // Update Recipe Header (above columns)
@@ -434,7 +434,7 @@ export async function showRecipeDetails(recipeId) {
                  recipeDetailsView.style.display = 'none';
                  recipeMetadataView.style.display = 'none';
                  noRecipeSelectedView.style.display = 'block';
-                 noRecipeMetadataView.style.display = 'block';
+                 // noRecipeMetadataView.style.display = 'block';
                  recipeHeaderSection.style.display = 'none';
              } catch (err) {
                  console.error('Error removing recipe:', err);
@@ -518,9 +518,12 @@ const recipeIngredientsDisplayEl = document.getElementById('recipeIngredientList
  //         versionHistoryEl.innerHTML = '<p>This is the first version of this recipe.</p>';
  //     }
  // }
+// Populate the editable ingredients table if it exists
+// Note: This is part of the right column which may not be active in the current UI version
+if (document.querySelector('#iterationEditTable tbody')) {
+  renderRecipeIngredientsTable(recipe.ingredients || []);
+}
 
- // Populate the editable ingredients table
- renderRecipeIngredientsTable(recipe.ingredients || []);
 
  // --- 5. Update Edit Mode Visibility ---
  // Call setEditModeFields AFTER currentRecipe is set and the right column is populated
@@ -827,7 +830,9 @@ export async function reloadData() {
         console.log(`reloadData: Re-rendering details for current recipe ${currentRecipe.id}`);
         // We need the full recipe object again, potentially refetch or use cache carefully
         // For simplicity, let's just re-render the table with the cached ingredients
-        renderRecipeIngredientsTable(currentRecipe.ingredients || []);
+        if (document.querySelector('#iterationEditTable tbody')) {
+            renderRecipeIngredientsTable(currentRecipe.ingredients || []);
+        }
         // Optionally, fully call showRecipeDetails again if more complex updates are needed
         // await showRecipeDetails(currentRecipe.id);
     } else {
@@ -835,7 +840,7 @@ export async function reloadData() {
         document.getElementById('recipeDetailsView').style.display = 'none';
         // document.getElementById('recipeMetadataView').style.display = 'none';
         document.getElementById('noRecipeSelectedView').style.display = 'block';
-        document.getElementById('noRecipeMetadataView').style.display = 'block';
+        // document.getElementById('noRecipeMetadataView').style.display = 'block';
         document.getElementById('recipeHeaderSection').style.display = 'none';
     }
     console.log('Data reloaded successfully.');
@@ -1022,7 +1027,7 @@ export async function initUI() {
            document.getElementById('recipeDetailsView').style.display = 'none';
            // document.getElementById('recipeMetadataView').style.display = 'none';
            document.getElementById('noRecipeSelectedView').style.display = 'block';
-           document.getElementById('noRecipeMetadataView').style.display = 'block';
+           // document.getElementById('noRecipeMetadataView').style.display = 'block';
            document.getElementById('recipeHeaderSection').style.display = 'none';
 
            // Clear right column actions
@@ -1402,7 +1407,7 @@ export async function initUI() {
   document.getElementById('recipeDetailsView').style.display = 'none';
   // document.getElementById('recipeMetadataView').style.display = 'none';
   document.getElementById('noRecipeSelectedView').style.display = 'block';
-  document.getElementById('noRecipeMetadataView').style.display = 'block';
+  // document.getElementById('noRecipeMetadataView').style.display = 'block';
   document.getElementById('recipeHeaderSection').style.display = 'none';
 
 

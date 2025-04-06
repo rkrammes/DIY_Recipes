@@ -1,3 +1,5 @@
+import ActionRegistry from './action-registry.js';
+
 const ActionRenderer = {
   render(container, item) {
     // Clear existing actions

@@ -1,4 +1,4 @@
-import { ActionRegistry } from '../action-registry.js';
+import ActionRegistry from '../action-registry.js';
 
 const editRecipeDetailsAction = {
   id: 'edit-recipe-details',
