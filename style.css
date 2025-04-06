@@ -1,25 +1,56 @@
 /* style.css */
 
+/* --- Theme Variables --- */
 :root {
-  --primary: #1A1A1A;
-  --secondary: #2C2C2C;
-  --accent-blue: #3498DB;
-  --accent-orange: #FF9900;
-  --text: #FFFFFF;
-  --muted-text: #BDBDBD;
+  /* Dark Theme (Default) */
+  --primary-bg-dark: #1A1A1A;
+  --secondary-bg-dark: #2C2C2C;
+  --panel-bg-dark: rgba(44, 44, 44, 0.6); /* Slightly less transparent */
+  --panel-border-dark: rgba(255, 255, 255, 0.15);
+  --text-dark: #FFFFFF;
+  --muted-text-dark: #BDBDBD;
+  --accent-blue-dark: #3498DB;
+  --accent-orange-dark: #FF9900;
+  --input-text-dark: var(--accent-orange-dark);
+  --placeholder-text-dark: rgba(255, 153, 0, 0.7);
+  --link-dark: var(--accent-blue-dark);
+  --button-text-dark: #FFFFFF;
+  --button-gradient-dark: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
+  --button-hover-border-dark: var(--accent-orange-dark);
+  --shadow-dark: rgba(0, 0, 0, 0.3);
+  --scrollbar-thumb-dark: var(--accent-blue-dark);
+  --scrollbar-track-dark: rgba(0, 0, 0, 0.3);
 
+  /* Light Theme */
+  --primary-bg-light: #F4F4F4;
+  --secondary-bg-light: #FFFFFF;
+  --panel-bg-light: rgba(255, 255, 255, 0.7);
+  --panel-border-light: rgba(0, 0, 0, 0.1);
+  --text-light: #333333;
+  --muted-text-light: #777777;
+  --accent-blue-light: #2980B9;
+  --accent-orange-light: #E67E22;
+  --input-text-light: var(--accent-orange-light);
+  --placeholder-text-light: rgba(230, 126, 34, 0.7);
+  --link-light: var(--accent-blue-light);
+  --button-text-light: #FFFFFF;
+  --button-gradient-light: linear-gradient(45deg, rgba(41,128,185,0.9), rgba(230,126,34,0.9));
+  --button-hover-border-light: var(--accent-orange-light);
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --scrollbar-thumb-light: var(--accent-blue-light);
+  --scrollbar-track-light: rgba(0, 0, 0, 0.1);
+
+  /* Shared Variables */
   --font-family: 'Roboto Mono', monospace;
   --base-font-size: 16px;
   --line-height: 1.5;
-
   --max-width: 1200px;
   --gutter: 24px;
-
   --spacing-small: 8px;
   --spacing-medium: 16px;
   --spacing-large: 32px;
-
   --icon-size: 24px;
+  --border-radius: 6px; /* Consistent border radius */
 }
 
 /* Base Styles */
@@ -39,14 +70,14 @@ html {
 body {
   font-family: var(--font-family);
   line-height: var(--line-height);
-  background-color: var(--primary);
-  color: var(--text);
+  background-color: var(--primary-bg-dark); /* Default to dark */
+  color: var(--text-dark); /* Default to dark */
   margin: 0;
   height: 100%;
   width: 100%;
   overflow: hidden;
   position: fixed;
-  transition: background-color 0.3s, color 0.3s; /* Add transition for theme change */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smoother transition */
 }
 
 /* Container */
@@ -68,13 +99,14 @@ h4 { font-size: 20px; margin-bottom: var(--spacing-small); }
 
 /* Glass Panels (Dark Default) */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
-  border-radius: 8px;
+  background: var(--panel-bg-dark); /* Use theme variable */
+  backdrop-filter: blur(8px); /* Slightly less blur */
+  box-shadow: 0 4px 8px var(--shadow-dark); /* Use theme variable */
+  border: 1px solid var(--panel-border-dark); /* Add subtle border */
+  border-radius: var(--border-radius); /* Use consistent radius */
   padding: var(--spacing-medium);
   margin-bottom: var(--spacing-large);
-  transition: background-color 0.3s, box-shadow 0.3s;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 /* Unified Header Layout (Dark Default) */
@@ -91,8 +123,8 @@ h4 { font-size: 20px; margin-bottom: var(--spacing-small); }
   display: flex;
   flex-direction: column;
   padding: 0;
-  background-color: var(--secondary);
-  transition: background-color 0.3s;
+  background-color: var(--secondary-bg-dark); /* Use theme variable */
+  transition: background-color 0.3s ease;
 }
 
 .header-top-row {
@@ -111,10 +143,10 @@ h4 { font-size: 20px; margin-bottom: var(--spacing-small); }
 
 .header-recipe-list {
   padding: 8px 16px;
-  background-color: var(--primary); /* Darker background for recipe list */
+  background-color: var(--primary-bg-dark); /* Use theme variable */
   text-align: center;
   width: 100%;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 .recipe-list-horizontal {
@@ -140,32 +172,32 @@ h4 { font-size: 20px; margin-bottom: var(--spacing-small); }
   overflow-y: auto;
   overflow-x: hidden;
   padding: 16px;
-  background-color: var(--primary);
-  height: 100%;
-  transition: background-color 0.3s;
+  background-color: var(--primary-bg-dark); /* Use theme variable */
+  height: 100%; /* This might be problematic if header grows */
+  transition: background-color 0.3s ease;
 }
 
 /* Sidebar Panels (Dark Default) */
 aside.glass-panel {
   flex: 1 1 300px;
   max-width: 300px;
-  background-color: var(--secondary);
+  background-color: var(--secondary-bg-dark); /* Use theme variable */
   padding: var(--spacing-medium);
-  border-radius: 8px;
+  border-radius: var(--border-radius); /* Use consistent radius */
 }
 
 /* Theme Select (Dark Default) */
 .theme-select {
   font-family: var(--font-family);
-  background-color: var(--secondary);
-  color: var(--text);
-  border: 1px solid var(--accent-blue);
-  border-radius: 4px;
+  background-color: var(--secondary-bg-dark); /* Use theme variable */
+  color: var(--text-dark); /* Use theme variable */
+  border: 1px solid var(--accent-blue-dark); /* Use theme variable */
+  border-radius: var(--border-radius); /* Use consistent radius */
   padding: 8px 12px;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 /* Buttons - Simplified Solid Background (Dark Theme Default) */
@@ -173,34 +205,34 @@ aside.glass-panel {
   display: inline-block;
   padding: 10px 15px; /* Adjusted padding for potentially wrapped text */
   border: 1px solid transparent; /* Transparent border initially */
-  border-radius: 4px;
+  border-radius: var(--border-radius); /* Use consistent radius */
   cursor: pointer;
-  font-size: 0.95em; /* Slightly smaller font */
+  font-size: 0.95em;
   font-family: var(--font-family);
-  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8)); /* Apply gradient */
-  color: var(--text); /* White text for contrast */
-  transition: border-color 0.3s ease, filter 0.3s ease, color 0.3s ease; /* Updated transition */
+  background: var(--button-gradient-dark); /* Use theme variable */
+  color: var(--button-text-dark); /* Use theme variable */
+  transition: border-color 0.3s ease, filter 0.3s ease, background 0.3s ease, color 0.3s ease; /* Added background */
   font-weight: bold;
-  text-align: center; /* Center text */
-  white-space: normal; /* Allow text wrapping */
-  word-wrap: break-word; /* Break long words if necessary */
-  vertical-align: middle; /* Align text vertically */
-  line-height: 1.2; /* Adjust line height for wrapped text */
+  text-align: center;
+  white-space: normal;
+  word-wrap: break-word;
+  vertical-align: middle;
+  line-height: 1.2;
 }
 .btn:hover {
-  border-color: var(--accent-orange); /* Add orange border on hover */
-  filter: brightness(1.1); /* Slightly brighten gradient on hover */
-  color: var(--text); /* Keep text color white */
+  border-color: var(--button-hover-border-dark); /* Use theme variable */
+  filter: brightness(1.1);
+  color: var(--button-text-dark); /* Use theme variable */
 }
 .btn:focus-visible {
-  outline: 2px solid var(--accent-orange);
+  outline: 2px solid var(--accent-orange-dark); /* Use theme variable */
   outline-offset: 2px;
 }
 /* Add specific styles for different button types if needed later */
 
 /* Logo Text Gradient */
 #logoText {
-  background: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
+  background: var(--button-gradient-dark); /* Use theme variable for consistency */
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -212,36 +244,36 @@ aside.glass-panel {
 .ingredient-item { /* Combined for now, might need separation later */
   display: inline-block;
   padding: 6px 12px; /* Smaller padding */
-  background-color: var(--secondary); /* Use secondary background */
-  border: 1px solid var(--accent-blue); /* Subtle border */
-  border-radius: 4px;
+  background-color: var(--secondary-bg-dark); /* Use theme variable */
+  border: 1px solid var(--accent-blue-dark); /* Use theme variable */
+  border-radius: var(--border-radius); /* Use consistent radius */
   cursor: pointer;
   font-size: 0.9em;
   font-family: var(--font-family);
-  color: var(--accent-blue); /* Accent color text */
+  color: var(--accent-blue-dark); /* Use theme variable */
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   margin: 4px; /* Add small margin */
 }
 .recipe-item:hover,
 .ingredient-item:hover {
-  background-color: var(--accent-blue);
-  color: var(--primary);
-  border-color: var(--accent-blue);
+  background-color: var(--accent-blue-dark); /* Use theme variable */
+  color: var(--primary-bg-dark); /* Use theme variable */
+  border-color: var(--accent-blue-dark); /* Use theme variable */
 }
 /* Style for the currently selected recipe */
 .recipe-item.selected {
-  background-color: var(--accent-orange);
-  color: var(--primary);
-  border-color: var(--accent-orange);
+  background-color: var(--accent-orange-dark); /* Use theme variable */
+  color: var(--primary-bg-dark); /* Use theme variable */
+  border-color: var(--accent-orange-dark); /* Use theme variable */
   font-weight: bold;
 }
 .recipe-item:focus-visible,
 .ingredient-item:focus-visible {
-  outline: 2px solid var(--accent-orange);
-  outline-offset: 1px; /* Slightly closer offset */
-  background-color: var(--accent-blue); /* Match hover state */
-  color: var(--primary);
-  border-color: var(--accent-blue);
+  outline: 2px solid var(--accent-orange-dark); /* Use theme variable */
+  outline-offset: 1px;
+  background-color: var(--accent-blue-dark); /* Use theme variable */
+  color: var(--primary-bg-dark); /* Use theme variable */
+  border-color: var(--accent-blue-dark); /* Use theme variable */
 }
 
 /* Secondary Action Button (Inherits .btn styles) */
@@ -251,37 +283,37 @@ aside.glass-panel {
 input,
 textarea,
 select { /* Added select here */
-  background-color: var(--secondary);
-  color: var(--accent-orange); /* typed text is orange */
-  border: 1px solid var(--accent-blue);
-  border-radius: 4px;
+  background-color: var(--secondary-bg-dark); /* Use theme variable */
+  color: var(--input-text-dark); /* Use theme variable */
+  border: 1px solid var(--accent-blue-dark); /* Use theme variable */
+  border-radius: var(--border-radius); /* Use consistent radius */
   padding: 8px 12px;
   font-family: var(--font-family);
   outline: none;
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   appearance: none; /* Remove default browser styling */
   -webkit-appearance: none; /* For Safari/Chrome */
   -moz-appearance: none; /* For Firefox */
 }
 ::placeholder {
-  color: var(--accent-orange);
-  opacity: 0.7; /* Slightly faded placeholder */
-  transition: color 0.3s;
+  color: var(--placeholder-text-dark); /* Use theme variable */
+  opacity: 1; /* Let variable control opacity */
+  transition: color 0.3s ease;
 }
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
-  outline: 2px solid var(--accent-orange);
+  outline: 2px solid var(--accent-orange-dark); /* Use theme variable */
   outline-offset: 2px;
-  border-color: var(--accent-orange); /* Enhance border on focus */
+  border-color: var(--accent-orange-dark); /* Use theme variable */
 }
 
 /* Table Cells (Dark Default) */
 .container table th,
 .container table td {
-  background-color: #000; /* Black background */
-  color: var(--text); /* Use theme text color */
-  border: 1px solid #444; /* Dark border */
+  background-color: var(--secondary-bg-dark); /* Use theme variable */
+  color: var(--text-dark); /* Use theme variable */
+  border: 1px solid var(--panel-border-dark); /* Use theme variable */
 }
 
 /* ========================= */
@@ -290,39 +322,39 @@ select:focus-visible {
 
 /* Collapsible Container */
 .collapsible-container {
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 6px;
+  border: 1px solid var(--panel-border-dark); /* Use theme variable */
+  border-radius: var(--border-radius); /* Use consistent radius */
   margin-bottom: var(--spacing-medium);
   overflow: hidden;
-  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, transform 0.2s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease, background-color 0.3s ease;
+  box-shadow: 0 1px 3px var(--shadow-dark); /* Use theme variable */
 }
 
 .collapsible-container:hover {
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px var(--shadow-dark); /* Use theme variable */
 }
 
 /* Color-coding for collapsible containers */
 .collapsible-container[data-color="blue"] {
-  border-left: 3px solid var(--accent-blue);
-  background-color: rgba(52, 152, 219, 0.05);
+  border-left: 3px solid var(--accent-blue-dark); /* Use theme variable */
+  background-color: rgba(52, 152, 219, 0.05); /* Keep subtle bg */
 }
 
 .collapsible-container[data-color="orange"] {
-  border-left: 3px solid var(--accent-orange);
-  background-color: rgba(255, 153, 0, 0.05);
+  border-left: 3px solid var(--accent-orange-dark); /* Use theme variable */
+  background-color: rgba(255, 153, 0, 0.05); /* Keep subtle bg */
 }
 
 .collapsible-container[data-color="neutral"] {
-  border-left: 3px solid var(--muted-text);
-  background-color: rgba(189, 189, 189, 0.05);
+  border-left: 3px solid var(--muted-text-dark); /* Use theme variable */
+  background-color: rgba(189, 189, 189, 0.05); /* Keep subtle bg */
 }
 
 /* Collapsible Header */
 .collapsible-header {
   width: 100%;
-  background-color: var(--secondary);
-  color: var(--text);
+  background-color: var(--secondary-bg-dark); /* Use theme variable */
+  color: var(--text-dark); /* Use theme variable */
   font-family: var(--font-family);
   font-size: 1em;
   padding: var(--spacing-small) var(--spacing-medium);
@@ -338,16 +370,16 @@ select:focus-visible {
 
 /* Color-coding for headers */
 .collapsible-container[data-color="blue"] .collapsible-header {
-  color: var(--accent-blue);
+  color: var(--accent-blue-dark); /* Use theme variable */
 }
 
 .collapsible-container[data-color="orange"] .collapsible-header {
-  color: var(--accent-orange);
+  color: var(--accent-orange-dark); /* Use theme variable */
 }
 
 .collapsible-header:hover,
 .collapsible-header:focus {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--panel-bg-dark); /* Use theme variable */
 }
 
 .collapsible-icon {
@@ -385,7 +417,7 @@ select:focus-visible {
 
 /* Accessibility focus outline */
 .collapsible-header:focus-visible {
-  outline: 2px solid var(--accent-blue);
+  outline: 2px solid var(--accent-blue-dark); /* Use theme variable */
   outline-offset: 2px;
 }
 
@@ -400,7 +432,7 @@ select:focus-visible {
   gap: 8px;
   background: none;
   border: none;
-  color: var(--text);
+  color: var(--text-dark); /* Use theme variable */
   font-family: var(--font-family);
   font-size: 0.9em;
   cursor: pointer;
@@ -411,7 +443,7 @@ select:focus-visible {
 }
 
 .btn-expand-collapse:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--panel-bg-dark); /* Use theme variable */
 }
 
 .btn-expand-collapse .icon {
@@ -434,7 +466,7 @@ select:focus-visible {
 }
 
 .btn-expand-collapse:hover .label {
-  color: var(--accent-blue);
+  color: var(--accent-blue-dark); /* Use theme variable */
 }
 
 /* ========================= */
@@ -457,34 +489,34 @@ select:focus-visible {
 .left-column,
 .middle-column,
 .right-column {
-  background-color: var(--secondary);
+  background-color: var(--secondary-bg-dark); /* Use theme variable */
   padding: var(--spacing-medium);
-  border-radius: 8px;
+  border-radius: var(--border-radius); /* Use consistent radius */
   transition: all 0.3s ease;
   overflow-y: auto;
   overflow-x: hidden;
-  height: 100%;
-  max-height: 100%;
+  height: 100%; /* This might be problematic if header grows */
+  max-height: 100%; /* This might be problematic if header grows */
 }
 
 /* Clear visual separation with color-coding */
 .left-column {
-  border: 1px solid rgba(255,255,255,0.2);
-  border-top: 3px solid var(--accent-blue);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  background-color: rgba(52, 152, 219, 0.05);
+  border: 1px solid var(--panel-border-dark); /* Use theme variable */
+  border-top: 3px solid var(--accent-blue-dark); /* Use theme variable */
+  box-shadow: 0 2px 8px var(--shadow-dark); /* Use theme variable */
+  background-color: rgba(52, 152, 219, 0.05); /* Keep subtle bg */
 }
 .middle-column {
-  border: 1px solid rgba(255,255,255,0.2);
-  border-top: 3px solid var(--accent-blue);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  background-color: rgba(52, 152, 219, 0.03);
+  border: 1px solid var(--panel-border-dark); /* Use theme variable */
+  border-top: 3px solid var(--accent-blue-dark); /* Use theme variable */
+  box-shadow: 0 2px 8px var(--shadow-dark); /* Use theme variable */
+  background-color: rgba(52, 152, 219, 0.03); /* Keep subtle bg */
 }
 .right-column {
-  border: 1px solid rgba(255,255,255,0.2);
-  border-top: 3px solid var(--accent-orange);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  background-color: rgba(255, 153, 0, 0.03);
+  border: 1px solid var(--panel-border-dark); /* Use theme variable */
+  border-top: 3px solid var(--accent-orange-dark); /* Use theme variable */
+  box-shadow: 0 2px 8px var(--shadow-dark); /* Use theme variable */
+  background-color: rgba(255, 153, 0, 0.03); /* Keep subtle bg */
 }
 
 /* Responsive stacking on smaller screens */
@@ -539,16 +571,16 @@ select:focus-visible {
 .section-title {
   font-size: 1.2em;
   margin-bottom: var(--spacing-small);
-  color: var(--text);
+  color: var(--text-dark); /* Use theme variable */
 }
 
 /* Ingredients Container */
 .ingredients-container {
   margin-bottom: var(--spacing-large);
   padding: var(--spacing-small);
-  background-color: rgba(0, 0, 0, 0.1);
-  border-radius: 6px;
-  border-left: 3px solid var(--accent-blue);
+  background-color: var(--panel-bg-dark); /* Use theme variable */
+  border-radius: var(--border-radius); /* Use consistent radius */
+  border-left: 3px solid var(--accent-blue-dark); /* Use theme variable */
 }
 
 .ingredient-list {
@@ -557,8 +589,8 @@ select:focus-visible {
   margin: 0;
   max-height: 300px;
   overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--accent-blue) rgba(0, 0, 0, 0.2);
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: var(--scrollbar-thumb-dark) var(--scrollbar-track-dark); /* Firefox */
 }
 
 .ingredient-list::-webkit-scrollbar {
@@ -566,12 +598,12 @@ select:focus-visible {
 }
 
 .ingredient-list::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--scrollbar-track-dark); /* Use theme variable */
   border-radius: 3px;
 }
 
 .ingredient-list::-webkit-scrollbar-thumb {
-  background-color: var(--accent-blue);
+  background-color: var(--scrollbar-thumb-dark); /* Use theme variable */
   border-radius: 3px;
 }
 
@@ -579,9 +611,9 @@ select:focus-visible {
 .quick-stats-container {
   margin-bottom: var(--spacing-large);
   padding: var(--spacing-small);
-  background-color: rgba(0, 0, 0, 0.1);
-  border-radius: 6px;
-  border-left: 3px solid var(--accent-orange);
+  background-color: var(--panel-bg-dark); /* Use theme variable */
+  border-radius: var(--border-radius); /* Use consistent radius */
+  border-left: 3px solid var(--accent-orange-dark); /* Use theme variable */
 }
 
 .quick-stats {
@@ -594,41 +626,41 @@ select:focus-visible {
   display: flex;
   flex-direction: column;
   padding: var(--spacing-small);
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: var(--secondary-bg-dark); /* Use theme variable */
   border-radius: 4px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .stat-item:hover {
   transform: translateY(-2px);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px var(--shadow-dark); /* Use theme variable */
 }
 
 .stat-label {
   font-size: 0.8em;
-  color: var(--muted-text);
+  color: var(--muted-text-dark); /* Use theme variable */
 }
 
 .stat-value {
   font-size: 1em;
   font-weight: bold;
-  color: var(--accent-blue);
+  color: var(--accent-blue-dark); /* Use theme variable */
 }
 
 /* Instructions Summary */
 .instructions-summary {
   margin-bottom: var(--spacing-large);
   padding: var(--spacing-medium);
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
-  border-left: 3px solid var(--accent-blue);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  background-color: var(--secondary-bg-dark); /* Use theme variable */
+  border-radius: var(--border-radius); /* Use consistent radius */
+  border-left: 3px solid var(--accent-blue-dark); /* Use theme variable */
+  box-shadow: 0 2px 5px var(--shadow-dark); /* Use theme variable */
 }
 
 .summary-content {
   line-height: 1.6;
   padding: var(--spacing-small);
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--panel-bg-dark); /* Use theme variable */
   border-radius: 4px;
 }
 
@@ -640,15 +672,15 @@ select:focus-visible {
 }
 
 .ingredient-item:hover {
-  background-color: rgba(52, 152, 219, 0.1) !important;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: rgba(52, 152, 219, 0.1) !important; /* Keep specific hover */
+  box-shadow: 0 2px 4px var(--shadow-dark); /* Use theme variable */
   transform: translateY(-1px);
 }
 
 .ingredient-item.expanded {
-  background-color: rgba(52, 152, 219, 0.05);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-  border-left: 2px solid var(--accent-blue);
+  background-color: rgba(52, 152, 219, 0.05); /* Keep specific expanded */
+  box-shadow: 0 2px 5px var(--shadow-dark); /* Use theme variable */
+  border-left: 2px solid var(--accent-blue-dark); /* Use theme variable */
 }
 
 .ingredient-details {
@@ -670,11 +702,12 @@ select:focus-visible {
   margin: 0 auto var(--spacing-large) auto;
   max-width: var(--max-width);
   padding: var(--spacing-medium);
-  background: linear-gradient(to right, rgba(52, 152, 219, 0.1), rgba(255, 153, 0, 0.1));
-  backdrop-filter: blur(10px);
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(to right, rgba(52, 152, 219, 0.1), rgba(255, 153, 0, 0.1)); /* Keep specific gradient */
+  backdrop-filter: blur(8px); /* Match glass panel */
+  border-radius: var(--border-radius); /* Use consistent radius */
+  box-shadow: 0 4px 8px var(--shadow-dark); /* Use theme variable */
+  border: 1px solid var(--panel-border-dark); /* Use theme variable */
+  border-bottom: 2px solid var(--panel-border-dark); /* Use theme variable */
 }
 
 .recipe-actions {
@@ -700,22 +733,22 @@ select:focus-visible {
   max-height: 200px;
   overflow-y: auto;
   margin-bottom: var(--spacing-medium);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--panel-border-dark); /* Use theme variable */
   border-radius: 4px;
   padding: var(--spacing-small);
 }
 
 .new-iteration-form {
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 6px;
+  background-color: var(--panel-bg-dark); /* Use theme variable */
+  border-radius: var(--border-radius); /* Use consistent radius */
   padding: var(--spacing-medium);
   margin-top: var(--spacing-medium);
-  border: 1px solid var(--accent-orange);
+  border: 1px solid var(--accent-orange-dark); /* Use theme variable */
 }
 
 .new-iteration-form h4 {
   margin-top: 0;
-  color: var(--accent-orange);
+  color: var(--accent-orange-dark); /* Use theme variable */
 }
 
 .form-group {
@@ -731,10 +764,10 @@ select:focus-visible {
 .form-group textarea {
   width: 100%;
   min-height: 80px;
-  background-color: var(--secondary);
-  color: var(--text);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
+  background-color: var(--secondary-bg-dark); /* Use theme variable */
+  color: var(--text-dark); /* Use theme variable */
+  border: 1px solid var(--panel-border-dark); /* Use theme variable */
+  border-radius: var(--border-radius); /* Use consistent radius */
   padding: var(--spacing-small);
 }
 
@@ -745,13 +778,13 @@ select:focus-visible {
 }
 
 .btn-primary {
-  background-color: rgba(52, 152, 219, 0.2);
-  border: 1px solid var(--accent-blue);
+  background-color: rgba(52, 152, 219, 0.2); /* Keep specific */
+  border: 1px solid var(--accent-blue-dark); /* Use theme variable */
 }
 
 .btn-secondary {
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: var(--panel-bg-dark); /* Use theme variable */
+  border: 1px solid var(--panel-border-dark); /* Use theme variable */
 }
 
 /* Ingredient item styling improvements */
@@ -759,7 +792,7 @@ select:focus-visible {
   display: flex;
   flex-direction: column;
   padding: var(--spacing-small);
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: var(--secondary-bg-dark); /* Use theme variable */
   border-radius: 4px;
   margin-bottom: var(--spacing-small);
   transition: all 0.2s ease;
@@ -777,10 +810,10 @@ select:focus-visible {
 
 .recipe-title {
   font-size: 1.8em;
-  color: var(--text);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  color: var(--text-dark); /* Use theme variable */
+  text-shadow: 0 1px 2px var(--shadow-dark); /* Use theme variable */
   margin: 0;
-  background: linear-gradient(45deg, var(--accent-blue), var(--accent-orange));
+  background: linear-gradient(45deg, var(--accent-blue-dark), var(--accent-orange-dark)); /* Use theme variable */
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -794,5 +827,260 @@ select:focus-visible {
 
 .remove-recipe-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px var(--shadow-dark); /* Use theme variable */
+}
+
+/* --- Light Theme Overrides --- */
+body.light {
+  --primary-bg: var(--primary-bg-light);
+  --secondary-bg: var(--secondary-bg-light);
+  --panel-bg: var(--panel-bg-light);
+  --panel-border: var(--panel-border-light);
+  --text: var(--text-light);
+  --muted-text: var(--muted-text-light);
+  --accent-blue: var(--accent-blue-light);
+  --accent-orange: var(--accent-orange-light);
+  --input-text: var(--input-text-light);
+  --placeholder-text: var(--placeholder-text-light);
+  --link: var(--link-light);
+  --button-text: var(--button-text-light);
+  --button-gradient: var(--button-gradient-light);
+  --button-hover-border: var(--button-hover-border-light);
+  --shadow: var(--shadow-light);
+  --scrollbar-thumb: var(--scrollbar-thumb-light);
+  --scrollbar-track: var(--scrollbar-track-light);
+
+  background-color: var(--primary-bg);
+  color: var(--text);
+}
+
+body.light .glass-panel {
+  background: var(--panel-bg);
+  box-shadow: 0 4px 8px var(--shadow);
+  border: 1px solid var(--panel-border);
+}
+
+body.light .unified-header {
+  background-color: var(--secondary-bg);
+}
+
+body.light .header-recipe-list {
+  background-color: var(--primary-bg);
+}
+
+body.light .main-content {
+  background-color: var(--primary-bg);
+}
+
+body.light aside.glass-panel {
+  background-color: var(--secondary-bg);
+}
+
+body.light .theme-select {
+  background-color: var(--secondary-bg);
+  color: var(--text);
+  border: 1px solid var(--accent-blue);
+}
+
+body.light .btn {
+  background: var(--button-gradient);
+  color: var(--button-text);
+}
+body.light .btn:hover {
+  border-color: var(--button-hover-border);
+  color: var(--button-text);
+}
+body.light .btn:focus-visible {
+  outline: 2px solid var(--accent-orange);
+}
+
+body.light #logoText {
+  background: var(--button-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+body.light .recipe-item,
+body.light .ingredient-item {
+  background-color: var(--secondary-bg);
+  border: 1px solid var(--accent-blue);
+  color: var(--accent-blue);
+}
+body.light .recipe-item:hover,
+body.light .ingredient-item:hover {
+  background-color: var(--accent-blue);
+  color: var(--primary-bg);
+  border-color: var(--accent-blue);
+}
+body.light .recipe-item.selected {
+  background-color: var(--accent-orange);
+  color: var(--primary-bg);
+  border-color: var(--accent-orange);
+}
+body.light .recipe-item:focus-visible,
+body.light .ingredient-item:focus-visible {
+  outline: 2px solid var(--accent-orange);
+  background-color: var(--accent-blue);
+  color: var(--primary-bg);
+  border-color: var(--accent-blue);
+}
+
+body.light input,
+body.light textarea,
+body.light select {
+  background-color: var(--secondary-bg);
+  color: var(--input-text);
+  border: 1px solid var(--accent-blue);
+}
+body.light ::placeholder {
+  color: var(--placeholder-text);
+}
+body.light input:focus-visible,
+body.light textarea:focus-visible,
+body.light select:focus-visible {
+  outline: 2px solid var(--accent-orange);
+  border-color: var(--accent-orange);
+}
+
+body.light .container table th,
+body.light .container table td {
+  background-color: var(--secondary-bg);
+  color: var(--text);
+  border: 1px solid var(--panel-border);
+}
+
+body.light .collapsible-container {
+  border: 1px solid var(--panel-border);
+  box-shadow: 0 1px 3px var(--shadow);
+}
+body.light .collapsible-container:hover {
+  box-shadow: 0 2px 5px var(--shadow);
+}
+body.light .collapsible-container[data-color="blue"] { border-left-color: var(--accent-blue); }
+body.light .collapsible-container[data-color="orange"] { border-left-color: var(--accent-orange); }
+body.light .collapsible-container[data-color="neutral"] { border-left-color: var(--muted-text); }
+
+body.light .collapsible-header {
+  background-color: var(--secondary-bg);
+  color: var(--text);
+}
+body.light .collapsible-container[data-color="blue"] .collapsible-header { color: var(--accent-blue); }
+body.light .collapsible-container[data-color="orange"] .collapsible-header { color: var(--accent-orange); }
+body.light .collapsible-header:hover,
+body.light .collapsible-header:focus {
+  background-color: var(--panel-bg);
+}
+body.light .collapsible-header:focus-visible {
+  outline: 2px solid var(--accent-blue);
+}
+
+body.light .btn-expand-collapse {
+  color: var(--text);
+}
+body.light .btn-expand-collapse:hover {
+  background-color: var(--panel-bg);
+}
+body.light .btn-expand-collapse:hover .label {
+  color: var(--accent-blue);
+}
+
+body.light .left-column,
+body.light .middle-column,
+body.light .right-column {
+  background-color: var(--secondary-bg);
+  border: 1px solid var(--panel-border);
+  box-shadow: 0 2px 8px var(--shadow);
+}
+body.light .left-column { border-top-color: var(--accent-blue); }
+body.light .middle-column { border-top-color: var(--accent-blue); }
+body.light .right-column { border-top-color: var(--accent-orange); }
+
+body.light .section-title {
+  color: var(--text);
+}
+
+body.light .ingredients-container {
+  background-color: var(--panel-bg);
+  border-left-color: var(--accent-blue);
+}
+body.light .ingredient-list {
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+body.light .ingredient-list::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+body.light .ingredient-list::-webkit-scrollbar-thumb { background-color: var(--scrollbar-thumb); }
+
+body.light .quick-stats-container {
+  background-color: var(--panel-bg);
+  border-left-color: var(--accent-orange);
+}
+body.light .stat-item {
+  background-color: var(--secondary-bg);
+}
+body.light .stat-item:hover {
+  box-shadow: 0 2px 5px var(--shadow);
+}
+body.light .stat-label { color: var(--muted-text); }
+body.light .stat-value { color: var(--accent-blue); }
+
+body.light .instructions-summary {
+  background-color: var(--secondary-bg);
+  border-left-color: var(--accent-blue);
+  box-shadow: 0 2px 5px var(--shadow);
+}
+body.light .summary-content {
+  background-color: var(--panel-bg);
+}
+
+body.light .ingredient-item:hover {
+  box-shadow: 0 2px 4px var(--shadow);
+}
+body.light .ingredient-item.expanded {
+  box-shadow: 0 2px 5px var(--shadow);
+  border-left-color: var(--accent-blue);
+}
+
+body.light .project-header-section {
+  box-shadow: 0 4px 8px var(--shadow);
+  border: 1px solid var(--panel-border);
+  border-bottom: 2px solid var(--panel-border);
+}
+
+body.light .iterations-list {
+  border: 1px solid var(--panel-border);
+}
+
+body.light .new-iteration-form {
+  background-color: var(--panel-bg);
+  border: 1px solid var(--accent-orange);
+}
+body.light .new-iteration-form h4 {
+  color: var(--accent-orange);
+}
+body.light .form-group textarea {
+  background-color: var(--secondary-bg);
+  color: var(--text);
+  border: 1px solid var(--panel-border);
+}
+
+body.light .btn-primary {
+  border: 1px solid var(--accent-blue);
+}
+body.light .btn-secondary {
+  border: 1px solid var(--panel-border);
+}
+
+body.light .ingredient-item {
+  background-color: var(--secondary-bg);
+}
+
+body.light .recipe-title {
+  color: var(--text);
+  text-shadow: 0 1px 2px var(--shadow);
+  background: linear-gradient(45deg, var(--accent-blue), var(--accent-orange));
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+body.light .remove-recipe-btn:hover {
+  box-shadow: 0 2px 5px var(--shadow);
 }
