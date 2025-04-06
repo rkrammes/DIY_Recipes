@@ -8,7 +8,7 @@
   ],
   "headers": [
     {
-      "source": "/style.css",
+      "source": "/(.*).css",
       "headers": [
         {
           "key": "Content-Type",
@@ -29,6 +29,10 @@
     {
       "source": "/js/(.*)",
       "destination": "/js/$1"
+    },
+    {
+      "source": "/css/(.*)",
+      "destination": "/server.js"
     },
     {
       "source": "/public/(.*)",

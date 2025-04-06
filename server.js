@@ -5,6 +5,7 @@ import express from 'express';
 import fetch from 'node-fetch';
 import bodyParser from 'body-parser';
 import 'dotenv/config';
+import fs from 'fs';
 import { createClient } from '@supabase/supabase-js';
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
@@ -96,14 +97,68 @@ app.use('/public', express.static(__dirname + '/public'));
 // Explicitly handle style.css requests to ensure proper MIME type
 app.get('/style.css', (req, res) => {
   res.setHeader('Content-Type', 'text/css');
+  res.setHeader('Cache-Control', 'public, max-age=0');
+  res.sendFile(__dirname + '/style.css');
+});
+
+// Alternative CSS route with a different path to avoid caching issues
+app.get('/css/main.css', (req, res) => {
+  res.setHeader('Content-Type', 'text/css');
+  res.setHeader('Cache-Control', 'public, max-age=0');
   res.sendFile(__dirname + '/style.css');
 });
 
 const PORT = process.env.PORT || 3001; // Define PORT variable
 
-// Serve index.html on the root path
+// Serve index.html on the root path with modified content
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  // Read the index.html file
+  const indexPath = path.join(__dirname, 'index.html');
+  const host = req.get('host');
+  
+  // Check if this is the production domain
+  if (host && host.includes('symbolkraft.com')) {
+    // For production, use the alternate CSS path and inline critical CSS
+    fs.readFile(indexPath, 'utf8', (err, data) => {
+      if (err) {
+        console.error('Error reading index.html:', err);
+        return res.status(500).send('Error loading page');
+      }
+      
+      // Replace the CSS link with the alternate path and add inline critical CSS
+      const modifiedData = data.replace(
+        '<link rel="stylesheet" href="/style.css" type="text/css" />',
+        `<link rel="stylesheet" href="/css/main.css" type="text/css" />
+        <style type="text/css">
+        /* Critical CSS styles for initial render */
+        :root {
+          --primary-bg-dark: #1A1A1A;
+          --secondary-bg-dark: #2C2C2C;
+          --panel-bg-dark: rgba(44, 44, 44, 0.6);
+          --panel-border-dark: rgba(255, 255, 255, 0.15);
+          --text-dark: #FFFFFF;
+          --accent-blue-dark: #3498DB;
+          --accent-orange-dark: #FF9900;
+          --font-family: 'Roboto Mono', monospace;
+        }
+        body {
+          font-family: var(--font-family);
+          background-color: var(--primary-bg-dark);
+          color: var(--text-dark);
+          margin: 0;
+          height: 100%;
+          width: 100%;
+        }
+        </style>`
+      );
+      
+      res.setHeader('Content-Type', 'text/html');
+      res.send(modifiedData);
+    });
+  } else {
+    // For local development, use the normal path
+    res.sendFile(indexPath);
+  }
 });
 
 // Fallback to index.html for SPA routing
