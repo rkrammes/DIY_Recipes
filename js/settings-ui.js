@@ -157,6 +157,9 @@ export function toggleSettingsPanel(show) {
       panel.style.transform = 'none';
       panel.style.pointerEvents = 'auto';
       
+      // Add a class to the document body to help with z-index management
+      document.body.classList.add('settings-panel-active');
+      
       // Ensure overlay is visible
       overlay.style.display = 'block';
       overlay.style.opacity = '0.5';
@@ -179,6 +182,9 @@ export function toggleSettingsPanel(show) {
       panel.style.transform = 'translateY(-10px)';
       overlay.style.opacity = '0';
       overlay.style.pointerEvents = 'none';
+      
+      // Remove the settings panel active class from body
+      document.body.classList.remove('settings-panel-active');
       
       // Update button state
       if (btnSettings) {

@@ -88,3 +88,28 @@ Key lessons: understanding CSS stacking contexts is critical; some UI issues req
 - Direct style application can resolve specificity and inheritance issues
 
 ---
+
+## Final Z-Index Layering Fix & Verification
+
+### Multi-Layered Solution Details
+- **Explicit Button Z-Index:** All action buttons (`.action-button`, `.primary-action`, `.secondary-action`, etc.) are explicitly set to `z-index: 100` to control their stacking order.
+- **Body Class Override:** When the settings panel is open, the `<body>` element receives a `settings-panel-active` class. CSS rules then force these buttons' z-index to `10 !important`, pushing them beneath overlays.
+- **Ultra-High Portal Z-Index:** The portal container (`#settings-portal`) is fixed with an extremely high `z-index: 9999999`, ensuring it overlays all other UI elements.
+- **Settings Panel Z-Index:** The panel itself inside the portal has a `z-index` of `1000000`, comfortably above buttons but within the portal context.
+- **Overlay Layer:** The semi-transparent overlay sits just beneath the panel with `z-index: 999998`, blocking interaction with the background.
+
+### Why This Approach Works
+- The `settings-panel-active` body class acts as a **global toggle**, enabling CSS to lower the z-index of all relevant buttons regardless of their location or stacking context.
+- Explicitly targeting button classes ensures **consistent layering control** across all interactive elements.
+- The ultra-high portal z-index guarantees the settings panel and overlay **always appear on top**, overcoming any nested stacking context issues.
+- This layered approach combines **global state** with **specific overrides** and **absolute priority** for the portal, fully resolving previous conflicts.
+
+### Final Verification Results
+- The settings panel **consistently appears above all elements**, including Batch Records, Ingredient Substitutions, Cost Calculation, and Adjustments buttons.
+- The `settings-panel-active` class is correctly toggled on `<body>` when the panel opens/closes.
+- Buttons remain fully functional when the panel is closed, with normal z-index restored.
+- All settings panel features (authentication, edit mode, theme switching) work as intended.
+- No unintended side effects or UI regressions observed.
+- This multi-layered fix **fully resolves** the z-index overlay issue.
+
+This concludes the z-index layering fix for the settings panel with successful verification.

@@ -1467,6 +1467,23 @@ body.light .left-column i {
 /* END PHASE 1 comment block */
 
 /* Settings Panel Styles - Clean Implementation */
+
+/* Fix for buttons appearing above settings panel */
+.action-button,
+button[class*="action-"],
+#right-column-actions button {
+  position: relative;
+  z-index: 100; /* Lower z-index than settings portal */
+}
+
+/* When settings panel is active, force lower z-index for all buttons */
+#settings-overlay.active ~ * button,
+#settings-overlay.active ~ * .action-button,
+body.settings-panel-active #right-column-actions button,
+body.settings-panel-active .action-button,
+body.settings-panel-active button[class*="action-"] {
+  z-index: 10 !important; /* Force lower z-index */
+}
 /* Portal container */
 #settings-portal {
   position: fixed;
@@ -1475,7 +1492,7 @@ body.light .left-column i {
   width: 100%;
   height: 100%; /* Full height to contain the panel */
   pointer-events: none; /* Allow clicks to pass through when inactive */
-  z-index: 999999;
+  z-index: 9999999; /* Increased to be absolutely highest */
 }
 
 /* Settings overlay */
