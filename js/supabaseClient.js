@@ -28,12 +28,15 @@ const mockData = {
 
 // Create a mock query object that mimics Supabase responses
 function createMockQuery(tableName) {
-  return {
+  const baseQuery = {
     select: async () => ({ data: mockData[tableName] || [], error: null }),
     insert: async () => ({ data: null, error: null }),
     update: async () => ({ data: null, error: null }),
-    delete: async () => ({ data: null, error: null })
+    delete: async () => ({ data: null, error: null }),
+    order: function() { return this; }, // Chain-able method returns self
+    limit: function() { return this; }  // Chain-able method returns self
   };
+  return baseQuery;
 }
 
 // Proxy to wrap the real client with fallback
@@ -57,6 +60,21 @@ export const supabaseClient = new Proxy(realClient, {
                 } catch (e) {
                   console.warn('Supabase network failure on ' + qProp + ', using fallback', e);
                   return createMockQuery(tableName)[qProp](...args);
+                }
+              };
+            } else if (['order', 'limit'].includes(qProp)) {
+              // Handle chainable methods
+              return function(...args) {
+                try {
+                  if (typeof qTarget[qProp] === 'function') {
+                    return qTarget[qProp](...args);
+                  } else {
+                    console.warn(`Supabase method ${qProp} not available, using fallback`);
+                    return createMockQuery(tableName);
+                  }
+                } catch (e) {
+                  console.warn(`Error in Supabase ${qProp} method, using fallback`, e);
+                  return createMockQuery(tableName);
                 }
               };
             }
