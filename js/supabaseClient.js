@@ -28,15 +28,41 @@ const mockData = {
 
 // Create a mock query object that mimics Supabase responses
 function createMockQuery(tableName) {
-  const baseQuery = {
-    select: async () => ({ data: mockData[tableName] || [], error: null }),
-    insert: async () => ({ data: null, error: null }),
-    update: async () => ({ data: null, error: null }),
-    delete: async () => ({ data: null, error: null }),
-    order: function() { return this; }, // Chain-able method returns self
-    limit: function() { return this; }  // Chain-able method returns self
-  };
-  return baseQuery;
+  // Create a base query object with chainable methods
+  const query = {};
+  
+  // Core data methods that return results
+  query.select = async () => ({ data: mockData[tableName] || [], error: null });
+  query.insert = async () => ({ data: null, error: null });
+  query.update = async () => ({ data: null, error: null });
+  query.delete = async () => ({ data: null, error: null });
+  
+  // Chainable methods that return the query object itself
+  query.order = function() { return query; };
+  query.limit = function() { return query; };
+  query.eq = function() { return query; };
+  query.neq = function() { return query; };
+  query.gt = function() { return query; };
+  query.lt = function() { return query; };
+  query.gte = function() { return query; };
+  query.lte = function() { return query; };
+  query.like = function() { return query; };
+  query.ilike = function() { return query; };
+  query.is = function() { return query; };
+  query.in = function() { return query; };
+  query.contains = function() { return query; };
+  query.containedBy = function() { return query; };
+  query.rangeLt = function() { return query; };
+  query.rangeGt = function() { return query; };
+  query.rangeGte = function() { return query; };
+  query.rangeLte = function() { return query; };
+  query.rangeAdjacent = function() { return query; };
+  query.overlaps = function() { return query; };
+  query.textSearch = function() { return query; };
+  query.filter = function() { return query; };
+  query.match = function() { return query; };
+  
+  return query;
 }
 
 // Proxy to wrap the real client with fallback
@@ -48,9 +74,20 @@ export const supabaseClient = new Proxy(realClient, {
         // Wrap each query method to provide fallback
         return new Proxy(realQuery, {
           get(qTarget, qProp) {
-            if (['select', 'insert', 'update', 'delete'].includes(qProp)) {
+            // Define which methods are terminal (returning data) vs chainable (returning query)
+            const terminalMethods = ['select', 'insert', 'update', 'delete'];
+            const chainableMethods = [
+              'order', 'limit', 'eq', 'neq', 'gt', 'lt', 'gte', 'lte',
+              'like', 'ilike', 'is', 'in', 'contains', 'containedBy',
+              'rangeLt', 'rangeGt', 'rangeGte', 'rangeLte', 'rangeAdjacent',
+              'overlaps', 'textSearch', 'filter', 'match'
+            ];
+            
+            // Handle terminal methods (that execute the query and return data)
+            if (terminalMethods.includes(qProp)) {
               return async function(...args) {
                 try {
+                  console.log(`Executing Supabase ${qProp} on ${tableName}`);
                   const result = await qTarget[qProp](...args);
                   if (result.error) {
                     console.warn('Supabase error on ' + qProp + ': ', result.error);
@@ -62,23 +99,28 @@ export const supabaseClient = new Proxy(realClient, {
                   return createMockQuery(tableName)[qProp](...args);
                 }
               };
-            } else if (['order', 'limit'].includes(qProp)) {
-              // Handle chainable methods
+            }
+            // Handle chainable methods (that return the query builder)
+            else if (chainableMethods.includes(qProp)) {
               return function(...args) {
                 try {
                   if (typeof qTarget[qProp] === 'function') {
+                    console.log(`Chaining Supabase method ${qProp} on ${tableName}`);
                     return qTarget[qProp](...args);
                   } else {
-                    console.warn(`Supabase method ${qProp} not available, using fallback`);
-                    return createMockQuery(tableName);
+                    console.warn(`Supabase method ${qProp} not available on real client, using fallback`);
+                    const mockQuery = createMockQuery(tableName);
+                    return mockQuery[qProp](...args);
                   }
                 } catch (e) {
                   console.warn(`Error in Supabase ${qProp} method, using fallback`, e);
-                  return createMockQuery(tableName);
+                  const mockQuery = createMockQuery(tableName);
+                  return mockQuery[qProp](...args);
                 }
               };
             }
-            // passthrough other properties/methods
+            
+            // Passthrough other properties/methods
             return qTarget[qProp];
           }
         });
