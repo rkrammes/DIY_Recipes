@@ -153,21 +153,7 @@ export function renderRecipes(recipes) {
     }
     
     li.appendChild(contentDiv);
-    
-    // Add click event to show recipe details
-    li.addEventListener('click', () => {
-      // Hide ingredients view if visible
-      const ingredientsView = document.getElementById('ingredientsView');
-      if (ingredientsView) ingredientsView.style.display = 'none';
-      
-      // Show recipe details
-      const recipeDetails = document.getElementById('recipeDetails');
-      if (recipeDetails) {
-        recipeDetails.style.display = 'block';
-        recipeDetails.innerHTML = ''; // Clear previous content
-        showRecipeDetails(recipe);
-      }
-    });
+    // Click listener moved to initUI using event delegation
     
     recipeList.appendChild(li);
   });
@@ -297,20 +283,7 @@ export function renderIngredients(ingredients) {
     li.style.borderRadius = '4px';
     li.style.transition = 'background-color 0.2s ease';
     
-    li.addEventListener('click', () => {
-      console.log('Ingredient clicked:', ingredient.name);
-      // Toggle the 'expanded' class and the display of detailsDiv
-      li.classList.toggle('expanded');
-      if (detailsDiv.hasChildNodes()) { // Only toggle if there are details to show
-        detailsDiv.style.display = li.classList.contains('expanded') ? 'block' : 'none';
-      }
-      // Optional: visual feedback on expand/collapse
-      if (li.classList.contains('expanded')) {
-        li.style.backgroundColor = 'rgba(0, 123, 255, 0.05)';
-      } else {
-        li.style.backgroundColor = '';
-      }
-    });
+    // Click listener moved to initUI using event delegation
     
     ingredientList.appendChild(li);
   });
@@ -476,19 +449,7 @@ currentRecipeColumn.style.display = 'block';
       <span class="collapsible-icon">&#9654;</span>
     `;
 
-    ingredientsHeader.addEventListener('click', () => {
-      const expanded = ingredientsCollapsible.getAttribute('aria-expanded') === 'true';
-      ingredientsCollapsible.setAttribute('aria-expanded', String(!expanded));
-      ingredientsHeader.setAttribute('aria-expanded', String(!expanded));
-      ingredientsCollapsible.classList.toggle('expanded', !expanded);
-    });
-
-    ingredientsHeader.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        ingredientsHeader.click();
-      }
-    });
+    // Event listeners for header click/keydown moved to initUI via delegation
 
     const ingredientsContent = document.createElement('div');
     ingredientsContent.className = 'collapsible-content';
@@ -567,19 +528,7 @@ currentRecipeColumn.style.display = 'block';
       content.id = `${idSuffix}-content`;
       content.innerHTML = contentHtml;
 
-      header.addEventListener('click', () => {
-        const expanded = container.getAttribute('aria-expanded') === 'true';
-        container.setAttribute('aria-expanded', String(!expanded));
-        header.setAttribute('aria-expanded', String(!expanded));
-        container.classList.toggle('expanded', !expanded);
-      });
-
-      header.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          header.click();
-        }
-      });
+      // Event listeners for header click/keydown moved to initUI via delegation
 
       container.appendChild(header);
       container.appendChild(content);
@@ -988,131 +937,11 @@ export async function reloadData() {
 /**
  * Initializes the UI components, sets up event listeners, and loads initial data.
  */
-// Setup collapsible sections for a recipe
-/**
- * Sets up the collapsible sections for recipes.
- * Handles both column-level and individual collapsible elements.
- */
-function setupRecipeCollapsibles() {
-  // Setup middle column collapsibles
-  setupCollapsibleGroup('middleColumnCollapsibles', 'toggleMiddleColumnBtn');
-  
-  // Removed setup for nonexistent right column collapsibles
-  // setupCollapsibleGroup('rightColumnCollapsibles', 'toggleRightColumnBtn');
-  
-  // Setup ingredients toggle
-  const toggleIngredientsBtn = document.getElementById('toggleMaterialsBtn');
-  if (toggleIngredientsBtn) {
-    toggleIngredientsBtn.addEventListener('click', () => {
-      const ingredientItems = document.querySelectorAll('#currentMaterials .ingredient-item');
-      const shouldExpand = toggleIngredientsBtn.querySelector('.label').textContent === 'Expand All';
-      
-      ingredientItems.forEach(item => {
-        const detailsDiv = item.querySelector('.ingredient-details');
-        if (detailsDiv && detailsDiv.hasChildNodes()) {
-          item.classList.toggle('expanded', shouldExpand);
-          detailsDiv.style.display = shouldExpand ? 'block' : 'none';
-          
-          // Add visual feedback for expanded state
-          if (shouldExpand) {
-            item.style.backgroundColor = 'rgba(0, 123, 255, 0.05)';
-            item.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
-          } else {
-            item.style.backgroundColor = '';
-            item.style.boxShadow = '';
-          }
-        }
-      });
-      
-      // Update toggle button state
-      toggleIngredientsBtn.querySelector('.label').textContent = shouldExpand ? 'Collapse All' : 'Expand All';
-      toggleIngredientsBtn.setAttribute('aria-pressed', String(shouldExpand));
-      toggleIngredientsBtn.querySelector('.icon').textContent = shouldExpand ? '⊖' : '⊕';
-    });
-  }
-  
-  // Setup individual collapsible headers
-  setupIndividualCollapsibles();
-}
+// setupRecipeCollapsibles function is no longer needed as listeners are delegated in initUI
 
-/**
- * Sets up a collapsible group with a toggle button.
- * @param {string} groupId - The ID of the collapsible group container.
- * @param {string} buttonId - The ID of the toggle button.
- */
-function setupCollapsibleGroup(groupId, buttonId) {
-  const toggleBtn = document.getElementById(buttonId);
-  if (!toggleBtn) return;
-  
-  toggleBtn.addEventListener('click', () => {
-    const group = document.getElementById(groupId);
-    if (!group) return;
-    
-    const containers = group.querySelectorAll('.collapsible-container');
-    const shouldExpand = toggleBtn.querySelector('.label').textContent === 'Expand All';
-    
-    // Apply animation in sequence for a staggered effect
-    containers.forEach((container, index) => {
-      setTimeout(() => {
-        container.setAttribute('aria-expanded', String(shouldExpand));
-        const header = container.querySelector('.collapsible-header');
-        if (header) header.setAttribute('aria-expanded', String(shouldExpand));
-        container.classList.toggle('expanded', shouldExpand);
-      }, index * 50); // 50ms delay between each container
-    });
-    
-    // Update toggle button state
-    toggleBtn.querySelector('.label').textContent = shouldExpand ? 'Collapse All' : 'Expand All';
-    toggleBtn.setAttribute('aria-pressed', String(shouldExpand));
-    toggleBtn.querySelector('.icon').textContent = shouldExpand ? '⊖' : '⊕';
-  });
-}
+// setupCollapsibleGroup function is no longer needed as listeners are delegated in initUI
 
-/**
- * Sets up individual collapsible sections with proper ARIA attributes and animations.
- */
-function setupIndividualCollapsibles() {
-  const collapsibles = document.querySelectorAll('.collapsible-container');
-  
-  collapsibles.forEach(container => {
-    const header = container.querySelector('.collapsible-header');
-    const content = container.querySelector('.collapsible-content');
-    
-    if (!header || !content) return;
-    
-    // Ensure proper ARIA attributes
-    const contentId = content.id || `collapsible-content-${Math.random().toString(36).substr(2, 9)}`;
-    content.id = contentId;
-    header.setAttribute('aria-controls', contentId);
-    
-    // Set up click handler with improved animation
-    header.addEventListener('click', () => {
-      const isExpanded = container.getAttribute('aria-expanded') === 'true';
-      const newExpandedState = !isExpanded;
-      
-      // Update ARIA states
-      container.setAttribute('aria-expanded', String(newExpandedState));
-      header.setAttribute('aria-expanded', String(newExpandedState));
-      
-      // Toggle expanded class for CSS transitions
-      container.classList.toggle('expanded', newExpandedState);
-      
-      // Animate the icon rotation
-      const icon = header.querySelector('.collapsible-icon');
-      if (icon) {
-        icon.style.transform = newExpandedState ? 'rotate(90deg)' : 'rotate(0deg)';
-      }
-    });
-    
-    // Add keyboard support
-    header.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        header.click();
-      }
-    });
-  });
-}
+// setupIndividualCollapsibles function is no longer needed as listeners are delegated in initUI
 
  // Update recipe stats in the quick stats section
  function safeSetText(elementId, value, fallback) {
@@ -1273,7 +1102,6 @@ function setupIterationFunctionality() {
 }
 
 export async function initUI() {
-  console.log('Initializing UI...');
   console.log('Initializing UI...');
   console.log('initUI: setup started');
 
@@ -1492,12 +1320,107 @@ export async function initUI() {
     });
   }
 
+  // --- Delegated Event Listeners ---
+
+  // Recipe List Click Handler
+  const recipeList = document.getElementById('recipeList');
+  if (recipeList) {
+    recipeList.addEventListener('click', async (event) => {
+      const targetLi = event.target.closest('.recipe-item');
+      if (targetLi && targetLi.dataset.id) {
+        const recipeId = targetLi.dataset.id;
+        console.log(`Recipe item clicked: ID=${recipeId}`);
+        // Fetch the full recipe data based on ID (assuming recipes array is available or fetchable)
+        // This requires access to the recipes array or a function to fetch by ID.
+        // For now, let's assume `recipes` is accessible or refetch.
+        const recipes = await loadRecipes(); // Consider caching this
+        const selectedRecipe = recipes.find(r => String(r.id) === recipeId);
+
+        if (selectedRecipe) {
+          // Update selected state visually
+          recipeList.querySelectorAll('.recipe-item').forEach(li => li.classList.remove('selected'));
+          targetLi.classList.add('selected');
+
+          // Hide ingredients view if visible
+          const ingredientsView = document.getElementById('ingredientsView');
+          if (ingredientsView) ingredientsView.style.display = 'none';
+
+          // Show recipe details
+          const recipeDetails = document.getElementById('recipeDetails');
+          if (recipeDetails) {
+            recipeDetails.style.display = 'block';
+            recipeDetails.innerHTML = ''; // Clear previous content
+            showRecipeDetails(selectedRecipe); // Pass the full recipe object
+          }
+        } else {
+          console.error(`Recipe with ID ${recipeId} not found.`);
+        }
+      }
+    });
+  }
+
+  // Ingredient List Click Handler (for expanding/collapsing)
+  const materialsList = document.getElementById('currentMaterials');
+  if (materialsList) {
+    materialsList.addEventListener('click', (event) => {
+      const targetLi = event.target.closest('.ingredient-item');
+      if (targetLi) {
+        const detailsDiv = targetLi.querySelector('.ingredient-details');
+        console.log('Ingredient item clicked:', targetLi.dataset.id);
+        targetLi.classList.toggle('expanded');
+        if (detailsDiv && detailsDiv.hasChildNodes()) {
+          detailsDiv.style.display = targetLi.classList.contains('expanded') ? 'block' : 'none';
+        }
+        // Visual feedback
+        targetLi.style.backgroundColor = targetLi.classList.contains('expanded') ? 'rgba(0, 123, 255, 0.05)' : '';
+      }
+    });
+  }
+
+  // Collapsible Header Click/Keydown Handler (delegated to content-grid)
+  const contentGrid = document.querySelector('.content-grid');
+  if (contentGrid) {
+    const handleCollapsibleToggle = (header) => {
+      const container = header.closest('.collapsible-container');
+      if (!container) return;
+
+      const isExpanded = container.getAttribute('aria-expanded') === 'true';
+      const newExpandedState = !isExpanded;
+
+      container.setAttribute('aria-expanded', String(newExpandedState));
+      header.setAttribute('aria-expanded', String(newExpandedState));
+      container.classList.toggle('expanded', newExpandedState);
+
+      const icon = header.querySelector('.collapsible-icon');
+      if (icon) {
+        icon.style.transform = newExpandedState ? 'rotate(90deg)' : 'rotate(0deg)';
+      }
+    };
+
+    contentGrid.addEventListener('click', (event) => {
+      const header = event.target.closest('.collapsible-header');
+      if (header) {
+        handleCollapsibleToggle(header);
+      }
+    });
+
+    contentGrid.addEventListener('keydown', (event) => {
+      const header = event.target.closest('.collapsible-header');
+      if (header && (event.key === 'Enter' || event.key === ' ')) {
+        event.preventDefault();
+        handleCollapsibleToggle(header);
+      }
+    });
+  }
+
+  // --- End Delegated Listeners ---
+
+
   // Load initial data
   await reloadData();
-  // Setup collapsible sections
-  setupRecipeCollapsibles();
-  // Setup iteration functionality
+  // Setup iteration functionality (still needed)
   setupIterationFunctionality();
+  console.log('initUI: setup complete');
 }
 
 /**
