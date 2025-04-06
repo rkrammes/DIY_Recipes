@@ -1187,6 +1187,16 @@ body.light .remove-recipe-btn:hover {
   filter: brightness(1.2);
   background: none !important;
   border: none !important;
+/* --- Left Column: Categories, version numbers, titles in white for contrast --- */
+.left-column .section-title,
+.left-column .version,
+.left-column .version-number,
+.left-column h2,
+.left-column h3,
+.left-column h4 {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
 }
 
 /* Light theme: keep orange text */
