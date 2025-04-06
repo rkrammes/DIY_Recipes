@@ -1189,7 +1189,6 @@ body.light .remove-recipe-btn:hover {
   border: none !important;
 }
   /* --- Left Column: Categories, version numbers, titles in white for contrast --- */
-}
 .left-column .section-title,
 .left-column .version,
 .left-column .version-number,
