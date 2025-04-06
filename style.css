@@ -141,25 +141,7 @@ h4 { font-size: 20px; margin-bottom: var(--spacing-small); }
   gap: 16px;
 }
 
-.header-recipe-list {
-  padding: 8px 16px;
-  background-color: var(--primary-bg-dark); /* Use theme variable */
-  text-align: center;
-  width: 100%;
-  transition: background-color 0.3s ease;
-}
-
-.recipe-list-horizontal {
-  display: inline-flex;
-  gap: 12px;
-  list-style: none;
-  overflow-x: auto;
-  overflow-y: hidden;
-  margin: 0;
-  padding: 0;
-  min-height: 30px;
-  max-height: 40px;
-}
+/* Removed .header-recipe-list and .recipe-list-horizontal styles */
 
 .main-content {
   flex: 1;
@@ -252,6 +234,19 @@ aside.glass-panel {
 }
 .btn-header:hover {
   filter: brightness(1.2); /* Make gradient brighter on hover */
+}
+
+/* Vertical Recipe List (for Left Column) */
+.recipe-list-vertical {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 400px; /* Adjust as needed */
+  overflow-y: auto;
+}
+.recipe-list-vertical .recipe-item {
+  display: block; /* Stack items vertically */
+  margin-bottom: var(--spacing-small); /* Space between items */
 }
  
 /* Recipe/Ingredient Items - Simpler Styling */
@@ -885,9 +880,7 @@ body.light .unified-header {
   background-color: var(--secondary-bg);
 }
 
-body.light .header-recipe-list {
-  background-color: var(--primary-bg);
-}
+/* Removed body.light .header-recipe-list */
 
 body.light .main-content {
   background-color: var(--primary-bg);

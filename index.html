@@ -48,28 +48,24 @@
             <div id="statusMessages" aria-live="polite" style="font-size: 0.8em;"></div> <!-- Status messages container -->
           </div>
         </div>
-      </div>
-      <nav class="header-recipe-list" role="navigation" aria-label="Recipe selector">
-         <ul id="recipeList" class="recipe-list-horizontal"></ul>
-         <button id="btnAddRecipe" class="btn btn-add-recipe" aria-label="Add new recipe">
-           +
-         </button>
-      </nav>
-    </header>
-
-    <!-- Recipe Header Section (Displays selected recipe title and actions) -->
-    <div class="glass-panel recipe-header-section" id="recipeHeaderSection" style="display: none;"> <!-- Initially hidden -->
-      <h2 id="selectedRecipeTitle" class="recipe-title">Select a Recipe</h2>
-      <div class="recipe-actions" id="recipeActions">
-        <!-- Add/Remove Recipe buttons will be added here by JS -->
-      </div>
-    </div>
+      </div>    </header>
 
     <div class="content-grid">
       <!-- Left Column: Auth, Status, Global Ingredients List -->
       <aside class="left-column" id="left-column" role="complementary" aria-labelledby="left-column-heading">
-        <h2 id="left-column-heading" class="section-title">Info & Ingredients</h2>
-
+         <h2 id="left-column-heading" class="section-title">Info & Ingredients</h2>
+         <!-- Recipe Navigation Section -->
+         <div id="recipeNavSection" class="collapsible-container" data-color="blue" aria-expanded="true">
+           <button type="button" class="collapsible-header" aria-controls="recipe-nav-content" aria-expanded="true">
+             <span>Recipes</span>
+             <span class="collapsible-icon" style="transform: rotate(90deg);">&#9654;</span>
+           </button>
+           <div class="collapsible-content" id="recipe-nav-content" style="max-height: 1000px; padding: 8px 16px; opacity: 1;">
+             <ul id="recipeList" class="recipe-list-vertical"></ul> <!-- Changed class -->
+             <button id="btnAddRecipe" class="btn btn-small btn-add-recipe" aria-label="Add new recipe" style="margin-top: var(--spacing-small);">+ Add Recipe</button> <!-- Adjusted style/class -->
+           </div>
+         </div>
+ 
         <!-- Global Ingredients Section -->
         <!-- Original Auth Section Removed -->
         <!-- Global Ingredients Section -->
@@ -92,6 +88,14 @@
       <!-- Middle Column: Selected Recipe View -->
       <section class="middle-column" id="middle-column" role="main" aria-labelledby="middle-column-heading">
          <h2 id="middle-column-heading" class="visually-hidden">Selected Recipe Details</h2>
+         <!-- Recipe Header Section (Moved inside Middle Column) -->
+         <div class="glass-panel recipe-header-section" id="recipeHeaderSection" style="display: none; margin-bottom: var(--spacing-medium);"> <!-- Initially hidden, adjusted margin -->
+           <h2 id="selectedRecipeTitle" class="recipe-title">Select a Recipe</h2>
+           <div class="recipe-actions" id="recipeActions">
+             <!-- Add/Remove Recipe buttons will be added here by JS -->
+           </div>
+         </div>
+ 
          <div id="recipeDetailsView" style="display: none;"> <!-- Container for selected recipe -->
             <!-- Recipe Description (if any) -->
             <div id="recipeDescription" class="glass-panel" style="margin-bottom: var(--spacing-medium);">
