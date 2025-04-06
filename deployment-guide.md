@@ -66,3 +66,30 @@ Optional:
 
 - [Vercel Documentation](https://vercel.com/docs)
 - [Supabase Documentation](https://supabase.io/docs)
+
+---
+
+## Cache Busting & Deployment Tips
+
+- The app uses aggressive caching headers for CSS (1 year). To ensure users get updates:
+  - Update the query string version (`?v=20250406`) on CSS and JS references in `index.html` whenever changes are made.
+  - Use the current deployment date as the version string (e.g., `?v=20250406`) to ensure users always receive the latest files.
+- After pushing changes:
+  - Trigger a new deployment by pushing to the `main` branch or redeploying via Vercel dashboard.
+  - Optionally, clear the Vercel build cache in the dashboard if updates do not appear.
+- Test the deployed site:
+  - Open in incognito/private browsing mode.
+  - Perform a hard refresh (Shift+Reload or Ctrl+F5).
+  - Confirm new changes are visible, especially in the settings panel.
+- If issues persist:
+  - Verify the updated version strings are present in the deployed HTML.
+  - Check browser network tab to ensure fresh files are loaded (not cached).
+
+---
+
+## Summary
+
+- Always update version query strings on CSS/JS when deploying fixes.
+- Trigger deployment via git push or Vercel dashboard.
+- Test in private mode and clear cache if needed.
+- This ensures users see the latest changes immediately.
