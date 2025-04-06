@@ -1562,3 +1562,14 @@ body.light .left-column i {
   border-radius: 50%;
   margin-left: 6px;
 }
+
+/* Z-index fix to ensure settings panel overlays right column buttons */
+.settings-panel,
+.settings-panel[aria-expanded="true"] {
+  z-index: 999999 !important;
+}
+
+#right-column-actions .collapsible-container {
+  z-index: 1000;
+  position: relative;
+}
