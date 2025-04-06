@@ -503,6 +503,12 @@ const recipeIngredientsDisplayEl = document.getElementById('recipeIngredientList
  // --- 4. Populate Right Column (Metadata & Editing View) ---
  updateRecipeStats(recipe); // Update quick stats (already targets elements in right column)
 
+ // Render Advanced Analysis Panel
+ const advPanel = document.getElementById('advancedAnalysisPanel');
+ if (advPanel && recipe) {
+   renderAdvancedAnalysis(recipe, advPanel);
+ }
+
  const versionHistoryEl = document.getElementById('recipeVersionHistory'); // Target right column element
  if (versionHistoryEl) {
      if (recipe.version && recipe.version > 1) {
