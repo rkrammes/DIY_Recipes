@@ -239,6 +239,21 @@ aside.glass-panel {
   /* Inherits font-family, font-size, font-weight from inline style or body */
 }
 
+/* Header Button Specific Style (Gradient Text) */
+.btn-header {
+  background: none !important; /* Remove background */
+  border: none !important; /* Remove border */
+  padding: 10px 0; /* Adjust padding if needed */
+  background: var(--button-gradient-dark); /* Use theme variable for gradient */
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold; /* Ensure it's readable */
+}
+.btn-header:hover {
+  filter: brightness(1.2); /* Make gradient brighter on hover */
+}
+ 
 /* Recipe/Ingredient Items - Simpler Styling */
 .recipe-item,
 .ingredient-item { /* Combined for now, might need separation later */
@@ -900,6 +915,13 @@ body.light #logoText {
   background-clip: text;
 }
 
+body.light .btn-header {
+  background: var(--button-gradient-light) !important; /* Use light theme gradient */
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+ 
 body.light .recipe-item,
 body.light .ingredient-item {
   background-color: var(--secondary-bg);
@@ -1083,4 +1105,9 @@ body.light .recipe-title {
 
 body.light .remove-recipe-btn:hover {
   box-shadow: 0 2px 5px var(--shadow);
+}
+
+/* Larger Logo Text */
+.logo-large {
+  font-size: 36px !important; /* Make it significantly larger */
 }

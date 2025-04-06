@@ -30,15 +30,15 @@
     <header class="glass-panel unified-header" role="banner">
       <div class="header-top-row">
         <div class="header-left">
-          <button class="btn" id="btnIngredients">All Ingredients</button>
+          <!-- "All Ingredients" button moved to right column -->
         </div>
         <div id="logoContainer">
-          <span id="logoText">DIY Projects</span>
+          <span id="logoText" class="logo-large">Kraft_AI</span>
         </div>
         <div class="header-right">
-          <button class="btn" id="btnThemeToggle" data-theme="dark" aria-label="Toggle theme">Theme: Dark</button>
-          <button class="btn" id="btnLogIn">Log In</button>
-          <button class="btn" id="btnEditModeToggle" data-active="false" aria-label="Toggle edit mode">Edit Mode: OFF</button>
+          <button class="btn btn-header" id="btnThemeToggle" data-theme="dark" aria-label="Toggle theme">Theme: Dark</button>
+          <button class="btn btn-header" id="btnLogIn">Log In</button>
+          <button class="btn btn-header" id="btnEditModeToggle" data-active="false" aria-label="Toggle edit mode">Edit Mode: OFF</button>
         </div>
       </div>
       <nav class="header-recipe-list" role="navigation" aria-label="Recipe selector">
@@ -170,6 +170,9 @@
       <!-- Right Column: Recipe Metadata, Iterations, Editing -->
        <aside class="right-column" id="right-column" role="complementary" aria-labelledby="right-column-heading">
          <h2 id="right-column-heading" class="visually-hidden">Recipe Metadata and Editing</h2>
+         <div style="margin-bottom: var(--spacing-medium);"> <!-- Added wrapper for spacing -->
+           <button class="btn" id="btnIngredients">All Ingredients</button>
+         </div>
          <div id="recipeMetadataView" style="display: none;"> <!-- Container for selected recipe metadata/editing -->
 
             <!-- Quick Stats -->
