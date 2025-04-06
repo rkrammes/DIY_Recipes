@@ -379,6 +379,9 @@ export async function showRecipeDetails(recipe) {
   } else if (currentRecipeColumn.parentNode !== container) {
     container.appendChild(currentRecipeColumn);
   }
+currentRecipeColumn.style.minWidth = '300px';
+currentRecipeColumn.style.flex = '1';
+currentRecipeColumn.style.display = 'block';
 
   // Clear previous content
   details.innerHTML = '';
