@@ -4,6 +4,7 @@ module.exports = {
   },
   testEnvironment: 'jsdom',
   moduleFileExtensions: ['js', 'json', 'jsx', 'node'],
+  setupFilesAfterEnv: ['./tests/test-setup.js', '@testing-library/jest-dom/extend-expect'],
   setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
   testMatch: ['**/__tests__/**/*.js', '**/?(*.)+(spec|test).js'],
   verbose: true,

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1743920071996" clover="3.2.0">
-  <project timestamp="1743920071996" name="All files">
+<coverage generated="1743920147541" clover="3.2.0">
+  <project timestamp="1743920147542" name="All files">
     <metrics statements="1140" coveredstatements="0" conditionals="587" coveredconditionals="0" methods="141" coveredmethods="0" elements="1868" coveredelements="0" complexity="0" loc="1140" ncloc="1140" packages="1" files="9" classes="9"/>
     <file name="api.js" path="/Users/ryankrammes/Documents/GitHub/DIY_Recipes/js/api.js">
       <metrics statements="135" coveredstatements="0" conditionals="68" coveredconditionals="0" methods="29" coveredmethods="0"/>
