@@ -435,24 +435,6 @@ export async function showRecipeDetails(recipe) {
     }
 
     // --- Left column content (ingredients list) ---
-    const toggleAllBtn = document.createElement('button');
-    toggleAllBtn.className = 'btn';
-    toggleAllBtn.textContent = 'Collapse All';
-    toggleAllBtn.setAttribute('aria-pressed', 'false');
-    toggleAllBtn.style.marginBottom = 'var(--spacing-medium)';
-    toggleAllBtn.addEventListener('click', () => {
-      const containers = ingredientsColumn.querySelectorAll('.collapsible-container');
-      const shouldExpand = toggleAllBtn.textContent === 'Expand All';
-      containers.forEach(container => {
-        container.setAttribute('aria-expanded', String(shouldExpand));
-        const header = container.querySelector('.collapsible-header');
-        if (header) header.setAttribute('aria-expanded', String(shouldExpand));
-        container.classList.toggle('expanded', shouldExpand);
-      });
-      toggleAllBtn.textContent = shouldExpand ? 'Collapse All' : 'Expand All';
-      toggleAllBtn.setAttribute('aria-pressed', String(shouldExpand));
-    });
-    ingredientsColumn.prepend(toggleAllBtn);
 
     // Ingredients collapsible (default expanded)
     const ingredientsCollapsible = document.createElement('div');
@@ -530,18 +512,20 @@ export async function showRecipeDetails(recipe) {
     middleContent.style.flexDirection = 'column';
     middleContent.style.gap = '1rem';
 
-    // Description section (non-collapsible)
-    const descriptionSection = document.createElement('div');
-    descriptionSection.className = 'description-section';
-    descriptionSection.innerHTML = `
-      <h4>Description</h4>
-      <p>${recipe.description || 'No description provided'}</p>
-      <p><strong>Preparation Time:</strong> ${recipe.prep_time || 'N/A'}</p>
-      <p><strong>Shelf Life:</strong> ${recipe.cook_time || 'N/A'}</p>
-      <p><strong>Yield:</strong> ${recipe.servings || 'N/A'}</p>
-      <p><strong>Category:</strong> ${recipe.category || 'N/A'}</p>
-    `;
-    middleContent.appendChild(descriptionSection);
+    // Conditionally render description section only if there is meaningful content
+    if (recipe.description || recipe.prep_time || recipe.cook_time || recipe.servings || recipe.category) {
+      const descriptionSection = document.createElement('div');
+      descriptionSection.className = 'description-section';
+      descriptionSection.innerHTML = `
+        <h4>Description</h4>
+        ${recipe.description ? `<p>${recipe.description}</p>` : ''}
+        ${recipe.prep_time ? `<p><strong>Preparation Time:</strong> ${recipe.prep_time}</p>` : ''}
+        ${recipe.cook_time ? `<p><strong>Shelf Life:</strong> ${recipe.cook_time}</p>` : ''}
+        ${recipe.servings ? `<p><strong>Yield:</strong> ${recipe.servings}</p>` : ''}
+        ${recipe.category ? `<p><strong>Category:</strong> ${recipe.category}</p>` : ''}
+      `;
+      middleContent.appendChild(descriptionSection);
+    }
 
     // Instructions collapsible
     const instructionsCollapsible = document.createElement('div');
@@ -664,60 +648,12 @@ const iterationSection = createCollapsibleSection(
 currentRecipeColumn.appendChild(iterationSection);
 
 // AI Suggestions
-const aiSuggestionsSection = createCollapsibleSection(
-  'AI Suggestions',
-  '<p>No AI suggestions available.</p>',
-  'ai-suggestions',
-  'neutral'
-);
-currentRecipeColumn.appendChild(aiSuggestionsSection);
 
 
 
 
     // --- Right column content ---
-    const iterationHeading = document.createElement('h3');
-    iterationHeading.textContent = 'Kraft';
-    currentRecipeColumn.appendChild(iterationHeading);
 
-    const aiHeader = document.createElement('div');
-    aiHeader.style.display = 'flex';
-    aiHeader.style.justifyContent = 'space-between';
-    aiHeader.style.alignItems = 'center';
-    aiHeader.style.marginBottom = '10px';
-    aiHeader.style.marginTop = 'var(--spacing-medium)';
-
-    const aiHeading = document.createElement('h3');
-    aiHeading.textContent = 'AI Suggestions';
-    aiHeader.appendChild(aiHeading);
-    currentRecipeColumn.appendChild(aiHeader);
-
-    const aiInput = document.createElement('input');
-    aiInput.id = 'aiPrompt';
-    aiInput.placeholder = 'Get AI Suggestion (coming soon)';
-    aiInput.classList.add('sidebar-textbox');
-    aiInput.style.width = 'calc(100% - 22px)';
-    aiInput.style.marginBottom = '5px';
-    currentRecipeColumn.appendChild(aiInput);
-
-    const aiButton = document.createElement('button');
-    aiButton.id = 'btnGetAISuggestion';
-    aiButton.textContent = 'Suggest';
-    aiButton.classList.add('btn');
-    aiButton.disabled = true;
-    aiButton.style.marginBottom = '10px';
-    currentRecipeColumn.appendChild(aiButton);
-
-    const aiSuggestionsList = document.createElement('ul');
-    aiSuggestionsList.id = 'aiSuggestionsList';
-    aiSuggestionsList.style.listStyle = 'none';
-    aiSuggestionsList.style.padding = '0';
-    aiSuggestionsList.style.maxHeight = '150px';
-    aiSuggestionsList.style.overflowY = 'auto';
-    aiSuggestionsList.style.border = '1px dashed #ccc';
-    aiSuggestionsList.style.padding = '5px';
-    aiSuggestionsList.textContent = 'Suggestions will appear here...';
-    currentRecipeColumn.appendChild(aiSuggestionsList);
 
     const tableContainer = document.createElement('div');
     tableContainer.classList.add('tableContainer');
