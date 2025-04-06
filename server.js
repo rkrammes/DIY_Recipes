@@ -1,3 +1,4 @@
+
 // server.js
 
 import express from 'express';
@@ -93,18 +94,8 @@ app.get('/', (req, res) => {
 });
 
 // Fallback to index.html for SPA routing
-app.get('*', (req, res, next) => {
-  if (req.path.includes('.')) {
-    // If the request has a file extension, skip to default 404 handler
-    return next();
-  } else {
-    res.sendFile(__dirname + '/index.html');
-  }
-});
-
-// Handle 404 for missing static files
-app.use((req, res) => {
-  res.status(404).send('404 Not Found');
+app.get('*', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
 });
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
