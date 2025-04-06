@@ -31,3 +31,28 @@ Implementation involved minimal HTML changes (adding the portal container), CSS 
 This resolved all z-index conflicts. The settings panel now consistently appears above all elements with full functionality and smooth transitions.
 
 Key lessons: understanding CSS stacking contexts is critical; some UI issues require architectural—not cosmetic—solutions. The portal pattern proved highly effective for overlays and will inform future UI design.
+
+---
+
+## Portal Bug Fix & Final Verification
+
+### Bug Identification
+- The initial portal implementation had a critical bug: the panel was cloned instead of moved
+- This broke ID-based references essential for UI updates
+- Resulted in no visible changes when interacting with the panel
+
+### Bug Fix
+- Updated implementation to move the original panel DOM node directly into the portal container
+- This preserves all references and event listeners
+- The portal container structure and CSS remained unchanged
+
+### Verification
+- The fix resolved the z-index overlay issues completely
+- The settings panel now appears above all elements, including problematic buttons
+- Authentication, edit mode, and theme selection work correctly
+- Transitions and styling remain smooth and consistent
+
+### Lessons Learned
+- Always move original DOM elements into portals, never clone, to preserve references and event bindings
+- Preserving IDs and listeners is critical for dynamic UI components
+- Testing within the full application context is essential to catch integration bugs

@@ -15,17 +15,10 @@ export function initSettingsUI() {
   overlay.id = 'settings-overlay';
   document.body.appendChild(overlay);
   
-  // Move settings panel to portal
+  // Move the original settings panel DOM node into the portal container
   if (settingsPanel && settingsPortal) {
-    const panelClone = settingsPanel.cloneNode(true);
-    
-    if (settingsPanel.parentNode) {
-      settingsPanel.parentNode.removeChild(settingsPanel);
-    }
-    
-    settingsPortal.appendChild(panelClone);
-    
-    setupPanelEventListeners(panelClone);
+    settingsPortal.appendChild(settingsPanel);
+    setupPanelEventListeners(settingsPanel);
   }
   
   // Toggle settings panel visibility
