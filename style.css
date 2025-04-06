@@ -1198,7 +1198,6 @@ body.light .remove-recipe-btn:hover {
 .left-column h4 {
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
-}
 
 /* Light theme: keep orange text */
 body.light .left-column *,
