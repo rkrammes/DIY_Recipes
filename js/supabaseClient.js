@@ -2,7 +2,7 @@
 // Using CDN import for direct browser compatibility
 
 // Import directly from the Supabase CDN ESM build
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm/index.js';
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
 // Use the actual Supabase URL and the PUBLIC ANONYMOUS KEY
 const SUPABASE_URL = 'https://bzudglfxxywugesncjnz.supabase.co';

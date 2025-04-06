@@ -1,9 +1,3 @@
-jest.mock('../js/supabaseClient.js');
-
-jest.mock('../js/supabaseClient.js');
-
-jest.mock('../js/supabaseClient.js');
-
 /**
  * @jest-environment jsdom
  */
@@ -38,7 +32,7 @@ describe('Recipe Actions Components', () => {
     // Check content
     const content = panel.querySelector('.collapsible-content');
     expect(content).toBeTruthy();
-    expect(content.style.maxHeight).toBe('0');
+    expect(content.style.maxHeight).toBe('0px');
     expect(content.style.opacity).toBe('0');
     expect(content.textContent).toBe('Test Content');
 

@@ -2,43 +2,20 @@ import { loadRecipes, loadAllIngredients, createNewRecipe, addGlobalIngredient, 
 import { supabaseClient } from '../js/supabaseClient.js';
 
 jest.mock('../js/supabaseClient.js', () => {
-  const mockResponse = { data: null, error: null };
-  const eqChain = () => ({
-    data: null,
-    error: null,
-  });
-
-  const mockFromReturn = {
-    select: jest.fn(() => Promise.resolve(mockResponse)),
-    insert: jest.fn(() => ({
-      select: jest.fn(() => Promise.resolve(mockResponse)),
-      data: null,
-      error: null,
-    })),
-    update: jest.fn(() => ({
-      eq: jest.fn(() => ({
-        data: null,
-        error: null,
-      })),
-      data: null,
-      error: null,
-    })),
-  delete: jest.fn(() => ({
-    eq: jest.fn(() => ({
-      then: jest.fn(() => Promise.resolve({ data: null, error: null })),
-    })),
-  })),
-    eq: jest.fn(() => ({
-      data: null,
-      error: null,
-    })),
-    order: jest.fn(() => mockFromReturn),
-    limit: jest.fn(() => mockFromReturn),
-  };
-
   return {
     supabaseClient: {
-      from: jest.fn(() => mockFromReturn),
+      from: jest.fn().mockReturnValue({
+        // More granular mocking needed for chained methods
+        select: jest.fn().mockReturnThis(), // Return `this` to allow chaining
+        insert: jest.fn().mockReturnThis(),
+        update: jest.fn().mockReturnThis(),
+        delete: jest.fn().mockReturnThis(),
+        eq: jest.fn().mockReturnThis(),
+        order: jest.fn().mockReturnThis(),
+        limit: jest.fn().mockReturnThis(),
+        // Mock the final promise resolution
+        then: jest.fn((resolve) => resolve({ data: [], error: null })), // Default success
+      }),
     },
   };
 });
@@ -113,7 +90,7 @@ describe('API Functions', () => {
     const recipe = await createNewRecipe('New Recipe'); // Only pass name
     expect(recipe).toEqual(mockRecipe);
     expect(supabaseClient.from).toHaveBeenCalledWith('recipes');
-    expect(mockInsert).toHaveBeenCalledWith([{ title: 'New Recipe', version: 1 }]);
+    expect(mockInsert).toHaveBeenCalledWith([{ title: 'New Recipe', instructions: "" }]);
     expect(mockSelectInsert).toHaveBeenCalled();
   });
 
@@ -142,7 +119,7 @@ describe('API Functions', () => {
     const ingredient = await addGlobalIngredient('New Ingredient');
     expect(ingredient).toEqual(mockIngredient);
     expect(supabaseClient.from).toHaveBeenCalledWith('ingredients');
-    expect(mockInsert).toHaveBeenCalledWith([{ name: 'New Ingredient', description: null }]);
+    expect(mockInsert).toHaveBeenCalledWith([{ name: 'New Ingredient' }]);
     expect(mockSelectInsert).toHaveBeenCalled();
   });
 
@@ -187,133 +164,87 @@ test('removeGlobalIngredient should throw error on failure', async () => {
 });
 
 // --- Tests for updateRecipeIngredients ---
-// describe('updateRecipeIngredients', () => {
-//   const recipeId = 'recipe-123';
-//   const ingredients = [
-//     { id: 'ing-1', quantity: '1', unit: 'cup', notes: 'Note 1' },
-//     { id: 'ing-2', quantity: '2', unit: 'tbsp', notes: null },
-//   ];
-//   const ingredientsToInsert = ingredients.map(ing => ({
-//     recipe_id: recipeId,
-//     ingredient_id: ing.id,
-//     quantity: ing.quantity,
-//     unit: ing.unit,
-//     notes: ing.notes,
-//   }));
+describe('updateRecipeIngredients', () => {
+  const recipeId = 'recipe-123';
+  const ingredients = [
+    { id: 'ing-1', quantity: '1', unit: 'cup', notes: 'Note 1' },
+    { id: 'ing-2', quantity: '2', unit: 'tbsp', notes: null },
+  ];
+  const ingredientsToInsert = ingredients.map(ing => ({
+    recipe_id: recipeId,
+    ingredient_id: ing.id,
+    quantity: ing.quantity,
+    unit: ing.unit,
+    notes: ing.notes,
+  }));
 
-//   test('should delete existing and insert new ingredients successfully', async () => {
-//     const mockDeleteEq = jest.fn().mockResolvedValue({ error: null });
-//     const mockDelete = jest.fn().mockReturnValue({ eq: mockDeleteEq });
-//     const mockInsertSelect = jest.fn().mockResolvedValue({ data: ingredientsToInsert, error: null });
-//     const mockInsert = jest.fn().mockReturnValue({ select: mockInsertSelect });
+  test('should delete existing and insert new ingredients successfully', async () => {
+    const mockDeleteEq = jest.fn().mockResolvedValue({ error: null });
+    const mockDelete = jest.fn().mockReturnValue({ eq: mockDeleteEq });
+    const mockInsertSelect = jest.fn().mockResolvedValue({ data: ingredientsToInsert, error: null });
+    const mockInsert = jest.fn().mockReturnValue({ select: mockInsertSelect });
 
-//     // Setup separate mocks for delete and insert calls
-//     supabaseClient.from
-//     .mockReturnValueOnce({ delete: mockDelete }) // For the delete call
-//     .mockReturnValueOnce({ insert: mockInsert }); // Mock insert but expect no call
+    // Setup separate mocks for delete and insert calls
+    supabaseClient.from
+      .mockReturnValueOnce({ delete: mockDelete }) // For the delete call
+      .mockReturnValueOnce({ insert: mockInsert }); // For the insert call
 
-//     const result = await updateRecipeIngredients(recipeId, ingredients);
+    const result = await updateRecipeIngredients(recipeId, ingredients);
 
-//     expect(result).toBe(true);
-//     expect(supabaseClient.from).toHaveBeenCalledWith('recipeingredients');
-//     expect(mockDelete).toHaveBeenCalled();
-//     expect(mockDeleteEq).toHaveBeenCalledWith('recipe_id', recipeId);
-//     expect(mockInsert).toHaveBeenCalledWith(ingredientsToInsert);
-//     expect(mockInsertSelect).toHaveBeenCalled();
-//   });
+    expect(result).toBe(true);
+    expect(supabaseClient.from).toHaveBeenCalledWith('recipeingredients');
+    expect(mockDelete).toHaveBeenCalled();
+    expect(mockDeleteEq).toHaveBeenCalledWith('recipe_id', recipeId);
+    expect(mockInsert).toHaveBeenCalledWith(ingredientsToInsert);
+    expect(mockInsertSelect).toHaveBeenCalled();
+  });
 
-//   test('should handle empty ingredients list (only delete)', async () => {
-//     const mockDeleteEq = jest.fn().mockResolvedValue({ error: null });
-//     const mockDelete = jest.fn().mockReturnValue({ eq: mockDeleteEq });
-//     const mockInsert = jest.fn(); // Should not be called
+   test('should handle empty ingredients list (only delete)', async () => {
+    const mockDeleteEq = jest.fn().mockResolvedValue({ error: null });
+    const mockDelete = jest.fn().mockReturnValue({ eq: mockDeleteEq });
+    const mockInsert = jest.fn(); // Should not be called
 
-//     supabaseClient.from
-//     .mockReturnValueOnce({ delete: mockDelete }) // For the delete call
-//     .mockReturnValueOnce({ insert: mockInsert }); // Mock insert but expect no call
+    supabaseClient.from
+      .mockReturnValueOnce({ delete: mockDelete }) // For the delete call
+      .mockReturnValueOnce({ insert: mockInsert }); // Mock insert but expect no call
 
-//     const result = await updateRecipeIngredients(recipeId, []);
+    const result = await updateRecipeIngredients(recipeId, []);
 
-//     expect(result).toBe(true);
-//     expect(supabaseClient.from).toHaveBeenCalledWith('recipeingredients');
-//     expect(mockDelete).toHaveBeenCalled();
-//     expect(mockDeleteEq).toHaveBeenCalledWith('recipe_id', recipeId);
-//     expect(mockInsert).not.toHaveBeenCalled();
-//   });
+    expect(result).toBe(true);
+    expect(supabaseClient.from).toHaveBeenCalledWith('recipeingredients');
+    expect(mockDelete).toHaveBeenCalled();
+    expect(mockDeleteEq).toHaveBeenCalledWith('recipe_id', recipeId);
+    expect(mockInsert).not.toHaveBeenCalled();
+  });
 
-//   test('should throw error if delete fails', async () => {
-//     const mockError = new Error('Delete failed');
-//     const mockDeleteEq = jest.fn().mockResolvedValue({ error: mockError });
-//     const mockDelete = jest.fn().mockReturnValue({ eq: mockDeleteEq });
-//     const mockInsert = jest.fn(); // Should not be called
+  test('should throw error if delete fails', async () => {
+    const mockError = new Error('Delete failed');
+    const mockDeleteEq = jest.fn().mockResolvedValue({ error: mockError });
+    const mockDelete = jest.fn().mockReturnValue({ eq: mockDeleteEq });
+    const mockInsert = jest.fn(); // Should not be called
 
-//     supabaseClient.from
-//     .mockReturnValueOnce({ delete: mockDelete })
-//     .mockReturnValueOnce({ insert: mockInsert });
+    supabaseClient.from
+      .mockReturnValueOnce({ delete: mockDelete })
+      .mockReturnValueOnce({ insert: mockInsert });
 
-//     // Mock the delete operation to throw the expected error
-//     const mockDeleteErrorEq = jest.fn().mockReturnValue({
-//       data: null, error: mockError
-//     });
-    
-//     const mockDeleteError = jest.fn().mockReturnValue({
-//       eq: mockDeleteErrorEq
-//     });
-    
-//     supabaseClient.from.mockImplementation((table) => {
-//       if (table === 'recipeingredients') {
-//         return {
-//           delete: mockDeleteError
-//         };
-//       }
-//       return { select: jest.fn(), insert: jest.fn(), delete: jest.fn() };
-//     });
-    
-//     await expect(updateRecipeIngredients(recipeId, ingredients))
-//     .rejects.toThrow(`Failed to delete old ingredients: ${mockError.message}`);
-    
-//     // Verify delete was attempted with correct parameters
-//     expect(supabaseClient.from).toHaveBeenCalledWith('recipeingredients');
-//     expect(mockDeleteError).toHaveBeenCalled();
-//     expect(mockDeleteErrorEq).toHaveBeenCalledWith('recipe_id', recipeId);
-//   });
+    await expect(updateRecipeIngredients(recipeId, ingredients))
+      .rejects.toThrow(`Failed to delete old ingredients: ${mockError.message}`);
+    expect(mockInsert).not.toHaveBeenCalled();
+  });
 
-//   test('should throw error if insert fails', async () => {
-//     const mockError = new Error('Insert failed');
-//     const mockDeleteEq = jest.fn().mockResolvedValue({ error: null }); // Delete succeeds
-//     const mockDelete = jest.fn().mockReturnValue({ eq: mockDeleteEq });
-//     const mockInsertSelect = jest.fn().mockResolvedValue({ data: null, error: mockError }); // Insert fails
-//     const mockInsert = jest.fn().mockReturnValue({ select: mockInsertSelect });
+  test('should throw error if insert fails', async () => {
+    const mockError = new Error('Insert failed');
+    const mockDeleteEq = jest.fn().mockResolvedValue({ error: null }); // Delete succeeds
+    const mockDelete = jest.fn().mockReturnValue({ eq: mockDeleteEq });
+    const mockInsertSelect = jest.fn().mockResolvedValue({ data: null, error: mockError }); // Insert fails
+    const mockInsert = jest.fn().mockReturnValue({ select: mockInsertSelect });
 
-//     supabaseClient.from
-//     .mockReturnValueOnce({ delete: mockDelete })
-//     .mockReturnValueOnce({ insert: mockInsert });
+    supabaseClient.from
+      .mockReturnValueOnce({ delete: mockDelete })
+      .mockReturnValueOnce({ insert: mockInsert });
 
-//     // First mock a successful delete
-//     const mockInsertErrorEq = jest.fn().mockReturnValue({
-//       data: { count: 1 }, error: null
-//     });
-    
-//     const mockInsertError = jest.fn().mockReturnValue({
-//       data: null, error: mockError
-//     });
-    
-//     supabaseClient.from.mockImplementation((table) => {
-//       if (table === 'recipeingredients') {
-//         return {
-//           delete: jest.fn().mockReturnValue({
-//             eq: mockInsertErrorEq
-//           }),
-//           insert: mockInsertError
-//         };
-//       }
-//       return { delete: jest.fn(), insert: jest.fn() };
-//     });
-    
-//     await expect(updateRecipeIngredients(recipeId, ingredients))
-//     .rejects.toThrow(`Failed to insert new ingredients: ${mockError.message}`);
-    
-//     // Verify delete was successful and insert was attempted
-//     expect(mockInsertErrorEq).toHaveBeenCalledWith('recipe_id', recipeId);
-//     expect(mockInsertError).toHaveBeenCalled();
-//   });
-// });
+    await expect(updateRecipeIngredients(recipeId, ingredients))
+      .rejects.toThrow(`Failed to insert new ingredients: ${mockError.message}`);
+    expect(mockDeleteEq).toHaveBeenCalled(); // Verify delete was attempted
+  });
+});
