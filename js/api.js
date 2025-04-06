@@ -284,3 +284,90 @@ export async function importCSVFile(file) {
     });
   });
 }
+
+/* ================================
+   Phase 1 Data Model Enhancements
+   ================================ */
+
+// Batch Record schema example
+export function createBatchRecord({
+  batchId,
+  recipeId,
+  createdAt = new Date().toISOString(),
+  size,
+  notes = '',
+  results = {}
+}) {
+  return {
+    batch_id: batchId,
+    recipe_id: recipeId,
+    created_at: createdAt,
+    size,
+    notes,
+    results
+  };
+}
+
+// Ingredient substitution map structure
+export function createSubstitutionMap(substitutions = {}) {
+  // substitutions: { 'ingredient_id': ['sub_id1', 'sub_id2'] }
+  return substitutions;
+}
+
+// Cost calculation structure
+export function createCostStructure({
+  ingredientCosts = {}, // { ingredient_id: { costPerUnit, unit } }
+  totalCost = 0,
+  breakdown = {}
+}) {
+  return {
+    ingredientCosts,
+    totalCost,
+    breakdown
+  };
+}
+
+// Version tracking helpers
+export function incrementRecipeVersion(recipe) {
+  recipe.version = (recipe.version || 1) + 1;
+  return recipe.version;
+}
+
+/* ================================
+   Phase 1 API Stubs
+   ================================ */
+
+// Save batch record (stub)
+export async function saveBatchRecord(batchRecord) {
+  console.log('Saving batch record:', batchRecord);
+  // TODO: Implement Supabase insert to 'batches' table
+  return true;
+}
+
+// Fetch batch records for a recipe (stub)
+export async function fetchBatchRecords(recipeId) {
+  console.log('Fetching batch records for recipe:', recipeId);
+  // TODO: Implement Supabase query from 'batches' table
+  return [];
+}
+
+// Save substitution map (stub)
+export async function saveSubstitutionMap(recipeId, substitutionMap) {
+  console.log('Saving substitution map for recipe:', recipeId, substitutionMap);
+  // TODO: Implement Supabase update to 'recipes' or separate table
+  return true;
+}
+
+// Fetch substitution map (stub)
+export async function fetchSubstitutionMap(recipeId) {
+  console.log('Fetching substitution map for recipe:', recipeId);
+  // TODO: Implement Supabase fetch
+  return {};
+}
+
+// Calculate cost (stub)
+export function calculateRecipeCost(recipe, ingredientPrices) {
+  console.log('Calculating cost for recipe:', recipe, ingredientPrices);
+  // TODO: Implement actual calculation
+  return createCostStructure({});
+}

@@ -3,6 +3,7 @@ import { supabaseClient } from './supabaseClient.js';
 // Fixed import names to match api.js exports - this fixes the SyntaxError
 // "Importing binding name 'fetchIngredients' is not found"
 import { loadRecipes, loadAllIngredients, updateRecipeIngredients } from './api.js';
+import { initRecipeActions } from './recipe-actions.js';
 
 // Global variables
 let isLoggedIn = false;
@@ -1392,6 +1393,8 @@ export async function initUI() {
 
 
   console.log('initUI: setup complete');
+  // Initialize right column action panels
+  initRecipeActions();
 }
 
 /**
