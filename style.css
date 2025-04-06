@@ -1118,4 +1118,9 @@ body.light .remove-recipe-btn:hover {
 .left-column .collapsible-header span {
   font-size: 1em;
 }
+/* Standardize ALL text in left column */
+.left-column,
+.left-column * {
+  font-size: 1em !important;
+}
 }
