@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for auth.js</title>
+    <title>Code coverage report for product-actions.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="prettify.css" />
     <link rel="stylesheet" href="base.css" />
@@ -19,27 +19,27 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="index.html">All files</a> auth.js</h1>
+        <h1><a href="index.html">All files</a> product-actions.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/11</span>
+                <span class='fraction'>0/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
@@ -92,7 +92,27 @@
 <a name='L27'></a><a href='#L27'>27</a>
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -105,51 +125,49 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// auth.js
-import { supabaseClient } from './supabaseClient.js';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Product Actions - Phase 2 Basic Implementation
 &nbsp;
-/**
- * Sends a magic link to the user's email.
- * @param {string} email - The user's email address.
- * @returns {Promise&lt;object&gt;} - Result of the operation.
- */
-export async function <span class="fstat-no" title="function not covered" >sendMagicLink(</span>email) {
-  const { data, error } = <span class="cstat-no" title="statement not covered" >await supabaseClient.auth.signInWithOtp({ email });</span>
-<span class="cstat-no" title="statement not covered" >  if (error) {</span>
-<span class="cstat-no" title="statement not covered" >    console.error('Error sending magic link:', error);</span>
-<span class="cstat-no" title="statement not covered" >    throw error;</span>
-  }
-<span class="cstat-no" title="statement not covered" >  console.log('Magic link sent successfully:', data);</span>
-<span class="cstat-no" title="statement not covered" >  return data;</span>
+// Recipe scaling: adjust batch size
+export function <span class="fstat-no" title="function not covered" >scaleRecipe(</span>originalIngredients, scaleFactor) {
+<span class="cstat-no" title="statement not covered" >  return originalIngredients.map(<span class="fstat-no" title="function not covered" >in</span>g =&gt; (<span class="cstat-no" title="statement not covered" >{</span></span>
+    ...ing,
+    quantity: ing.quantity * scaleFactor
+  }));
 }
 &nbsp;
-/**
- * Signs out the current user.
- * @returns {Promise&lt;void&gt;}
- */
-export async function <span class="fstat-no" title="function not covered" >signOut(</span>) {
-  const { error } = <span class="cstat-no" title="statement not covered" >await supabaseClient.auth.signOut();</span>
-<span class="cstat-no" title="statement not covered" >  if (error) {</span>
-<span class="cstat-no" title="statement not covered" >    console.error('Error signing out:', error);</span>
-<span class="cstat-no" title="statement not covered" >    throw error;</span>
-  }
-<span class="cstat-no" title="statement not covered" >  console.log('User signed out successfully.');</span>
+// Unit conversion: toggle metric/imperial
+export function <span class="fstat-no" title="function not covered" >convertUnits(</span>ingredients, toMetric = <span class="branch-0 cbranch-no" title="branch not covered" >true)</span> {
+  // Placeholder: simple toggle without actual unit logic
+<span class="cstat-no" title="statement not covered" >  return ingredients.map(<span class="fstat-no" title="function not covered" >in</span>g =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      ...ing,
+      unit: toMetric ? 'metric-unit' : 'imperial-unit'
+    };
+  });
+}
+&nbsp;
+// Print/export current recipe
+export function <span class="fstat-no" title="function not covered" >printRecipe(</span>recipeHtmlElementId) {
+  const content = <span class="cstat-no" title="statement not covered" >document.getElementById(recipeHtmlElementId).innerHTML;</span>
+  const printWindow = <span class="cstat-no" title="statement not covered" >window.open('', '_blank');</span>
+<span class="cstat-no" title="statement not covered" >  printWindow.document.write('&lt;html&gt;&lt;head&gt;&lt;title&gt;Print Recipe&lt;/title&gt;&lt;/head&gt;&lt;body&gt;' + content + '&lt;/body&gt;&lt;/html&gt;');</span>
+<span class="cstat-no" title="statement not covered" >  printWindow.document.close();</span>
+<span class="cstat-no" title="statement not covered" >  printWindow.focus();</span>
+<span class="cstat-no" title="statement not covered" >  printWindow.print();</span>
+<span class="cstat-no" title="statement not covered" >  printWindow.close();</span>
+}
+&nbsp;
+// Generate shopping list from ingredients
+export function <span class="fstat-no" title="function not covered" >generateShoppingList(</span>ingredients) {
+<span class="cstat-no" title="statement not covered" >  return ingredients.map(<span class="fstat-no" title="function not covered" >in</span>g =&gt; <span class="cstat-no" title="statement not covered" >`- ${ing.quantity} ${ing.unit} ${ing.name}`)</span>.join('\n');</span>
 }</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->

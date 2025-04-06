@@ -1,16 +1,44 @@
  // Set up environment variables for testing
-process.env.SUPABASE_URL = 'https://bzudglfxxywugesncjnz.supabase.co';
-process.env.SUPABASE_KEY = 'your_supabase_key_here'; // Replace with the actual key or mock it for testing
+// Use mock values for testing
+process.env.SUPABASE_URL = 'https://test-url.supabase.co';
+process.env.SUPABASE_KEY = 'test-key';
+
+// Mock the Supabase client
+jest.mock('../js/supabaseClient.js', () => ({
+  supabaseClient: {
+    from: jest.fn().mockReturnValue({
+      select: jest.fn().mockReturnThis(),
+      insert: jest.fn().mockReturnThis(),
+      update: jest.fn().mockReturnThis(),
+      delete: jest.fn().mockReturnThis(),
+      eq: jest.fn().mockReturnThis(),
+      order: jest.fn().mockReturnThis(),
+      limit: jest.fn().mockReturnThis(),
+    }),
+    auth: {
+      onAuthStateChange: jest.fn(),
+      signOut: jest.fn().mockResolvedValue({ error: null }),
+      signInWithOtp: jest.fn().mockResolvedValue({ error: null })
+    }
+  }
+}));
+
+// Import Jest
+const jest = require('jest');
 
 // Import testing-library/jest-dom for DOM assertions
-import '@testing-library/jest-dom';
+require('@testing-library/jest-dom');
+
+// Set up JSDOM environment properly
+global.window = global.window || {};
+global.document = global.document || { body: { innerHTML: '' } };
 
 // Mock window.showNotification function
-window.showNotification = jest.fn();
+global.window.showNotification = jest.fn();
 
 // Mock window.alert and window.confirm
-window.alert = jest.fn();
-window.confirm = jest.fn(() => true); // Default to confirming dialogs
+global.window.alert = jest.fn();
+global.window.confirm = jest.fn(() => true); // Default to confirming dialogs
 
 // Set up a basic document structure for tests
 document.body.innerHTML = `
