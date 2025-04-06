@@ -1123,4 +1123,39 @@ body.light .remove-recipe-btn:hover {
 .left-column * {
   font-size: 1em !important;
 }
+/* --- Left Column Button Standardization --- */
+.left-column .collapsible-header,
+.left-column .btn-small,
+.left-column .btn-add-recipe,
+#btnAddRecipe,
+#btnAddGlobalIngredient {
+  background: var(--button-gradient-dark) !important;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+  border: none;
+  padding: 6px 0;
+}
+
+.left-column .collapsible-header:hover,
+.left-column .btn-small:hover,
+.left-column .btn-add-recipe:hover,
+#btnAddRecipe:hover,
+#btnAddGlobalIngredient:hover {
+  filter: brightness(1.2);
+  background-color: transparent !important;
+}
+
+/* Light theme overrides */
+body.light .left-column .collapsible-header,
+body.light .left-column .btn-small,
+body.light .left-column .btn-add-recipe,
+body.light #btnAddRecipe,
+body.light #btnAddGlobalIngredient {
+  background: var(--button-gradient-light) !important;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 }
