@@ -52,47 +52,48 @@ This document provides a detailed implementation plan for migrating the DIY Reci
    - Fix failing tests
    - Add integration tests for key user flows
    - Implement automated accessibility testing
-## Phase 1.5: MCP Server Setup & Integration (3-4 Weeks)
+## Phase 1.5: Hybrid MCP Server Integration (3-4 Weeks)
 
 ### Week 1-2: Core MCP Server Configuration
 
 #### Tasks:
-1. **GitHub MCP Server Setup**
-   - Configure GitHub MCP server for source control management
-   - Implement repository creation and management capabilities
-   - Set up branch protection and PR workflow automation
-   - Establish file content management tools for code synchronization
-   - Success Criteria: Successful repository operations and code management through MCP
+1. **GitHub MCP Server Integration**
+   - Implement the official GitHub MCP server (`@modelcontextprotocol/server-github`)
+   - Configure authentication with appropriate token scopes
+   - Set up repository access controls and permissions
+   - Implement monitoring and logging for GitHub operations
+   - Success Criteria: Successful repository operations through official GitHub MCP
 
 2. **Supabase MCP Server Implementation**
-   - Configure Supabase MCP server for database and authentication
-   - Set up data access and mutation operations
-   - Implement authentication flow integrations
-   - Create real-time subscription capabilities
-   - Success Criteria: Complete database CRUD operations and auth flows through MCP
+   - Maintain and enhance our custom Supabase MCP server implementation
+   - Expand database operation capabilities beyond basic CRUD
+   - Implement advanced authentication flow integrations
+   - Add real-time subscription capabilities
+   - Monitor for availability of official Supabase MCP server
+   - Success Criteria: Complete database operations and auth flows through custom MCP
 
 ### Week 3-4: Development & Deployment MCPs
 
 #### Tasks:
-1. **Next.js & TypeScript MCP Configuration**
-   - Set up Next.js MCP server for templating and component generation
-   - Configure TypeScript MCP for type definition and validation
-   - Implement code scaffolding capabilities
-   - Create component library integration
-   - Success Criteria: Automated code generation and type safety verification through MCP
+1. **Next.js & TypeScript MCP Evaluation**
+   - Evaluate official Next.js/TypeScript SDK (`@modelcontextprotocol/typescript-sdk`)
+   - Assess functionality against our requirements
+   - Determine if a hybrid approach is needed for these technologies
+   - Implement selected solution (official, custom, or hybrid)
+   - Success Criteria: Reliable code generation and type safety verification
 
-2. **Vercel MCP Integration**
-   - Configure Vercel MCP server for deployment operations
-   - Set up preview deployment capabilities
-   - Implement production deployment pipelines
-   - Create environment configuration management
-   - Success Criteria: Complete deployment lifecycle management through MCP
+2. **Vercel MCP Integration Strategy**
+   - Evaluate Vercel MCP server template
+   - Test deployment operations through official template
+   - Maintain custom implementation as fallback
+   - Implement feature parity between implementations
+   - Success Criteria: Reliable deployment operations through selected MCP approach
 
-3. **MCP Integration Testing**
-   - Develop comprehensive test suite for all MCP servers
-   - Create integration tests between MCPs
-   - Implement automated validation workflows
-   - Document MCP usage patterns and examples
+3. **Hybrid MCP Integration Testing**
+   - Develop comprehensive test suite for all MCP servers (both official and custom)
+   - Create integration tests that validate interoperability
+   - Implement automated validation workflows with fallback mechanisms
+   - Document usage patterns for both implementation types
    - Success Criteria: All MCP servers passing integration tests with >90% coverage
 
 ## Phase 2: Modern Architecture Implementation (8-12 Weeks)
@@ -184,7 +185,7 @@ This document provides a detailed implementation plan for migrating the DIY Reci
 | Phase | Duration | Dependencies |
 |-------|----------|--------------|
 | Phase 1: Current Codebase Cleanup | 4-6 Weeks | None |
-| Phase 1.5: MCP Server Setup & Integration | 3-4 Weeks | Phase 1 Completion |
+| Phase 1.5: Hybrid MCP Server Integration | 3-4 Weeks | Phase 1 Completion |
 | Phase 2: Modern Architecture Implementation | 8-12 Weeks | Phase 1.5 Completion |
 | Parallel Running Strategy | 2-4 Weeks | Phase 2 Completion |
 
@@ -215,10 +216,11 @@ This document provides a detailed implementation plan for migrating the DIY Reci
 - Enhanced testing framework enables validation of MCP functionality
 
 ### Phase 1.5 → Phase 2
-- GitHub MCP server facilitates repository management for new project
-- Supabase MCP server ensures data continuity between old and new systems
-- Next.js/TypeScript MCPs accelerate component development
-- Vercel MCP enables seamless deployment pipeline setup
+- Official GitHub MCP server facilitates repository management for new project
+- Custom Supabase MCP server ensures data continuity between old and new systems
+- Selected Next.js/TypeScript MCP approach accelerates component development
+- Chosen Vercel MCP implementation enables seamless deployment pipeline setup
+- Hybrid approach ensures reliability while leveraging official implementations where possible
 
 ## Technical Considerations
 ## Technical Considerations
@@ -269,6 +271,28 @@ This document provides a detailed implementation plan for migrating the DIY Reci
 5. **MCP Server Integration Challenges**
    - Mitigation: Phased integration with fallback mechanisms and comprehensive testing
 
+### Hybrid MCP Approach Specific Risks:
+
+1. **Official MCP Server Availability Fluctuations**
+   - Risk: Official MCP servers may become temporarily unavailable or undergo breaking changes
+   - Mitigation: Maintain fallback custom implementations with feature parity
+   - Mitigation: Implement circuit breaker pattern to automatically switch between implementations
+
+2. **Feature Disparity Between Implementations**
+   - Risk: Custom implementations may lack features available in official servers or vice versa
+   - Mitigation: Regular feature gap analysis and prioritized development
+   - Mitigation: Abstraction layer to normalize functionality across implementations
+
+3. **Maintenance Overhead**
+   - Risk: Maintaining both custom and official integrations increases development burden
+   - Mitigation: Gradual phased migration to official implementations where stable
+   - Mitigation: Automated testing to reduce manual verification needs
+
+4. **Integration Complexity**
+   - Risk: Managing multiple implementation paths increases system complexity
+   - Mitigation: Clear abstraction layers and well-documented integration points
+   - Mitigation: Feature flagging system to control implementation selection
+
 ## Success Metrics
 
 ### Technical Metrics:
@@ -306,8 +330,137 @@ This document provides a detailed implementation plan for migrating the DIY Reci
 - Supabase (retained from current architecture)
 - CI/CD pipeline for automated testing and deployment
 
+## MCP Server Integration Strategy
+
+### Criteria for Choosing Between Official and Custom Implementations
+
+#### Evaluation Metrics:
+1. **Availability & Stability**
+   - Is the official MCP server publicly available?
+   - Does it have consistent uptime and performance?
+   - Is there a stable release version or is it in preview/beta?
+
+2. **Feature Completeness**
+   - Does the implementation support all required operations?
+   - Are there any critical features missing from either implementation?
+   - How well does the API design match our specific use cases?
+
+3. **Performance Characteristics**
+   - Response time for typical operations
+   - Throughput capabilities under load
+   - Resource consumption (memory, CPU)
+
+4. **Security Considerations**
+   - Authentication mechanisms
+   - Permission models
+   - Data encryption capabilities
+
+#### Decision Framework:
+- **Use Official Implementation When:**
+  - It's publicly available with stable releases
+  - It provides all required functionality
+  - Performance meets or exceeds our requirements
+  - Security features align with our needs
+
+- **Use Custom Implementation When:**
+  - Official implementation is unavailable or unstable
+  - Critical features are missing from official implementation
+  - Performance does not meet requirements
+  - Security requirements cannot be met
+
+- **Use Hybrid Approach When:**
+  - Different aspects of functionality are better served by different implementations
+  - Need to maintain backward compatibility during migration
+  - Risk mitigation requires fallback capabilities
+
+### Maintaining Custom Implementations
+
+#### Maintenance Strategy:
+1. **Code Organization**
+   - Maintain custom MCP servers in dedicated `mcp-servers/` directory
+   - Implement consistent API patterns across custom servers
+   - Use clear versioning for custom implementations
+
+2. **Documentation Requirements**
+   - Document all custom tools and their parameters
+   - Maintain comparison tables between official and custom capabilities
+   - Create clear usage examples for developers
+
+3. **Testing Approach**
+   - Automated tests for all custom MCP functionality
+   - Integration tests with application code
+   - Performance benchmarking against requirements
+
+4. **Update Cadence**
+   - Regular review cycle (bi-weekly) to assess need for updates
+   - Immediate critical security patches
+   - Feature parity updates when official implementations add capabilities
+
+### Migration Strategy to Official Implementations
+
+#### Phased Approach:
+1. **Assessment Phase**
+   - Evaluate official implementation against requirements
+   - Identify gaps and potential workarounds
+   - Determine migration complexity and risks
+
+2. **Parallel Implementation**
+   - Implement official MCP alongside custom version
+   - Create abstraction layer to normalize differences
+   - Run both implementations with traffic splitting or shadowing
+
+3. **Gradual Transition**
+   - Shift traffic gradually to official implementation
+   - Monitor for issues and performance differences
+   - Maintain ability to revert if problems arise
+
+4. **Decommission Planning**
+   - Set criteria for when custom implementation can be retired
+   - Document migration process for future reference
+   - Archive custom implementation code with clear documentation
+
+#### Migration Success Criteria:
+- No regression in functionality or performance
+- All automated tests pass with official implementation
+- No increase in error rates or latency
+- Developer experience remains consistent or improves
+
+### Testing and Validation Approach
+
+#### Testing Methodology:
+1. **Unit Testing**
+   - Test individual MCP tools in isolation
+   - Verify correct handling of valid and invalid inputs
+   - Ensure proper error handling and reporting
+
+2. **Integration Testing**
+   - Test MCP servers with actual application code
+   - Verify end-to-end workflows function correctly
+   - Test interactions between different MCP servers
+
+3. **Performance Testing**
+   - Measure response times under various loads
+   - Test throughput capabilities
+   - Verify resource utilization remains within acceptable limits
+
+4. **Resilience Testing**
+   - Simulate network failures and service outages
+   - Test fallback mechanisms between implementations
+   - Verify circuit breaker patterns function correctly
+
+5. **Security Testing**
+   - Verify authentication mechanisms work correctly
+   - Test permission boundaries and access controls
+   - Scan for potential vulnerabilities
+
+#### Validation Framework:
+- Automated test suite covering all MCP functionality
+- CI/CD integration for continuous validation
+- Monitoring dashboard for MCP server health and performance
+- Regular manual validation of critical workflows
+
 ## Conclusion
 
-This implementation plan provides a structured approach to migrating the DIY Recipes application to a modern architecture. By following this phased approach, we can minimize risk while steadily improving the application's architecture, performance, and maintainability.
+This implementation plan provides a structured approach to migrating the DIY Recipes application to a modern architecture with a hybrid MCP server integration strategy. By adopting this approach, we can leverage the benefits of official MCP implementations where available while maintaining reliability through custom implementations where needed.
 
-The plan is designed to be flexible, allowing for adjustments based on discoveries made during the implementation process. Regular reviews and adjustments to the timeline may be necessary as the project progresses.
+The plan is designed to be flexible, allowing for adjustments based on discoveries made during the implementation process and changes in the availability or capabilities of official MCP servers. Regular reviews and adjustments to the timeline may be necessary as the project progresses.

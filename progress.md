@@ -176,6 +176,35 @@ Phase 1.5 focused on establishing a modular, automated development environment u
 
 ---
 
+## Revised MCP Integration Approach & Status
+
+### Updated Status of Phase 1.5 (MCP Server Setup & Integration)
+
+- Confirmed availability of the **official GitHub MCP server** via npm, providing stable repository management and automation tools.
+- Identified **no official Supabase MCP server package** on npm; Supabase instead offers a managed MCP endpoint or requires custom deployment.
+- Decided to adopt a **hybrid MCP integration approach** combining official servers where available with maintained custom implementations.
+
+### Hybrid MCP Integration Strategy
+
+- **Use the official GitHub MCP server** for all repository management, pull requests, issue tracking, and related operations.
+- **Maintain our custom Supabase MCP server** implementation to handle database operations and authentication, due to lack of an official npm package.
+- **Evaluate Next.js/TypeScript SDK and Vercel MCP server templates** for frontend automation and deployment. Choose between official, custom, or hybrid based on stability, feature completeness, and integration fit.
+
+### Current Integration Status
+
+- Official GitHub MCP server has been **successfully tested and is operational**.
+- Custom Supabase MCP server and other custom implementations remain **available as fallbacks** and for features not yet covered by official servers.
+- **Installation and configuration documentation has been completed** for both official and custom MCP setups.
+
+### Next Steps
+
+- Integrate the official GitHub MCP server fully with the application workflows.
+- Continue testing and improving custom MCP implementations, especially for Supabase.
+- Monitor the ecosystem for the release of additional official MCP servers (e.g., Supabase, Next.js, Vercel).
+- Expand automated testing to cover hybrid scenarios and fallback mechanisms.
+
+---
+
 ## Next Steps: Phase 2 Modernization Plan
 
 With MCP servers operational, the next phase will focus on:
