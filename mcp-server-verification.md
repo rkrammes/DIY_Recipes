@@ -106,4 +106,56 @@ window.mcp.callTool not available, using mock response
 -   Use process managers (PM2, systemd) to keep servers running reliably.
 -   Monitor logs and resource usage.
 -   Regularly update MCP server packages.
--   **Resolve the connection issue with the `supabase-custom` server when launched via Roo Code.** Further investigation needed (e.g., Roo Code logs, server script logging).
+-   **Consider replacing the current JavaScript-based `supabase-custom` server with the Python-based "Query MCP" implementation.** See alternative implementation section below.
+
+## 7. Alternative Supabase MCP Implementation
+
+Based on web research, we recommend evaluating the "Query MCP" Python-based Supabase MCP server by Alexander Zuev. This implementation offers comprehensive Supabase integration with both read and write capabilities:
+
+### Features
+- **Full Read/Write Support**: Execute any PostgreSQL query with built-in safety controls
+- **Management API Access**: Programmatic access to Supabase Management API
+- **Auth Admin Tools**: User management via Supabase Auth Admin SDK
+- **Automatic Migration Versioning**: Database changes are automatically versioned
+- **Safety Controls**: Three-tier safety system for SQL operations (safe, write, destructive)
+
+### Installation
+```bash
+# Install with pipx (recommended)
+pipx install supabase-mcp-server
+
+# Or with uv
+uv pip install supabase-mcp-server
+```
+
+### Configuration for Roo Code
+```json
+{
+  "mcpServers": {
+    "supabase-custom": {
+      "command": "supabase-mcp-server",
+      "env": {
+        "QUERY_API_KEY": "your-api-key-from-thequery.dev",
+        "SUPABASE_PROJECT_REF": "your-project-ref",
+        "SUPABASE_DB_PASSWORD": "your-db-password",
+        "SUPABASE_REGION": "us-east-2",
+        "SUPABASE_ACCESS_TOKEN": "your-access-token",
+        "SUPABASE_SERVICE_ROLE_KEY": "your-service-role-key"
+      },
+      "port": 3000,
+      "disabled": false,
+      "alwaysAllow": [
+        "get_table_schema",
+        "live_dangerously",
+        "execute_postgresql",
+        "get_schemas",
+        "get_tables",
+        "call_auth_admin_method"
+      ]
+    }
+  }
+}
+```
+
+### Source
+- GitHub Repository: [alexander-zuev/supabase-mcp-server](https://github.com/alexander-zuev/supabase-mcp-server)

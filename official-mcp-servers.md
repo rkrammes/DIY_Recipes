@@ -14,12 +14,18 @@ Model Context Protocol (MCP) servers expose data sources and platform APIs to LL
 - **Capabilities:** Repository management, PRs, issues, file operations, search.
 
 ### Supabase MCP Server
-- **Managed endpoint only:**  
-  Supabase provides a **hosted MCP API**, no npm package.  
-- **Custom implementation:**  
+- **Managed endpoint only:**
+  Supabase provides a **hosted MCP API**, no npm package.
+- **Express-based custom implementation:**
   Use internal Express server (runs on `http://localhost:3002`) exposing database and auth tools.
-- **Recommendation:**  
-  Use the custom server, ensure only one registration in `mcp_settings.json`.
+- **Python-based "Query MCP" implementation (Recommended):**
+  A more robust alternative with read/write capabilities:
+  - **Repository:** [alexander-zuev/supabase-mcp-server](https://github.com/alexander-zuev/supabase-mcp-server)
+  - **Install:** `pipx install supabase-mcp-server`
+  - **Features:** SQL execution, Management API, Auth Admin, migration versioning
+  - **Safety:** Built-in controls for read-only, write, and destructive operations
+- **Recommendation:**
+  Use the Python-based "Query MCP" implementation for the most comprehensive feature set, or the Express-based custom server for simpler needs. Ensure only one Supabase registration in `mcp_settings.json`.
 
 ### Next.js + TypeScript MCP
 - **SDK:** [modelcontextprotocol/typescript-sdk](https://github.com/modelcontextprotocol/typescript-sdk)
@@ -48,22 +54,46 @@ Model Context Protocol (MCP) servers expose data sources and platform APIs to LL
 
 ```json
 {
-  "servers": [
-    {
-      "name": "github",
-      "url": "http://localhost:3000"
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_TOKEN": "your-github-token"
+      }
     },
-    {
-      "name": "supabase",
-      "url": "http://localhost:3002"
+    "supabase-express": {
+      "command": "node",
+      "args": ["path/to/supabase-mcp-server.js"],
+      "env": {
+        "SUPABASE_URL": "https://your-project-ref.supabase.co",
+        "SUPABASE_KEY": "your-supabase-key"
+      },
+      "port": 3002
     },
-    {
-      "name": "vercel",
-      "url": "https://your-vercel-mcp.vercel.app"
+    "supabase-python": {
+      "command": "supabase-mcp-server",
+      "env": {
+        "QUERY_API_KEY": "your-api-key-from-thequery.dev",
+        "SUPABASE_PROJECT_REF": "your-project-ref",
+        "SUPABASE_DB_PASSWORD": "your-db-password",
+        "SUPABASE_REGION": "us-east-2",
+        "SUPABASE_ACCESS_TOKEN": "your-access-token",
+        "SUPABASE_SERVICE_ROLE_KEY": "your-service-role-key"
+      }
+    },
+    "vercel": {
+      "command": "npx",
+      "args": ["-y", "@vercel/mcp-server"],
+      "env": {
+        "VERCEL_TOKEN": "your-vercel-token"
+      }
     }
-  ]
+  }
 }
 ```
+
+> Note: Choose either `supabase-express` OR `supabase-python`, not both.
 
 - Adjust URLs if running servers on different ports or deployed remotely.
 - Remove any duplicate Supabase entries.
@@ -74,7 +104,7 @@ Model Context Protocol (MCP) servers expose data sources and platform APIs to LL
 ## Summary
 
 - Use the **official GitHub MCP** via npm.
-- Maintain the **custom Supabase MCP** until Supabase offers an installable server.
+- For Supabase, consider the **Python-based "Query MCP"** (`pipx install supabase-mcp-server`) for comprehensive features, or maintain the **Express-based custom Supabase MCP** for simpler needs.
 - Embed the **Next.js MCP SDK** inside your app.
 - Deploy the **Vercel MCP** via the provided template.
 - Register these servers in `mcp_settings.json` for Roo Code detection.
