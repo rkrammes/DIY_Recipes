@@ -125,10 +125,12 @@ Connect your LLM apps to the deployed MCP endpoint.
 ---
 
 ## Troubleshooting
-- **Auth errors:** Check tokens and scopes
-- **Connection issues:** Verify server URL and network
-- **Tool errors:** Confirm request schema matches tool input
-- Enable verbose logs for debugging
+- **Permission denied (EACCES) during global install:** Use `sudo npm install -g` to grant necessary permissions.
+- **Supabase MCP server install fails with 404:** The package `@modelcontextprotocol/server-supabase` is not available on npm. Supabase currently provides a managed MCP server; follow their hosted setup instead.
+- **Auth errors:** Check tokens and scopes.
+- **Connection issues:** Verify server URL and network.
+- **Tool errors:** Confirm request schema matches tool input.
+- Enable verbose logs for debugging.
 
 ---
 
