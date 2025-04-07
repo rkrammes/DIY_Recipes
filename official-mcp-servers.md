@@ -1,288 +1,79 @@
-# Official MCP Servers Guide
+# Official MCP Servers Guide (Updated April 2025)
 
 ## Overview
-Model Context Protocol (MCP) servers expose data sources and platform APIs to Large Language Models (LLMs) in a standardized, secure way. They enable LLM apps to interact with GitHub, Supabase, Next.js, Vercel, and more via tools and resources.
+Model Context Protocol (MCP) servers expose data sources and platform APIs to LLMs in a standardized way.
 
 ---
 
-## GitHub MCP Server
+## Official MCP Servers & SDKs
 
-### Repository
-[modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers)
+### GitHub MCP Server
+- **Repository:** [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers)
+- **Install:** `npx -y @modelcontextprotocol/server-github`
+- **Default URL:** `http://localhost:3000`
+- **Capabilities:** Repository management, PRs, issues, file operations, search.
 
-### Installation
-```bash
-npm install -g @modelcontextprotocol/server-github
-# or via npx
-npx -y @modelcontextprotocol/server-github
-```
+### Supabase MCP Server
+- **Managed endpoint only:**  
+  Supabase provides a **hosted MCP API**, no npm package.  
+- **Custom implementation:**  
+  Use internal Express server (runs on `http://localhost:3002`) exposing database and auth tools.
+- **Recommendation:**  
+  Use the custom server, ensure only one registration in `mcp_settings.json`.
 
-### Configuration
-- `GITHUB_TOKEN`: Personal access token with repo/read/write permissions
-- Optionally configure repo scope or org filters
+### Next.js + TypeScript MCP
+- **SDK:** [modelcontextprotocol/typescript-sdk](https://github.com/modelcontextprotocol/typescript-sdk)
+- **Usage:** Embedded in Next.js app, no standalone server.
+- **Capabilities:** Project scaffolding, component generation, type checking, code analysis.
 
-### Available Tools
-- `github_search_repositories`: Search repos
-- `github_get_file_contents`: Fetch file/directory contents
-- `github_create_issue`: Create issues
-- `github_create_pull_request`: PR operations
-- `github_push_files`: Commit changes
-- and more (full list in repo)
-
-### Usage Example
-```json
-{
-  "server_name": "github",
-  "tool_name": "github_search_repositories",
-  "arguments": {
-    "query": "org:my-org topic:mcp"
-  }
-}
-```
-
-### Integration
-- Connect as an MCP server endpoint
-- Use with SDK clients or LLM agents
+### Vercel MCP Server
+- **Template:** [Vercel MCP Server Template](https://vercel.com/templates/other/model-context-protocol-mcp-with-vercel-functions)
+- **Deployment:** Deploy to Vercel, URL will be your Vercel app URL.
+- **Capabilities:** Deployment automation, environment management.
 
 ---
 
-## Supabase MCP Server
+## Best Practices for MCP Configuration in Roo Code
 
-### Documentation
-[Supabase MCP Docs](https://supabase.com/docs/guides/getting-started/mcp)
-
-### Installation
-Supabase provides a managed MCP server; no install needed. Alternatively, deploy your own:
-
-```bash
-npm install -g @modelcontextprotocol/server-supabase
-# or
-npx -y @modelcontextprotocol/server-supabase
-```
-
-### Configuration
-- `SUPABASE_URL`: Your Supabase project URL
-- `SUPABASE_KEY`: Service role key (with read/write access)
-
-### Tools
-- Query tables
-- Generate TypeScript types
-- Manage schemas
-
-### Usage
-Connect via MCP client with your Supabase credentials.
+- **Avoid duplicate registrations** of the same MCP server.
+- **Use descriptive, unique names**: `github`, `supabase`, `vercel`.
+- **Supabase:** Register only one MCP server, either managed or custom.
+- **Next.js SDK:** No need to register if embedded.
+- **Restart Roo Code** after modifying MCP settings.
 
 ---
 
-## Next.js / TypeScript MCP Integration
-
-### SDK Repository
-[modelcontextprotocol/typescript-sdk](https://github.com/modelcontextprotocol/typescript-sdk)
-
-### Installation
-```bash
-npm install @modelcontextprotocol/typescript-sdk
-```
-
-### Usage
-Embed MCP client/server inside your Next.js app for custom tools or resource access.
-
-### Example
-```typescript
-import { createServer } from '@modelcontextprotocol/typescript-sdk';
-
-const server = createServer({
-  tools: [/* your tools */]
-});
-```
-
----
-
-## Vercel MCP Server
-
-### Template
-[Vercel MCP Server Template](https://vercel.com/templates/other/model-context-protocol-mcp-with-vercel-functions)
-
-### Deployment
-- Use the template to deploy an MCP server as Vercel serverless functions
-- Customize tools for deployments, domains, env vars, etc.
-
-### Configuration
-- `VERCEL_TOKEN`: Personal access token
-- Project/team IDs as needed
-
-### Usage
-Connect your LLM apps to the deployed MCP endpoint.
-
----
-
-## Configuration Best Practices
-- Store tokens in `.env` files, not in code
-- Use least privilege tokens
-- Rotate secrets regularly
-- Limit server access via IP allowlists or auth
-
----
-
-## Troubleshooting
-- **Permission denied (EACCES) during global install:** Use `sudo npm install -g` to grant necessary permissions.
-- **Supabase MCP server install fails with 404:** The package `@modelcontextprotocol/server-supabase` is not available on npm. Supabase currently provides a managed MCP server; follow their hosted setup instead.
-- **Auth errors:** Check tokens and scopes.
-- **Connection issues:** Verify server URL and network.
-- **Tool errors:** Confirm request schema matches tool input.
-- Enable verbose logs for debugging.
-
----
-## Roo Code Integration & Visibility
-
-### Ensuring MCP Servers Appear in Roo Code
-
-- **Start each MCP server** with correct tokens and configs.
-- Use **unique, descriptive server names** (e.g., `github`, `supabase`, `vercel`, `custom-xyz`).
-- Roo Code automatically detects reachable MCP servers by these names.
-- For persistent integration, configure Roo Code's MCP settings or UI to include these servers if applicable.
-- **GitHub MCP server:** Appears as `github` when running.
-- **Custom servers:** Must be running and expose MCP protocol with unique names.
-
-### Verification Process
-
-1. **Launch Roo Code.**
-2. **Start each MCP server** (`npx -y @modelcontextprotocol/server-github`, etc.).
-3. **Open the MCP Servers tab** in Roo Code.
-4. Confirm servers appear under their configured names.
-5. Test by invoking a simple tool (e.g., `get_file_contents`).
-
-### Troubleshooting Visibility Issues
-
-- **Server not running:** Ensure MCP server process is active.
-- **Wrong server name:** Use the expected server name string.
-- **Port conflicts:** Check that each server listens on a unique, reachable port.
-- **Network issues:** Verify localhost or remote server connectivity.
-- **Token/auth errors:** Confirm correct tokens are supplied.
-- **Roo Code cache:** Restart Roo Code if new servers do not appear.
-- **Custom servers:** Ensure they implement the MCP protocol correctly.
-
----
-## Editing `mcp_settings.json` for MCP Server Registration
-
-### Location
-
-The MCP server configuration file is located at:
-
-`~/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/mcp_settings.json`
-
-### Purpose
-
-This JSON file defines all MCP servers available to Roo Code. Editing it allows persistent registration of official and custom servers, ensuring they appear in the MCP Servers tab.
-
-### Structure
+## Example `mcp_settings.json`
 
 ```json
 {
-  "mcpServers": {
-    "server-name": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-example"],
-      "env": {
-        "KEY": "value"
-      },
-      "alwaysAllow": ["tool1", "tool2"],
-      "disabled": false
+  "servers": [
+    {
+      "name": "github",
+      "url": "http://localhost:3000"
+    },
+    {
+      "name": "supabase",
+      "url": "http://localhost:3002"
+    },
+    {
+      "name": "vercel",
+      "url": "https://your-vercel-mcp.vercel.app"
     }
-  }
-}
-```
-
-- **server-name**: Unique identifier (e.g., `github`, `supabase-custom`)
-- **command**: Executable path (e.g., `npx`)
-- **args**: CLI arguments (package name, flags)
-- **env**: Environment variables (API keys, tokens)
-- **alwaysAllow**: List of tools always permitted
-- **disabled**: Set to `false` to enable
-
-### How to Add or Edit Servers
-
-1. Open the file in a text editor.
-2. Under `"mcpServers"`, add a new server block or modify existing ones.
-3. Save the file.
-4. Restart Roo Code or reload the MCP Servers panel.
-
-### Example Entries
-
-- **GitHub MCP Server**
-
-```json
-"github": {
-  "command": "npx",
-  "args": ["-y", "@modelcontextprotocol/server-github"],
-  "env": {
-    "GITHUB_TOKEN": "your_github_pat"
-  },
-  "disabled": false,
-  "alwaysAllow": [
-    "create_or_update_file",
-    "search_repositories",
-    "create_repository",
-    "get_file_contents",
-    "create_issue",
-    "create_pull_request",
-    "fork_repository",
-    "create_branch",
-    "list_commits",
-    "list_issues",
-    "update_issue",
-    "add_issue_comment",
-    "search_code",
-    "search_issues",
-    "search_users",
-    "get_issue",
-    "get_pull_request",
-    "list_pull_requests",
-    "create_pull_request_review",
-    "merge_pull_request",
-    "get_pull_request_files",
-    "get_pull_request_status",
-    "update_pull_request_branch",
-    "get_pull_request_comments",
-    "get_pull_request_reviews",
-    "push_files"
   ]
 }
 ```
 
-- **Supabase MCP Server**
-
-```json
-"supabase-custom": {
-  "command": "/path/to/supabase-mcp-server",
-  "env": {
-    "SUPABASE_PROJECT_REF": "your_project_ref",
-    "SUPABASE_DB_PASSWORD": "your_db_password",
-    "SUPABASE_REGION": "your_region",
-    "SUPABASE_ACCESS_TOKEN": "your_access_token",
-    "SUPABASE_SERVICE_ROLE_KEY": "your_service_role_key",
-    "LIVE_DANGEROUSLY": "true"
-  },
-  "disabled": false,
-  "alwaysAllow": [
-    "get_table_schema",
-    "live_dangerously",
-    "execute_postgresql",
-    "get_schemas",
-    "get_tables"
-  ]
-}
-```
-
-### Verifying MCP Servers in Roo Code
-
-1. **Launch Roo Code.**
-2. **Ensure your servers are running** (or configured via this file).
-3. **Open the MCP Servers tab.**
-4. Confirm your servers appear under their configured names.
-5. Test connectivity by invoking a tool.
+- Adjust URLs if running servers on different ports or deployed remotely.
+- Remove any duplicate Supabase entries.
+- Add new servers as needed following this format.
 
 ---
+
 ## Summary
-Use the official MCP servers and SDKs for GitHub, Supabase, Next.js, and Vercel to ensure secure, maintainable, and standardized integration of LLMs with your core platforms.
-Use the official MCP servers and SDKs for GitHub, Supabase, Next.js, and Vercel to ensure secure, maintainable, and standardized integration of LLMs with your core platforms.
+
+- Use the **official GitHub MCP** via npm.
+- Maintain the **custom Supabase MCP** until Supabase offers an installable server.
+- Embed the **Next.js MCP SDK** inside your app.
+- Deploy the **Vercel MCP** via the provided template.
+- Register these servers in `mcp_settings.json` for Roo Code detection.
