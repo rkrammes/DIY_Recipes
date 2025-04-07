@@ -2,10 +2,17 @@
 
 echo "Installing official MCP servers globally..."
 
-# GitHub MCP server
-npm install -g @modelcontextprotocol/server-github
+# Use sudo for global installations to avoid permission errors
+echo "Installing GitHub MCP server..."
+sudo npm install -g @modelcontextprotocol/server-github
 
-# Supabase MCP server
-npm install -g @modelcontextprotocol/server-supabase
+echo "Installing Brave Search MCP server..."
+sudo npm install -g @modelcontextprotocol/server-brave-search
 
-echo "All official MCP servers installed successfully."
+echo "Installing Puppeteer MCP server..."
+sudo npm install -g @modelcontextprotocol/server-puppeteer
+
+# Removed Supabase server install attempt as it's not on npm
+
+echo "Official MCP server installations attempted."
+echo "Please check the output above for any errors."
