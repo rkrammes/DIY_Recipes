@@ -31,8 +31,19 @@ const servers = [
 // Mock implementation if Roo Code API is unavailable
 async function use_mcp_tool(server_name, tool_name, args) {
   console.log(`Invoking ${tool_name} on ${server_name} with`, args);
-  // Replace with actual Roo Code SDK call, or MCP HTTP API call
-  return { server: server_name, tool: tool_name, args, success: true };
+  if (typeof window !== 'undefined' && window.mcp && typeof window.mcp.callTool === 'function') {
+    try {
+      const result = await window.mcp.callTool(server_name, tool_name, args);
+      console.log(`[MCP Call Success] ${server_name} - ${tool_name}:`, result);
+      return result;
+    } catch (err) {
+      console.error(`[MCP Call Error] ${server_name} - ${tool_name}:`, err);
+      throw err;
+    }
+  } else {
+    console.warn('window.mcp.callTool not available, using mock response');
+    return { server: server_name, tool: tool_name, args, success: true };
+  }
 }
 
 async function verifyAll() {
