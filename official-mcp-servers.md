@@ -1,0 +1,136 @@
+# Official MCP Servers Guide
+
+## Overview
+Model Context Protocol (MCP) servers expose data sources and platform APIs to Large Language Models (LLMs) in a standardized, secure way. They enable LLM apps to interact with GitHub, Supabase, Next.js, Vercel, and more via tools and resources.
+
+---
+
+## GitHub MCP Server
+
+### Repository
+[modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers)
+
+### Installation
+```bash
+npm install -g @modelcontextprotocol/server-github
+# or via npx
+npx -y @modelcontextprotocol/server-github
+```
+
+### Configuration
+- `GITHUB_TOKEN`: Personal access token with repo/read/write permissions
+- Optionally configure repo scope or org filters
+
+### Available Tools
+- `github_search_repositories`: Search repos
+- `github_get_file_contents`: Fetch file/directory contents
+- `github_create_issue`: Create issues
+- `github_create_pull_request`: PR operations
+- `github_push_files`: Commit changes
+- and more (full list in repo)
+
+### Usage Example
+```json
+{
+  "server_name": "github",
+  "tool_name": "github_search_repositories",
+  "arguments": {
+    "query": "org:my-org topic:mcp"
+  }
+}
+```
+
+### Integration
+- Connect as an MCP server endpoint
+- Use with SDK clients or LLM agents
+
+---
+
+## Supabase MCP Server
+
+### Documentation
+[Supabase MCP Docs](https://supabase.com/docs/guides/getting-started/mcp)
+
+### Installation
+Supabase provides a managed MCP server; no install needed. Alternatively, deploy your own:
+
+```bash
+npm install -g @modelcontextprotocol/server-supabase
+# or
+npx -y @modelcontextprotocol/server-supabase
+```
+
+### Configuration
+- `SUPABASE_URL`: Your Supabase project URL
+- `SUPABASE_KEY`: Service role key (with read/write access)
+
+### Tools
+- Query tables
+- Generate TypeScript types
+- Manage schemas
+
+### Usage
+Connect via MCP client with your Supabase credentials.
+
+---
+
+## Next.js / TypeScript MCP Integration
+
+### SDK Repository
+[modelcontextprotocol/typescript-sdk](https://github.com/modelcontextprotocol/typescript-sdk)
+
+### Installation
+```bash
+npm install @modelcontextprotocol/typescript-sdk
+```
+
+### Usage
+Embed MCP client/server inside your Next.js app for custom tools or resource access.
+
+### Example
+```typescript
+import { createServer } from '@modelcontextprotocol/typescript-sdk';
+
+const server = createServer({
+  tools: [/* your tools */]
+});
+```
+
+---
+
+## Vercel MCP Server
+
+### Template
+[Vercel MCP Server Template](https://vercel.com/templates/other/model-context-protocol-mcp-with-vercel-functions)
+
+### Deployment
+- Use the template to deploy an MCP server as Vercel serverless functions
+- Customize tools for deployments, domains, env vars, etc.
+
+### Configuration
+- `VERCEL_TOKEN`: Personal access token
+- Project/team IDs as needed
+
+### Usage
+Connect your LLM apps to the deployed MCP endpoint.
+
+---
+
+## Configuration Best Practices
+- Store tokens in `.env` files, not in code
+- Use least privilege tokens
+- Rotate secrets regularly
+- Limit server access via IP allowlists or auth
+
+---
+
+## Troubleshooting
+- **Auth errors:** Check tokens and scopes
+- **Connection issues:** Verify server URL and network
+- **Tool errors:** Confirm request schema matches tool input
+- Enable verbose logs for debugging
+
+---
+
+## Summary
+Use the official MCP servers and SDKs for GitHub, Supabase, Next.js, and Vercel to ensure secure, maintainable, and standardized integration of LLMs with your core platforms.
