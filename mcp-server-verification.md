@@ -1,120 +1,97 @@
 # MCP Server Verification Report
 
-## 1. Startup Commands
+**Date:** April 6, 2025
 
-### GitHub MCP Server
+This report details the verification process for MCP servers configured in `mcp_settings.json` for the DIY Recipes project.
+
+## 1. Configured Servers & Startup Commands
+
+Based on `/Users/ryankrammes/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/mcp_settings.json`:
+
+### GitHub (`github`)
 ```bash
+# Command from settings: npx -y @modelcontextprotocol/server-github
+# Requires GITHUB_TOKEN environment variable (set in settings)
 npx -y @modelcontextprotocol/server-github
 ```
-or with token inline:
+
+### Brave Search (`brave-search`)
 ```bash
-GITHUB_TOKEN=your_token npx -y @modelcontextprotocol/server-github
+# Command from settings: npx -y @modelcontextprotocol/server-brave-search
+# Requires BRAVE_API_KEY environment variable (set in settings)
+npx -y @modelcontextprotocol/server-brave-search
 ```
 
-### Supabase MCP Server
+### Puppeteer (`puppeteer`)
 ```bash
+# Command from settings: npx -y @modelcontextprotocol/server-puppeteer
+npx -y @modelcontextprotocol/server-puppeteer
+```
+
+### Supabase Custom (`supabase-custom`)
+```bash
+# Command from settings: node /Users/ryankrammes/Documents/GitHub/DIY_Recipes/mcp-servers/supabase-mcp-server.js
+# Requires environment variables set in settings (SUPABASE_URL, SUPABASE_KEY, etc.)
+# Note: Script located at ./mcp-servers/supabase-mcp-server.js
 node mcp-servers/supabase-mcp-server.js
 ```
-
-Ensure your `.env` contains the required credentials.
+*Note: The settings file was updated during verification to use the correct command, arguments, environment variables, and port for the Supabase Custom server.*
 
 ---
 
-## 2. Roo Code MCP Servers Tab Verification
-- Open Roo Code in VSCode.
-- Navigate to **MCP Servers** tab.
-- Confirm both **GitHub** and **Supabase** servers appear.
+## 2. Roo Code MCP Servers Tab & Functionality Verification
+
+Verification was performed by attempting to use basic tools for each configured server via Roo Code.
 
 **Verification Result (April 6, 2025):**
-- **GitHub MCP Server** is visible and registered in the tab.
-- **Supabase MCP Server** is visible and registered in the tab.
-- Both servers respond to basic tool invocation via Roo Code interface.
-- Roo Code was restarted once to ensure registration.
-- No errors observed during verification.
 
-- If not, check server logs for errors.
+*   **GitHub (`github`):**
+    *   Visible/Registered in Roo Code MCP Servers tab: **Assumed Yes** (Based on successful tool use)
+    *   Functionality Test (`search_repositories`): **Success**
+    *   Status: **Verified Functional**
+
+*   **Brave Search (`brave-search`):**
+    *   Visible/Registered in Roo Code MCP Servers tab: **Assumed Yes** (Based on successful tool use)
+    *   Functionality Test (`brave_web_search`): **Success**
+    *   Status: **Verified Functional**
+
+*   **Puppeteer (`puppeteer`):**
+    *   Visible/Registered in Roo Code MCP Servers tab: **Assumed Yes** (Based on successful tool use)
+    *   Functionality Test (`puppeteer_navigate`): **Success**
+    *   Status: **Verified Functional**
+
+*   **Supabase Custom (`supabase-custom`):**
+    *   Visible/Registered in Roo Code MCP Servers tab: **Assumed Yes** (Configuration exists)
+    *   Functionality Test (`get_schemas`): **Failed** (Persistent "Not connected" error)
+    *   Troubleshooting Steps Taken:
+        1.  Verified script exists (`mcp-servers/supabase-mcp-server.js`).
+        2.  Attempted manual start (failed due to module type mismatch).
+        3.  Updated script to use ES Module `import` syntax.
+        4.  Updated `mcp_settings.json`: Corrected `command` to `node`.
+        5.  Updated `mcp_settings.json`: Added script path to `args`.
+        6.  Updated `mcp_settings.json`: Added required `SUPABASE_URL` and `SUPABASE_KEY` from `.env` to `env` block.
+        7.  Stopped manually started server process.
+        8.  Updated `mcp_settings.json`: Changed script path in `args` to absolute path.
+        9.  Updated `mcp_settings.json`: Explicitly added `port: 3002`.
+    *   Status: **Verification Failed** (Roo Code cannot connect despite configuration updates)
 
 ---
 
-## 3. Run Verification Script
-Execute:
-```bash
-node verify-mcp-servers.js
-```
-Expected output:
-- `[GitHub MCP] Success:` with API response.
-- `[Supabase MCP] Success:` with API response.
+## 3. Run Verification Script (`verify-mcp-servers.js`)
+
+*Note: This script may need updating to include tests for Brave Search and Puppeteer servers and to reflect the correct Supabase server name (`supabase-custom`). The previous run used mock responses.*
+
+Executing the script as-is would likely show success for GitHub and failure/mock success for Supabase based on its current implementation. Live testing via Roo Code is more accurate.
 
 ---
 
 ## 4. Screenshots / Terminal Output
 
-_Both MCP servers confirmed visible in Roo Code as of April 6, 2025._
+*Screenshots of the Roo Code MCP Servers tab showing the status of each server would be beneficial here.*
 
-_Example output from verification script:_
-```
-[GitHub MCP] Success: repositories fetched successfully.
-[Supabase MCP] Success: database connection verified.
-```
-
-_Add screenshots of Roo Code MCP Servers tab showing both servers registered if available._
-
-_Add terminal output from running the verification script._
-
-### Verification Run - April 6, 2025
-
-Command executed:
-
-```bash
-node verify-mcp-servers.js
-```
-
-Output:
-
-```
-Testing MCP Server: github
-Invoking search_repositories on github with { query: 'language:javascript', perPage: 1 }
-window.mcp.callTool not available, using mock response
-[GitHub MCP] Success: {
-  server: 'github',
-  tool: 'search_repositories',
-  args: { query: 'language:javascript', perPage: 1 },
-  success: true
-}
-Testing MCP Server: supabase
-Invoking query_data on supabase with { sql: 'SELECT 1' }
-window.mcp.callTool not available, using mock response
-[Supabase MCP] Success: {
-  server: 'supabase',
-  tool: 'query_data',
-  args: { sql: 'SELECT 1' },
-  success: true
-}
-```
-
-Notes:
-- `window.mcp.callTool` was not available in the Node environment, so mock responses were used.
-- No errors or duplicate servers detected.
-- Basic configuration appears correct.
-- Live connectivity and tool invocation should be verified inside the Roo Code UI environment in the future.
+*Terminal output for the successful tests (GitHub, Brave, Puppeteer) and the "Not connected" errors for Supabase Custom were observed during the interactive verification process.*
 
 ---
 
 ## 5. Issues Encountered & Solutions
 
-| Issue                                         | Solution                                             |
-|-----------------------------------------------|------------------------------------------------------|
-| Server does not appear in Roo Code            | Check server process logs, ensure no port conflicts  |
-| Authentication failures                       | Verify tokens/keys in `.env`                         |
-| Roo Code can't connect to MCP server          | Check firewall, network settings                     |
-| Unexpected tool errors                        | Confirm tool parameters, check server compatibility  |
-
----
-
-## 6. Recommendations for Production
-
-- Use persistent environment variables or secret managers.
-- Secure MCP servers with authentication/firewalls.
-- Use process managers (PM2, systemd) to keep servers running.
-- Monitor logs and resource usage.
-- Regularly update MCP server packages.
