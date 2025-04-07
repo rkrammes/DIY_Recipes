@@ -1,5 +1,6 @@
 import { supabaseClient } from './supabaseClient.js';
 import ErrorHandler from './error-handler.js';
+import * as githubMcpAdapter from './adapters/github-mcp-adapter.js';
 
 const ApiClient = {
   recipes: {
@@ -153,6 +154,49 @@ recipeIngredients: {
       return { data: true, error: null };
     } catch (error) {
       ErrorHandler.handleApiError(error, `Failed to update ingredients for recipe ${recipeId}.`);
+      return { data: null, error };
+    }
+  }
+}
+},
+github: {
+  async searchRepositories(query, options = {}) {
+    try {
+      return await githubMcpAdapter.searchRepositories(query, options);
+    } catch (error) {
+      ErrorHandler.handleApiError(error, 'Failed to search repositories.');
+      return { data: null, error };
+    }
+  },
+  async getFileContents(owner, repo, path, branch) {
+    try {
+      return await githubMcpAdapter.getFileContents(owner, repo, path, branch);
+    } catch (error) {
+      ErrorHandler.handleApiError(error, 'Failed to get file contents.');
+      return { data: null, error };
+    }
+  },
+  async getRepositoryInfo(owner, repo) {
+    try {
+      return await githubMcpAdapter.getRepositoryInfo(owner, repo);
+    } catch (error) {
+      ErrorHandler.handleApiError(error, 'Failed to get repository info.');
+      return { data: null, error };
+    }
+  },
+  async createIssue(owner, repo, title, body, options = {}) {
+    try {
+      return await githubMcpAdapter.createIssue(owner, repo, title, body, options);
+    } catch (error) {
+      ErrorHandler.handleApiError(error, 'Failed to create issue.');
+      return { data: null, error };
+    }
+  },
+  async listIssues(owner, repo, options = {}) {
+    try {
+      return await githubMcpAdapter.listIssues(owner, repo, options);
+    } catch (error) {
+      ErrorHandler.handleApiError(error, 'Failed to list issues.');
       return { data: null, error };
     }
   }
