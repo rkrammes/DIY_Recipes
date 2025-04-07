@@ -61,6 +61,43 @@ _Add screenshots of Roo Code MCP Servers tab showing both servers registered if 
 
 _Add terminal output from running the verification script._
 
+### Verification Run - April 6, 2025
+
+Command executed:
+
+```bash
+node verify-mcp-servers.js
+```
+
+Output:
+
+```
+Testing MCP Server: github
+Invoking search_repositories on github with { query: 'language:javascript', perPage: 1 }
+window.mcp.callTool not available, using mock response
+[GitHub MCP] Success: {
+  server: 'github',
+  tool: 'search_repositories',
+  args: { query: 'language:javascript', perPage: 1 },
+  success: true
+}
+Testing MCP Server: supabase
+Invoking query_data on supabase with { sql: 'SELECT 1' }
+window.mcp.callTool not available, using mock response
+[Supabase MCP] Success: {
+  server: 'supabase',
+  tool: 'query_data',
+  args: { sql: 'SELECT 1' },
+  success: true
+}
+```
+
+Notes:
+- `window.mcp.callTool` was not available in the Node environment, so mock responses were used.
+- No errors or duplicate servers detected.
+- Basic configuration appears correct.
+- Live connectivity and tool invocation should be verified inside the Roo Code UI environment in the future.
+
 ---
 
 ## 5. Issues Encountered & Solutions
