@@ -133,6 +133,36 @@ Connect your LLM apps to the deployed MCP endpoint.
 - Enable verbose logs for debugging.
 
 ---
+## Roo Code Integration & Visibility
 
+### Ensuring MCP Servers Appear in Roo Code
+
+- **Start each MCP server** with correct tokens and configs.
+- Use **unique, descriptive server names** (e.g., `github`, `supabase`, `vercel`, `custom-xyz`).
+- Roo Code automatically detects reachable MCP servers by these names.
+- For persistent integration, configure Roo Code's MCP settings or UI to include these servers if applicable.
+- **GitHub MCP server:** Appears as `github` when running.
+- **Custom servers:** Must be running and expose MCP protocol with unique names.
+
+### Verification Process
+
+1. **Launch Roo Code.**
+2. **Start each MCP server** (`npx -y @modelcontextprotocol/server-github`, etc.).
+3. **Open the MCP Servers tab** in Roo Code.
+4. Confirm servers appear under their configured names.
+5. Test by invoking a simple tool (e.g., `get_file_contents`).
+
+### Troubleshooting Visibility Issues
+
+- **Server not running:** Ensure MCP server process is active.
+- **Wrong server name:** Use the expected server name string.
+- **Port conflicts:** Check that each server listens on a unique, reachable port.
+- **Network issues:** Verify localhost or remote server connectivity.
+- **Token/auth errors:** Confirm correct tokens are supplied.
+- **Roo Code cache:** Restart Roo Code if new servers do not appear.
+- **Custom servers:** Ensure they implement the MCP protocol correctly.
+
+---
 ## Summary
+Use the official MCP servers and SDKs for GitHub, Supabase, Next.js, and Vercel to ensure secure, maintainable, and standardized integration of LLMs with your core platforms.
 Use the official MCP servers and SDKs for GitHub, Supabase, Next.js, and Vercel to ensure secure, maintainable, and standardized integration of LLMs with your core platforms.
