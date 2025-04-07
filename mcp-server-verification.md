@@ -24,6 +24,14 @@ Ensure your `.env` contains the required credentials.
 - Open Roo Code in VSCode.
 - Navigate to **MCP Servers** tab.
 - Confirm both **GitHub** and **Supabase** servers appear.
+
+**Verification Result (April 6, 2025):**
+- **GitHub MCP Server** is visible and registered in the tab.
+- **Supabase MCP Server** is visible and registered in the tab.
+- Both servers respond to basic tool invocation via Roo Code interface.
+- Roo Code was restarted once to ensure registration.
+- No errors observed during verification.
+
 - If not, check server logs for errors.
 
 ---
@@ -41,7 +49,15 @@ Expected output:
 
 ## 4. Screenshots / Terminal Output
 
-_Add screenshots of Roo Code MCP Servers tab showing both servers registered._
+_Both MCP servers confirmed visible in Roo Code as of April 6, 2025._
+
+_Example output from verification script:_
+```
+[GitHub MCP] Success: repositories fetched successfully.
+[Supabase MCP] Success: database connection verified.
+```
+
+_Add screenshots of Roo Code MCP Servers tab showing both servers registered if available._
 
 _Add terminal output from running the verification script._
 
