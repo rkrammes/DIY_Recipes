@@ -39,6 +39,7 @@ Model Context Protocol (MCP) servers expose data sources and platform APIs to LL
 - **Use descriptive, unique names**: `github`, `supabase`, `vercel`.
 - **Supabase:** Register only one MCP server, either managed or custom.
 - **Next.js SDK:** No need to register if embedded.
+- **Check `mcp_settings.json` first:** Some servers (e.g., GitHub, Brave Search, Puppeteer) might already be configured by default or via setup scripts.
 - **Restart Roo Code** after modifying MCP settings.
 
 ---
