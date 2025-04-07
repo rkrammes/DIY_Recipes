@@ -163,6 +163,126 @@ Connect your LLM apps to the deployed MCP endpoint.
 - **Custom servers:** Ensure they implement the MCP protocol correctly.
 
 ---
+## Editing `mcp_settings.json` for MCP Server Registration
+
+### Location
+
+The MCP server configuration file is located at:
+
+`~/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/mcp_settings.json`
+
+### Purpose
+
+This JSON file defines all MCP servers available to Roo Code. Editing it allows persistent registration of official and custom servers, ensuring they appear in the MCP Servers tab.
+
+### Structure
+
+```json
+{
+  "mcpServers": {
+    "server-name": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-example"],
+      "env": {
+        "KEY": "value"
+      },
+      "alwaysAllow": ["tool1", "tool2"],
+      "disabled": false
+    }
+  }
+}
+```
+
+- **server-name**: Unique identifier (e.g., `github`, `supabase-custom`)
+- **command**: Executable path (e.g., `npx`)
+- **args**: CLI arguments (package name, flags)
+- **env**: Environment variables (API keys, tokens)
+- **alwaysAllow**: List of tools always permitted
+- **disabled**: Set to `false` to enable
+
+### How to Add or Edit Servers
+
+1. Open the file in a text editor.
+2. Under `"mcpServers"`, add a new server block or modify existing ones.
+3. Save the file.
+4. Restart Roo Code or reload the MCP Servers panel.
+
+### Example Entries
+
+- **GitHub MCP Server**
+
+```json
+"github": {
+  "command": "npx",
+  "args": ["-y", "@modelcontextprotocol/server-github"],
+  "env": {
+    "GITHUB_TOKEN": "your_github_pat"
+  },
+  "disabled": false,
+  "alwaysAllow": [
+    "create_or_update_file",
+    "search_repositories",
+    "create_repository",
+    "get_file_contents",
+    "create_issue",
+    "create_pull_request",
+    "fork_repository",
+    "create_branch",
+    "list_commits",
+    "list_issues",
+    "update_issue",
+    "add_issue_comment",
+    "search_code",
+    "search_issues",
+    "search_users",
+    "get_issue",
+    "get_pull_request",
+    "list_pull_requests",
+    "create_pull_request_review",
+    "merge_pull_request",
+    "get_pull_request_files",
+    "get_pull_request_status",
+    "update_pull_request_branch",
+    "get_pull_request_comments",
+    "get_pull_request_reviews",
+    "push_files"
+  ]
+}
+```
+
+- **Supabase MCP Server**
+
+```json
+"supabase-custom": {
+  "command": "/path/to/supabase-mcp-server",
+  "env": {
+    "SUPABASE_PROJECT_REF": "your_project_ref",
+    "SUPABASE_DB_PASSWORD": "your_db_password",
+    "SUPABASE_REGION": "your_region",
+    "SUPABASE_ACCESS_TOKEN": "your_access_token",
+    "SUPABASE_SERVICE_ROLE_KEY": "your_service_role_key",
+    "LIVE_DANGEROUSLY": "true"
+  },
+  "disabled": false,
+  "alwaysAllow": [
+    "get_table_schema",
+    "live_dangerously",
+    "execute_postgresql",
+    "get_schemas",
+    "get_tables"
+  ]
+}
+```
+
+### Verifying MCP Servers in Roo Code
+
+1. **Launch Roo Code.**
+2. **Ensure your servers are running** (or configured via this file).
+3. **Open the MCP Servers tab.**
+4. Confirm your servers appear under their configured names.
+5. Test connectivity by invoking a tool.
+
+---
 ## Summary
 Use the official MCP servers and SDKs for GitHub, Supabase, Next.js, and Vercel to ensure secure, maintainable, and standardized integration of LLMs with your core platforms.
 Use the official MCP servers and SDKs for GitHub, Supabase, Next.js, and Vercel to ensure secure, maintainable, and standardized integration of LLMs with your core platforms.
