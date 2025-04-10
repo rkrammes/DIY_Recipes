@@ -28,3 +28,37 @@ export interface RecipeIngredient {
   unit: string;
   created_at: string;
 }
+
+export interface RecipeIteration {
+  id: string;
+  recipe_id: string;
+  version_number: number;
+  title: string;
+  description?: string;
+  created_at: string;
+  notes?: string;
+  metrics?: Record<string, number>; // e.g., calories, prep_time, cost
+}
+
+export interface IterationComparisonResult {
+  baseIterationId: string;
+  compareIterationId: string;
+  differences: Record<string, { from: any; to: any }>;
+}
+
+export interface RecipeAnalysisData {
+  metrics: Record<string, number>;
+  insights?: string[];
+}
+
+export interface AISuggestion {
+  id: string;
+  recipe_id: string;
+  suggestion: string;
+  reason?: string;
+  created_at: string;
+}
+
+export interface RecipeWithIterations extends Recipe {
+  iterations?: RecipeIteration[];
+}
