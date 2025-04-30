@@ -2,7 +2,13 @@
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
-type Theme = 'light' | 'dark';
+type Theme = 'synthwave-noir' | 'terminal-mono' | 'paper-ledger';
+
+const themeMapping: Record<string, Theme> = {
+  'hackers': 'synthwave-noir',
+  'dystopia': 'terminal-mono',
+  'neotopia': 'paper-ledger'
+};
 
 interface ThemeContextProps {
   theme: Theme;
@@ -12,29 +18,49 @@ interface ThemeContextProps {
 const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>('dark');
+  const [theme, setTheme] = useState<Theme>('synthwave-noir');
 
   useEffect(() => {
-    const stored = localStorage.getItem('theme');
-    if (stored === 'light' || stored === 'dark') {
-      setTheme(stored);
-    } else {
-      // default to dark mode
-      setTheme('dark');
+    const storedTheme = localStorage.getItem('theme');
+    let initialTheme: Theme = 'synthwave-noir'; // Default to a new theme name
+
+    if (storedTheme) {
+      // Check if the stored theme is an old name and map it
+      if (themeMapping[storedTheme]) {
+        initialTheme = themeMapping[storedTheme];
+      } else if (['synthwave-noir', 'terminal-mono', 'paper-ledger'].includes(storedTheme)) {
+        // Check if the stored theme is already a new name
+        initialTheme = storedTheme as Theme;
+      }
     }
+
+    setTheme(initialTheme);
   }, []);
 
   useEffect(() => {
+    // Store the new theme name
     localStorage.setItem('theme', theme);
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+
+    // Remove all old and new theme classes/attributes first
+    document.documentElement.classList.remove('dark', 'light'); // Remove old classes
+    document.body.className = ''; // Clear all body classes
+
+    // Set the data-theme attribute with the new theme name
+    document.documentElement.setAttribute('data-theme', theme);
+
+    // For backward compatibility, set the body class with the old theme name if a mapping exists
+    const oldTheme = Object.keys(themeMapping).find(key => themeMapping[key] === theme);
+    if (oldTheme) {
+      document.body.classList.add(oldTheme);
     }
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+    setTheme(prevTheme => {
+      if (prevTheme === 'synthwave-noir') return 'terminal-mono';
+      if (prevTheme === 'terminal-mono') return 'paper-ledger';
+      return 'synthwave-noir'; // Cycle back to the first new theme
+    });
   };
 
   return (
