@@ -1,0 +1,12 @@
+{
+  "defaults": {
+    "tailwind": "latest", // pulls v4 stable or beta if flagged latest
+    "supabase-js": "latest",
+    "next": "latest",
+    "zustand": "latest",
+    "tiptap": "latest"
+    // Add other relevant libraries if known
+  }
+  // Assuming Context7 server is configured globally or via another mechanism.
+  // If explicit server config is needed here, add it based on Section 12.2.
+}
