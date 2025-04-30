@@ -29,25 +29,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* Production Analytics Placeholder */}
-        {process.env.NODE_ENV === 'production' && (
-          <>
-            {/* Replace with actual analytics script or component */}
-            {/* <script async src="https://www.example.com/analytics.js"></script> */}
-            {/* Or a component: <AnalyticsProvider /> */}
-            {console.log('Analytics placeholder active in production')}
-          </>
-        )}
-
-        {/* Production Monitoring Placeholder */}
-        {process.env.NODE_ENV === 'production' && (
-          <>
-            {/* Replace with actual monitoring script or component */}
-            {/* <script src="https://www.example.com/monitoring.js"></script> */}
-            {/* Or a component: <MonitoringProvider /> */}
-            {console.log('Monitoring placeholder active in production')}
-          </>
-        )}
 
         <AuthProvider>
           <ThemeProvider>
