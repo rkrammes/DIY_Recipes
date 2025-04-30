@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
-import type { Recipe } from '@/types/models';
+import type {  } from '@/types/models';
 
 export async function GET(
   request: NextRequest,
@@ -43,8 +43,9 @@ export async function PUT(
     }
 
     return NextResponse.json({ success: true, message: 'Recipe updated successfully' }, { status: 200 });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || 'Invalid request body' }, { status: 400 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'Invalid request body';
+    return NextResponse.json({ error: message }, { status: 400 });
   }
 }
 

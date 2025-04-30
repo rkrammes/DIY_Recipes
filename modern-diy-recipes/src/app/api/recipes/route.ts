@@ -14,7 +14,7 @@ export async function GET() {
     }
 
     return NextResponse.json(data, { status: 200 });
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: 'Unexpected server error' }, { status: 500 });
   }
 }
@@ -34,7 +34,8 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json(data, { status: 201 });
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
   }
+}
 }

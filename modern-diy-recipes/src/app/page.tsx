@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+"use client";
+import React, { useState, useEffect } from "react"; // Add useEffect
 import RecipeList from "../components/RecipeList";
 import RecipeDetails from "../components/RecipeDetails";
 import dynamic from 'next/dynamic';
@@ -21,16 +22,24 @@ async function getRecipes(): Promise<Pick<Recipe, 'id' | 'title'>[]> {
   return data || [];
 }
 
-export default async function Home() {
-  const initialRecipes = await getRecipes();
-  // Remove useRecipes hook call because it's a client hook and can't be used in server component
+// Remove async from here
+export default function Home() {
+  const [recipes, setRecipes] = useState<Pick<Recipe, 'id' | 'title'>[]>([]); // Add recipes state
   const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      const fetchedRecipes = await getRecipes();
+      setRecipes(fetchedRecipes);
+    };
+    fetchRecipes();
+  }, []); // Empty dependency array to run once on mount
 
   return (
     <div className="flex h-screen overflow-hidden">
       <div className="flex-shrink-0 w-64 border-r border-gray-300 dark:border-gray-700 overflow-y-auto">
         <RecipeList
-          initialRecipes={initialRecipes}
+          initialRecipes={recipes} // Use recipes from state
           selectedId={selectedId}
           onSelect={setSelectedId}
           // deleteRecipe and updateRecipe should be handled in client components or hooks

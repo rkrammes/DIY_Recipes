@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import IngredientList from '../components/IngredientList';
 import '@testing-library/jest-dom';
 import { useIngredients } from '../hooks/useIngredients'; // Import the actual hook

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
-import type { Ingredient } from '@/types/models';
+import type {  } from '@/types/models';
 
 export async function GET(
   request: NextRequest,
