@@ -13,30 +13,37 @@ export default function RecipeAnalysis({ analysisData }: RecipeAnalysisProps) {
   const { metrics, insights } = analysisData;
 
   return (
-    <div className="border p-2 rounded mt-4">
-      <h3 className="font-semibold mb-2">Recipe Analysis</h3>
+    <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md mt-4">
+      <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-white">Recipe Analysis</h3>
 
-      <table className="min-w-full border border-gray-300 dark:border-gray-700 text-sm mb-4">
-        <thead>
-          <tr className="bg-gray-100 dark:bg-gray-800">
-            <th className="border px-2 py-1">Metric</th>
-            <th className="border px-2 py-1">Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Object.entries(metrics).map(([key, value]) => (
-            <tr key={key}>
-              <td className="border px-2 py-1">{key}</td>
-              <td className="border px-2 py-1">{value}</td>
+      {/* Responsive Table Container */}
+      <div className="overflow-x-auto mb-4">
+        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
+          <thead className="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th scope="col" className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Metric
+              </th>
+              <th scope="col" className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Value
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            {Object.entries(metrics).map(([key, value]) => (
+              <tr key={key}>
+                <td className="px-4 py-2 whitespace-nowrap text-gray-900 dark:text-gray-200">{key}</td>
+                <td className="px-4 py-2 whitespace-nowrap text-gray-900 dark:text-gray-200">{value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {insights && insights.length > 0 && (
         <div>
-          <h4 className="font-semibold mb-1">Insights</h4>
-          <ul className="list-disc pl-5">
+          <h4 className="text-md font-semibold mb-2 text-gray-800 dark:text-white">Insights</h4>
+          <ul className="list-disc pl-6 space-y-1 text-gray-700 dark:text-gray-300">
             {insights.map((insight, idx) => (
               <li key={idx}>{insight}</li>
             ))}

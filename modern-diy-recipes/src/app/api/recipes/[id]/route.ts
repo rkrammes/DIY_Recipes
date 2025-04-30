@@ -28,22 +28,23 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const body = (await request.json()) as Partial<Recipe>;
+    const body = await request.json();  // Ensure body is parsed correctly
+    const { title, description, ingredients } = body;  // Extract fields
 
-    const { data, error } = await supabase
-      .from('recipes')
-      .update(body)
-      .eq('id', params.id)
-      .select()
-      .single();
+    const { error } = await supabase.rpc('update_recipe_with_ingredients', {
+      p_recipe_id: params.id,
+      p_title: title,
+      p_description: description,
+      p_ingredients: ingredients  // Pass the ingredients array as JSONB
+    });
 
-    if (error || !data) {
-      return NextResponse.json({ error: error?.message || 'Not found' }, { status: 404 });
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
-    return NextResponse.json(data, { status: 200 });
-  } catch {
-    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
+    return NextResponse.json({ success: true, message: 'Recipe updated successfully' }, { status: 200 });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message || 'Invalid request body' }, { status: 400 });
   }
 }
 

@@ -9,11 +9,11 @@ export default function IngredientList() {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div>
-      <h2 className="text-lg font-semibold mb-2">All Ingredients</h2>
-      <ul className="list-disc pl-5">
+    <div className="p-4 md:p-6 flex flex-col gap-4 h-full overflow-y-auto"> {/* Added padding, gap, and overflow handling */}
+      <h2 className="text-xl font-bold">All Ingredients</h2> {/* Increased heading size */}
+      <ul className="list-disc pl-6 space-y-2"> {/* Improved list styling and spacing */}
         {ingredients.map((ing: Ingredient) => (
-          <li key={ing.id}>
+          <li key={ing.id} className="text-gray-700 dark:text-gray-300"> {/* Added text color */}
             {ing.name} {ing.description ? `- ${ing.description}` : ''}
           </li>
         ))}

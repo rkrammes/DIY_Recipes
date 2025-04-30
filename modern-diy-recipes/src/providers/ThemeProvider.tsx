@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
-type Theme = 'synthwave-noir' | 'terminal-mono' | 'paper-ledger';
+export type Theme = 'synthwave-noir' | 'terminal-mono' | 'paper-ledger'; // Export the Theme type
 
 const themeMapping: Record<string, Theme> = {
   'hackers': 'synthwave-noir',

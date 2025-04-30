@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { RecipeIteration } from '../types/models';
 import { supabase } from '../lib/supabase';
+import { Button } from './ui/button'; // Assuming Button is in a ui directory
 
 interface RecipeIterationProps {
   recipeId: string;
@@ -39,25 +40,26 @@ export default function RecipeIteration({
   }, [recipeId]);
 
   if (loading) {
-    return <div>Loading iterations...</div>;
+    return <div className="p-4 text-center">Loading iterations...</div>;
   }
 
   return (
-    <div className="border p-2 rounded">
-      <h3 className="font-semibold mb-2">Recipe Versions</h3>
-      <ul className="space-y-1 max-h-60 overflow-y-auto">
+    <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm">
+      <h3 className="text-lg font-semibold mb-3 text-gray-800 dark:text-gray-200">Recipe Versions</h3>
+      <ul className="space-y-2 max-h-60 overflow-y-auto pr-2"> {/* Added pr-2 for scrollbar */}
         {iterations.map((iteration) => (
           <li key={iteration.id}>
-            <button
-              className={`w-full text-left px-2 py-1 rounded ${
+            <Button
+              variant={iteration.id === selectedIterationId ? 'default' : 'ghost'}
+              className={`w-full justify-start text-left ${
                 iteration.id === selectedIterationId
-                  ? 'bg-blue-500 text-white'
+                  ? '' // Default variant handles selected style
                   : 'hover:bg-gray-100 dark:hover:bg-gray-800'
               }`}
               onClick={() => onSelectIteration(iteration)}
             >
               v{iteration.version_number}: {iteration.title}
-            </button>
+            </Button>
           </li>
         ))}
       </ul>

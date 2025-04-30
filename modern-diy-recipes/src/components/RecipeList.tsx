@@ -1,29 +1,151 @@
-import React from 'react';
-import { useRecipes } from '../hooks/useRecipes';
+import React, { useState, useRef, useEffect } from 'react';
 import type { Recipe } from '../types/models';
+import { Button } from './ui/button';
+import { Input } from '@/components/ui/input'; // Assuming an Input component exists
 
-interface RecipeListProps {
-  selectedId: string | null;
-  onSelect: (id: string) => void;
+interface RecipeListItem {
+  id: string;
+  title: string;
 }
 
-export default function RecipeList({ selectedId, onSelect }: RecipeListProps) {
-  const { recipes, loading, error } = useRecipes();
+interface RecipeListProps {
+  initialRecipes: RecipeListItem[];
+  selectedId: string | null;
+  onSelect: (id: string) => void;
+  deleteRecipe: (id: string) => Promise<void>;
+  updateRecipe: (id: string, updates: { title: string }) => Promise<any>;
+}
 
-  if (loading) return <div>Loading recipes...</div>;
-  if (error) return <div>Error: {error}</div>;
+export default function RecipeList({ initialRecipes, selectedId, onSelect, deleteRecipe, updateRecipe }: RecipeListProps) {
+  const [recipes, setRecipes] = useState<RecipeListItem[]>(initialRecipes);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [tempTitle, setTempTitle] = useState<string>('');
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Focus input when editing starts
+  useEffect(() => {
+    if (editingId && inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.select(); // Select text for easy replacement
+    }
+  }, [editingId]);
+
+
+  const handleDelete = async (e: React.MouseEvent, id: string) => {
+    e.stopPropagation(); // Prevent triggering the li onClick
+    if (window.confirm('Are you sure you want to delete this recipe?')) {
+      try {
+        await deleteRecipe(id);
+        // Update local state after successful deletion
+        setRecipes((prevRecipes) => prevRecipes.filter((recipe) => recipe.id !== id));
+        // Optionally: If the deleted recipe was selected, clear the selection
+        if (selectedId === id) {
+           onSelect(null); // Or handle as needed
+         }
+      } catch (err) {
+        console.error('Failed to delete recipe:', err);
+        // Handle error display to the user if necessary
+        alert('Failed to delete recipe.');
+      }
+    }
+  };
+
+
+  const handleStartEdit = (e: React.MouseEvent, recipe: RecipeListItem) => {
+    e.stopPropagation();
+    setEditingId(recipe.id);
+    setTempTitle(recipe.title || '');
+  };
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTempTitle(e.target.value);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingId(null);
+    setTempTitle('');
+  };
+
+  const handleSaveTitle = async (id: string) => {
+    if (tempTitle.trim() === '') {
+      // Optionally handle empty title case, maybe revert or show error
+      handleCancelEdit();
+      return;
+    }
+    try {
+      const updatedRecipe = await updateRecipe(id, { title: tempTitle });
+      // Update local state with the confirmed data from the server
+      setRecipes((prevRecipes) =>
+        prevRecipes.map((recipe) =>
+          recipe.id === id ? { ...recipe, title: updatedRecipe.title } : recipe
+        )
+      );
+      setEditingId(null);
+    } catch (err) {
+      console.error('Failed to update title:', err);
+      alert('Failed to update recipe title.');
+      // Optionally revert tempTitle or keep editing state
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, id: string) => { // Added explicit type for 'e'
+    if (e.key === 'Enter') {
+      handleSaveTitle(id);
+    } else if (e.key === 'Escape') {
+      handleCancelEdit();
+    }
+  };
+
+
+  // No loading or error state needed here as data is fetched on the server
+  // if (loading) return <div>Loading recipes...</div>;
+  // if (error) return <div>Error loading recipes: {error}</div>;
 
   return (
-    <ul className="w-full max-w-xs border-r border-gray-300 dark:border-gray-700 overflow-y-auto">
-      {recipes.map((recipe: Recipe) => (
+    <ul className="w-full sm:w-64 md:w-72 border-r border-gray-300 dark:border-gray-700 overflow-y-auto h-full"> {/* Responsive width and ensure full height */}
+      {recipes.map((recipe: RecipeListItem) => (
         <li
           key={recipe.id}
-          onClick={() => onSelect(recipe.id)}
-          className={`cursor-pointer px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 ${
-            selectedId === recipe.id ? 'bg-gray-200 dark:bg-gray-700 font-semibold' : ''
+          onClick={() => !editingId && onSelect(recipe.id)} // Prevent selection when editing
+          className={`flex justify-between items-center cursor-pointer px-4 py-2 transition-colors duration-150 hover:bg-gray-100 dark:hover:bg-gray-800 ${ // Added transition
+            selectedId === recipe.id && !editingId ? 'bg-gray-200 dark:bg-gray-700 font-semibold' : ''
           }`}
+          aria-current={selectedId === recipe.id ? 'page' : undefined}
         >
-          {recipe.title || 'Untitled Recipe'}
+          {editingId === recipe.id ? (
+            <Input
+              ref={inputRef}
+              type="text"
+              value={tempTitle}
+              onChange={handleTitleChange}
+              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => handleKeyDown(e, recipe.id)} // Ensure type is applied correctly
+              onBlur={() => handleSaveTitle(recipe.id)} // Save on blur
+              className="flex-grow mr-2 h-8" // Adjust styling
+              aria-label="Edit recipe title"
+            />
+          ) : (
+            <span
+              className="truncate flex-grow"
+              onDoubleClick={(e) => handleStartEdit(e, recipe)} // Start edit on double click
+              title="Double-click to edit title" // Tooltip hint
+            >
+              {recipe.title || 'Untitled Recipe'}
+            </span>
+          )}
+          <div className="flex-shrink-0">
+            {/* Optionally add an edit button as well/instead of double-click */}
+            {/* <Button variant="ghost" size="sm" className="p-1 h-auto" onClick={(e) => handleStartEdit(e, recipe)} aria-label={`Edit recipe ${recipe.title || 'Untitled Recipe'}`}>✏️</Button> */}
+            <Button
+               variant="ghost"
+               size="sm"
+               className="ml-1 p-1 h-auto" // Adjusted margin
+               onClick={(e) => handleDelete(e, recipe.id)}
+               aria-label={`Delete recipe ${recipe.title || 'Untitled Recipe'}`}
+               disabled={!!editingId} // Disable delete while editing
+             >
+               🗑️
+             </Button>
+          </div>
         </li>
       ))}
     </ul>

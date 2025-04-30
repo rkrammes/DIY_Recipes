@@ -1,17 +1,42 @@
-"use client";
-
 import React, { useState } from "react";
 import RecipeList from "../components/RecipeList";
 import RecipeDetails from "../components/RecipeDetails";
-import SettingsPanel from "../components/SettingsPanel";
+import dynamic from 'next/dynamic';
+import { supabase } from '@/lib/supabase';
+import type { Recipe } from '@/types/models';
 
-export default function Home() {
+const SettingsPanel = dynamic(() => import("../components/SettingsPanel"), { ssr: false });
+
+async function getRecipes(): Promise<Pick<Recipe, 'id' | 'title'>[]> {
+  const { data, error } = await supabase
+    .from('recipes')
+    .select('id, title') // Fetch only necessary fields for the list
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching recipes:', error);
+    return [];
+  }
+
+  return data || [];
+}
+
+export default async function Home() {
+  const initialRecipes = await getRecipes();
+  // Remove useRecipes hook call because it's a client hook and can't be used in server component
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   return (
     <div className="flex h-screen overflow-hidden">
       <div className="flex-shrink-0 w-64 border-r border-gray-300 dark:border-gray-700 overflow-y-auto">
-        <RecipeList selectedId={selectedId} onSelect={setSelectedId} />
+        <RecipeList
+          initialRecipes={initialRecipes}
+          selectedId={selectedId}
+          onSelect={setSelectedId}
+          // deleteRecipe and updateRecipe should be handled in client components or hooks
+          deleteRecipe={async () => {}}
+          updateRecipe={async () => {}}
+        />
       </div>
 
       <main className="flex-1 overflow-y-auto">

@@ -6,7 +6,7 @@ export async function GET() {
   try {
     const { data, error } = await supabase
       .from('recipes')
-      .select('*')
+      .select('id, title')
       .order('created_at', { ascending: false });
 
     if (error) {

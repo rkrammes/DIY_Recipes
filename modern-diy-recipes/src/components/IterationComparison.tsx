@@ -55,29 +55,37 @@ export default function IterationComparison({
   const comparison = diffIterations(baseIteration, compareIteration);
 
   return (
-    <div className="border p-2 rounded mt-4">
-      <h3 className="font-semibold mb-2">Iteration Comparison</h3>
+    <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 mt-4">
+      <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Iteration Comparison</h3>
       {Object.keys(comparison.differences).length === 0 ? (
-        <div>No differences found.</div>
+        <div className="text-gray-600 dark:text-gray-400">No differences found.</div>
       ) : (
-        <table className="min-w-full border border-gray-300 dark:border-gray-700 text-sm">
-          <thead>
-            <tr className="bg-gray-100 dark:bg-gray-800">
-              <th className="border px-2 py-1">Field</th>
-              <th className="border px-2 py-1">Base Version</th>
-              <th className="border px-2 py-1">Compared Version</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.entries(comparison.differences).map(([field, diff]) => (
-              <tr key={field}>
-                <td className="border px-2 py-1">{field}</td>
-                <td className="border px-2 py-1">{String(diff.from ?? '')}</td>
-                <td className="border px-2 py-1">{String(diff.to ?? '')}</td>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
+            <thead className="bg-gray-50 dark:bg-gray-700">
+              <tr>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                  Field
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                  Base Version
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                  Compared Version
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+              {Object.entries(comparison.differences).map(([field, diff]) => (
+                <tr key={field}>
+                  <td className="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{field}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-300">{String(diff.from ?? '')}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-300">{String(diff.to ?? '')}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

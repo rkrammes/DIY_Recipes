@@ -1,5 +1,11 @@
-import { useEffect, useState } from 'react';
-import type { Recipe } from '@/types/models';
+import { useEffect, useState, useCallback } from 'react';
+import type { Recipe, RecipeIngredient } from '@/types/models';
+
+interface RecipeUpdate {
+  title: string;
+  description: string;
+  ingredients: RecipeIngredient[];
+}
 
 export function useRecipe(id: string | null) {
   const [recipe, setRecipe] = useState<Recipe | null>(null);
@@ -35,5 +41,48 @@ export function useRecipe(id: string | null) {
     fetchRecipe();
   }, [id]);
 
-  return { recipe, loading, error };
+  const updateRecipe = useCallback(async (updates: RecipeUpdate) => {
+    if (!id) {
+      throw new Error('No recipe ID provided');
+    }
+
+    // Store current state for rollback
+    const previousRecipe = recipe;
+
+    // Optimistic update
+    setRecipe((prev) => prev ? {
+      ...prev,
+      ...updates,
+      updated_at: new Date().toISOString()
+    } : null);
+
+    try {
+      const res = await fetch(`/api/recipes/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updates),
+      });
+
+      if (!res.ok) {
+        throw new Error(`Error ${res.status}: ${await res.text()}`);
+      }
+
+      const data = await res.json();
+      
+      // Update with server response
+      setRecipe(data);
+      setError(null);
+      
+      return data;
+    } catch (err: any) {
+      // Rollback on error
+      setRecipe(previousRecipe);
+      setError(err.message || 'Failed to update recipe');
+      throw err;
+    }
+  }, [id, recipe]);
+
+  return { recipe, loading, error, updateRecipe };
 }

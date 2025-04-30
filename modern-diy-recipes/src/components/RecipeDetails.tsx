@@ -6,7 +6,10 @@ import type { Recipe as BaseRecipe, RecipeIngredient, Ingredient, RecipeIteratio
 import RecipeForm from './RecipeForm';
 import { useUser } from '@supabase/auth-helpers-react';
 import { supabase } from '../lib/supabase';
-import Modal from './Modal';
+import dynamic from 'next/dynamic';
+
+const Modal = dynamic(() => import('./Modal'), { ssr: false });
+import { Button } from './ui/button'; // Import the standard Button component
 
 import RecipeIterationComponent from './RecipeIteration';
 import IterationComparison from './IterationComparison';
@@ -24,10 +27,11 @@ interface RecipeDetailsProps {
 }
 
 export default function RecipeDetails({ recipeId }: RecipeDetailsProps) {
-  const { recipe, loading, error } = useRecipe(recipeId) as {
+  const { recipe, loading, error, updateRecipe } = useRecipe(recipeId) as {
     recipe: RecipeWithIngredients | null;
     loading: boolean;
     error: string | null;
+    updateRecipe: (updates: { title: string; description: string; ingredients: RecipeIngredient[] }) => Promise<any>;
   };
 
   const { ingredients: allIngredients } = useIngredients();
@@ -48,62 +52,13 @@ export default function RecipeDetails({ recipeId }: RecipeDetailsProps) {
     setSaveError(null);
     try {
       if (!user) throw new Error('Not authenticated');
+      if (!recipe?.id) throw new Error('Recipe ID is required for updates');
 
-      let recipeId = updatedRecipe.id;
-
-      if (recipeId) {
-        // Update recipe
-        const { error: updateError } = await supabase
-          .from('recipes')
-          .update({
-            title: updatedRecipe.title,
-            description: updatedRecipe.description,
-            updated_at: new Date().toISOString(),
-          })
-          .eq('id', recipeId);
-
-        if (updateError) throw updateError;
-
-        // Delete existing ingredients
-        const { error: deleteError } = await supabase
-          .from('recipe_ingredients')
-          .delete()
-          .eq('recipe_id', recipeId);
-
-        if (deleteError) throw deleteError;
-      } else {
-        // Insert new recipe
-        const { data, error: insertError } = await supabase
-          .from('recipes')
-          .insert({
-            user_id: user.id,
-            title: updatedRecipe.title,
-            description: updatedRecipe.description,
-            created_at: new Date().toISOString(),
-          })
-          .select('id')
-          .single();
-
-        if (insertError) throw insertError;
-        recipeId = data.id;
-      }
-
-      // Insert ingredients
-      const ingredientsPayload = (updatedRecipe.ingredients || []).map((ing) => ({
-        recipe_id: recipeId,
-        ingredient_id: ing.ingredient_id,
-        quantity: ing.quantity,
-        unit: ing.unit,
-        created_at: new Date().toISOString(),
-      }));
-
-      if (ingredientsPayload.length > 0) {
-        const { error: ingError } = await supabase
-          .from('recipe_ingredients')
-          .insert(ingredientsPayload);
-
-        if (ingError) throw ingError;
-      }
+      await updateRecipe({
+        title: updatedRecipe.title || '',
+        description: updatedRecipe.description || '',
+        ingredients: updatedRecipe.ingredients || []
+      });
 
       setIsEditing(false);
     } catch (err: any) {
@@ -120,11 +75,11 @@ export default function RecipeDetails({ recipeId }: RecipeDetailsProps) {
 
   return (
     <ErrorBoundary>
-      <div className="p-4 flex flex-col gap-4 overflow-y-auto">
-        <h2 className="text-xl font-bold">{recipe.title}</h2>
+      <div className="p-4 md:p-6 flex flex-col gap-6 overflow-y-auto h-full"> {/* Added md:p-6 and gap-6 */}
+        <h2 className="text-2xl font-bold">{recipe.title}</h2> {/* Increased heading size */}
         {recipe.description && <p>{recipe.description}</p>}
 
-        <div>
+        <div className="overflow-x-auto"> {/* Added overflow-x-auto for table responsiveness */}
           <h3 className="font-semibold mb-2">Ingredients</h3>
           <table className="min-w-full border border-gray-300 dark:border-gray-700 text-sm">
             <thead>
@@ -199,12 +154,11 @@ export default function RecipeDetails({ recipeId }: RecipeDetailsProps) {
 
         {user && (
           <div className="flex gap-2 mt-4">
-            <button
+            <Button // Use the standard Button component
               onClick={() => setIsEditing(true)}
-              className="px-4 py-2 bg-blue-500 text-white rounded"
             >
               Edit Recipe
-            </button>
+            </Button>
             {saveError && <div className="text-red-500">{saveError}</div>}
           </div>
         )}
