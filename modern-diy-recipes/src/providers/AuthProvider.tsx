@@ -1,7 +1,8 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { createClient, SupabaseClient, Session, User } from '@supabase/supabase-js';
+import { SupabaseClient, Session, User } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase'; // Import the single client instance
 
 interface AuthContextProps {
   user: User | null;
@@ -13,11 +14,6 @@ interface AuthContextProps {
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-
-export const supabase: SupabaseClient = createClient(supabaseUrl, supabaseAnonKey);
 
 interface AuthProviderProps {
   children: ReactNode;
