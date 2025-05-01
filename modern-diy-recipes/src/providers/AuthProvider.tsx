@@ -36,9 +36,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         if (error) throw error;
         setSession(data.session);
         setUser(data.session?.user ?? null);
-      } catch (err: any) {
-        console.error('Error fetching session:', err.message);
-        setError(err.message);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'An unknown error occurred';
+        console.error('Error fetching session:', message);
+        setError(message);
       } finally {
         setLoading(false);
       }
@@ -65,9 +66,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         options: { emailRedirectTo: window.location.origin }
       });
       if (error) throw error;
-    } catch (err: any) {
-      console.error('Error sending magic link:', err.message);
-      setError(err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'An unknown error occurred';
+      console.error('Error sending magic link:', message);
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -79,9 +81,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
-    } catch (err: any) {
-      console.error('Error signing out:', err.message);
-      setError(err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'An unknown error occurred';
+      console.error('Error signing out:', message);
+      setError(message);
     } finally {
       setLoading(false);
     }

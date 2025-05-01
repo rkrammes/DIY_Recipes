@@ -18,7 +18,6 @@ export function RecipeIterationManager({ recipe }: RecipeIterationManagerProps) 
     currentIteration,
     isLoading,
     error,
-    fetchIterations,
     createNewIteration,
     updateIterationDetails,
     compareIterations, // Added compareIterations
@@ -28,9 +27,14 @@ export function RecipeIterationManager({ recipe }: RecipeIterationManagerProps) 
 
   const [editingNotes, setEditingNotes] = useState<string>('');
   const [editingResults, setEditingResults] = useState<string>(''); // Assuming 'results' maps to 'description' or similar
+interface ComparisonResult {
+  comparedWith: string;
+  result: { [key: string]: boolean } | null;
+}
+
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [aiSuggestions, setAiSuggestions] = useState<string[]>([]);
-  const [comparisonResult, setComparisonResult] = useState<any>(null); // State for comparison
+  const [comparisonResult, setComparisonResult] = useState<ComparisonResult | null>(null); // State for comparison
 
   useEffect(() => {
     // Fetch iterations when the component mounts or recipe changes

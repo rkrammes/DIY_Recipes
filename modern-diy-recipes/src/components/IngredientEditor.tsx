@@ -35,8 +35,9 @@ export default function IngredientEditor({ ingredient, onSave }: IngredientEdito
       const saved = await res.json();
       setSuccess(true);
       onSave?.(saved);
-    } catch (err: any) {
-      setError(err.message || 'Failed to save ingredient');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Failed to save ingredient';
+      setError(message);
     } finally {
       setLoading(false);
     }

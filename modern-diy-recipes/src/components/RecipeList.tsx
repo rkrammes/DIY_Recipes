@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import type { Recipe } from '../types/models';
 import { Button } from './ui/button';
 import { Input } from '@/components/ui/input'; // Assuming an Input component exists
 
@@ -8,12 +7,17 @@ interface RecipeListItem {
   title: string;
 }
 
+interface UpdatedRecipeResult {
+  title: string;
+  // Add other properties if updateRecipe returns more
+}
+
 interface RecipeListProps {
   initialRecipes: RecipeListItem[];
   selectedId: string | null;
-  onSelect: (id: string) => void;
+  onSelect: (id: string | null) => void;
   deleteRecipe: (id: string) => Promise<void>;
-  updateRecipe: (id: string, updates: { title: string }) => Promise<any>;
+  updateRecipe: (id: string, updates: { title: string }) => Promise<UpdatedRecipeResult>; // Change any to UpdatedRecipeResult
 }
 
 export default function RecipeList({ initialRecipes, selectedId, onSelect, deleteRecipe, updateRecipe }: RecipeListProps) {

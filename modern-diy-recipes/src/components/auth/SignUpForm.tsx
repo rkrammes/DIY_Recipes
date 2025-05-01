@@ -17,9 +17,10 @@ const SignUpForm = () => {
       const { error } = await supabase.auth.signUp({ email, password });
       if (error) throw error;
       setSuccess('Registration successful! Check your email to confirm.');
-    } catch (err: any) {
-      console.error('Error signing up:', err.message);
-      setError(err.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'An unknown error occurred';
+      console.error('Error signing up:', message);
+      setError(message);
     } finally {
       setLoading(false);
     }

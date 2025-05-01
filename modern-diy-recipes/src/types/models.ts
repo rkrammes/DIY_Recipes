@@ -43,7 +43,7 @@ export interface RecipeIteration {
 export interface IterationComparisonResult {
   baseIterationId: string;
   compareIterationId: string;
-  differences: Record<string, { from: any; to: any }>;
+  differences: Record<string, { from: unknown; to: unknown }>;
 }
 
 export interface RecipeAnalysisData {

@@ -5,7 +5,6 @@ import { useIngredients } from '../hooks/useIngredients';
 import type { Recipe as BaseRecipe, RecipeIngredient, Ingredient, RecipeIteration, RecipeAnalysisData } from '../types/models';
 import RecipeForm from './RecipeForm';
 import { useUser } from '@supabase/auth-helpers-react';
-import { supabase } from '../lib/supabase';
 import dynamic from 'next/dynamic';
 
 const Modal = dynamic(() => import('./Modal'), { ssr: false });
@@ -31,24 +30,22 @@ export default function RecipeDetails({ recipeId }: RecipeDetailsProps) {
     recipe: RecipeWithIngredients | null;
     loading: boolean;
     error: string | null;
-    updateRecipe: (updates: { title: string; description: string; ingredients: RecipeIngredient[] }) => Promise<any>;
+    updateRecipe: (updates: { title: string; description: string; ingredients: RecipeIngredient[] }) => Promise<unknown>; // Change any to unknown
   };
 
   const { ingredients: allIngredients } = useIngredients();
 
   const [isEditing, setIsEditing] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [saveError, setSaveError] = useState<string | null>(null);
+  const [saveError, setSaveError] = useState<string | null>(null); // Remove saving state
 
   const user = useUser();
 
-  const [iterations, setIterations] = useState<RecipeIteration[]>([]);
+  const [iterations, ] = useState<RecipeIteration[]>([]); // Remove setIterations
   const [selectedIteration, setSelectedIteration] = useState<RecipeIteration | null>(null);
   const [compareIteration, setCompareIteration] = useState<RecipeIteration | null>(null);
   const [analysisData, setAnalysisData] = useState<RecipeAnalysisData | null>(null);
 
   const handleSave = async (updatedRecipe: Partial<RecipeWithIngredients>) => {
-    setSaving(true);
     setSaveError(null);
     try {
       if (!user) throw new Error('Not authenticated');
@@ -61,10 +58,11 @@ export default function RecipeDetails({ recipeId }: RecipeDetailsProps) {
       });
 
       setIsEditing(false);
-    } catch (err: any) {
-      setSaveError(err.message || 'Failed to save recipe.');
+    } catch (err: unknown) { // Change any to unknown
+      const message = err instanceof Error ? err.message : 'Failed to save recipe.';
+      setSaveError(message);
     } finally {
-      setSaving(false);
+      // setSaving(false); // Remove setSaving
     }
   };
 

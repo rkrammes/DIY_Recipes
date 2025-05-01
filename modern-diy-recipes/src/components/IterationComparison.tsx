@@ -10,7 +10,7 @@ function diffIterations(
   base: RecipeIteration,
   compare: RecipeIteration
 ): IterationComparisonResult {
-  const differences: Record<string, { from: any; to: any }> = {};
+  const differences: Record<string, { from: unknown; to: unknown }> = {};
 
   if (base.title !== compare.title) {
     differences['title'] = { from: base.title, to: compare.title };

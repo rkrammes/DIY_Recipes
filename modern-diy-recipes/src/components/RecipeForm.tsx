@@ -39,8 +39,9 @@ export default function RecipeForm({ recipe, allIngredients, onSave, onCancel }:
         description,
         ingredients,
       });
-    } catch (err: any) {
-      setError(err.message || 'Failed to save recipe.');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Failed to save recipe.';
+      setError(message);
     } finally {
       setSaving(false);
     }
