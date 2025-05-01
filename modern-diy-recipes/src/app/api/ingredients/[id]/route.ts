@@ -4,13 +4,13 @@ import type {  } from '@/types/models';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { [key: string]: string | string[] } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { data, error } = await supabase
       .from('ingredients')
       .select('*')
-      .eq('id', params.id)
+      .eq('id', (await params).id)
       .single();
 
     if (error || !data) {
