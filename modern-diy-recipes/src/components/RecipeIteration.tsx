@@ -53,8 +53,8 @@ export default function RecipeIteration({
               variant={iteration.id === selectedIterationId ? 'default' : 'ghost'}
               className={`w-full justify-start text-left ${
                 iteration.id === selectedIterationId
-                  ? '' // Default variant handles selected style
-                  : 'hover:bg-[var(--surface-1)]'
+                  ? 'bg-[var(--accent)] text-[var(--text-inverse)] hover:bg-[var(--accent-hover)]' // Use accent for selected
+                  : 'hover:bg-[var(--surface-1)] text-[var(--text-primary)]' // Added text color for ghost
               }`}
               onClick={() => onSelectIteration(iteration)}
             >

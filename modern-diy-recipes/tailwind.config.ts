@@ -56,6 +56,9 @@ const config: Config = {
       transitionTimingFunction: {
         'soft': 'cubic-bezier(.4,0,.2,1)',
       },
+      outlineColor: { // Add outlineColor section
+        ring: withOpacity('--ring'),
+      },
     },
   },
   plugins: [

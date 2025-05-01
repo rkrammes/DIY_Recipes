@@ -44,7 +44,7 @@ export default function IngredientEditor({ ingredient, onSave }: IngredientEdito
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 p-4 md:p-6 bg-[var(--surface-0)] text-[var(--text-primary)]"> {/* Added padding */}
+    <form onSubmit={handleSubmit} className="space-y-4 p-4 md:p-6 bg-[var(--surface-0)] text-[var(--text-primary)] border border-[var(--border-subtle)] rounded-lg shadow-sm"> {/* Added padding, added theme styles */}
       <div>
         <Label htmlFor="ingredient-name" className="text-[var(--text-primary)]">Name</Label> {/* Use standard Label */}
         <Input // Use standard Input
@@ -53,6 +53,7 @@ export default function IngredientEditor({ ingredient, onSave }: IngredientEdito
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
+          className="bg-[var(--surface-1)] text-[var(--text-primary)] border-[var(--border-subtle)]" // Added theme styles
         />
       </div>
       <div>
@@ -61,6 +62,7 @@ export default function IngredientEditor({ ingredient, onSave }: IngredientEdito
           id="ingredient-description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          className="bg-[var(--surface-1)] text-[var(--text-primary)] border-[var(--border-subtle)]" // Added theme styles
         />
       </div>
       {error && <p className="text-[var(--error)] text-sm">{error}</p>} {/* Added text-sm */}
@@ -68,7 +70,7 @@ export default function IngredientEditor({ ingredient, onSave }: IngredientEdito
       <Button // Use standard Button
         type="submit"
         disabled={loading}
-        className="w-full justify-center" // Make button full width
+        className="w-full justify-center bg-[var(--accent)] text-[var(--text-inverse)] hover:bg-[var(--accent-hover)]" // Make button full width, added theme styles
       >
         {loading ? 'Saving...' : 'Save Ingredient'}
       </Button>

@@ -2,10 +2,10 @@
 
 @layer base {
   * {
-    @apply border outline-ring/50;
+    /* @apply border outline outline-ring outline-opacity-50; */
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-primary text-primary;
   }
 }
 

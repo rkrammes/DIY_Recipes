@@ -24,7 +24,7 @@ export default function SettingsPanel() {
   };
 
   return (
-    <aside className="w-full sm:w-64 md:w-72 border-l border-[var(--border-subtle)] p-4 md:p-6 flex flex-col gap-6 h-full overflow-y-auto bg-[var(--surface-0)] text-[var(--text-primary)]"> {/* Responsive width, padding, full height */}
+    <aside className="w-full sm:w-64 md:w-72 border-l border-[var(--border-subtle)] p-4 md:p-6 flex flex-col gap-6 h-full overflow-y-auto bg-[var(--surface-0)] text-[var(--text-primary)]"> {/* Responsive width, padding, full height, added theme styles */}
       <h2 className="text-xl font-bold text-[var(--text-primary)]">Settings</h2>
 
       <section>
@@ -34,13 +34,13 @@ export default function SettingsPanel() {
         ) : user ? (
           <div className="flex flex-col gap-2">
             <Label className="text-sm text-[var(--text-secondary)] truncate">{user.email}</Label> {/* Use Label, add truncate */}
-            <Button variant="outline" onClick={() => signOut()}>
+            <Button variant="outline" onClick={() => signOut()} className="border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-[var(--surface-1)]"> {/* Added theme styles */}
               Log Out
             </Button>
           </div>
         ) : (
           <div className="flex flex-col gap-2">
-            <Button variant="default" onClick={handleMagicLink}>
+            <Button variant="default" onClick={handleMagicLink} className="bg-[var(--accent)] text-[var(--text-inverse)] hover:bg-[var(--accent-hover)]"> {/* Added theme styles */}
               Send Magic Link
             </Button>
             {error && <p className="text-[var(--error)]">{error}</p>}
@@ -50,7 +50,7 @@ export default function SettingsPanel() {
 
       <section>
         <h3 className="font-semibold mb-2 text-[var(--text-primary)]">Theme</h3>
-        <Button variant="outline" onClick={toggleTheme} className="w-full justify-center"> {/* Make button full width */}
+        <Button variant="outline" onClick={toggleTheme} className="w-full justify-center border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-[var(--surface-1)]"> {/* Make button full width, added theme styles */}
           Switch to {getNextThemeName(theme)}
         </Button>
       </section>

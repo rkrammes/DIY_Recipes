@@ -9,7 +9,7 @@ export default function IngredientList() {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="p-4 md:p-6 flex flex-col gap-4 h-full overflow-y-auto bg-[var(--surface-0)] text-[var(--text-primary)]"> {/* Added padding, gap, and overflow handling */}
+    <div className="p-4 md:p-6 flex flex-col gap-4 h-full overflow-y-auto bg-[var(--surface-0)] text-[var(--text-primary)] border border-[var(--border-subtle)] rounded-lg shadow-sm"> {/* Added padding, gap, and overflow handling, added theme styles */}
       <h2 className="text-xl font-bold text-[var(--text-primary)]">All Ingredients</h2> {/* Increased heading size */}
       <ul className="list-disc pl-6 space-y-2"> {/* Improved list styling and spacing */}
         {ingredients.map((ing: Ingredient) => (

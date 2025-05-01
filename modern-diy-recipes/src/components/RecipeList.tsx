@@ -106,13 +106,13 @@ export default function RecipeList({ initialRecipes, selectedId, onSelect, delet
   // if (error) return <div>Error loading recipes: {error}</div>;
 
   return (
-    <ul className="w-full sm:w-64 md:w-72 border-r border-[var(--border-subtle)] overflow-y-auto h-full"> {/* Responsive width and ensure full height */}
+    <ul className="w-full sm:w-64 md:w-72 border-r border-[var(--border-subtle)] overflow-y-auto h-full bg-[var(--surface-0)] text-[var(--text-primary)]"> {/* Responsive width and ensure full height, added theme styles */}
       {recipes.map((recipe: RecipeListItem) => (
         <li
           key={recipe.id}
           onClick={() => !editingId && onSelect(recipe.id)} // Prevent selection when editing
           className={`flex justify-between items-center cursor-pointer px-4 py-2 transition-colors duration-150 hover:bg-[var(--surface-1)] ${ // Added transition
-            selectedId === recipe.id && !editingId ? 'bg-[var(--surface-inverse)] text-[var(--text-inverse)] font-semibold' : ''
+            selectedId === recipe.id && !editingId ? 'bg-[var(--accent)] text-[var(--text-inverse)] font-semibold' : '' // Use accent for selected
           }`}
           aria-current={selectedId === recipe.id ? 'page' : undefined}
         >
@@ -124,7 +124,7 @@ export default function RecipeList({ initialRecipes, selectedId, onSelect, delet
               onChange={handleTitleChange}
               onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => handleKeyDown(e, recipe.id)} // Ensure type is applied correctly
               onBlur={() => handleSaveTitle(recipe.id)} // Save on blur
-              className="flex-grow mr-2 h-8" // Adjust styling
+              className="flex-grow mr-2 h-8 bg-[var(--surface-1)] text-[var(--text-primary)] border-[var(--border-subtle)]" // Adjust styling, added theme styles
               aria-label="Edit recipe title"
             />
           ) : (
@@ -142,7 +142,7 @@ export default function RecipeList({ initialRecipes, selectedId, onSelect, delet
             <Button
                variant="ghost"
                size="sm"
-               className="ml-1 p-1 h-auto" // Adjusted margin
+               className="ml-1 p-1 h-auto text-[var(--text-secondary)] hover:text-[var(--error)]" // Adjusted margin, added theme styles
                onClick={(e) => handleDelete(e, recipe.id)}
                aria-label={`Delete recipe ${recipe.title || 'Untitled Recipe'}`}
                disabled={!!editingId} // Disable delete while editing

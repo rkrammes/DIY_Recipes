@@ -73,9 +73,12 @@ export default function RecipeDetails({ recipeId }: RecipeDetailsProps) {
 
   return (
     <ErrorBoundary>
-      <div className="p-4 md:p-6 flex flex-col gap-6 overflow-y-auto h-full bg-[var(--surface-0)] text-[var(--text-primary)]"> {/* Added md:p-6 and gap-6 */}
+      <div className="p-4 md:p-6 flex flex-col gap-6 overflow-y-auto h-full bg-[var(--surface-0)] text-[var(--text-primary)] border border-[var(--border-subtle)] rounded-lg shadow-sm"> {/* Added md:p-6 and gap-6, added theme styles */}
         <h2 className="text-2xl font-bold text-[var(--text-primary)]">{recipe.title}</h2> {/* Increased heading size */}
         {recipe.description && <p className="text-[var(--text-secondary)]">{recipe.description}</p>}
+
+        {/* Added horizontal rule for visual separation */}
+        <hr className="border-[var(--border-subtle)]" />
 
         <div className="overflow-x-auto"> {/* Added overflow-x-auto for table responsiveness */}
           <h3 className="font-semibold mb-2 text-[var(--text-primary)]">Ingredients</h3>
@@ -89,7 +92,7 @@ export default function RecipeDetails({ recipeId }: RecipeDetailsProps) {
             </thead>
             <tbody>
               {(recipe.ingredients as RecipeIngredient[] | undefined)?.map((ing) => (
-                <tr key={ing.id}>
+                <tr key={ing.id} className="even:bg-[var(--surface-0)] odd:bg-[var(--surface-1)]"> {/* Added alternating row colors */}
                   <td className="border border-[var(--border-subtle)] px-2 py-1 text-[var(--text-secondary)]">
                     {
                       allIngredients.find((i: Ingredient) => i.id === ing.ingredient_id)?.name
@@ -107,6 +110,9 @@ export default function RecipeDetails({ recipeId }: RecipeDetailsProps) {
             </tbody>
           </table>
         </div>
+
+        {/* Added horizontal rule for visual separation */}
+        <hr className="border-[var(--border-subtle)]" />
 
         {/* Iteration Controls */}
         <RecipeIterationComponent
@@ -154,6 +160,7 @@ export default function RecipeDetails({ recipeId }: RecipeDetailsProps) {
           <div className="flex gap-2 mt-4 text-[var(--text-primary)]">
             <Button // Use the standard Button component
               onClick={() => setIsEditing(true)}
+              className="bg-[var(--accent)] text-[var(--text-inverse)] hover:bg-[var(--accent-hover)]" // Added theme styles
             >
               Edit Recipe
             </Button>
