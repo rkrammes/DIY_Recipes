@@ -17,8 +17,9 @@ export function useRecipes() {
         const data = await res.json();
         setRecipes(data);
         setError(null);
-      } catch (err: any) {
-        setError(err.message || 'Failed to fetch recipes');
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Failed to fetch recipes';
+        setError(message);
       } finally {
         setLoading(false);
       }
@@ -38,8 +39,9 @@ export function useRecipes() {
       // Remove the deleted recipe from the local state
       setRecipes((prevRecipes) => prevRecipes.filter((recipe) => recipe.id !== id));
       setError(null); // Clear any previous errors
-    } catch (err: any) {
-      setError(err.message || 'Failed to delete recipe');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Failed to delete recipe';
+      setError(message);
       // Optionally re-throw or handle the error more specifically
       throw err; // Re-throw to allow calling component to handle it
     }
@@ -74,8 +76,9 @@ export function useRecipes() {
       );
       setError(null);
       return updatedRecipe; // Return the updated recipe
-    } catch (err: any) {
-      setError(err.message || 'Failed to update recipe');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Failed to update recipe';
+      setError(message);
       // Rollback optimistic update on error
       setRecipes(originalRecipes);
       throw err; // Re-throw for the component to handle

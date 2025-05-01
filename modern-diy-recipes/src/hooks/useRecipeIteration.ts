@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'; // Added useEffect
 import { supabase } from '@/lib/supabase';
-import { Recipe, RecipeIteration, RecipeIngredient } from '@/types/models'; // Use RecipeIteration
+import { Recipe, RecipeIteration } from '@/types/models'; // Use RecipeIteration
 
 // Hook to manage recipe iterations
 export function useRecipeIteration(initialRecipeId?: string) {

@@ -22,8 +22,9 @@ export function useIngredients() {
 
       setIngredients(data || []);
       setError(null);
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch ingredients');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Failed to fetch ingredients';
+      setError(message);
       console.error('Error fetching ingredients:', err);
     } finally {
       setLoading(false);

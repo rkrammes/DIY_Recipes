@@ -30,8 +30,9 @@ export function useRecipe(id: string | null) {
         const data = await res.json();
         setRecipe(data);
         setError(null);
-      } catch (err: any) {
-        setError(err.message || 'Failed to fetch recipe');
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Failed to fetch recipe';
+        setError(message);
         setRecipe(null);
       } finally {
         setLoading(false);
@@ -76,10 +77,11 @@ export function useRecipe(id: string | null) {
       setError(null);
       
       return data;
-    } catch (err: any) {
+    } catch (err: unknown) {
       // Rollback on error
       setRecipe(previousRecipe);
-      setError(err.message || 'Failed to update recipe');
+      const message = err instanceof Error ? err.message : 'Failed to update recipe';
+      setError(message);
       throw err;
     }
   }, [id, recipe]);

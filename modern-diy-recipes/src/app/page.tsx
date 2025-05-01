@@ -4,8 +4,6 @@ import RecipeList from "../components/RecipeList";
 import RecipeDetails from "../components/RecipeDetails";
 import dynamic from 'next/dynamic';
 import { useRecipes } from '../hooks/useRecipes'; // Import useRecipes hook
-import type { Recipe } from '@/types/models';
-
 const SettingsPanel = dynamic(() => import("../components/SettingsPanel"), { ssr: false });
 
 // Remove getRecipes function
