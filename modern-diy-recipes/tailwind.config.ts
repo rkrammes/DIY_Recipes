@@ -12,6 +12,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Define colors using a nested structure
+        background: {
+          DEFAULT: withOpacity('--background'),
+        },
+        foreground: {
+          DEFAULT: withOpacity('--foreground'),
+        },
+        border: {
+          DEFAULT: withOpacity('--border'),
+        },
+        ring: {
+          DEFAULT: withOpacity('--ring'),
+        },
         // Surface colors
         surface: {
           DEFAULT: withOpacity('--surface-0'),
@@ -20,30 +33,39 @@ const config: Config = {
         },
         // Text colors
         text: {
-          DEFAULT: withOpacity('--text-primary'),
-          'secondary': withOpacity('--text-secondary'),
-          'inverse': withOpacity('--text-inverse'),
+          primary: withOpacity('--text-primary'),
+          secondary: withOpacity('--text-secondary'),
+          inverse: withOpacity('--text-inverse'),
         },
         // Interactive colors
         accent: {
           DEFAULT: withOpacity('--accent'),
-          'hover': withOpacity('--accent-hover'),
-          'active': withOpacity('--accent-active'),
+          hover: withOpacity('--accent-hover'),
+          active: withOpacity('--accent-active'),
         },
         // Status colors
         alert: {
-          'red': withOpacity('--error'),
-          'yellow': withOpacity('--warning'),
-          'green': withOpacity('--success'),
+          red: withOpacity('--error'),
+          yellow: withOpacity('--warning'),
+          green: withOpacity('--success'),
         },
-        // Border color
-        border: withOpacity('--border'),
       },
       backgroundColor: {
-        'bg-primary': withOpacity('--surface-0'),
-        'bg-secondary': withOpacity('--surface-1'),
-        'bg-inverse': withOpacity('--surface-inverse'),
-        'bg-overlay': withOpacity('--surface-1'),
+        // Reference the new background color definition
+        DEFAULT: withOpacity('--background'),
+        primary: withOpacity('--surface-0'),
+        secondary: withOpacity('--surface-1'),
+        inverse: withOpacity('--surface-inverse'),
+        overlay: withOpacity('--surface-1'), // Assuming overlay uses surface-1
+      },
+      borderColor: {
+        // Reference the new border color definition
+        DEFAULT: withOpacity('--border'),
+      },
+      outlineColor: {
+        // Reference the new ring color definition for outline
+        DEFAULT: withOpacity('--ring'),
+        ring: withOpacity('--ring'), // Explicitly map ring for outline-ring
       },
       boxShadow: {
         'soft': 'var(--shadow-soft)',
@@ -55,9 +77,6 @@ const config: Config = {
       },
       transitionTimingFunction: {
         'soft': 'cubic-bezier(.4,0,.2,1)',
-      },
-      outlineColor: { // Add outlineColor section
-        ring: withOpacity('--ring'),
       },
     },
   },

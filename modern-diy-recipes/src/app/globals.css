@@ -1,13 +1,5 @@
 @import "tailwindcss";
 
-@layer base {
-  * {
-    /* @apply border outline outline-ring outline-opacity-50; */
-  }
-  body {
-    @apply bg-primary text-primary;
-  }
-}
 
 /* Base primitive tokens */
 :root {
