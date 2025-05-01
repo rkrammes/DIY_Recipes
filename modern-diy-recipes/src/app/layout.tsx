@@ -28,12 +28,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Suspense fallback={null}> {/* Wrap ThemeScript in Suspense */}
-        <ThemeScript />
-      </Suspense>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Suspense fallback={null}> {/* Wrap ThemeScript in Suspense */}
+          <ThemeScript />
+        </Suspense>
 
         <AuthProvider>
           <ThemeProvider>
