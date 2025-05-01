@@ -4,12 +4,6 @@ import React, { createContext, useContext, useEffect, useState, ReactNode } from
 
 export type Theme = 'synthwave-noir' | 'terminal-mono' | 'paper-ledger'; // Export the Theme type
 
-const themeMapping: Record<string, Theme> = {
-  'hackers': 'synthwave-noir',
-  'dystopia': 'terminal-mono',
-  'neotopia': 'paper-ledger'
-};
-
 interface ThemeContextProps {
   theme: Theme;
   toggleTheme: () => void;
@@ -21,17 +15,13 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const [theme, setTheme] = useState<Theme>('synthwave-noir');
 
   useEffect(() => {
+    // This effect runs only on the client after hydration
+    // The ThemeScript handles initial theme setting to prevent FOUC
     const storedTheme = localStorage.getItem('theme');
     let initialTheme: Theme = 'synthwave-noir'; // Default to a new theme name
 
-    if (storedTheme) {
-      // Check if the stored theme is an old name and map it
-      if (themeMapping[storedTheme]) {
-        initialTheme = themeMapping[storedTheme];
-      } else if (['synthwave-noir', 'terminal-mono', 'paper-ledger'].includes(storedTheme)) {
-        // Check if the stored theme is already a new name
-        initialTheme = storedTheme as Theme;
-      }
+    if (storedTheme && ['synthwave-noir', 'terminal-mono', 'paper-ledger'].includes(storedTheme)) {
+      initialTheme = storedTheme as Theme;
     }
 
     setTheme(initialTheme);
@@ -41,18 +31,9 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     // Store the new theme name
     localStorage.setItem('theme', theme);
 
-    // Remove all old and new theme classes/attributes first
-    document.documentElement.classList.remove('dark', 'light'); // Remove old classes
-    document.body.className = ''; // Clear all body classes
-
     // Set the data-theme attribute with the new theme name
     document.documentElement.setAttribute('data-theme', theme);
 
-    // For backward compatibility, set the body class with the old theme name if a mapping exists
-    const oldTheme = Object.keys(themeMapping).find(key => themeMapping[key] === theme);
-    if (oldTheme) {
-      document.body.classList.add(oldTheme);
-    }
   }, [theme]);
 
   const toggleTheme = () => {

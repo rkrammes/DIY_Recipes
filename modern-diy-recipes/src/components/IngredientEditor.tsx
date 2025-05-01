@@ -44,9 +44,9 @@ export default function IngredientEditor({ ingredient, onSave }: IngredientEdito
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 p-4 md:p-6"> {/* Added padding */}
+    <form onSubmit={handleSubmit} className="space-y-4 p-4 md:p-6 bg-[var(--surface-0)] text-[var(--text-primary)]"> {/* Added padding */}
       <div>
-        <Label htmlFor="ingredient-name">Name</Label> {/* Use standard Label */}
+        <Label htmlFor="ingredient-name" className="text-[var(--text-primary)]">Name</Label> {/* Use standard Label */}
         <Input // Use standard Input
           id="ingredient-name"
           type="text"
@@ -56,15 +56,15 @@ export default function IngredientEditor({ ingredient, onSave }: IngredientEdito
         />
       </div>
       <div>
-        <Label htmlFor="ingredient-description">Description</Label> {/* Use standard Label */}
+        <Label htmlFor="ingredient-description" className="text-[var(--text-primary)]">Description</Label> {/* Use standard Label */}
         <Textarea // Use standard Textarea
           id="ingredient-description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
       </div>
-      {error && <p className="text-red-600 text-sm">{error}</p>} {/* Added text-sm */}
-      {success && <p className="text-green-600 text-sm">Saved successfully!</p>} {/* Added text-sm */}
+      {error && <p className="text-[var(--error)] text-sm">{error}</p>} {/* Added text-sm */}
+      {success && <p className="text-[var(--success)] text-sm">Saved successfully!</p>} {/* Added text-sm */}
       <Button // Use standard Button
         type="submit"
         disabled={loading}

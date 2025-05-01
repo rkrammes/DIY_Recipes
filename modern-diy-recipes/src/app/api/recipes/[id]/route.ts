@@ -25,14 +25,14 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const body = await request.json();  // Ensure body is parsed correctly
     const { title, description, ingredients } = body;  // Extract fields
 
     const { error } = await supabase.rpc('update_recipe_with_ingredients', {
-      p_recipe_id: params.id,
+      p_recipe_id: (await params).id,
       p_title: title,
       p_description: description,
       p_ingredients: ingredients  // Pass the ingredients array as JSONB
@@ -51,13 +51,13 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { error } = await supabase
       .from('recipes')
       .delete()
-      .eq('id', params.id);
+      .eq('id', (await params).id);
 
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 });

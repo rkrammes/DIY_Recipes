@@ -44,8 +44,8 @@ export default function RecipeIteration({
   }
 
   return (
-    <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 shadow-sm">
-      <h3 className="text-lg font-semibold mb-3 text-gray-800 dark:text-gray-200">Recipe Versions</h3>
+    <div className="border border-[var(--border-subtle)] rounded-lg p-4 shadow-sm bg-[var(--surface-0)] text-[var(--text-primary)]">
+      <h3 className="text-lg font-semibold mb-3 text-[var(--text-primary)]">Recipe Versions</h3>
       <ul className="space-y-2 max-h-60 overflow-y-auto pr-2"> {/* Added pr-2 for scrollbar */}
         {iterations.map((iteration) => (
           <li key={iteration.id}>
@@ -54,7 +54,7 @@ export default function RecipeIteration({
               className={`w-full justify-start text-left ${
                 iteration.id === selectedIterationId
                   ? '' // Default variant handles selected style
-                  : 'hover:bg-gray-100 dark:hover:bg-gray-800'
+                  : 'hover:bg-[var(--surface-1)]'
               }`}
               onClick={() => onSelectIteration(iteration)}
             >

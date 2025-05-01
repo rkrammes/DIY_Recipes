@@ -20,6 +20,9 @@ module.exports = {
     "node_modules/(?!(@supabase)/)"
   ],
   moduleNameMapper: {
-    "^(\\.{1,2}/.*)\\.js$": "$1"
+    "^(\\.{1,2}/.*)\\.js$": "$1",
+    "^(\\.{1,2}/.*)\\.ts$": "$1",
+    "^(\\.{1,2}/.*)\\.tsx$": "$1",
+    "^@providers/(.*)$": "<rootDir>/DIY_Recipes/providers/$1"
   }
 };

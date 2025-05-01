@@ -106,13 +106,13 @@ export default function RecipeList({ initialRecipes, selectedId, onSelect, delet
   // if (error) return <div>Error loading recipes: {error}</div>;
 
   return (
-    <ul className="w-full sm:w-64 md:w-72 border-r border-gray-300 dark:border-gray-700 overflow-y-auto h-full"> {/* Responsive width and ensure full height */}
+    <ul className="w-full sm:w-64 md:w-72 border-r border-[var(--border-subtle)] overflow-y-auto h-full"> {/* Responsive width and ensure full height */}
       {recipes.map((recipe: RecipeListItem) => (
         <li
           key={recipe.id}
           onClick={() => !editingId && onSelect(recipe.id)} // Prevent selection when editing
-          className={`flex justify-between items-center cursor-pointer px-4 py-2 transition-colors duration-150 hover:bg-gray-100 dark:hover:bg-gray-800 ${ // Added transition
-            selectedId === recipe.id && !editingId ? 'bg-gray-200 dark:bg-gray-700 font-semibold' : ''
+          className={`flex justify-between items-center cursor-pointer px-4 py-2 transition-colors duration-150 hover:bg-[var(--surface-1)] ${ // Added transition
+            selectedId === recipe.id && !editingId ? 'bg-[var(--surface-inverse)] text-[var(--text-inverse)] font-semibold' : ''
           }`}
           aria-current={selectedId === recipe.id ? 'page' : undefined}
         >

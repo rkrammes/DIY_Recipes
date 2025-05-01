@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "../providers/AuthProvider";
 import { ThemeProvider } from "../providers/ThemeProvider";
+import { Suspense } from 'react'; // Import Suspense
+import ThemeScript from "../components/ThemeScript"; // Import ThemeScript
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,6 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Suspense fallback={null}> {/* Wrap ThemeScript in Suspense */}
+        <ThemeScript />
+      </Suspense>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

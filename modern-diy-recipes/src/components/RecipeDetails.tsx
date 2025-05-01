@@ -73,35 +73,35 @@ export default function RecipeDetails({ recipeId }: RecipeDetailsProps) {
 
   return (
     <ErrorBoundary>
-      <div className="p-4 md:p-6 flex flex-col gap-6 overflow-y-auto h-full"> {/* Added md:p-6 and gap-6 */}
-        <h2 className="text-2xl font-bold">{recipe.title}</h2> {/* Increased heading size */}
-        {recipe.description && <p>{recipe.description}</p>}
+      <div className="p-4 md:p-6 flex flex-col gap-6 overflow-y-auto h-full bg-[var(--surface-0)] text-[var(--text-primary)]"> {/* Added md:p-6 and gap-6 */}
+        <h2 className="text-2xl font-bold text-[var(--text-primary)]">{recipe.title}</h2> {/* Increased heading size */}
+        {recipe.description && <p className="text-[var(--text-secondary)]">{recipe.description}</p>}
 
         <div className="overflow-x-auto"> {/* Added overflow-x-auto for table responsiveness */}
-          <h3 className="font-semibold mb-2">Ingredients</h3>
-          <table className="min-w-full border border-gray-300 dark:border-gray-700 text-sm">
+          <h3 className="font-semibold mb-2 text-[var(--text-primary)]">Ingredients</h3>
+          <table className="min-w-full border border-[var(--border-subtle)] text-sm">
             <thead>
-              <tr className="bg-gray-100 dark:bg-gray-800">
-                <th className="border px-2 py-1">Name</th>
-                <th className="border px-2 py-1">Quantity</th>
-                <th className="border px-2 py-1">Unit</th>
+              <tr className="bg-[var(--surface-1)] text-[var(--text-primary)]">
+                <th className="border border-[var(--border-subtle)] px-2 py-1">Name</th>
+                <th className="border border-[var(--border-subtle)] px-2 py-1">Quantity</th>
+                <th className="border border-[var(--border-subtle)] px-2 py-1">Unit</th>
               </tr>
             </thead>
             <tbody>
               {(recipe.ingredients as RecipeIngredient[] | undefined)?.map((ing) => (
                 <tr key={ing.id}>
-                  <td className="border px-2 py-1">
+                  <td className="border border-[var(--border-subtle)] px-2 py-1 text-[var(--text-secondary)]">
                     {
                       allIngredients.find((i: Ingredient) => i.id === ing.ingredient_id)?.name
                       ?? ing.ingredient_id
                     }
                   </td>
-                  <td className="border px-2 py-1">{ing.quantity}</td>
-                  <td className="border px-2 py-1">{ing.unit}</td>
+                  <td className="border border-[var(--border-subtle)] px-2 py-1 text-[var(--text-secondary)]">{ing.quantity}</td>
+                  <td className="border border-[var(--border-subtle)] px-2 py-1 text-[var(--text-secondary)]">{ing.unit}</td>
                 </tr>
               )) ?? (
                 <tr>
-                  <td colSpan={3} className="border px-2 py-1 text-center">No ingredients found.</td>
+                  <td colSpan={3} className="border border-[var(--border-subtle)] px-2 py-1 text-center text-[var(--text-secondary)]">No ingredients found.</td>
                 </tr>
               )}
             </tbody>
@@ -151,13 +151,13 @@ export default function RecipeDetails({ recipeId }: RecipeDetailsProps) {
         <RecipeHistoryTimeline iterations={iterations} />
 
         {user && (
-          <div className="flex gap-2 mt-4">
+          <div className="flex gap-2 mt-4 text-[var(--text-primary)]">
             <Button // Use the standard Button component
               onClick={() => setIsEditing(true)}
             >
               Edit Recipe
             </Button>
-            {saveError && <div className="text-red-500">{saveError}</div>}
+            {saveError && <div className="text-[var(--error)]">{saveError}</div>}
           </div>
         )}
 

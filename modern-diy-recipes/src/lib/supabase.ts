@@ -75,7 +75,15 @@ interface Database {
   };
 }
 
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
+  console.error('Error: NEXT_PUBLIC_SUPABASE_URL is not set');
+  throw new Error('Supabase URL is required');
+}
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+if (!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  console.error('Error: NEXT_PUBLIC_SUPABASE_ANON_KEY is not set');
+  throw new Error('Supabase Anon Key is required');
+}
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 export const supabase: SupabaseClient<Database> = createClient<Database>(
