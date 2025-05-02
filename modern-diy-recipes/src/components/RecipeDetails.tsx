@@ -13,7 +13,7 @@ import { Button } from './ui/button'; // Import the standard Button component
 import RecipeIterationComponent from './RecipeIteration';
 import IterationComparison from './IterationComparison';
 import RecipeAnalysis from './RecipeAnalysis';
-import AISuggestions from './AISuggestions';
+const AISuggestions = dynamic(() => import('./AISuggestions'), { ssr: false });
 import RecipeHistoryTimeline from './RecipeHistoryTimeline';
 import ErrorBoundary from './ErrorBoundary';
 
@@ -24,10 +24,11 @@ interface RecipeWithIngredientsAndIterations extends BaseRecipe {
 
 interface RecipeDetailsProps {
   recipeId: string | null;
+  initialRecipeData?: RecipeWithIngredientsAndIterations | null; // Add initialRecipeData prop
 }
 
-export default function RecipeDetails({ recipeId }: RecipeDetailsProps) {
-  const { recipe, loading, error, updateRecipe } = useRecipe(recipeId) as {
+export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDetailsProps) { // Accept initialRecipeData prop
+  const { recipe, loading, error, updateRecipe } = useRecipe(recipeId, initialRecipeData) as { // Pass initialRecipeData to hook
     recipe: RecipeWithIngredientsAndIterations | null;
     loading: boolean;
     error: string | null;
@@ -72,23 +73,23 @@ export default function RecipeDetails({ recipeId }: RecipeDetailsProps) {
 
   return (
     <ErrorBoundary>
-      <div className="p-4 md:p-6 flex flex-col gap-6 overflow-y-auto h-full bg-[var(--surface-0)] text-[var(--text-primary)] border border-[var(--border-subtle)] rounded-lg shadow-sm"> {/* Added md:p-6 and gap-6, added theme styles */}
-        <h2 className="text-2xl font-bold text-[var(--text-primary)]">{recipe.title}</h2> {/* Increased heading size */}
-        {recipe.description && <p className="text-[var(--text-secondary)]">{recipe.description}</p>}
+      <div className="p-4 md:p-6 lg:p-8 flex flex-col gap-4 md:gap-6 overflow-y-auto h-full bg-[var(--surface-0)] text-[var(--text-primary)] border border-[var(--border-subtle)] rounded-lg shadow-sm"> {/* Added responsive padding and gap, added theme styles */}
+        <h2 className="text-xl md:text-2xl font-bold text-[var(--text-primary)]">{recipe.title}</h2> {/* Increased heading size, responsive */}
+        {recipe.description && <p className="text-sm md:text-base text-[var(--text-secondary)]">{recipe.description}</p>} {/* Responsive text size */}
 
         {/* Added horizontal rule for visual separation */}
         <hr className="border-[var(--border-subtle)]" />
 
         {/* Collapsible Ingredients Section */}
-        <div>
+        <div className="transition-all duration-300 ease-in-out"> {/* Added transition */}
           <button
-            className="flex justify-between items-center w-full text-left font-semibold mb-2 text-[var(--text-primary)]"
+            className="flex justify-between items-center w-full text-left font-semibold mb-2 text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
             onClick={() => setIsIngredientsCollapsed(!isIngredientsCollapsed)}
             aria-expanded={!isIngredientsCollapsed}
             aria-controls="ingredients-section"
           >
-            <h3>Ingredients</h3>
-            <span>{isIngredientsCollapsed ? '▼' : '▲'}</span>
+            <h3 className="text-lg font-semibold text-[var(--text-primary)]">Ingredients</h3> {/* Used h3 for semantic correctness */}
+            <span className="ml-2 transform transition-transform duration-300 ease-in-out">{isIngredientsCollapsed ? '▼' : '▲'}</span> {/* Added transition to icon */}
           </button>
           {!isIngredientsCollapsed && (
             <div id="ingredients-section" className="overflow-x-auto"> {/* Added overflow-x-auto for table responsiveness */}

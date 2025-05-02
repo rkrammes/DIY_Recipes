@@ -76,15 +76,16 @@ export default function RecipeForm({ recipe, allIngredients, onSave, onCancel }:
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4 bg-[var(--surface-0)] text-[var(--text-primary)] border border-[var(--border-subtle)] rounded-lg shadow-sm"> {/* Added theme styles */}
       <h2 className="text-lg font-bold text-[var(--text-primary)]">{recipe ? 'Edit Recipe' : 'Add Recipe'}</h2> {/* Added theme styles */}
 
-      {error && <div className="text-[var(--error)]">{error}</div>} {/* Added theme styles */}
+      {error && <div id="form-error" className="text-[var(--error)]" role="alert">{error}</div>} {/* Added id and role for accessibility */}
 
       <label className="flex flex-col text-[var(--text-primary)]"> {/* Added theme styles */}
         Title
         <input
-          className="border border-[var(--border-subtle)] px-2 py-1 bg-[var(--surface-1)] text-[var(--text-primary)]" // Added theme styles
+          className={`border px-2 py-1 bg-[var(--surface-1)] text-[var(--text-primary)] ${error && !title.trim() ? 'border-[var(--error)]' : 'border-[var(--border-subtle)]'}`} // Added conditional error styling
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
+          aria-describedby={error && !title.trim() ? 'form-error' : undefined} // Link to error message
         />
       </label>
 
@@ -97,7 +98,7 @@ export default function RecipeForm({ recipe, allIngredients, onSave, onCancel }:
         />
       </label>
 
-      <div>
+      <div className={`${error && ingredients.length === 0 ? 'border border-[var(--error)] p-2 rounded' : ''}`} aria-describedby={error && ingredients.length === 0 ? 'form-error' : undefined}> {/* Added conditional error styling and accessibility */}
         <h3 className="font-semibold mb-2 text-[var(--text-primary)]">Ingredients</h3> {/* Added theme styles */}
         {ingredients.map((ing, index) => (
           <div key={ing.id} className="flex gap-2 mb-2 items-center"> {/* Added items-center for alignment */}
