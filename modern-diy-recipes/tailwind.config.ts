@@ -1,8 +1,13 @@
 import type { Config } from 'tailwindcss'
 import plugin from 'tailwindcss/plugin';
 
-const withOpacity = (variable: string) =>
-  `oklch(var(${variable}) / <alpha-value>)`;
+const withOpacity = (variable: string) => ({ opacityValue }: { opacityValue: number | undefined }) => {
+  if (opacityValue === undefined) {
+    return `var(${variable})`;
+  }
+  // Handle OKLCH values with opacity
+  return `color-mix(in oklch, var(${variable}), transparent ${(1 - Number(opacityValue)) * 100}%)`;
+};
 
 const config: Config = {
   content: [
@@ -12,19 +17,6 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Define colors using a nested structure
-        background: {
-          DEFAULT: withOpacity('--background'),
-        },
-        foreground: {
-          DEFAULT: withOpacity('--foreground'),
-        },
-        border: {
-          DEFAULT: withOpacity('--border'),
-        },
-        ring: {
-          DEFAULT: withOpacity('--ring'),
-        },
         // Surface colors
         surface: {
           DEFAULT: withOpacity('--surface-0'),
@@ -33,21 +25,25 @@ const config: Config = {
         },
         // Text colors
         text: {
-          primary: withOpacity('--text-primary'),
-          secondary: withOpacity('--text-secondary'),
-          inverse: withOpacity('--text-inverse'),
+          DEFAULT: withOpacity('--text-primary'),
+          'secondary': withOpacity('--text-secondary'),
+          'inverse': withOpacity('--text-inverse'),
         },
         // Interactive colors
         accent: {
           DEFAULT: withOpacity('--accent'),
-          hover: withOpacity('--accent-hover'),
-          active: withOpacity('--accent-active'),
+          'hover': withOpacity('--accent-hover'),
+          'active': withOpacity('--accent-active'),
         },
         // Status colors
         alert: {
-          red: withOpacity('--error'),
-          yellow: withOpacity('--warning'),
-          green: withOpacity('--success'),
+          'red': withOpacity('--error'),
+          'yellow': withOpacity('--warning'),
+          'green': withOpacity('--success'),
+        },
+        // Border colors
+        border: {
+          'subtle': withOpacity('--border-subtle'),
         },
       },
       backgroundColor: {

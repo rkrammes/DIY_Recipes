@@ -31,9 +31,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Suspense fallback={null}> {/* Wrap ThemeScript in Suspense */}
-          <ThemeScript />
-        </Suspense>
 
         <AuthProvider>
           <ThemeProvider>
@@ -41,6 +38,10 @@ export default function RootLayout({
           </ThemeProvider>
         </AuthProvider>
       </body>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <ThemeScript />
+      </head>
     </html>
   );
 }

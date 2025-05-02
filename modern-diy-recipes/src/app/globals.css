@@ -134,3 +134,27 @@
   --border: var(--border-subtle);
   --ring: var(--accent); /* Example mapping */
 }
+
+body {
+  background-color: oklch(var(--surface-0-components));
+  color: oklch(var(--text-primary-components));
+}
+
+.theme-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+/* Theme-specific background colors */
+.theme-background[data-theme='synthwave-noir'] {
+  background-color: oklch(var(--surface-0-components));
+}
+
+.theme-background[data-theme='terminal-mono'] {
+  background-color: oklch(var(--surface-0-components));
+}
+
+.theme-background[data-theme='paper-ledger'] {
+  background-color: oklch(var(--surface-0-components));
+}
