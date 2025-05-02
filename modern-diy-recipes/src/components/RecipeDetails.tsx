@@ -17,8 +17,9 @@ import AISuggestions from './AISuggestions';
 import RecipeHistoryTimeline from './RecipeHistoryTimeline';
 import ErrorBoundary from './ErrorBoundary';
 
-interface RecipeWithIngredients extends BaseRecipe {
+interface RecipeWithIngredientsAndIterations extends BaseRecipe {
   ingredients?: RecipeIngredient[];
+  iterations?: RecipeIteration[];
 }
 
 interface RecipeDetailsProps {
@@ -27,25 +28,25 @@ interface RecipeDetailsProps {
 
 export default function RecipeDetails({ recipeId }: RecipeDetailsProps) {
   const { recipe, loading, error, updateRecipe } = useRecipe(recipeId) as {
-    recipe: RecipeWithIngredients | null;
+    recipe: RecipeWithIngredientsAndIterations | null;
     loading: boolean;
     error: string | null;
-    updateRecipe: (updates: { title: string; description: string; ingredients: RecipeIngredient[] }) => Promise<unknown>; // Change any to unknown
+    updateRecipe: (updates: { title: string; description: string; ingredients: RecipeIngredient[] }) => Promise<unknown>;
   };
 
   const { ingredients: allIngredients } = useIngredients();
 
   const [isEditing, setIsEditing] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null); // Remove saving state
+  const [isIngredientsCollapsed, setIsIngredientsCollapsed] = useState(false); // State for collapsible ingredients
 
   const user = useUser();
 
-  const [iterations, ] = useState<RecipeIteration[]>([]); // Remove setIterations
   const [selectedIteration, setSelectedIteration] = useState<RecipeIteration | null>(null);
   const [compareIteration, setCompareIteration] = useState<RecipeIteration | null>(null);
   const [analysisData, setAnalysisData] = useState<RecipeAnalysisData | null>(null);
 
-  const handleSave = async (updatedRecipe: Partial<RecipeWithIngredients>) => {
+  const handleSave = async (updatedRecipe: Partial<RecipeWithIngredientsAndIterations>) => {
     setSaveError(null);
     try {
       if (!user) throw new Error('Not authenticated');
@@ -58,11 +59,9 @@ export default function RecipeDetails({ recipeId }: RecipeDetailsProps) {
       });
 
       setIsEditing(false);
-    } catch (err: unknown) { // Change any to unknown
+    } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Failed to save recipe.';
       setSaveError(message);
-    } finally {
-      // setSaving(false); // Remove setSaving
     }
   };
 
@@ -80,35 +79,48 @@ export default function RecipeDetails({ recipeId }: RecipeDetailsProps) {
         {/* Added horizontal rule for visual separation */}
         <hr className="border-[var(--border-subtle)]" />
 
-        <div className="overflow-x-auto"> {/* Added overflow-x-auto for table responsiveness */}
-          <h3 className="font-semibold mb-2 text-[var(--text-primary)]">Ingredients</h3>
-          <table className="min-w-full border border-[var(--border-subtle)] text-sm">
-            <thead>
-              <tr className="bg-[var(--surface-1)] text-[var(--text-primary)]">
-                <th className="border border-[var(--border-subtle)] px-2 py-1">Name</th>
-                <th className="border border-[var(--border-subtle)] px-2 py-1">Quantity</th>
-                <th className="border border-[var(--border-subtle)] px-2 py-1">Unit</th>
-              </tr>
-            </thead>
-            <tbody>
-              {(recipe.ingredients as RecipeIngredient[] | undefined)?.map((ing) => (
-                <tr key={ing.id} className="even:bg-[var(--surface-0)] odd:bg-[var(--surface-1)]"> {/* Added alternating row colors */}
-                  <td className="border border-[var(--border-subtle)] px-2 py-1 text-[var(--text-secondary)]">
-                    {
-                      allIngredients.find((i: Ingredient) => i.id === ing.ingredient_id)?.name
-                      ?? ing.ingredient_id
-                    }
-                  </td>
-                  <td className="border border-[var(--border-subtle)] px-2 py-1 text-[var(--text-secondary)]">{ing.quantity}</td>
-                  <td className="border border-[var(--border-subtle)] px-2 py-1 text-[var(--text-secondary)]">{ing.unit}</td>
-                </tr>
-              )) ?? (
-                <tr>
-                  <td colSpan={3} className="border border-[var(--border-subtle)] px-2 py-1 text-center text-[var(--text-secondary)]">No ingredients found.</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+        {/* Collapsible Ingredients Section */}
+        <div>
+          <button
+            className="flex justify-between items-center w-full text-left font-semibold mb-2 text-[var(--text-primary)]"
+            onClick={() => setIsIngredientsCollapsed(!isIngredientsCollapsed)}
+            aria-expanded={!isIngredientsCollapsed}
+            aria-controls="ingredients-section"
+          >
+            <h3>Ingredients</h3>
+            <span>{isIngredientsCollapsed ? '▼' : '▲'}</span>
+          </button>
+          {!isIngredientsCollapsed && (
+            <div id="ingredients-section" className="overflow-x-auto"> {/* Added overflow-x-auto for table responsiveness */}
+              <table className="min-w-full border border-[var(--border-subtle)] text-sm">
+                <thead>
+                  <tr className="bg-[var(--surface-1)] text-[var(--text-primary)]">
+                    <th className="border border-[var(--border-subtle)] px-2 py-1">Name</th>
+                    <th className="border border-[var(--border-subtle)] px-2 py-1">Quantity</th>
+                    <th className="border border-[var(--border-subtle)] px-2 py-1">Unit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(recipe.ingredients as RecipeIngredient[] | undefined)?.map((ing) => (
+                    <tr key={ing.id} className="even:bg-[var(--surface-0)] odd:bg-[var(--surface-1)]"> {/* Added alternating row colors */}
+                      <td className="border border-[var(--border-subtle)] px-2 py-1 text-[var(--text-secondary)]">
+                        {
+                          allIngredients.find((i: Ingredient) => i.id === ing.ingredient_id)?.name
+                          ?? ing.ingredient_id
+                        }
+                      </td>
+                      <td className="border border-[var(--border-subtle)] px-2 py-1 text-[var(--text-secondary)]">{ing.quantity}</td>
+                      <td className="border border-[var(--border-subtle)] px-2 py-1 text-[var(--text-secondary)]">{ing.unit}</td>
+                    </tr>
+                  )) ?? (
+                    <tr>
+                      <td colSpan={3} className="border border-[var(--border-subtle)] px-2 py-1 text-center text-[var(--text-secondary)]">No ingredients found.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
 
         {/* Added horizontal rule for visual separation */}
@@ -154,7 +166,9 @@ export default function RecipeDetails({ recipeId }: RecipeDetailsProps) {
 
         <AISuggestions recipeId={recipe.id} />
 
-        <RecipeHistoryTimeline iterations={iterations} />
+        {/* Pass iterations from the hook */}
+        {/* Pass iterations from the hook */}
+        <RecipeHistoryTimeline iterations={recipe?.iterations || []} />
 
         {user && (
           <div className="flex gap-2 mt-4 text-[var(--text-primary)]">

@@ -36,11 +36,14 @@ export default function RecipeIteration({
 
     if (recipeId) {
       fetchIterations();
+    } else {
+      setIterations([]); // Clear iterations if recipeId is null
+      setLoading(false);
     }
   }, [recipeId]);
 
   if (loading) {
-    return <div className="p-4 text-center">Loading iterations...</div>;
+    return <div className="p-4 text-center text-[var(--text-secondary)]">Loading iterations...</div>;
   }
 
   return (

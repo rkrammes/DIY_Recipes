@@ -1,4 +1,4 @@
-// migrateUsers.js - Script for migrating users from the old system to the new Supabase Auth
+// migrateUsers.js - Script to migrate user profile data to Supabase
 
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
@@ -7,170 +7,121 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // --- Configuration ---
-// Replace with the URL and Service Role Key for your NEW Supabase project
-const NEW_SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'YOUR_NEW_SUPABASE_URL'; // Using NEXT_PUBLIC_SUPABASE_URL from .env
-const NEW_SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || 'YOUR_NEW_SUPABASE_SERVICE_ROLE_KEY'; // Assuming service role key is in .env
+// Replace with your actual Supabase URL and Service Role Key
+// The Service Role Key is required for bypassing RLS and writing directly to auth.users or profiles table
+const SUPABASE_URL = process.env.SUPABASE_URL; // e.g., 'https://your-project-ref.supabase.co'
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY; // Keep this secure!
 
-// Replace with the connection details for your OLD system's user data source
-// This is a placeholder. You will need to implement the logic to connect to and fetch users from your old system.
-// Example placeholder assuming old data is in another Supabase project:
-// const OLD_SUPABASE_URL = 'YOUR_OLD_SUPABASE_URL';
-// const OLD_SUPABASE_ANON_KEY = 'YOUR_OLD_SUPABASE_ANON_KEY';
-// const oldSupabaseClient = createClient(OLD_SUPABASE_URL, OLD_SUPABASE_ANON_KEY);
+// --- Old Data Source Configuration ---
+// TODO: Replace with actual connection details for your old user data source
+// This is a placeholder and needs to be implemented based on your old system
+async function fetchOldUserData() {
+  console.log("Fetching data from old user data source...");
+  // Example: Fetch from a dummy array or another database
+  const oldUsers = [
+    { id: 'old-user-1', username: 'userone', email: 'userone@example.com', old_field: 'value1' },
+    { id: 'old-user-2', username: 'usertwo', email: 'usertwo@example.com', old_field: 'value2' },
+    // Add more old user data here
+  ];
+  console.log(`Fetched ${oldUsers.length} users from old source.`);
+  return oldUsers;
+}
 
-// Initialize New Supabase client with Service Role Key for user management
-const newSupabaseClient = createClient(NEW_SUPABASE_URL, NEW_SUPABASE_SERVICE_ROLE_KEY, {
-  auth: {
-    autoRefreshToken: false,
-    persistSession: false,
-  },
-});
-
-/**
- * Fetches users from the old system.
- * This function needs to be implemented based on your old system's data source.
- * @returns {Promise<Array<Object>>} Array of user objects from the old system.
- */
+// Initialize Supabase client with Service Role Key
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 /**
- * Migrates users to the new Supabase Auth system.
- * @param {Array<Object>} oldUsers - Array of user objects from the old system.
- * @returns {Promise<Object>} Migration results summary.
+ * Migrates user profile data from the old system to the Supabase 'profiles' table.
+ * Assumes a 'profiles' table exists with at least 'id' (UUID, linked to auth.users)
+ * and 'username' and 'email' columns.
+ * TODO: Adapt data mapping based on your old data structure and new Supabase schema.
  */
-async function migrateUsers(oldUsers) {
+async function migrateUsers() {
   console.log('Starting user migration...');
 
-  const migrationResults = {
-    total: oldUsers.length,
-    successful: 0,
-    failed: 0,
-    details: []
-  };
+  // Fetch data from the old system
+  const oldUsers = await fetchOldUserData();
 
-  for (const oldUser of oldUsers) {
-    try {
-      console.log(`Migrating user: ${oldUser.email || oldUser.old_user_id}...`);
+  if (oldUsers.length === 0) {
+    console.log('No users found in the old data source. Nothing to migrate.');
+    return;
+  }
 
-      // Check if user already exists in new Supabase Auth (e.g., by email)
-      const { data: existingUsers, error: fetchError } = await newSupabaseClient.auth.admin.listUsers({
-        search: oldUser.email, // Assuming email is unique and available
-      });
+  // Prepare data for insertion into Supabase
+  // We'll assume a 'profiles' table for user profile data, linked to auth.users
+  // The 'id' in the profiles table should ideally correspond to the user's UUID in auth.users.
+  // For a simple profile migration, we might insert based on email and then link later,
+  // or if we are also migrating authentication, we would get the Supabase Auth user ID.
+  // This example assumes we are migrating profile data and will need to link it
+  // to Supabase Auth users separately or that the old system has unique identifiers
+  // that can be used. A common approach is to migrate authentication first,
+  // then use the new Supabase Auth user IDs for the profile table.
+  // For simplicity in this script, we'll assume we are inserting into a 'profiles' table
+  // and will need to handle the linking to auth.users as a separate step or via triggers.
+  // A more robust migration would involve using the Supabase Admin client to create users
+  // directly in auth.users with their old passwords (if securely hashed and compatible)
+  // or marking them for password reset. This script focuses on profile data.
 
-      if (fetchError) {
-        console.error(`Error checking for existing user ${oldUser.email}:`, fetchError);
-        migrationResults.failed++;
-        migrationResults.details.push({
-          old_id: oldUser.old_user_id,
-          identifier: oldUser.email || oldUser.old_user_id,
-          status: 'failed',
-          error: `Error checking existence: ${fetchError.message}`
-        });
-        continue; // Skip to the next user
-      }
+  const usersToMigrate = oldUsers.map(oldUser => {
+    // TODO: Map old user fields to your new 'profiles' table schema
+    return {
+      // id: oldUser.id, // If you have a strategy to map old IDs to new Supabase Auth IDs
+      username: oldUser.username,
+      email: oldUser.email,
+      // Add other profile fields here based on your schema
+      // e.g., old_system_id: oldUser.id, // Store old ID for reference
+      // e.g., created_at: new Date(oldUser.created_timestamp).toISOString(),
+    };
+  });
 
-      if (existingUsers && existingUsers.users.length > 0) {
-        console.log(`User with email ${oldUser.email} already exists. Skipping creation.`);
-        migrationResults.successful++; // Consider existing as successful for idempotency
-        migrationResults.details.push({
-          old_id: oldUser.old_user_id,
-          identifier: oldUser.email || oldUser.old_user_id,
-          status: 'skipped',
-          message: 'User already exists'
-        });
-      } else {
-        // Create the user in Supabase Auth
-        // Note: Migrating passwords securely requires specific strategies (e.g., using admin.createUser with password,
-        // or prompting users to reset password on first login). This example uses a placeholder.
-        const { data: newUser, error: createError } = await newSupabaseClient.auth.admin.createUser({
-          email: oldUser.email,
-          password: oldUser.password, // WARNING: This assumes you have access to plain or easily verifiable passwords.
-                                      // A more secure approach is recommended (e.g., passwordless login, inviting users).
-          email_confirm: true, // Optional: Set to true to bypass email confirmation
-          user_metadata: {
-            old_user_id: oldUser.old_user_id, // Store old ID for mapping related data
-            // Add other relevant user metadata
-          }
-        });
+  console.log(`Prepared ${usersToMigrate.length} users for migration.`);
 
-        if (createError) {
-          console.error(`Error creating user ${oldUser.email}:`, createError);
-          migrationResults.failed++;
-          migrationResults.details.push({
-            old_id: oldUser.old_user_id,
-            identifier: oldUser.email || oldUser.old_user_id,
-            status: 'failed',
-            error: `Error creating user: ${createError.message}`
-          });
-        } else {
-          console.log(`Successfully created user: ${newUser.user.email} (New ID: ${newUser.user.id})`);
-          migrationResults.successful++;
-          migrationResults.details.push({
-            old_id: oldUser.old_user_id,
-            identifier: oldUser.email || oldUser.old_user_id,
-            status: 'success',
-            new_id: newUser.user.id
-          });
+  // Insert data into the Supabase 'profiles' table
+  // Using insert with upsert: true can help prevent duplicates if rerunning the script,
+  // assuming you have a unique constraint on a field like 'email' or 'old_system_id'.
+  // However, upserting into auth.users is not directly supported this way.
+  // This script focuses on the 'profiles' table.
+  try {
+    const { data, error } = await supabaseClient
+      .from('profiles') // TODO: Replace with your actual profile table name
+      .insert(usersToMigrate, {
+        // upsert: true, // Uncomment if you have a unique constraint and want upsert behavior
+        // onConflict: 'email', // Specify the conflict target for upsert
+      })
+      .select(); // Select the inserted data to get new IDs if needed
 
-          // TODO: After creating the user, you might need to insert additional user profile data
-          // into a separate 'profiles' table in your public schema, linking it using newUser.user.id.
-          /*
-          const { data: profileData, error: profileError } = await newSupabaseClient
-            .from('profiles') // Assuming you have a 'profiles' table
-            .insert([
-              {
-                id: newUser.user.id, // Link to auth.users ID
-                old_user_id: oldUser.old_user_id,
-                username: oldUser.username, // Assuming username exists in old data
-                // Add other profile fields
-              }
-            ]);
-          if (profileError) {
-            console.error(`Error creating profile for user ${newUser.user.id}:`, profileError);
-            // Decide how to handle this error - fail the user migration or log and continue?
-          }
-          */
-        }
-      }
-
-    } catch (error) {
-      console.error(`An unexpected error occurred during migration of user ${oldUser.email || oldUser.old_user_id}:`, error);
-      migrationResults.failed++;
-      migrationResults.details.push({
-        old_id: oldUser.old_user_id,
-        identifier: oldUser.email || oldUser.old_user_id,
-        status: 'failed',
-        error: `Unexpected error: ${error.message}`
-      });
+    if (error) {
+      console.error('Error inserting users into Supabase:', error);
+      // TODO: Implement more sophisticated error handling, e.g., logging failed records
+      return { successful: 0, failed: usersToMigrate.length, details: error };
     }
+
+    console.log(`Successfully migrated ${data?.length || 0} user profiles.`);
+    // TODO: Log details of successful/failed migrations if not using upsert
+
+    return { successful: data?.length || 0, failed: usersToMigrate.length - (data?.length || 0), details: data };
+
+  } catch (error) {
+    console.error('Error during Supabase insertion:', error);
+    return { successful: 0, failed: usersToMigrate.length, details: error };
   }
-
-  console.log('\n--- User Migration Results ---');
-  console.log(`Total users processed: ${migrationResults.total}`);
-  console.log(`Successfully migrated/skipped: ${migrationResults.successful}`);
-  console.log(`Failed to migrate: ${migrationResults.failed}`);
-
-  if (migrationResults.details.length > 0) {
-    console.log('\nDetailed Results:');
-    migrationResults.details.forEach(detail => {
-      console.log(`- ${detail.identifier}: ${detail.status}${detail.new_id ? ` (New ID: ${detail.new_id})` : ''}${detail.error ? ` (Error: ${detail.error})` : ''}`);
-    });
-  }
-
-  return migrationResults;
 }
 
-// Main execution function
-async function runUserMigration() {
-  console.log('Fetch logic removed as migration appears complete.');
-}
-
-// Execute the migration process
-runUserMigration()
-  .then(() => {
-    console.log('User migration process finished.');
-    process.exit(0);
+// Execute the migration
+migrateUsers()
+  .then(results => {
+    console.log('\n--- User Migration Summary ---');
+    console.log(`Total users processed: ${results.successful + results.failed}`);
+    console.log(`Successfully migrated: ${results.successful}`);
+    console.log(`Failed to migrate: ${results.failed}`);
+    if (results.failed > 0) {
+      console.error('Migration failed for some users. Check logs for details.');
+      // console.error('Error details:', results.details); // Log detailed error if needed
+    }
+    console.log('User migration script finished.');
+    process.exit(results.failed > 0 ? 1 : 0);
   })
   .catch(error => {
-    console.error('User migration process failed:', error);
+    console.error('An unexpected error occurred during user migration:', error);
     process.exit(1);
   });

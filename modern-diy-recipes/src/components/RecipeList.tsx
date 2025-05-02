@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useRouter } from 'next/navigation'; // Import useRouter
 import { Button } from './ui/button';
 import { Input } from '@/components/ui/input'; // Assuming an Input component exists
 
@@ -21,6 +22,7 @@ interface RecipeListProps {
 }
 
 export default function RecipeList({ initialRecipes, selectedId, onSelect, deleteRecipe, updateRecipe }: RecipeListProps) {
+  const router = useRouter(); // Initialize useRouter
   const [recipes, setRecipes] = useState<RecipeListItem[]>(initialRecipes);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [tempTitle, setTempTitle] = useState<string>('');
@@ -110,7 +112,12 @@ export default function RecipeList({ initialRecipes, selectedId, onSelect, delet
       {recipes.map((recipe: RecipeListItem) => (
         <li
           key={recipe.id}
-          onClick={() => !editingId && onSelect(recipe.id)} // Prevent selection when editing
+          onClick={() => {
+            if (!editingId) {
+              onSelect(recipe.id); // Still keep onSelect for state management on the main page
+              router.push(`/recipes/${recipe.id}`); // Navigate to the recipe details page
+            }
+          }} // Prevent selection and navigation when editing
           className={`flex justify-between items-center cursor-pointer px-4 py-2 transition-colors duration-150 hover:bg-[var(--surface-1)] ${ // Added transition
             selectedId === recipe.id && !editingId ? 'bg-[var(--accent)] text-[var(--text-inverse)] font-semibold' : '' // Use accent for selected
           }`}

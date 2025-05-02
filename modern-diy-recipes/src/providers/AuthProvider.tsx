@@ -8,6 +8,7 @@ interface AuthContextProps {
   user: User | null;
   session: Session | null;
   signInWithMagicLink: (email: string) => Promise<void>;
+  signInWithPassword: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   loading: boolean;
   error: string | null;
@@ -71,6 +72,21 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  const signInWithPassword = async (email: string, password: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'An unknown error occurred';
+      console.error('Error signing in with password:', message);
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const signOut = async () => {
     setLoading(true);
     setError(null);
@@ -87,7 +103,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, signInWithMagicLink, signOut, loading, error }}>
+    <AuthContext.Provider value={{ user, session, signInWithMagicLink, signInWithPassword, signOut, loading, error }}>
       {children}
     </AuthContext.Provider>
   );

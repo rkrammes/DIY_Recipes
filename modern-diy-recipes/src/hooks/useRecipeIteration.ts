@@ -4,8 +4,8 @@ import { Recipe, RecipeIteration } from '@/types/models'; // Use RecipeIteration
 
 // Hook to manage recipe iterations
 export function useRecipeIteration(initialRecipeId?: string) {
-  const [iterations, setIterations] = useState<RecipeIteration[]>([]); // Use RecipeIteration
-  const [currentIteration, setCurrentIteration] = useState<RecipeIteration | null>(null); // Use RecipeIteration
+  const [iterations, setIterations] = useState<RecipeIteration[]>([]);
+  const [currentIteration, setCurrentIteration] = useState<RecipeIteration | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -15,19 +15,18 @@ export function useRecipeIteration(initialRecipeId?: string) {
     setIsLoading(true);
     setError(null);
     try {
-      // Fetch iterations from the 'recipe_iterations' table
       const { data, error } = await supabase
-        .from('recipe_iterations') // Assuming this is the table name
+        .from('recipe_iterations')
         .select('*')
         .eq('recipe_id', recipeId)
-        .order('version_number', { ascending: false }); // Or order by created_at
+        .order('version_number', { ascending: false });
 
       if (error) throw error;
 
       const fetchedIterations = data as RecipeIteration[] || [];
       setIterations(fetchedIterations);
       if (fetchedIterations.length > 0) {
-        setCurrentIteration(fetchedIterations[0]); // Set the latest iteration as current
+        setCurrentIteration(fetchedIterations[0]);
       } else {
         setCurrentIteration(null);
       }
@@ -39,7 +38,7 @@ export function useRecipeIteration(initialRecipeId?: string) {
     } finally {
       setIsLoading(false);
     }
-  }, [supabase]); // Added supabase dependency
+  }, [supabase]);
 
   // Create a new iteration based on an existing recipe or iteration
   const createNewIteration = useCallback(async (baseRecipe: Recipe | RecipeIteration, changes: Partial<RecipeIteration> = {}) => {
@@ -49,19 +48,17 @@ export function useRecipeIteration(initialRecipeId?: string) {
       const timestamp = new Date().toISOString();
       const latestVersionNumber = iterations.length > 0 ? iterations[0].version_number : 0;
 
-      // Prepare data for the new RecipeIteration record
       const newIterationData: Omit<RecipeIteration, 'id'> = {
         recipe_id: 'recipe_id' in baseRecipe ? baseRecipe.recipe_id : baseRecipe.id,
         version_number: latestVersionNumber + 1,
-        title: baseRecipe.title, // Inherit title from base
-        description: baseRecipe.description, // Inherit description
+        title: baseRecipe.title,
+        description: baseRecipe.description,
         created_at: timestamp,
-        notes: '', // Default notes
-        metrics: 'metrics' in baseRecipe ? baseRecipe.metrics : undefined, // Inherit metrics if available
-        ...changes, // Apply specific changes provided
+        notes: '',
+        metrics: 'metrics' in baseRecipe ? baseRecipe.metrics : undefined,
+        ...changes,
       };
 
-      // Insert the new iteration into the 'recipe_iterations' table
       const { data, error } = await supabase
         .from('recipe_iterations')
         .insert([newIterationData])
@@ -74,8 +71,6 @@ export function useRecipeIteration(initialRecipeId?: string) {
       const createdIteration = data as RecipeIteration;
 
       // TODO: Handle copying/associating ingredients and instructions if needed
-      // This depends heavily on the database schema design for iterations.
-      // For now, we assume the iteration record itself is the primary focus.
 
       setIterations(prev => [createdIteration, ...prev].sort((a, b) => b.version_number - a.version_number));
       setCurrentIteration(createdIteration);
@@ -88,18 +83,17 @@ export function useRecipeIteration(initialRecipeId?: string) {
     } finally {
       setIsLoading(false);
     }
-  }, [supabase, iterations]); // Added supabase and iterations dependencies
+  }, [supabase, iterations]);
 
   // Update details for a specific iteration (e.g., notes, metrics)
   const updateIterationDetails = useCallback(async (iterationId: string, details: Partial<Pick<RecipeIteration, 'title' | 'description' | 'notes' | 'metrics'>>) => {
     setIsLoading(true);
     setError(null);
     try {
-      // Update the specific iteration in the 'recipe_iterations' table
       const { data, error } = await supabase
         .from('recipe_iterations')
         .update(details)
-        .eq('id', iterationId) // Use 'id' which is the primary key for RecipeIteration
+        .eq('id', iterationId)
         .select()
         .single();
 
@@ -108,9 +102,8 @@ export function useRecipeIteration(initialRecipeId?: string) {
 
       const updatedIteration = data as RecipeIteration;
 
-      // Update state
       setIterations(prev => prev.map(iter => iter.id === iterationId ? updatedIteration : iter)
-                                  .sort((a, b) => b.version_number - a.version_number)); // Keep sorted
+                                  .sort((a, b) => b.version_number - a.version_number));
       if (currentIteration?.id === iterationId) {
         setCurrentIteration(updatedIteration);
       }
@@ -124,7 +117,7 @@ export function useRecipeIteration(initialRecipeId?: string) {
     } finally {
       setIsLoading(false);
     }
-  }, [supabase, currentIteration]); // Added supabase and currentIteration dependencies
+  }, [supabase, currentIteration]);
 
   // Function to compare two iterations (focus on RecipeIteration fields)
   const compareIterations = useCallback((iterationA: RecipeIteration, iterationB: RecipeIteration) => {
@@ -171,7 +164,7 @@ export function useRecipeIteration(initialRecipeId?: string) {
         setIterations([]);
         setCurrentIteration(null);
     }
-  }, [initialRecipeId, fetchIterations]); // fetchIterations dependency is stable due to useCallback
+  }, [initialRecipeId, fetchIterations]);
 
   return {
     iterations,
@@ -183,6 +176,6 @@ export function useRecipeIteration(initialRecipeId?: string) {
     updateIterationDetails,
     compareIterations,
     getAISuggestions,
-    setCurrentIteration, // Allow manually setting the current iteration
+    setCurrentIteration,
   };
 }

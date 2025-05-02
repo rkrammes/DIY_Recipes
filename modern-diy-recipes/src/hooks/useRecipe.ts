@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import type { Recipe, RecipeIngredient } from '@/types/models';
+import type { Recipe, RecipeIngredient, RecipeIteration } from '@/types/models';
 
 interface RecipeUpdate {
   title: string;
@@ -8,7 +8,7 @@ interface RecipeUpdate {
 }
 
 export function useRecipe(id: string | null) {
-  const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [recipe, setRecipe] = useState<(Recipe & { iterations?: RecipeIteration[] }) | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -23,7 +23,7 @@ export function useRecipe(id: string | null) {
     async function fetchRecipe() {
       setLoading(true);
       try {
-        const res = await fetch(`/api/recipes/${id}`);
+        const res = await fetch(`/api/recipes/${id}?include=iterations`); // Include iterations
         if (!res.ok) {
           throw new Error(`Error ${res.status}`);
         }

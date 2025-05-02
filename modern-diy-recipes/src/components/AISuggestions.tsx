@@ -37,17 +37,17 @@ export default function AISuggestions({ recipeId }: AISuggestionsProps) {
   }
 
   return (
-    <div className="border p-2 rounded mt-4">
-      <h3 className="font-semibold mb-2">AI Suggestions</h3>
+    <div className="border border-[var(--border-subtle)] p-4 rounded-lg shadow-sm mt-4 bg-[var(--surface-0)] text-[var(--text-primary)]">
+      <h3 className="text-lg font-semibold mb-4 text-[var(--text-primary)]">AI Suggestions</h3>
       {suggestions.length === 0 ? (
-        <div>No suggestions available.</div>
+        <div className="text-[var(--text-secondary)]">No suggestions available.</div>
       ) : (
-        <ul className="list-disc pl-5 space-y-1">
+        <ul className="list-disc pl-6 space-y-2 text-[var(--text-secondary)]">
           {suggestions.map((s) => (
             <li key={s.id}>
               <strong>Suggestion:</strong> {s.suggestion}
               {s.reason && (
-                <div className="text-xs text-gray-600 dark:text-gray-400">
+                <div className="text-sm text-[var(--text-tertiary)] mt-1">
                   Reason: {s.reason}
                 </div>
               )}

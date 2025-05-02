@@ -1,20 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
-import type { Recipe } from '@/types/models';
+import type { User } from '@/types/models';
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   try {
     const { id } = params;
 
     const { data, error } = await supabase
-      .from('recipes')
+      .from('users')
       .select('*')
       .eq('id', id)
       .single();
 
     if (error) {
       if (error.code === 'PGRST116') { // No rows found
-        return NextResponse.json({ error: 'Recipe not found' }, { status: 404 });
+        return NextResponse.json({ error: 'User not found' }, { status: 404 });
       }
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
@@ -28,10 +28,10 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
   try {
     const { id } = params;
-    const body = (await request.json()) as Partial<Recipe>;
+    const body = (await request.json()) as Partial<User>;
 
     const { data, error } = await supabase
-      .from('recipes')
+      .from('users')
       .update(body)
       .eq('id', id)
       .select()
@@ -52,7 +52,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     const { id } = params;
 
     const { error } = await supabase
-      .from('recipes')
+      .from('users')
       .delete()
       .eq('id', id);
 

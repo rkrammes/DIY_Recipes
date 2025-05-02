@@ -55,32 +55,32 @@ export default function IterationComparison({
   const comparison = diffIterations(baseIteration, compareIteration);
 
   return (
-    <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 mt-4">
-      <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Iteration Comparison</h3>
+    <div className="bg-[var(--surface-0)] text-[var(--text-primary)] shadow-md rounded-lg p-4 mt-4 border border-[var(--border-subtle)]">
+      <h3 className="text-lg font-semibold mb-4 text-[var(--text-primary)]">Iteration Comparison</h3>
       {Object.keys(comparison.differences).length === 0 ? (
-        <div className="text-gray-600 dark:text-gray-400">No differences found.</div>
+        <div className="text-[var(--text-secondary)]">No differences found.</div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
-            <thead className="bg-gray-50 dark:bg-gray-700">
+          <table className="min-w-full divide-y divide-[var(--border-subtle)] text-sm">
+            <thead className="bg-[var(--surface-1)]">
               <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">
                   Field
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">
                   Base Version
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wider">
                   Compared Version
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+            <tbody className="bg-[var(--surface-0)] divide-y divide-[var(--border-subtle)]">
               {Object.entries(comparison.differences).map(([field, diff]) => (
                 <tr key={field}>
-                  <td className="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{field}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-300">{String(diff.from ?? '')}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-gray-500 dark:text-gray-300">{String(diff.to ?? '')}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-[var(--text-primary)]">{field}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-[var(--text-secondary)]">{String(diff.from ?? '')}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-[var(--text-secondary)]">{String(diff.to ?? '')}</td>
                 </tr>
               ))}
             </tbody>
