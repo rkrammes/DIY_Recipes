@@ -73,49 +73,47 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
 
   return (
     <ErrorBoundary>
-      <div className="p-4 md:p-6 lg:p-8 flex flex-col gap-4 md:gap-6 overflow-y-auto h-full bg-[var(--surface-0)] text-[var(--text-primary)] border border-[var(--border-subtle)] rounded-lg shadow-sm"> {/* Added responsive padding and gap, added theme styles */}
-        <h2 className="text-xl md:text-2xl font-bold text-[var(--text-primary)]">{recipe.title}</h2> {/* Increased heading size, responsive */}
-        {recipe.description && <p className="text-sm md:text-base text-[var(--text-secondary)]">{recipe.description}</p>} {/* Responsive text size */}
+      <div className="p-4 md:p-6 lg:p-8 flex flex-col gap-4 md:gap-6 overflow-y-auto h-full bg-surface text-text border border-subtle rounded-lg shadow-soft">
+        <h2 className="text-xl md:text-2xl font-bold">{recipe.title}</h2>
+        {recipe.description && <p className="text-sm md:text-base text-text-secondary">{recipe.description}</p>}
 
-        {/* Added horizontal rule for visual separation */}
-        <hr className="border-[var(--border-subtle)]" />
+        <hr className="border-subtle" />
 
-        {/* Collapsible Ingredients Section */}
-        <div className="transition-all duration-300 ease-in-out"> {/* Added transition */}
+        <div className="transition-all duration-300 ease-in-out">
           <button
-            className="flex justify-between items-center w-full text-left font-semibold mb-2 text-[var(--text-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+            className="flex justify-between items-center w-full text-left font-semibold mb-2 focus:outline-none focus:ring-2 focus:ring-accent"
             onClick={() => setIsIngredientsCollapsed(!isIngredientsCollapsed)}
             aria-expanded={!isIngredientsCollapsed}
             aria-controls="ingredients-section"
           >
-            <h3 className="text-lg font-semibold text-[var(--text-primary)]">Ingredients</h3> {/* Used h3 for semantic correctness */}
-            <span className="ml-2 transform transition-transform duration-300 ease-in-out">{isIngredientsCollapsed ? '▼' : '▲'}</span> {/* Added transition to icon */}
+            <h3 className="text-lg font-semibold">Ingredients</h3>
+            <span className="ml-2 transform transition-transform duration-300 ease-in-out">{isIngredientsCollapsed ? '▼' : '▲'}</span>
           </button>
           {!isIngredientsCollapsed && (
-            <div id="ingredients-section" className="overflow-x-auto"> {/* Added overflow-x-auto for table responsiveness */}
-              <table className="min-w-full border border-[var(--border-subtle)] text-sm">
+            <div id="ingredients-section" className="overflow-x-auto">
+              <table className="min-w-full border border-subtle text-sm">
                 <thead>
-                  <tr className="bg-[var(--surface-1)] text-[var(--text-primary)]">
-                    <th className="border border-[var(--border-subtle)] px-2 py-1">Name</th>
-                    <th className="border border-[var(--border-subtle)] px-2 py-1">Quantity</th>
-                    <th className="border border-[var(--border-subtle)] px-2 py-1">Unit</th>
+                  <tr className="bg-surface-1">
+                    <th className="border border-subtle px-2 py-1">Name</th>
+                    <th className="border border-subtle px-2 py-1">Quantity</th>
+                    <th className="border border-subtle px-2 py-1">Unit</th>
                   </tr>
                 </thead>
                 <tbody>
                   {(recipe.ingredients as RecipeIngredient[] | undefined)?.map((ing) => (
-                    <tr key={ing.id} className="even:bg-[var(--surface-0)] odd:bg-[var(--surface-1)]"> {/* Added alternating row colors */}
-                      <td className="border border-[var(--border-subtle)] px-2 py-1 text-[var(--text-secondary)]">
+                    <tr key={ing.id} className="even:bg-surface odd:bg-surface-1">
+                      <td className="border border-subtle px-2 py-1 text-text-secondary">
                         {
                           allIngredients.find((i: Ingredient) => i.id === ing.ingredient_id)?.name
                           ?? ing.ingredient_id
                         }
                       </td>
-                      <td className="border border-[var(--border-subtle)] px-2 py-1 text-[var(--text-secondary)]">{ing.quantity}</td>
-                      <td className="border border-[var(--border-subtle)] px-2 py-1 text-[var(--text-secondary)]">{ing.unit}</td>
+                      <td className="border border-subtle px-2 py-1 text-text-secondary">{ing.quantity}</td>
+                      <td className="border border-subtle px-2 py-1 text-text-secondary">{ing.unit}</td>
                     </tr>
                   )) ?? (
                     <tr>
-                      <td colSpan={3} className="border border-[var(--border-subtle)] px-2 py-1 text-center text-[var(--text-secondary)]">No ingredients found.</td>
+                      <td colSpan={3} className="border border-subtle px-2 py-1 text-center text-text-secondary">No ingredients found.</td>
                     </tr>
                   )}
                 </tbody>
@@ -124,8 +122,7 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
           )}
         </div>
 
-        {/* Added horizontal rule for visual separation */}
-        <hr className="border-[var(--border-subtle)]" />
+        <hr className="border-subtle" />
 
         {/* Iteration Controls */}
         <RecipeIterationComponent
@@ -172,14 +169,14 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
         <RecipeHistoryTimeline iterations={recipe?.iterations || []} />
 
         {user && (
-          <div className="flex gap-2 mt-4 text-[var(--text-primary)]">
-            <Button // Use the standard Button component
+          <div className="flex gap-2 mt-4">
+            <Button
               onClick={() => setIsEditing(true)}
-              className="bg-[var(--accent)] text-[var(--text-inverse)] hover:bg-[var(--accent-hover)]" // Added theme styles
+              className="bg-accent text-text-inverse hover:bg-accent-hover"
             >
               Edit Recipe
             </Button>
-            {saveError && <div className="text-[var(--error)]">{saveError}</div>}
+            {saveError && <div className="text-alert-red">{saveError}</div>}
           </div>
         )}
 

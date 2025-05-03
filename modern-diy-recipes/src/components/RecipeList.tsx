@@ -28,21 +28,20 @@ export default function RecipeList({ initialRecipes, selectedId, onSelect }: Rec
   // if (error) return <div>Error loading recipes: {error}</div>;
 
   return (
-    <ul className="w-full sm:w-64 md:w-72 border-r border-[var(--border-subtle)] overflow-y-auto h-full bg-[var(--surface-0)] text-[var(--text-primary)]"> {/* Responsive width and ensure full height, added theme styles */}
+    <ul className="w-full sm:w-64 md:w-72 border-r border-subtle overflow-y-auto h-full bg-surface text-text">
       {recipes.map((recipe: RecipeListItem) => (
         <li
           key={recipe.id}
           onClick={() => {
-              try {
-                  onSelect(recipe.id);
-                  router.push(`/recipes/${recipe.id}`);
-              } catch (error) {
-                  console.error(`Navigation error: ${error}`);
-                  // Fallback or handle error, e.g., alert or log
-              }
+            try {
+              onSelect(recipe.id);
+              router.push(`/recipes/${recipe.id}`);
+            } catch (error) {
+              console.error(`Navigation error: ${error}`);
+            }
           }}
-          className={`flex justify-between items-center cursor-pointer px-4 py-2 transition-colors duration-150 hover:bg-[var(--surface-1)] ${ // Added transition
-            selectedId === recipe.id ? 'bg-[var(--accent)] text-[var(--text-inverse)] font-semibold' : '' // Use accent for selected
+          className={`flex justify-between items-center cursor-pointer px-4 py-2 transition-colors duration-150 hover:bg-surface-1 ${
+            selectedId === recipe.id ? 'bg-accent text-text-inverse font-semibold' : ''
           }`}
           aria-current={selectedId === recipe.id ? 'page' : undefined}
         >
