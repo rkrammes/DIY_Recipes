@@ -1,60 +1,11 @@
 /* style.css */
 
-/* --- Theme Variables --- */
+@import './styles/tokens.css';
+
 :root {
-  /* Dark Theme (Default) */
-  --primary-bg-dark: #1A1A1A;
-  --secondary-bg-dark: #2C2C2C;
-  --panel-bg-dark: rgba(44, 44, 44, 0.6); /* Slightly less transparent */
-  --panel-border-dark: rgba(255, 255, 255, 0.15);
-  --text-dark: #FFFFFF;
-  --muted-text-dark: #BDBDBD;
-  --accent-blue-dark: #3498DB;
-  --accent-orange-dark: #FF9900;
-  --input-text-dark: var(--accent-orange-dark);
-  --placeholder-text-dark: rgba(255, 153, 0, 0.7);
-  --link-dark: var(--accent-blue-dark);
-  --button-text-dark: #FFFFFF;
-  --button-gradient-dark: linear-gradient(45deg, rgba(52,152,219,0.8), rgba(255,153,0,0.8));
-  --button-hover-border-dark: var(--accent-orange-dark);
-  --shadow-dark: rgba(0, 0, 0, 0.3);
-  --scrollbar-thumb-dark: var(--accent-blue-dark);
-  --scrollbar-track-dark: rgba(0, 0, 0, 0.3);
-
-  /* Light Theme */
-  --primary-bg-light: #F4F4F4;
-  --secondary-bg-light: #FFFFFF;
-  --panel-bg-light: rgba(255, 255, 255, 0.7);
-  --panel-border-light: rgba(0, 0, 0, 0.1);
-  --text-light: #333333;
-  --muted-text-light: #777777;
-  --accent-blue-light: #2980B9;
-  --accent-orange-light: #E67E22;
-  --input-text-light: var(--accent-orange-light);
-  --placeholder-text-light: rgba(230, 126, 34, 0.7);
-  --link-light: var(--accent-blue-light);
-  --button-text-light: #FFFFFF;
-  --button-gradient-light: linear-gradient(45deg, rgba(41,128,185,0.9), rgba(230,126,34,0.9));
-  --button-hover-border-light: var(--accent-orange-light);
-  --shadow-light: rgba(0, 0, 0, 0.1);
-  --scrollbar-thumb-light: var(--accent-blue-light);
-  --scrollbar-track-light: rgba(0, 0, 0, 0.1);
-
-  /* Shared Variables */
-  --font-family: 'Roboto Mono', monospace;
-  --base-font-size: 16px;
-  --line-height: 1.5;
+  /* Shared Variables (not in tokens.css) */
   --max-width: 1200px;
   --gutter: 24px;
-
-  /* Spacing Scale */
-  --spacing-xs: 4px;
-  --spacing-sm: 8px;
-  --spacing-md: 16px;
-  --spacing-lg: 24px;
-  --spacing-xl: 32px;
-
-  /* Z-index Layers */
   --z-base: 1;
   --z-dropdown: 10;
   --z-sticky: 100;
@@ -62,7 +13,6 @@
   --z-modal: 2000;
   --z-popover: 5000;
   --z-toast: 9000;
-
   --icon-size: 24px;
   --border-radius: 6px; /* Consistent border radius */
 }
@@ -82,10 +32,10 @@ html {
 }
 
 body {
-  font-family: var(--font-family);
-  line-height: var(--line-height);
-  background-color: var(--primary-bg-dark); /* Default to dark */
-  color: var(--text-dark); /* Default to dark */
+  font-family: var(--font-sans); /* Use new font token */
+  line-height: 1.5; /* Use hardcoded value as line-height is not a token */
+  background-color: oklch(var(--surface-0)); /* Use new surface token */
+  color: oklch(var(--text-primary)); /* Use new text token */
   margin: 0;
   height: 100%;
   width: 100%;
@@ -378,7 +328,7 @@ aside.glass-panel {
   display: block; /* Stack items vertically */
   margin-bottom: var(--spacing-small); /* Space between items */
 }
- 
+
 /* Recipe/Ingredient Items - Simpler Styling */
 .recipe-item,
 .ingredient-item { /* Combined for now, might need separation later */
@@ -869,7 +819,7 @@ select:focus-visible {
   padding: 6px 10px; /* Reduced padding */
   font-size: 0.85em; /* Smaller font */
 }
- 
+
 /* Iteration Management Styles */
 .iteration-header {
   display: flex;
@@ -979,265 +929,6 @@ select:focus-visible {
   box-shadow: 0 2px 5px var(--shadow-dark); /* Use theme variable */
 }
 
-/* --- Light Theme Overrides --- */
-body.light {
-  --primary-bg: var(--primary-bg-light);
-  --secondary-bg: var(--secondary-bg-light);
-  --panel-bg: var(--panel-bg-light);
-  --panel-border: var(--panel-border-light);
-  --text: var(--text-light);
-  --muted-text: var(--muted-text-light);
-  --accent-blue: var(--accent-blue-light);
-  --accent-orange: var(--accent-orange-light);
-  --input-text: var(--input-text-light);
-  --placeholder-text: var(--placeholder-text-light);
-  --link: var(--link-light);
-  --button-text: var(--button-text-light);
-  --button-gradient: var(--button-gradient-light);
-  --button-hover-border: var(--button-hover-border-light);
-  --shadow: var(--shadow-light);
-  --scrollbar-thumb: var(--scrollbar-thumb-light);
-  --scrollbar-track: var(--scrollbar-track-light);
-
-  background-color: var(--primary-bg);
-  color: var(--text);
-}
-
-body.light .glass-panel {
-  background: var(--panel-bg);
-  box-shadow: 0 4px 8px var(--shadow);
-  border: 1px solid var(--panel-border);
-}
-
-body.light .unified-header {
-  background-color: var(--secondary-bg);
-}
-
-/* Removed body.light .header-recipe-list */
-
-body.light .main-content {
-  background-color: var(--primary-bg);
-}
-
-body.light aside.glass-panel {
-  background-color: var(--secondary-bg);
-}
-
-body.light .theme-select {
-  background-color: var(--secondary-bg);
-  color: var(--text);
-  border: 1px solid var(--accent-blue);
-}
-
-body.light .btn {
-  background: var(--button-gradient);
-  color: var(--button-text);
-}
-body.light .btn:hover {
-  border-color: var(--button-hover-border);
-  color: var(--button-text);
-}
-body.light .btn:focus-visible {
-  outline: 2px solid var(--accent-orange);
-}
-
-body.light #logoText {
-  background: var(--button-gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-}
-
-body.light .btn-header {
-  background: var(--button-gradient-light) !important; /* Use light theme gradient */
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
- 
-body.light .recipe-item,
-body.light .ingredient-item {
-  background-color: var(--secondary-bg);
-  border: 1px solid var(--accent-blue);
-  color: var(--accent-blue);
-}
-body.light .recipe-item:hover,
-body.light .ingredient-item:hover {
-  background-color: var(--accent-blue);
-  color: var(--primary-bg);
-  border-color: var(--accent-blue);
-}
-body.light .recipe-item.selected {
-  background-color: var(--accent-orange);
-  color: var(--primary-bg);
-  border-color: var(--accent-orange);
-}
-body.light .recipe-item:focus-visible,
-body.light .ingredient-item:focus-visible {
-  outline: 2px solid var(--accent-orange);
-  background-color: var(--accent-blue);
-  color: var(--primary-bg);
-  border-color: var(--accent-blue);
-}
-
-body.light input,
-body.light textarea,
-body.light select {
-  background-color: var(--secondary-bg);
-  color: var(--input-text);
-  border: 1px solid var(--accent-blue);
-}
-body.light ::placeholder {
-  color: var(--placeholder-text);
-}
-body.light input:focus-visible,
-body.light textarea:focus-visible,
-body.light select:focus-visible {
-  outline: 2px solid var(--accent-orange);
-  border-color: var(--accent-orange);
-}
-
-body.light .container table th,
-body.light .container table td {
-  background-color: var(--secondary-bg);
-  color: var(--text);
-  border: 1px solid var(--panel-border);
-}
-
-body.light .collapsible-container {
-  border: 1px solid var(--panel-border);
-  box-shadow: 0 1px 3px var(--shadow);
-}
-body.light .collapsible-container:hover {
-  box-shadow: 0 2px 5px var(--shadow);
-}
-body.light .collapsible-container[data-color="blue"] { border-left-color: var(--accent-blue); }
-body.light .collapsible-container[data-color="orange"] { border-left-color: var(--accent-orange); }
-body.light .collapsible-container[data-color="neutral"] { border-left-color: var(--muted-text); }
-
-body.light .collapsible-header {
-  background-color: var(--secondary-bg);
-  color: var(--text);
-}
-body.light .collapsible-container[data-color="blue"] .collapsible-header { color: var(--accent-blue); }
-body.light .collapsible-container[data-color="orange"] .collapsible-header { color: var(--accent-orange); }
-body.light .collapsible-header:hover,
-body.light .collapsible-header:focus {
-  background-color: var(--panel-bg);
-}
-body.light .collapsible-header:focus-visible {
-  outline: 2px solid var(--accent-blue);
-}
-
-body.light .btn-expand-collapse {
-  color: var(--text);
-}
-body.light .btn-expand-collapse:hover {
-  background-color: var(--panel-bg);
-}
-body.light .btn-expand-collapse:hover .label {
-  color: var(--accent-blue);
-}
-
-body.light .left-column,
-body.light .middle-column,
-body.light .right-column {
-  background-color: var(--secondary-bg);
-  border: 1px solid var(--panel-border);
-  box-shadow: 0 2px 8px var(--shadow);
-}
-body.light .left-column { border-top-color: var(--accent-blue); }
-body.light .middle-column { border-top-color: var(--accent-blue); }
-body.light .right-column { border-top-color: var(--accent-orange); }
-
-body.light .section-title {
-  color: var(--text);
-}
-
-body.light .ingredients-container {
-  background-color: var(--panel-bg);
-  border-left-color: var(--accent-blue);
-}
-body.light .ingredient-list {
-  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
-}
-body.light .ingredient-list::-webkit-scrollbar-track { background: var(--scrollbar-track); }
-body.light .ingredient-list::-webkit-scrollbar-thumb { background-color: var(--scrollbar-thumb); }
-
-body.light .quick-stats-container {
-  background-color: var(--panel-bg);
-  border-left-color: var(--accent-orange);
-}
-body.light .stat-item {
-  background-color: var(--secondary-bg);
-}
-body.light .stat-item:hover {
-  box-shadow: 0 2px 5px var(--shadow);
-}
-body.light .stat-label { color: var(--muted-text); }
-body.light .stat-value { color: var(--accent-blue); }
-
-body.light .instructions-summary {
-  background-color: var(--secondary-bg);
-  border-left-color: var(--accent-blue);
-  box-shadow: 0 2px 5px var(--shadow);
-}
-body.light .summary-content {
-  background-color: var(--panel-bg);
-}
-
-body.light .ingredient-item:hover {
-  box-shadow: 0 2px 4px var(--shadow);
-}
-body.light .ingredient-item.expanded {
-  box-shadow: 0 2px 5px var(--shadow);
-  border-left-color: var(--accent-blue);
-}
-
-body.light .project-header-section {
-  box-shadow: 0 4px 8px var(--shadow);
-  border: 1px solid var(--panel-border);
-  border-bottom: 2px solid var(--panel-border);
-}
-
-body.light .iterations-list {
-  border: 1px solid var(--panel-border);
-}
-
-body.light .new-iteration-form {
-  background-color: var(--panel-bg);
-  border: 1px solid var(--accent-orange);
-}
-body.light .new-iteration-form h4 {
-  color: var(--accent-orange);
-}
-body.light .form-group textarea {
-  background-color: var(--secondary-bg);
-  color: var(--text);
-  border: 1px solid var(--panel-border);
-}
-
-body.light .btn-primary {
-  border: 1px solid var(--accent-blue);
-}
-body.light .btn-secondary {
-  border: 1px solid var(--panel-border);
-}
-
-body.light .ingredient-item {
-  background-color: var(--secondary-bg);
-}
-
-body.light .recipe-title {
-  color: var(--text);
-  text-shadow: 0 1px 2px var(--shadow);
-  background: linear-gradient(45deg, var(--accent-blue), var(--accent-orange));
-  -webkit-background-clip: text;
-  background-clip: text;
-}
-
-body.light .remove-recipe-btn:hover {
-  box-shadow: 0 2px 5px var(--shadow);
-}
 
 /* Larger Logo Text */
 .logo-large {
