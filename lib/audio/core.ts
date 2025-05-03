@@ -1,4 +1,4 @@
-import { type Theme } from '@/providers/SettingsProvider';
+import { type Theme } from '../../providers/SettingsProvider';
 
 let audioContext: AudioContext | null = null;
 let masterGainNode: GainNode | null = null;

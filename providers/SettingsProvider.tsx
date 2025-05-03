@@ -5,7 +5,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 // Define the new Theme type
-type Theme = 'synthwave-noir' | 'terminal-mono' | 'paper-ledger';
+export type Theme = 'synthwave-noir' | 'terminal-mono' | 'paper-ledger';
 
 interface SettingsContextType {
   theme: Theme;
