@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "../providers/ThemeProvider";
 import { AuthProvider } from "../providers/AuthProvider";
 import ThemeScript from "../components/ThemeScript";
+import { SettingsOverlay } from "../components/SettingsOverlay";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -38,6 +39,9 @@ export default function RootLayout({
         <div className="theme-background" aria-hidden="true" />
         <AuthProvider>
           <ThemeProvider>
+            <div className="fixed top-4 right-4 z-50">
+              <SettingsOverlay />
+            </div>
             {children}
           </ThemeProvider>
         </AuthProvider>
