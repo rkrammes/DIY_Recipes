@@ -4,7 +4,7 @@ import type { Recipe } from '@/types/models';
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     const { data, error } = await supabase
       .from('recipes')
