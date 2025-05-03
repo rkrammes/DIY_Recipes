@@ -22,10 +22,12 @@ export function ThemeProvider({
   children: React.ReactNode;
 }) {
   const [theme, setTheme] = useState<Theme>('synthwave-noir');
-  const [audioEnabled, setAudioEnabled] = useState(true);
+  const [audioEnabled, setAudioEnabled] = useState(false); // Default to false
   const [audioInitialized, setAudioInitialized] = useState(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     // Initialize theme from localStorage or system preference
     const savedTheme = localStorage.getItem('theme') as Theme | null;
     const savedAudio = localStorage.getItem('audioEnabled');
@@ -39,7 +41,9 @@ export function ThemeProvider({
       setTheme('paper-ledger');
     }
 
+    // Initialize audio state from localStorage
     if (savedAudio !== null) {
+      console.log('Loading saved audio state:', savedAudio);
       setAudioEnabled(savedAudio === 'true');
     }
 
@@ -69,33 +73,55 @@ export function ThemeProvider({
 
     // Play theme change sound if audio is enabled and initialized
     if (audioEnabled && audioInitialized && document.readyState === 'complete') {
-      const audioContext = getAudioContext();
-      const params = getThemeAudioParams(theme);
-      
-      // Create and configure oscillator
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
-      
-      oscillator.type = 'sine';
-      oscillator.frequency.setValueAtTime(params.ui.modalOpen.frequency as number, audioContext.currentTime);
-      
-      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-      gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
-      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3);
-      
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-      
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + 0.3);
+      console.log('Playing theme change sound');
+      try {
+        const audioContext = getAudioContext();
+        console.log('AudioContext state:', audioContext.state);
+
+        if (audioContext.state === 'suspended') {
+          console.log('Resuming AudioContext...');
+          audioContext.resume();
+        }
+
+        const params = getThemeAudioParams(theme);
+        
+        // Create and configure oscillator
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(params.ui.modalOpen.frequency as number, audioContext.currentTime);
+        
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3);
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        console.log('Starting oscillator...');
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.3);
+
+        // Clean up
+        setTimeout(() => {
+          oscillator.disconnect();
+          gainNode.disconnect();
+        }, 300);
+      } catch (error) {
+        console.error('Error playing theme change sound:', error);
+      }
     }
   }, [theme, audioEnabled, audioInitialized]);
 
   // Initialize audio context on first user interaction
   useEffect(() => {
+    if (!audioEnabled) return;
+
     const initAudio = () => {
       if (!audioInitialized) {
         try {
+          console.log('Initializing audio context...');
           getAudioContext();
           setAudioInitialized(true);
         } catch (error) {
@@ -104,14 +130,21 @@ export function ThemeProvider({
       }
     };
 
-    window.addEventListener('click', initAudio, { once: true });
-    window.addEventListener('keydown', initAudio, { once: true });
+    // Initialize on first user interaction
+    const handleInteraction = () => {
+      initAudio();
+      // Keep the listeners for subsequent interactions that might be needed
+      // to resume suspended audio context
+    };
+
+    window.addEventListener('click', handleInteraction);
+    window.addEventListener('keydown', handleInteraction);
 
     return () => {
-      window.removeEventListener('click', initAudio);
-      window.removeEventListener('keydown', initAudio);
+      window.removeEventListener('click', handleInteraction);
+      window.removeEventListener('keydown', handleInteraction);
     };
-  }, [audioInitialized]);
+  }, [audioEnabled, audioInitialized]);
 
   // Setup keyboard shortcut for theme cycling
   useEffect(() => {
