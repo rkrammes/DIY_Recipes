@@ -1,3 +1,5 @@
+
+```typescript
 // DIY_Recipes/providers/SettingsProvider.tsx
 'use client';
 
@@ -15,14 +17,25 @@ interface SettingsContextType {
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
 export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  // Placeholder for theme state, will implement logic later
   const [theme, setTheme] = useState<Theme>('synthwave-noir');
 
-  // Placeholder useEffect for theme detection and persistence
   useEffect(() => {
-    // TODO: Implement theme detection (localStorage, prefers-color-scheme)
-    // TODO: Implement theme persistence to localStorage
+    const savedTheme = localStorage.getItem('theme') as Theme | null;
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme) {
+      setTheme(savedTheme);
+    } else if (systemPrefersDark) {
+      setTheme('synthwave-noir'); // Default to dark theme if system prefers dark
+    } else {
+      setTheme('paper-ledger'); // Default to light theme if system prefers light or no preference
+    }
   }, []);
+
+  useEffect(() => {
+    document.body.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   return (
     <SettingsContext.Provider value={{ theme, setTheme }}>
@@ -38,4 +51,4 @@ export const useSettings = () => {
   }
   return context;
 };
-
+```
