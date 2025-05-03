@@ -1,13 +1,9 @@
 import type { Config } from 'tailwindcss'
-import plugin from 'tailwindcss/plugin';
 
-const withOpacity = (variable: string) => ({ opacityValue }: { opacityValue: number | undefined }) => {
-  if (opacityValue === undefined) {
-    return `var(${variable})`;
-  }
-  // Handle OKLCH values with opacity
-  return `color-mix(in oklch, var(${variable}), transparent ${(1 - Number(opacityValue)) * 100}%)`;
-};
+// Helper function for opacity-aware color variables
+function withOpacity(variable: string): string {
+  return `oklch(var(${variable}))`;
+}
 
 const config: Config = {
   content: [
@@ -78,7 +74,7 @@ const config: Config = {
   },
   plugins: [
     require('tailwindcss-animate'),
-    plugin(({ addVariant }) => {
+    function({ addVariant }: { addVariant: (name: string, definition: string | string[]) => void }) {
       // Add a variant for hover OR focus states
       addVariant('hocus', ['&:hover', '&:focus']);
 
@@ -86,7 +82,7 @@ const config: Config = {
       addVariant('synthwave', '[data-theme="synthwave-noir"] &');
       addVariant('terminal', '[data-theme="terminal-mono"] &');
       addVariant('paper', '[data-theme="paper-ledger"] &');
-    }),
+    },
   ],
 }
 
