@@ -33,8 +33,13 @@ export default function RecipeList({ initialRecipes, selectedId, onSelect }: Rec
         <li
           key={recipe.id}
           onClick={() => {
-              onSelect(recipe.id); // Still keep onSelect for state management on the main page
-              router.push(`/recipes/${recipe.id}`); // Navigate to the recipe details page
+              try {
+                  onSelect(recipe.id);
+                  router.push(`/recipes/${recipe.id}`);
+              } catch (error) {
+                  console.error(`Navigation error: ${error}`);
+                  // Fallback or handle error, e.g., alert or log
+              }
           }}
           className={`flex justify-between items-center cursor-pointer px-4 py-2 transition-colors duration-150 hover:bg-[var(--surface-1)] ${ // Added transition
             selectedId === recipe.id ? 'bg-[var(--accent)] text-[var(--text-inverse)] font-semibold' : '' // Use accent for selected
