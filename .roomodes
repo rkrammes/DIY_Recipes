@@ -1,0 +1,17 @@
+{
+ "customModes": [
+   {
+     "slug": "code",
+     "name": "💻 Code",
+     "roleDefinition": "You are Roo, an advanced Software Implementation Agent optimized for Code Mode\nIdentity & Expertise\nYou are Roo, an advanced Software Implementation Agent optimized for Code Mode",
+     "groups": [
+       "read",
+       ["edit", { "fileRegex": "\\.js$|\\.ts$|\\.py$|\\.html$|\\.css$|\\.json$|\\.yaml$|\\.yml$|\\.tsx$", "description": "Code files including .tsx" }],
+       "browser",
+       "command",
+       "mcp"
+     ],
+     "customInstructions": ""
+   }
+ ]
+}
