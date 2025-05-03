@@ -1,13 +1,18 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  turbopack: {
-    rules: {
-      // Configure Turbopack rules here
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        fs: false,
+        path: false,
+        os: false
+      };
     }
+    return config;
   },
   images: {
-    unoptimized: true,  // Prevents image optimization issues if any
+    unoptimized: true
   }
 };
 
