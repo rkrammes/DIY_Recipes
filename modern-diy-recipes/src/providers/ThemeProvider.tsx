@@ -1,6 +1,8 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { generateAnimationCSSVars } from '../lib/animation/motion';
+import { getAudioContext, getThemeAudioParams } from '../lib/audio/core';
 
 type Theme = 'synthwave-noir' | 'terminal-mono' | 'paper-ledger';
 
@@ -8,6 +10,8 @@ interface ThemeContextType {
   theme: Theme;
   setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
+  audioEnabled: boolean;
+  setAudioEnabled: (enabled: boolean) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -18,10 +22,13 @@ export function ThemeProvider({
   children: React.ReactNode;
 }) {
   const [theme, setTheme] = useState<Theme>('synthwave-noir');
+  const [audioEnabled, setAudioEnabled] = useState(true);
+  const [audioInitialized, setAudioInitialized] = useState(false);
 
   useEffect(() => {
     // Initialize theme from localStorage or system preference
     const savedTheme = localStorage.getItem('theme') as Theme | null;
+    const savedAudio = localStorage.getItem('audioEnabled');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
     if (savedTheme && ['synthwave-noir', 'terminal-mono', 'paper-ledger'].includes(savedTheme)) {
@@ -30,6 +37,10 @@ export function ThemeProvider({
       setTheme('synthwave-noir');
     } else {
       setTheme('paper-ledger');
+    }
+
+    if (savedAudio !== null) {
+      setAudioEnabled(savedAudio === 'true');
     }
 
     // Listen for system theme changes
@@ -49,7 +60,58 @@ export function ThemeProvider({
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
-  }, [theme]);
+
+    // Apply animation CSS variables
+    const animationVars = generateAnimationCSSVars(theme);
+    Object.entries(animationVars).forEach(([key, value]) => {
+      document.documentElement.style.setProperty(key, value);
+    });
+
+    // Play theme change sound if audio is enabled and initialized
+    if (audioEnabled && audioInitialized && document.readyState === 'complete') {
+      const audioContext = getAudioContext();
+      const params = getThemeAudioParams(theme);
+      
+      // Create and configure oscillator
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(params.ui.modalOpen.frequency as number, audioContext.currentTime);
+      
+      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.3);
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + 0.3);
+    }
+  }, [theme, audioEnabled, audioInitialized]);
+
+  // Initialize audio context on first user interaction
+  useEffect(() => {
+    const initAudio = () => {
+      if (!audioInitialized) {
+        try {
+          getAudioContext();
+          setAudioInitialized(true);
+        } catch (error) {
+          console.error('Failed to initialize audio context:', error);
+        }
+      }
+    };
+
+    window.addEventListener('click', initAudio, { once: true });
+    window.addEventListener('keydown', initAudio, { once: true });
+
+    return () => {
+      window.removeEventListener('click', initAudio);
+      window.removeEventListener('keydown', initAudio);
+    };
+  }, [audioInitialized]);
 
   // Setup keyboard shortcut for theme cycling
   useEffect(() => {
@@ -75,7 +137,13 @@ export function ThemeProvider({
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
+    <ThemeContext.Provider value={{ 
+      theme, 
+      setTheme, 
+      toggleTheme,
+      audioEnabled,
+      setAudioEnabled
+    }}>
       {children}
     </ThemeContext.Provider>
   );

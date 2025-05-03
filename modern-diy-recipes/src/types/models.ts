@@ -29,6 +29,15 @@ export interface RecipeIngredient {
   created_at: string;
 }
 
+export interface TransformedIngredient {
+  id: string;
+  quantity: number;
+  unit: string;
+  notes: string | null;
+  name: string | null;
+  description: string | null;
+}
+
 export interface RecipeIteration {
   id: string;
   recipe_id: string;
@@ -60,5 +69,10 @@ export interface AISuggestion {
 }
 
 export interface RecipeWithIterations extends Recipe {
+  iterations?: RecipeIteration[];
+}
+
+export interface RecipeWithIngredientsAndIterations extends Recipe {
+  ingredients?: TransformedIngredient[];
   iterations?: RecipeIteration[];
 }

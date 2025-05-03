@@ -1,22 +1,18 @@
 import React, { useState } from 'react';
-import type { Recipe as BaseRecipe, RecipeIngredient, Ingredient } from '../types/models';
-import { Button } from './ui/button'; // Import the standard Button component
-
-interface RecipeWithIngredients extends BaseRecipe {
-  ingredients?: RecipeIngredient[];
-}
+import type { Recipe, Ingredient, TransformedIngredient, RecipeWithIngredientsAndIterations } from '../types/models';
+import { Button } from './ui/button';
 
 interface RecipeFormProps {
-  recipe?: RecipeWithIngredients | null;
+  recipe?: RecipeWithIngredientsAndIterations | null;
   allIngredients: Ingredient[];
-  onSave: (updatedRecipe: Partial<RecipeWithIngredients>) => Promise<void>;
+  onSave: (updatedRecipe: Partial<RecipeWithIngredientsAndIterations>) => Promise<void>;
   onCancel: () => void;
 }
 
 export default function RecipeForm({ recipe, allIngredients, onSave, onCancel }: RecipeFormProps) {
   const [title, setTitle] = useState(recipe?.title || '');
   const [description, setDescription] = useState(recipe?.description || '');
-  const [ingredients, setIngredients] = useState<RecipeIngredient[]>(recipe?.ingredients || []);
+  const [ingredients, setIngredients] = useState<TransformedIngredient[]>(recipe?.ingredients || []);
 
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -48,24 +44,22 @@ export default function RecipeForm({ recipe, allIngredients, onSave, onCancel }:
     }
   };
 
-  const updateIngredient = (index: number, updated: Partial<RecipeIngredient>) => {
+  const updateIngredient = (index: number, updated: Partial<TransformedIngredient>) => {
     setIngredients((prev) =>
       prev.map((ing, i) => (i === index ? { ...ing, ...updated } : ing))
     );
   };
 
   const addIngredient = () => {
-    setIngredients((prev) => [
-      ...prev,
-      {
-        id: crypto.randomUUID(),
-        recipe_id: '',
-        ingredient_id: '',
-        quantity: 0,
-        unit: '',
-        created_at: new Date().toISOString()
-      } as RecipeIngredient,
-    ]);
+    const newIngredient: TransformedIngredient = {
+      id: crypto.randomUUID(),
+      quantity: 0,
+      unit: '',
+      notes: null,
+      name: null,
+      description: null
+    };
+    setIngredients((prev) => [...prev, newIngredient]);
   };
 
   const removeIngredient = (index: number) => {
@@ -73,39 +67,47 @@ export default function RecipeForm({ recipe, allIngredients, onSave, onCancel }:
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4 bg-[var(--surface-0)] text-[var(--text-primary)] border border-[var(--border-subtle)] rounded-lg shadow-sm"> {/* Added theme styles */}
-      <h2 className="text-lg font-bold text-[var(--text-primary)]">{recipe ? 'Edit Recipe' : 'Add Recipe'}</h2> {/* Added theme styles */}
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4 bg-surface text-text border border-subtle rounded-lg shadow-soft">
+      <h2 className="text-lg font-bold">{recipe ? 'Edit Recipe' : 'Add Recipe'}</h2>
 
-      {error && <div id="form-error" className="text-[var(--error)]" role="alert">{error}</div>} {/* Added id and role for accessibility */}
+      {error && <div id="form-error" className="text-alert-red" role="alert">{error}</div>}
 
-      <label className="flex flex-col text-[var(--text-primary)]"> {/* Added theme styles */}
+      <label className="flex flex-col">
         Title
         <input
-          className={`border px-2 py-1 bg-[var(--surface-1)] text-[var(--text-primary)] ${error && !title.trim() ? 'border-[var(--error)]' : 'border-[var(--border-subtle)]'}`} // Added conditional error styling
+          className={`border px-2 py-1 bg-surface-1 text-text ${error && !title.trim() ? 'border-alert-red' : 'border-subtle'}`}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
-          aria-describedby={error && !title.trim() ? 'form-error' : undefined} // Link to error message
+          aria-describedby={error && !title.trim() ? 'form-error' : undefined}
         />
       </label>
 
-      <label className="flex flex-col text-[var(--text-primary)]"> {/* Added theme styles */}
+      <label className="flex flex-col">
         Description
         <textarea
-          className="border border-[var(--border-subtle)] px-2 py-1 bg-[var(--surface-1)] text-[var(--text-primary)]" // Added theme styles
+          className="border border-subtle px-2 py-1 bg-surface-1 text-text"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
       </label>
 
-      <div className={`${error && ingredients.length === 0 ? 'border border-[var(--error)] p-2 rounded' : ''}`} aria-describedby={error && ingredients.length === 0 ? 'form-error' : undefined}> {/* Added conditional error styling and accessibility */}
-        <h3 className="font-semibold mb-2 text-[var(--text-primary)]">Ingredients</h3> {/* Added theme styles */}
+      <div className={`${error && ingredients.length === 0 ? 'border border-alert-red p-2 rounded' : ''}`} 
+           aria-describedby={error && ingredients.length === 0 ? 'form-error' : undefined}>
+        <h3 className="font-semibold mb-2">Ingredients</h3>
         {ingredients.map((ing, index) => (
-          <div key={ing.id} className="flex gap-2 mb-2 items-center"> {/* Added items-center for alignment */}
+          <div key={ing.id} className="flex gap-2 mb-2 items-center">
             <select
-              className="border border-[var(--border-subtle)] px-2 py-1 flex-1 bg-[var(--surface-1)] text-[var(--text-primary)]" // Added theme styles
-              value={ing.ingredient_id}
-              onChange={(e) => updateIngredient(index, { ingredient_id: e.target.value })}
+              className="border border-subtle px-2 py-1 flex-1 bg-surface-1 text-text"
+              value={ing.id}
+              onChange={(e) => {
+                const selectedIngredient = allIngredients.find(i => i.id === e.target.value);
+                updateIngredient(index, {
+                  id: e.target.value,
+                  name: selectedIngredient?.name || null,
+                  description: selectedIngredient?.description || null
+                });
+              }}
               required
             >
               <option value="">Select Ingredient</option>
@@ -116,51 +118,54 @@ export default function RecipeForm({ recipe, allIngredients, onSave, onCancel }:
               ))}
             </select>
             <input
-              className="border border-[var(--border-subtle)] px-2 py-1 w-20 bg-[var(--surface-1)] text-[var(--text-primary)]" // Added theme styles
+              className="border border-subtle px-2 py-1 w-20 bg-surface-1 text-text"
               placeholder="Qty"
-              value={ing.quantity}
+              type="number"
+              step="0.01"
+              value={ing.quantity || ''}
               onChange={(e) => updateIngredient(index, { quantity: parseFloat(e.target.value) })}
               required
             />
             <input
-              className="border border-[var(--border-subtle)] px-2 py-1 w-20 bg-[var(--surface-1)] text-[var(--text-primary)]" // Added theme styles
+              className="border border-subtle px-2 py-1 w-20 bg-surface-1 text-text"
               placeholder="Unit"
               value={ing.unit}
               onChange={(e) => updateIngredient(index, { unit: e.target.value })}
+              required
             />
-            <Button // Use the standard Button component
+            <Button
               type="button"
               onClick={() => removeIngredient(index)}
-              className="text-[var(--error)] hover:text-[var(--error-hover)]" // Added theme styles
-              variant="ghost" // Use ghost variant for a less prominent button
+              className="text-alert-red hover:text-alert-red-hover"
+              variant="ghost"
             >
               Remove
             </Button>
           </div>
         ))}
-        <Button // Use the standard Button component
+        <Button
           type="button"
           onClick={addIngredient}
-          className="mt-2 px-2 py-1 border border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-[var(--surface-1)]" // Added theme styles
-          variant="outline" // Use outline variant
+          className="mt-2 px-2 py-1 border border-subtle text-text hover:bg-surface-1"
+          variant="outline"
         >
           Add Ingredient
         </Button>
       </div>
 
       <div className="flex gap-2 mt-4">
-        <Button // Use the standard Button component
+        <Button
           type="submit"
           disabled={saving}
-          className="bg-[var(--accent)] text-[var(--text-inverse)] hover:bg-[var(--accent-hover)] disabled:opacity-50" // Added theme styles
+          className="bg-accent text-text-inverse hover:bg-accent-hover disabled:opacity-50"
         >
           {saving ? 'Saving...' : 'Save'}
         </Button>
-        <Button // Use the standard Button component
+        <Button
           type="button"
           onClick={onCancel}
-          className="border border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-[var(--surface-1)] disabled:opacity-50" // Added theme styles
-          variant="outline" // Use outline variant
+          className="border border-subtle text-text hover:bg-surface-1 disabled:opacity-50"
+          variant="outline"
           disabled={saving}
         >
           Cancel

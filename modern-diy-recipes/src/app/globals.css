@@ -19,12 +19,15 @@
 html,
 body {
   @apply antialiased min-h-screen;
+  background-color: oklch(var(--surface-0-components));
+  color: oklch(var(--text-primary-components));
 }
 
 /* Container for theme background effects */
 .theme-background {
   @apply fixed inset-0 -z-10;
-  background-color: oklch(var(--background));
+  background-color: oklch(var(--surface-0-components));
+  transition: background-color 0.3s ease-in-out;
 }
 
 /* Theme-specific background effects */
@@ -44,6 +47,7 @@ body {
     transparent 2px,
     transparent 8px
   );
+  animation: neonPulse 3s ease-in-out infinite alternate;
 }
 
 [data-theme="terminal-mono"] .theme-background::after {
@@ -56,6 +60,7 @@ body {
     transparent 1px,
     transparent 2px
   );
+  animation: scanline 10s linear infinite;
 }
 
 [data-theme="paper-ledger"] .theme-background::after {
@@ -72,4 +77,25 @@ body {
       transparent 1px
     );
   background-size: 24px 24px;
+}
+
+/* Theme transition animations */
+@keyframes neonPulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

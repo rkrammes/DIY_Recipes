@@ -1,28 +1,28 @@
 "use client";  // Ensure this is a Client Component
 
 import { useEffect, useState, useCallback } from 'react';
-import type { Recipe, RecipeIngredient, RecipeIteration } from '@/types/models';
+import type { Recipe, TransformedIngredient, RecipeIteration, RecipeWithIngredientsAndIterations } from '@/types/models';
 
 interface RecipeUpdate {
   title: string;
   description: string;
-  ingredients: RecipeIngredient[];
+  ingredients: TransformedIngredient[];
 }
 
-export function useRecipe(id: string | null, initialRecipeData?: (Recipe & { iterations?: RecipeIteration[] }) | null) {
-  const [recipe, setRecipe] = useState<(Recipe & { iterations?: RecipeIteration[] }) | null>(initialRecipeData || null);
+export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngredientsAndIterations | null) {
+  const [recipe, setRecipe] = useState<RecipeWithIngredientsAndIterations | null>(initialRecipeData || null);
   const [loading, setLoading] = useState<boolean>(!initialRecipeData);
   const [error, setError] = useState<string | null>(null);
 
-  console.log(`useRecipe hook initialized for ID: ${id}`);  // Added log for diagnosis
+  console.log(`useRecipe hook initialized for ID: ${id}`);
 
   useEffect(() => {
-    console.log(`useEffect triggered in useRecipe for ID: ${id}`);  // Added log
+    console.log(`useEffect triggered in useRecipe for ID: ${id}`);
     if (!initialRecipeData && id) {
       async function fetchRecipe() {
         setLoading(true);
         try {
-          const res = await fetch(`/api/recipes/${id}?include=iterations`);
+          const res = await fetch(`/api/recipes/${id}?include=iterations,ingredients`);
           if (!res.ok) {
             throw new Error(`Error ${res.status}`);
           }
@@ -31,6 +31,7 @@ export function useRecipe(id: string | null, initialRecipeData?: (Recipe & { ite
           setError(null);
         } catch (err: unknown) {
           const message = err instanceof Error ? err.message : 'Failed to fetch recipe';
+          console.error('Error fetching recipe:', err);
           setError(message);
           setRecipe(null);
         } finally {
@@ -69,6 +70,7 @@ export function useRecipe(id: string | null, initialRecipeData?: (Recipe & { ite
     } catch (err: unknown) {
       setRecipe(previousRecipe);
       const message = err instanceof Error ? err.message : 'Failed to update recipe';
+      console.error('Error updating recipe:', err);
       setError(message);
       throw err;
     }

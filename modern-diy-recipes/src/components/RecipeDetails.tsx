@@ -1,14 +1,21 @@
-
 import React, { useState } from 'react';
 import { useRecipe } from '../hooks/useRecipe';
 import { useIngredients } from '../hooks/useIngredients';
-import type { Recipe as BaseRecipe, RecipeIngredient, Ingredient, RecipeIteration, RecipeAnalysisData } from '../types/models';
+import type { 
+  Recipe,
+  RecipeIngredient,
+  Ingredient,
+  RecipeIteration,
+  RecipeAnalysisData,
+  RecipeWithIngredientsAndIterations,
+  TransformedIngredient
+} from '../types/models';
 import RecipeForm from './RecipeForm';
 import { useUser } from '@supabase/auth-helpers-react';
 import dynamic from 'next/dynamic';
 
 const Modal = dynamic(() => import('./Modal'), { ssr: false });
-import { Button } from './ui/button'; // Import the standard Button component
+import { Button } from './ui/button';
 
 import RecipeIterationComponent from './RecipeIteration';
 import IterationComparison from './IterationComparison';
@@ -17,29 +24,24 @@ const AISuggestions = dynamic(() => import('./AISuggestions'), { ssr: false });
 import RecipeHistoryTimeline from './RecipeHistoryTimeline';
 import ErrorBoundary from './ErrorBoundary';
 
-interface RecipeWithIngredientsAndIterations extends BaseRecipe {
-  ingredients?: RecipeIngredient[];
-  iterations?: RecipeIteration[];
-}
-
 interface RecipeDetailsProps {
   recipeId: string | null;
-  initialRecipeData?: RecipeWithIngredientsAndIterations | null; // Add initialRecipeData prop
+  initialRecipeData?: RecipeWithIngredientsAndIterations | null;
 }
 
-export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDetailsProps) { // Accept initialRecipeData prop
-  const { recipe, loading, error, updateRecipe } = useRecipe(recipeId, initialRecipeData) as { // Pass initialRecipeData to hook
+export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDetailsProps) {
+  const { recipe, loading, error, updateRecipe } = useRecipe(recipeId, initialRecipeData) as {
     recipe: RecipeWithIngredientsAndIterations | null;
     loading: boolean;
     error: string | null;
-    updateRecipe: (updates: { title: string; description: string; ingredients: RecipeIngredient[] }) => Promise<unknown>;
+    updateRecipe: (updates: { title: string; description: string; ingredients: TransformedIngredient[] }) => Promise<unknown>;
   };
 
   const { ingredients: allIngredients } = useIngredients();
 
   const [isEditing, setIsEditing] = useState(false);
-  const [saveError, setSaveError] = useState<string | null>(null); // Remove saving state
-  const [isIngredientsCollapsed, setIsIngredientsCollapsed] = useState(false); // State for collapsible ingredients
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [isIngredientsCollapsed, setIsIngredientsCollapsed] = useState(false);
 
   const user = useUser();
 
@@ -87,7 +89,9 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
             aria-controls="ingredients-section"
           >
             <h3 className="text-lg font-semibold">Ingredients</h3>
-            <span className="ml-2 transform transition-transform duration-300 ease-in-out">{isIngredientsCollapsed ? '▼' : '▲'}</span>
+            <span className="ml-2 transform transition-transform duration-300 ease-in-out">
+              {isIngredientsCollapsed ? '▼' : '▲'}
+            </span>
           </button>
           {!isIngredientsCollapsed && (
             <div id="ingredients-section" className="overflow-x-auto">
@@ -100,20 +104,19 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
                   </tr>
                 </thead>
                 <tbody>
-                  {(recipe.ingredients as RecipeIngredient[] | undefined)?.map((ing) => (
+                  {recipe.ingredients?.map((ing) => (
                     <tr key={ing.id} className="even:bg-surface odd:bg-surface-1">
                       <td className="border border-subtle px-2 py-1 text-text-secondary">
-                        {
-                          allIngredients.find((i: Ingredient) => i.id === ing.ingredient_id)?.name
-                          ?? ing.ingredient_id
-                        }
+                        {ing.name || 'Unknown Ingredient'}
                       </td>
                       <td className="border border-subtle px-2 py-1 text-text-secondary">{ing.quantity}</td>
                       <td className="border border-subtle px-2 py-1 text-text-secondary">{ing.unit}</td>
                     </tr>
                   )) ?? (
                     <tr>
-                      <td colSpan={3} className="border border-subtle px-2 py-1 text-center text-text-secondary">No ingredients found.</td>
+                      <td colSpan={3} className="border border-subtle px-2 py-1 text-center text-text-secondary">
+                        No ingredients found.
+                      </td>
                     </tr>
                   )}
                 </tbody>
@@ -124,27 +127,19 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
 
         <hr className="border-subtle" />
 
-        {/* Iteration Controls */}
         <RecipeIterationComponent
           recipeId={recipe.id}
           selectedIterationId={selectedIteration?.id}
           onSelectIteration={(iter) => {
-            // If no base iteration selected, set as base
             if (!selectedIteration) {
               setSelectedIteration(iter);
               setAnalysisData({
                 metrics: iter.metrics || {},
                 insights: [],
               });
-            } else if (
-              selectedIteration &&
-              iter.id !== selectedIteration.id &&
-              !compareIteration
-            ) {
-              // If base selected, set as compare
+            } else if (selectedIteration && iter.id !== selectedIteration.id && !compareIteration) {
               setCompareIteration(iter);
             } else {
-              // Reset selections
               setSelectedIteration(iter);
               setCompareIteration(null);
               setAnalysisData({
@@ -164,8 +159,6 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
 
         <AISuggestions recipeId={recipe.id} />
 
-        {/* Pass iterations from the hook */}
-        {/* Pass iterations from the hook */}
         <RecipeHistoryTimeline iterations={recipe?.iterations || []} />
 
         {user && (
