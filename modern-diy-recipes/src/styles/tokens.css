@@ -1,0 +1,108 @@
+/* Base primitive tokens */
+:root {
+  /* Colors (in OKLCH format) */
+  --color-black: 0% 0 0;
+  --color-white: 100% 0 0;
+  --color-blue-500: 70% 0.3 250;
+  --color-pink-500: 70% 0.3 0;
+  --color-green-500: 70% 0.3 140;
+  --color-amber-500: 70% 0.3 80;
+
+  /* Typography */
+  --font-sans: 'Geist', -apple-system, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  --font-display: var(--font-sans);
+}
+
+/* Semantic tokens - Default (Synthwave Noir) */
+:root {
+  /* Surface tokens */
+  --surface-0: 60% 0.25 300;
+  --surface-1: 50% 0.23 300;
+  --surface-inverse: 95% 0.01 315;
+
+  /* Content tokens */
+  --text-primary: 95% 0.01 315;
+  --text-secondary: 85% 0.05 310;
+  --text-inverse: 60% 0.25 300;
+
+  /* Interactive tokens */
+  --accent: 70% 0.3 330;
+  --accent-hover: 75% 0.32 330;
+  --accent-active: 60% 0.28 330;
+
+  /* Decorative tokens */
+  --border-subtle: 70% 0.15 320;
+  --shadow-soft: 0 2px 6px 0 oklch(0% 0 0 / 0.3);
+  --glow-pulse: 0 0 10px oklch(70% 0.3 330);
+
+  /* Status tokens */
+  --success: 80% 0.2 140;
+  --warning: 75% 0.18 85;
+  --error: 65% 0.3 30;
+
+  /* Mapping semantic tokens */
+  --background: var(--surface-0);
+  --foreground: var(--text-primary);
+  --border: var(--border-subtle);
+  --ring: var(--accent);
+}
+
+/* Terminal Mono theme */
+[data-theme="terminal-mono"] {
+  --surface-0: 10% 0.02 280;
+  --surface-1: 6% 0.02 280;
+  --surface-inverse: 85% 0.01 100;
+
+  --text-primary: 85% 0.01 100;
+  --text-secondary: 75% 0.02 110;
+  --text-inverse: 10% 0.02 280;
+
+  --accent: 65% 0.18 90;
+  --accent-hover: 70% 0.2 90;
+  --accent-active: 55% 0.16 90;
+
+  --border-subtle: 65% 0.1 90;
+  --shadow-soft: 0 2px 6px 0 oklch(0% 0 0 / 0.3);
+  --glow-pulse: 0 0 8px oklch(65% 0.18 90);
+
+  --success: 70% 0.15 140;
+  --warning: 70% 0.2 85;
+  --error: 60% 0.25 30;
+}
+
+/* Paper Ledger theme */
+[data-theme="paper-ledger"] {
+  --surface-0: 94% 0.02 90;
+  --surface-1: 90% 0.02 90;
+  --surface-inverse: 25% 0.01 70;
+
+  --text-primary: 25% 0.01 70;
+  --text-secondary: 40% 0.02 75;
+  --text-inverse: 94% 0.02 90;
+
+  --accent: 60% 0.16 40;
+  --accent-hover: 65% 0.17 40;
+  --accent-active: 55% 0.15 40;
+
+  --border-subtle: 60% 0.08 40;
+  --shadow-soft: 0 1px 3px 0 oklch(0% 0 0 / 0.12);
+  --glow-pulse: 0 0 5px oklch(60% 0.16 40 / 0.5);
+
+  --success: 65% 0.15 140;
+  --warning: 70% 0.15 85;
+  --error: 65% 0.2 30;
+}
+
+/* Base styles */
+body {
+  background-color: oklch(var(--background));
+  color: oklch(var(--foreground));
+}
+
+.theme-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: oklch(var(--background));
+}

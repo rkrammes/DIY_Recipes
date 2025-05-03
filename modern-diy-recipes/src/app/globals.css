@@ -2,161 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import theme tokens */
+@import '../styles/tokens.css';
 
-/* Base primitive tokens */
+/* Prevent FOUC by setting initial theme */
 :root {
-  /* Colors (in RGB format for Tailwind opacity utilities) */
-  --color-black: 0 0 0;
-  --color-white: 255 255 255;
-  --color-blue-500: 0 200 255;
-  --color-pink-500: 255 0 255;
-  --color-green-500: 0 224 80;
-  --color-amber-500: 255 153 0;
-
-  /* Spacing */
-  --spacing-1: 0.25rem;
-  --spacing-2: 0.5rem;
-  --spacing-4: 1rem;
-  --spacing-8: 2rem;
-
-  /* Typography */
-  --font-sans: 'Rajdhani', sans-serif; /* Assuming Rajdhani is available or a placeholder */
-  --font-mono: 'JetBrains Mono', monospace;
-  --font-display: 'Orbitron', sans-serif; /* Assuming Orbitron is available or a placeholder */
-
-  /* Radius */
-  --radius: 0.625rem;
-
-  /* Elevation/Shadows (example) */
-  --shadow-soft: 0 2px 6px 0 rgba(var(--color-black), 0.3);
-
-  /* Glow (example) */
-  --glow-pulse: 0 0 10px rgba(var(--color-blue-500), 0.7);
+  color-scheme: dark light;
 }
 
-/* Semantic tokens - Default (Synthwave Noir) */
-:root {
-  /* Surface tokens */
-  --surface-0: 60 25 300; /* oklch format - keeping for now as per plan example */
-  --surface-1: 50 23 300; /* oklch format */
-  --surface-inverse: 95 1 315; /* oklch format */
-
-  /* Content tokens */
-  --text-primary: 95 1 315; /* oklch format */
-  --text-secondary: 85 5 310; /* oklch format */
-  --text-inverse: 60 25 300; /* oklch format */
-
-  /* Interactive tokens */
-  --accent: 70 30 330; /* oklch format */
-  --accent-hover: 75 32 330; /* oklch format */
-  --accent-active: 60 28 330; /* oklch format */
-
-  /* Decorative tokens */
-  --border-subtle: 179 153 204; /* Approximate RGB for 70 15 320 */
-  --shadow-soft: 0 2px 6px 0 oklch(0 0 0 / 0.3); /* oklch format */
-  --glow-pulse: 0 0 10px oklch(70 30 330); /* oklch format */
-
-  /* Status tokens */
-  --success: 80 20 140; /* oklch format */
-  --warning: 75 18 85; /* oklch format */
-  --error: 65 30 30; /* oklch format */
-
-  /* Mapping semantic tokens to base variables used by @layer base */
-  --background: var(--surface-0);
-  --foreground: var(--text-primary);
-  --border: var(--border-subtle);
-  --ring: var(--accent); /* Example mapping */
+/* Ensure smooth transitions between themes */
+* {
+  @apply transition-colors duration-200;
 }
 
-
-/* Terminal Mono theme */
-[data-theme="terminal-mono"] {
-  /* Surface tokens */
-  --surface-0: 10 2 280; /* oklch format */
-  --surface-1: 6 2 280; /* oklch format */
-  --surface-inverse: 85 1 100; /* oklch format */
-
-  /* Content tokens */
-  --text-primary: 85 1 100; /* oklch format */
-  --text-secondary: 75 2 110; /* oklch format */
-  --text-inverse: 10 2 280; /* oklch format */
-
-  /* Interactive tokens */
-  --accent: 65 18 90; /* oklch format */
-  --accent-hover: 70 20 90; /* oklch format */
-  --accent-active: 55 16 90; /* oklch format */
-
-  /* Decorative tokens */
-  --border-subtle: 153 179 153; /* Approximate RGB for 65 10 90 */
-  --shadow-soft: 0 2px 6px 0 oklch(0 0 0 / 0.3); /* oklch format */
-  --glow-pulse: 0 0 8px oklch(65 18 90); /* oklch format */
-
-  /* Status tokens */
-  --success: 70 15 140; /* oklch format */
-  --warning: 70 20 85; /* oklch format */
-  --error: 60 25 30; /* oklch format */
-
-  /* Mapping semantic tokens to base variables used by @layer base */
-  --background: var(--surface-0);
-  --foreground: var(--text-primary);
-  --border: var(--border-subtle);
-  --ring: var(--accent); /* Example mapping */
-}
-
-/* Paper Ledger theme */
-[data-theme="paper-ledger"] {
-  /* Surface tokens */
-  --surface-0: 94 2 90; /* oklch format */
-  --surface-1: 90 2 90; /* oklch format */
-  --surface-inverse: 25 1 70; /* oklch format */
-
-  /* Content tokens */
-  --text-primary: 25 1 70; /* oklch format */
-  --text-secondary: 40 2 75; /* oklch format */
-  --text-inverse: 94 2 90; /* oklch format */
-
-  /* Interactive tokens */
-  --accent: 60 16 40; /* oklch format */
-  --accent-hover: 65 17 40; /* oklch format */
-  --accent-active: 55 15 40; /* oklch format */
-
-  /* Decorative tokens */
-  --border-subtle: 153 128 102; /* Approximate RGB for 60 8 40 */
-  --shadow-soft: 0 1px 3px 0 oklch(0 0 0 / 0.12); /* oklch format */
-  --glow-pulse: 0 0 5px oklch(60 16 40 / 0.5); /* oklch format */
-
-  /* Status tokens */
-  --success: 65 15 140; /* oklch format */
-  --warning: 70 15 85; /* oklch format */
-  --error: 65 20 30; /* oklch format */
-
-  /* Mapping semantic tokens to base variables used by @layer base */
-  --background: var(--surface-0);
-  --foreground: var(--text-primary);
-  --border: var(--border-subtle);
-  --ring: var(--accent); /* Example mapping */
-}
-
+/* Base styles */
+html,
 body {
-  background-color: oklch(var(--surface-0-components));
-  color: oklch(var(--text-primary-components));
+  @apply antialiased min-h-screen;
 }
 
+/* Container for theme background effects */
 .theme-background {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
+  @apply fixed inset-0 -z-10;
+  background-color: oklch(var(--background));
 }
 
-/* Theme-specific background colors */
-.theme-background[data-theme='synthwave-noir'] {
-  background-color: oklch(var(--surface-0-components));
+/* Theme-specific background effects */
+[data-theme="synthwave-noir"] .theme-background::after {
+  content: "";
+  @apply absolute inset-0;
+  background: 
+    linear-gradient(
+      to bottom right,
+      oklch(var(--accent) / 0.1) 0%,
+      transparent 40%
+    );
+  mask-image: repeating-linear-gradient(
+    45deg,
+    #000 0%,
+    #000 2px,
+    transparent 2px,
+    transparent 8px
+  );
 }
 
-.theme-background[data-theme='terminal-mono'] {
-  background-color: oklch(var(--surface-0-components));
+[data-theme="terminal-mono"] .theme-background::after {
+  content: "";
+  @apply absolute inset-0;
+  background: repeating-linear-gradient(
+    0deg,
+    oklch(var(--text-primary) / 0.03) 0px,
+    oklch(var(--text-primary) / 0.03) 1px,
+    transparent 1px,
+    transparent 2px
+  );
 }
 
-.theme-background[data-theme='paper-ledger'] {
-  background-color: oklch(var(--surface-0-components));
+[data-theme="paper-ledger"] .theme-background::after {
+  content: "";
+  @apply absolute inset-0;
+  background-image: 
+    linear-gradient(
+      90deg,
+      oklch(var(--border-subtle) / 0.1) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      oklch(var(--border-subtle) / 0.1) 1px,
+      transparent 1px
+    );
+  background-size: 24px 24px;
 }

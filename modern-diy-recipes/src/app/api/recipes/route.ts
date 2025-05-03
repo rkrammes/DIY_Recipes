@@ -1,21 +1,42 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
-import type { Recipe } from '@/types/models';
+import { supabase } from '../../../lib/supabase';
+import type { Recipe } from '../../../types/models';
+
+// Add error logging
+const logError = (error: any) => {
+  console.error('API Error:', {
+    message: error.message,
+    details: error.details,
+    hint: error.hint,
+    code: error.code
+  });
+};
 
 export async function GET() {
   try {
+    console.log('Fetching recipes from Supabase...');
     const { data, error } = await supabase
       .from('recipes')
       .select('id, title')
       .order('created_at', { ascending: false });
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      logError(error);
+      return NextResponse.json({
+        error: error.message,
+        details: error.details,
+        hint: error.hint
+      }, { status: 500 });
     }
 
+    console.log('Successfully fetched recipes:', data?.length || 0);
     return NextResponse.json(data, { status: 200 });
-  } catch {
-    return NextResponse.json({ error: 'Unexpected server error' }, { status: 500 });
+  } catch (error: any) {
+    console.error('Unexpected error in GET /api/recipes:', error);
+    return NextResponse.json({
+      error: 'Unexpected server error',
+      details: error.message
+    }, { status: 500 });
   }
 }
 

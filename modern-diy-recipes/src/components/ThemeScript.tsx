@@ -1,12 +1,7 @@
 'use client';
-import { useEffect } from 'react';
 
+// This component injects a script into the document head to prevent FOUC
 export default function ThemeScript() {
-  useEffect(() => {
-    const theme = localStorage.getItem('theme') || 'synthwave-noir';
-    document.documentElement.setAttribute('data-theme', theme);
-  }, []);
-
   return (
     <script
       id="theme-script"
@@ -15,23 +10,23 @@ export default function ThemeScript() {
           (function() {
             try {
               const theme = localStorage.getItem('theme') || 'synthwave-noir';
-              document.documentElement.setAttribute('data-theme', theme);
+              const validThemes = ['synthwave-noir', 'terminal-mono', 'paper-ledger'];
               
-              // Listen for system preference changes
-              const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-              function handleChange() {
-                const storedTheme = localStorage.getItem('theme');
-                if (!storedTheme) {
-                  // Only apply if user hasn't explicitly chosen a theme
-                  document.documentElement.setAttribute(
-                    'data-theme', 
-                    mediaQuery.matches ? 'synthwave-noir' : 'paper-ledger'
-                  );
-                }
+              // Only apply if it's a valid theme
+              if (validThemes.includes(theme)) {
+                document.documentElement.setAttribute('data-theme', theme);
+              } else {
+                // Fallback to system preference
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.setAttribute(
+                  'data-theme',
+                  prefersDark ? 'synthwave-noir' : 'paper-ledger'
+                );
               }
-              mediaQuery.addEventListener('change', handleChange);
             } catch (e) {
-              console.error('Theme script error:', e);
+              console.warn('Theme initialization error:', e);
+              // Fallback to default theme
+              document.documentElement.setAttribute('data-theme', 'synthwave-noir');
             }
           })();
         `,

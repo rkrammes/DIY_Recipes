@@ -1,9 +1,5 @@
 // tailwind.config.ts
 import type { Config } from 'tailwindcss'
-import plugin from 'tailwindcss/plugin'
-
-const withOpacity = (variable: string) =>
-  `oklch(var(${variable}) / <alpha-value>)`;
 
 const config: Config = {
   content: [
@@ -15,37 +11,42 @@ const config: Config = {
       colors: {
         // Surface colors
         surface: {
-          DEFAULT: withOpacity('--surface-0'),
-          '1': withOpacity('--surface-1'),
-          'inverse': withOpacity('--surface-inverse'),
+          DEFAULT: 'oklch(var(--surface-0) / <alpha-value>)',
+          '1': 'oklch(var(--surface-1) / <alpha-value>)',
+          'inverse': 'oklch(var(--surface-inverse) / <alpha-value>)',
         },
         // Text colors
         text: {
-          DEFAULT: withOpacity('--text-primary'),
-          'secondary': withOpacity('--text-secondary'),
-          'inverse': withOpacity('--text-inverse'),
+          DEFAULT: 'oklch(var(--text-primary) / <alpha-value>)',
+          'secondary': 'oklch(var(--text-secondary) / <alpha-value>)',
+          'inverse': 'oklch(var(--text-inverse) / <alpha-value>)',
         },
         // Interactive colors
         accent: {
-          DEFAULT: withOpacity('--accent'),
-          'hover': withOpacity('--accent-hover'),
-          'active': withOpacity('--accent-active'),
+          DEFAULT: 'oklch(var(--accent) / <alpha-value>)',
+          'hover': 'oklch(var(--accent-hover) / <alpha-value>)',
+          'active': 'oklch(var(--accent-active) / <alpha-value>)',
         },
         // Status colors
         alert: {
-          'red': withOpacity('--error'),
-          'yellow': withOpacity('--warning'),
-          'green': withOpacity('--success'),
+          'red': 'oklch(var(--error) / <alpha-value>)',
+          'yellow': 'oklch(var(--warning) / <alpha-value>)',
+          'green': 'oklch(var(--success) / <alpha-value>)',
         },
       },
       backgroundColor: {
-        'bg-primary': withOpacity('--surface-0'),
-        'bg-secondary': withOpacity('--surface-1'),
-        'bg-inverse': withOpacity('--surface-inverse'),
-        'bg-overlay': withOpacity('--surface-1'),
+        DEFAULT: 'oklch(var(--background) / <alpha-value>)',
+        primary: 'oklch(var(--surface-0) / <alpha-value>)',
+        secondary: 'oklch(var(--surface-1) / <alpha-value>)',
+        inverse: 'oklch(var(--surface-inverse) / <alpha-value>)',
+        overlay: 'oklch(var(--surface-1) / <alpha-value>)',
       },
       borderColor: {
-        DEFAULT: withOpacity('--border-subtle'),
+        DEFAULT: 'oklch(var(--border) / <alpha-value>)',
+        subtle: 'oklch(var(--border-subtle) / <alpha-value>)',
+      },
+      ringColor: {
+        DEFAULT: 'oklch(var(--ring) / <alpha-value>)',
       },
       boxShadow: {
         'soft': 'var(--shadow-soft)',
@@ -61,17 +62,8 @@ const config: Config = {
     },
   },
   plugins: [
-    require('tailwindcss-animate'),
-    // Custom plugin for theme-specific variants
-    plugin(({ addVariant }) => {
-      // Add a variant for hover OR focus states
-      addVariant('hocus', ['&:hover', '&:focus']);
-
-      // Add theme-specific variants
-      addVariant('synthwave', '[data-theme="synthwave-noir"] &');
-      addVariant('terminal', '[data-theme="terminal-mono"] &');
-      addVariant('paper', '[data-theme="paper-ledger"] &');
-    }),
+    require('tailwindcss-animate')
+    // Removed custom plugin as theme variants are handled by data-theme attribute
   ],
 }
 

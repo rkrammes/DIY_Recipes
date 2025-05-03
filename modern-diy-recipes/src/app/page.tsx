@@ -90,34 +90,33 @@ export default function Home() {
     }
   }, [selectedId]); // Re-run when selectedId changes
 
-  if (loadingRecipes) return <div className="p-4">Loading recipes...</div>;
-  if (recipesError) return <div className="p-4 text-red-500">Error loading recipes: {recipesError}</div>;
-
+  if (loadingRecipes) return <div className="p-4 text-text">Loading recipes...</div>;
+  if (recipesError) return <div className="p-4 text-alert-red">Error loading recipes: {recipesError}</div>;
 
   return (
-    <div className="flex h-screen overflow-hidden">
-      <div className="flex-shrink-0 w-64 border-r border-gray-300 dark:border-gray-700 overflow-y-auto">
+    <div className="flex h-screen overflow-hidden bg-surface">
+      <div className="flex-shrink-0 w-64 border-r border-subtle overflow-y-auto">
         <RecipeList
           initialRecipes={recipes || []}
           selectedId={selectedId}
-          onSelect={setSelectedId} // Pass the state setter directly
+          onSelect={setSelectedId}
         />
       </div>
 
       <main className="flex-1 overflow-y-auto p-4">
-        {loadingDetails && <div>Loading recipe details...</div>}
-        {recipeDetailsError && <div className="text-red-500">Error loading recipe details: {recipeDetailsError}</div>}
+        {loadingDetails && <div className="text-text">Loading recipe details...</div>}
+        {recipeDetailsError && <div className="text-alert-red">Error loading recipe details: {recipeDetailsError}</div>}
         {selectedId && !loadingDetails && !recipeDetailsError && (
           <RecipeDetails
             recipeId={selectedId}
-            // Pass fetched details; RecipeDetails likely uses useRecipe hook internally now
-            // initialRecipeData={initialRecipeDetails} // This might be redundant if RecipeDetails fetches its own data
           />
         )}
-         {!selectedId && !loadingRecipes && !recipesError && <div className="p-4">Select a recipe to view details.</div>}
+        {!selectedId && !loadingRecipes && !recipesError && (
+          <div className="p-4 text-text-secondary">Select a recipe to view details.</div>
+        )}
       </main>
 
-      <div className="flex-shrink-0 w-64 border-l border-gray-300 dark:border-gray-700 overflow-y-auto">
+      <div className="flex-shrink-0 w-64 border-l border-subtle overflow-y-auto">
         <SettingsPanel />
       </div>
     </div>
