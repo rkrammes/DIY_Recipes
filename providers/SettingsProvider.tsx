@@ -1,5 +1,4 @@
 
-```typescript
 // DIY_Recipes/providers/SettingsProvider.tsx
 'use client';
 
@@ -51,4 +50,3 @@ export const useSettings = () => {
   }
   return context;
 };
-```
