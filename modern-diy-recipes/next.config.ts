@@ -43,6 +43,53 @@ const nextConfig: NextConfig = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  // Enhanced static serving configuration
+  experimental: {
+    // Enable streaming responses
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
+  },
+  // Configure proper MIME types
+  headers: async () => {
+    return [
+      {
+        source: '/fonts/:font*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+        ],
+      },
+      {
+        source: '/fonts/:font*.woff2',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'font/woff2',
+          },
+        ],
+      },
+      {
+        source: '/fonts/:font*.woff',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'font/woff',
+          },
+        ],
+      },
+    ];
+  },
+  // Ensure port 3000 is used
+  env: {
+    PORT: '3000',
+  },
 };
 
 export default nextConfig;

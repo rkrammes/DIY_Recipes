@@ -33,6 +33,7 @@ export default function RecipeList({
   const [recipes, setRecipes] = useState<RecipeListItem[] | null>(initialRecipes);
   const [error, setError] = useState<ErrorData | null>(initialError || null);
   const [loading, setLoading] = useState(false);
+  const [lastSelectedId, setLastSelectedId] = useState<string | null>(selectedId);
 
   // Function to retry fetching recipes from Supabase
   const retryFetchRecipes = async () => {
@@ -89,34 +90,77 @@ export default function RecipeList({
     return (
       <div className="w-full sm:w-64 md:w-72 border-r border-subtle p-4 bg-surface text-text">
         <p className="text-text-secondary text-sm">No recipes found.</p>
+        
+        {/* Hidden data for tests */}
+        <div style={{ display: 'none' }} data-testid="recipes-debug-info">
+          No recipes
+        </div>
       </div>
     );
   }
 
+  // Debug information
+  console.log('Rendering RecipeList with:', { 
+    recipeCount: recipes.length, 
+    firstRecipe: recipes[0]
+  });
+
   // Show the recipe list
   return (
-    <ul className="w-full sm:w-64 md:w-72 border-r border-subtle overflow-y-auto h-full bg-surface text-text">
-      {recipes.map((recipe: RecipeListItem) => (
-        <li
-          key={recipe.id}
-          onClick={() => {
-            try {
-              onSelect(recipe.id);
-              router.push(`/recipes/${recipe.id}`);
-            } catch (error) {
-              console.error(`Navigation error: ${error}`);
-            }
-          }}
-          className={`flex justify-between items-center cursor-pointer px-4 py-2 transition-colors duration-150 hover:bg-surface-1 ${
-            selectedId === recipe.id ? 'bg-accent text-text-inverse font-semibold' : ''
-          }`}
-          aria-current={selectedId === recipe.id ? 'page' : undefined}
-        >
-          <span className="truncate flex-grow">
-            {recipe.title || 'Untitled Recipe'}
-          </span>
-        </li>
-      ))}
+    <ul 
+      className="w-full sm:w-64 md:w-72 border-r border-subtle overflow-y-auto h-full bg-surface text-text"
+    >
+      {recipes.map((recipe: RecipeListItem) => {
+        // Ensure we have a valid recipe object with at least an id
+        if (!recipe || !recipe.id) {
+          console.warn("Invalid recipe object:", recipe);
+          return null;
+        }
+        
+        return (
+          <li
+            key={recipe.id}
+            data-testid="recipe-card"
+            onClick={() => {
+              try {
+                // If clicking on the same recipe again, trigger a refresh by briefly
+                // setting to null and then back to the ID
+                if (selectedId === recipe.id) {
+                  console.log(`Re-selecting same recipe: ${recipe.id} - will force refresh`);
+                  onSelect(null);
+                  
+                  // Brief delay to ensure state updates properly
+                  setTimeout(() => {
+                    onSelect(recipe.id);
+                    setLastSelectedId(recipe.id);
+                  }, 50);
+                } else {
+                  console.log(`Selecting recipe: ${recipe.id}`);
+                  onSelect(recipe.id);
+                  setLastSelectedId(recipe.id);
+                  router.push(`/recipes/${recipe.id}`);
+                }
+              } catch (error) {
+                console.error(`Navigation error: ${error}`);
+              }
+            }}
+            className={`flex justify-between items-center cursor-pointer px-4 py-2 transition-colors duration-150 hover:bg-surface-1 border-b border-subtle ${
+              selectedId === recipe.id ? 'bg-accent text-text-inverse font-semibold' : 'bg-surface-1'
+            }`}
+            aria-current={selectedId === recipe.id ? 'page' : undefined}
+          >
+            <span className="truncate flex-grow" data-testid="recipe-title">
+              {recipe.title || 'Untitled Recipe'}
+            </span>
+            
+            {selectedId === recipe.id && (
+              <span className="ml-2 text-xs opacity-70">
+                ⟳
+              </span>
+            )}
+          </li>
+        );
+      })}
     </ul>
   );
 }

@@ -4,6 +4,7 @@ import { AuthProvider } from "../providers/AuthProvider";
 import { FixedThemeProvider } from "../providers/FixedThemeProvider";
 import ClientFontsWrapper from "../components/ClientFontsWrapper";
 import "./globals.css";
+import "../styles/inline-fonts.css";
 
 export const metadata: Metadata = {
   title: "KRAFT_AI",

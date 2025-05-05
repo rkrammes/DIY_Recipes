@@ -27,7 +27,7 @@ export default function RecipeDetailsPage() {
   // Pass the fetched recipe data to RecipeDetails
   return (
     <div className="flex-1 overflow-y-auto p-4">
-      <RecipeDetails recipeId={recipeId} /> {/* RecipeDetails component will fetch its own data for now */}
+      <RecipeDetails recipeId={recipeId} initialRecipeData={recipe} />
     </div>
   );
 }

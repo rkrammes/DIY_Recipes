@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { RecipeIteration } from '../types/models';
 import { supabase } from '../lib/supabase';
+import { isMissingTableError } from '../lib/errorHandling';
 import { Button } from './ui/button'; // Assuming Button is in a ui directory
 
 interface RecipeIterationProps {
@@ -20,18 +21,31 @@ export default function RecipeIteration({
   useEffect(() => {
     const fetchIterations = async () => {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('recipe_iterations')
-        .select('*')
-        .eq('recipe_id', recipeId)
-        .order('version_number', { ascending: false });
+      try {
+        const { data, error } = await supabase
+          .from('recipe_iterations')
+          .select('*')
+          .eq('recipe_id', recipeId)
+          .order('version_number', { ascending: false });
 
-      if (error) {
-        console.error('Error fetching iterations:', error);
-      } else if (data) {
-        setIterations(data as RecipeIteration[]);
+        if (error) {
+          // Check for known missing table error 
+          if (isMissingTableError(error)) {
+            console.warn('Iterations feature unavailable, table does not exist:', error.message);
+          } else {
+            console.warn('Unable to fetch iterations, using empty set:', error.message);
+          }
+          // Always set empty iterations on error - no mock data
+          setIterations([]);
+        } else if (data) {
+          setIterations(data as RecipeIteration[]);
+        }
+      } catch (err) {
+        console.warn('Failed to fetch iterations, using empty set:', err);
+        setIterations([]);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     if (recipeId) {

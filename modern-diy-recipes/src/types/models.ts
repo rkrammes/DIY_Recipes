@@ -33,9 +33,10 @@ export interface TransformedIngredient {
   id: string;
   quantity: number;
   unit: string;
-  notes: string | null;
+  notes?: string | null;
   name: string | null;
   description: string | null;
+  recipe_ingredient_id: string;
 }
 
 export interface RecipeIteration {

@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
+import { fetchRecipes as fetchRecipesFromApi } from '@/lib/directApi'; // Import direct API as fallback
 import type { Recipe } from '@/types/models';
 
 export function useRecipes() {
@@ -10,15 +11,54 @@ export function useRecipes() {
   const fetchRecipes = useCallback(async () => {
     setLoading(true);
     try {
+      // Use Supabase client normally
       const { data, error: fetchError } = await supabase
         .from('recipes')
         .select('*')
         .order('created_at', { ascending: false });
 
       if (fetchError) {
+        // Check if it's a missing table error
+        if (fetchError.message && fetchError.message.includes('relation "public.recipes" does not exist')) {
+          console.warn('Recipes table does not exist:', fetchError.message);
+          setError('Recipes database table unavailable');
+          setRecipes([]);
+          return;
+        }
+        
         console.error('Supabase recipes fetch error:', fetchError.message);
         setError(fetchError.message);
-        setRecipes([]);
+        
+        // Try direct API as fallback when Supabase fails
+        try {
+          console.log('Attempting direct API fallback for recipes');
+          try {
+            const response = await fetch('/api/recipes');
+            if (response.ok) {
+              const data = await response.json();
+              if (data && data.length > 0) {
+                console.log('Successfully fetched recipes from direct API');
+                setRecipes(data);
+                setError(null);
+              } else {
+                console.log('Direct API returned empty recipe list');
+                setRecipes([]);
+                setError('No recipes found in the database');
+              }
+            } else {
+              console.error('Direct API returned error:', response.status);
+              setRecipes([]);
+              setError(`API Error: ${response.status} ${response.statusText}`);
+            }
+          } catch (fetchError) {
+            console.error('Error fetching from direct API:', fetchError);
+            setRecipes([]);
+            setError('Failed to connect to API server');
+          }
+        } catch (apiError) {
+          console.error('Direct API fallback also failed:', apiError);
+          setRecipes([]);
+        }
       } else {
         setRecipes(data || []);
         setError(null);
@@ -27,7 +67,37 @@ export function useRecipes() {
       const message = err instanceof Error ? err.message : 'Failed to fetch recipes';
       console.error('Error fetching recipes:', err);
       setError(message);
-      setRecipes([]);
+      
+      // Try direct API as final fallback
+      try {
+        console.log('Attempting direct API fallback for recipes after general error');
+        try {
+          const response = await fetch('/api/recipes');
+          if (response.ok) {
+            const data = await response.json();
+            if (data && data.length > 0) {
+              console.log('Successfully fetched recipes from direct API');
+              setRecipes(data);
+              setError(null);
+            } else {
+              console.log('Direct API returned empty recipe list');
+              setRecipes([]);
+              setError('No recipes found in the database');
+            }
+          } else {
+            console.error('Direct API returned error:', response.status);
+            setRecipes([]);
+            setError(`API Error: ${response.status} ${response.statusText}`);
+          }
+        } catch (fetchError) {
+          console.error('Error fetching from direct API:', fetchError);
+          setRecipes([]);
+          setError('Failed to connect to API server');
+        }
+      } catch (apiError) {
+        console.error('Direct API fallback also failed:', apiError);
+        setRecipes([]);
+      }
     } finally {
       setLoading(false);
     }

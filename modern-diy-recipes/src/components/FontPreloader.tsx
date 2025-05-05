@@ -26,15 +26,22 @@ export default function FontPreloader() {
           }
         };
 
-        // Only create preload link if URL is valid
-        const isValid = await checkFontUrl(url);
+        // Try direct URL first
+        let isValid = await checkFontUrl(url);
+        
+        // If invalid, try with cache-busting parameter
         if (!isValid) {
-          console.warn(`Skipping invalid font URL: ${url}`);
-          return;
+          const cacheBustUrl = `${url}?v=${Date.now()}`;
+          isValid = await checkFontUrl(cacheBustUrl);
+          if (!isValid) {
+            console.warn(`Font URL unavailable: ${url}`);
+            // Instead of returning, we'll still create a preload link and try loading
+            // The browser will handle fallbacks automatically if it fails
+          }
         }
 
         // Add version parameter to force cache refresh
-        const versionedUrl = `${url}?v=2`;
+        const versionedUrl = `${url}?v=${Date.now()}`;
         
         const link = document.createElement('link');
         link.rel = 'preload';
@@ -66,6 +73,13 @@ export default function FontPreloader() {
             
             // Create a font face with safe error handling
             try {
+              // Skip IBM Plex Mono fonts - they consistently fail to load
+              if (fontName === 'IBM Plex Mono') {
+                // Mark as failed immediately to use fallbacks
+                markFontAsFailed(fontName);
+                console.warn('Skipping IBM Plex Mono fonts to use fallbacks');
+              }
+              
               const font = new FontFace(fontName, fontDesc, { weight: fontWeight });
               const loadedFont = await font.load();
               document.fonts.add(loadedFont);
@@ -75,6 +89,11 @@ export default function FontPreloader() {
               
               // Fallback to system fonts if loading fails
               markFontAsFailed(fontName);
+              
+              // Add IBM Plex Mono fallback class to body for immediate use
+              if (fontName === 'IBM Plex Mono') {
+                document.body.classList.add('use-ibm-plex-mono-fallback');
+              }
             }
           } catch (error) {
             console.warn(`Error using Font Loading API for ${url}:`, error);

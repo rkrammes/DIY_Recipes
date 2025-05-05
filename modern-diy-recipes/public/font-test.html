@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Font Loading Test</title>
+  <script src="/font-loader.js"></script>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    
+    h1 { margin-bottom: 30px; }
+    
+    .font-test {
+      margin-bottom: 30px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    
+    .ibm-regular { font-family: 'IBM Plex Mono', monospace; font-weight: 400; }
+    .ibm-medium { font-family: 'IBM Plex Mono', monospace; font-weight: 500; }
+    .ibm-bold { font-family: 'IBM Plex Mono', monospace; font-weight: 700; }
+    .jetbrains { font-family: 'JetBrains Mono', monospace; }
+    .vga { font-family: 'VGA', monospace; }
+    .share-tech { font-family: 'Share Tech Mono', monospace; }
+    
+    .status {
+      padding: 10px;
+      margin-top: 20px;
+      background-color: #f8f9fa;
+      border-radius: 5px;
+    }
+    
+    .network-info {
+      margin-top: 30px;
+      font-size: 14px;
+    }
+    
+    .success { color: green; }
+    .error { color: red; }
+    
+    pre {
+      background-color: #f5f5f5;
+      padding: 15px;
+      overflow: auto;
+      font-family: monospace;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Font Loading Test Page</h1>
+  
+  <div class="status" id="fontStatus">
+    <p>Checking font loading status...</p>
+  </div>
+  
+  <div class="font-test">
+    <h2>IBM Plex Mono Regular (400)</h2>
+    <p class="ibm-regular">The quick brown fox jumps over the lazy dog. 1234567890</p>
+  </div>
+  
+  <div class="font-test">
+    <h2>IBM Plex Mono Medium (500)</h2>
+    <p class="ibm-medium">The quick brown fox jumps over the lazy dog. 1234567890</p>
+  </div>
+  
+  <div class="font-test">
+    <h2>IBM Plex Mono Bold (700)</h2>
+    <p class="ibm-bold">The quick brown fox jumps over the lazy dog. 1234567890</p>
+  </div>
+  
+  <div class="font-test">
+    <h2>JetBrains Mono</h2>
+    <p class="jetbrains">The quick brown fox jumps over the lazy dog. 1234567890</p>
+  </div>
+  
+  <div class="font-test">
+    <h2>VGA Font</h2>
+    <p class="vga">The quick brown fox jumps over the lazy dog. 1234567890</p>
+  </div>
+  
+  <div class="font-test">
+    <h2>Share Tech Mono</h2>
+    <p class="share-tech">The quick brown fox jumps over the lazy dog. 1234567890</p>
+  </div>
+  
+  <div class="network-info">
+    <h2>Font Network Requests</h2>
+    <div id="networkInfo">Loading network information...</div>
+  </div>
+  
+  <div class="debug-info">
+    <h2>Debug Information</h2>
+    <pre id="debugInfo">Loading debug information...</pre>
+  </div>
+  
+  <script>
+    // Wait for document to be fully loaded
+    window.addEventListener('load', () => {
+      // Update font status
+      const fontStatus = document.getElementById('fontStatus');
+      const networkInfo = document.getElementById('networkInfo');
+      const debugInfo = document.getElementById('debugInfo');
+      
+      // Check if fonts are loaded
+      if (document.documentElement.classList.contains('fonts-loaded')) {
+        fontStatus.innerHTML = '<p class="success">✅ Fonts loaded successfully!</p>';
+      } else {
+        fontStatus.innerHTML = '<p class="error">❌ Fonts failed to load. Check browser console for details.</p>';
+      }
+      
+      // Add event listener for custom fonts loaded event
+      document.addEventListener('fontsLoaded', () => {
+        fontStatus.innerHTML = '<p class="success">✅ Fonts loaded successfully via custom event!</p>';
+      });
+      
+      // Display network requests
+      setTimeout(() => {
+        try {
+          if (window.performance) {
+            const resources = performance.getEntriesByType('resource');
+            const fontRequests = resources.filter(r => 
+              r.name.includes('/fonts/') || 
+              r.name.includes('woff') || 
+              r.name.includes('woff2')
+            );
+            
+            if (fontRequests.length > 0) {
+              let html = '<ul>';
+              fontRequests.forEach(request => {
+                const status = request.duration > 0 ? 
+                  '<span class="success">✅ loaded</span>' : 
+                  '<span class="error">❌ failed</span>';
+                  
+                html += `<li>${request.name} - ${status} (${Math.round(request.duration)}ms)</li>`;
+              });
+              html += '</ul>';
+              networkInfo.innerHTML = html;
+            } else {
+              networkInfo.innerHTML = '<p class="error">No font requests detected.</p>';
+            }
+          } else {
+            networkInfo.innerHTML = '<p class="error">Performance API not available in this browser.</p>';
+          }
+        } catch (e) {
+          networkInfo.innerHTML = `<p class="error">Error analyzing network requests: ${e.message}</p>`;
+        }
+      }, 1000);
+      
+      // Display debug information
+      const debug = {
+        userAgent: navigator.userAgent,
+        domainName: window.location.hostname,
+        port: window.location.port,
+        protocol: window.location.protocol,
+        pathname: window.location.pathname,
+        fontsLoaded: document.documentElement.classList.contains('fonts-loaded'),
+        fontFaceSupported: 'FontFace' in window,
+        documentFontsSupported: document.fonts && typeof document.fonts.check === 'function',
+        isFontsLoaded: function() {
+          if (!this.documentFontsSupported) return 'API not supported';
+          return document.fonts.check('1em "IBM Plex Mono"') ? 'Yes' : 'No';
+        }
+      };
+      
+      debugInfo.textContent = JSON.stringify(debug, null, 2);
+    });
+  </script>
+</body>
+</html>

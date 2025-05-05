@@ -4,6 +4,40 @@ import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
 
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
+  const { pathname } = req.nextUrl;
+  
+  // Handle font files with proper MIME types
+  if (pathname.startsWith('/fonts/')) {
+    const response = NextResponse.next();
+    
+    // Set correct MIME type based on file extension
+    if (pathname.endsWith('.woff2')) {
+      response.headers.set('Content-Type', 'font/woff2');
+    } else if (pathname.endsWith('.woff')) {
+      response.headers.set('Content-Type', 'font/woff');
+    } else if (pathname.endsWith('.ttf')) {
+      response.headers.set('Content-Type', 'font/ttf');
+    } else if (pathname.endsWith('.otf')) {
+      response.headers.set('Content-Type', 'font/otf');
+    }
+    
+    // Set caching headers but allow revalidation for development
+    const cacheAge = process.env.NODE_ENV === 'development' 
+      ? '31536000, must-revalidate' // Allow revalidation in dev
+      : '31536000, immutable';      // Strict caching in production
+    
+    response.headers.set('Cache-Control', `public, max-age=${cacheAge}`);
+    
+    // Enable CORS for font files
+    response.headers.set('Access-Control-Allow-Origin', '*');
+    response.headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Accept');
+    
+    // Add Vary header to prevent caching issues
+    response.headers.set('Vary', 'Origin, Accept-Encoding');
+    
+    return response;
+  }
   
   // DEVELOPMENT MODE: Skip authentication check
   // This is a temporary change to get the server running
@@ -19,8 +53,8 @@ export async function middleware(req: NextRequest) {
       data: { session },
     } = await supabase.auth.getSession();
 
-    const publicPaths = ['/', '/signin', '/signup', '/_next', '/api', '/favicon.ico'];
-    const isPublic = publicPaths.some((path) => req.nextUrl.pathname.startsWith(path));
+    const publicPaths = ['/', '/signin', '/signup', '/_next', '/api', '/favicon.ico', '/fonts'];
+    const isPublic = publicPaths.some((path) => pathname.startsWith(path));
 
     if (!session && !isPublic) {
       const redirectUrl = req.nextUrl.clone();

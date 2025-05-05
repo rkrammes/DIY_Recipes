@@ -1,5 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { 
+  SUPABASE_URL, 
+  SUPABASE_ANON_KEY,
+  MAX_RETRIES,
+  BASE_RETRY_DELAY
+} from './supabaseConfig';
 
 // Database schema type - essential for type safety in Supabase operations
 interface Database {
@@ -120,51 +126,48 @@ interface Database {
 
 // Initialize the Supabase client
 const createSupabaseClient = () => {
-  // Check for required environment variables
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL) {
-    console.error('Missing NEXT_PUBLIC_SUPABASE_URL environment variable');
-    throw new Error('Supabase URL is required');
-  }
-
-  if (!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-    console.error('Missing NEXT_PUBLIC_SUPABASE_ANON_KEY environment variable');
-    throw new Error('Supabase Anon Key is required');
-  }
-
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  return createClient<Database>(supabaseUrl, supabaseAnonKey, {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true,
-      detectSessionInUrl: true
-    },
-    global: {
-      // Add retry logic for better network resilience
-      fetch: (url, options = {}) => {
-        const maxRetries = 3;
-        let retryCount = 0;
-        
-        const fetchWithRetry = async (): Promise<Response> => {
-          try {
-            return await fetch(url, options);
-          } catch (error) {
-            if (retryCount < maxRetries) {
-              retryCount++;
-              const delay = 200 * Math.pow(2, retryCount); // Exponential backoff
-              console.log(`Retrying fetch (${retryCount}/${maxRetries}) after ${delay}ms`);
-              await new Promise(resolve => setTimeout(resolve, delay));
-              return fetchWithRetry();
-            }
-            throw error;
-          }
-        };
-        
-        return fetchWithRetry();
-      }
+  try {
+    // Use the Supabase URL and key from configuration
+    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+      console.error('Supabase configuration missing');
+      throw new Error('Supabase URL and Anon Key are required');
     }
-  });
+
+    return createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true
+      },
+      global: {
+        // Add retry logic for better network resilience
+        fetch: (url, options = {}) => {
+          let retryCount = 0;
+          
+          const fetchWithRetry = async (): Promise<Response> => {
+            try {
+              return await fetch(url, options);
+            } catch (error) {
+              if (retryCount < MAX_RETRIES) {
+                retryCount++;
+                const delay = BASE_RETRY_DELAY * Math.pow(2, retryCount); // Exponential backoff
+                console.log(`Retrying fetch (${retryCount}/${MAX_RETRIES}) after ${delay}ms`);
+                await new Promise(resolve => setTimeout(resolve, delay));
+                return fetchWithRetry();
+              }
+              throw error;
+            }
+          };
+          
+          return fetchWithRetry();
+        }
+      }
+    });
+  } catch (error) {
+    console.error('Error creating Supabase client:', error);
+    console.error('No mock data fallback available');
+    throw new Error('Failed to initialize Supabase client. Supabase URL and Anon Key are required.');
+  }
 };
 
 // Create and export a singleton Supabase client instance

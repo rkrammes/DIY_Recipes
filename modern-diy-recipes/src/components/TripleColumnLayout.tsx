@@ -8,6 +8,7 @@ import { supabase } from '@/lib/supabase';
 import { useRecipes } from '@/hooks/useRecipes';
 import { useIngredients } from '@/hooks/useIngredients';
 import RecipeDetails from './RecipeDetails';
+import ErrorBoundary from './ErrorBoundary';
 
 // Navigation sections for the first column
 const SECTIONS = [
@@ -69,9 +70,24 @@ export default function TripleColumnLayout() {
   };
 
   // Handle item selection in second column
-  const handleItemSelect = (id: string) => {
+  const handleItemSelect = (id: string | null) => {
+    console.log(`Item selection changed: ${id === null ? 'null' : id}`);
+    
+    // Update the selected item ID
     setSelectedItemId(id);
-    if (audioEnabled) playSound('click');
+    
+    if (id !== null && audioEnabled) {
+      playSound('click');
+    }
+    
+    // For diagnostic purposes - track what happens during selection
+    if (id === null) {
+      console.log('Selection cleared temporarily - likely for refresh');
+    } else if (id === selectedItemId) {
+      console.log(`Re-selected same item: ${id} - this will refresh the details view`);
+    } else {
+      console.log(`New selection: ${id}`);
+    }
   };
 
   // Get items for the second column based on active section
@@ -124,7 +140,59 @@ export default function TripleColumnLayout() {
 
     switch (activeSection) {
       case 'recipes':
-        return <RecipeDetails recipeId={selectedItemId} />;
+        // If we have a selectedItemId but can't find the recipe in the list,
+        // just pass the ID to let RecipeDetails fetch it from the API
+        const selectedRecipe = recipes?.find(r => r.id === selectedItemId);
+        console.log("Selected recipe:", selectedRecipe || { id: selectedItemId, message: "Recipe data not available in list" });
+        
+        // Generate a unique component key that changes whenever the ID changes
+        // This ensures complete re-mounting of the component
+        const componentKey = `recipe-details-${selectedItemId}-${Date.now()}`;
+        
+        // We'll force a log of the recipe data to help debug
+        if (selectedRecipe) {
+          console.log("Recipe details being passed to RecipeDetails component:", JSON.stringify({
+            id: selectedRecipe.id,
+            title: selectedRecipe.title,
+            description: selectedRecipe.description,
+            ingredients: selectedRecipe.ingredients ? `${selectedRecipe.ingredients.length} ingredients` : 'no ingredients'
+          }, null, 2));
+        }
+        
+        return (
+          <ErrorBoundary fallback={
+            <div className="p-4 bg-surface-1 rounded-lg border border-border-subtle">
+              <h3 className="text-lg font-semibold mb-2">Error Loading Recipe</h3>
+              <p className="text-text-secondary mb-4">
+                There was a problem displaying the recipe details. 
+              </p>
+              <div className="flex space-x-2">
+                <button 
+                  onClick={() => {
+                    // Force refresh by cycling the selection
+                    setSelectedItemId(null);
+                    setTimeout(() => setSelectedItemId(selectedItemId), 100);
+                  }}
+                  className="px-3 py-1 bg-accent text-white rounded hover:bg-accent-hover"
+                >
+                  Retry
+                </button>
+                <button
+                  onClick={() => setSelectedItemId(null)}
+                  className="px-3 py-1 bg-surface-2 rounded hover:bg-surface-3"
+                >
+                  Clear Selection
+                </button>
+              </div>
+            </div>
+          }>
+            <RecipeDetails 
+              key={componentKey} // Force re-render with a truly unique key
+              recipeId={selectedItemId} 
+              initialRecipeData={selectedRecipe}
+            />
+          </ErrorBoundary>
+        );
       case 'ingredients':
         const ingredient = ingredients?.find(i => i.id === selectedItemId);
         return (
@@ -619,17 +687,20 @@ function SystemStatusText({ status }: { status: string }) {
                 {filteredItems.map((item, index) => (
                   <div
                     key={item.id}
-                    className={`px-3 py-1.5 cursor-pointer transition-colors ${
+                    className={`px-3 py-1.5 cursor-pointer transition-colors border-b border-border-subtle ${
                       selectedItemId === item.id 
                         ? 'bg-accent/20 text-accent' 
-                        : 'text-text-secondary hover:bg-surface-1'
+                        : 'text-text-secondary hover:bg-surface-1 bg-surface-1'
                     }`}
-                    onClick={() => handleItemSelect(item.id)}
+                    onClick={() => {
+                      console.log(`Clicked on recipe: ${item.id} - ${item.title || item.name}`);
+                      handleItemSelect(item.id);
+                    }}
                   >
-                    <div className="flex items-center">
+                    <div className="flex items-center" data-testid="recipe-card">
                       <span className="mr-2 font-bold">{selectedItemId === item.id ? '►' : `${index+1}.`}</span>
                       <div>
-                        <div className="font-medium truncate">{item.title || item.name}</div>
+                        <div className="font-medium truncate" data-testid="recipe-title">{item.title || item.name}</div>
                         {item.description && (
                           <div className="text-xs truncate opacity-80">{item.description}</div>
                         )}
@@ -656,7 +727,11 @@ function SystemStatusText({ status }: { status: string }) {
           <div className="border-b-2 border-border-subtle p-1 bg-surface-1">
             <div className="text-xs text-accent">┌──────────────────────────────────────────────────────────┐</div>
             <div className="px-2 text-sm text-accent font-bold">
-              ACTIVE DOCUMENT: {selectedItemId ? (filteredItems.find(i => i.id === selectedItemId)?.title || 'SELECTED ITEM') : 'NONE SELECTED'}
+              ACTIVE DOCUMENT: {selectedItemId ? (() => {
+                // Force re-evaluation of title each time by getting latest data
+                const item = filteredItems.find(i => i.id === selectedItemId);
+                return item?.title || item?.name || 'SELECTED ITEM';
+              })() : 'NONE SELECTED'}
             </div>
             <div className="text-xs text-accent">└──────────────────────────────────────────────────────────┘</div>
           </div>

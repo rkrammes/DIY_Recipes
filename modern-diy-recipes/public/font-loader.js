@@ -23,8 +23,8 @@
   const TIMEOUT_MS = 2000; // 2 second timeout for font loading
   
   // Font server fallback configuration
-  const FALLBACK_FONT_SERVER = 'http://localhost:3000';
-  console.log('🔍 Font loader initialized with fallback support');
+  const FALLBACK_FONT_SERVER = window.ENV?.FONT_SERVER_URL || 'http://localhost:3000';
+  console.log(`🔍 Font loader initialized with fallback support: ${FALLBACK_FONT_SERVER}`);
 
   // List of fonts to load with weights
   const fontsToLoad = [

@@ -21,20 +21,35 @@ export function useRecipeIteration(initialRecipeId?: string) {
         .eq('recipe_id', recipeId)
         .order('version_number', { ascending: false });
 
-      if (error) throw error;
-
-      const fetchedIterations = data as RecipeIteration[] || [];
-      setIterations(fetchedIterations);
-      if (fetchedIterations.length > 0) {
-        setCurrentIteration(fetchedIterations[0]);
+      if (error) {
+        // Check if this is a missing table error
+        if (error.message && error.message.includes('relation "public.recipe_iterations" does not exist')) {
+          console.warn('Recipe iterations table does not exist, using empty set:', error.message);
+          setIterations([]);
+          setCurrentIteration(null);
+          setError(new Error('Recipe iterations feature unavailable'));
+        } else {
+          console.error('Error fetching recipe iterations:', error.message);
+          setError(error);
+          setIterations([]);
+          setCurrentIteration(null);
+        }
       } else {
-        setCurrentIteration(null);
+        const fetchedIterations = data as RecipeIteration[] || [];
+        setIterations(fetchedIterations);
+        if (fetchedIterations.length > 0) {
+          setCurrentIteration(fetchedIterations[0]);
+        } else {
+          setCurrentIteration(null);
+        }
+        console.log(`Fetched ${fetchedIterations.length} iterations for recipe ${recipeId}`);
+        setError(null);
       }
-      console.log(`Fetched ${fetchedIterations.length} iterations for recipe ${recipeId}`);
-
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Failed to fetch recipe iterations'));
       console.error('Error fetching recipe iterations:', err);
+      setIterations([]);
+      setCurrentIteration(null);
     } finally {
       setIsLoading(false);
     }
@@ -65,8 +80,23 @@ export function useRecipeIteration(initialRecipeId?: string) {
         .select()
         .single();
 
-      if (error) throw error;
-      if (!data) throw new Error('Failed to create new iteration');
+      if (error) {
+        // Check if this is a missing table error
+        if (error.message && error.message.includes('relation "public.recipe_iterations" does not exist')) {
+          console.warn('Recipe iterations table does not exist, cannot create iteration:', error.message);
+          setError(new Error('Recipe iterations feature unavailable'));
+        } else {
+          console.error('Error creating new iteration:', error.message);
+          setError(error);
+        }
+        return null;
+      }
+      
+      if (!data) {
+        const err = new Error('Failed to create new iteration');
+        setError(err);
+        return null;
+      }
 
       const createdIteration = data as RecipeIteration;
 
@@ -75,6 +105,7 @@ export function useRecipeIteration(initialRecipeId?: string) {
       setIterations(prev => [createdIteration, ...prev].sort((a, b) => b.version_number - a.version_number));
       setCurrentIteration(createdIteration);
       console.log('Created new iteration:', createdIteration);
+      setError(null);
       return createdIteration;
 
     } catch (err) {
@@ -97,8 +128,23 @@ export function useRecipeIteration(initialRecipeId?: string) {
         .select()
         .single();
 
-      if (error) throw error;
-      if (!data) throw new Error('Failed to update iteration details');
+      if (error) {
+        // Check if this is a missing table error
+        if (error.message && error.message.includes('relation "public.recipe_iterations" does not exist')) {
+          console.warn('Recipe iterations table does not exist, cannot update iteration:', error.message);
+          setError(new Error('Recipe iterations feature unavailable'));
+        } else {
+          console.error('Error updating iteration details:', error.message);
+          setError(error);
+        }
+        return null;
+      }
+      
+      if (!data) {
+        const err = new Error('Failed to update iteration details');
+        setError(err);
+        return null;
+      }
 
       const updatedIteration = data as RecipeIteration;
 
@@ -108,6 +154,7 @@ export function useRecipeIteration(initialRecipeId?: string) {
         setCurrentIteration(updatedIteration);
       }
       console.log(`Updated iteration ${iterationId} details:`, details);
+      setError(null);
       return updatedIteration;
 
     } catch (err) {

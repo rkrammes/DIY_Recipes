@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { AISuggestion } from '../types/models';
 import { supabase } from '../lib/supabase';
+import { isMissingTableError } from '../lib/errorHandling';
 
 interface AISuggestionsProps {
   recipeId: string;
@@ -13,22 +14,37 @@ export default function AISuggestions({ recipeId }: AISuggestionsProps) {
   useEffect(() => {
     const fetchSuggestions = async () => {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('recipe_ai_suggestions')
-        .select('*')
-        .eq('recipe_id', recipeId)
-        .order('created_at', { ascending: false });
+      try {
+        const { data, error } = await supabase
+          .from('recipe_ai_suggestions')
+          .select('*')
+          .eq('recipe_id', recipeId)
+          .order('created_at', { ascending: false });
 
-      if (error) {
-        console.error('Error fetching AI suggestions:', error);
-      } else if (data) {
-        setSuggestions(data as AISuggestion[]);
+        if (error) {
+          // Check for known missing table error
+          if (isMissingTableError(error)) {
+            console.warn('AI suggestions feature unavailable, table does not exist:', error.message);
+          } else {
+            console.warn('Unable to fetch AI suggestions, using empty set:', error.message);
+          }
+          // Always set empty suggestions on error - no mock data
+          setSuggestions([]);
+        } else if (data) {
+          setSuggestions(data as AISuggestion[]);
+        }
+      } catch (err) {
+        console.warn('Failed to fetch AI suggestions, using empty set:', err);
+        setSuggestions([]);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     if (recipeId) {
       fetchSuggestions();
+    } else {
+      setLoading(false);
     }
   }, [recipeId]);
 
