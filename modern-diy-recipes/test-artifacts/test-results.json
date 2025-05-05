@@ -1,0 +1,80 @@
+{
+  "home": {
+    "navigationLoaded": true,
+    "contentLoaded": true,
+    "hydrationErrors": false,
+    "consoleErrors": [],
+    "themeSwitchingWorks": false,
+    "screenshots": [
+      {
+        "name": "Initial Page Load",
+        "path": "./test-artifacts/home-initial.png"
+      },
+      {
+        "name": "After Theme Toggle",
+        "path": "./test-artifacts/home-theme-toggled.png"
+      }
+    ]
+  },
+  "context7": {
+    "navigationLoaded": true,
+    "contentLoaded": true,
+    "hydrationErrors": false,
+    "consoleErrors": [],
+    "themeSwitchingWorks": false,
+    "screenshots": [
+      {
+        "name": "Initial Page Load",
+        "path": "./test-artifacts/context7-initial.png"
+      },
+      {
+        "name": "After Theme Toggle",
+        "path": "./test-artifacts/context7-theme-toggled.png"
+      }
+    ]
+  },
+  "theme-demo": {
+    "navigationLoaded": true,
+    "contentLoaded": true,
+    "hydrationErrors": false,
+    "consoleErrors": [],
+    "themeSwitchingWorks": false,
+    "screenshots": [
+      {
+        "name": "Initial Page Load",
+        "path": "./test-artifacts/theme-demo-initial.png"
+      },
+      {
+        "name": "After Theme Toggle",
+        "path": "./test-artifacts/theme-demo-theme-toggled.png"
+      }
+    ]
+  },
+  "fixed-layout": {
+    "navigationLoaded": true,
+    "contentLoaded": true,
+    "hydrationErrors": false,
+    "consoleErrors": [],
+    "themeSwitchingWorks": false,
+    "screenshots": [
+      {
+        "name": "Initial Page Load",
+        "path": "./test-artifacts/fixed-layout-initial.png"
+      },
+      {
+        "name": "After Theme Toggle",
+        "path": "./test-artifacts/fixed-layout-theme-toggled.png"
+      }
+    ]
+  },
+  "circularDeps": {
+    "correctOrder": true,
+    "noCircularErrors": true,
+    "themePropagation": false
+  },
+  "ssr": {
+    "contentLoads": false,
+    "noHydrationMismatches": true,
+    "browserAPIsClientOnly": false
+  }
+}

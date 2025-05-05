@@ -2,8 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import theme tokens */
+/* Import theme tokens, animations, and fonts */
 @import '../styles/tokens.css';
+@import '../styles/animations.css';
+@import '../styles/fonts.css';
+@import '../styles/font-loading.css';
+@import '../styles/theme-typography.css';
+@import '../styles/themed-icons.css';
+
+/* Import new enhanced theme styles */
+@import '../styles/hackers-theme.css';
+@import '../styles/matrix-dystopia-theme.css';
+@import '../styles/modern-scifi-theme.css';
 
 /* Prevent FOUC by setting initial theme */
 :root {
@@ -19,75 +29,149 @@
 html,
 body {
   @apply antialiased min-h-screen;
-  background-color: oklch(var(--surface-0-components));
-  color: oklch(var(--text-primary-components));
+  background-color: oklch(var(--surface-0));
+  color: oklch(var(--text-primary));
 }
 
 /* Container for theme background effects */
 .theme-background {
   @apply fixed inset-0 -z-10;
-  background-color: oklch(var(--surface-0-components));
+  background-color: oklch(var(--surface-0));
   transition: background-color 0.3s ease-in-out;
 }
 
-/* Theme-specific background effects */
-[data-theme="synthwave-noir"] .theme-background::after {
+/* Hackers Theme - Cyberpunk grid background with neon glow */
+[data-theme="hackers"] .theme-background::before,
+[data-theme="synthwave-noir"] .theme-background::before {
   content: "";
   @apply absolute inset-0;
   background: 
-    linear-gradient(
-      to bottom right,
-      oklch(var(--accent) / 0.1) 0%,
-      transparent 40%
+    radial-gradient(
+      circle at 50% 50%,
+      oklch(var(--accent) / 0.2) 0%,
+      transparent 70%
     );
-  mask-image: repeating-linear-gradient(
-    45deg,
-    #000 0%,
-    #000 2px,
-    transparent 2px,
-    transparent 8px
-  );
-  animation: neonPulse 3s ease-in-out infinite alternate;
+  opacity: var(--neon-intensity);
 }
 
-[data-theme="terminal-mono"] .theme-background::after {
+[data-theme="hackers"] .theme-background::after,
+[data-theme="synthwave-noir"] .theme-background::after {
   content: "";
   @apply absolute inset-0;
-  background: repeating-linear-gradient(
-    0deg,
-    oklch(var(--text-primary) / 0.03) 0px,
-    oklch(var(--text-primary) / 0.03) 1px,
-    transparent 1px,
-    transparent 2px
-  );
-  animation: scanline 10s linear infinite;
-}
-
-[data-theme="paper-ledger"] .theme-background::after {
-  content: "";
-  @apply absolute inset-0;
+  /* Cyberpunk grid with perspective */
   background-image: 
     linear-gradient(
       90deg,
-      oklch(var(--border-subtle) / 0.1) 1px,
+      oklch(var(--accent) / var(--grid-opacity)) 1px,
       transparent 1px
     ),
     linear-gradient(
-      oklch(var(--border-subtle) / 0.1) 1px,
+      oklch(var(--accent) / var(--grid-opacity)) 1px,
       transparent 1px
     );
-  background-size: 24px 24px;
+  background-size: 40px 40px;
+  transform: perspective(500px) rotateX(60deg);
+  transform-origin: center top;
+  height: 100%;
+  top: 40%;
+  animation: gridPulse 8s ease-in-out infinite alternate;
+}
+
+/* Dystopia Theme - Terminal with scanlines and flicker */
+[data-theme="dystopia"] .theme-background::before,
+[data-theme="terminal-mono"] .theme-background::before {
+  content: "";
+  @apply absolute inset-0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    oklch(var(--text-primary) / 0.03) 50%,
+    transparent 100%
+  );
+  background-size: 100% 4px;
+  animation: scanlineSlide 6s linear infinite;
+  opacity: var(--scanline-opacity);
+}
+
+[data-theme="dystopia"] .theme-background::after,
+[data-theme="terminal-mono"] .theme-background::after {
+  content: "";
+  @apply absolute inset-0;
+  /* CRT scanlines */
+  background: repeating-linear-gradient(
+    0deg,
+    oklch(var(--text-primary) / var(--scanline-opacity)) 0px,
+    oklch(var(--text-primary) / var(--scanline-opacity)) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  animation: terminalFlicker 10s step-end infinite;
+}
+
+/* Neotopia Theme - Clean and minimal with subtle texture */
+[data-theme="neotopia"] .theme-background::before,
+[data-theme="paper-ledger"] .theme-background::before {
+  content: "";
+  @apply absolute inset-0;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAFVklEQVR4XpWWB67c2BUFb3g557T/hRo9/WUMZHlgr4Bg8Z4qQgQJlHI4A8SzFVrapvmTF9O7dmYRFZ60YiBhJRCgh1FYhiLAmdvX0CzTOpNE77ME0Zty/nWWzchDtiqrmsR7h7yKTw88jfSHkQQF7HA0YV/tK7xUmZjVdEu1YBay3pVrE9k84bhXHs45wWt7+9lOIkXZbG4MfDj+dUK01L3RmrdHSEu/7W+yHo70MJHiU3Zhnj5I+DHIIVMYKYJv9eKnYxXZbWSFpV39PFwDKX6pkLPkNyJP2G0h8R32W9jvQ2OiWBY5cQ5woVDK6HQWcUE+XE7cZBnUE+oz0hXpCvvCWsDsBNX+Q3cfwL8s1aUj1XbToQol7tRO+vO4CAPLRlihcVYc5WQPzAkYZJIykBparxGsSdgu1qggUJQHKPiOD34/WL8aLERWl4Ovj9Xymk5jY5HwcAOMP3HYHDwSBxCG/HuD4Rj6iLQh63QZZX+VVL0rz9/p2KvzHI+4YN2FrMZ+bLjvZzLIz3DZpqYGiNiQFXm1CZTuG7HjY6YcuGQPsvmLwFc4vU8iPZsHsIZtLS781xQ0rccIe6WfJ0Y1o/rT8G6MmMmEczoXqPRx8zV3Csv5RwT/AP8FkEjYRi0Kr8XKUgj/QHv5yaclWaMI4ch8oxEWdWT+HMAarVW8J9dEXxEfAEoQ2ZP2Eh8U5ZGAQVJ4e3d2QM+Lf8TsCQN74/4cz4XmDcZ89BZOY7yjYrBefbH28K8/FadVs1A2kqrGE+dCdDQ2HrtweiHnNJxL+ZywOCJ2R9tHXeLx7Qrs8Z50AcQXiCgDX0+yNjXJtuMgy5Rj5kN0C5kZsIg5A9CMkQpDV1YRZc87DOyPAAQwC6YfFOZtS815erkYH3onsNBLYaGJ4Z001Vb54p7Ncf0St3U95+bvWF73bZqxKlpAoFzAwCKYkZYmml9uLkNh0UTi/6DoTXxhd0wCZCa2QSzYlOX0MZK6poCz+XT2dhu3UZDrXcxJJIk0CoSi4DyzpXG7bisBJIpFmb7pkTD/Yiaw5MuRpRzwHYIX8rZw64C7ny2JY1KHzVB9b7UpyMKPt0u9ss0CoV9HEDFf32A7j8DTuAkpky/kGeSYA9wcQI+jvv6YD1ieJR8xTUlzHUkI=");
+  opacity: var(--paper-texture-opacity, 0.03);
+}
+
+[data-theme="neotopia"] .theme-background::after,
+[data-theme="paper-ledger"] .theme-background::after {
+  content: "";
+  @apply absolute inset-0;
+  /* Subtle grid lines */
+  background-image: 
+    linear-gradient(
+      90deg,
+      oklch(var(--border-subtle) / 0.07) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      oklch(var(--border-subtle) / 0.07) 1px,
+      transparent 1px
+    );
+  background-size: 30px 30px;
+}
+
+/* Theme-specific text effects */
+[data-theme="hackers"] *::selection,
+[data-theme="synthwave-noir"] *::selection {
+  background: oklch(var(--accent) / 0.5);
+  text-shadow: 0 0 8px oklch(var(--accent));
+}
+
+[data-theme="dystopia"] *::selection,
+[data-theme="terminal-mono"] *::selection {
+  background: oklch(var(--text-primary) / 0.3);
+}
+
+[data-theme="neotopia"] *::selection,
+[data-theme="paper-ledger"] *::selection {
+  background: oklch(var(--accent) / 0.2);
 }
 
 /* Theme transition animations */
+@keyframes gridPulse {
+  0%, 100% { opacity: var(--grid-opacity); transform: perspective(500px) rotateX(60deg) translateZ(0px); }
+  50% { opacity: calc(var(--grid-opacity) * 1.5); transform: perspective(500px) rotateX(60deg) translateZ(10px); }
+}
+
 @keyframes neonPulse {
   0%, 100% { opacity: 0.8; }
   50% { opacity: 1; }
 }
 
-@keyframes scanline {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
+@keyframes scanlineSlide {
+  0% { transform: translateY(-100vh); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes terminalFlicker {
+  0%, 5%, 10%, 100% { opacity: 1; }
+  3%, 9% { opacity: 0.8; }
 }
 
 /* Reduced motion preferences */

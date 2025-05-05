@@ -1,0 +1,182 @@
+/* Theme-specific typography styles */
+
+/* Base typography styles for all themes */
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Heading styles */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  line-height: 1.2;
+}
+
+/* Code styles */
+code, pre, .code {
+  font-family: var(--font-mono);
+}
+
+/* Display text */
+.display-text {
+  font-family: var(--font-display);
+}
+
+/* Terminal text */
+.terminal-text {
+  font-family: var(--font-terminal);
+}
+
+/* Hackers Terminal Theme Typography - Modern hacker aesthetic with JetBrains Mono */
+[data-theme="hackers"], [data-theme="synthwave-noir"] {
+  /* Sharper, more geometric appearance */
+  --letter-spacing-tight: -0.01em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.02em;
+  --glow-intensity: 0.8;
+}
+
+[data-theme="hackers"] body, [data-theme="synthwave-noir"] body {
+  letter-spacing: var(--letter-spacing-normal);
+  font-feature-settings: "liga" 0, "calt" 1; /* Disable ligatures, enable contextual alternates */
+}
+
+[data-theme="hackers"] h1, 
+[data-theme="hackers"] h2, 
+[data-theme="hackers"] h3,
+[data-theme="synthwave-noir"] h1, 
+[data-theme="synthwave-noir"] h2, 
+[data-theme="synthwave-noir"] h3 {
+  letter-spacing: var(--letter-spacing-tight);
+  text-transform: uppercase;
+  font-weight: 700;
+  font-family: 'Share Tech Mono', monospace; /* Use Share Tech Mono for headings */
+}
+
+[data-theme="hackers"] .display-text,
+[data-theme="synthwave-noir"] .display-text {
+  letter-spacing: var(--letter-spacing-wide);
+  font-weight: 600;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+[data-theme="hackers"] code, 
+[data-theme="hackers"] pre, 
+[data-theme="hackers"] .code,
+[data-theme="synthwave-noir"] code, 
+[data-theme="synthwave-noir"] pre, 
+[data-theme="synthwave-noir"] .code {
+  font-size: 0.95em;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Dystopian Noir Theme Typography - Authentic 80s terminal look with VGA font */
+[data-theme="dystopia"], [data-theme="terminal-mono"] {
+  /* Pixelated, retro terminal look */
+  --letter-spacing-mono: 0.05em;
+  --text-shadow: 0 0 2px currentColor;
+}
+
+[data-theme="dystopia"] body,
+[data-theme="terminal-mono"] body {
+  letter-spacing: var(--letter-spacing-mono);
+  font-variant-numeric: tabular-nums; /* Monospaced numbers */
+  font-family: 'VGA', monospace; /* Use VGA for body text */
+  font-feature-settings: "kern" 0; /* Disable kerning for more authentic terminal look */
+}
+
+[data-theme="dystopia"] h1, 
+[data-theme="dystopia"] h2, 
+[data-theme="dystopia"] h3,
+[data-theme="terminal-mono"] h1, 
+[data-theme="terminal-mono"] h2, 
+[data-theme="terminal-mono"] h3 {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: 'VGA', monospace;
+}
+
+[data-theme="dystopia"] .terminal-text,
+[data-theme="terminal-mono"] .terminal-text {
+  font-size: 1.05em;
+  font-family: 'VGA', monospace;
+}
+
+[data-theme="dystopia"] .display-text,
+[data-theme="terminal-mono"] .display-text {
+  text-shadow: var(--text-shadow);
+  letter-spacing: 0.1em;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+/* Neotopia Light Theme Typography - Clean IBM Plex Mono for modern interface */
+[data-theme="neotopia"], [data-theme="paper-ledger"] {
+  /* Clean, modern, professional look */
+  --letter-spacing-tight: -0.01em;
+  --line-height-tight: 1.4;
+}
+
+[data-theme="neotopia"] body,
+[data-theme="paper-ledger"] body {
+  font-weight: 400;
+  line-height: 1.6;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+[data-theme="neotopia"] h1, 
+[data-theme="neotopia"] h2, 
+[data-theme="neotopia"] h3,
+[data-theme="paper-ledger"] h1, 
+[data-theme="paper-ledger"] h2, 
+[data-theme="paper-ledger"] h3 {
+  font-weight: 500;
+  letter-spacing: var(--letter-spacing-tight);
+  line-height: var(--line-height-tight);
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+[data-theme="neotopia"] .display-text,
+[data-theme="paper-ledger"] .display-text {
+  font-weight: 500;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Special utility classes for font weights */
+.font-light {
+  font-weight: 300;
+}
+
+.font-regular {
+  font-weight: 400;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+/* Support for legacy theme names */
+[data-theme="synthwave-noir"] {
+  composes: [data-theme="hackers"];
+}
+
+[data-theme="terminal-mono"] {
+  composes: [data-theme="dystopia"];
+}
+
+[data-theme="paper-ledger"] {
+  composes: [data-theme="neotopia"];
+}

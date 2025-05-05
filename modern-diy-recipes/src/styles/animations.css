@@ -1,0 +1,314 @@
+/* Theme-specific animations and effects */
+
+/* Common animations (apply regardless of theme) */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Cursor blink animation - shared but theme-specific styling */
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* Hackers Theme - Cyberpunk/synthwave aesthetic */
+[data-theme="hackers"] {
+  /* Text glow effect */
+  .text-shadow-glow {
+    text-shadow: 0 0 5px oklch(var(--accent)/0.7);
+  }
+  
+  /* Neon border effect */
+  .border-glow {
+    box-shadow: 0 0 5px 2px oklch(var(--accent)/0.6);
+  }
+  
+  /* Hue shift animation for accents */
+  @keyframes hueShift {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+  }
+  
+  /* Neon pulse animation */
+  @keyframes neonPulse {
+    0%, 100% { 
+      text-shadow:
+        0 0 3px oklch(var(--text-primary)/0.8),
+        0 0 6px oklch(var(--accent)/0.6),
+        0 0 10px oklch(var(--accent)/0.4);
+    }
+    50% { 
+      text-shadow:
+        0 0 5px oklch(var(--text-primary)/1.0),
+        0 0 10px oklch(var(--accent)/0.8),
+        0 0 15px oklch(var(--accent)/0.6);
+    }
+  }
+  
+  .animation-hue-shift {
+    animation: hueShift 10s infinite linear;
+  }
+  
+  /* Subtle CRT scanline effect */
+  .crt-scanlines {
+    background-image: repeating-linear-gradient(
+      0deg,
+      oklch(var(--text-primary)/0.03),
+      oklch(var(--text-primary)/0.03) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+  }
+  
+  /* Grid background effect */
+  .grid-background {
+    background-image: 
+      linear-gradient(oklch(var(--accent)/0.1) 1px, transparent 1px),
+      linear-gradient(90deg, oklch(var(--accent)/0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  
+  /* Neon text that pulses */
+  .neon-text {
+    color: oklch(var(--text-primary));
+    text-shadow:
+      0 0 3px oklch(var(--text-primary)/0.8),
+      0 0 6px oklch(var(--accent)/0.6),
+      0 0 10px oklch(var(--accent)/0.4);
+    animation: neonPulse 3s infinite alternate ease-in-out;
+  }
+  
+  /* Hologram effect */
+  .hologram {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .hologram::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      oklch(var(--accent)/0.1),
+      transparent
+    );
+    animation: hologramScan 4s linear infinite;
+    transform: rotate(30deg);
+    pointer-events: none;
+  }
+  
+  @keyframes hologramScan {
+    0% { transform: translateY(-100%) rotate(30deg); }
+    100% { transform: translateY(100%) rotate(30deg); }
+  }
+  
+  /* Typing text cursor */
+  .typing::after {
+    content: '|';
+    animation: blink 1s step-end infinite;
+    color: oklch(var(--text-primary));
+  }
+  
+  /* Button hover effect */
+  .button-hover {
+    transition: all 0.2s ease;
+  }
+  
+  .button-hover:hover {
+    box-shadow: 0 0 10px oklch(var(--accent)/0.7);
+    transform: translateY(-2px);
+  }
+  
+  /* Support legacy theme name */
+  [data-theme="synthwave-noir"] & {
+    color: inherit;
+  }
+}
+
+/* Dystopia Theme - Terminal/retro computer aesthetic */
+[data-theme="dystopia"] {
+  /* Flicker animation */
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    3% { opacity: 0.8; }
+    6% { opacity: 1; }
+    7% { opacity: 0.9; }
+    9% { opacity: 1; }
+    18% { opacity: 1; }
+    20% { opacity: 0.8; }
+    21% { opacity: 1; }
+    55% { opacity: 1; }
+    56% { opacity: 0.9; }
+    57% { opacity: 1; }
+    88% { opacity: 1; }
+    89% { opacity: 0.9; }
+    91% { opacity: 1; }
+  }
+  
+  .animation-flicker {
+    animation: flicker 4s infinite;
+  }
+  
+  /* Scanlines effect */
+  .terminal-scanlines {
+    background-image: repeating-linear-gradient(
+      0deg,
+      oklch(var(--text-primary)/0.05),
+      oklch(var(--text-primary)/0.05) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+  }
+  
+  /* Cursor blink animation */
+  .cursor-blink::after {
+    content: '_';
+    animation: blink 1s step-end infinite;
+    color: oklch(var(--text-primary));
+  }
+  
+  /* Terminal typing effect */
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+  
+  .typing-effect {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 0.15em solid oklch(var(--text-primary));
+    animation: 
+      typing 3.5s steps(40, end),
+      blink 0.75s step-end infinite;
+  }
+  
+  /* Ghost text effect */
+  .ghost-text {
+    text-shadow: var(--ghost-text-offset, 1px) var(--ghost-text-offset, 1px) 0 oklch(var(--text-primary)/0.3);
+  }
+  
+  /* Old monitor effect */
+  .old-monitor {
+    border: 2px solid oklch(var(--text-primary)/0.7);
+    box-shadow: 
+      inset 0 0 30px oklch(var(--text-primary)/0.1),
+      0 0 10px oklch(var(--text-primary)/0.2);
+    border-radius: 10px;
+    padding: 20px;
+    background-color: oklch(var(--surface-0)/0.7);
+  }
+  
+  /* Support legacy theme name */
+  [data-theme="terminal-mono"] & {
+    color: inherit;
+  }
+}
+
+/* Neotopia Theme - Clean, minimal, light theme */
+[data-theme="neotopia"] {
+  /* Paper texture effect */
+  .paper-texture {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAFVklEQVR4XpWWB67c2BUFb3g557T/hRo9/WUMZHlgr4Bg8Z4qQgQJlHI4A8SzFVrapvmTF9O7dmYRFZ60YiBhJRCgh1FYhiLAmdvX0CzTOpNE77ME0Zty/nWWzchDtiqrmsR7h7yKTw88jfSHkQQF7HA0YV/tK7xUmZjVdEu1YBay3pVrE9k84bhXHs45wWt7+9lOIkXZbG4MfDj+dUK01L3RmrdHSEu/7W+yHo70MJHiU3Zhnj5I+DHIIVMYKYJv9eKnYxXZbWSFpV39PFwDKX6pkLPkNyJP2G0h8R32W9jvQ2OiWBY5cQ5woVDK6HQWcUE+XE7cZBnUE+oz0hXpCvvCWsDsBNX+Q3cfwL8s1aUj1XbToQol7tRO+vO4CAPLRlihcVYc5WQPzAkYZJIykBparxGsSdgu1qggUJQHKPiOD34/WL8aLERWl4Ovj9Xymk5jY5HwcAOMP3HYHDwSBxCG/HuD4Rj6iLQh63QZZX+VVL0rz9/p2KvzHI+4YN2FrMZ+bLjvZzLIz3DZpqYGiNiQFXm1CZTuG7HjY6YcuGQPsvmLwFc4vU8iPZsHsIZtLS781xQ0rccIe6WfJ0Y1o/rT8G6MmMmEczoXqPRx8zV3Csv5RwT/AP8FkEjYRi0Kr8XKUgj/QHv5yaclWaMI4ch8oxEWdWT+HMAarVW8J9dEXxEfAEoQ2ZP2Eh8U5ZGAQVJ4e3d2QM+Lf8TsCQN74/4cz4XmDcZ89BZOY7yjYrBefbH28K8/FadVs1A2kqrGE+dCdDQ2HrtweiHnNJxL+ZywOCJ2R9tHXeLx7Qrs8Z50AcQXiCgDX0+yNjXJtuMgy5Rj5kN0C5kZsIg5A9CMkQpDV1YRZc87DOyPAAQwC6YfFOZtS815erkYH3onsNBLYaGJ4Z001Vb54p7Ncf0St3U95+bvWF73bZqxKlpAoFzAwCKYkZYmml9uLkNh0UTi/6DoTXxhd0wCZCa2QSzYlOX0MZK6poCz+XT2dhu3UZDrXcxJJIk0CoSi4DyzpXG7bisBJIpFmb7pkTD/Yiaw5MuRpRzwHYIX8rZw64C7ny2JY1KHzVB9b7UpyMKPt0u9ss0CoV9HEDFf32A7j8DTuAkpky/kGeSYA9wcQI+jvv6YD1ieJR8xTUlzHUkI=");
+    background-blend-mode: multiply;
+  }
+  
+  /* Embossed text effect */
+  .text-emboss {
+    text-shadow: 
+      0 1px 1px oklch(var(--surface-0)/1.0),
+      0 -1px 1px oklch(var(--text-secondary)/0.3);
+  }
+  
+  /* Subtle fade animation */
+  @keyframes subtleFade {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.9; }
+  }
+  
+  .animation-subtle-fade {
+    animation: subtleFade 3s ease-in-out infinite;
+  }
+  
+  /* Ruled lines background */
+  .ruled-lines {
+    background-image: linear-gradient(
+      0deg,
+      transparent 39px,
+      oklch(var(--text-secondary)/0.1) 40px
+    );
+    background-size: 100% 40px;
+  }
+  
+  /* Subtle hover effect */
+  .subtle-hover {
+    transition: all 0.2s ease;
+  }
+  
+  .subtle-hover:hover {
+    background-color: oklch(var(--surface-1)/0.5);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px oklch(0% 0 0 / 0.05);
+  }
+  
+  /* Cursor for this theme */
+  .cursor-blink::after {
+    content: '|';
+    animation: blink 1s step-end infinite;
+    color: oklch(var(--accent));
+  }
+  
+  /* Clean card effect */
+  .clean-card {
+    border-radius: 8px;
+    border: 1px solid oklch(var(--border-subtle));
+    background-color: oklch(var(--surface-0));
+    box-shadow: 0 2px 8px oklch(0% 0 0 / 0.05);
+    transition: all 0.2s ease;
+  }
+  
+  .clean-card:hover {
+    box-shadow: 0 4px 12px oklch(0% 0 0 / 0.08);
+    transform: translateY(-2px);
+  }
+  
+  /* Support legacy theme name */
+  [data-theme="paper-ledger"] & {
+    color: inherit;
+  }
+}
+
+/* Motion reduction */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

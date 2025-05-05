@@ -1,0 +1,418 @@
+/* Modern Sci-Fi Theme - Inspired by clean, futuristic interfaces */
+[data-theme="neotopia"] {
+  /* Modern sci-fi color palette */
+  --scifi-white: 98% 0.01 230;
+  --scifi-light-blue: 95% 0.05 230;
+  --scifi-blue: 55% 0.15 230;
+  --scifi-deep-blue: 40% 0.2 230;
+  --scifi-accent-blue: 60% 0.25 230;
+  --scifi-text: 20% 0.02 240;
+  --scifi-dark: 15% 0.02 240;
+  
+  /* Surface tokens - Clean, minimal whites with blue tint */
+  --surface-0: var(--scifi-white);
+  --surface-1: var(--scifi-light-blue);
+  --surface-inverse: var(--scifi-dark);
+  
+  /* Content tokens - Sharp, clear text */
+  --text-primary: var(--scifi-text);
+  --text-secondary: 40% 0.05 230;
+  --text-inverse: var(--scifi-white);
+  
+  /* Interactive tokens - Vibrant blue accents */
+  --accent: var(--scifi-accent-blue);
+  --accent-hover: 65% 0.3 230;
+  --accent-active: 50% 0.2 230;
+  
+  /* Decorative tokens */
+  --border-subtle: var(--scifi-blue) / 0.2;
+  --shadow-soft: 0 5px 20px oklch(var(--scifi-blue) / 0.1);
+  --glow-pulse: 0 0 10px oklch(var(--scifi-accent-blue) / 0.3);
+  
+  /* Status tokens */
+  --success: 60% 0.2 150; /* Tech green */
+  --warning: 70% 0.2 80; /* Tech amber */
+  --error: 65% 0.25 30; /* Tech red */
+  
+  /* Theme-specific effect values */
+  --neon-intensity: 0;
+  --bloom-radius: 0;
+  --grid-opacity: 0;
+  --scanline-opacity: 0;
+  --flicker-intensity: 0;
+  --hologram-effect: 1;
+  --tech-lines: 1;
+  
+  /* Typography - Modern, clean sans-serif with monospaced */
+  --font-body: 'Inter', -apple-system, system-ui, sans-serif;
+  --font-heading: 'Inter', -apple-system, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Inter', -apple-system, system-ui, sans-serif;
+  --font-terminal: 'JetBrains Mono', monospace;
+  --letter-spacing-display: -0.03em;
+  --letter-spacing-body: -0.01em;
+  --letter-spacing-code: 0;
+}
+
+/* Modern Sci-Fi background with subtle grid */
+[data-theme="neotopia"] .theme-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    linear-gradient(
+      to bottom right,
+      oklch(var(--scifi-white)),
+      oklch(var(--scifi-light-blue))
+    );
+  z-index: -2;
+}
+
+/* Add subtle techlines in background */
+[data-theme="neotopia"] .theme-background::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    linear-gradient(90deg, oklch(var(--scifi-blue) / 0.05) 1px, transparent 1px),
+    linear-gradient(0deg, oklch(var(--scifi-blue) / 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: -1px -1px;
+  opacity: 0.5;
+  z-index: -1;
+}
+
+/* Clean, subtle box shadows */
+[data-theme="neotopia"] .border,
+[data-theme="neotopia"] .border-border-subtle {
+  border-color: oklch(var(--scifi-blue) / 0.15) !important;
+  box-shadow: 
+    0 2px 10px oklch(var(--scifi-blue) / 0.05),
+    0 0 1px oklch(var(--scifi-blue) / 0.1);
+}
+
+/* Panel backgrounds with subtle gradient */
+[data-theme="neotopia"] .bg-surface-0 {
+  background: linear-gradient(
+    to bottom right,
+    oklch(var(--scifi-white)) 0%,
+    oklch(var(--scifi-light-blue)) 100%
+  ) !important;
+}
+
+[data-theme="neotopia"] .bg-surface-1 {
+  background: linear-gradient(
+    to bottom right,
+    oklch(var(--scifi-light-blue)) 0%,
+    oklch(92% 0.07 230) 100%
+  ) !important;
+}
+
+[data-theme="neotopia"] .bg-surface-2 {
+  background: linear-gradient(
+    to bottom right,
+    oklch(93% 0.06 230) 0%,
+    oklch(90% 0.08 230) 100%
+  ) !important;
+}
+
+/* Modern selection style */
+[data-theme="neotopia"] *::selection {
+  background: oklch(var(--scifi-blue) / 0.2);
+}
+
+/* Beautiful, clean inputs */
+[data-theme="neotopia"] input,
+[data-theme="neotopia"] textarea,
+[data-theme="neotopia"] select {
+  background-color: oklch(var(--scifi-white)) !important;
+  border: 1px solid oklch(var(--scifi-blue) / 0.2) !important;
+  color: oklch(var(--scifi-text)) !important;
+  border-radius: 4px !important;
+  transition: all 0.2s ease;
+}
+
+[data-theme="neotopia"] input:focus,
+[data-theme="neotopia"] textarea:focus,
+[data-theme="neotopia"] select:focus {
+  border-color: oklch(var(--scifi-accent-blue)) !important;
+  box-shadow: 0 0 0 2px oklch(var(--scifi-accent-blue) / 0.2);
+}
+
+/* Beautiful buttons with hover effects */
+[data-theme="neotopia"] button {
+  background: linear-gradient(
+    to bottom right,
+    oklch(var(--scifi-blue)) 0%,
+    oklch(var(--scifi-deep-blue)) 100%
+  ) !important;
+  border: none !important;
+  color: white !important;
+  border-radius: 4px !important;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+[data-theme="neotopia"] button:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    oklch(var(--scifi-white) / 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+[data-theme="neotopia"] button:hover:before {
+  left: 100%;
+}
+
+[data-theme="neotopia"] button:hover {
+  box-shadow: 0 5px 15px oklch(var(--scifi-blue) / 0.3);
+  transform: translateY(-1px);
+}
+
+[data-theme="neotopia"] button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px oklch(var(--scifi-blue) / 0.2);
+}
+
+/* Modern, clean headings */
+[data-theme="neotopia"] h1,
+[data-theme="neotopia"] h2,
+[data-theme="neotopia"] h3,
+[data-theme="neotopia"] h4 {
+  color: oklch(var(--scifi-deep-blue));
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+
+/* Data visualization elements */
+[data-theme="neotopia"] .data-viz-line {
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    oklch(var(--scifi-blue)) 0%,
+    oklch(var(--scifi-accent-blue)) 100%
+  );
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+[data-theme="neotopia"] .data-viz-line::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    oklch(var(--scifi-white) / 0.5),
+    transparent
+  );
+  animation: scifiDataPulse 3s infinite;
+}
+
+@keyframes scifiDataPulse {
+  0% { left: -30%; }
+  100% { left: 130%; }
+}
+
+/* High-tech scroll bars */
+[data-theme="neotopia"] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+[data-theme="neotopia"] ::-webkit-scrollbar-track {
+  background: oklch(var(--scifi-light-blue));
+  border-radius: 4px;
+}
+
+[data-theme="neotopia"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    oklch(var(--scifi-blue)),
+    oklch(var(--scifi-deep-blue))
+  );
+  border-radius: 4px;
+}
+
+[data-theme="neotopia"] ::-webkit-scrollbar-thumb:hover {
+  background: oklch(var(--scifi-accent-blue));
+}
+
+/* Futuristic badges */
+[data-theme="neotopia"] .badge,
+[data-theme="neotopia"] [class*="badge"] {
+  background: linear-gradient(
+    135deg,
+    oklch(var(--scifi-blue)) 0%,
+    oklch(var(--scifi-accent-blue)) 100%
+  ) !important;
+  border-radius: 12px !important;
+  padding: 2px 8px !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.03em !important;
+  text-transform: uppercase !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 5px oklch(var(--scifi-blue) / 0.2) !important;
+}
+
+/* Status indicators with subtle animations */
+[data-theme="neotopia"] .status-indicator {
+  position: relative;
+  display: inline-block;
+}
+
+[data-theme="neotopia"] .status-indicator::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+  position: relative;
+  top: -1px;
+}
+
+[data-theme="neotopia"] .status-indicator.online::before {
+  background: linear-gradient(oklch(var(--success)), oklch(var(--success) / 0.8));
+  box-shadow: 0 0 5px oklch(var(--success) / 0.5);
+  animation: scifiPulse 2s infinite;
+}
+
+[data-theme="neotopia"] .status-indicator.warning::before {
+  background: linear-gradient(oklch(var(--warning)), oklch(var(--warning) / 0.8));
+  box-shadow: 0 0 5px oklch(var(--warning) / 0.5);
+  animation: scifiPulse 1s infinite;
+}
+
+[data-theme="neotopia"] .status-indicator.error::before {
+  background: linear-gradient(oklch(var(--error)), oklch(var(--error) / 0.8));
+  box-shadow: 0 0 5px oklch(var(--error) / 0.5);
+  animation: scifiPulse 0.5s infinite;
+}
+
+@keyframes scifiPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.1); }
+}
+
+/* Transition effects */
+[data-theme="neotopia"] * {
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Holographic elements - add data-hologram attribute to activate */
+[data-theme="neotopia"] [data-hologram] {
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="neotopia"] [data-hologram]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    oklch(var(--scifi-blue) / 0.05) 50%,
+    transparent 100%
+  );
+  animation: scifiHologram 10s infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+[data-theme="neotopia"] [data-hologram]::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    oklch(var(--scifi-white) / 0.15),
+    transparent
+  );
+  transform: skewX(-20deg);
+  animation: scifiHologramScan 6s infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@keyframes scifiHologram {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+@keyframes scifiHologramScan {
+  0% { left: -150%; }
+  50%, 100% { left: 150%; }
+}
+
+/* Add data-tech-panel attribute for a more technical panel */
+[data-theme="neotopia"] [data-tech-panel] {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid oklch(var(--scifi-blue) / 0.2) !important;
+  border-radius: 4px;
+  background: linear-gradient(
+    to bottom right,
+    oklch(var(--scifi-light-blue) / 0.7) 0%,
+    oklch(var(--scifi-white)) 100%
+  ) !important;
+  box-shadow: 
+    0 5px 15px oklch(var(--scifi-blue) / 0.05),
+    0 0 0 1px oklch(var(--scifi-blue) / 0.05);
+}
+
+[data-theme="neotopia"] [data-tech-panel]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    oklch(var(--scifi-blue)) 0%,
+    oklch(var(--scifi-accent-blue)) 100%
+  );
+}
+
+[data-theme="neotopia"] [data-tech-panel]::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    oklch(var(--scifi-blue) / 0.3) 20%,
+    oklch(var(--scifi-accent-blue) / 0.7) 100%
+  );
+}

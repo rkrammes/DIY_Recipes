@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File-Based Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 { color: #2c3e50; }
+        pre { background: #eee; padding: 10px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DIY Recipes - File-Based Test</h1>
+        <p>This is a static HTML file you can open directly in your browser to test if local file access works properly.</p>
+        
+        <h2>Test JavaScript</h2>
+        <div id="js-test">JavaScript is disabled or not working.</div>
+        
+        <h2>Browser Information</h2>
+        <pre id="browser-info">Loading browser information...</pre>
+        
+        <h2>Troubleshooting Steps</h2>
+        <p>If you can see this page but not the localhost server, try the following:</p>
+        <ol>
+            <li>Open a new Terminal window and run: <code>python3 -m http.server 8000</code></li>
+            <li>Try accessing <a href="http://localhost:8000">http://localhost:8000</a></li>
+            <li>Check if you have any VPN or proxy services active</li>
+            <li>Try a different browser</li>
+            <li>Check System Preferences → Security & Privacy → Firewall settings</li>
+        </ol>
+    </div>
+
+    <script>
+        // Test that JavaScript is working
+        document.getElementById('js-test').textContent = 'JavaScript is working!';
+        
+        // Display browser information
+        const browserInfo = document.getElementById('browser-info');
+        browserInfo.textContent = `
+User Agent: ${navigator.userAgent}
+Platform: ${navigator.platform}
+Cookies Enabled: ${navigator.cookieEnabled}
+Language: ${navigator.language}
+Current URL: ${window.location.href}
+`;
+
+        // Add a click event to test interactivity
+        document.querySelector('h1').addEventListener('click', function() {
+            alert('HTML file is fully functional!');
+        });
+    </script>
+</body>
+</html>

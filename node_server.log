@@ -1,0 +1,12 @@
+Server starting at 2025-05-03T22:58:34.270Z
+PID: 6942
+
+2025-05-03T22:58:34.287Z - Server running at http://localhost:3000/
+2025-05-03T22:58:34.288Z - Server running at http://127.0.0.1:3000/
+2025-05-03T22:58:34.289Z - Server process ID: 6942
+2025-05-03T22:59:04.278Z - Server still running
+2025-05-03T22:59:22.134Z - Received GET request for /
+2025-05-03T22:59:22.375Z - Received GET request for /favicon.ico
+2025-05-03T22:59:34.280Z - Server still running
+2025-05-03T23:00:04.281Z - Server still running
+2025-05-03T23:00:34.282Z - Server still running

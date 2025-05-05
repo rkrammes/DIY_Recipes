@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test</title>
+</head>
+<body>
+    <h1>API Test</h1>
+    <button id="testIngredients">Test Ingredients API</button>
+    <button id="testRecipes">Test Recipes API</button>
+    <div id="result" style="margin-top: 20px; white-space: pre-wrap;"></div>
+
+    <script>
+        document.getElementById('testIngredients').addEventListener('click', async () => {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = 'Testing ingredients API...';
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/ingredients');
+                const data = await response.json();
+                
+                resultDiv.textContent = `Success! Found ${data.length} ingredients:\n${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}`;
+            }
+        });
+
+        document.getElementById('testRecipes').addEventListener('click', async () => {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = 'Testing recipes API...';
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/recipes');
+                const data = await response.json();
+                
+                resultDiv.textContent = `Success! Found ${data.length} recipes:\n${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                resultDiv.textContent = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>

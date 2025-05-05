@@ -68,10 +68,17 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
     }
   };
 
+  // Debug information
+  console.log('RecipeDetails props:', { recipeId, initialRecipeData });
+  console.log('Recipe state:', { recipe, loading, error });
+  
   if (!recipeId) return <div className="p-4">Select a recipe to view details.</div>;
   if (loading) return <div className="p-4">Loading recipe...</div>;
   if (error) return <div className="p-4 text-red-500">Error: {error}</div>;
   if (!recipe) return <div className="p-4">Recipe not found.</div>;
+  
+  // Log what ingredients we have
+  console.log('Recipe ingredients for rendering:', recipe.ingredients);
 
   return (
     <ErrorBoundary>
@@ -104,15 +111,17 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
                   </tr>
                 </thead>
                 <tbody>
-                  {recipe.ingredients?.map((ing) => (
-                    <tr key={ing.id} className="even:bg-surface odd:bg-surface-1">
-                      <td className="border border-subtle px-2 py-1 text-text-secondary">
-                        {ing.name || 'Unknown Ingredient'}
-                      </td>
-                      <td className="border border-subtle px-2 py-1 text-text-secondary">{ing.quantity}</td>
-                      <td className="border border-subtle px-2 py-1 text-text-secondary">{ing.unit}</td>
-                    </tr>
-                  )) ?? (
+                  {recipe.ingredients && recipe.ingredients.length > 0 ? (
+                    recipe.ingredients.map((ing) => (
+                      <tr key={ing.id} className="even:bg-surface odd:bg-surface-1">
+                        <td className="border border-subtle px-2 py-1 text-text-secondary">
+                          {ing.name || 'Unknown Ingredient'}
+                        </td>
+                        <td className="border border-subtle px-2 py-1 text-text-secondary">{ing.quantity}</td>
+                        <td className="border border-subtle px-2 py-1 text-text-secondary">{ing.unit}</td>
+                      </tr>
+                    ))
+                  ) : (
                     <tr>
                       <td colSpan={3} className="border border-subtle px-2 py-1 text-center text-text-secondary">
                         No ingredients found.

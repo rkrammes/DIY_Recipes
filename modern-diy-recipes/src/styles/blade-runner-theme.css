@@ -1,0 +1,423 @@
+/* Blade Runner Theme - Inspired by Blade Runner and cyberpunk aesthetics */
+[data-theme="dystopia"] {
+  /* Blade Runner neon color palette */
+  --bladerunner-black: 5% 0.02 0;
+  --bladerunner-dark: 10% 0.05 0;
+  --bladerunner-blue: 55% 0.15 220;
+  --bladerunner-cyan: 65% 0.2 200;
+  --bladerunner-magenta: 60% 0.25 330;
+  --bladerunner-orange: 65% 0.25 50;
+  --bladerunner-red: 60% 0.3 20;
+  
+  /* Surface tokens - Deep, dark nighttime cityscape */
+  --surface-0: var(--bladerunner-black);
+  --surface-1: var(--bladerunner-dark);
+  --surface-inverse: 90% 0.01 0;
+  
+  /* Content tokens - Neon blue text */
+  --text-primary: var(--bladerunner-cyan);
+  --text-secondary: 50% 0.1 200;
+  --text-inverse: var(--bladerunner-black);
+  
+  /* Interactive tokens - Neon pink/magenta accents */
+  --accent: var(--bladerunner-magenta);
+  --accent-hover: 65% 0.28 330;
+  --accent-active: 55% 0.22 330;
+  
+  /* Decorative tokens */
+  --border-subtle: var(--bladerunner-blue) / 0.4;
+  --shadow-soft: 0 0 15px oklch(var(--bladerunner-cyan) / 0.3);
+  --glow-pulse: 0 0 20px oklch(var(--bladerunner-magenta) / 0.5);
+  
+  /* Status tokens */
+  --success: 60% 0.2 140; /* Neon green */
+  --warning: var(--bladerunner-orange); /* Neon orange */
+  --error: var(--bladerunner-red); /* Neon red */
+  
+  /* Theme-specific effect values */
+  --neon-intensity: 0.6;
+  --bloom-radius: 2px;
+  --scanline-opacity: 0.07;
+  --flicker-intensity: 0.7;
+  --cyberpunk-grid: 1;
+  --rain-effect: 1;
+  
+  /* Typography - Cyberpunk style */
+  --font-body: 'Share Tech Mono', monospace;
+  --font-heading: 'Share Tech Mono', monospace;
+  --font-mono: 'Share Tech Mono', monospace;
+  --font-display: 'Share Tech Mono', monospace;
+  --font-terminal: 'Share Tech Mono', monospace;
+  --letter-spacing-display: 0.05em;
+  --letter-spacing-body: 0.03em;
+  --letter-spacing-code: 0.05em;
+}
+
+/* Blade Runner cityscape background */
+[data-theme="dystopia"] .theme-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    linear-gradient(
+      0deg,
+      oklch(var(--bladerunner-black)) 0%,
+      oklch(10% 0.05 220) 100%
+    );
+  opacity: 0.95;
+  z-index: -2;
+}
+
+/* Blade Runner rain effect */
+[data-theme="dystopia"] .theme-background::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    linear-gradient(to bottom, 
+      transparent 0%, 
+      oklch(var(--bladerunner-cyan) / 0.05) 100%
+    ),
+    linear-gradient(to right,
+      transparent 0%,
+      oklch(var(--bladerunner-magenta) / 0.02) 20%,
+      transparent 40%,
+      oklch(var(--bladerunner-cyan) / 0.02) 60%,
+      transparent 80%
+    );
+  opacity: 0.7;
+  animation: bladeRunnerRain 8s linear infinite;
+  z-index: -1;
+}
+
+/* Scanlines over everything for that analog display look */
+[data-theme="dystopia"] body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 2px,
+    oklch(var(--bladerunner-blue) / 0.03) 3px,
+    transparent 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.3;
+  animation: bladeRunnerScanlines 10s linear infinite;
+}
+
+/* Rain animation */
+@keyframes bladeRunnerRain {
+  0% {
+    background-position: 0 0, 0 0;
+  }
+  100% {
+    background-position: 0 100vh, 100vw 0;
+  }
+}
+
+/* Scanline animation */
+@keyframes bladeRunnerScanlines {
+  0% {
+    opacity: 0.25;
+    background-position: 0 0%;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.25;
+    background-position: 0 100%;
+  }
+}
+
+/* Neon glow effect for headings */
+[data-theme="dystopia"] h1,
+[data-theme="dystopia"] h2,
+[data-theme="dystopia"] h3,
+[data-theme="dystopia"] .text-accent,
+[data-theme="dystopia"] [class*="text-"]:not(.text-text-secondary) {
+  text-shadow: 
+    0 0 5px oklch(var(--bladerunner-magenta) / 0.7),
+    0 0 10px oklch(var(--bladerunner-magenta) / 0.5);
+}
+
+/* Add data-neon attribute to any element for extra neon effect */
+[data-theme="dystopia"] [data-neon="blue"] {
+  text-shadow: 
+    0 0 5px oklch(var(--bladerunner-blue) / 0.7),
+    0 0 10px oklch(var(--bladerunner-blue) / 0.5);
+}
+
+[data-theme="dystopia"] [data-neon="red"] {
+  text-shadow: 
+    0 0 5px oklch(var(--bladerunner-red) / 0.7),
+    0 0 10px oklch(var(--bladerunner-red) / 0.5);
+}
+
+[data-theme="dystopia"] [data-neon="magenta"] {
+  text-shadow: 
+    0 0 5px oklch(var(--bladerunner-magenta) / 0.7),
+    0 0 10px oklch(var(--bladerunner-magenta) / 0.5);
+}
+
+/* Text selection style */
+[data-theme="dystopia"] *::selection {
+  background: oklch(var(--bladerunner-magenta) / 0.3);
+  text-shadow: 0 0 8px oklch(var(--bladerunner-cyan));
+}
+
+/* Cyberpunk grid panels */
+[data-theme="dystopia"] .border {
+  border-color: oklch(var(--bladerunner-cyan) / 0.4) !important;
+  box-shadow: 
+    inset 0 0 10px oklch(var(--bladerunner-cyan) / 0.1),
+    0 0 5px oklch(var(--bladerunner-magenta) / 0.2);
+}
+
+[data-theme="dystopia"] .border-border-subtle {
+  border-color: oklch(var(--bladerunner-blue) / 0.5) !important;
+}
+
+[data-theme="dystopia"] .bg-surface-1 {
+  background: linear-gradient(
+    135deg,
+    oklch(var(--bladerunner-dark)) 0%,
+    oklch(13% 0.08 220) 100%
+  ) !important;
+  box-shadow: inset 0 0 20px oklch(var(--bladerunner-black));
+}
+
+[data-theme="dystopia"] .bg-surface-2 {
+  background: linear-gradient(
+    45deg,
+    oklch(var(--bladerunner-dark)) 0%,
+    oklch(15% 0.1 220) 100%
+  ) !important;
+  box-shadow: inset 0 0 20px oklch(var(--bladerunner-black));
+}
+
+/* Animated neon pulsing elements */
+[data-theme="dystopia"] .animate-pulse {
+  animation: bladeRunnerNeonPulse 3s infinite;
+}
+
+@keyframes bladeRunnerNeonPulse {
+  0%, 100% {
+    opacity: 0.8;
+    text-shadow: 
+      0 0 5px oklch(var(--bladerunner-magenta) / 0.7),
+      0 0 10px oklch(var(--bladerunner-magenta) / 0.5);
+  }
+  50% {
+    opacity: 1;
+    text-shadow: 
+      0 0 10px oklch(var(--bladerunner-magenta) / 0.9),
+      0 0 20px oklch(var(--bladerunner-magenta) / 0.7),
+      0 0 30px oklch(var(--bladerunner-magenta) / 0.5);
+  }
+}
+
+/* VHS-style glitch effect for important UI elements */
+[data-theme="dystopia"] .glitch-text {
+  position: relative;
+  animation: bladeRunnerGlitch 5s infinite;
+}
+
+[data-theme="dystopia"] .glitch-text::before,
+[data-theme="dystopia"] .glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+[data-theme="dystopia"] .glitch-text::before {
+  left: -2px;
+  text-shadow: 2px 0 oklch(var(--bladerunner-red) / 0.7);
+  animation: bladeRunnerGlitchTop 10s infinite linear alternate-reverse;
+}
+
+[data-theme="dystopia"] .glitch-text::after {
+  left: 2px;
+  text-shadow: -2px 0 oklch(var(--bladerunner-cyan) / 0.7);
+  animation: bladeRunnerGlitchBottom 5s infinite linear alternate-reverse;
+}
+
+@keyframes bladeRunnerGlitch {
+  0%, 100% { transform: translate(0); }
+  1% { transform: translate(-2px, 1px); }
+  2% { transform: translate(2px, -1px); }
+  3% { transform: translate(0); }
+  7% { transform: translate(0); }
+  8% { transform: translate(-2px, 1px); }
+  9% { transform: translate(2px, -1px); }
+  10% { transform: translate(0); }
+  30% { transform: translate(0); }
+  31% { transform: translate(-1px, 1px); }
+  32% { transform: translate(1px, -1px); }
+  33% { transform: translate(0); }
+  /* More keyframes for random glitches */
+}
+
+@keyframes bladeRunnerGlitchTop {
+  0% { clip-path: inset(50% 0 50% 0); }
+  10% { clip-path: inset(40% 0 60% 0); }
+  20% { clip-path: inset(20% 0 80% 0); }
+  /* More keyframes for random clip-paths */
+  100% { clip-path: inset(70% 0 30% 0); }
+}
+
+@keyframes bladeRunnerGlitchBottom {
+  0% { clip-path: inset(50% 0 50% 0); }
+  10% { clip-path: inset(60% 0 30% 0); }
+  20% { clip-path: inset(30% 0 70% 0); }
+  /* More keyframes for random clip-paths */
+  100% { clip-path: inset(40% 0 40% 0); }
+}
+
+/* Custom scrollbars */
+[data-theme="dystopia"] ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+[data-theme="dystopia"] ::-webkit-scrollbar-track {
+  background: oklch(var(--bladerunner-black));
+  box-shadow: inset 0 0 5px oklch(var(--bladerunner-blue) / 0.3);
+}
+
+[data-theme="dystopia"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    oklch(var(--bladerunner-blue) / 0.7) 0%,
+    oklch(var(--bladerunner-magenta) / 0.7) 100%
+  );
+  border-radius: 0;
+}
+
+[data-theme="dystopia"] ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    oklch(var(--bladerunner-cyan)) 0%,
+    oklch(var(--bladerunner-magenta)) 100%
+  );
+}
+
+/* Form elements */
+[data-theme="dystopia"] input,
+[data-theme="dystopia"] textarea,
+[data-theme="dystopia"] select {
+  background-color: oklch(var(--bladerunner-black) / 0.7) !important;
+  border-color: oklch(var(--bladerunner-cyan) / 0.5) !important;
+  color: oklch(var(--bladerunner-cyan)) !important;
+  box-shadow: 0 0 5px oklch(var(--bladerunner-cyan) / 0.3);
+}
+
+[data-theme="dystopia"] input:focus,
+[data-theme="dystopia"] textarea:focus,
+[data-theme="dystopia"] select:focus {
+  border-color: oklch(var(--bladerunner-magenta)) !important;
+  box-shadow: 0 0 10px oklch(var(--bladerunner-magenta) / 0.5);
+}
+
+/* Buttons with hover effect */
+[data-theme="dystopia"] button {
+  background: linear-gradient(
+    to right,
+    oklch(var(--bladerunner-blue) / 0.2),
+    oklch(var(--bladerunner-magenta) / 0.2)
+  ) !important;
+  border-color: oklch(var(--bladerunner-cyan) / 0.5) !important;
+  box-shadow: 0 0 5px oklch(var(--bladerunner-magenta) / 0.3);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+[data-theme="dystopia"] button:hover {
+  background: linear-gradient(
+    to right,
+    oklch(var(--bladerunner-blue) / 0.4),
+    oklch(var(--bladerunner-magenta) / 0.4)
+  ) !important;
+  box-shadow: 0 0 10px oklch(var(--bladerunner-magenta) / 0.5);
+}
+
+[data-theme="dystopia"] button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    oklch(var(--bladerunner-magenta) / 0.4),
+    transparent
+  );
+  transition: left 0.3s ease;
+}
+
+[data-theme="dystopia"] button:hover::after {
+  left: 100%;
+}
+
+/* CRT screen flicker */
+[data-theme="dystopia"] .crt-flicker {
+  animation: bladeRunnerCrtFlicker 6s infinite;
+}
+
+@keyframes bladeRunnerCrtFlicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.8; }
+  94% { opacity: 1; }
+  98% { opacity: 1; }
+  99% { opacity: 0.8; }
+}
+
+/* Add data attribute to any element for custom effects */
+[data-theme="dystopia"] [data-blade-runner="hologram"] {
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="dystopia"] [data-blade-runner="hologram"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    oklch(var(--bladerunner-cyan) / 0.1) 0px,
+    oklch(var(--bladerunner-cyan) / 0.1) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  animation: bladeRunnerHologram 3s infinite linear;
+}
+
+@keyframes bladeRunnerHologram {
+  0% { background-position: 0 0; opacity: 0.3; }
+  50% { opacity: 0.5; }
+  100% { background-position: 0 100px; opacity: 0.3; }
+}

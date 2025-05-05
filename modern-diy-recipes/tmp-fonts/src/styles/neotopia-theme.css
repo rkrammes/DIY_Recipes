@@ -1,0 +1,313 @@
+/* Neotopia Theme
+ * Clean, bright cyberpunk UI with white/light backgrounds and neon accents
+ * Featuring holographic elements and subtle translucency
+ */
+
+:root {
+  /* Neotopia Colors */
+  --neotopia-white: 98% 0.01 0;       /* Pure white background */
+  --neotopia-off-white: 95% 0.02 280; /* Slightly purplish off-white */
+  --neotopia-light-gray: 90% 0.02 280; /* Light surface color */
+  --neotopia-blue-neon: 75% 0.15 250; /* Bright blue neon */
+  --neotopia-purple-neon: 70% 0.2 300; /* Purple neon accent */
+  --neotopia-pink-neon: 75% 0.25 330; /* Pink neon accent */
+  --neotopia-cyan-neon: 80% 0.15 200; /* Cyan neon accent */
+  --neotopia-dark-text: 25% 0.03 280; /* Dark text on light background */
+  --neotopia-medium-text: 40% 0.05 280; /* Medium text */
+}
+
+/* Theme-specific variables */
+[data-theme="neotopia"] {
+  /* Core UI Colors */
+  --background: var(--neotopia-white);
+  --surface-0: var(--neotopia-off-white);
+  --surface-1: var(--neotopia-light-gray);
+  --surface-2: 88% 0.03 280;
+  
+  /* Text Colors */
+  --text-primary: var(--neotopia-dark-text);
+  --text-secondary: var(--neotopia-medium-text);
+  --text-tertiary: 60% 0.05 280;
+  
+  /* Accent Colors */
+  --accent: var(--neotopia-blue-neon);
+  --accent-contrast: var(--neotopia-white);
+  --accent-secondary: var(--neotopia-purple-neon);
+  --accent-tertiary: var(--neotopia-pink-neon);
+  
+  /* Functional Colors */
+  --error: 65% 0.2 10;
+  --success: 70% 0.15 150;
+  --warning: 70% 0.15 80;
+  --info: var(--neotopia-blue-neon);
+  
+  /* Border Colors */
+  --border-strong: 75% 0.1 280;
+  --border-subtle: 85% 0.05 280;
+  
+  /* Shadow Colors */
+  --shadow-color: 40% 0.05 280 / 0.1;
+  
+  /* Typography */
+  --font-family-base: 'Share Tech Mono', 'IBM Plex Mono', monospace;
+  --font-family-heading: 'Share Tech Mono', 'IBM Plex Mono', monospace;
+  
+  /* Specific effects */
+  --blue-glow: 0 0 5px oklch(var(--neotopia-blue-neon) / 0.7), 
+              0 0 10px oklch(var(--neotopia-blue-neon) / 0.5);
+  --pink-glow: 0 0 5px oklch(var(--neotopia-pink-neon) / 0.7), 
+              0 0 10px oklch(var(--neotopia-pink-neon) / 0.5);
+  --purple-glow: 0 0 5px oklch(var(--neotopia-purple-neon) / 0.7), 
+                0 0 10px oklch(var(--neotopia-purple-neon) / 0.5);
+}
+
+/* Clean background with subtle pattern */
+[data-theme="neotopia"] .theme-background {
+  position: relative;
+  background-color: oklch(var(--neotopia-white));
+  overflow: hidden;
+}
+
+/* Subtle clean grid pattern */
+[data-theme="neotopia"] .theme-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(oklch(var(--neotopia-purple-neon) / 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(var(--neotopia-purple-neon) / 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  z-index: -2;
+}
+
+/* Subtle light shafts */
+[data-theme="neotopia"] .theme-background::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  background: 
+    radial-gradient(
+      circle at 30% 20%,
+      oklch(var(--neotopia-cyan-neon) / 0.1) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 70% 60%,
+      oklch(var(--neotopia-pink-neon) / 0.07) 0%,
+      transparent 40%
+    );
+  z-index: -1;
+  animation: light-shift 30s ease-in-out infinite alternate;
+}
+
+/* Holographic elements */
+[data-theme="neotopia"] [data-hologram] {
+  position: relative;
+  background: linear-gradient(135deg,
+    oklch(var(--neotopia-off-white) / 0.7) 0%,
+    oklch(var(--neotopia-off-white) / 0.5) 100%);
+  border: 1px solid oklch(var(--neotopia-blue-neon) / 0.3);
+  border-radius: 4px;
+  box-shadow: var(--blue-glow);
+  backdrop-filter: blur(10px);
+}
+
+/* Holographic panel header */
+[data-theme="neotopia"] [data-hologram-header] {
+  color: oklch(var(--neotopia-dark-text));
+  font-weight: 500;
+  border-bottom: 1px solid oklch(var(--neotopia-blue-neon) / 0.3);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Neon text accents with geometric icons */
+[data-theme="neotopia"] [data-neon="blue"] {
+  color: oklch(var(--neotopia-blue-neon));
+  text-shadow: var(--blue-glow);
+  position: relative;
+}
+
+[data-theme="neotopia"] [data-neon="purple"] {
+  color: oklch(var(--neotopia-purple-neon));
+  text-shadow: var(--purple-glow);
+  position: relative;
+}
+
+[data-theme="neotopia"] [data-neon="pink"] {
+  color: oklch(var(--neotopia-pink-neon));
+  text-shadow: var(--pink-glow);
+  position: relative;
+}
+
+/* Geometric icon system for Neotopia */
+[data-theme="neotopia"] [data-icon] {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-display);
+}
+
+[data-theme="neotopia"] [data-icon]::before {
+  content: attr(data-icon);
+  display: inline-block;
+  margin-right: 0.5rem;
+  font-size: 1.2em;
+  vertical-align: middle;
+}
+
+/* Clean, modern UI cards */
+[data-theme="neotopia"] .card {
+  background: oklch(var(--neotopia-off-white));
+  border-radius: 8px;
+  border: 1px solid oklch(var(--border-subtle));
+  box-shadow: 0 4px 12px oklch(var(--shadow-color));
+  overflow: hidden;
+}
+
+/* Modern buttons with glow effect */
+[data-theme="neotopia"] button,
+[data-theme="neotopia"] .button {
+  background: linear-gradient(135deg,
+    oklch(var(--neotopia-blue-neon)) 0%,
+    oklch(var(--neotopia-purple-neon)) 100%);
+  color: oklch(var(--accent-contrast));
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1.5rem;
+  font-family: var(--font-family-base);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 10px oklch(var(--neotopia-blue-neon) / 0.3);
+  transition: all 0.2s ease;
+}
+
+[data-theme="neotopia"] button:hover,
+[data-theme="neotopia"] .button:hover {
+  box-shadow: 0 4px 15px oklch(var(--neotopia-blue-neon) / 0.5);
+  transform: translateY(-2px);
+}
+
+/* Clean inputs with subtle glow */
+[data-theme="neotopia"] input,
+[data-theme="neotopia"] textarea {
+  background-color: oklch(var(--neotopia-white));
+  color: oklch(var(--neotopia-dark-text));
+  border: 1px solid oklch(var(--border-subtle));
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-family: var(--font-family-base);
+  transition: all 0.2s ease;
+}
+
+[data-theme="neotopia"] input:focus,
+[data-theme="neotopia"] textarea:focus {
+  border-color: oklch(var(--neotopia-blue-neon));
+  box-shadow: 0 0 0 3px oklch(var(--neotopia-blue-neon) / 0.2);
+  outline: none;
+}
+
+/* Data visualization elements */
+[data-theme="neotopia"] progress {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background-color: oklch(var(--surface-1));
+  overflow: hidden;
+}
+
+[data-theme="neotopia"] progress::-webkit-progress-bar {
+  background-color: oklch(var(--surface-1));
+  border-radius: 4px;
+}
+
+[data-theme="neotopia"] progress::-webkit-progress-value {
+  background: linear-gradient(90deg,
+    oklch(var(--neotopia-blue-neon)) 0%,
+    oklch(var(--neotopia-purple-neon)) 100%);
+}
+
+[data-theme="neotopia"] progress::-moz-progress-bar {
+  background: linear-gradient(90deg,
+    oklch(var(--neotopia-blue-neon)) 0%,
+    oklch(var(--neotopia-purple-neon)) 100%);
+}
+
+/* Glass morphism panels */
+[data-theme="neotopia"] [data-glass] {
+  background: oklch(var(--neotopia-white) / 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  border: 1px solid oklch(var(--border-subtle));
+  box-shadow: 0 4px 30px oklch(var(--shadow-color));
+}
+
+/* Animations */
+@keyframes light-shift {
+  0%, 100% {
+    opacity: 0.7;
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: rotate(3deg) scale(1.05);
+  }
+}
+
+/* Animated border for interactive elements */
+[data-theme="neotopia"] [data-animated-border] {
+  position: relative;
+  padding: 1px;
+}
+
+[data-theme="neotopia"] [data-animated-border]::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    45deg,
+    oklch(var(--neotopia-blue-neon) / 0),
+    oklch(var(--neotopia-blue-neon)),
+    oklch(var(--neotopia-purple-neon)),
+    oklch(var(--neotopia-pink-neon)),
+    oklch(var(--neotopia-blue-neon) / 0)
+  );
+  background-size: 400% 400%;
+  animation: border-flow 3s ease infinite;
+  z-index: -1;
+}
+
+[data-theme="neotopia"] [data-animated-border]::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: oklch(var(--background));
+  border-radius: inherit;
+  z-index: -1;
+}
+
+@keyframes border-flow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}

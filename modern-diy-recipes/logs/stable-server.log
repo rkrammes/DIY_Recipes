@@ -1,0 +1,2311 @@
+   ▲ Next.js 15.3.0
+   - Local:        http://localhost:3000
+   - Network:      http://0.0.0.0:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1054ms
+ ✓ Compiled /middleware in 478ms (248 modules)
+Development mode: Skipping authentication check
+ ○ Compiling / ...
+ ✓ Compiled / in 3.4s (1900 modules)
+ GET / 200 in 3687ms
+ ✓ Compiled /api/recipes in 419ms (974 modules)
+ ✓ Compiled in 634ms (838 modules)
+Fetching recipes...
+ GET /favicon.ico 200 in 1311ms
+Development mode: Skipping authentication check
+ GET /favicon.ico 200 in 11ms
+ GET / 200 in 41ms
+Successfully fetched recipes: 6
+ GET /api/recipes 200 in 1148ms
+Fetching recipes...
+Successfully fetched recipes: 6
+ GET /api/recipes 200 in 59ms
+ ✓ Compiled /api/recipes/[id] in 294ms (1886 modules)
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Supabase ingredients connection successful: null
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 492ms
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Supabase ingredients connection successful: null
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 159ms
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 1149ms
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 482ms
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Supabase ingredients connection successful: null
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 187ms
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Supabase ingredients connection successful: null
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 166ms
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 389ms
+Development mode: Skipping authentication check
+ GET / 200 in 133ms
+ GET /favicon.ico 200 in 4ms
+Fetching recipes...
+Successfully fetched recipes: 6
+ GET /api/recipes 200 in 127ms
+Fetching recipes...
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Successfully fetched recipes: 6
+ GET /api/recipes 200 in 77ms
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+Supabase ingredients connection successful: null
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 191ms
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+Supabase ingredients connection successful: null
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 162ms
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 413ms
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 362ms
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+Supabase ingredients connection successful: null
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 204ms
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Supabase ingredients connection successful: null
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 395ms
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 231ms
+Development mode: Skipping authentication check
+ GET / 200 in 37ms
+Fetching recipes...
+Successfully fetched recipes: 6
+ GET /api/recipes 200 in 235ms
+Fetching recipes...
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Successfully fetched recipes: 6
+ GET /api/recipes 200 in 86ms
+Supabase ingredients connection successful: null
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 224ms
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+Supabase ingredients connection successful: null
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 161ms
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 790ms
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 601ms
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+Supabase ingredients connection successful: null
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 161ms
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+Supabase ingredients connection successful: null
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 191ms
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 512ms
+Development mode: Skipping authentication check
+ GET / 200 in 34ms
+Fetching recipes...
+Successfully fetched recipes: 6
+ GET /api/recipes 200 in 176ms
+Fetching recipes...
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Successfully fetched recipes: 6
+ GET /api/recipes 200 in 76ms
+Supabase ingredients connection successful: null
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 165ms
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+Supabase ingredients connection successful: null
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 151ms
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 573ms
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 467ms
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+Supabase ingredients connection successful: null
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 189ms
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Supabase ingredients connection successful: null
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 152ms
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 471ms
+ ✓ Compiled in 586ms (1802 modules)
+Development mode: Skipping authentication check
+ GET / 200 in 78ms
+ ✓ Compiled in 413ms (1802 modules)
+Development mode: Skipping authentication check
+ GET / 200 in 48ms
+ ✓ Compiled /api/recipes in 168ms (1060 modules)
+Fetching recipes...
+Successfully fetched recipes: 6
+ GET /api/recipes 200 in 412ms
+ ✓ Compiled /api/recipes/[id] in 85ms (1063 modules)
+ ✓ Compiled (1065 modules)
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+Supabase ingredients connection successful: null
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 613ms
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Supabase ingredients connection successful: null
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 223ms
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 881ms
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 467ms
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+Supabase ingredients connection successful: null
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 194ms
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Supabase ingredients connection successful: null
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 195ms
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 424ms
+ ✓ Compiled in 235ms (1906 modules)
+Development mode: Skipping authentication check
+ GET / 200 in 56ms
+ ✓ Compiled in 296ms (1906 modules)
+Fetching recipes...
+Development mode: Skipping authentication check
+ GET / 200 in 32ms
+Successfully fetched recipes: 6
+ GET /api/recipes 200 in 229ms
+Fetching recipes...
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Successfully fetched recipes: 6
+ GET /api/recipes 200 in 52ms
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+Supabase ingredients connection successful: null
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 167ms
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+Supabase ingredients connection successful: null
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 174ms
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 538ms
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 454ms
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+Supabase ingredients connection successful: null
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 157ms
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+Supabase ingredients connection successful: null
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 185ms
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 429ms
+ ✓ Compiled in 322ms (1906 modules)
+Development mode: Skipping authentication check
+ GET / 200 in 43ms
+ ✓ Compiled in 451ms (1906 modules)
+Development mode: Skipping authentication check
+ GET / 200 in 48ms
+ ✓ Compiled in 254ms (1906 modules)
+Development mode: Skipping authentication check
+ GET / 200 in 28ms
+ ✓ Compiled in 380ms (1906 modules)
+Development mode: Skipping authentication check
+ GET / 200 in 27ms
+Fetching recipes...
+Successfully fetched recipes: 6
+ GET /api/recipes 200 in 161ms
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Supabase ingredients connection successful: null
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 221ms
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+Supabase ingredients connection successful: null
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 160ms
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 645ms
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 541ms
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+Supabase ingredients connection successful: null
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 217ms
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Supabase ingredients connection successful: null
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 188ms
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 519ms
+ ✓ Compiled in 530ms (1802 modules)
+Development mode: Skipping authentication check
+ GET / 200 in 80ms
+ ✓ Compiled /_not-found in 452ms (1889 modules)
+ GET /_next/static/css/app/layout.css?v=1746384878656 404 in 572ms
+Fetching recipes...
+Successfully fetched recipes: 6
+ GET /api/recipes 200 in 859ms
+ ✓ Compiled /api/recipes/[id] in 84ms (1064 modules)
+ ✓ Compiled (1066 modules)
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+Supabase ingredients connection successful: null
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 479ms
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+Supabase ingredients connection successful: null
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 153ms
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 753ms
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 421ms
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Fetching ingredients for recipe: 971e9734-d147-4066-9b55-b80a080de24f
+recipe_ingredients query result: {
+  ingredients: null,
+  error: {
+    code: 'PGRST200',
+    details: "Searched for a foreign key relationship between 'recipe_ingredients' and 'ingredients' in the schema 'public', but no matches were found.",
+    hint: "Perhaps you meant 'recipeingredients' instead of 'recipe_ingredients'.",
+    message: "Could not find a relationship between 'recipe_ingredients' and 'ingredients' in the schema cache"
+  }
+}
+Trying alternative table name: recipeingredients
+Supabase ingredients connection successful: null
+recipeingredients query result: {
+  ingredients: [
+    {
+      ingredient_id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+      quantity: 12,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+      quantity: 13.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    },
+    {
+      ingredient_id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+      quantity: 4.5,
+      unit: 'g',
+      notes: null,
+      ingredients: [Object]
+    }
+  ],
+  error: null
+}
+Mapped ingredients: [
+  {
+    id: '04f0a685-dac1-4d5c-aabe-331fe91ca7ef',
+    quantity: 12,
+    unit: 'g',
+    notes: null,
+    name: 'Carnauba Wax',
+    description: 'A natural wax obtained from the leaves of the carnauba palm, used for its hardening properties.'
+  },
+  {
+    id: 'cf165b9f-7fb1-4aa3-a930-79627bf2288e',
+    quantity: 13.5,
+    unit: 'g',
+    notes: null,
+    name: 'Lanolin',
+    description: 'A natural wax secreted by the sebaceous glands of sheep, used for its moisturizing properties.'
+  },
+  {
+    id: '9a03bd75-ad74-45ed-8821-3f2ad464953b',
+    quantity: 4.5,
+    unit: 'g',
+    notes: null,
+    name: 'Jojoba Oil',
+    description: 'A lightweight oil used for skincare, known for its moisturizing properties.'
+  }
+]
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 176ms
+Fetching ingredients from Supabase...
+Checking Supabase connection for ingredients...
+Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+Supabase Anon Key: Provided
+Supabase ingredients connection successful: null
+Successfully fetched ingredients: 20
+ GET /api/ingredients 200 in 160ms
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 445ms
+Development mode: Skipping authentication check
+ GET / 200 in 111ms
+ GET /_next/static/css/app/layout.css?v=1746384900031 404 in 24ms
+ GET /_next/static/chunks/main-app.js?v=1746384900031 404 in 49ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 43ms
+Development mode: Skipping authentication check
+ GET / 200 in 25ms
+ GET /_next/static/css/app/layout.css?v=1746384905376 404 in 18ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 27ms
+ GET /_next/static/chunks/main-app.js?v=1746384905376 404 in 28ms
+Development mode: Skipping authentication check
+ GET / 200 in 24ms
+ GET /_next/static/css/app/layout.css?v=1746384911118 404 in 20ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 22ms
+ GET /_next/static/chunks/main-app.js?v=1746384911118 404 in 24ms
+Development mode: Skipping authentication check
+ GET / 200 in 14ms
+ ✓ Compiled in 219ms (841 modules)
+ ✓ Compiled in 150ms (841 modules)
+ ✓ Compiled in 436ms (1804 modules)
+ ✓ Compiled in 674ms (1783 modules)
+ ✓ Compiled in 193ms (1800 modules)
+ ✓ Compiled in 181ms (1803 modules)
+ ✓ Compiled in 192ms (1803 modules)
+ ✓ Compiled in 353ms (1805 modules)
+Development mode: Skipping authentication check
+ GET / 200 in 80ms
+Development mode: Skipping authentication check
+ ✓ Compiled /_not-found in 365ms (1791 modules)
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/vendor-chunks/next.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:198:28)
+    at <unknown> (.next/server/webpack-runtime.js:111:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:110:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:162:22)
+    at <unknown> (.next/server/app/_not-found/page.js:596:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:599:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/vendor-chunks/next.js'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 724ms (2122 modules)
+ GET / 500 in 2310ms
+Development mode: Skipping authentication check
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/vendor-chunks/@supabase.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:198:28)
+    at <unknown> (.next/server/webpack-runtime.js:111:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:110:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:162:22)
+    at <unknown> (.next/server/app/page.js:804:47)
+    at Object.<anonymous> (.next/server/app/page.js:807:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/vendor-chunks/@supabase.js',
+  page: '/'
+}
+ GET / 500 in 290ms
+[Error: ENOENT: no such file or directory, stat '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/cache/webpack/client-development/7.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/cache/webpack/client-development/7.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/cache/webpack/client-development/7.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/cache/webpack/client-development/7.pack.gz'
+}
+ ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/cache/webpack/client-development/7.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/cache/webpack/client-development/7.pack.gz'
+}
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/cache/webpack/client-development/7.pack.gz'
+[Error: ENOENT: no such file or directory, stat '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/cache/webpack/server-development/4.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/cache/webpack/server-development/4.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/cache/webpack/server-development/4.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/cache/webpack/server-development/4.pack.gz'
+}
+ ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/cache/webpack/server-development/4.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/cache/webpack/server-development/4.pack.gz'
+}
+[Error: ENOENT: no such file or directory, stat '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/cache/webpack/server-development/7.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/cache/webpack/server-development/7.pack.gz'
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/cache/webpack/server-development/7.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/cache/webpack/server-development/7.pack.gz'
+}
+ ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/cache/webpack/server-development/7.pack.gz'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/cache/webpack/server-development/7.pack.gz'
+}
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/cache/webpack/server-development/4.pack.gz'
+ ✓ Compiled in 361ms (2136 modules)
+Development mode: Skipping authentication check
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/vendor-chunks/@supabase.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:198:28)
+    at <unknown> (.next/server/webpack-runtime.js:111:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:110:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:162:22)
+    at <unknown> (.next/server/app/page.js:804:47)
+    at Object.<anonymous> (.next/server/app/page.js:807:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/vendor-chunks/@supabase.js',
+  page: '/'
+}
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 500 in 27ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+}
+Development mode: Skipping authentication check
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/vendor-chunks/@supabase.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:198:28)
+    at <unknown> (.next/server/webpack-runtime.js:111:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:110:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:162:22)
+    at <unknown> (.next/server/app/page.js:804:47)
+    at Object.<anonymous> (.next/server/app/page.js:807:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/vendor-chunks/@supabase.js',
+  page: '/'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+}
+ GET / 500 in 32ms
+ ✓ Compiled /_not-found in 130ms (2122 modules)
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/vendor-chunks/@supabase.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:198:28)
+    at <unknown> (.next/server/webpack-runtime.js:111:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:110:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:162:22)
+    at <unknown> (.next/server/app/_not-found/page.js:596:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:599:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/vendor-chunks/@supabase.js'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/vendor-chunks/@supabase.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:198:28)
+    at <unknown> (.next/server/webpack-runtime.js:111:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:110:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:162:22)
+    at <unknown> (.next/server/app/_not-found/page.js:596:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:599:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/vendor-chunks/@supabase.js'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/vendor-chunks/@supabase.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:198:28)
+    at <unknown> (.next/server/webpack-runtime.js:111:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:110:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:162:22)
+    at <unknown> (.next/server/app/_not-found/page.js:596:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:599:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/vendor-chunks/@supabase.js'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/vendor-chunks/@supabase.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:198:28)
+    at <unknown> (.next/server/webpack-runtime.js:111:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:110:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:162:22)
+    at <unknown> (.next/server/app/_not-found/page.js:596:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:599:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/vendor-chunks/@supabase.js'
+}
+ ⨯ Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/vendor-chunks/@supabase.js'
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:198:28)
+    at <unknown> (.next/server/webpack-runtime.js:111:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:110:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:162:22)
+    at <unknown> (.next/server/app/_not-found/page.js:596:47)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:599:3) {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/vendor-chunks/@supabase.js'
+}
+ GET /_next/static/chunks/fallback/webpack.js 500 in 204ms
+ GET /_next/static/chunks/fallback/main.js 500 in 203ms
+ GET /_next/static/chunks/fallback/react-refresh.js 500 in 203ms
+ GET /_next/static/chunks/fallback/pages/_app.js 500 in 202ms
+ GET /_next/static/chunks/fallback/pages/_error.js 500 in 202ms
+ ⨯ ./node_modules/buffer/index.js
+Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/buffer/index.js'
+
+Import trace for requested module:
+./node_modules/buffer/index.js
+./node_modules/@supabase/storage-js/dist/module/packages/StorageFileApi.js
+./node_modules/@supabase/storage-js/dist/module/StorageClient.js
+./node_modules/@supabase/storage-js/dist/module/index.js
+./node_modules/@supabase/supabase-js/dist/module/SupabaseClient.js
+./node_modules/@supabase/supabase-js/dist/module/index.js
+./src/lib/supabase.ts
+./src/providers/AuthProvider.tsx
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/fallback-build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/fallback-build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/fallback-build-manifest.json'
+}
+ GET / 500 in 672ms
+ GET / 500 in 223ms
+Development mode: Skipping authentication check
+ ⨯ ./node_modules/buffer/index.js
+Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/buffer/index.js'
+
+Import trace for requested module:
+./node_modules/buffer/index.js
+./node_modules/@supabase/storage-js/dist/module/packages/StorageFileApi.js
+./node_modules/@supabase/storage-js/dist/module/StorageClient.js
+./node_modules/@supabase/storage-js/dist/module/index.js
+./node_modules/@supabase/supabase-js/dist/module/SupabaseClient.js
+./node_modules/@supabase/supabase-js/dist/module/index.js
+./src/lib/supabase.ts
+./src/providers/AuthProvider.tsx
+ ⨯ ./node_modules/buffer/index.js
+Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/buffer/index.js'
+
+Import trace for requested module:
+./node_modules/buffer/index.js
+./node_modules/@supabase/storage-js/dist/module/packages/StorageFileApi.js
+./node_modules/@supabase/storage-js/dist/module/StorageClient.js
+./node_modules/@supabase/storage-js/dist/module/index.js
+./node_modules/@supabase/supabase-js/dist/module/SupabaseClient.js
+./node_modules/@supabase/supabase-js/dist/module/index.js
+./src/lib/supabase.ts
+./src/providers/AuthProvider.tsx
+ ⨯ ./node_modules/buffer/index.js
+Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/buffer/index.js'
+
+Import trace for requested module:
+./node_modules/buffer/index.js
+./node_modules/@supabase/storage-js/dist/module/packages/StorageFileApi.js
+./node_modules/@supabase/storage-js/dist/module/StorageClient.js
+./node_modules/@supabase/storage-js/dist/module/index.js
+./node_modules/@supabase/supabase-js/dist/module/SupabaseClient.js
+./node_modules/@supabase/supabase-js/dist/module/index.js
+./src/lib/supabase.ts
+./src/providers/AuthProvider.tsx
+ ⨯ ./node_modules/buffer/index.js
+Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/buffer/index.js'
+
+Import trace for requested module:
+./node_modules/buffer/index.js
+./node_modules/@supabase/storage-js/dist/module/packages/StorageFileApi.js
+./node_modules/@supabase/storage-js/dist/module/StorageClient.js
+./node_modules/@supabase/storage-js/dist/module/index.js
+./node_modules/@supabase/supabase-js/dist/module/SupabaseClient.js
+./node_modules/@supabase/supabase-js/dist/module/index.js
+./src/lib/supabase.ts
+./src/providers/AuthProvider.tsx
+ ⨯ ./node_modules/buffer/index.js
+Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/buffer/index.js'
+
+Import trace for requested module:
+./node_modules/buffer/index.js
+./node_modules/@supabase/storage-js/dist/module/packages/StorageFileApi.js
+./node_modules/@supabase/storage-js/dist/module/StorageClient.js
+./node_modules/@supabase/storage-js/dist/module/index.js
+./node_modules/@supabase/supabase-js/dist/module/SupabaseClient.js
+./node_modules/@supabase/supabase-js/dist/module/index.js
+./src/lib/supabase.ts
+./src/providers/AuthProvider.tsx
+ ⨯ ./node_modules/buffer/index.js
+Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/buffer/index.js'
+
+Import trace for requested module:
+./node_modules/buffer/index.js
+./node_modules/@supabase/storage-js/dist/module/packages/StorageFileApi.js
+./node_modules/@supabase/storage-js/dist/module/StorageClient.js
+./node_modules/@supabase/storage-js/dist/module/index.js
+./node_modules/@supabase/supabase-js/dist/module/SupabaseClient.js
+./node_modules/@supabase/supabase-js/dist/module/index.js
+./src/lib/supabase.ts
+./src/providers/AuthProvider.tsx
+ ⨯ ./node_modules/buffer/index.js
+Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/buffer/index.js'
+
+Import trace for requested module:
+./node_modules/buffer/index.js
+./node_modules/@supabase/storage-js/dist/module/packages/StorageFileApi.js
+./node_modules/@supabase/storage-js/dist/module/StorageClient.js
+./node_modules/@supabase/storage-js/dist/module/index.js
+./node_modules/@supabase/supabase-js/dist/module/SupabaseClient.js
+./node_modules/@supabase/supabase-js/dist/module/index.js
+./src/lib/supabase.ts
+./src/providers/AuthProvider.tsx
+ ⨯ ./node_modules/buffer/index.js
+Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/buffer/index.js'
+
+Import trace for requested module:
+./node_modules/buffer/index.js
+./node_modules/@supabase/storage-js/dist/module/packages/StorageFileApi.js
+./node_modules/@supabase/storage-js/dist/module/StorageClient.js
+./node_modules/@supabase/storage-js/dist/module/index.js
+./node_modules/@supabase/supabase-js/dist/module/SupabaseClient.js
+./node_modules/@supabase/supabase-js/dist/module/index.js
+./src/lib/supabase.ts
+./src/providers/AuthProvider.tsx
+ ⨯ ./node_modules/buffer/index.js
+Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/buffer/index.js'
+
+Import trace for requested module:
+./node_modules/buffer/index.js
+./node_modules/@supabase/storage-js/dist/module/packages/StorageFileApi.js
+./node_modules/@supabase/storage-js/dist/module/StorageClient.js
+./node_modules/@supabase/storage-js/dist/module/index.js
+./node_modules/@supabase/supabase-js/dist/module/SupabaseClient.js
+./node_modules/@supabase/supabase-js/dist/module/index.js
+./src/lib/supabase.ts
+./src/providers/AuthProvider.tsx
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/fallback-build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/fallback-build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/fallback-build-manifest.json'
+}
+ GET / 500 in 715ms
+ GET / 500 in 231ms
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/fallback-build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/fallback-build-manifest.json'
+}
+[Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/fallback-build-manifest.json'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/fallback-build-manifest.json'
+}
+ GET / 500 in 696ms
+ GET / 500 in 226ms
+[?25h

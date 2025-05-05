@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import SettingsPanel from '../components/SettingsPanel';
 import '@testing-library/jest-dom';
-import { ThemeProvider } from '../providers/ThemeProvider'; // Import ThemeProvider
+import { ThemeProvider } from '../providers/ConsolidatedThemeProvider'; // Import consolidated ThemeProvider
 import { useSettings } from '@providers/SettingsProvider'; // Keep useSettings mock for other tests
 
 // Mock the useSettings hook for tests not related to theme switching

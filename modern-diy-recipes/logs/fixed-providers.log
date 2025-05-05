@@ -1,0 +1,45 @@
+
+> modern-diy-recipes@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.3.0
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.148:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+2025-05-04T04:47:57.836Z next:router-server:filesystem nextDataRoutes Set(0) {}
+2025-05-04T04:47:57.837Z next:router-server:filesystem dynamicRoutes []
+2025-05-04T04:47:57.837Z next:router-server:filesystem customRoutes {
+  headers: [],
+  rewrites: { beforeFiles: [], afterFiles: [], fallback: [] },
+  redirects: [
+    {
+      source: '/:path+/',
+      destination: '/:path+',
+      permanent: true,
+      locale: undefined,
+      internal: true
+    }
+  ]
+}
+2025-05-04T04:47:57.837Z next:router-server:filesystem publicFolderItems Set(0) {}
+2025-05-04T04:47:57.837Z next:router-server:filesystem nextStaticFolderItems Set(0) {}
+2025-05-04T04:47:57.837Z next:router-server:filesystem pageFiles Set(0) {}
+2025-05-04T04:47:57.837Z next:router-server:filesystem appFiles Set(0) {}
+2025-05-04T04:47:58.321Z next:jsconfig-paths-plugin tsconfig.json or jsconfig.json paths: { '@/*': [ './src/*' ], '@providers/*': [ '../providers/*' ] }
+2025-05-04T04:47:58.321Z next:jsconfig-paths-plugin resolved baseUrl: {
+  baseUrl: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes',
+  isImplicit: true
+}
+2025-05-04T04:47:58.324Z next:jsconfig-paths-plugin tsconfig.json or jsconfig.json paths: { '@/*': [ './src/*' ], '@providers/*': [ '../providers/*' ] }
+2025-05-04T04:47:58.324Z next:jsconfig-paths-plugin resolved baseUrl: {
+  baseUrl: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes',
+  isImplicit: true
+}
+2025-05-04T04:47:58.330Z next:jsconfig-paths-plugin tsconfig.json or jsconfig.json paths: { '@/*': [ './src/*' ], '@providers/*': [ '../providers/*' ] }
+2025-05-04T04:47:58.331Z next:jsconfig-paths-plugin resolved baseUrl: {
+  baseUrl: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes',
+  isImplicit: true
+}
+ ✓ Ready in 1006ms

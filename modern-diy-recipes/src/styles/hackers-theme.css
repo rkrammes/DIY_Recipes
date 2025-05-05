@@ -1,0 +1,500 @@
+/* Hackers Theme - Authentic 90s digital punk aesthetic from the Hackers movie (1995) */
+[data-theme="hackers"] {
+  /* Proper 90s CRT/DOS color palette - based directly on movie scenes */
+  --hackers-black: 3% 0.02 0; /* True CRT black - nearly black with slight blue tint */
+  --hackers-blue: 45% 0.25 230; /* Dark blue used for interface elements */
+  --hackers-aqua: 75% 0.35 195; /* More true to the movie's aqua/teal used in the "City of Text" */
+  --hackers-acid-green: 80% 0.45 135; /* Ultra-bright "toxic" green used in screens */
+  --hackers-magenta: 65% 0.40 320; /* Vibrant magenta from 90s cyber scenes */
+  --hackers-yellow: 85% 0.3 90; /* Warning color in old terminals */
+  
+  /* Surface tokens - Authentic CRT monitor dark background */
+  --surface-0: var(--hackers-black);
+  --surface-1: 7% 0.05 230; /* Slightly lighter/bluer for panels */
+  --surface-inverse: 90% 0.01 230;
+  
+  /* Content tokens - Authentic 90s cyber interface text */
+  --text-primary: var(--hackers-aqua); /* Main text is aqua - true to film */
+  --text-secondary: 60% 0.25 230; /* Secondary text is dimmer blue */
+  --text-inverse: var(--hackers-black);
+  
+  /* Interactive tokens - Acid green for highlights, magenta for actions */
+  --accent: var(--hackers-acid-green);
+  --accent-hover: 85% 0.48 135;
+  --accent-active: 75% 0.40 135;
+  
+  /* Decorative tokens - Based on movie's DOS-style interfaces */
+  --border-subtle: var(--hackers-aqua) / 0.7; /* Higher contrast borders */
+  --shadow-soft: 0 0 15px oklch(var(--hackers-aqua) / 0.4);
+  --glow-pulse: 0 0 20px oklch(var(--hackers-magenta) / 0.7);
+  
+  /* Status tokens - Match authentic DOS/ANSI colors */
+  --success: var(--hackers-acid-green);
+  --warning: var(--hackers-yellow);
+  --error: 70% 0.35 0;
+  
+  /* Theme-specific effect values - More authentic CRT effects */
+  --neon-intensity: 0.7;
+  --bloom-radius: 2px;
+  --grid-opacity: 0.25; /* Slightly more visible grid */
+  --crt-effect: 1;
+  --pixel-effect: 1;
+  --phosphor-blur: 1px;
+  
+  /* Typography - More authentic to 90s DOS/ANSI art */
+  --font-body: monospace; /* Default to system monospace to better resemble IBM BIOS/DOS */
+  --font-heading: 'VGA', monospace; /* VGA font for true oldschool look */
+  --font-mono: monospace;
+  --font-display: 'Share Tech Mono', monospace;
+  --font-terminal: 'VGA', 'Share Tech Mono', monospace;
+  --letter-spacing-display: 0; /* ANSI art typically had no extra spacing */
+  --letter-spacing-body: 0;
+  --letter-spacing-code: 0;
+}
+
+/* CRT monitor effect with authentic phosphor glow */
+[data-theme="hackers"] .theme-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(
+      ellipse at center,
+      oklch(7% 0.05 230) 0%,
+      oklch(var(--hackers-black)) 70%
+    );
+  /* Subtle curved CRT screen effect */
+  box-shadow: 
+    inset 0 0 50px oklch(var(--hackers-black)),
+    inset 0 0 100px oklch(var(--hackers-black)),
+    inset 0 0 150px oklch(var(--hackers-black));
+  z-index: -2;
+}
+
+/* Authentic "City of Text" 3D grid like in Hackers movie file visualizations */
+[data-theme="hackers"] .theme-background::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* ANSI-style grid with proper "Hackers" aqua blue from the movie's City of Text */
+  background-image: 
+    linear-gradient(
+      90deg,
+      oklch(var(--hackers-aqua) / var(--grid-opacity)) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      oklch(var(--hackers-aqua) / var(--grid-opacity)) 1px,
+      transparent 1px
+    );
+  background-size: 30px 30px; /* More dense grid like in the movie */
+  /* Authentic 3D perspective from the film's file system visualization */
+  transform: perspective(800px) rotateX(70deg); /* Steeper angle like in the movie */
+  transform-origin: center 80%; /* Position grid at bottom like in film */
+  height: 170%;
+  top: 45%;
+  animation: hackersGridPulse 10s ease-in-out infinite;
+  z-index: -1;
+  /* Add a subtle brightness to simulate the glowing grid in the movie */
+  opacity: 0.9;
+}
+
+/* Authentic CRT scanlines like in 90s displays */
+[data-theme="hackers"] body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* CRT scanlines with slight phosphor bloom */
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 1px,
+    oklch(var(--hackers-aqua) / 0.03) 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.12;
+  /* Apply a subtle blur to simulate CRT phosphor glow */
+  filter: blur(var(--phosphor-blur));
+}
+
+/* Authentic ASCII/ANSI animation effect for the grid */
+@keyframes hackersGridPulse {
+  0% { 
+    opacity: var(--grid-opacity); 
+    transform: perspective(800px) rotateX(70deg) translateZ(0px); 
+  }
+  25% {
+    opacity: calc(var(--grid-opacity) * 1.2);
+  }
+  50% { 
+    opacity: calc(var(--grid-opacity) * 1.5); 
+    transform: perspective(800px) rotateX(70deg) translateZ(5px); 
+  }
+  75% {
+    opacity: calc(var(--grid-opacity) * 1.2);
+  }
+  100% {
+    opacity: var(--grid-opacity);
+    transform: perspective(800px) rotateX(70deg) translateZ(0px);
+  }
+}
+
+/* Added CRT on/off flicker effect - like in the Hackers movie */
+[data-theme="hackers"] .theme-background {
+  animation: hackersCrtFlicker 120s step-end infinite;
+}
+
+@keyframes hackersCrtFlicker {
+  0%, 100% { opacity: 1; }
+  99.5% { opacity: 1; }
+  99.6% { opacity: 0.1; } /* Brief screen off effect */
+  99.7% { opacity: 0.8; } /* Power on flicker */
+  99.8% { opacity: 0.1; } /* Secondary flicker */
+  99.9% { opacity: 1; }
+}
+
+/* Authentic DOS/ANSI style text and headings like in Hackers movie */
+[data-theme="hackers"] h1,
+[data-theme="hackers"] h2,
+[data-theme="hackers"] h3 {
+  color: oklch(var(--hackers-aqua)); /* The "City of Text" uses aqua/teal */
+  text-shadow: 0 0 5px oklch(var(--hackers-aqua) / 0.8);
+  font-family: 'VGA', monospace; /* Authentic DOS/ANSI font */
+  text-transform: uppercase; /* DOS-style all caps headers */
+  letter-spacing: 0;
+  font-weight: normal; /* DOS fonts didn't have bold variants */
+  border-bottom: 1px solid oklch(var(--hackers-aqua) / 0.5); /* DOS-style underlined headers */
+}
+
+/* For accent text elements - use acid green for attention-grabbing elements */
+[data-theme="hackers"] .text-accent {
+  color: oklch(var(--hackers-acid-green));
+  text-shadow: 0 0 8px oklch(var(--hackers-acid-green) / 0.8);
+}
+
+/* ASCII/ANSI art style for special elements like in BBS screens */
+[data-theme="hackers"] [data-ascii-art],
+[data-theme="hackers"] .ascii-art {
+  font-family: monospace;
+  white-space: pre;
+  line-height: 1.2;
+  letter-spacing: 0;
+  font-size: 0.9em;
+  color: oklch(var(--hackers-aqua));
+}
+
+/* Pixelated DOS text exactly like in Hackers movie screens */
+[data-theme="hackers"] [data-pixel],
+[data-theme="hackers"] .pixel-text {
+  font-family: 'VGA', monospace;
+  letter-spacing: 0;
+  line-height: 1;
+  image-rendering: pixelated; /* Keep pixelated effect */
+  font-size: 14px; /* DOS text size */
+  text-transform: uppercase; /* DOS style */
+  color: oklch(var(--hackers-aqua));
+  text-shadow: 1px 1px 0 oklch(0% 0 0); /* Sharp DOS-style shadow */
+  /* Add a slight flicker to simulate CRT instability */
+  animation: hackersTextFlicker 10s step-end infinite;
+}
+
+/* Create authentic 90s text selection like on old DOSBox/BBS */
+[data-theme="hackers"] *::selection {
+  background: oklch(var(--hackers-aqua)); /* Invert to aqua bg */
+  color: oklch(var(--hackers-black)); /* With dark text */
+  text-shadow: none; /* No text shadow in selections */
+}
+
+/* Authentic 90s text flicker - like in movie computer screens */
+@keyframes hackersTextFlicker {
+  0%, 100% { opacity: 1; }
+  98% { opacity: 1; }
+  98.5% { opacity: 0.8; }
+  99% { opacity: 1; }
+}
+
+/* Authentic DOS/BBS style UI components from Hackers movie */
+[data-theme="hackers"] .border,
+[data-theme="hackers"] .border-border-subtle {
+  border-color: oklch(var(--hackers-aqua)) !important; /* Aqua/teal border color from film */
+  /* Classic double-line DOS border effect */
+  border-width: 2px !important;
+  border-style: solid !important;
+  /* NO box-shadow in DOS interfaces - they used character-based borders */
+}
+
+/* Authentic DOS/BBS panel styles from the movie */
+[data-theme="hackers"] .bg-surface-1 {
+  /* Solid backgrounds with sharp edges in DOS */
+  background: oklch(5% 0.05 230) !important; /* Slightly blue-black */
+  border: 2px solid oklch(var(--hackers-aqua) / 0.9) !important;
+  /* Use multiple borders for that classic DOS look */
+  outline: 1px solid oklch(var(--hackers-black)) !important;
+  outline-offset: -1px;
+  /* DOS panels had no box-shadow or gradients - those are modern effects */
+  box-shadow: none !important;
+  /* Add slight CRT flicker */
+  animation: hackersTextFlicker 15s step-end infinite;
+}
+
+/* Authentic DOS/Norton Commander style window with header bar */
+[data-theme="hackers"] [data-hackers-window] {
+  position: relative;
+  /* DOS programs had distinct borders with header bars */
+  border: 2px solid oklch(var(--hackers-aqua)) !important;
+  /* No box-shadow in authentic DOS UI */
+  box-shadow: none !important;
+  /* Sharp corners for authentic DOS look */
+  border-radius: 0 !important;
+  background: oklch(var(--hackers-black)) !important; /* Pure black bg */
+  overflow: visible; /* Allow header to overflow */
+}
+
+/* Classic DOS title bar */
+[data-theme="hackers"] [data-hackers-window]::before {
+  content: attr(data-title);
+  position: absolute;
+  top: -20px; /* Above window */
+  left: 0;
+  right: 0;
+  height: 20px;
+  padding: 2px 8px;
+  background: oklch(var(--hackers-aqua)); /* Classic DOS blue header */
+  color: oklch(var(--hackers-black)); /* Inverted text */
+  font-family: 'VGA', monospace;
+  font-size: 14px;
+  text-transform: uppercase;
+  line-height: 16px;
+  letter-spacing: 0;
+  text-align: center;
+  border: none;
+  /* DOS UI made heavy use of inverted text */
+}
+
+/* Add authentic DOS window controls - like in Norton/DOS interfaces */
+[data-theme="hackers"] [data-hackers-window]::after {
+  content: "[-][#][x]"; /* Fake window controls */
+  position: absolute;
+  top: -20px;
+  right: 2px;
+  font-family: 'VGA', monospace;
+  font-size: 14px;
+  color: oklch(var(--hackers-black));
+  line-height: 20px;
+}
+
+/* Add a 'Hack the Planet!' Easter egg in the console */
+[data-theme="hackers"] .console-output::after {
+  content: "HACK THE PLANET!";
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+  font-family: monospace;
+  font-size: 8px;
+  color: oklch(var(--hackers-acid-green));
+  opacity: 0.5;
+  pointer-events: none;
+  animation: hackersEasterEgg 10s infinite;
+}
+
+@keyframes hackersEasterEgg {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.5; }
+}
+
+/* 90s boxy buttons with 3D look */
+[data-theme="hackers"] button {
+  background: linear-gradient(
+    to bottom,
+    oklch(20% 0.1 260),
+    oklch(15% 0.15 260)
+  ) !important;
+  border-top: 2px solid oklch(var(--hackers-cyan) / 0.7) !important;
+  border-left: 2px solid oklch(var(--hackers-cyan) / 0.7) !important;
+  border-bottom: 2px solid oklch(var(--hackers-blue) / 0.7) !important;
+  border-right: 2px solid oklch(var(--hackers-blue) / 0.7) !important;
+  box-shadow: 0 4px 0 oklch(var(--hackers-black));
+  transform: translateY(0);
+  transition: all 0.1s ease;
+}
+
+[data-theme="hackers"] button:hover {
+  background: linear-gradient(
+    to bottom,
+    oklch(25% 0.15 260),
+    oklch(20% 0.2 260)
+  ) !important;
+  border-top: 2px solid oklch(var(--hackers-acid-green) / 0.7) !important;
+  border-left: 2px solid oklch(var(--hackers-acid-green) / 0.7) !important;
+}
+
+[data-theme="hackers"] button:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 oklch(var(--hackers-black));
+}
+
+/* Input fields styled like old terminal inputs */
+[data-theme="hackers"] input,
+[data-theme="hackers"] textarea {
+  background-color: oklch(5% 0.03 260) !important;
+  border: 2px inset oklch(var(--hackers-blue)) !important;
+  color: oklch(var(--hackers-cyan)) !important;
+  padding: 5px !important;
+  font-family: monospace !important;
+}
+
+[data-theme="hackers"] input:focus,
+[data-theme="hackers"] textarea:focus {
+  border-color: oklch(var(--hackers-acid-green)) !important;
+  box-shadow: 0 0 0 2px oklch(var(--hackers-acid-green) / 0.3);
+}
+
+/* Scrollbars styled like 90s UI */
+[data-theme="hackers"] ::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+  background: oklch(var(--hackers-black));
+}
+
+[data-theme="hackers"] ::-webkit-scrollbar-track {
+  background: oklch(10% 0.1 260);
+  border: 1px solid oklch(var(--hackers-blue) / 0.5);
+}
+
+[data-theme="hackers"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    90deg,
+    oklch(20% 0.15 260),
+    oklch(30% 0.2 260)
+  );
+  border: 1px outset oklch(var(--hackers-cyan));
+  border-radius: 0;
+}
+
+[data-theme="hackers"] ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    90deg,
+    oklch(30% 0.2 260),
+    oklch(40% 0.25 260)
+  );
+}
+
+/* 90s-style blinking cursors */
+[data-theme="hackers"] .animate-pulse {
+  animation: hackersBlink 1s infinite;
+}
+
+@keyframes hackersBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* City of Text 3D elements */
+[data-theme="hackers"] [data-city-of-text] {
+  position: relative;
+  padding: 10px;
+  background: oklch(var(--hackers-black) / 0.7);
+  border: 1px solid oklch(var(--hackers-cyan));
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(5deg);
+  box-shadow: 
+    0 5px 20px oklch(var(--hackers-black)),
+    0 0 10px oklch(var(--hackers-cyan) / 0.5);
+}
+
+[data-theme="hackers"] [data-city-of-text]::before {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 10px;
+  right: 10px;
+  height: 10px;
+  background: linear-gradient(
+    oklch(var(--hackers-cyan) / 0.5),
+    transparent
+  );
+  transform: rotateX(90deg);
+  transform-origin: top;
+}
+
+/* Old CRT screen flicker effect */
+[data-theme="hackers"] [data-crt-flicker] {
+  animation: hackersFlicker 10s infinite;
+}
+
+@keyframes hackersFlicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.8; }
+  94% { opacity: 1; }
+  98% { opacity: 1; }
+  99% { opacity: 0.8; }
+}
+
+/* 90s "Zooming In" effect for modal/panel entrances */
+@keyframes hackersZoomIn {
+  0% { 
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  80% {
+    transform: scale(1.05);
+  }
+  100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Old school loading animation (dots) */
+[data-theme="hackers"] .loading::after {
+  content: ".";
+  display: inline-block;
+  animation: hackersLoading 1.5s infinite steps(4);
+}
+
+@keyframes hackersLoading {
+  0% { content: ""; }
+  25% { content: "."; }
+  50% { content: ".."; }
+  75% { content: "..."; }
+}
+
+/* 90s status indicators */
+[data-theme="hackers"] .status-indicator {
+  display: inline-flex;
+  align-items: center;
+  font-family: monospace;
+}
+
+[data-theme="hackers"] .status-indicator::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  animation: hackersStatusBlink 2s infinite;
+}
+
+[data-theme="hackers"] .status-indicator.online::before {
+  background-color: oklch(var(--hackers-acid-green));
+  box-shadow: 0 0 5px oklch(var(--hackers-acid-green));
+}
+
+[data-theme="hackers"] .status-indicator.offline::before {
+  background-color: oklch(var(--error));
+  box-shadow: 0 0 5px oklch(var(--error));
+}
+
+@keyframes hackersStatusBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}

@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DIY Recipes Application
+
+Modern implementation of the DIY Recipes application using Next.js, TypeScript, and Tailwind CSS.
+
+## Important Documentation
+
+- [Memory Agent Integration](./README-MEMORY-INTEGRATION.md) - Read about the memory agent integration and server stability fixes
+- [Server Stability Fixes](./SERVER_STABILITY_FIXES.md) - Detailed documentation on server stability improvements
+- [Fixed Providers](./FIXED_PROVIDERS_README.md) - Information about the fixed provider implementation
 
 ## Getting Started
 
-First, run the development server:
+For normal development, use the memory-integrated start script:
+
+```bash
+./start-with-memory.sh
+```
+
+This will start both the application and the memory agent for development tracking.
+
+Alternatively, run the development server without memory tracking:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Server Stability
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+If you encounter server stability issues, you can use the minimal implementation:
+
+```bash
+./start-minimal.sh
+```
+
+Or test the fixed providers specifically:
+
+```bash
+./test-fixed-providers.sh
+```
+
+## Memory Agent
+
+The memory agent helps track development progress, decisions, and integration status. To use it standalone:
+
+```bash
+node ../../start-development.js
+```
+
+This provides an interactive shell with commands for managing tasks and recording decisions.
+
+## Project Structure
+
+- `src/app` - Next.js application pages and layouts
+- `src/components` - React components
+- `src/providers` - Context providers for theme, auth, etc.
+- `src/hooks` - Custom React hooks
+- `src/lib` - Utility functions and modules
+- `src/styles` - Global styles and CSS modules
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+To learn more about the technologies used:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Memory Agent Documentation](../../agents/memory/USAGE.md)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deployment
 
-## Deploy on Vercel
+```bash
+npm run build
+npm run start
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For production deployment, we recommend using Vercel or a similar platform.

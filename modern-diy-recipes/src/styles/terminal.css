@@ -1,0 +1,602 @@
+/* Retro Terminal CSS - Sci-Fi UI Styling */
+
+:root {
+  /* Terminal theme base colors - Green theme by default */
+  --terminal-text-primary: #33ff33;
+  --terminal-text-secondary: #00a800;
+  --terminal-text-accent: #00ff00;
+  --terminal-bg-primary: #001100;
+  --terminal-bg-secondary: #002200;
+  --terminal-bg-elevated: #003300;
+  --terminal-border-subtle: #004400;
+  --terminal-border-accent: #00bb00;
+  --terminal-success: #00dd00;
+  --terminal-warning: #ffaa00;
+  --terminal-error: #ff0000;
+  --terminal-font-size: 16px;
+  --terminal-line-height: 1.6;
+  --terminal-grid-size: 20px;
+}
+
+/* Terminal color themes */
+[data-terminal="green"] {
+  --terminal-text-primary: #33ff33;
+  --terminal-text-secondary: #00a800;
+  --terminal-text-accent: #00ff00;
+  --terminal-bg-primary: #001100;
+  --terminal-bg-secondary: #002200;
+  --terminal-bg-elevated: #003300;
+  --terminal-border-subtle: #004400;
+  --terminal-border-accent: #00bb00;
+}
+
+[data-terminal="amber"] {
+  --terminal-text-primary: #ffcc00;
+  --terminal-text-secondary: #aa7700;
+  --terminal-text-accent: #ffaa00;
+  --terminal-bg-primary: #221100;
+  --terminal-bg-secondary: #331800;
+  --terminal-bg-elevated: #442200;
+  --terminal-border-subtle: #553300;
+  --terminal-border-accent: #bb6600;
+}
+
+[data-terminal="blue"] {
+  --terminal-text-primary: #0099ff;
+  --terminal-text-secondary: #0066aa;
+  --terminal-text-accent: #00ccff;
+  --terminal-bg-primary: #001122;
+  --terminal-bg-secondary: #001a33;
+  --terminal-bg-elevated: #002244;
+  --terminal-border-subtle: #002a55;
+  --terminal-border-accent: #0066bb;
+}
+
+[data-terminal="white"] {
+  --terminal-text-primary: #cccccc;
+  --terminal-text-secondary: #999999;
+  --terminal-text-accent: #ffffff;
+  --terminal-bg-primary: #111111;
+  --terminal-bg-secondary: #222222;
+  --terminal-bg-elevated: #333333;
+  --terminal-border-subtle: #444444;
+  --terminal-border-accent: #666666;
+}
+
+/* Base terminal elements */
+.terminal-ui {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: var(--terminal-font-size);
+  line-height: var(--terminal-line-height);
+  color: var(--terminal-text-primary);
+  background-color: var(--terminal-bg-primary);
+}
+
+.terminal-ui-active {
+  background-color: var(--terminal-bg-primary);
+  color: var(--terminal-text-primary);
+}
+
+.terminal-monospace {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.terminal-vga {
+  font-family: 'VGA', monospace;
+  letter-spacing: 0.5px;
+}
+
+/* CRT and sci-fi effects */
+.terminal-scanlines {
+  position: relative;
+}
+
+.terminal-scanlines::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.terminal-flicker {
+  animation: terminal-flicker 7s infinite;
+}
+
+.flicker-active {
+  animation: terminal-flicker 7s infinite;
+}
+
+.terminal-text-reveal {
+  overflow: hidden;
+  white-space: pre-wrap;
+  animation: terminal-text-reveal 0.5s ease forwards;
+}
+
+.terminal-grid-bg {
+  background-image: 
+    linear-gradient(to right, var(--terminal-border-subtle) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--terminal-border-subtle) 1px, transparent 1px);
+  background-size: var(--terminal-grid-size) var(--terminal-grid-size);
+}
+
+/* Animations */
+@keyframes terminal-flicker {
+  0% { opacity: 1; }
+  2% { opacity: 0.8; }
+  4% { opacity: 1; }
+  19% { opacity: 1; }
+  21% { opacity: 0.9; }
+  23% { opacity: 1; }
+  80% { opacity: 1; }
+  83% { opacity: 0.8; }
+  87% { opacity: 1; }
+}
+
+@keyframes terminal-text-reveal {
+  0% {
+    max-width: 0%;
+  }
+  100% {
+    max-width: 100%;
+  }
+}
+
+@keyframes terminal-cursor-blink {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+/* Terminal layout grid */
+.terminal-layout {
+  display: grid;
+  grid-template-areas:
+    "command command command"
+    "nav workspace actions";
+  grid-template-rows: 60px 1fr;
+  grid-template-columns: minmax(200px, 1fr) minmax(500px, 3fr) minmax(200px, 1fr);
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+.command-terminal {
+  grid-area: command;
+  border-bottom: 1px solid var(--terminal-border-subtle);
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  gap: 1rem;
+  background-color: var(--terminal-bg-elevated);
+  color: var(--terminal-text-primary);
+}
+
+.navigation-matrix {
+  grid-area: nav;
+  border-right: 1px solid var(--terminal-border-subtle);
+  overflow-y: auto;
+  padding: 1rem 0;
+  background-color: var(--terminal-bg-primary);
+  color: var(--terminal-text-primary);
+}
+
+.primary-workspace {
+  grid-area: workspace;
+  overflow-y: auto;
+  padding: 1.5rem;
+  position: relative;
+  background-color: var(--terminal-bg-primary);
+  color: var(--terminal-text-primary);
+}
+
+.action-panel {
+  grid-area: actions;
+  border-left: 1px solid var(--terminal-border-subtle);
+  overflow-y: auto;
+  padding: 1rem;
+  background-color: var(--terminal-bg-secondary);
+  color: var(--terminal-text-primary);
+}
+
+/* Terminal UI Components */
+
+/* Status indicators */
+.terminal-status-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.terminal-status-light {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--terminal-border-subtle);
+}
+
+.terminal-status-active {
+  background-color: var(--terminal-success);
+  box-shadow: 0 0 5px var(--terminal-success);
+  animation: terminal-flicker 5s infinite;
+}
+
+.terminal-status-standby {
+  background-color: var(--terminal-warning);
+  box-shadow: 0 0 5px var(--terminal-warning);
+  animation: terminal-flicker 5s infinite;
+}
+
+.terminal-status-offline {
+  background-color: var(--terminal-error);
+  box-shadow: 0 0 5px var(--terminal-error);
+}
+
+/* Terminal matrix (formula/element list) */
+.terminal-matrix {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.terminal-matrix-header {
+  padding: 0.75rem;
+  background-color: var(--terminal-bg-elevated);
+  border-bottom: 1px solid var(--terminal-border-subtle);
+  display: flex;
+  justify-content: space-between;
+}
+
+.terminal-matrix-header h3 {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  color: var(--terminal-text-accent);
+}
+
+.terminal-matrix-entries {
+  flex: 1;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.matrix-entry {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid var(--terminal-border-subtle);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.matrix-entry:hover {
+  background-color: var(--terminal-bg-secondary);
+}
+
+.matrix-entry.selected {
+  background-color: var(--terminal-bg-elevated);
+  color: var(--terminal-text-accent);
+}
+
+.entry-index {
+  color: var(--terminal-text-secondary);
+  margin-right: 1rem;
+  font-family: 'VGA', monospace;
+}
+
+.entry-name {
+  flex: 1;
+}
+
+.entry-indicator {
+  margin-left: 0.5rem;
+  color: var(--terminal-text-secondary);
+}
+
+.terminal-status-line {
+  padding: 0.5rem 1rem;
+  background-color: var(--terminal-bg-elevated);
+  border-top: 1px solid var(--terminal-border-subtle);
+  font-size: 0.75rem;
+  color: var(--terminal-text-secondary);
+}
+
+/* Terminal panels */
+.terminal-panel {
+  background-color: var(--terminal-bg-secondary);
+  border: 1px solid var(--terminal-border-subtle);
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.terminal-panel-title {
+  background-color: var(--terminal-bg-elevated);
+  padding: 0.5rem 1rem;
+  font-family: 'VGA', monospace;
+  color: var(--terminal-text-accent);
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--terminal-border-subtle);
+}
+
+.terminal-panel-content {
+  padding: 1rem;
+}
+
+/* Terminal formula details */
+.terminal-formula-header {
+  margin-bottom: 2rem;
+}
+
+.formula-id-block {
+  color: var(--terminal-text-secondary);
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.formula-id {
+  color: var(--terminal-text-accent);
+  font-family: 'VGA', monospace;
+}
+
+.formula-title {
+  font-family: 'VGA', monospace;
+  font-size: 1.75rem;
+  margin: 0.5rem 0 1rem;
+  color: var(--terminal-text-accent);
+  letter-spacing: 1px;
+  font-weight: normal;
+}
+
+.section-header {
+  color: var(--terminal-text-accent);
+  font-family: 'VGA', monospace;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.section-content {
+  margin-bottom: 1.5rem;
+}
+
+.description-content {
+  border-left: 2px solid var(--terminal-border-subtle);
+  padding-left: 1rem;
+}
+
+.notes-content {
+  font-style: italic;
+  color: var(--terminal-text-secondary);
+}
+
+.terminal-workspace-status {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--terminal-border-subtle);
+  color: var(--terminal-text-secondary);
+  font-size: 0.85rem;
+}
+
+/* Terminal table */
+.terminal-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.terminal-table th {
+  background-color: var(--terminal-bg-elevated);
+  color: var(--terminal-text-accent);
+  text-align: left;
+  padding: 0.5rem;
+  font-family: 'VGA', monospace;
+  font-weight: normal;
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--terminal-border-subtle);
+}
+
+.terminal-table td {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--terminal-border-subtle);
+}
+
+.terminal-table tr:last-child td {
+  border-bottom: none;
+}
+
+.terminal-table tr:hover td {
+  background-color: var(--terminal-bg-secondary);
+}
+
+.element-code {
+  color: var(--terminal-text-secondary);
+  font-family: 'VGA', monospace;
+  margin-right: 0.5rem;
+}
+
+/* Terminal buttons and inputs */
+.terminal-button {
+  background-color: var(--terminal-bg-elevated);
+  color: var(--terminal-text-primary);
+  border: 1px solid var(--terminal-border-subtle);
+  padding: 0.5rem 1rem;
+  font-family: 'IBM Plex Mono', monospace;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.terminal-button:hover {
+  background-color: var(--terminal-bg-secondary);
+  border-color: var(--terminal-border-accent);
+  color: var(--terminal-text-accent);
+}
+
+.terminal-button:active {
+  transform: translateY(1px);
+}
+
+.terminal-input {
+  background-color: var(--terminal-bg-secondary);
+  color: var(--terminal-text-primary);
+  border: 1px solid var(--terminal-border-subtle);
+  padding: 0.5rem;
+  font-family: 'IBM Plex Mono', monospace;
+  width: 100%;
+}
+
+.terminal-input:focus {
+  outline: none;
+  border-color: var(--terminal-border-accent);
+}
+
+.terminal-input-container {
+  display: flex;
+  align-items: center;
+}
+
+.terminal-input::placeholder {
+  color: var(--terminal-text-secondary);
+  opacity: 0.5;
+}
+
+/* Terminal loading */
+.terminal-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: var(--terminal-text-accent);
+  font-family: 'VGA', monospace;
+  letter-spacing: 1px;
+  animation: terminal-flicker 5s infinite;
+}
+
+/* Terminal loading overlay */
+.terminal-loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--terminal-bg-primary);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.terminal-loading-logo {
+  font-family: 'VGA', monospace;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: var(--terminal-text-accent);
+}
+
+.terminal-loading-status {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1rem;
+  margin-top: 2rem;
+  color: var(--terminal-text-secondary);
+}
+
+/* Terminal progress bar */
+.terminal-progress {
+  width: 100%;
+  height: 8px;
+  background-color: var(--terminal-bg-secondary);
+  margin: 0.5rem 0;
+  overflow: hidden;
+}
+
+.terminal-progress-bar {
+  height: 100%;
+  background-color: var(--terminal-text-accent);
+  transition: width 0.3s ease;
+}
+
+/* Terminal error */
+.terminal-error {
+  padding: 1rem;
+  color: var(--terminal-error);
+  border: 1px solid var(--terminal-error);
+  margin: 1rem 0;
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+/* Terminal empty */
+.terminal-empty {
+  padding: 1rem;
+  color: var(--terminal-text-secondary);
+  text-align: center;
+  margin-top: 2rem;
+}
+
+/* Terminal element count */
+.terminal-element-count {
+  padding: 0.5rem;
+  text-align: right;
+  color: var(--terminal-text-secondary);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--terminal-border-subtle);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .terminal-layout {
+    grid-template-areas:
+      "command command"
+      "nav workspace"
+      "actions actions";
+    grid-template-rows: 60px 1fr auto;
+    grid-template-columns: minmax(200px, 1fr) minmax(500px, 3fr);
+  }
+  
+  .action-panel {
+    border-left: none;
+    border-top: 1px solid var(--terminal-border-subtle);
+    max-height: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .terminal-layout {
+    grid-template-areas:
+      "command"
+      "workspace"
+      "nav"
+      "actions";
+    grid-template-rows: 60px 1fr auto auto;
+    grid-template-columns: 1fr;
+  }
+  
+  .navigation-matrix {
+    border-right: none;
+    border-top: 1px solid var(--terminal-border-subtle);
+    max-height: 200px;
+  }
+}

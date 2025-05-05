@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="terminal-mono">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIY Recipes | Formula Database</title>
+    <link rel="stylesheet" href="styles/tokens.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/retro-terminal.css">
+    <style>
+        /* Critical first-load styles */
+        @font-face {
+          font-family: 'IBM Plex Mono';
+          src: url('/fonts/IBMPlexMono-Regular.woff2') format('woff2');
+          font-weight: 400;
+          font-style: normal;
+          font-display: swap;
+        }
+        
+        @font-face {
+          font-family: 'VGA';
+          src: url('/fonts/Px437_IBM_VGA_8x16.woff') format('woff');
+          font-weight: 400;
+          font-style: normal;
+          font-display: swap;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'IBM Plex Mono', monospace;
+            background-color: oklch(var(--surface-0));
+            color: oklch(var(--text-primary));
+            line-height: 1.5;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        /* Terminal layout grid */
+        .terminal-layout {
+            display: grid;
+            grid-template-areas:
+                "command command command"
+                "nav workspace actions";
+            grid-template-rows: 60px 1fr;
+            grid-template-columns: minmax(200px, 1fr) minmax(500px, 3fr) minmax(200px, 1fr);
+            min-height: 100vh;
+            max-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .command-terminal {
+            grid-area: command;
+            border-bottom: 1px solid oklch(var(--border-subtle));
+            display: flex;
+            align-items: center;
+            padding: 0 1rem;
+            gap: 1rem;
+            background-color: oklch(var(--surface-1));
+        }
+        
+        .navigation-matrix {
+            grid-area: nav;
+            border-right: 1px solid oklch(var(--border-subtle));
+            overflow-y: auto;
+            padding: 1rem 0;
+        }
+        
+        .primary-workspace {
+            grid-area: workspace;
+            overflow-y: auto;
+            padding: 1.5rem;
+            position: relative;
+        }
+        
+        .action-panel {
+            grid-area: actions;
+            border-left: 1px solid oklch(var(--border-subtle));
+            overflow-y: auto;
+            padding: 1rem;
+            background-color: oklch(var(--surface-1), 0.5);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .terminal-layout {
+                grid-template-areas:
+                    "command command"
+                    "nav workspace"
+                    "actions actions";
+                grid-template-rows: 60px 1fr auto;
+                grid-template-columns: minmax(200px, 1fr) minmax(500px, 3fr);
+            }
+            
+            .action-panel {
+                border-left: none;
+                border-top: 1px solid oklch(var(--border-subtle));
+                max-height: 200px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .terminal-layout {
+                grid-template-areas:
+                    "command"
+                    "workspace"
+                    "nav"
+                    "actions";
+                grid-template-rows: 60px 1fr auto auto;
+                grid-template-columns: 1fr;
+            }
+            
+            .navigation-matrix {
+                border-right: none;
+                border-top: 1px solid oklch(var(--border-subtle));
+                max-height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-layout">
+        <!-- Command Terminal (Top Bar) -->
+        <header class="command-terminal">
+            <div class="terminal-status-container">
+                <span class="terminal-status-light terminal-status-active"></span>
+                <span class="terminal-vga">DIY.SYS</span>
+            </div>
+            
+            <div class="terminal-status-container" style="margin-left: auto;">
+                <span class="terminal-vga terminal-flicker">READY</span>
+            </div>
+            
+            <div class="terminal-time">
+                <span class="terminal-monospace">--:--:--</span>
+            </div>
+        </header>
+        
+        <!-- Navigation Matrix (Left Column) -->
+        <nav class="navigation-matrix">
+            <div class="terminal-nav-item active">
+                <span>DASHBOARD</span>
+            </div>
+            
+            <div class="terminal-nav-section">
+                <div class="terminal-nav-header">
+                    <span>FORMULA_DATABASE</span>
+                </div>
+                <div class="terminal-nav-item">
+                    <span>ALL_FORMULAS</span>
+                </div>
+                <div class="terminal-nav-item">
+                    <span>RECENT</span>
+                </div>
+                <div class="terminal-nav-item">
+                    <span>FAVORITES</span>
+                </div>
+                <div class="terminal-nav-item">
+                    <span>CATEGORIES</span>
+                </div>
+            </div>
+            
+            <div class="terminal-nav-section">
+                <div class="terminal-nav-header">
+                    <span>ELEMENT_LIBRARY</span>
+                </div>
+                <div class="terminal-nav-item">
+                    <span>ALL_ELEMENTS</span>
+                </div>
+                <div class="terminal-nav-item">
+                    <span>COMPATIBILITY</span>
+                </div>
+                <div class="terminal-nav-item">
+                    <span>PROPERTIES</span>
+                </div>
+            </div>
+            
+            <div class="terminal-nav-section">
+                <div class="terminal-nav-header">
+                    <span>UTILITIES</span>
+                </div>
+                <div class="terminal-nav-item">
+                    <span>CALCULATOR</span>
+                </div>
+                <div class="terminal-nav-item">
+                    <span>CONVERTER</span>
+                </div>
+                <div class="terminal-nav-item">
+                    <span>ANALYSIS</span>
+                </div>
+            </div>
+            
+            <div class="terminal-nav-section">
+                <div class="terminal-nav-header">
+                    <span>SYSTEM</span>
+                </div>
+                <div class="terminal-nav-item">
+                    <span>CONTROL_MATRIX</span>
+                </div>
+                <div class="terminal-nav-item">
+                    <span>USER_PROFILE</span>
+                </div>
+                <div class="terminal-nav-item">
+                    <span>LOG_OUT</span>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Primary Workspace (Center Column) -->
+        <main class="primary-workspace terminal-grid-bg">
+            <div class="terminal-panel">
+                <div class="terminal-panel-title">DASHBOARD</div>
+                <div class="terminal-panel-content">
+                    <div class="terminal-text-reveal">
+                        System initialized. Welcome to DIY Recipes Formula Database.
+                    </div>
+                    
+                    <div class="terminal-metrics-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem;">
+                        <div class="terminal-panel">
+                            <div class="terminal-panel-title">FORMULA COUNT</div>
+                            <div class="terminal-vga" style="font-size: 2rem; text-align: center; margin: 1rem 0;">42</div>
+                        </div>
+                        
+                        <div class="terminal-panel">
+                            <div class="terminal-panel-title">ELEMENTS</div>
+                            <div class="terminal-vga" style="font-size: 2rem; text-align: center; margin: 1rem 0;">124</div>
+                        </div>
+                        
+                        <div class="terminal-panel">
+                            <div class="terminal-panel-title">CATEGORIES</div>
+                            <div class="terminal-vga" style="font-size: 2rem; text-align: center; margin: 1rem 0;">8</div>
+                        </div>
+                    </div>
+                    
+                    <div class="terminal-panel" style="margin-top: 2rem;">
+                        <div class="terminal-panel-title">RECENT ACTIVITY</div>
+                        <table class="terminal-table">
+                            <thead>
+                                <tr>
+                                    <th>DATE</th>
+                                    <th>ACTIVITY</th>
+                                    <th>FORMULA</th>
+                                    <th>STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2025-05-04</td>
+                                    <td>MODIFIED</td>
+                                    <td>BASIC_LOTION</td>
+                                    <td><span class="terminal-badge terminal-badge-success">COMPLETE</span></td>
+                                </tr>
+                                <tr>
+                                    <td>2025-05-03</td>
+                                    <td>CREATED</td>
+                                    <td>CITRUS_SCRUB</td>
+                                    <td><span class="terminal-badge terminal-badge-success">COMPLETE</span></td>
+                                </tr>
+                                <tr>
+                                    <td>2025-05-01</td>
+                                    <td>ITERATION</td>
+                                    <td>CLAY_MASK</td>
+                                    <td><span class="terminal-badge terminal-badge-warning">IN_PROGRESS</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Action Panel (Right Column) -->
+        <aside class="action-panel">
+            <div class="terminal-panel">
+                <div class="terminal-panel-title">SYSTEM COMMANDS</div>
+                <div class="terminal-button" style="width: 100%; margin-bottom: 0.5rem;">
+                    CREATE NEW FORMULA
+                </div>
+                <div class="terminal-button" style="width: 100%; margin-bottom: 0.5rem;">
+                    IMPORT DATA
+                </div>
+                <div class="terminal-button" style="width: 100%; margin-bottom: 0.5rem;">
+                    EXPORT DATABASE
+                </div>
+                <div class="terminal-button" style="width: 100%; margin-bottom: 0.5rem;">
+                    ANALYZE TRENDS
+                </div>
+            </div>
+            
+            <div class="terminal-panel" style="margin-top: 1rem;">
+                <div class="terminal-panel-title">SYSTEM STATUS</div>
+                <div class="terminal-status-container" style="margin-bottom: 0.5rem;">
+                    <span class="terminal-status-light terminal-status-active"></span>
+                    <span>DATABASE CONNECTED</span>
+                </div>
+                <div class="terminal-status-container" style="margin-bottom: 0.5rem;">
+                    <span class="terminal-status-light terminal-status-active"></span>
+                    <span>FORMULA ENGINE READY</span>
+                </div>
+                <div class="terminal-status-container" style="margin-bottom: 0.5rem;">
+                    <span class="terminal-status-light terminal-status-standby"></span>
+                    <span>SYNC STATUS STANDBY</span>
+                </div>
+                
+                <div style="margin-top: 1rem;">
+                    <div class="terminal-label">SYSTEM RESOURCES</div>
+                    <div class="terminal-progress">
+                        <div class="terminal-progress-bar" style="width: 42%;"></div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+    
+    <script src="js/terminal-components.js" type="module"></script>
+    <script>
+        // Simulate the current time in terminal format
+        function updateTerminalTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            
+            const timeElement = document.querySelector('.terminal-time span');
+            if (timeElement) {
+                timeElement.textContent = `${hours}:${minutes}:${seconds}`;
+            }
+            
+            setTimeout(updateTerminalTime, 1000);
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateTerminalTime();
+            
+            // Add navigation click handlers
+            const navItems = document.querySelectorAll('.terminal-nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    // Remove active class from all items
+                    navItems.forEach(navItem => navItem.classList.remove('active'));
+                    
+                    // Add active class to clicked item
+                    item.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,550 @@
+/* Matrix Dystopia Theme
+ * A balanced blend of The Matrix (digital rain, green code) 
+ * and Blade Runner (neon cityscape, reflections, dystopian atmosphere)
+ */
+
+:root {
+  /* Matrix Colors */
+  --matrix-green: 30% 0.17 135;      /* Iconic Matrix green, slightly subdued */
+  --matrix-green-bright: 60% 0.22 135; /* Brighter variant for highlights */
+  --matrix-black: 3% 0 0;            /* Deep black background with slight warmth */
+  --matrix-code-bg: 7% 0.02 135;     /* Background for code sections */
+  
+  /* Blade Runner Colors */
+  --blade-neon-blue: 60% 0.2 250;    /* Neon blue from cityscape */
+  --blade-neon-pink: 60% 0.18 350;   /* Pink neon signs */
+  --blade-neon-orange: 65% 0.15 60;  /* Orange/amber accents */
+  --blade-rain-overlay: 30% 0.05 250; /* Blue rain reflection */
+  --blade-smoke: 20% 0.01 250;       /* Smoky atmosphere */
+  
+  /* Shared Dystopian Colors */
+  --dystopia-text: 85% 0.01 0;       /* Main text color */
+  --dystopia-text-secondary: 70% 0.05 135; /* Secondary text color */
+  --dystopia-surface: 5% 0.01 250;   /* Deep surface color */
+  --dystopia-error: 60% 0.18 25;     /* Error/warning color */
+}
+
+/* Theme-specific variables */
+[data-theme="dystopia"] {
+  /* Core UI Colors - Balance between Matrix and Blade Runner */
+  --background: var(--matrix-black);
+  --surface-0: var(--matrix-code-bg);
+  --surface-1: oklch(8% 0.01 200 / 0.8); /* More Blade Runner tint */
+  --surface-2: oklch(10% 0.02 250 / 0.9); /* More Blade Runner tint */
+  
+  /* Text Colors - Matrix green primary with Blade Runner accents */
+  --text-primary: oklch(var(--matrix-green-bright));
+  --text-secondary: oklch(var(--dystopia-text-secondary));
+  --text-tertiary: oklch(60% 0.05 250); /* More blue-tinted */
+  
+  /* Accent Colors - Blade Runner influence */
+  --accent: oklch(var(--blade-neon-blue));
+  --accent-contrast: oklch(10% 0.01 0);
+  --accent-secondary: oklch(var(--blade-neon-pink));
+  --accent-tertiary: oklch(var(--blade-neon-orange));
+  
+  /* Functional Colors */
+  --error: oklch(var(--dystopia-error));
+  --success: oklch(var(--matrix-green-bright));
+  --warning: oklch(var(--blade-neon-orange));
+  --info: oklch(var(--blade-neon-blue));
+  
+  /* Border Colors - Matrix-influenced */
+  --border-strong: oklch(var(--matrix-green));
+  --border-subtle: oklch(var(--matrix-green) / 0.5);
+  
+  /* Shadow Colors - Blade Runner influenced */
+  --shadow-color: oklch(var(--blade-neon-blue) / 0.2);
+  
+  /* Typography */
+  --font-family-base: "JetBrains Mono", "Courier New", monospace;
+  --font-family-heading: "JetBrains Mono", "Courier New", monospace;
+  
+  /* Specific effects */
+  --matrix-glow: 0 0 10px oklch(var(--matrix-green) / 0.5), 
+                0 0 20px oklch(var(--matrix-green) / 0.3);
+  --neon-blue-glow: 0 0 5px oklch(var(--blade-neon-blue) / 0.7), 
+                   0 0 10px oklch(var(--blade-neon-blue) / 0.5),
+                   0 0 15px oklch(var(--blade-neon-blue) / 0.3);
+  --neon-pink-glow: 0 0 5px oklch(var(--blade-neon-pink) / 0.7), 
+                   0 0 10px oklch(var(--blade-neon-pink) / 0.5);
+}
+
+/* Base background with smoky cityscape feel */
+[data-theme="dystopia"] .theme-background {
+  position: relative;
+  background-color: oklch(var(--matrix-black));
+  overflow: hidden;
+}
+
+/* Smoky city atmosphere - Blade Runner */
+[data-theme="dystopia"] .theme-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    linear-gradient(180deg, 
+      oklch(var(--matrix-black)) 0%,
+      oklch(var(--blade-smoke)) 100%),
+    radial-gradient(
+      circle at 70% 20%,
+      oklch(var(--blade-neon-blue) / 0.15) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 30% 70%,
+      oklch(var(--blade-neon-pink) / 0.1) 0%,
+      transparent 40%
+    );
+  opacity: 0.8;
+  z-index: -3;
+}
+
+/* Digital rain combined with Blade Runner cityscape silhouette */
+[data-theme="dystopia"] .theme-background::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Digital rain pattern combined with city silhouette */
+  background-image: 
+    linear-gradient(0deg, 
+      oklch(var(--blade-neon-blue) / 0.1) 0%,
+      transparent 15%),
+    /* Matrix digital rain - vertical green text */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cfilter id='noise' x='0%25' y='0%25' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"),
+    /* City silhouette at bottom - Blade Runner */
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 200' preserveAspectRatio='none'%3E%3Cpath fill='rgb(0, 80, 170)' fill-opacity='0.15' d='M0,200 L0,180 L40,180 L40,150 L60,150 L60,170 L80,170 L80,140 L100,140 L100,160 L120,160 L120,130 L140,130 L140,150 L160,150 L160,120 L180,120 L180,140 L200,140 L200,110 L220,110 L220,130 L240,130 L240,100 L260,100 L260,120 L280,120 L280,90 L300,90 L300,110 L320,110 L320,80 L340,80 L340,100 L360,100 L360,70 L380,70 L380,90 L400,90 L400,60 L420,60 L420,80 L440,80 L440,50 L460,50 L460,70 L480,70 L480,60 L500,60 L500,80 L520,80 L520,50 L540,50 L540,70 L560,70 L560,50 L580,50 L580,90 L600,90 L600,60 L620,60 L620,80 L640,80 L640,90 L660,90 L660,70 L680,70 L680,110 L700,110 L700,80 L720,80 L720,100 L740,100 L740,70 L760,70 L760,90 L780,90 L780,120 L800,120 L800,90 L820,90 L820,110 L840,110 L840,130 L860,130 L860,100 L880,100 L880,120 L900,120 L900,150 L920,150 L920,120 L940,120 L940,140 L960,140 L960,170 L980,170 L980,140 L1000,140 L1000,200 Z'/%3E%3C/svg%3E");
+  background-position: center, center, bottom;
+  background-size: cover, cover, 100% 30%;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+  animation: cityGlow 20s ease-in-out infinite alternate;
+  z-index: -2;
+}
+
+/* Content area with effects from both influences */
+[data-theme="dystopia"] .theme-content {
+  position: relative;
+}
+
+/* Rain effect overlay - Blade Runner influence */
+[data-theme="dystopia"] .theme-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, 
+    transparent 0%,
+    oklch(var(--blade-rain-overlay) / 0.03) 50%,
+    transparent 100%);
+  animation: rain 8s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Subtle scanlines - Matrix influence */
+[data-theme="dystopia"] .theme-content::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    oklch(var(--matrix-black) / 0.1) 2px,
+    oklch(var(--matrix-black) / 0.1) 4px
+  );
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.15;
+}
+
+/* Matrix code display - used on specific UI elements */
+[data-theme="dystopia"] [data-matrix-code] {
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="dystopia"] [data-matrix-code]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='150'%3E%3Ctext x='0' y='15' font-family='monospace' font-size='10' fill='rgba(0, 255, 65, 0.15)'%3E10010110101%3C/text%3E%3Ctext x='150' y='15' font-family='monospace' font-size='10' fill='rgba(0, 255, 65, 0.15)'%3E01101010111%3C/text%3E%3Ctext x='30' y='30' font-family='monospace' font-size='10' fill='rgba(0, 255, 65, 0.15)'%3E1001011010%3C/text%3E%3Ctext x='180' y='30' font-family='monospace' font-size='10' fill='rgba(0, 255, 65, 0.15)'%3E0110101011%3C/text%3E%3Ctext x='0' y='45' font-family='monospace' font-size='10' fill='rgba(0, 255, 65, 0.15)'%3E10110101101%3C/text%3E%3Ctext x='150' y='45' font-family='monospace' font-size='10' fill='rgba(0, 255, 65, 0.15)'%3E11001010111%3C/text%3E%3Ctext x='50' y='60' font-family='monospace' font-size='10' fill='rgba(0, 255, 65, 0.15)'%3E1010110110%3C/text%3E%3Ctext x='200' y='60' font-family='monospace' font-size='10' fill='rgba(0, 255, 65, 0.15)'%3E0101010101%3C/text%3E%3Ctext x='0' y='75' font-family='monospace' font-size='10' fill='rgba(0, 255, 65, 0.15)'%3E10101101011%3C/text%3E%3Ctext x='150' y='75' font-family='monospace' font-size='10' fill='rgba(0, 255, 65, 0.15)'%3E01101101101%3C/text%3E%3Ctext x='25' y='90' font-family='monospace' font-size='10' fill='rgba(0, 255, 65, 0.15)'%3E1011010110%3C/text%3E%3Ctext x='175' y='90' font-family='monospace' font-size='10' fill='rgba(0, 255, 65, 0.15)'%3E0110111010%3C/text%3E%3Ctext x='0' y='105' font-family='monospace' font-size='10' fill='rgba(0, 255, 65, 0.15)'%3E10110110101%3C/text%3E%3Ctext x='150' y='105' font-family='monospace' font-size='10' fill='rgba(0, 255, 65, 0.15)'%3E01101010101%3C/text%3E%3Ctext x='50' y='120' font-family='monospace' font-size='10' fill='rgba(0, 255, 65, 0.15)'%3E1010110101%3C/text%3E%3Ctext x='200' y='120' font-family='monospace' font-size='10' fill='rgba(0, 255, 65, 0.15)'%3E0110101101%3C/text%3E%3Ctext x='0' y='135' font-family='monospace' font-size='10' fill='rgba(0, 255, 65, 0.15)'%3E10101101010%3C/text%3E%3Ctext x='150' y='135' font-family='monospace' font-size='10' fill='rgba(0, 255, 65, 0.15)'%3E01010101011%3C/text%3E%3C/svg%3E");
+  opacity: 0.3;
+  z-index: -1;
+  animation: matrixScroll 30s linear infinite;
+}
+
+/* Neon text elements - Blade Runner influence with digital glyphs */
+[data-theme="dystopia"] [data-neon="blue"] {
+  color: oklch(var(--blade-neon-blue));
+  text-shadow: var(--neon-blue-glow);
+  transition: text-shadow 0.3s ease;
+  position: relative;
+}
+
+[data-theme="dystopia"] [data-neon="blue"]::before {
+  content: "⌬";
+  display: inline-block;
+  margin-right: 0.25em;
+  font-size: 1.1em;
+  vertical-align: middle;
+  opacity: 0.9;
+}
+
+[data-theme="dystopia"] [data-neon="pink"] {
+  color: oklch(var(--blade-neon-pink));
+  text-shadow: var(--neon-pink-glow);
+  transition: text-shadow 0.3s ease;
+  position: relative;
+}
+
+[data-theme="dystopia"] [data-neon="pink"]::before {
+  content: "⏣";
+  display: inline-block;
+  margin-right: 0.25em;
+  font-size: 1.1em;
+  vertical-align: middle;
+  opacity: 0.9;
+}
+
+[data-theme="dystopia"] [data-neon="orange"] {
+  color: oklch(var(--blade-neon-orange));
+  text-shadow: 0 0 5px oklch(var(--blade-neon-orange) / 0.7), 
+               0 0 10px oklch(var(--blade-neon-orange) / 0.5);
+  transition: text-shadow 0.3s ease;
+  position: relative;
+}
+
+[data-theme="dystopia"] [data-neon="orange"]::before {
+  content: "⊞";
+  display: inline-block;
+  margin-right: 0.25em;
+  font-size: 1.1em;
+  vertical-align: middle;
+  opacity: 0.9;
+}
+
+/* Matrix-style text - darker green theme */
+[data-theme="dystopia"] [data-matrix-text] {
+  color: oklch(var(--matrix-green-bright));
+  text-shadow: var(--matrix-glow);
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: 0.5px;
+}
+
+/* Holographic UI elements - Blade Runner influence */
+[data-theme="dystopia"] [data-hologram] {
+  position: relative;
+  background: linear-gradient(135deg,
+    oklch(var(--matrix-code-bg) / 0.8) 0%,
+    oklch(var(--matrix-code-bg) / 0.6) 100%);
+  border: 1px solid oklch(var(--blade-neon-blue) / 0.7);
+  box-shadow: var(--neon-blue-glow);
+  border-radius: 2px;
+  backdrop-filter: blur(4px);
+}
+
+/* Matrix-inspired console for code/log output */
+[data-theme="dystopia"] [data-console] {
+  font-family: "JetBrains Mono", monospace;
+  background: oklch(var(--matrix-code-bg));
+  border: 1px solid oklch(var(--matrix-green));
+  color: oklch(var(--matrix-green-bright));
+  box-shadow: var(--matrix-glow);
+  padding: 0.5rem;
+  border-radius: 2px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Console header with Matrix styling */
+[data-theme="dystopia"] [data-console-header] {
+  border-bottom: 1px solid oklch(var(--matrix-green));
+  padding-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Blade Runner inspired translucent panels */
+[data-theme="dystopia"] [data-panel="blade"] {
+  background: linear-gradient(135deg,
+    oklch(var(--dystopia-surface) / 0.8) 0%,
+    oklch(var(--dystopia-surface) / 0.6) 100%);
+  border: 1px solid oklch(var(--blade-neon-blue) / 0.6);
+  border-radius: 2px;
+  box-shadow: 0 0 10px oklch(var(--blade-neon-blue) / 0.2), 
+              inset 0 0 5px oklch(var(--blade-neon-blue) / 0.1);
+  backdrop-filter: blur(3px);
+}
+
+/* Animated typing effect - Matrix inspired */
+[data-theme="dystopia"] [data-typing] {
+  overflow: hidden;
+  border-right: 0.15em solid oklch(var(--matrix-green-bright));
+  white-space: nowrap;
+  animation: typing 3.5s steps(30, end) infinite,
+             blink-caret 0.75s step-end infinite;
+}
+
+/* Ghost effect - Blade Runner "Off-world" advertising inspiration */
+[data-theme="dystopia"] [data-ghost] {
+  position: relative;
+}
+
+[data-theme="dystopia"] [data-ghost]::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  opacity: 0.4;
+  color: oklch(var(--blade-neon-pink));
+  filter: blur(2px);
+  z-index: -1;
+  animation: ghost-flicker 4s infinite alternate;
+}
+
+/* Custom button styling */
+[data-theme="dystopia"] button,
+[data-theme="dystopia"] .button {
+  background-color: oklch(var(--matrix-code-bg));
+  color: oklch(var(--matrix-green-bright));
+  border: 1px solid oklch(var(--matrix-green));
+  border-radius: 2px;
+  padding: 0.5rem 1rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 5px oklch(var(--matrix-green) / 0.3);
+}
+
+[data-theme="dystopia"] button:hover,
+[data-theme="dystopia"] .button:hover {
+  background-color: oklch(var(--matrix-green) / 0.2);
+  box-shadow: 0 0 10px oklch(var(--matrix-green) / 0.5);
+}
+
+/* Neon buttons - Blade Runner inspired */
+[data-theme="dystopia"] [data-neon-button] {
+  background-color: transparent;
+  color: oklch(var(--blade-neon-blue));
+  border: 1px solid oklch(var(--blade-neon-blue));
+  border-radius: 2px;
+  padding: 0.5rem 1rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 5px oklch(var(--blade-neon-blue) / 0.3);
+  text-shadow: var(--neon-blue-glow);
+}
+
+[data-theme="dystopia"] [data-neon-button]:hover {
+  background-color: oklch(var(--blade-neon-blue) / 0.2);
+  box-shadow: 0 0 10px oklch(var(--blade-neon-blue) / 0.5);
+}
+
+/* Custom form input styling */
+[data-theme="dystopia"] input,
+[data-theme="dystopia"] textarea,
+[data-theme="dystopia"] select {
+  background-color: oklch(var(--matrix-black));
+  color: oklch(var(--matrix-green-bright));
+  border: 1px solid oklch(var(--matrix-green));
+  border-radius: 2px;
+  padding: 0.5rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+[data-theme="dystopia"] input:focus,
+[data-theme="dystopia"] textarea:focus,
+[data-theme="dystopia"] select:focus {
+  border-color: oklch(var(--matrix-green-bright));
+  outline: none;
+  box-shadow: 0 0 5px oklch(var(--matrix-green) / 0.5);
+}
+
+/* Progress bar styling */
+[data-theme="dystopia"] progress {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border: none;
+  background-color: oklch(var(--matrix-black));
+  border-radius: 0;
+}
+
+[data-theme="dystopia"] progress::-webkit-progress-bar {
+  background-color: oklch(var(--matrix-black));
+  border-radius: 0;
+}
+
+[data-theme="dystopia"] progress::-webkit-progress-value {
+  background: linear-gradient(90deg,
+    oklch(var(--matrix-green)) 0%,
+    oklch(var(--matrix-green-bright)) 100%);
+}
+
+[data-theme="dystopia"] progress::-moz-progress-bar {
+  background: linear-gradient(90deg,
+    oklch(var(--matrix-green)) 0%,
+    oklch(var(--matrix-green-bright)) 100%);
+}
+
+/* Blade Runner style advertisements */
+[data-theme="dystopia"] [data-ad] {
+  position: relative;
+  overflow: hidden;
+  padding: 1rem;
+  background: linear-gradient(135deg,
+    oklch(10% 0.05 240 / 0.7) 0%,
+    oklch(5% 0.03 300 / 0.7) 100%);
+  border: 1px solid oklch(var(--blade-neon-pink) / 0.6);
+  border-radius: 2px;
+  box-shadow: 0 0 15px oklch(var(--blade-neon-pink) / 0.3);
+}
+
+[data-theme="dystopia"] [data-ad]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg,
+    transparent 0%,
+    oklch(var(--blade-neon-pink) / 0.1) 50%,
+    transparent 100%);
+  animation: ad-sweep 5s infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Animation keyframes */
+
+/* Matrix code scroll animation */
+@keyframes matrixScroll {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+/* Rain animation */
+@keyframes rain {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+/* City glow animation for Blade Runner influence */
+@keyframes cityGlow {
+  0%, 100% {
+    opacity: 0.4;
+    filter: blur(2px);
+  }
+  50% {
+    opacity: 0.6;
+    filter: blur(1px);
+  }
+}
+
+/* Typing animation for Matrix influence */
+@keyframes typing {
+  0%, 100% { width: 0 }
+  50%, 90% { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: oklch(var(--matrix-green-bright)) }
+}
+
+/* Ghost flicker animation for Blade Runner influence */
+@keyframes ghost-flicker {
+  0%, 100% {
+    opacity: 0.4;
+    filter: blur(2px);
+  }
+  25% {
+    opacity: 0.5;
+    filter: blur(1px);
+  }
+  75% {
+    opacity: 0.3;
+    filter: blur(3px);
+  }
+}
+
+/* Ad sweep animation */
+@keyframes ad-sweep {
+  0%, 100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+}
+
+/* Glitch animation for error states */
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+    text-shadow: var(--matrix-glow);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+    text-shadow: var(--neon-pink-glow);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+    text-shadow: var(--matrix-glow);
+  }
+  60% {
+    transform: translate(2px, 2px);
+    text-shadow: 0 0 5px oklch(var(--blade-neon-orange) / 0.7);
+  }
+  80% {
+    transform: translate(2px, -2px);
+    text-shadow: var(--neon-blue-glow);
+  }
+  100% {
+    transform: translate(0);
+    text-shadow: var(--matrix-glow);
+  }
+}
+
+/* Glitch effect for error elements */
+[data-theme="dystopia"] [data-status="error"] {
+  animation: glitch 2s ease-in-out infinite alternate;
+}

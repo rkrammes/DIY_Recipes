@@ -1,0 +1,111 @@
+/* Main CSS file incorporating all themes and styles */
+
+/* Import font definitions */
+@import './fonts.css';
+
+/* Base theme styles */
+:root {
+  /* Common variables */
+  --transition-speed: 0.3s;
+  --border-radius: 4px;
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Default light theme */
+:root {
+  --background: #ffffff;
+  --surface-0: #f8f9fa;
+  --surface-1: #f1f3f5;
+  --surface-2: #e9ecef;
+  
+  --text-primary: #212529;
+  --text-secondary: #495057;
+  --text-tertiary: #868e96;
+  
+  --accent: #3b82f6;
+  --accent-contrast: #ffffff;
+  --accent-secondary: #4c6ef5;
+  --accent-tertiary: #5f3dc4;
+  
+  --error: #e03131;
+  --success: #2f9e44;
+  --warning: #e8590c;
+  --info: #1971c2;
+  
+  --border-strong: #adb5bd;
+  --border-subtle: #dee2e6;
+  
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Import theme-specific styles */
+@import './hackers-theme.css';
+@import './matrix-dystopia-theme.css';
+@import './neotopia-theme.css';
+
+/* Base layout and typography */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: oklch(var(--background));
+  color: oklch(var(--text-primary));
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Common UI components */
+.card {
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  background-color: oklch(var(--surface-0));
+  box-shadow: 0 2px 4px oklch(var(--shadow-color));
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  background-color: oklch(var(--accent));
+  color: oklch(var(--accent-contrast));
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--transition-speed), 
+              color var(--transition-speed),
+              box-shadow var(--transition-speed);
+}
+
+.button:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 3px 6px oklch(var(--shadow-color));
+}
+
+input, textarea, select {
+  padding: 0.5rem;
+  border-radius: var(--border-radius);
+  border: 1px solid oklch(var(--border-subtle));
+  background-color: oklch(var(--surface-0));
+  color: oklch(var(--text-primary));
+  transition: border-color var(--transition-speed);
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: oklch(var(--accent));
+  outline: none;
+}
+
+/* Theme provider class */
+.theme-content {
+  min-height: 100vh;
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+/* Theme background container */
+.theme-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -10;
+  overflow: hidden;
+}

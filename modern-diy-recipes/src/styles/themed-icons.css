@@ -1,0 +1,106 @@
+/* Themed Icons CSS */
+
+/* Hackers Theme Icon Effects */
+[data-theme="hackers"] .themed-icon svg path {
+  stroke: #33ff33;
+  filter: drop-shadow(0 0 1px rgba(51, 255, 51, 0.5));
+  transition: all 0.2s ease;
+}
+
+[data-theme="hackers"] .themed-icon:hover svg path {
+  filter: drop-shadow(0 0 2px rgba(51, 255, 51, 0.8));
+}
+
+[data-theme="hackers"] .themed-icon-edit svg {
+  stroke: #33ff33 !important;
+}
+
+[data-theme="hackers"] .themed-icon-delete svg {
+  stroke: #ff5555 !important;
+}
+
+/* Dystopia Theme Icon Effects */
+[data-theme="dystopia"] .themed-icon svg path {
+  stroke: #e94560;
+  filter: drop-shadow(0 0 2px rgba(233, 69, 96, 0.7));
+  transition: all 0.2s ease;
+}
+
+[data-theme="dystopia"] .themed-icon:hover svg path {
+  filter: drop-shadow(0 0 4px rgba(233, 69, 96, 0.9));
+}
+
+[data-theme="dystopia"] .themed-icon-edit svg {
+  stroke: #e94560 !important;
+}
+
+[data-theme="dystopia"] .themed-icon-delete svg {
+  stroke: #ff3366 !important;
+  filter: drop-shadow(0 0 2px rgba(255, 51, 102, 0.7));
+}
+
+/* Neotopia Theme Icon Effects */
+[data-theme="neotopia"] .themed-icon svg path {
+  stroke: #3a86ff;
+  transition: all 0.2s ease;
+}
+
+[data-theme="neotopia"] .themed-icon:hover svg path {
+  filter: drop-shadow(0 0 1px rgba(58, 134, 255, 0.5));
+}
+
+[data-theme="neotopia"] .themed-icon-edit svg {
+  stroke: #3a86ff !important;
+}
+
+[data-theme="neotopia"] .themed-icon-delete svg {
+  stroke: #ff3366 !important;
+}
+
+/* Animation effects for icons */
+@keyframes pulse-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px currentColor);
+  }
+  50% {
+    filter: drop-shadow(0 0 4px currentColor);
+  }
+}
+
+[data-theme="dystopia"] .recipe-icon svg,
+[data-theme="dystopia"] .ingredient-icon svg,
+[data-theme="dystopia"] .tool-icon svg {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Terminal-style scanline effect for hackers theme */
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0.1;
+  }
+}
+
+[data-theme="hackers"] .themed-icon {
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="hackers"] .themed-icon::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: rgba(51, 255, 51, 0.3);
+  animation: scanline 2s linear infinite;
+  pointer-events: none;
+}

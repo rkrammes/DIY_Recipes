@@ -8,39 +8,81 @@
   --color-green-500: 70% 0.3 140;
   --color-amber-500: 70% 0.3 80;
 
-  /* Typography */
-  --font-sans: 'Geist', -apple-system, system-ui, sans-serif;
-  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  /* Base Typography (fallbacks) */
+  --font-sans: var(--font-geist-sans, -apple-system, system-ui, sans-serif);
+  --font-mono: var(--font-geist-mono, ui-monospace, monospace);
   --font-display: var(--font-sans);
+  
+  /* Semantic font variables (set by theme) */
+  --font-body: var(--font-sans);
+  --font-heading: var(--font-sans);
+  --font-terminal: var(--font-mono);
+  
+  /* Font Size Scale */
+  --font-size-xs: 0.75rem;   /* 12px */
+  --font-size-sm: 0.875rem;  /* 14px */
+  --font-size-base: 1rem;    /* 16px */
+  --font-size-lg: 1.125rem;  /* 18px */
+  --font-size-xl: 1.25rem;   /* 20px */
+  --font-size-2xl: 1.5rem;   /* 24px */
+  --font-size-3xl: 1.875rem; /* 30px */
+  --font-size-4xl: 2.25rem;  /* 36px */
+  
+  /* Line Heights */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+  
+  /* Font Weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
 }
 
-/* Semantic tokens - Default (Synthwave Noir) */
-:root {
-  /* Surface tokens */
-  --surface-0: 60% 0.25 300;
-  --surface-1: 50% 0.23 300;
+/* Hackers theme - Default (Cyberpunk/Synthwave aesthetic) */
+:root, [data-theme="hackers"] {
+  /* Surface tokens - Deep, rich purples and blues */
+  --surface-0: 12% 0.15 280; /* Darker, more saturated background */
+  --surface-1: 18% 0.18 290; /* Slightly lighter panels */
   --surface-inverse: 95% 0.01 315;
 
-  /* Content tokens */
-  --text-primary: 95% 0.01 315;
-  --text-secondary: 85% 0.05 310;
-  --text-inverse: 60% 0.25 300;
+  /* Content tokens - High contrast neon text */
+  --text-primary: 90% 0.2 175; /* Bright cyan/teal text */
+  --text-secondary: 85% 0.3 320; /* Magenta-pink secondary text */
+  --text-inverse: 12% 0.15 280;
 
-  /* Interactive tokens */
-  --accent: 70% 0.3 330;
-  --accent-hover: 75% 0.32 330;
-  --accent-active: 60% 0.28 330;
+  /* Interactive tokens - Vibrant neon accents */
+  --accent: 80% 0.35 320; /* Bright magenta/pink */
+  --accent-hover: 85% 0.38 320; /* Brighter on hover */
+  --accent-active: 75% 0.32 320; /* Slightly dimmer when active */
 
   /* Decorative tokens */
-  --border-subtle: 70% 0.15 320;
-  --shadow-soft: 0 2px 6px 0 oklch(0% 0 0 / 0.3);
-  --glow-pulse: 0 0 10px oklch(70% 0.3 330);
+  --border-subtle: 70% 0.3 320 / 0.5; /* Semi-transparent borders */
+  --shadow-soft: 0 0 15px oklch(80% 0.35 320 / 0.4); /* Neon glow shadow */
+  --glow-pulse: 0 0 20px oklch(80% 0.35 320 / 0.7); /* Stronger glow effect */
 
   /* Status tokens */
-  --success: 80% 0.2 140;
-  --warning: 75% 0.18 85;
-  --error: 65% 0.3 30;
+  --success: 80% 0.25 140; /* Bright green */
+  --warning: 75% 0.25 85; /* Bright yellow */
+  --error: 70% 0.35 30; /* Bright red */
 
+  /* Theme-specific effect values */
+  --neon-intensity: 0.7;
+  --bloom-radius: 3px;
+  --grid-opacity: 0.15;
+  --scanline-opacity: 0;
+  --flicker-intensity: 0;
+  
+  /* Typography */
+  --font-body: var(--font-geist-sans, -apple-system, system-ui, sans-serif);
+  --font-heading: var(--font-geist-sans, -apple-system, system-ui, sans-serif);
+  --font-mono: var(--font-space-mono, var(--font-geist-mono), monospace);
+  --font-display: var(--font-space-mono, monospace);
+  --font-terminal: var(--font-geist-mono, monospace);
+  --letter-spacing-display: -0.025em;
+  --letter-spacing-body: normal;
+  --letter-spacing-code: -0.025em;
+  
   /* Mapping semantic tokens */
   --background: var(--surface-0);
   --foreground: var(--text-primary);
@@ -48,50 +90,196 @@
   --ring: var(--accent);
 }
 
-/* Terminal Mono theme */
-[data-theme="terminal-mono"] {
-  --surface-0: 10% 0.02 280;
-  --surface-1: 6% 0.02 280;
+/* Dystopia theme - Terminal/retro computer theme */
+[data-theme="dystopia"] {
+  /* Surface tokens - Very dark, almost black */
+  --surface-0: 4% 0.01 125; /* Almost black with slight green tint */
+  --surface-1: 8% 0.02 125; /* Slightly lighter panels */
   --surface-inverse: 85% 0.01 100;
 
-  --text-primary: 85% 0.01 100;
-  --text-secondary: 75% 0.02 110;
-  --text-inverse: 10% 0.02 280;
+  /* Content tokens - Monochrome green terminal text */
+  --text-primary: 75% 0.15 145; /* Bright green terminal text */
+  --text-secondary: 60% 0.12 145; /* Dimmer green for secondary */
+  --text-inverse: 4% 0.01 125;
 
+  /* Interactive tokens - Amber accents */
+  --accent: 65% 0.18 90; /* Amber highlights */
+  --accent-hover: 70% 0.2 90; /* Brighter amber on hover */
+  --accent-active: 55% 0.16 90; /* Dimmer when active */
+
+  /* Decorative tokens */
+  --border-subtle: 65% 0.12 145 / 0.3; /* Green terminal borders */
+  --shadow-soft: 0 2px 6px 0 oklch(0% 0 0 / 0.5); /* Stronger shadows */
+  --glow-pulse: 0 0 8px oklch(75% 0.15 145 / 0.6); /* Green glow */
+
+  /* Status tokens */
+  --success: 70% 0.15 145; /* Terminal green */
+  --warning: 70% 0.2 85; /* Amber warning */
+  --error: 65% 0.2 30; /* Red error */
+  
+  /* Theme-specific effect values */
+  --neon-intensity: 0;
+  --bloom-radius: 0;
+  --grid-opacity: 0;
+  --scanline-opacity: 0.07;
+  --flicker-intensity: 0.98;
+  --ghost-text-offset: 1px;
+  
+  /* Typography */
+  --font-body: var(--font-vga, 'VGA', monospace);
+  --font-heading: var(--font-vga, 'VGA', monospace);
+  --font-mono: var(--font-vga, 'VGA', monospace);
+  --font-display: var(--font-share-tech-mono, 'Share Tech Mono', monospace);
+  --font-terminal: var(--font-vga, 'VGA', monospace);
+  --letter-spacing-display: normal;
+  --letter-spacing-body: 0.05em;
+  --letter-spacing-code: 0.05em;
+}
+
+/* Neotopia theme - Clean, minimal, light */
+[data-theme="neotopia"] {
+  /* Surface tokens - Clean whites */
+  --surface-0: 98% 0.01 90; /* Pure white background */
+  --surface-1: 95% 0.02 90; /* Slightly darker panels */
+  --surface-inverse: 15% 0.01 90;
+
+  /* Content tokens - Sharp, dark text */
+  --text-primary: 15% 0.01 90; /* Nearly black text */
+  --text-secondary: 35% 0.03 90; /* Dark gray secondary text */
+  --text-inverse: 98% 0.01 90;
+
+  /* Interactive tokens - Modern blue accents */
+  --accent: 55% 0.18 210; /* Modern blue */
+  --accent-hover: 60% 0.2 210; /* Slightly brighter blue on hover */
+  --accent-active: 50% 0.16 210; /* Slightly dimmer when active */
+
+  /* Decorative tokens */
+  --border-subtle: 70% 0.05 90; /* Very subtle borders */
+  --shadow-soft: 0 2px 10px 0 oklch(0% 0 0 / 0.08); /* Soft, modern shadows */
+  --glow-pulse: 0 0 5px oklch(55% 0.18 210 / 0.3); /* Subtle blue glow */
+
+  /* Status tokens */
+  --success: 65% 0.15 140; /* Modern green */
+  --warning: 70% 0.15 85; /* Modern yellow */
+  --error: 65% 0.2 30; /* Modern red */
+  
+  /* Theme-specific effect values */
+  --neon-intensity: 0;
+  --bloom-radius: 0;
+  --grid-opacity: 0;
+  --scanline-opacity: 0;
+  --flicker-intensity: 0;
+  --paper-texture-opacity: 0.03;
+  
+  /* Typography */
+  --font-body: var(--font-inter, -apple-system, system-ui, sans-serif);
+  --font-heading: var(--font-inter, -apple-system, system-ui, sans-serif);
+  --font-mono: var(--font-ibm-plex-mono, var(--font-jetbrains), monospace);
+  --font-display: var(--font-inter, -apple-system, system-ui, sans-serif);
+  --font-terminal: var(--font-ibm-plex-mono, monospace);
+  --letter-spacing-display: -0.05em;
+  --letter-spacing-body: -0.01em;
+  --letter-spacing-code: normal;
+}
+
+/* Legacy theme support (for backward compatibility with renamed themes) */
+[data-theme="synthwave-noir"] {
+  --surface-0: 12% 0.15 280;
+  --surface-1: 18% 0.18 290;
+  --surface-inverse: 95% 0.01 315;
+  --text-primary: 90% 0.2 175;
+  --text-secondary: 85% 0.3 320;
+  --text-inverse: 12% 0.15 280;
+  --accent: 80% 0.35 320;
+  --accent-hover: 85% 0.38 320;
+  --accent-active: 75% 0.32 320;
+  --border-subtle: 70% 0.3 320 / 0.5;
+  --shadow-soft: 0 0 15px oklch(80% 0.35 320 / 0.4);
+  --glow-pulse: 0 0 20px oklch(80% 0.35 320 / 0.7);
+  --success: 80% 0.25 140;
+  --warning: 75% 0.25 85;
+  --error: 70% 0.35 30;
+  --neon-intensity: 0.7;
+  --bloom-radius: 3px;
+  --grid-opacity: 0.15;
+  
+  /* Typography - Same as hackers theme */
+  --font-body: var(--font-geist-sans, -apple-system, system-ui, sans-serif);
+  --font-heading: var(--font-geist-sans, -apple-system, system-ui, sans-serif);
+  --font-mono: var(--font-space-mono, var(--font-geist-mono), monospace);
+  --font-display: var(--font-space-mono, monospace);
+  --font-terminal: var(--font-geist-mono, monospace);
+  --letter-spacing-display: -0.025em;
+  --letter-spacing-body: normal;
+  --letter-spacing-code: -0.025em;
+}
+
+[data-theme="terminal-mono"] {
+  --surface-0: 4% 0.01 125;
+  --surface-1: 8% 0.02 125;
+  --surface-inverse: 85% 0.01 100;
+  --text-primary: 75% 0.15 145;
+  --text-secondary: 60% 0.12 145;
+  --text-inverse: 4% 0.01 125;
   --accent: 65% 0.18 90;
   --accent-hover: 70% 0.2 90;
   --accent-active: 55% 0.16 90;
-
-  --border-subtle: 65% 0.1 90;
-  --shadow-soft: 0 2px 6px 0 oklch(0% 0 0 / 0.3);
-  --glow-pulse: 0 0 8px oklch(65% 0.18 90);
-
-  --success: 70% 0.15 140;
+  --border-subtle: 65% 0.12 145 / 0.3;
+  --shadow-soft: 0 2px 6px 0 oklch(0% 0 0 / 0.5);
+  --glow-pulse: 0 0 8px oklch(75% 0.15 145 / 0.6);
+  --success: 70% 0.15 145;
   --warning: 70% 0.2 85;
-  --error: 60% 0.25 30;
+  --error: 65% 0.2 30;
+  --neon-intensity: 0;
+  --bloom-radius: 0;
+  --grid-opacity: 0;
+  --scanline-opacity: 0.07;
+  --flicker-intensity: 0.98;
+  --ghost-text-offset: 1px;
+  
+  /* Typography - Same as dystopia theme */
+  --font-body: var(--font-vga, 'VGA', monospace);
+  --font-heading: var(--font-vga, 'VGA', monospace);
+  --font-mono: var(--font-vga, 'VGA', monospace);
+  --font-display: var(--font-share-tech-mono, 'Share Tech Mono', monospace);
+  --font-terminal: var(--font-vga, 'VGA', monospace);
+  --letter-spacing-display: normal;
+  --letter-spacing-body: 0.05em;
+  --letter-spacing-code: 0.05em;
 }
 
-/* Paper Ledger theme */
 [data-theme="paper-ledger"] {
-  --surface-0: 94% 0.02 90;
-  --surface-1: 90% 0.02 90;
-  --surface-inverse: 25% 0.01 70;
-
-  --text-primary: 25% 0.01 70;
-  --text-secondary: 40% 0.02 75;
-  --text-inverse: 94% 0.02 90;
-
-  --accent: 60% 0.16 40;
-  --accent-hover: 65% 0.17 40;
-  --accent-active: 55% 0.15 40;
-
-  --border-subtle: 60% 0.08 40;
-  --shadow-soft: 0 1px 3px 0 oklch(0% 0 0 / 0.12);
-  --glow-pulse: 0 0 5px oklch(60% 0.16 40 / 0.5);
-
+  --surface-0: 98% 0.01 90;
+  --surface-1: 95% 0.02 90;
+  --surface-inverse: 15% 0.01 90;
+  --text-primary: 15% 0.01 90;
+  --text-secondary: 35% 0.03 90;
+  --text-inverse: 98% 0.01 90;
+  --accent: 55% 0.18 210;
+  --accent-hover: 60% 0.2 210;
+  --accent-active: 50% 0.16 210;
+  --border-subtle: 70% 0.05 90;
+  --shadow-soft: 0 2px 10px 0 oklch(0% 0 0 / 0.08);
+  --glow-pulse: 0 0 5px oklch(55% 0.18 210 / 0.3);
   --success: 65% 0.15 140;
   --warning: 70% 0.15 85;
   --error: 65% 0.2 30;
+  --neon-intensity: 0;
+  --bloom-radius: 0;
+  --grid-opacity: 0;
+  --scanline-opacity: 0;
+  --flicker-intensity: 0;
+  --paper-texture-opacity: 0.03;
+  
+  /* Typography - Same as neotopia theme */
+  --font-body: var(--font-inter, -apple-system, system-ui, sans-serif);
+  --font-heading: var(--font-inter, -apple-system, system-ui, sans-serif);
+  --font-mono: var(--font-ibm-plex-mono, var(--font-jetbrains), monospace);
+  --font-display: var(--font-inter, -apple-system, system-ui, sans-serif);
+  --font-terminal: var(--font-ibm-plex-mono, monospace);
+  --letter-spacing-display: -0.05em;
+  --letter-spacing-body: -0.01em;
+  --letter-spacing-code: normal;
 }
 
 /* Base styles */

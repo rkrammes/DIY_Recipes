@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theme & Font Demo</title>
+  <style>
+    /* Import base styles */
+    @import '/fonts.css';
+    
+    /* Base layout and resets */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    /* Theme switcher controls */
+    .theme-controls {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 100;
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    /* Theme containers */
+    .theme-section {
+      margin-bottom: 2rem;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .theme-header {
+      padding: 1rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    
+    .theme-demo {
+      padding: 2rem;
+      position: relative;
+      min-height: 400px;
+    }
+    
+    /* Demo UI elements */
+    .panel {
+      padding: 1rem;
+      margin-bottom: 1rem;
+      max-width: 500px;
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    
+    input, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 1rem;
+    }
+    
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    
+    .console {
+      font-family: monospace;
+      padding: 1rem;
+      margin-top: 1rem;
+      height: 150px;
+      overflow: auto;
+    }
+  </style>
+  
+  <!-- Include dynamically loaded CSS files -->
+  <link rel="stylesheet" href="/styles/hackers-theme.css">
+  <link rel="stylesheet" href="/styles/matrix-dystopia-theme.css">
+  <link rel="stylesheet" href="/styles/neotopia-theme.css">
+  <link rel="stylesheet" href="/fonts/system-fonts.css">
+  
+  <!-- Font scripts -->
+  <script src="/font-loader.js" defer></script>
+  <script src="/fonts/font-fallback.js" defer></script>
+  
+  <script>
+    // Theme switching logic
+    document.addEventListener('DOMContentLoaded', function() {
+      const themes = ['hackers', 'dystopia', 'neotopia'];
+      let currentTheme = 'hackers';
+      
+      // Set initial theme
+      document.documentElement.dataset.theme = currentTheme;
+      
+      // Add event listeners to theme buttons
+      themes.forEach(theme => {
+        const btn = document.getElementById(`theme-${theme}`);
+        if (btn) {
+          btn.addEventListener('click', () => {
+            document.documentElement.dataset.theme = theme;
+            currentTheme = theme;
+            updateActiveButton();
+          });
+        }
+      });
+      
+      function updateActiveButton() {
+        themes.forEach(theme => {
+          const btn = document.getElementById(`theme-${theme}`);
+          if (btn) {
+            if (theme === currentTheme) {
+              btn.setAttribute('disabled', 'disabled');
+            } else {
+              btn.removeAttribute('disabled');
+            }
+          }
+        });
+      }
+      
+      // Initial button state
+      updateActiveButton();
+    });
+  </script>
+</head>
+<body>
+  <!-- Theme Controls -->
+  <div class="theme-controls">
+    <button id="theme-hackers">█ Hackers █</button>
+    <button id="theme-dystopia">⏣ Dystopia ⏣</button>
+    <button id="theme-neotopia">◉ Neotopia ◉</button>
+  </div>
+  
+  <div class="container">
+    <h1>Theme & Font Demo</h1>
+    
+    <!-- Theme Background Container -->
+    <div class="theme-background"></div>
+    
+    <!-- Theme Content Area -->
+    <div class="theme-content">
+      <div class="theme-section">
+        <div class="theme-header">Interactive Demo</div>
+        
+        <div class="theme-demo">
+          <!-- Hackers Theme Panel -->
+          <div data-hackers-window data-title="SYSTEM CONSOLE">
+            <div data-dos-border>
+              <div class="form-group">
+                <label>Command Input:</label>
+                <input type="text" placeholder="Enter command...">
+              </div>
+              
+              <div class="button-group">
+                <button>[F5] EXEC</button>
+                <button>[F7] CLR</button>
+                <button data-status="error">[F9] ABORT</button>
+              </div>
+            </div>
+            
+            <div data-terminal-text class="console">
+              C:\> INITIALIZE.EXE<br>
+              Initializing system...<br>
+              Checking resources...[OK]<br>
+              C:\> NET.EXE CONNECT<br>
+              Connecting to network...[OK]<br>
+              Access granted<br>
+              C:\> _
+            </div>
+            
+            <div class="status-row">
+              <div>Status: <span data-highlight>█ ONLINE █</span></div>
+              <div>Users: <span data-highlight>1</span></div>
+              <div>Tasks: <span data-highlight>3</span></div>
+              <div>Mem: <span data-highlight>640K</span></div>
+            </div>
+          </div>
+          
+          <!-- Matrix/Dystopia Theme Panel -->
+          <div data-panel="blade" data-hologram>
+            <div data-console-header>
+              <span data-matrix-text>NEURAL INTERFACE</span>
+              <span data-neon="blue">▋ACTIVE▋</span>
+              <span style="font-size: 0.8em; opacity: 0.7;">[10100111]</span>
+            </div>
+            
+            <div class="form-group">
+              <label data-matrix-text>Access Code:</label>
+              <input type="password" placeholder="Enter access code...">
+            </div>
+            
+            <div class="button-group">
+              <button data-matrix-text>⏣ DECRYPT ⏣</button>
+              <button data-neon-button>⌬ SCAN NETWORK ⌬</button>
+            </div>
+            
+            <div data-console>
+              <span data-typing>Searching neural pathways...</span>
+              <br>
+              <span data-ghost data-text="Connection Established">Connection Established</span>
+              <br>
+              <span style="opacity:0.7">01001110 01100101 01110101 01110010 01100001 01101100</span>
+              <br>
+              <span style="color: #00ff41; text-shadow: 0 0 5px #00ff41;">≡ System breach detected ≡</span>
+            </div>
+            
+            <div class="metrics">
+              <div>⌬CPU: <progress value="60" max="100"></progress> <span style="font-size:0.8em;opacity:0.7">60%</span></div>
+              <div>⌬MEM: <progress value="42" max="100"></progress> <span style="font-size:0.8em;opacity:0.7">42%</span></div>
+              <div>⊞NET: <progress value="87" max="100"></progress> <span style="font-size:0.8em;opacity:0.7">87%</span></div>
+              <div>⊞SYS: <progress value="91" max="100"></progress> <span style="font-size:0.8em;opacity:0.7">91%</span></div>
+            </div>
+          </div>
+          
+          <!-- Neotopia Theme Panel -->
+          <div data-hologram data-glass>
+            <div data-hologram-header>
+              <span data-neon="blue">◉ SYSTEM CONTROL</span>
+              <span>○ v3.4.2 ○</span>
+              <span style="margin-left: auto">❖ ACTIVE</span>
+            </div>
+            
+            <div class="form-group">
+              <label>Monitor Settings:</label>
+              <input type="text" placeholder="Configure system...">
+            </div>
+            
+            <div class="button-group">
+              <button>◐ Activate System ◑</button>
+              <button data-animated-border>⟳ Synchronize Network ⟲</button>
+            </div>
+            
+            <div class="metrics">
+              <div>◐ Processing: <progress value="75" max="100"></progress></div>
+              <div>◑ Storage: <progress value="32" max="100"></progress></div>
+              <div>◎ Bandwidth: <progress value="61" max="100"></progress></div>
+              <div>◉ Security: <progress value="89" max="100"></progress></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

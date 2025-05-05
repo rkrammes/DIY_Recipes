@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="hackers">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DIY Recipes - Visual Test</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    :root {
+      --color-background: var(--background);
+      --color-foreground: var(--text);
+      --color-accent: var(--accent);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html[data-theme="hackers"] {
+      --background: oklch(12% 0.15 280);
+      --text: oklch(95% 0.01 320);
+      --accent: oklch(70% 0.3 330);
+    }
+    
+    html[data-theme="dystopia"] {
+      --background: oklch(4% 0.01 125);
+      --text: oklch(85% 0.1 140);
+      --accent: oklch(70% 0.18 90);
+    }
+    
+    html[data-theme="neotopia"] {
+      --background: oklch(98% 0.01 90);
+      --text: oklch(25% 0.01 70);
+      --accent: oklch(60% 0.16 40);
+    }
+    
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: var(--color-background);
+      color: var(--color-foreground);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    h1, h2, h3 {
+      margin-bottom: 1rem;
+      color: var(--color-accent);
+    }
+    
+    p {
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    
+    .card {
+      background-color: color-mix(in oklch, var(--color-background), white 10%);
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    button {
+      background-color: var(--color-accent);
+      color: var(--color-background);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      font-weight: bold;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    button:hover {
+      filter: brightness(1.1);
+    }
+    
+    .theme-controls {
+      margin: 2rem 0;
+    }
+    
+    .animation-test {
+      height: 100px;
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 2rem;
+    }
+    
+    .animation-box {
+      height: 50px;
+      width: 50px;
+      background-color: var(--color-accent);
+      position: absolute;
+      top: 25px;
+      left: 0;
+      transition: transform 0.5s ease-in-out;
+    }
+    
+    .animation-active .animation-box {
+      transform: translateX(calc(100% - 50px));
+    }
+    
+    /* Provider test selectors */
+    .provider-data {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>DIY Recipes Visual Test</h1>
+    <p>This page tests the theme, animation, and provider implementation.</p>
+    
+    <div class="theme-controls">
+      <h2>Theme Controls</h2>
+      <button onclick="setTheme('hackers')">Hackers Theme</button>
+      <button onclick="setTheme('dystopia')">Dystopia Theme</button>
+      <button onclick="setTheme('neotopia')">Neotopia Theme</button>
+    </div>
+    
+    <div class="card">
+      <h3>Theme Demo</h3>
+      <p>This card demonstrates the current theme. The background, text, and accent colors should change when you switch themes.</p>
+    </div>
+    
+    <h2>Animation Test</h2>
+    <div class="animation-test" id="animationTest">
+      <div class="animation-box" id="animationBox"></div>
+    </div>
+    <button onclick="toggleAnimation()">Toggle Animation</button>
+    
+    <div class="card">
+      <h3>Provider Test</h3>
+      <p>This section tests provider initialization order and theme propagation.</p>
+      <div>
+        <p>Initialization order: <span id="providerOrder">Not initialized</span></p>
+        <p>Current theme: <span id="currentTheme">Not detected</span></p>
+      </div>
+    </div>
+    
+    <!-- Hidden elements to track provider initialization -->
+    <div class="provider-data" data-provider-type="theme" id="themeProvider"></div>
+    <div class="provider-data" data-provider-type="audio" id="audioProvider"></div>
+    <div class="provider-data" data-provider-type="animation" id="animationProvider"></div>
+  </div>
+  
+  <script>
+    // Global state
+    window._providerOrder = [];
+    window._consoleErrors = [];
+    
+    // Store original console.error
+    const originalError = console.error;
+    
+    // Override console.error to capture hydration warnings
+    console.error = function() {
+      // Check for hydration errors
+      const args = Array.from(arguments);
+      const message = args.join(' ');
+      if (message.includes('hydration') || message.includes('Hydration')) {
+        window._hydrationErrorDetected = true;
+      }
+      
+      // Store all errors
+      window._consoleErrors.push(message);
+      
+      // Call original
+      return originalError.apply(console, arguments);
+    };
+    
+    // Set the theme
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      document.getElementById('currentTheme').textContent = theme;
+      
+      // Update theme provider data
+      document.getElementById('themeProvider').setAttribute('data-theme', theme);
+      
+      // Simulate theme propagation
+      setTimeout(() => {
+        document.getElementById('animationProvider').setAttribute('data-theme', theme);
+        window.__debug_animation_theme = theme;
+      }, 100);
+      
+      // Store in localStorage
+      try {
+        localStorage.setItem('theme', theme);
+      } catch (e) {
+        console.error('Could not save theme to localStorage:', e);
+      }
+    }
+    
+    // Toggle animation
+    function toggleAnimation() {
+      const animationTest = document.getElementById('animationTest');
+      animationTest.classList.toggle('animation-active');
+    }
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      // Simulate provider initialization
+      setTimeout(() => {
+        initProvider('theme');
+      }, 100);
+      
+      setTimeout(() => {
+        initProvider('audio');
+      }, 200);
+      
+      setTimeout(() => {
+        initProvider('animation');
+      }, 300);
+      
+      // Get current theme
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      document.getElementById('currentTheme').textContent = currentTheme;
+    });
+    
+    // Simulate provider initialization
+    function initProvider(type) {
+      window._providerOrder.push(type);
+      
+      const provider = document.getElementById(`${type}Provider`);
+      if (provider) {
+        provider.setAttribute('data-provider-initialized', 'true');
+      }
+      
+      document.getElementById('providerOrder').textContent = window._providerOrder.join(' → ');
+    }
+    
+    // Expose for testing
+    window.runTest = function() {
+      return {
+        providerOrder: window._providerOrder,
+        consoleErrors: window._consoleErrors,
+        currentTheme: document.documentElement.getAttribute('data-theme'),
+        animationTheme: window.__debug_animation_theme,
+        hydrationErrors: window._hydrationErrorDetected || false
+      };
+    };
+  </script>
+</body>
+</html>

@@ -1,38 +1,94 @@
 'use client';
 
-import React, { useCallback } from 'react';
-import { useTheme } from '../providers/ThemeProvider';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useTheme } from '../providers/ConsolidatedThemeProvider';
+import { useAudio } from '../providers/AudioProvider';
 import { motion } from 'framer-motion';
-import { useAudio } from '../hooks/useAudio';
+
+// Define available themes
+const AVAILABLE_THEMES = {
+  'hackers': 'Hackers Terminal',
+  'dystopia': 'Dystopian Noir',
+  'neotopia': 'Neotopia Light'
+};
 
 export function SettingsOverlay() {
-  const { theme, setTheme, audioEnabled, setAudioEnabled } = useTheme();
-  const { playSound } = useAudio(audioEnabled);
-
-  const handleThemeChange = useCallback((newTheme: 'synthwave-noir' | 'terminal-mono' | 'paper-ledger') => {
-    console.log('Theme change:', newTheme, 'Audio enabled:', audioEnabled);
-    setTheme(newTheme);
-    if (audioEnabled) {
-      console.log('Playing theme change sound...');
-      playSound('modalOpen', newTheme);
-    }
-  }, [setTheme, audioEnabled, playSound]);
-
-  const handleAudioToggle = useCallback(() => {
-    const newState = !audioEnabled;
-    console.log('Toggling audio:', newState);
-    setAudioEnabled(newState);
-    localStorage.setItem('audioEnabled', newState.toString());
+  // Use the safe provider value accessor
+  const { value: themeContext } = useTheme();
+  const { value: audioContext } = useAudio();
+  const [mounted, setMounted] = useState(false);
+  
+  // Set mounted state to prevent hydration issues
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  
+  // Handle theme change with proper error handling
+  const handleThemeChange = useCallback((newTheme: string) => {
+    if (!themeContext || !themeContext.setTheme) return;
     
-    if (newState) {
-      console.log('Playing test sound...');
-      // Small delay to ensure audio context is initialized
-      setTimeout(() => {
-        playSound('success', theme);
-      }, 100);
+    try {
+      themeContext.setTheme(newTheme);
+      
+      // Play sound if audio is enabled and ready
+      if (
+        themeContext.audioEnabled && 
+        audioContext && 
+        audioContext.isReady && 
+        audioContext.playSound
+      ) {
+        audioContext.playSound('modalOpen');
+      }
+    } catch (error) {
+      console.error('Error changing theme:', error);
     }
-  }, [audioEnabled, setAudioEnabled, theme, playSound]);
-
+  }, [themeContext, audioContext]);
+  
+  // Handle audio toggle with proper error handling
+  const handleAudioToggle = useCallback(() => {
+    if (!themeContext || !themeContext.setAudioEnabled) return;
+    
+    try {
+      const newState = !themeContext.audioEnabled;
+      themeContext.setAudioEnabled(newState);
+      
+      // Play test sound if enabled
+      if (
+        newState && 
+        audioContext && 
+        audioContext.isReady && 
+        audioContext.playSound
+      ) {
+        setTimeout(() => {
+          audioContext.playSound('success');
+        }, 100);
+      }
+    } catch (error) {
+      console.error('Error toggling audio:', error);
+    }
+  }, [themeContext, audioContext]);
+  
+  // Play hover sound if audio is enabled
+  const handleHover = useCallback(() => {
+    if (
+      themeContext?.audioEnabled && 
+      audioContext?.isReady && 
+      audioContext?.playSound
+    ) {
+      audioContext.playSound('hover');
+    }
+  }, [themeContext, audioContext]);
+  
+  // Don't render until mounted to prevent hydration issues
+  if (!mounted || !themeContext) {
+    return (
+      <div className="p-4 rounded-lg bg-surface-1/80 backdrop-blur">
+        <div className="animate-pulse h-6 w-24 bg-surface-2 rounded mb-4"></div>
+        <div className="animate-pulse h-32 w-full bg-surface-2 rounded"></div>
+      </div>
+    );
+  }
+  
   return (
     <motion.div
       className="p-4 rounded-lg bg-surface-1/80 backdrop-blur"
@@ -47,45 +103,22 @@ export function SettingsOverlay() {
         <div>
           <h3 className="text-sm font-medium mb-2">Theme</h3>
           <div className="space-y-2">
-            <motion.button
-              onClick={() => handleThemeChange('synthwave-noir')}
-              className={`w-full px-4 py-2 rounded transition-all ${
-                theme === 'synthwave-noir'
-                  ? 'bg-accent text-surface-0'
-                  : 'bg-surface-2/50 hover:bg-surface-2'
-              }`}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onHoverStart={() => audioEnabled && playSound('hover', theme)}
-            >
-              Switch to Synthwave Noir
-            </motion.button>
-            <motion.button
-              onClick={() => handleThemeChange('terminal-mono')}
-              className={`w-full px-4 py-2 rounded transition-all ${
-                theme === 'terminal-mono'
-                  ? 'bg-accent text-surface-0'
-                  : 'bg-surface-2/50 hover:bg-surface-2'
-              }`}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onHoverStart={() => audioEnabled && playSound('hover', theme)}
-            >
-              Switch to Terminal Mono
-            </motion.button>
-            <motion.button
-              onClick={() => handleThemeChange('paper-ledger')}
-              className={`w-full px-4 py-2 rounded transition-all ${
-                theme === 'paper-ledger'
-                  ? 'bg-accent text-surface-0'
-                  : 'bg-surface-2/50 hover:bg-surface-2'
-              }`}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onHoverStart={() => audioEnabled && playSound('hover', theme)}
-            >
-              Switch to Paper Ledger
-            </motion.button>
+            {Object.entries(AVAILABLE_THEMES).map(([themeKey, themeName]) => (
+              <motion.button
+                key={themeKey}
+                onClick={() => handleThemeChange(themeKey)}
+                className={`w-full px-4 py-2 rounded transition-all ${
+                  themeContext.theme === themeKey
+                    ? 'bg-accent text-surface-0'
+                    : 'bg-surface-2/50 hover:bg-surface-2'
+                }`}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onHoverStart={handleHover}
+              >
+                {themeName} {themeKey === 'hackers' ? '💻' : themeKey === 'dystopia' ? '🔮' : '✨'}
+              </motion.button>
+            ))}
           </div>
         </div>
 
@@ -95,17 +128,17 @@ export function SettingsOverlay() {
           <motion.button
             onClick={handleAudioToggle}
             className={`w-full px-4 py-2 rounded transition-all ${
-              audioEnabled
+              themeContext.audioEnabled
                 ? 'bg-accent text-surface-0'
                 : 'bg-surface-2/50 hover:bg-surface-2'
             }`}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            {audioEnabled ? 'Sound Effects: On' : 'Sound Effects: Off'}
+            {themeContext.audioEnabled ? 'Sound Effects: On' : 'Sound Effects: Off'}
           </motion.button>
           <p className="text-xs text-text-secondary mt-1">
-            {audioEnabled
+            {themeContext.audioEnabled
               ? 'Click anywhere to initialize audio'
               : 'Enable for interactive sound effects'}
           </p>

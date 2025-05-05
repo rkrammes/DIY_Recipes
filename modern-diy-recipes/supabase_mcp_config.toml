@@ -1,0 +1,19 @@
+# Supabase MCP Server Configuration
+
+# Project Reference
+project_ref = "bzudglfxxywugesncjnz"
+
+# Region
+region = "us-east-2"
+
+# Database Password
+db_password = "pypsa5-ryqvof-baDmyx"
+
+# Service Role Key
+service_role_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6dWRnbGZ4eHl3dWdlc25jam56Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MTgyOTkwMCwiZXhwIjoyMDU3NDA1OTAwfQ.ut4hsRzt1zDXNTtuj4WJz0dpQDPngwbrtL5Msa7MZyQ"
+
+# Access Token
+access_token = "sbp_4c3cad4a611470eaa4250562e91f0385bdd22f38"
+
+# Query API Key
+query_api_key = "qry_v1_HG44qoC327GJ30-pD-Swi-o0I9rKKPgyLxyERIlKEFM"

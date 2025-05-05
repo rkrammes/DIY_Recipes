@@ -1,0 +1,4 @@
+[2025-05-04T06:02:20.123Z] === Next.js Server Connectivity Verification ===
+[2025-05-04T06:02:20.125Z] Starting Next.js server...
+[2025-05-04T06:02:20.126Z] Server process ID: 14234
+[2025-05-04T06:03:20.128Z] ERROR: Server failed to start within 60 seconds

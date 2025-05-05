@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Static Test Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2em;
+    }
+    .test-result {
+      padding: 1em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 1em;
+    }
+    .success {
+      background-color: #e6ffe6;
+      border-color: #99cc99;
+    }
+    .error {
+      background-color: #ffe6e6;
+      border-color: #cc9999;
+    }
+  </style>
+</head>
+<body>
+  <h1>Static Test Page</h1>
+  <p>This is a static HTML file to test connectivity and to verify our stability fixes worked.</p>
+  
+  <div class="test-result success">
+    <h2>✅ Static HTML Test</h2>
+    <p>If you're seeing this page, the static file server is working correctly.</p>
+  </div>
+  
+  <script>
+    // Add a timestamp to the page
+    const timestamp = document.createElement('p');
+    timestamp.textContent = `Page loaded at: ${new Date().toLocaleString()}`;
+    document.body.appendChild(timestamp);
+    
+    // Test if JavaScript is working
+    const jsTest = document.createElement('div');
+    jsTest.className = 'test-result success';
+    jsTest.innerHTML = `
+      <h2>✅ JavaScript Test</h2>
+      <p>JavaScript is working correctly.</p>
+    `;
+    document.body.appendChild(jsTest);
+  </script>
+</body>
+</html>

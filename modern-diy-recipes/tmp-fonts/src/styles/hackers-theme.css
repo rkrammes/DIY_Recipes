@@ -1,0 +1,342 @@
+/* Hackers Theme (1995 movie)
+ * Authentic DOS/ANSI aesthetic with CRT monitor effects
+ * and the iconic "City of Text" 3D grid visualization
+ */
+
+/* Hackers theme colors - authentic to the movie */
+:root {
+  --hackers-aqua: 70% 0.18 195;      /* Authentic aqua/teal from the movie */
+  --hackers-aqua-dark: 40% 0.13 195; /* Darker variant */
+  --hackers-aqua-light: 85% 0.2 195; /* Lighter highlight variant */
+  --hackers-black: 1% 0 0;          /* Deep CRT black */
+  --hackers-orange: 70% 0.15 60;     /* Warning/alert color */
+  --hackers-white: 95% 0.01 0;      /* Text highlight color */
+  --hackers-blue: 40% 0.18 250;      /* Classic DOS blue */
+}
+
+/* Theme-specific variables */
+[data-theme="hackers"] {
+  /* Basic colors */
+  --background: var(--hackers-black);
+  --surface-0: 3% 0.01 0;            /* Terminal background */
+  --surface-1: 5% 0.02 0;            /* Window surface */
+  --surface-2: 7% 0.03 0;            /* Panel surface */
+  
+  /* Text colors - authentic CRT teal */
+  --text-primary: var(--hackers-aqua);
+  --text-secondary: var(--hackers-aqua-dark);
+  --text-tertiary: var(--hackers-aqua-light);
+  
+  /* Accent colors */
+  --accent: var(--hackers-aqua);
+  --accent-contrast: var(--hackers-black);
+  --accent-secondary: var(--hackers-white);
+  --accent-tertiary: var(--hackers-orange);
+  
+  /* Status colors */
+  --error: 65% 0.15 30;              /* Red error text */
+  --success: var(--hackers-aqua);    /* Success indicator */
+  --warning: var(--hackers-orange);  /* Warning color */
+  --info: var(--hackers-blue);       /* Info color */
+  
+  /* Border colors */
+  --border-strong: var(--hackers-aqua);
+  --border-subtle: var(--hackers-aqua-dark);
+  
+  /* Shadow for DOS windows */
+  --shadow-color: 0% 0 0 / 0.5;
+  
+  /* Typography - use authentic DOS/VGA font */
+  --font-family-base: 'VGA', 'Share Tech Mono', monospace;
+  --font-family-heading: 'VGA', 'Share Tech Mono', monospace;
+  
+  /* Specific effects */
+  --crt-glow: 0 0 2px oklch(var(--hackers-aqua) / 0.8), 
+              0 0 4px oklch(var(--hackers-aqua) / 0.4);
+  --aqua-glow: 0 0 1px oklch(var(--hackers-aqua-light) / 0.9), 
+               0 0 3px oklch(var(--hackers-aqua-light) / 0.6);
+}
+
+/* CRT monitor effect with authentic phosphor glow */
+[data-theme="hackers"] .theme-background {
+  position: relative;
+  background-color: oklch(var(--hackers-black));
+  overflow: hidden;
+}
+
+/* Phosphor glow effect */
+[data-theme="hackers"] .theme-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(
+      ellipse at center,
+      oklch(7% 0.05 195) 0%,
+      oklch(var(--hackers-black)) 70%
+    );
+  /* Subtle curved CRT screen effect */
+  box-shadow: 
+    inset 0 0 50px oklch(var(--hackers-black)),
+    inset 0 0 100px oklch(var(--hackers-black)),
+    inset 0 0 150px oklch(var(--hackers-black));
+  z-index: -2;
+}
+
+/* City of Text - authentic 3D grid visualization from Hackers movie */
+[data-theme="hackers"] .theme-background::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 40vh;
+  /* 3D grid perspective with ASCII characters */
+  background-image: 
+    /* Horizontal lines, fading into distance */
+    repeating-linear-gradient(
+      to bottom,
+      oklch(var(--hackers-aqua) / 0.05) 0px,
+      oklch(var(--hackers-aqua) / 0.05) 1px,
+      transparent 1px,
+      transparent 20px
+    ),
+    /* Vertical lines, converging to center */
+    repeating-conic-gradient(
+      oklch(var(--hackers-black)) 0deg,
+      oklch(var(--hackers-aqua) / 0.1) 0.1deg,
+      oklch(var(--hackers-black)) 0.2deg,
+      oklch(var(--hackers-black)) 3deg
+    );
+  background-size: 100% 100%, 50% 50%;
+  background-position: 0 0, 50% 100%;
+  /* Add perspective distortion */
+  transform: perspective(500px) rotateX(60deg);
+  transform-origin: bottom;
+  opacity: 0.7;
+  z-index: -1;
+}
+
+/* CRT scan lines effect */
+[data-theme="hackers"] .theme-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Horizontal scanlines */
+  background: repeating-linear-gradient(
+    to bottom,
+    oklch(var(--hackers-black) / 0.15) 0px,
+    oklch(var(--hackers-black) / 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.4;
+}
+
+/* CRT flicker animation */
+[data-theme="hackers"] .theme-content {
+  position: relative;
+  animation: crt-flicker 10s infinite;
+}
+
+/* Subtle flicker animation */
+@keyframes crt-flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.95; }
+  94% { opacity: 0.98; }
+  95% { opacity: 0.9; }
+  96% { opacity: 0.98; }
+  97% { opacity: 1; }
+  98% { opacity: 0.95; }
+  99% { opacity: 1; }
+}
+
+/* Authentic DOS/Norton Commander style window with header bar */
+[data-theme="hackers"] [data-hackers-window] {
+  position: relative;
+  /* DOS programs had distinct borders with header bars */
+  border: 2px solid oklch(var(--hackers-aqua)) !important;
+  /* No box-shadow in authentic DOS UI */
+  box-shadow: none !important;
+  /* Sharp corners for authentic DOS look */
+  border-radius: 0 !important;
+  background: oklch(var(--hackers-black)) !important; /* Pure black bg */
+  overflow: visible; /* Allow header to overflow */
+}
+
+/* Classic DOS title bar */
+[data-theme="hackers"] [data-hackers-window]::before {
+  content: "╔═══" attr(data-title) "═══╗";
+  position: absolute;
+  top: -20px; /* Above window */
+  left: 0;
+  right: 0;
+  height: 20px;
+  padding: 2px 8px;
+  background: oklch(var(--hackers-aqua)); /* Classic DOS blue header */
+  color: oklch(var(--hackers-black)); /* Inverted text */
+  font-family: 'VGA', monospace;
+  font-size: 14px;
+  text-transform: uppercase;
+  line-height: 16px;
+  letter-spacing: 0;
+  text-align: center;
+  border: none;
+}
+
+/* Double-lined DOS-style borders using box-drawing characters */
+[data-theme="hackers"] [data-dos-border] {
+  position: relative;
+  border: none !important;
+  padding: 0 !important;
+  margin: 10px 0;
+}
+
+[data-theme="hackers"] [data-dos-border]::before {
+  content: "╔══════════════════════════════════╗";
+  display: block;
+  color: oklch(var(--hackers-aqua));
+  font-family: 'VGA', monospace;
+  white-space: nowrap;
+}
+
+[data-theme="hackers"] [data-dos-border]::after {
+  content: "╚══════════════════════════════════╝";
+  display: block;
+  color: oklch(var(--hackers-aqua));
+  font-family: 'VGA', monospace;
+  white-space: nowrap;
+}
+
+[data-theme="hackers"] [data-dos-border] > * {
+  margin-left: 2px;
+  margin-right: 2px;
+  position: relative;
+}
+
+[data-theme="hackers"] [data-dos-border] > *::before {
+  content: "║";
+  position: absolute;
+  left: -2px;
+  top: 0;
+  bottom: 0;
+  color: oklch(var(--hackers-aqua));
+  font-family: 'VGA', monospace;
+}
+
+[data-theme="hackers"] [data-dos-border] > *::after {
+  content: "║";
+  position: absolute;
+  right: -2px;
+  top: 0;
+  bottom: 0;
+  color: oklch(var(--hackers-aqua));
+  font-family: 'VGA', monospace;
+}
+
+/* DOS-style text highlights */
+[data-theme="hackers"] [data-highlight] {
+  background-color: oklch(var(--hackers-aqua));
+  color: oklch(var(--hackers-black));
+  padding: 0 4px;
+}
+
+/* DOS-style buttons */
+[data-theme="hackers"] button,
+[data-theme="hackers"] .button {
+  background-color: oklch(var(--hackers-black));
+  color: oklch(var(--hackers-aqua));
+  border: 1px solid oklch(var(--hackers-aqua));
+  border-radius: 0;
+  padding: 4px 8px;
+  font-family: 'VGA', monospace;
+  text-transform: uppercase;
+  box-shadow: none;
+}
+
+[data-theme="hackers"] button:hover,
+[data-theme="hackers"] .button:hover {
+  background-color: oklch(var(--hackers-aqua));
+  color: oklch(var(--hackers-black));
+  box-shadow: none;
+}
+
+/* Authentic DOS input fields */
+[data-theme="hackers"] input,
+[data-theme="hackers"] textarea {
+  background-color: oklch(var(--hackers-black));
+  color: oklch(var(--hackers-aqua-light));
+  border: 1px solid oklch(var(--hackers-aqua));
+  border-radius: 0;
+  padding: 4px;
+  font-family: 'VGA', monospace;
+}
+
+/* DOS-style cursor blinking */
+[data-theme="hackers"] input:focus {
+  animation: dos-cursor-blink 1s infinite;
+  caret-color: oklch(var(--hackers-aqua-light));
+  outline: none;
+}
+
+@keyframes dos-cursor-blink {
+  0%, 49% { border-color: oklch(var(--hackers-aqua)); }
+  50%, 100% { border-color: oklch(var(--hackers-aqua-light)); }
+}
+
+/* DOS-style table */
+[data-theme="hackers"] table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+[data-theme="hackers"] th {
+  background-color: oklch(var(--hackers-aqua));
+  color: oklch(var(--hackers-black));
+  text-align: left;
+  padding: 4px 8px;
+  font-weight: normal;
+  text-transform: uppercase;
+}
+
+[data-theme="hackers"] td {
+  padding: 4px 8px;
+  border: 1px solid oklch(var(--hackers-aqua) / 0.3);
+}
+
+/* Glowing terminal text effect */
+[data-theme="hackers"] [data-terminal-text] {
+  color: oklch(var(--hackers-aqua-light));
+  text-shadow: var(--aqua-glow);
+}
+
+/* Progress bar styling */
+[data-theme="hackers"] progress {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 16px;
+  border: 1px solid oklch(var(--hackers-aqua));
+  background-color: oklch(var(--hackers-black));
+}
+
+[data-theme="hackers"] progress::-webkit-progress-bar {
+  background-color: oklch(var(--hackers-black));
+}
+
+[data-theme="hackers"] progress::-webkit-progress-value {
+  background-color: oklch(var(--hackers-aqua));
+}
+
+[data-theme="hackers"] progress::-moz-progress-bar {
+  background-color: oklch(var(--hackers-aqua));
+}

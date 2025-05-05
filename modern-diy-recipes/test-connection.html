@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Next.js Server Test</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2em;
+    }
+    .test-card {
+      padding: 1em;
+      margin-bottom: 1em;
+      border: 1px solid #eee;
+      border-radius: 5px;
+    }
+    .success { color: green; }
+    .error { color: red; }
+    .pending { color: orange; }
+    .url { font-family: monospace; }
+    button {
+      background-color: #0070f3;
+      color: white;
+      border: none;
+      padding: 0.5em 1em;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0051a2;
+    }
+  </style>
+</head>
+<body>
+  <h1>Next.js Server Connection Test</h1>
+  <p>This page will test connections to various endpoints to help diagnose server connectivity issues.</p>
+  
+  <div class="test-card">
+    <h2>1. Test localhost:3000</h2>
+    <p>Status: <span id="test1-status" class="pending">Pending</span></p>
+    <p>URL: <span class="url">http://localhost:3000</span></p>
+    <button onclick="testConnection('http://localhost:3000', 'test1-status')">Run Test</button>
+    <div id="test1-details"></div>
+  </div>
+  
+  <div class="test-card">
+    <h2>2. Test 127.0.0.1:3000</h2>
+    <p>Status: <span id="test2-status" class="pending">Pending</span></p>
+    <p>URL: <span class="url">http://127.0.0.1:3000</span></p>
+    <button onclick="testConnection('http://127.0.0.1:3000', 'test2-status')">Run Test</button>
+    <div id="test2-details"></div>
+  </div>
+  
+  <div class="test-card">
+    <h2>3. Test Custom Port 3001</h2>
+    <p>Status: <span id="test3-status" class="pending">Pending</span></p>
+    <p>URL: <span class="url">http://localhost:3001</span></p>
+    <button onclick="testConnection('http://localhost:3001', 'test3-status')">Run Test</button>
+    <div id="test3-details"></div>
+  </div>
+  
+  <div class="test-card">
+    <h2>4. Test Custom URL</h2>
+    <input type="text" id="custom-url" value="http://localhost:8080" style="width: 300px;">
+    <p>Status: <span id="test4-status" class="pending">Pending</span></p>
+    <button onclick="testConnection(document.getElementById('custom-url').value, 'test4-status')">Run Test</button>
+    <div id="test4-details"></div>
+  </div>
+  
+  <h2>Troubleshooting Suggestions</h2>
+  <ul>
+    <li>Try running <code>npm run dev -- -p 3456</code> to use a different port</li>
+    <li>Check firewall settings for localhost connections</li>
+    <li>Try opening the URL in a different browser</li>
+    <li>Check the terminal output for any error messages</li>
+  </ul>
+  
+  <script>
+    // Test connection to a URL
+    function testConnection(url, statusElementId) {
+      const statusElement = document.getElementById(statusElementId);
+      const detailsElement = document.getElementById(statusElementId.replace('-status', '-details'));
+      
+      statusElement.textContent = 'Testing...';
+      statusElement.className = 'pending';
+      detailsElement.innerHTML = '';
+      
+      // Create a fetch request with timeout
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Request timed out')), 5000);
+      });
+      
+      Promise.race([
+        fetch(url, {
+          mode: 'no-cors' // This allows us to at least detect if the server is responding
+        }),
+        timeoutPromise
+      ])
+      .then(response => {
+        statusElement.textContent = 'Connected!';
+        statusElement.className = 'success';
+        detailsElement.innerHTML = `
+          <p>Successfully connected to the server.</p>
+          <p>Response status: ${response.type === 'opaque' ? 'Opaque (due to CORS)' : response.status}</p>
+          <p>Time: ${new Date().toLocaleTimeString()}</p>
+        `;
+      })
+      .catch(error => {
+        statusElement.textContent = 'Failed';
+        statusElement.className = 'error';
+        detailsElement.innerHTML = `
+          <p>Could not connect to the server.</p>
+          <p>Error: ${error.message}</p>
+          <p>Time: ${new Date().toLocaleTimeString()}</p>
+          <p>This could indicate that:</p>
+          <ul>
+            <li>The server is not running</li>
+            <li>The server is running on a different port</li>
+            <li>There's a network configuration issue</li>
+          </ul>
+        `;
+      });
+    }
+    
+    // Run all tests on load
+    window.onload = function() {
+      console.log('Page loaded, running connection tests...');
+      // Wait a moment to ensure the page is fully loaded
+      setTimeout(() => {
+        testConnection('http://localhost:3000', 'test1-status');
+      }, 500);
+    };
+  </script>
+</body>
+</html>

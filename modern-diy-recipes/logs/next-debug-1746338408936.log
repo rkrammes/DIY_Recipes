@@ -1,0 +1,36 @@
+[2025-05-04T06:00:08.939Z] NEXT.JS DIAGNOSTICS STARTED
+[2025-05-04T06:00:08.939Z] NODE.JS VERSION: v22.14.0
+[2025-05-04T06:00:08.939Z] PLATFORM: darwin arm64
+[2025-05-04T06:00:08.939Z] WORKING DIRECTORY: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes
+[2025-05-04T06:00:12.694Z] CIRCULAR DEPENDENCIES:
+Processed 138 files (691ms) (47 warnings)
+
+
+
+[2025-05-04T06:00:12.697Z] SSR ISSUE: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/__tests__/SettingsPanel.test.tsx:11: using localStorage outside useEffect
+[2025-05-04T06:00:12.697Z]   // Mock localStorage for theme tests
+[2025-05-04T06:00:12.697Z] SSR ISSUE: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/__tests__/SettingsPanel.test.tsx:12: using localStorage outside useEffect
+[2025-05-04T06:00:12.697Z]   const localStorageMock = {
+[2025-05-04T06:00:12.697Z] SSR ISSUE: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/__tests__/SettingsPanel.test.tsx:18: using localStorage outside useEffect
+[2025-05-04T06:00:12.697Z]   Object.defineProperty(window, 'localStorage', { value: localStorageMock });
+[2025-05-04T06:00:12.697Z] SSR ISSUE: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/__tests__/SettingsPanel.test.tsx:24: using localStorage outside useEffect
+[2025-05-04T06:00:12.697Z]   localStorageMock.getItem.mockClear();
+[2025-05-04T06:00:12.697Z] SSR ISSUE: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/__tests__/SettingsPanel.test.tsx:25: using localStorage outside useEffect
+[2025-05-04T06:00:12.697Z]   localStorageMock.setItem.mockClear();
+[2025-05-04T06:00:12.697Z] SSR ISSUE: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/__tests__/SettingsPanel.test.tsx:66: using localStorage outside useEffect
+[2025-05-04T06:00:12.697Z]   // Clear localStorage mock before each theme test
+[2025-05-04T06:00:12.697Z] SSR ISSUE: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/__tests__/SettingsPanel.test.tsx:67: using localStorage outside useEffect
+[2025-05-04T06:00:12.697Z]   localStorageMock.getItem.mockClear();
+[2025-05-04T06:00:12.697Z] SSR ISSUE: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/__tests__/SettingsPanel.test.tsx:68: using localStorage outside useEffect
+[2025-05-04T06:00:12.697Z]   localStorageMock.setItem.mockClear();
+[2025-05-04T06:00:12.697Z] SSR ISSUE: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/__tests__/SettingsPanel.test.tsx:69: using localStorage outside useEffect
+[2025-05-04T06:00:12.697Z]   // Ensure a default theme is set in localStorage for these tests
+[2025-05-04T06:00:12.697Z] SSR ISSUE: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/__tests__/SettingsPanel.test.tsx:70: using localStorage outside useEffect
+[2025-05-04T06:00:12.697Z]   localStorageMock.getItem.mockReturnValue('synthwave-noir');
+[2025-05-04T06:00:12.697Z] SSR ISSUE: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/__tests__/SettingsPanel.test.tsx:77: using document. outside useEffect
+[2025-05-04T06:00:12.697Z]   document.documentElement.setAttribute('data-theme', '');
+[2025-05-04T06:00:12.697Z] SSR ISSUE: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/__tests__/SettingsPanel.test.tsx:80: using localStorage outside useEffect
+[2025-05-04T06:00:12.697Z]   it('updates data-theme attribute and localStorage when theme is toggled', () => {
+[2025-05-04T06:00:12.700Z] CONFIG WARNING: Ignoring TypeScript build errors
+[2025-05-04T06:01:12.711Z] TIMEOUT: Next.js failed to start within 60 seconds
+[2025-05-04T06:01:12.712Z] DIAGNOSTICS COMPLETE

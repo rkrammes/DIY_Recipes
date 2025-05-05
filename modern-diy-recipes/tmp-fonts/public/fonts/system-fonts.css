@@ -1,0 +1,30 @@
+/* System font fallbacks */
+
+/* When custom fonts fail to load, these classes provide system font fallbacks */
+
+/* For IBM Plex Mono fallback */
+.ibm-plex-fallback [data-theme="hackers"] {
+  font-family: "Consolas", "Courier New", monospace !important;
+}
+
+/* For JetBrains Mono fallback */
+.jetbrains-fallback [data-theme="dystopia"] {
+  font-family: "Menlo", "Monaco", "Courier New", monospace !important;
+}
+
+/* For VGA fallback */
+.vga-fallback [data-theme="hackers"] {
+  font-family: "Courier New", monospace !important;
+}
+
+/* For Share Tech Mono fallback */
+.share-tech-fallback [data-theme="neotopia"] {
+  font-family: "Arial", sans-serif !important;
+}
+
+/* Common fallback styling adjustments */
+.font-fallback {
+  /* Adjust spacing for system fonts */
+  --letter-spacing-adjustment: 0;
+  --line-height-adjustment: 1.2;
+}

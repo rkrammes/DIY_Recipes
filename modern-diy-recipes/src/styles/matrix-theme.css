@@ -1,0 +1,330 @@
+/* Matrix Theme - Inspired by The Matrix movie */
+[data-theme="hackers"] {
+  /* The Matrix green palette */
+  --matrix-black: 6% 0.03 150;
+  --matrix-dark: 12% 0.05 150;
+  --matrix-green: 70% 0.25 150;
+  --matrix-bright-green: 80% 0.3 150;
+  --matrix-highlight: 85% 0.35 150;
+  
+  /* Surface tokens - Deep blacks with hints of green */
+  --surface-0: var(--matrix-black);
+  --surface-1: var(--matrix-dark);
+  --surface-inverse: 98% 0.01 150;
+  
+  /* Content tokens - Matrix green text */
+  --text-primary: var(--matrix-green); 
+  --text-secondary: 60% 0.15 150;
+  --text-inverse: var(--matrix-black);
+  
+  /* Interactive tokens - Bright matrix green accents */
+  --accent: var(--matrix-bright-green);
+  --accent-hover: var(--matrix-highlight);
+  --accent-active: 65% 0.2 150;
+  
+  /* Decorative tokens */
+  --border-subtle: var(--matrix-green) / 0.5;
+  --shadow-soft: 0 0 15px oklch(var(--matrix-green) / 0.4);
+  --glow-pulse: 0 0 20px oklch(var(--matrix-bright-green) / 0.7);
+  
+  /* Status tokens */
+  --success: var(--matrix-bright-green);
+  --warning: 75% 0.25 85; /* Amber warning */
+  --error: 70% 0.35 30; /* Red error */
+  
+  /* Theme-specific effect values */
+  --neon-intensity: 0.5;
+  --bloom-radius: 2px;
+  --grid-opacity: 0.1;
+  --matrix-code-animation: 1;
+  
+  /* Typography - Matrix style monospace */
+  --font-body: 'JetBrains Mono', var(--font-mono);
+  --font-heading: 'JetBrains Mono', var(--font-mono);
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'JetBrains Mono', monospace;
+  --font-terminal: 'JetBrains Mono', monospace;
+  --letter-spacing-display: 0.05em;
+  --letter-spacing-body: 0.025em;
+  --letter-spacing-code: 0.05em;
+}
+
+/* Matrix Digital Rain Effect */
+[data-theme="hackers"] .theme-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    oklch(var(--matrix-black)) 0%,
+    oklch(var(--matrix-dark)) 100%
+  );
+  z-index: -2;
+}
+
+[data-theme="hackers"] .theme-background::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cdefs%3E%3Cfilter id='matrix-glow' x='0' y='0' width='100%25' height='100%25'%3E%3CfeGaussianBlur stdDeviation='2' result='blur' /%3E%3CfeComposite in='SourceGraphic' in2='blur' operator='arithmetic' k1='0' k2='1' k3='0' k4='0' /%3E%3C/filter%3E%3C/defs%3E%3Ctext x='50%25' y='50%25' filter='url(%23matrix-glow)' fill='rgba(50, 205, 50, 0.1)' font-family='monospace' font-size='12' text-anchor='middle'%3E1001101010111001010101100101010110010101010110010%3C/text%3E%3C/svg%3E");
+  opacity: 0.07;
+  animation: matrixRain 60s linear infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Character rain animation */
+@keyframes matrixRain {
+  0% {
+    background-position: 0 0;
+    opacity: 0.05;
+  }
+  20% {
+    opacity: 0.08;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  80% {
+    opacity: 0.08;
+  }
+  100% {
+    background-position: 0 1000px;
+    opacity: 0.05;
+  }
+}
+
+/* Matrix digital rain falling characters */
+@keyframes matrixCharFall {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+/* Apply Matrix text effect to headings */
+[data-theme="hackers"] h1,
+[data-theme="hackers"] h2,
+[data-theme="hackers"] h3,
+[data-theme="hackers"] .text-accent,
+[data-theme="hackers"] button {
+  text-shadow: 0 0 5px oklch(var(--matrix-green) / 0.8);
+  position: relative;
+  letter-spacing: 0.05em;
+}
+
+/* Matrix style selection */
+[data-theme="hackers"] *::selection {
+  background: oklch(var(--matrix-green) / 0.3);
+  text-shadow: 0 0 8px oklch(var(--matrix-bright-green));
+}
+
+/* Matrix-style blinking cursor */
+[data-theme="hackers"] .animate-pulse {
+  animation: matrixPulse 1.2s infinite;
+}
+
+@keyframes matrixPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* Glitch text effect for important status messages */
+[data-theme="hackers"] .text-accent.font-bold,
+[data-theme="hackers"] .status-indicator {
+  position: relative;
+}
+
+[data-theme="hackers"] .text-accent.font-bold::before,
+[data-theme="hackers"] .status-indicator::before {
+  content: attr(data-text);
+  position: absolute;
+  left: -2px;
+  text-shadow: 1px 0 oklch(var(--matrix-bright-green) / 0.8);
+  top: 0;
+  color: oklch(var(--matrix-green));
+  overflow: hidden;
+  clip: rect(0, 900px, 0, 0);
+  animation: matrixNoise-1 3s infinite linear alternate-reverse;
+}
+
+[data-theme="hackers"] .text-accent.font-bold::after,
+[data-theme="hackers"] .status-indicator::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 2px;
+  text-shadow: -1px 0 oklch(var(--matrix-bright-green) / 0.8);
+  top: 0;
+  color: oklch(var(--matrix-green));
+  overflow: hidden;
+  clip: rect(0, 900px, 0, 0);
+  animation: matrixNoise-2 5s infinite linear alternate-reverse;
+}
+
+@keyframes matrixNoise-1 {
+  0% {
+    clip: rect(200px, 9999px, 121px, 0);
+  }
+  5% {
+    clip: rect(164px, 9999px, 184px, 0);
+  }
+  10% {
+    clip: rect(101px, 9999px, 123px, 0);
+  }
+  /* ...more keyframes for glitch effect... */
+  95% {
+    clip: rect(140px, 9999px, 80px, 0);
+  }
+  100% {
+    clip: rect(210px, 9999px, 145px, 0);
+  }
+}
+
+@keyframes matrixNoise-2 {
+  0% {
+    clip: rect(64px, 9999px, 200px, 0);
+  }
+  5% {
+    clip: rect(105px, 9999px, 137px, 0);
+  }
+  10% {
+    clip: rect(80px, 9999px, 92px, 0);
+  }
+  /* ...more keyframes for glitch effect... */
+  95% {
+    clip: rect(180px, 9999px, 132px, 0);
+  }
+  100% {
+    clip: rect(60px, 9999px, 116px, 0);
+  }
+}
+
+/* Matrix-style scrollbars */
+[data-theme="hackers"] ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+[data-theme="hackers"] ::-webkit-scrollbar-track {
+  background: oklch(var(--matrix-black));
+}
+
+[data-theme="hackers"] ::-webkit-scrollbar-thumb {
+  background: oklch(var(--matrix-green) / 0.5);
+  border-radius: 2px;
+}
+
+[data-theme="hackers"] ::-webkit-scrollbar-thumb:hover {
+  background: oklch(var(--matrix-bright-green));
+}
+
+/* Matrix-style input fields */
+[data-theme="hackers"] input,
+[data-theme="hackers"] textarea {
+  background-color: oklch(var(--matrix-black) / 0.8) !important;
+  border-color: oklch(var(--matrix-green) / 0.5) !important;
+  color: oklch(var(--matrix-bright-green)) !important;
+  text-shadow: 0 0 5px oklch(var(--matrix-green) / 0.5);
+}
+
+[data-theme="hackers"] input:focus,
+[data-theme="hackers"] textarea:focus {
+  box-shadow: 0 0 0 2px oklch(var(--matrix-green) / 0.3);
+  border-color: oklch(var(--matrix-bright-green)) !important;
+}
+
+/* Matrix-style panels and borders */
+[data-theme="hackers"] .border,
+[data-theme="hackers"] .border-border-subtle {
+  border-color: oklch(var(--matrix-green) / 0.3) !important;
+}
+
+[data-theme="hackers"] .bg-surface-1,
+[data-theme="hackers"] .bg-surface-2 {
+  background-color: oklch(var(--matrix-dark)) !important;
+  box-shadow: inset 0 0 10px oklch(var(--matrix-black));
+}
+
+/* Matrix loading indicators */
+[data-theme="hackers"] .loading::after {
+  content: "...";
+  display: inline-block;
+  animation: matrixLoading 1.5s infinite;
+}
+
+@keyframes matrixLoading {
+  0% { content: "."; }
+  33% { content: ".."; }
+  66% { content: "..."; }
+  100% { content: "."; }
+}
+
+/* Matrix code effect for important indicators */
+[data-theme="hackers"] [data-matrix-code]::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  background: linear-gradient(
+    oklch(var(--matrix-green) / 0.1),
+    oklch(var(--matrix-bright-green) / 0.2)
+  );
+  z-index: -1;
+  opacity: 0;
+  animation: matrixCodePulse 3s infinite;
+}
+
+@keyframes matrixCodePulse {
+  0%, 100% { opacity: 0.05; }
+  50% { opacity: 0.2; }
+}
+
+/* Make buttons more Matrix-like */
+[data-theme="hackers"] button {
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="hackers"] button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    oklch(var(--matrix-green) / 0.3),
+    transparent
+  );
+  transition: none;
+  animation: matrixButtonGlow 3s infinite;
+}
+
+@keyframes matrixButtonGlow {
+  0% { left: -100%; }
+  50%, 100% { left: 100%; }
+}

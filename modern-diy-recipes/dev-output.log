@@ -1,0 +1,31 @@
+
+> modern-diy-recipes@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.3.0
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.148:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1016ms
+ ✓ Compiled /middleware in 165ms (248 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 1415ms (1788 modules)
+ GET / 200 in 1770ms
+ ✓ Compiled /api/recipes in 317ms (1863 modules)
+Fetching recipes from Supabase...
+ GET / 200 in 32ms
+Successfully fetched recipes: 6
+ GET /api/recipes 200 in 681ms
+ ✓ Compiled /api/recipes/[id] in 109ms (1849 modules)
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 678ms
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 713ms
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 743ms
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 232ms
+ GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 270ms

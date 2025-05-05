@@ -17,15 +17,18 @@ export function useIngredients() {
         .order('created_at', { ascending: false });
 
       if (fetchError) {
-        throw fetchError;
+        console.error('Supabase fetch error:', fetchError.message);
+        setError(fetchError.message);
+        setIngredients([]); // Return empty array on error, no mock data
+      } else {
+        setIngredients(data || []);
+        setError(null);
       }
-
-      setIngredients(data || []);
-      setError(null);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Failed to fetch ingredients';
-      setError(message);
       console.error('Error fetching ingredients:', err);
+      setError(message);
+      setIngredients([]); // Return empty array on error, no mock data
     } finally {
       setLoading(false);
     }
@@ -43,7 +46,6 @@ export function useIngredients() {
         (payload) => {
           console.log('Change received!', payload);
           // Re-fetch ingredients on any change for simplicity
-          // More granular updates can be implemented based on payload.eventType
           fetchIngredients();
         }
       )

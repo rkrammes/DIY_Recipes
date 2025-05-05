@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DIY Recipes - MCP Test</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      padding: 2rem;
+      line-height: 1.5;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      border-bottom: 2px solid #333;
+      padding-bottom: 0.5rem;
+    }
+    
+    .card {
+      padding: 1.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+      background-color: #f8f8f8;
+    }
+    
+    .button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    .button.secondary {
+      background-color: #555;
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    
+    input, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    
+    pre {
+      background-color: #f1f1f1;
+      padding: 1rem;
+      border-radius: 4px;
+      overflow: auto;
+    }
+    
+    .edit-mode {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 0.5rem;
+      background-color: #4CAF50;
+      color: white;
+      text-align: center;
+      z-index: 1000;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .status-pill {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    
+    .status-pill.success {
+      background-color: #4CAF50;
+      color: white;
+    }
+    
+    .status-pill.error {
+      background-color: #f44336;
+      color: white;
+    }
+    
+    .status-pill.pending {
+      background-color: #ff9800;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div id="edit-mode-banner" class="edit-mode hidden">EDIT MODE ACTIVE</div>
+  
+  <h1>DIY Recipes - MCP Test</h1>
+  
+  <div class="card">
+    <h2>Server Status</h2>
+    <p>Checking connection to Supabase MCP server...</p>
+    <div id="server-status">
+      <span class="status-pill pending">Connecting...</span>
+    </div>
+    <button id="check-status" class="button">Check Status</button>
+  </div>
+  
+  <div class="card">
+    <h2>Authentication</h2>
+    <div id="auth-status">
+      <p>Not logged in</p>
+    </div>
+    
+    <div class="button-group">
+      <button id="login-button" class="button">Login as Dev User</button>
+      <button id="logout-button" class="button secondary">Logout</button>
+      <button id="toggle-edit-mode" class="button secondary">Toggle Edit Mode</button>
+    </div>
+  </div>
+  
+  <div class="card">
+    <h2>Supabase MCP Server</h2>
+    <p>Test the Supabase MCP server integration</p>
+    
+    <div class="form-group">
+      <label for="sql-query">SQL Query:</label>
+      <textarea id="sql-query" rows="3">SELECT * FROM recipes LIMIT 5</textarea>
+    </div>
+    
+    <button id="run-query" class="button">Run Query</button>
+    
+    <h3>Result:</h3>
+    <pre id="query-result">// Results will appear here</pre>
+  </div>
+  
+  <div class="card">
+    <h2>Available MCP Tools</h2>
+    <pre id="mcp-tools">// Loading tools...</pre>
+    <button id="get-tools" class="button">Get MCP Tools</button>
+  </div>
+  
+  <script>
+    // DOM Elements
+    const serverStatus = document.getElementById('server-status');
+    const checkStatusButton = document.getElementById('check-status');
+    const authStatus = document.getElementById('auth-status');
+    const loginButton = document.getElementById('login-button');
+    const logoutButton = document.getElementById('logout-button');
+    const toggleEditModeButton = document.getElementById('toggle-edit-mode');
+    const editModeBanner = document.getElementById('edit-mode-banner');
+    const sqlQuery = document.getElementById('sql-query');
+    const runQueryButton = document.getElementById('run-query');
+    const queryResult = document.getElementById('query-result');
+    const mcpTools = document.getElementById('mcp-tools');
+    const getToolsButton = document.getElementById('get-tools');
+    
+    // API endpoints
+    const API_STATUS = '/api/status';
+    const API_DEV_LOGIN = '/api/dev-login';
+    const API_MCP_ROOT = '/api/mcp';
+    
+    // State management
+    let user = null;
+    let editMode = false;
+    
+    // Check server status
+    async function checkServerStatus() {
+      try {
+        serverStatus.innerHTML = '<span class="status-pill pending">Checking...</span>';
+        
+        const response = await fetch(API_STATUS);
+        const data = await response.json();
+        
+        serverStatus.innerHTML = `
+          <span class="status-pill success">Connected</span>
+          <p><strong>Server:</strong> ${data.server}</p>
+          <p><strong>MCP Endpoint:</strong> ${data.mcpEndpoint}</p>
+          <p><strong>Time:</strong> ${new Date(data.timestamp).toLocaleString()}</p>
+        `;
+      } catch (error) {
+        console.error('Server status check failed:', error);
+        serverStatus.innerHTML = `
+          <span class="status-pill error">Error</span>
+          <p>Failed to connect to the server: ${error.message}</p>
+        `;
+      }
+    }
+    
+    // Check localStorage for existing user
+    function checkAuth() {
+      const storedUser = localStorage.getItem('auth_user');
+      const storedEditMode = localStorage.getItem('mcp_edit_mode');
+      
+      if (storedUser) {
+        user = JSON.parse(storedUser);
+        updateAuthStatus();
+      }
+      
+      if (storedEditMode === 'true') {
+        editMode = true;
+        updateEditMode();
+      }
+    }
+    
+    // Update the auth status display
+    function updateAuthStatus() {
+      if (user) {
+        authStatus.innerHTML = `
+          <p><strong>Logged in as:</strong> ${user.email}</p>
+          <p><strong>User ID:</strong> ${user.id}</p>
+        `;
+      } else {
+        authStatus.innerHTML = '<p>Not logged in</p>';
+      }
+    }
+    
+    // Update edit mode display
+    function updateEditMode() {
+      if (editMode) {
+        editModeBanner.classList.remove('hidden');
+      } else {
+        editModeBanner.classList.add('hidden');
+      }
+    }
+    
+    // Login as dev user
+    async function loginAsDev() {
+      try {
+        loginButton.disabled = true;
+        loginButton.textContent = 'Logging in...';
+        
+        // First try to use the MCP server authenticate tool
+        try {
+          const mcpResponse = await fetch(`${API_MCP_ROOT}/tool/authenticate`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: 'dev@example.com',
+              password: 'devpass123'
+            })
+          });
+          
+          if (mcpResponse.ok) {
+            const mcpData = await mcpResponse.json();
+            user = mcpData.user;
+            localStorage.setItem('auth_user', JSON.stringify(user));
+            localStorage.setItem('auth_session', JSON.stringify(mcpData.session));
+            updateAuthStatus();
+            return;
+          }
+        } catch (mcpError) {
+          console.warn('MCP authentication failed, falling back to mock:', mcpError);
+        }
+        
+        // Fallback to mock login if MCP auth fails
+        const response = await fetch(API_DEV_LOGIN, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({})
+        });
+        
+        if (!response.ok) {
+          throw new Error(`Server returned ${response.status}`);
+        }
+        
+        const data = await response.json();
+        user = data.user;
+        localStorage.setItem('auth_user', JSON.stringify(user));
+        localStorage.setItem('auth_session', JSON.stringify(data.session));
+        
+        updateAuthStatus();
+      } catch (error) {
+        console.error('Login failed:', error);
+        alert('Login failed: ' + error.message);
+      } finally {
+        loginButton.disabled = false;
+        loginButton.textContent = 'Login as Dev User';
+      }
+    }
+    
+    // Logout
+    function logout() {
+      user = null;
+      localStorage.removeItem('auth_user');
+      localStorage.removeItem('auth_session');
+      updateAuthStatus();
+    }
+    
+    // Toggle edit mode
+    function toggleEditMode() {
+      editMode = !editMode;
+      
+      if (editMode) {
+        localStorage.setItem('mcp_edit_mode', 'true');
+      } else {
+        localStorage.removeItem('mcp_edit_mode');
+      }
+      
+      updateEditMode();
+    }
+    
+    // Run SQL query using MCP
+    async function runQuery() {
+      const query = sqlQuery.value;
+      
+      if (!query) {
+        alert('Please enter an SQL query');
+        return;
+      }
+      
+      try {
+        runQueryButton.disabled = true;
+        queryResult.textContent = 'Running query...';
+        
+        const response = await fetch(`${API_MCP_ROOT}/tool/query_data`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            sql: query
+          })
+        });
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Server returned ${response.status}: ${errorText}`);
+        }
+        
+        const data = await response.json();
+        queryResult.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        console.error('Error running query:', error);
+        queryResult.textContent = `Error: ${error.message}`;
+      } finally {
+        runQueryButton.disabled = false;
+      }
+    }
+    
+    // Get available MCP tools
+    async function getMcpTools() {
+      try {
+        getToolsButton.disabled = true;
+        mcpTools.textContent = 'Loading tools...';
+        
+        const response = await fetch(API_MCP_ROOT);
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Server returned ${response.status}: ${errorText}`);
+        }
+        
+        const data = await response.json();
+        mcpTools.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        console.error('Error fetching MCP tools:', error);
+        mcpTools.textContent = `Error: ${error.message}`;
+      } finally {
+        getToolsButton.disabled = false;
+      }
+    }
+    
+    // Event listeners
+    checkStatusButton.addEventListener('click', checkServerStatus);
+    loginButton.addEventListener('click', loginAsDev);
+    logoutButton.addEventListener('click', logout);
+    toggleEditModeButton.addEventListener('click', toggleEditMode);
+    runQueryButton.addEventListener('click', runQuery);
+    getToolsButton.addEventListener('click', getMcpTools);
+    
+    // Initialize
+    checkAuth();
+    checkServerStatus();
+  </script>
+</body>
+</html>
