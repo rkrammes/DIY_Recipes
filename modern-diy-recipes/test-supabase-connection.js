@@ -1,68 +1,120 @@
-// Simple script to test Supabase connection
-require('dotenv').config({ path: '.env.local' });
+/**
+ * Comprehensive test of Supabase connection and tables
+ */
+
 const { createClient } = require('@supabase/supabase-js');
+require('dotenv').config();
 
-// Get credentials from environment variables
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+// Get environment variables
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-console.log('SUPABASE URL:', supabaseUrl);
-console.log('ANON KEY PROVIDED:', !!supabaseAnonKey);
+// Initialize Supabase clients with both keys
+const supabaseAnon = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabaseService = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('Missing Supabase credentials. Please check your .env.local file.');
-  process.exit(1);
-}
-
-// Create a Supabase client
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-async function testConnection() {
-  console.log('Testing Supabase connection...');
+async function main() {
+  console.log('Testing Supabase connection...\n');
   
+  // 1. Test basic connection
+  console.log('1. Testing basic connection to Supabase...');
   try {
-    // Test basic query
-    console.log('Testing recipes table...');
-    const { data: recipeData, error: recipeError } = await supabase
-      .from('recipes')
-      .select('count', { count: 'exact', head: true });
-      
-    if (recipeError) {
-      console.error('❌ Error querying recipes:', recipeError);
+    const { data, error } = await supabaseAnon.from('recipes').select('count');
+    if (error) {
+      console.error('❌ Connection test failed (anonymous key):', error.message);
     } else {
-      console.log('✅ Successfully connected to recipes table:', recipeData);
+      console.log('✅ Connection test successful (anonymous key)');
     }
-    
-    // Test ingredients table
-    console.log('Testing ingredients table...');
-    const { data: ingredientData, error: ingredientError } = await supabase
-      .from('ingredients')
-      .select('count', { count: 'exact', head: true });
-      
-    if (ingredientError) {
-      console.error('❌ Error querying ingredients:', ingredientError);
-    } else {
-      console.log('✅ Successfully connected to ingredients table:', ingredientData);
-    }
-    
-    // Test a full query to get all recipes
-    console.log('Testing full recipe query...');
-    const { data: allRecipes, error: allRecipesError } = await supabase
-      .from('recipes')
-      .select('id, title')
-      .limit(5);
-      
-    if (allRecipesError) {
-      console.error('❌ Error querying all recipes:', allRecipesError);
-    } else {
-      console.log('✅ Successfully queried recipes:');
-      console.log(allRecipes);
-    }
-    
-  } catch (error) {
-    console.error('❌ Unexpected error during Supabase connection test:', error);
+  } catch (err) {
+    console.error('❌ Connection test threw an exception (anonymous key):', err.message);
   }
+
+  try {
+    const { data, error } = await supabaseService.from('recipes').select('count');
+    if (error) {
+      console.error('❌ Connection test failed (service role key):', error.message);
+    } else {
+      console.log('✅ Connection test successful (service role key)');
+    }
+  } catch (err) {
+    console.error('❌ Connection test threw an exception (service role key):', err.message);
+  }
+  
+  // 2. Test recipes table
+  console.log('\n2. Testing recipes table...');
+  try {
+    const { data, error } = await supabaseAnon.from('recipes').select('id, title').limit(5);
+    if (error) {
+      console.error('❌ Recipes table test failed:', error.message);
+    } else {
+      console.log(`✅ Recipes table test successful: ${data.length} rows retrieved`);
+      if (data.length > 0) {
+        console.log('  First recipe:', data[0]);
+      }
+    }
+  } catch (err) {
+    console.error('❌ Recipes table test threw an exception:', err.message);
+  }
+  
+  // 3. Test recipe_iterations table
+  console.log('\n3. Testing recipe_iterations table...');
+  try {
+    const { data, error } = await supabaseAnon.from('recipe_iterations').select('id, recipe_id, version_number').limit(5);
+    if (error) {
+      if (error.message.includes('does not exist')) {
+        console.error('❌ recipe_iterations table does not exist. Run SQL setup script.');
+      } else {
+        console.error('❌ recipe_iterations table test failed:', error.message);
+      }
+    } else {
+      console.log(`✅ recipe_iterations table test successful: ${data.length} rows retrieved`);
+      if (data.length > 0) {
+        console.log('  First iteration:', data[0]);
+      } else {
+        console.log('  No iterations found, but table exists');
+      }
+    }
+  } catch (err) {
+    console.error('❌ recipe_iterations table test threw an exception:', err.message);
+  }
+  
+  // 4. Test iteration_ingredients table
+  console.log('\n4. Testing iteration_ingredients table...');
+  try {
+    const { data, error } = await supabaseAnon.from('iteration_ingredients').select('id, iteration_id, ingredient_id').limit(5);
+    if (error) {
+      if (error.message.includes('does not exist')) {
+        console.error('❌ iteration_ingredients table does not exist. Run SQL setup script.');
+      } else {
+        console.error('❌ iteration_ingredients table test failed:', error.message);
+      }
+    } else {
+      console.log(`✅ iteration_ingredients table test successful: ${data.length} rows retrieved`);
+      if (data.length > 0) {
+        console.log('  First iteration ingredient:', data[0]);
+      } else {
+        console.log('  No iteration ingredients found, but table exists');
+      }
+    }
+  } catch (err) {
+    console.error('❌ iteration_ingredients table test threw an exception:', err.message);
+  }
+  
+  // 5. Test network latency
+  console.log('\n5. Testing network latency...');
+  try {
+    console.time('Network latency');
+    await supabaseAnon.from('recipes').select('count');
+    console.timeEnd('Network latency');
+  } catch (err) {
+    console.error('❌ Network latency test failed:', err.message);
+  }
+  
+  console.log('\nTest completed.');
 }
 
-// Run the test
-testConnection();
+main().catch(err => {
+  console.error('Unexpected error:', err);
+});
+EOL < /dev/null

@@ -1,0 +1,23 @@
+{
+  "timestamp": "2025-05-06T12:06:30.663Z",
+  "supabaseStatus": {
+    "urlFound": false,
+    "keyFound": false,
+    "url": null,
+    "localStorageItems": [
+      "theme",
+      "audioEnabled"
+    ]
+  },
+  "versionSectionStatus": {
+    "error": false,
+    "found": false
+  },
+  "apiTest": {
+    "error": "Could not find Supabase URL or key"
+  },
+  "possibleIssues": [
+    "Supabase configuration may be missing",
+    "API test failed: Could not find Supabase URL or key"
+  ]
+}

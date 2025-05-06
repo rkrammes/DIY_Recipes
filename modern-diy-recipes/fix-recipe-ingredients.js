@@ -3,6 +3,7 @@
  * 
  * This script connects existing recipes with their ingredients.
  * It assumes recipes and ingredients already exist but relationships might be missing.
+ * It tries to create the recipe_ingredients table if it doesn't exist.
  */
 
 const { createClient } = require('@supabase/supabase-js');
@@ -43,7 +44,7 @@ const recipeData = {
     { name: 'Arrowroot Powder', quantity: '5', unit: '%' }
   ],
   'Mustache Wax': [
-    { name: 'Carnauba Wax', quantity: '40', unit: '%' },
+    { name: 'Beeswax', quantity: '40', unit: '%' },
     { name: 'Lanolin', quantity: '45', unit: '%' },
     { name: 'Jojoba Oil', quantity: '15', unit: '%' }
   ],
@@ -76,7 +77,35 @@ const recipeData = {
 const fixRecipeIngredients = async () => {
   console.log('Fixing recipe ingredients relationships...');
   
-  // First, get all existing recipes
+  // First, check if the recipe_ingredients table exists
+  console.log('Checking if recipe_ingredients table exists...');
+  
+  try {
+    // Try to select from the table to see if it exists
+    const { data: tableCheck, error: tableError } = await supabase
+      .from('recipe_ingredients')
+      .select('count', { count: 'exact', head: true });
+    
+    if (tableError) {
+      console.error('Error checking recipe_ingredients table:', tableError);
+      console.log('This likely means the table does not exist.');
+      console.log('Please run the create-recipe-ingredients.sql script in the Supabase SQL Editor first.');
+      console.log('After running the SQL script, run this script again.');
+      
+      // Ask the user if they want to continue anyway
+      console.log('\nWould you like to continue anyway? (This may not work)');
+      console.log('Press Ctrl+C to cancel or wait 5 seconds to continue...');
+      
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      console.log('Continuing...');
+    } else {
+      console.log('recipe_ingredients table exists!');
+    }
+  } catch (e) {
+    console.log('Error checking table (likely does not exist):', e.message);
+  }
+  
+  // Get all existing recipes
   const { data: recipes, error: recipesError } = await supabase
     .from('recipes')
     .select('id, title');
@@ -117,64 +146,150 @@ const fixRecipeIngredients = async () => {
       continue;
     }
     
-    // Clear existing ingredients first
-    console.log(`Clearing existing ingredients for ${recipe.title}...`);
-    const { error: deleteError } = await supabase
-      .from('recipe_ingredients')
-      .delete()
-      .eq('recipe_id', recipe.id);
-    
-    if (deleteError) {
-      console.error(`Error clearing ingredients for ${recipe.title}:`, deleteError);
+    // Try to clear existing ingredients for this recipe
+    try {
+      console.log(`Checking for existing ingredients for ${recipe.title}...`);
+      const { error: deleteError } = await supabase
+        .from('recipe_ingredients')
+        .delete()
+        .eq('recipe_id', recipe.id);
+      
+      if (deleteError) {
+        if (deleteError.code === '42P01') { // Table does not exist
+          console.log('Cannot clear ingredients: table does not exist');
+        } else {
+          console.error(`Error clearing ingredients for ${recipe.title}:`, deleteError);
+        }
+      } else {
+        console.log(`Cleared existing ingredients for ${recipe.title}`);
+      }
+    } catch (e) {
+      console.log('Error clearing ingredients (table might not exist):', e.message);
     }
     
     // Add ingredients from our data
     for (const ingredient of recipeIngredients) {
-      const ingredientId = ingredientMap[ingredient.name.toLowerCase()];
+      // Convert ingredient name to lowercase for case-insensitive matching
+      const ingredientLower = ingredient.name.toLowerCase();
+      let ingredientId = ingredientMap[ingredientLower];
       
+      // If ingredient is not found, try to find a similar one
       if (!ingredientId) {
-        console.log(`Ingredient "${ingredient.name}" not found in database, creating it...`);
+        // Look for partial matches
+        const similarIngredients = ingredients.filter(ing => 
+          ing.name.toLowerCase().includes(ingredientLower) || 
+          ingredientLower.includes(ing.name.toLowerCase())
+        );
         
-        // Create the ingredient
-        const { data: newIngredient, error: createError } = await supabase
-          .from('ingredients')
-          .insert({
-            name: ingredient.name,
-            description: `Used in ${recipe.title}`,
-            created_at: new Date().toISOString()
-          })
-          .select();
-        
-        if (createError) {
-          console.error(`Error creating ingredient "${ingredient.name}":`, createError);
-          continue;
+        if (similarIngredients.length > 0) {
+          console.log(`Found similar ingredient "${similarIngredients[0].name}" for "${ingredient.name}"`);
+          ingredientId = similarIngredients[0].id;
+        } else {
+          console.log(`Ingredient "${ingredient.name}" not found in database, creating it...`);
+          
+          // Create the ingredient
+          try {
+            const { data: newIngredient, error: createError } = await supabase
+              .from('ingredients')
+              .insert({
+                name: ingredient.name,
+                description: `Used in ${recipe.title}`,
+                created_at: new Date().toISOString()
+              })
+              .select();
+            
+            if (createError) {
+              console.error(`Error creating ingredient "${ingredient.name}":`, createError);
+              continue;
+            }
+            
+            ingredientId = newIngredient[0].id;
+            ingredientMap[ingredientLower] = ingredientId;
+            console.log(`Created new ingredient: "${ingredient.name}" (${ingredientId})`);
+          } catch (e) {
+            console.error(`Error creating ingredient "${ingredient.name}":`, e.message);
+            continue;
+          }
         }
-        
-        ingredientMap[ingredient.name.toLowerCase()] = newIngredient[0].id;
       }
       
       // Now add the relationship
-      const { error: relationError } = await supabase
-        .from('recipe_ingredients')
-        .insert({
-          recipe_id: recipe.id,
-          ingredient_id: ingredientMap[ingredient.name.toLowerCase()],
-          quantity: ingredient.quantity,
-          unit: ingredient.unit || '',
-          created_at: new Date().toISOString()
-        });
-      
-      if (relationError) {
-        console.error(`Error linking "${ingredient.name}" to "${recipe.title}":`, relationError);
-      } else {
-        console.log(`Linked "${ingredient.name}" to "${recipe.title}"`);
+      try {
+        const { error: relationError } = await supabase
+          .from('recipe_ingredients')
+          .insert({
+            recipe_id: recipe.id,
+            ingredient_id: ingredientId,
+            quantity: ingredient.quantity,
+            unit: ingredient.unit || '',
+            created_at: new Date().toISOString()
+          });
+        
+        if (relationError) {
+          console.error(`Error linking "${ingredient.name}" to "${recipe.title}":`, relationError);
+          
+          if (relationError.code === '42P01') { // Table does not exist
+            console.error('\nERROR: recipe_ingredients table does not exist!');
+            console.error('Please run the create-recipe-ingredients.sql script in the Supabase SQL Editor first.');
+            console.error('After running the SQL script, run this script again.');
+            return; // Exit early
+          }
+        } else {
+          console.log(`Linked "${ingredient.name}" to "${recipe.title}"`);
+        }
+      } catch (e) {
+        console.error(`Error linking "${ingredient.name}" to "${recipe.title}":`, e.message);
+        
+        if (e.message.includes('relation "recipe_ingredients" does not exist')) {
+          console.error('\nERROR: recipe_ingredients table does not exist!');
+          console.error('Please run the create-recipe-ingredients.sql script in the Supabase SQL Editor first.');
+          console.error('After running the SQL script, run this script again.');
+          return; // Exit early
+        }
       }
     }
     
     console.log(`Finished processing ${recipe.title}`);
   }
   
-  console.log('Recipe ingredients fixed!');
+  console.log('\nTrying to verify recipe-ingredient relationships...');
+  
+  try {
+    // Get count of recipe_ingredients
+    const { data: count, error: countError } = await supabase
+      .from('recipe_ingredients')
+      .select('count', { count: 'exact', head: true });
+    
+    if (countError) {
+      console.error('Error getting count:', countError);
+    } else {
+      console.log(`Found ${count || 0} recipe-ingredient relationships`);
+    }
+    
+    // Get sample data
+    const { data: sample, error: sampleError } = await supabase
+      .from('recipe_ingredients')
+      .select(`
+        id,
+        recipe_id,
+        ingredient_id,
+        quantity,
+        unit
+      `)
+      .limit(3);
+    
+    if (sampleError) {
+      console.error('Error getting sample data:', sampleError);
+    } else if (sample && sample.length > 0) {
+      console.log('Sample recipe-ingredient data:');
+      console.log(sample);
+      console.log('Recipe ingredients successfully fixed!');
+    } else {
+      console.log('No recipe-ingredient relationships found. Something went wrong.');
+    }
+  } catch (e) {
+    console.error('Error verifying recipe-ingredient relationships:', e.message);
+  }
 };
 
 // Run the script

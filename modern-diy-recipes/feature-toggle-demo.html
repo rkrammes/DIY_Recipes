@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feature Toggle Demo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+    .feature-toggle-bar {
+      background-color: #f9fafb;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <div class="max-w-4xl mx-auto bg-white p-8 shadow-md my-10 rounded-lg">
+    <h1 class="text-2xl font-bold mb-6">Recipe Versioning - Feature Toggle Demo</h1>
+    
+    <!-- Feature Toggle Bar -->
+    <div class="feature-toggle-bar bg-gray-50 border-b border-gray-200 p-2 mb-4 sticky top-0 z-10">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-4">
+          <button 
+            id="featuresButton"
+            class="flex items-center text-sm font-medium text-gray-600 hover:text-gray-800 px-2 py-1 rounded hover:bg-gray-100"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-1 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+            <span>Features</span>
+          </button>
+          
+          <div id="versioningEnabledBadge" class="hidden flex items-center text-sm font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-1 h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+            <span>Versioning Enabled</span>
+          </div>
+        </div>
+        
+        <div class="text-sm text-gray-500">
+          Recipe ID: <span class="font-mono">recipe-123...</span>
+        </div>
+      </div>
+      
+      <div id="settingsDropdown" class="hidden mt-2 p-3 bg-white border border-gray-200 rounded shadow-md">
+        <h3 class="text-sm font-semibold mb-2">Recipe Features</h3>
+        
+        <div class="space-y-2">
+          <label class="flex items-center space-x-2 text-sm">
+            <input 
+              type="checkbox" 
+              id="versioningToggle"
+              class="rounded text-blue-600 focus:ring-blue-500"
+            />
+            <span class="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="mr-1 h-3.5 w-3.5 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+              </svg>
+              Recipe Versioning
+            </span>
+            <span class="text-xs text-gray-500 ml-2">
+              Track different iterations of your recipe
+            </span>
+          </label>
+          
+          <label class="flex items-center space-x-2 text-sm opacity-60 cursor-not-allowed">
+            <input type="checkbox" disabled class="rounded text-gray-400" />
+            <span class="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="mr-1 h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+              </svg>
+              Version Comparison
+            </span>
+            <span class="text-xs text-gray-500 ml-2">
+              Compare different versions (requires versioning)
+            </span>
+          </label>
+        </div>
+        
+        <div class="mt-3 text-xs text-blue-700 bg-blue-50 p-2 rounded">
+          <p>Recipe versioning lets you track different iterations of your recipes as you refine them.</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Recipe Content -->
+    <div class="border border-gray-200 rounded-lg p-6">
+      <h2 class="text-xl font-bold mb-2">Mustache Wax</h2>
+      <p class="text-gray-600 mb-4">A strong-hold wax for styling mustaches</p>
+      
+      <div class="bg-gray-50 p-4 rounded-lg mb-6">
+        <h3 class="font-medium mb-2">Ingredients</h3>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>12g Carnauba Wax</li>
+          <li>13.5g Lanolin</li>
+          <li>4.5g Jojoba Oil</li>
+        </ul>
+      </div>
+      
+      <!-- Recipe Versions Section - Conditionally Shown -->
+      <div id="versioningDisabledSection" class="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-lg text-center">
+        <h3 class="text-lg font-semibold mb-2">Recipe Versions</h3>
+        <p class="text-sm text-gray-500 mb-3">
+          Enable recipe versioning to track different iterations as you refine this recipe.
+        </p>
+        <button
+          id="enableVersioningBtn"
+          class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Enable Versioning
+        </button>
+      </div>
+      
+      <!-- Recipe Versions When Enabled -->
+      <div id="versioningEnabledSection" class="hidden mt-6">
+        <h3 class="text-lg font-semibold mb-4">Recipe Versions</h3>
+        <div class="flex flex-col md:flex-row gap-4">
+          <!-- Versions List -->
+          <div class="w-full md:w-1/4 bg-white border border-gray-200 rounded-lg p-4">
+            <div class="flex justify-between items-center mb-4">
+              <h4 class="font-medium">Version History</h4>
+              <button class="text-sm bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">
+                New Version
+              </button>
+            </div>
+            
+            <div class="space-y-2">
+              <button class="w-full text-left p-2 bg-blue-50 border border-blue-200 rounded">
+                <div class="font-medium">Version 3</div>
+                <div class="text-xs text-gray-500">Today at 8:30 AM</div>
+              </button>
+              <button class="w-full text-left p-2 bg-white border border-gray-200 rounded hover:bg-gray-50">
+                <div class="font-medium">Version 2</div>
+                <div class="text-xs text-gray-500">Yesterday at 3:15 PM</div>
+              </button>
+              <button class="w-full text-left p-2 bg-white border border-gray-200 rounded hover:bg-gray-50">
+                <div class="font-medium">Version 1</div>
+                <div class="text-xs text-gray-500">Mar 12, 2025</div>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Version Details -->
+          <div class="w-full md:w-3/4 bg-white border border-gray-200 rounded-lg p-4">
+            <div class="flex justify-between items-center mb-4">
+              <h4 class="font-medium">Version 3 Details</h4>
+              <button class="text-sm border border-gray-200 bg-white px-2 py-1 rounded hover:bg-gray-50">
+                Edit
+              </button>
+            </div>
+            
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                <div class="p-2 bg-gray-50 border border-gray-200 rounded min-h-[80px]">
+                  Increased the carnauba wax content for stronger hold. Added a touch more jojoba oil for better application.
+                </div>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Changes from Previous Version</label>
+                <div class="p-2 bg-gray-50 border border-gray-200 rounded">
+                  <ul class="list-disc pl-4 text-sm space-y-1">
+                    <li>Changed carnauba wax from <span class="line-through">10g</span> to <span class="font-medium">12g</span></li>
+                    <li>Changed jojoba oil from <span class="line-through">4g</span> to <span class="font-medium">4.5g</span></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Feature Toggle Functionality
+    const featuresButton = document.getElementById('featuresButton');
+    const settingsDropdown = document.getElementById('settingsDropdown');
+    const versioningToggle = document.getElementById('versioningToggle');
+    const versioningEnabledBadge = document.getElementById('versioningEnabledBadge');
+    const versioningDisabledSection = document.getElementById('versioningDisabledSection');
+    const versioningEnabledSection = document.getElementById('versioningEnabledSection');
+    const enableVersioningBtn = document.getElementById('enableVersioningBtn');
+    
+    // Load saved preferences
+    let isVersioningEnabled = false;
+    try {
+      const savedSettings = localStorage.getItem('recipeFeatures');
+      if (savedSettings) {
+        const settings = JSON.parse(savedSettings);
+        isVersioningEnabled = settings.versioning === true;
+      }
+    } catch (e) {
+      console.error('Error loading saved settings:', e);
+    }
+    
+    // Initialize UI based on saved preferences
+    versioningToggle.checked = isVersioningEnabled;
+    versioningEnabledBadge.classList.toggle('hidden', !isVersioningEnabled);
+    versioningDisabledSection.classList.toggle('hidden', isVersioningEnabled);
+    versioningEnabledSection.classList.toggle('hidden', !isVersioningEnabled);
+    
+    // Toggle settings dropdown
+    featuresButton.addEventListener('click', () => {
+      settingsDropdown.classList.toggle('hidden');
+    });
+    
+    // Toggle versioning feature
+    versioningToggle.addEventListener('change', () => {
+      isVersioningEnabled = versioningToggle.checked;
+      
+      // Update UI
+      versioningEnabledBadge.classList.toggle('hidden', !isVersioningEnabled);
+      versioningDisabledSection.classList.toggle('hidden', isVersioningEnabled);
+      versioningEnabledSection.classList.toggle('hidden', !isVersioningEnabled);
+      
+      // Save preferences
+      localStorage.setItem('recipeFeatures', JSON.stringify({ versioning: isVersioningEnabled }));
+    });
+    
+    // Enable versioning button in disabled section
+    enableVersioningBtn.addEventListener('click', () => {
+      versioningToggle.checked = true;
+      versioningToggle.dispatchEvent(new Event('change'));
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (event) => {
+      if (!featuresButton.contains(event.target) && !settingsDropdown.contains(event.target)) {
+        settingsDropdown.classList.add('hidden');
+      }
+    });
+  </script>
+</body>
+</html>

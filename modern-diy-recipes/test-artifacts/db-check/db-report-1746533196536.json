@@ -1,0 +1,14 @@
+{
+  "timestamp": "2025-05-06T12:06:36.536Z",
+  "connection": {
+    "url": "https://bzudglfxxywugesncjnz.supabase.co",
+    "success": true,
+    "responseTime": 140
+  },
+  "tables": {
+    "recipes": true,
+    "recipe_iterations": true,
+    "iteration_ingredients": true
+  },
+  "issues": []
+}

@@ -1,0 +1,162 @@
+Starting Next.js app on http://localhost:3000 for Document Mode testing
+   ▲ Next.js 15.3.0
+   - Local:        http://localhost:3000
+   - Network:      http://localhost:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1012ms
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 509ms (248 modules)
+Development mode: Skipping authentication check
+ ○ Compiling /document-view ...
+ ✓ Compiled /document-view in 2.4s (1026 modules)
+ GET /document-view?id=1 200 in 2741ms
+ ✓ Compiled /favicon.ico in 253ms (581 modules)
+ GET /favicon.ico 200 in 308ms
+ GET /favicon.ico 200 in 3ms
+ GET /favicon.ico 200 in 2ms
+ ✓ Compiled /_not-found in 252ms (1033 modules)
+ HEAD /api/recipes 404 in 306ms
+ ✓ Compiled in 241ms (1017 modules)
+ ⨯ ./src/lib/mockData.ts
+Error:   [31mx[0m Expected ',', got 're'
+    ,-[[36;1;4m/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/lib/mockData.ts[0m:36:1]
+ [2m33[0m |     title: 'Lavender Bath Bombs',
+ [2m34[0m |     description: 'Relaxing lavender-scented bath bombs with skin-nourishing ingredients.',
+ [2m35[0m |     instructions: 'Step 1: Combine all dry ingredients in a large bowl, mixing thoroughly.\nStep 2: In a separate small container, mix the wet ingredients.\nStep 3: Very slowly add the wet mixture to the dry ingredients, a few drops at a time, while constantly stirring.\nStep 4: Test the mixture by squeezing it in your hand - it should hold together like wet sand.\nStep 5: Quickly press the mixture firmly into molds.\nStep 6: Let the bath bombs set in the molds for 24 hours.\nStep 7: Carefully remove from molds and allow to cure for an additional 24-48 hours.\nStep 8: Store in an airtight container in a cool, dry place.',
+ [2m36[0m |     notes: 'If the mixture fizzes during preparation, you're adding the wet ingredients too quickly. Work in a low humidity environment for best results.',
+    : [35;1m                                                          ^^[0m
+ [2m37[0m |     created_at: '2025-05-03T10:00:00Z',
+ [2m38[0m |     user_id: 'user1',
+ [2m39[0m |   }
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/lib/mockData.ts
+./src/components/DocumentCentricRecipe.tsx
+./src/app/document-view/page.tsx
+ ✓ Compiled in 194ms (1013 modules)
+ ✓ Compiled in 289ms (1057 modules)
+Development mode: Skipping authentication check
+ GET /document-view?id=1 200 in 154ms
+ ✓ Compiled /favicon.ico in 334ms (603 modules)
+ GET /favicon.ico 200 in 387ms
+ GET /favicon.ico 200 in 4ms
+ GET /favicon.ico 200 in 3ms
+ ✓ Compiled in 128ms (1050 modules)
+ ✓ Compiled in 123ms (1034 modules)
+Development mode: Skipping authentication check
+ GET /document-view?id=1 200 in 161ms
+ ✓ Compiled in 442ms (1015 modules)
+ ✓ Compiled in 197ms (449 modules)
+ ✓ Compiled in 165ms (1240 modules)
+Development mode: Skipping authentication check
+ ✓ Compiled /simple-doc in 284ms (999 modules)
+ HEAD /simple-doc 200 in 368ms
+Development mode: Skipping authentication check
+ GET /simple-doc 200 in 27ms
+ ✓ Compiled /favicon.ico in 240ms (587 modules)
+ GET /favicon.ico 200 in 307ms
+ GET /favicon.ico 200 in 13ms
+Development mode: Skipping authentication check
+ GET /simple-doc 200 in 74ms
+ GET /favicon.ico 200 in 6ms
+ GET /favicon.ico 200 in 13ms
+ ✓ Compiled in 581ms (1038 modules)
+ ✓ Compiled in 258ms (1025 modules)
+ ✓ Compiled in 247ms (1027 modules)
+ ✓ Compiled in 194ms (1027 modules)
+ ✓ Compiled in 209ms (1027 modules)
+ ✓ Compiled in 302ms (1027 modules)
+ ✓ Compiled in 205ms (1027 modules)
+ ✓ Compiled in 213ms (1027 modules)
+ ✓ Compiled in 190ms (1027 modules)
+Development mode: Skipping authentication check
+ GET /document-view?id=1 200 in 175ms
+ ✓ Compiled /favicon.ico in 292ms (589 modules)
+ GET /favicon.ico 200 in 344ms
+ GET /favicon.ico 200 in 5ms
+Development mode: Skipping authentication check
+ GET /document-view?id=1 200 in 95ms
+ GET /favicon.ico 200 in 6ms
+ GET /favicon.ico 200 in 6ms
+Development mode: Skipping authentication check
+ GET /simple-doc 200 in 26ms
+Development mode: Skipping authentication check
+ ○ Compiling / ...
+ ✓ Compiled / in 723ms (1089 modules)
+ HEAD / 200 in 844ms
+Development mode: Skipping authentication check
+ GET / 200 in 39ms
+ ✓ Compiled /favicon.ico in 138ms (633 modules)
+ GET /favicon.ico 200 in 264ms
+Development mode: Skipping authentication check
+ GET /document-view?id=1 200 in 185ms
+ GET /favicon.ico 200 in 5ms
+ ✓ Compiled in 365ms (1128 modules)
+ ✓ Compiled in 123ms (495 modules)
+ ✓ Compiled in 101ms (1293 modules)
+ ✓ Compiled in 358ms (1068 modules)
+Development mode: Skipping authentication check
+ ✓ Compiled / in 87ms (617 modules)
+ GET / 200 in 248ms
+ ✓ Compiled /favicon.ico in 101ms (633 modules)
+ GET /favicon.ico 200 in 204ms
+Development mode: Skipping authentication check
+ ✓ Compiled /document-test in 462ms (1112 modules)
+ GET /favicon.ico 200 in 434ms
+ GET /document-test 200 in 590ms
+ ✓ Compiled in 305ms (1135 modules)
+ ✓ Compiled in 361ms (1135 modules)
+Development mode: Skipping authentication check
+ GET / 200 in 82ms
+ GET /favicon.ico 200 in 9ms
+ GET /favicon.ico 200 in 5ms
+Development mode: Skipping authentication check
+ GET /document-test 200 in 49ms
+Development mode: Skipping authentication check
+ GET /simple-doc 200 in 30ms
+ GET /favicon.ico 200 in 6ms
+ GET /favicon.ico 200 in 21ms
+Development mode: Skipping authentication check
+ GET /simple-doc 200 in 20ms
+ GET /favicon.ico 200 in 6ms
+ GET /favicon.ico 200 in 20ms
+ ✓ Compiled in 419ms (1075 modules)
+ ✓ Compiled in 222ms (1075 modules)
+ ✓ Compiled in 246ms (1075 modules)
+Development mode: Skipping authentication check
+ GET /document-test 200 in 151ms
+ ✓ Compiled /favicon.ico in 123ms (594 modules)
+ GET /favicon.ico 200 in 242ms
+Development mode: Skipping authentication check
+ GET /simple-doc 200 in 59ms
+Development mode: Skipping authentication check
+ ✓ Compiled / in 337ms (622 modules)
+ GET / 200 in 490ms
+Development mode: Skipping authentication check
+ HEAD /simple-doc 200 in 36ms
+Development mode: Skipping authentication check
+ HEAD /document-test 200 in 21ms
+Development mode: Skipping authentication check
+ GET / 200 in 21ms
+ ✓ Compiled /favicon.ico in 271ms (638 modules)
+ GET /favicon.ico 200 in 388ms
+ GET /favicon.ico 200 in 8ms
+Development mode: Skipping authentication check
+ GET /simple-doc 200 in 69ms
+Development mode: Skipping authentication check
+ GET /document-test 200 in 42ms
+Development mode: Skipping authentication check
+ GET /document-view?id=1 200 in 26ms
+[?25h
+Server started with PID: 63586
+Document-centric interface will be available at http://localhost:3000/document-test
+Simple document interface is available at http://localhost:3000/simple-doc
+
+Press Ctrl+C to stop the server
+./start-document-mode.sh: line 12: px: command not found

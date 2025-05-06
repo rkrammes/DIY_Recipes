@@ -1,0 +1,132 @@
+[2025-05-06T12:06:21.149Z] Starting recipe iterations diagnosis
+[2025-05-06T12:06:22.252Z] Navigating to home page
+[2025-05-06T12:06:22.561Z] [BROWSER INF] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[2025-05-06T12:06:22.780Z] [BROWSER LOG] Setting up audio interaction listeners
+[2025-05-06T12:06:22.802Z] [BROWSER LOG] Development mode: Using mock user authentication
+[2025-05-06T12:06:22.824Z] [BROWSER LOG] Development mode: Using mock user authentication
+[2025-05-06T12:06:22.826Z] [BROWSER LOG] Auth state changed: INITIAL_SESSION 
+[2025-05-06T12:06:22.861Z] [BROWSER WAR] Skipping IBM Plex Mono fonts to use fallbacks
+[2025-05-06T12:06:22.863Z] [BROWSER WAR] Skipping IBM Plex Mono fonts to use fallbacks
+[2025-05-06T12:06:22.864Z] [BROWSER WAR] Skipping IBM Plex Mono fonts to use fallbacks
+[2025-05-06T12:06:22.870Z] [BROWSER WAR] Skipping IBM Plex Mono fonts to use fallbacks
+[2025-05-06T12:06:22.880Z] [BROWSER WAR] Skipping IBM Plex Mono fonts to use fallbacks
+[2025-05-06T12:06:22.884Z] [BROWSER WAR] Skipping IBM Plex Mono fonts to use fallbacks
+[2025-05-06T12:06:22.920Z] [BROWSER LOG] Font loaded: Share Tech Mono 400
+[2025-05-06T12:06:22.921Z] [BROWSER LOG] Font loaded: JetBrains Mono 400
+[2025-05-06T12:06:22.924Z] [BROWSER WAR] Failed to decode downloaded font: http://localhost:3000/fonts/IBMPlexMono-Medium.woff2?v=1746533182854
+[2025-05-06T12:06:22.924Z] [BROWSER WAR] OTS parsing error: invalid sfntVersion: 168430090
+[2025-05-06T12:06:22.926Z] [BROWSER WAR] Failed to decode downloaded font: http://localhost:3000/fonts/IBMPlexMono-Bold.woff2?v=1746533182855
+[2025-05-06T12:06:22.927Z] [BROWSER WAR] OTS parsing error: invalid sfntVersion: 168430090
+[2025-05-06T12:06:22.930Z] [BROWSER WAR] Failed to decode downloaded font: http://localhost:3000/fonts/IBMPlexMono-Regular.woff2?v=1746533182856
+[2025-05-06T12:06:22.930Z] [BROWSER WAR] OTS parsing error: invalid sfntVersion: 168430090
+[2025-05-06T12:06:22.931Z] [BROWSER WAR] Failed to decode downloaded font: http://localhost:3000/fonts/IBMPlexMono-Regular.woff2?v=1746533182855
+[2025-05-06T12:06:22.932Z] [BROWSER WAR] OTS parsing error: invalid sfntVersion: 168430090
+[2025-05-06T12:06:22.933Z] [BROWSER WAR] Error with FontFace API for /fonts/IBMPlexMono-Medium.woff2: JSHandle@error
+[2025-05-06T12:06:22.934Z] [BROWSER WAR] Error with FontFace API for /fonts/IBMPlexMono-Bold.woff2: JSHandle@error
+[2025-05-06T12:06:22.935Z] [BROWSER WAR] Error with FontFace API for /fonts/IBMPlexMono-Regular.woff2: JSHandle@error
+[2025-05-06T12:06:22.935Z] [BROWSER WAR] Error with FontFace API for /fonts/IBMPlexMono-Regular.woff2: JSHandle@error
+[2025-05-06T12:06:22.950Z] [BROWSER LOG] Font loaded: Share Tech Mono 400
+[2025-05-06T12:06:22.953Z] [BROWSER LOG] Font loaded: Px437 IBM VGA 400
+[2025-05-06T12:06:22.954Z] [BROWSER LOG] Font loaded: Px437 IBM VGA 400
+[2025-05-06T12:06:22.955Z] [BROWSER WAR] Failed to decode downloaded font: http://localhost:3000/fonts/IBMPlexMono-Bold.woff2?v=1746533182879
+[2025-05-06T12:06:22.955Z] [BROWSER WAR] OTS parsing error: invalid sfntVersion: 168430090
+[2025-05-06T12:06:22.956Z] [BROWSER LOG] Font loaded: JetBrains Mono 400
+[2025-05-06T12:06:22.958Z] [BROWSER WAR] Error with FontFace API for /fonts/IBMPlexMono-Bold.woff2: JSHandle@error
+[2025-05-06T12:06:22.960Z] [BROWSER WAR] Failed to decode downloaded font: http://localhost:3000/fonts/IBMPlexMono-Medium.woff2?v=1746533182877
+[2025-05-06T12:06:22.960Z] [BROWSER WAR] OTS parsing error: invalid sfntVersion: 168430090
+[2025-05-06T12:06:22.964Z] [BROWSER WAR] Error with FontFace API for /fonts/IBMPlexMono-Medium.woff2: JSHandle@error
+[2025-05-06T12:06:23.097Z] [BROWSER LOG] Subscribed to ingredients changes
+[2025-05-06T12:06:26.299Z] Checking for console errors
+[2025-05-06T12:06:26.301Z] No console errors detected
+[2025-05-06T12:06:26.301Z] Checking Supabase initialization
+[2025-05-06T12:06:26.302Z] Supabase status:
+{
+  "urlFound": false,
+  "keyFound": false,
+  "url": null,
+  "localStorageItems": [
+    "theme",
+    "audioEnabled"
+  ]
+}
+[2025-05-06T12:06:26.302Z] Looking for a recipe to click
+[2025-05-06T12:06:27.425Z] Found 0 visible links on page:
+[]
+[2025-05-06T12:06:27.425Z] No obvious recipe links found, trying to click first visible link
+[2025-05-06T12:06:27.426Z] Waiting for recipe details to load
+[2025-05-06T12:06:30.538Z] Checking for versions section error
+[2025-05-06T12:06:30.543Z] Version section status:
+{
+  "error": false,
+  "found": false
+}
+[2025-05-06T12:06:30.544Z] Checking console logs for database connection issues
+[2025-05-06T12:06:30.547Z] Database connection issues:
+{
+  "supabaseErrors": [],
+  "connectionErrors": [
+    "┌───────────────────────────┐\n│ >KRAFT_AI TERMINAL v1.0.2 │\n└───────────────────────────┘\nUSER: DEV\nSESSION: 4261\nACCESS: ADMIN\nUPTIME: 8:06:30 AM\n╔═ SYSTEM METRICS ═╗\nCPU:\n10%\nMEM:\n72%\nCACHE:\n99%\nNET:\n62ms\nSTATUS:\nONLINE\nDB SYNC: 8:06:22 AM\n▀ ▄ ▀ ▄\n╔═ TERMINAL CONTROLS ═╗\n[X]\nHACKERS_TERMINAL\n[ ]\nDYSTOPIA_CONSOLE\n[ ]\nNEOTOPIA_INTERFACE\n[SND:OFF]\n▯▯▯▯▯▯▯▯\n╔═ COMMAND INTERFACE ═╗\nREADY\nKAI_TERMINAL$\nsearch --scope=recipes\n_\n>\nMATCHING: 12 ITEMS\nREADY\n[2025-05-06 8:06:30 AM] System initialized\n[2025-05-06 8:06:30 AM] Database connection established\n[2025-05-06 8:06:30 AM] Loaded 12 recipes\n[2025-05-06 8:06:30 AM] Loaded 21 ingredients\n[2025-05-06 8:06:30 AM] Theme activated: HACKERS\n[2025-05-06 8:06:30 AM] Audio system: DISABLED\n[2025-05-06 8:06:30 AM] Ready for input _\nONLINE\nITEMS: 33\nCACHE: 97%\nSERVER:\n▮▮▮▮▮▮\n┌─────────────────────┐\n│ SYSTEM DIRECTORIES │\n└─────────────────────┘\n►\n📋\nRECIPES\n_\n🧪\nINGREDIENTS\n🔧\nTOOLS\n📚\nLIBRARY\n════════════════════\n● SYSTEM READY\n\nRAM: 71%\nNET: 129ms\n> _\n┌──────────────────────────────┐\nRECIPES\n[+]\n└──────────────────────────────┘\n1.\nHair Rinse\nA clarifying rinse to remove buildup and add shine\n2.\nHand Cream\nA rich, moisturizing cream for dry hands\n3.\nFoaming Hand Soap\nA gentle, natural foaming soap for everyday hand washing\n4.\nMustache Wax\nA strong-hold wax for styling mustaches\n5.\nBeard Balm\nA styling balm that conditions and shapes your beard\n6.\nBeard Oil\nA nourishing oil for beard care\n7.\nMustache Wax\n8.\nBeard Oil\n9.\nBeard Balm\ntest\n10.\nHand Cream\n11.\nFoaming Hand Soap\n12.\nHair Rinse\n────────────────────────────\n12 ITEMS\nNO SELECTION\n┌──────────────────────────────────────────────────────────┐\nACTIVE DOCUMENT: NONE SELECTED\n└──────────────────────────────────────────────────────────┘\n📋\nSELECT A RECIPE TO VIEW\n\nChoose an item from the list on the left to view and edit its details in this panel.\n\nSYS_STATUS\n[ONLINE]\nUPTIME:\n1h 55m\nSESS_ID:\n#8020\nDB_CONN:\nACTIVE\nAPI:\nREADY\nCPU\n12%\nMEM\n80%\nDB_STATISTICS\n8:06:22 AM\nRECIPES:\n12\nREFS:\n36\nINGREDIENTS:\n21\nUSED:\n16\nCACHE HIT:\n84%\n▮▮▮▮▯▯\nLIVE_SYSTEM_LOG\nSTREAMING\n[8:06:30 AM] System resources initialized successfully\n[8:06:30 AM] Cache size optimized (64MB)\n[8:06:30 AM] Database connection established to supabase.co\n[8:06:30 AM] Auth provider initialized with DEV profile\n[8:06:30 AM] Loaded recipe data (12 entries)\n[8:06:30 AM] Loaded ingredient data (21 entries)\n[8:06:30 AM] Theme activated: HACKERS\n[8:06:30 AM] UI rendering complete (React hydration)\n[8:06:30 AM] Font loading completed with fallbacks\n[8:06:30 AM] Audio system disabled\n[8:06:30 AM] Recipe processor initialized\n[8:06:30 AM] All systems nominal\n[8:06:30 AM] Awaiting user input _\nCOMMANDS\nRECIPES\nF1:\nHELP\nF2:\nSAVE\nF3:\nSEARCH\nF10:\nQUIT\nACTIVE:\nBROWSE\nKRAFT_AI_TERMINAL v1.0.2 | ADMIN | ONLINE\nNET: 87ms\n▀ ▄ ▀ ▄ ▀ ▄ ▀ ▄",
+    "┌───────────────────────────┐\n│ >KRAFT_AI TERMINAL v1.0.2 │\n└───────────────────────────┘\nUSER: DEV\nSESSION: 4261\nACCESS: ADMIN\nUPTIME: 8:06:30 AM\n╔═ SYSTEM METRICS ═╗\nCPU:\n10%\nMEM:\n72%\nCACHE:\n99%\nNET:\n62ms\nSTATUS:\nONLINE\nDB SYNC: 8:06:22 AM\n▀ ▄ ▀ ▄\n╔═ TERMINAL CONTROLS ═╗\n[X]\nHACKERS_TERMINAL\n[ ]\nDYSTOPIA_CONSOLE\n[ ]\nNEOTOPIA_INTERFACE\n[SND:OFF]\n▯▯▯▯▯▯▯▯\n╔═ COMMAND INTERFACE ═╗\nREADY\nKAI_TERMINAL$\nsearch --scope=recipes\n_\n>\nMATCHING: 12 ITEMS\nREADY\n[2025-05-06 8:06:30 AM] System initialized\n[2025-05-06 8:06:30 AM] Database connection established\n[2025-05-06 8:06:30 AM] Loaded 12 recipes\n[2025-05-06 8:06:30 AM] Loaded 21 ingredients\n[2025-05-06 8:06:30 AM] Theme activated: HACKERS\n[2025-05-06 8:06:30 AM] Audio system: DISABLED\n[2025-05-06 8:06:30 AM] Ready for input _\nONLINE\nITEMS: 33\nCACHE: 97%\nSERVER:\n▮▮▮▮▮▮\n┌─────────────────────┐\n│ SYSTEM DIRECTORIES │\n└─────────────────────┘\n►\n📋\nRECIPES\n_\n🧪\nINGREDIENTS\n🔧\nTOOLS\n📚\nLIBRARY\n════════════════════\n● SYSTEM READY\n\nRAM: 71%\nNET: 129ms\n> _\n┌──────────────────────────────┐\nRECIPES\n[+]\n└──────────────────────────────┘\n1.\nHair Rinse\nA clarifying rinse to remove buildup and add shine\n2.\nHand Cream\nA rich, moisturizing cream for dry hands\n3.\nFoaming Hand Soap\nA gentle, natural foaming soap for everyday hand washing\n4.\nMustache Wax\nA strong-hold wax for styling mustaches\n5.\nBeard Balm\nA styling balm that conditions and shapes your beard\n6.\nBeard Oil\nA nourishing oil for beard care\n7.\nMustache Wax\n8.\nBeard Oil\n9.\nBeard Balm\ntest\n10.\nHand Cream\n11.\nFoaming Hand Soap\n12.\nHair Rinse\n────────────────────────────\n12 ITEMS\nNO SELECTION\n┌──────────────────────────────────────────────────────────┐\nACTIVE DOCUMENT: NONE SELECTED\n└──────────────────────────────────────────────────────────┘\n📋\nSELECT A RECIPE TO VIEW\n\nChoose an item from the list on the left to view and edit its details in this panel.\n\nSYS_STATUS\n[ONLINE]\nUPTIME:\n1h 55m\nSESS_ID:\n#8020\nDB_CONN:\nACTIVE\nAPI:\nREADY\nCPU\n12%\nMEM\n80%\nDB_STATISTICS\n8:06:22 AM\nRECIPES:\n12\nREFS:\n36\nINGREDIENTS:\n21\nUSED:\n16\nCACHE HIT:\n84%\n▮▮▮▮▯▯\nLIVE_SYSTEM_LOG\nSTREAMING\n[8:06:30 AM] System resources initialized successfully\n[8:06:30 AM] Cache size optimized (64MB)\n[8:06:30 AM] Database connection established to supabase.co\n[8:06:30 AM] Auth provider initialized with DEV profile\n[8:06:30 AM] Loaded recipe data (12 entries)\n[8:06:30 AM] Loaded ingredient data (21 entries)\n[8:06:30 AM] Theme activated: HACKERS\n[8:06:30 AM] UI rendering complete (React hydration)\n[8:06:30 AM] Font loading completed with fallbacks\n[8:06:30 AM] Audio system disabled\n[8:06:30 AM] Recipe processor initialized\n[8:06:30 AM] All systems nominal\n[8:06:30 AM] Awaiting user input _\nCOMMANDS\nRECIPES\nF1:\nHELP\nF2:\nSAVE\nF3:\nSEARCH\nF10:\nQUIT\nACTIVE:\nBROWSE\nKRAFT_AI_TERMINAL v1.0.2 | ADMIN | ONLINE\nNET: 87ms\n▀ ▄ ▀ ▄ ▀ ▄ ▀ ▄",
+    "┌───────────────────────────┐\n│ >KRAFT_AI TERMINAL v1.0.2 │\n└───────────────────────────┘\nUSER: DEV\nSESSION: 4261\nACCESS: ADMIN\nUPTIME: 8:06:30 AM\n╔═ SYSTEM METRICS ═╗\nCPU:\n10%\nMEM:\n72%\nCACHE:\n99%\nNET:\n62ms\nSTATUS:\nONLINE\nDB SYNC: 8:06:22 AM\n▀ ▄ ▀ ▄\n╔═ TERMINAL CONTROLS ═╗\n[X]\nHACKERS_TERMINAL\n[ ]\nDYSTOPIA_CONSOLE\n[ ]\nNEOTOPIA_INTERFACE\n[SND:OFF]\n▯▯▯▯▯▯▯▯\n╔═ COMMAND INTERFACE ═╗\nREADY\nKAI_TERMINAL$\nsearch --scope=recipes\n_\n>\nMATCHING: 12 ITEMS\nREADY\n[2025-05-06 8:06:30 AM] System initialized\n[2025-05-06 8:06:30 AM] Database connection established\n[2025-05-06 8:06:30 AM] Loaded 12 recipes\n[2025-05-06 8:06:30 AM] Loaded 21 ingredients\n[2025-05-06 8:06:30 AM] Theme activated: HACKERS\n[2025-05-06 8:06:30 AM] Audio system: DISABLED\n[2025-05-06 8:06:30 AM] Ready for input _\nONLINE\nITEMS: 33\nCACHE: 97%\nSERVER:\n▮▮▮▮▮▮\n┌─────────────────────┐\n│ SYSTEM DIRECTORIES │\n└─────────────────────┘\n►\n📋\nRECIPES\n_\n🧪\nINGREDIENTS\n🔧\nTOOLS\n📚\nLIBRARY\n════════════════════\n● SYSTEM READY\n\nRAM: 71%\nNET: 129ms\n> _\n┌──────────────────────────────┐\nRECIPES\n[+]\n└──────────────────────────────┘\n1.\nHair Rinse\nA clarifying rinse to remove buildup and add shine\n2.\nHand Cream\nA rich, moisturizing cream for dry hands\n3.\nFoaming Hand Soap\nA gentle, natural foaming soap for everyday hand washing\n4.\nMustache Wax\nA strong-hold wax for styling mustaches\n5.\nBeard Balm\nA styling balm that conditions and shapes your beard\n6.\nBeard Oil\nA nourishing oil for beard care\n7.\nMustache Wax\n8.\nBeard Oil\n9.\nBeard Balm\ntest\n10.\nHand Cream\n11.\nFoaming Hand Soap\n12.\nHair Rinse\n────────────────────────────\n12 ITEMS\nNO SELECTION\n┌──────────────────────────────────────────────────────────┐\nACTIVE DOCUMENT: NONE SELECTED\n└──────────────────────────────────────────────────────────┘\n📋\nSELECT A RECIPE TO VIEW\n\nChoose an item from the list on the left to view and edit its details in this panel.\n\nSYS_STATUS\n[ONLINE]\nUPTIME:\n1h 55m\nSESS_ID:\n#8020\nDB_CONN:\nACTIVE\nAPI:\nREADY\nCPU\n12%\nMEM\n80%\nDB_STATISTICS\n8:06:22 AM\nRECIPES:\n12\nREFS:\n36\nINGREDIENTS:\n21\nUSED:\n16\nCACHE HIT:\n84%\n▮▮▮▮▯▯\nLIVE_SYSTEM_LOG\nSTREAMING\n[8:06:30 AM] System resources initialized successfully\n[8:06:30 AM] Cache size optimized (64MB)\n[8:06:30 AM] Database connection established to supabase.co\n[8:06:30 AM] Auth provider initialized with DEV profile\n[8:06:30 AM] Loaded recipe data (12 entries)\n[8:06:30 AM] Loaded ingredient data (21 entries)\n[8:06:30 AM] Theme activated: HACKERS\n[8:06:30 AM] UI rendering complete (React hydration)\n[8:06:30 AM] Font loading completed with fallbacks\n[8:06:30 AM] Audio system disabled\n[8:06:30 AM] Recipe processor initialized\n[8:06:30 AM] All systems nominal\n[8:06:30 AM] Awaiting user input _\nCOMMANDS\nRECIPES\nF1:\nHELP\nF2:\nSAVE\nF3:\nSEARCH\nF10:\nQUIT\nACTIVE:\nBROWSE\nKRAFT_AI_TERMINAL v1.0.2 | ADMIN | ONLINE\nNET: 87ms\n▀ ▄ ▀ ▄ ▀ ▄ ▀ ▄",
+    "┌───────────────────────────┐\n│ >KRAFT_AI TERMINAL v1.0.2 │\n└───────────────────────────┘\nUSER: DEV\nSESSION: 4261\nACCESS: ADMIN\nUPTIME: 8:06:30 AM\n╔═ SYSTEM METRICS ═╗\nCPU:\n10%\nMEM:\n72%\nCACHE:\n99%\nNET:\n62ms\nSTATUS:\nONLINE\nDB SYNC: 8:06:22 AM\n▀ ▄ ▀ ▄\n╔═ TERMINAL CONTROLS ═╗\n[X]\nHACKERS_TERMINAL\n[ ]\nDYSTOPIA_CONSOLE\n[ ]\nNEOTOPIA_INTERFACE\n[SND:OFF]\n▯▯▯▯▯▯▯▯\n╔═ COMMAND INTERFACE ═╗\nREADY\nKAI_TERMINAL$\nsearch --scope=recipes\n_\n>\nMATCHING: 12 ITEMS\nREADY\n[2025-05-06 8:06:30 AM] System initialized\n[2025-05-06 8:06:30 AM] Database connection established\n[2025-05-06 8:06:30 AM] Loaded 12 recipes\n[2025-05-06 8:06:30 AM] Loaded 21 ingredients\n[2025-05-06 8:06:30 AM] Theme activated: HACKERS\n[2025-05-06 8:06:30 AM] Audio system: DISABLED\n[2025-05-06 8:06:30 AM] Ready for input _\nONLINE\nITEMS: 33\nCACHE: 97%\nSERVER:\n▮▮▮▮▮▮",
+    "┌───────────────────────────┐\n│ >KRAFT_AI TERMINAL v1.0.2 │\n└───────────────────────────┘\nUSER: DEV\nSESSION: 4261\nACCESS: ADMIN\nUPTIME: 8:06:30 AM\n╔═ SYSTEM METRICS ═╗\nCPU:\n10%\nMEM:\n72%\nCACHE:\n99%\nNET:\n62ms\nSTATUS:\nONLINE\nDB SYNC: 8:06:22 AM\n▀ ▄ ▀ ▄\n╔═ TERMINAL CONTROLS ═╗\n[X]\nHACKERS_TERMINAL\n[ ]\nDYSTOPIA_CONSOLE\n[ ]\nNEOTOPIA_INTERFACE\n[SND:OFF]\n▯▯▯▯▯▯▯▯\n╔═ COMMAND INTERFACE ═╗\nREADY\nKAI_TERMINAL$\nsearch --scope=recipes\n_\n>\nMATCHING: 12 ITEMS\nREADY\n[2025-05-06 8:06:30 AM] System initialized\n[2025-05-06 8:06:30 AM] Database connection established\n[2025-05-06 8:06:30 AM] Loaded 12 recipes\n[2025-05-06 8:06:30 AM] Loaded 21 ingredients\n[2025-05-06 8:06:30 AM] Theme activated: HACKERS\n[2025-05-06 8:06:30 AM] Audio system: DISABLED\n[2025-05-06 8:06:30 AM] Ready for input _\nONLINE\nITEMS: 33\nCACHE: 97%\nSERVER:\n▮▮▮▮▮▮",
+    "╔═ COMMAND INTERFACE ═╗\nREADY\nKAI_TERMINAL$\nsearch --scope=recipes\n_\n>\nMATCHING: 12 ITEMS\nREADY\n[2025-05-06 8:06:30 AM] System initialized\n[2025-05-06 8:06:30 AM] Database connection established\n[2025-05-06 8:06:30 AM] Loaded 12 recipes\n[2025-05-06 8:06:30 AM] Loaded 21 ingredients\n[2025-05-06 8:06:30 AM] Theme activated: HACKERS\n[2025-05-06 8:06:30 AM] Audio system: DISABLED\n[2025-05-06 8:06:30 AM] Ready for input _\nONLINE\nITEMS: 33\nCACHE: 97%\nSERVER:\n▮▮▮▮▮▮",
+    "[2025-05-06 8:06:30 AM] System initialized\n[2025-05-06 8:06:30 AM] Database connection established\n[2025-05-06 8:06:30 AM] Loaded 12 recipes\n[2025-05-06 8:06:30 AM] Loaded 21 ingredients\n[2025-05-06 8:06:30 AM] Theme activated: HACKERS\n[2025-05-06 8:06:30 AM] Audio system: DISABLED\n[2025-05-06 8:06:30 AM] Ready for input _",
+    "[2025-05-06 8:06:30 AM] Database connection established",
+    "SYS_STATUS\n[ONLINE]\nUPTIME:\n1h 55m\nSESS_ID:\n#8020\nDB_CONN:\nACTIVE\nAPI:\nREADY\nCPU\n12%\nMEM\n80%\nDB_STATISTICS\n8:06:22 AM\nRECIPES:\n12\nREFS:\n36\nINGREDIENTS:\n21\nUSED:\n16\nCACHE HIT:\n84%\n▮▮▮▮▯▯\nLIVE_SYSTEM_LOG\nSTREAMING\n[8:06:30 AM] System resources initialized successfully\n[8:06:30 AM] Cache size optimized (64MB)\n[8:06:30 AM] Database connection established to supabase.co\n[8:06:30 AM] Auth provider initialized with DEV profile\n[8:06:30 AM] Loaded recipe data (12 entries)\n[8:06:30 AM] Loaded ingredient data (21 entries)\n[8:06:30 AM] Theme activated: HACKERS\n[8:06:30 AM] UI rendering complete (React hydration)\n[8:06:30 AM] Font loading completed with fallbacks\n[8:06:30 AM] Audio system disabled\n[8:06:30 AM] Recipe processor initialized\n[8:06:30 AM] All systems nominal\n[8:06:30 AM] Awaiting user input _\nCOMMANDS\nRECIPES\nF1:\nHELP\nF2:\nSAVE\nF3:\nSEARCH\nF10:\nQUIT\nACTIVE:\nBROWSE\nKRAFT_AI_TERMINAL v1.0.2 | ADMIN | ONLINE\nNET: 87ms\n▀ ▄ ▀ ▄ ▀ ▄ ▀ ▄",
+    "SYS_STATUS\n[ONLINE]\nUPTIME:\n1h 55m\nSESS_ID:\n#8020\nDB_CONN:\nACTIVE\nAPI:\nREADY\nCPU\n12%\nMEM\n80%\nDB_STATISTICS\n8:06:22 AM\nRECIPES:\n12\nREFS:\n36\nINGREDIENTS:\n21\nUSED:\n16\nCACHE HIT:\n84%\n▮▮▮▮▯▯\nLIVE_SYSTEM_LOG\nSTREAMING\n[8:06:30 AM] System resources initialized successfully\n[8:06:30 AM] Cache size optimized (64MB)\n[8:06:30 AM] Database connection established to supabase.co\n[8:06:30 AM] Auth provider initialized with DEV profile\n[8:06:30 AM] Loaded recipe data (12 entries)\n[8:06:30 AM] Loaded ingredient data (21 entries)\n[8:06:30 AM] Theme activated: HACKERS\n[8:06:30 AM] UI rendering complete (React hydration)\n[8:06:30 AM] Font loading completed with fallbacks\n[8:06:30 AM] Audio system disabled\n[8:06:30 AM] Recipe processor initialized\n[8:06:30 AM] All systems nominal\n[8:06:30 AM] Awaiting user input _\nCOMMANDS\nRECIPES\nF1:\nHELP\nF2:\nSAVE\nF3:\nSEARCH\nF10:\nQUIT\nACTIVE:\nBROWSE\nKRAFT_AI_TERMINAL v1.0.2 | ADMIN | ONLINE\nNET: 87ms\n▀ ▄ ▀ ▄ ▀ ▄ ▀ ▄",
+    "LIVE_SYSTEM_LOG\nSTREAMING\n[8:06:30 AM] System resources initialized successfully\n[8:06:30 AM] Cache size optimized (64MB)\n[8:06:30 AM] Database connection established to supabase.co\n[8:06:30 AM] Auth provider initialized with DEV profile\n[8:06:30 AM] Loaded recipe data (12 entries)\n[8:06:30 AM] Loaded ingredient data (21 entries)\n[8:06:30 AM] Theme activated: HACKERS\n[8:06:30 AM] UI rendering complete (React hydration)\n[8:06:30 AM] Font loading completed with fallbacks\n[8:06:30 AM] Audio system disabled\n[8:06:30 AM] Recipe processor initialized\n[8:06:30 AM] All systems nominal\n[8:06:30 AM] Awaiting user input _",
+    "[8:06:30 AM] System resources initialized successfully\n[8:06:30 AM] Cache size optimized (64MB)\n[8:06:30 AM] Database connection established to supabase.co\n[8:06:30 AM] Auth provider initialized with DEV profile\n[8:06:30 AM] Loaded recipe data (12 entries)\n[8:06:30 AM] Loaded ingredient data (21 entries)\n[8:06:30 AM] Theme activated: HACKERS\n[8:06:30 AM] UI rendering complete (React hydration)\n[8:06:30 AM] Font loading completed with fallbacks\n[8:06:30 AM] Audio system disabled\n[8:06:30 AM] Recipe processor initialized\n[8:06:30 AM] All systems nominal\n[8:06:30 AM] Awaiting user input _",
+    "[8:06:30 AM] Database connection established to supabase.co"
+  ]
+}
+[2025-05-06T12:06:30.551Z] Checking network requests to Supabase
+[2025-05-06T12:06:30.553Z] Network requests:
+{
+  "resources": [
+    {
+      "url": "https://bzudglfxxywugesncjnz.supabase.co/rest/v1/recipes?select=*&order=created_at.desc",
+      "duration": 163,
+      "type": "fetch",
+      "status": 200
+    },
+    {
+      "url": "https://bzudglfxxywugesncjnz.supabase.co/rest/v1/recipes?select=count",
+      "duration": 175,
+      "type": "fetch",
+      "status": 206
+    },
+    {
+      "url": "https://bzudglfxxywugesncjnz.supabase.co/rest/v1/ingredients?select=*&order=created_at.desc",
+      "duration": 186,
+      "type": "fetch",
+      "status": 200
+    },
+    {
+      "url": "https://bzudglfxxywugesncjnz.supabase.co/rest/v1/recipes?select=*&order=created_at.desc",
+      "duration": 215,
+      "type": "fetch",
+      "status": 200
+    },
+    {
+      "url": "https://bzudglfxxywugesncjnz.supabase.co/rest/v1/recipes?select=count",
+      "duration": 172,
+      "type": "fetch",
+      "status": 206
+    },
+    {
+      "url": "https://bzudglfxxywugesncjnz.supabase.co/rest/v1/ingredients?select=*&order=created_at.desc",
+      "duration": 268,
+      "type": "fetch",
+      "status": 200
+    }
+  ]
+}
+[2025-05-06T12:06:30.554Z] Testing direct API access
+[2025-05-06T12:06:30.555Z] API test results:
+{
+  "error": "Could not find Supabase URL or key"
+}
+[2025-05-06T12:06:30.663Z] Diagnosis report saved to: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/test-artifacts/diagnostics/diagnosis-report-1746533190663.json
+[2025-05-06T12:06:30.690Z] Recommendations saved to: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/test-artifacts/diagnostics/recommendations-1746533190690.md
+[2025-05-06T12:06:30.691Z] Diagnosis completed

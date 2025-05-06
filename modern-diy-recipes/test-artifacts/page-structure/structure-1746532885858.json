@@ -1,0 +1,187 @@
+{
+  "tag": "BODY",
+  "className": "antialiased bg-background text-foreground font-body fonts-preloaded font-ibm-plex-mono-failed use-ibm-plex-mono-fallback",
+  "textContent": "(self.__next_f=self.__next_f||[]).push([0])self.__",
+  "children": [
+    {
+      "tag": "DIV",
+      "className": "theme-background"
+    },
+    {
+      "tag": "SCRIPT"
+    },
+    {
+      "tag": "SCRIPT",
+      "textContent": "(self.__next_f=self.__next_f||[]).push([0])"
+    },
+    {
+      "tag": "SCRIPT",
+      "textContent": "self.__next_f.push([1,\"3:\\\"$Sreact.fragment\\\"\\n5:I"
+    },
+    {
+      "tag": "SCRIPT",
+      "textContent": "self.__next_f.push([1,\"ist/client/components/metad"
+    },
+    {
+      "tag": "SCRIPT",
+      "textContent": "self.__next_f.push([1,\"display\\\":\\\"inline-block\\\"}"
+    },
+    {
+      "tag": "SCRIPT",
+      "textContent": "self.__next_f.push([1,\"4:[\\\"$\\\",\\\"html\\\",null,{\\\"l"
+    },
+    {
+      "tag": "SCRIPT",
+      "textContent": "self.__next_f.push([1,\"12:{\\\"name\\\":\\\"\\\",\\\"env\\\":\\"
+    },
+    {
+      "tag": "SCRIPT",
+      "textContent": "self.__next_f.push([1,\"app/layout.css\\\",\\\"crossOri"
+    },
+    {
+      "tag": "SCRIPT",
+      "textContent": "self.__next_f.push([1,\"2d:{\\\"metadata\\\":[[\\\"$\\\",\\\""
+    },
+    {
+      "tag": "NEXT-ROUTE-ANNOUNCER"
+    },
+    {
+      "tag": "NEXTJS-PORTAL"
+    },
+    {
+      "tag": "DIV",
+      "className": "flex flex-col h-screen bg-surface-0",
+      "textContent": "┌───────────────────────────┐│ >KRAFT_AI TERMINAL ",
+      "children": [
+        {
+          "tag": "DIV",
+          "className": "bg-surface-1 border-b border-border-subtle py-1 px-2 font-mono",
+          "textContent": "┌───────────────────────────┐│ >KRAFT_AI TERMINAL ",
+          "children": [
+            {
+              "tag": "DIV",
+              "className": "flex items-center justify-between",
+              "textContent": "┌───────────────────────────┐│ >KRAFT_AI TERMINAL ",
+              "children": [
+                {
+                  "tag": "DIV",
+                  "truncated": true
+                },
+                {
+                  "tag": "DIV",
+                  "truncated": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "tag": "DIV",
+          "className": "flex flex-1 overflow-hidden font-mono",
+          "textContent": "┌─────────────────────┐│ SYSTEM DIRECTORIES  │└───",
+          "children": [
+            {
+              "tag": "DIV",
+              "className": "w-52 bg-surface-1 border-r-2 border-border-subtle flex flex-col",
+              "textContent": "┌─────────────────────┐│ SYSTEM DIRECTORIES  │└───",
+              "children": [
+                {
+                  "tag": "DIV",
+                  "truncated": true
+                },
+                {
+                  "tag": "DIV",
+                  "truncated": true
+                },
+                {
+                  "tag": "DIV",
+                  "truncated": true
+                },
+                {
+                  "tag": "DIV",
+                  "truncated": true
+                },
+                {
+                  "tag": "DIV",
+                  "truncated": true
+                },
+                {
+                  "tag": "DIV",
+                  "truncated": true
+                }
+              ]
+            },
+            {
+              "tag": "DIV",
+              "className": "w-64 border-r-2 border-border-subtle bg-surface-0 flex flex-col",
+              "textContent": "┌──────────────────────────────┐RECIPES[+]└───────",
+              "children": [
+                {
+                  "tag": "DIV",
+                  "truncated": true
+                },
+                {
+                  "tag": "DIV",
+                  "truncated": true
+                },
+                {
+                  "tag": "DIV",
+                  "truncated": true
+                }
+              ]
+            },
+            {
+              "tag": "DIV",
+              "className": "flex-1 bg-surface-0 overflow-y-auto border-l border-border-subtle",
+              "textContent": "┌─────────────────────────────────────────────────",
+              "children": [
+                {
+                  "tag": "DIV",
+                  "truncated": true
+                },
+                {
+                  "tag": "DIV",
+                  "truncated": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "tag": "DIV",
+          "className": "bg-surface-1 border-t-2 border-border-subtle py-1 px-4 font-mono text-xs",
+          "textContent": "SYS_STATUS[ONLINE]UPTIME:23h 9mSESS_ID:#4446DB_CON",
+          "children": [
+            {
+              "tag": "DIV",
+              "className": "grid grid-cols-12 gap-2",
+              "textContent": "SYS_STATUS[ONLINE]UPTIME:23h 9mSESS_ID:#4446DB_CON",
+              "children": [
+                {
+                  "tag": "DIV",
+                  "truncated": true
+                },
+                {
+                  "tag": "DIV",
+                  "truncated": true
+                },
+                {
+                  "tag": "DIV",
+                  "truncated": true
+                },
+                {
+                  "tag": "DIV",
+                  "truncated": true
+                },
+                {
+                  "tag": "DIV",
+                  "truncated": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

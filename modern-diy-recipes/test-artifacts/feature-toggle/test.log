@@ -1,0 +1,33 @@
+[2025-05-06T13:35:20.217Z] Starting feature toggle test with Puppeteer
+[2025-05-06T13:35:21.312Z] Navigating to homepage
+[2025-05-06T13:35:21.564Z] [BROWSER INF] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[2025-05-06T13:35:21.791Z] [BROWSER LOG] Setting up audio interaction listeners
+[2025-05-06T13:35:21.807Z] [BROWSER LOG] [Fast Refresh] rebuilding
+[2025-05-06T13:35:21.818Z] [BROWSER LOG] Auth state changed: INITIAL_SESSION 
+[2025-05-06T13:35:21.988Z] [BROWSER LOG] [Fast Refresh] done in 181ms
+[2025-05-06T13:35:22.044Z] [BROWSER LOG] Subscribed to ingredients changes
+[2025-05-06T13:35:22.296Z] [BROWSER ERR] Failed to load resource: the server responded with a status of 404 (Not Found)
+[2025-05-06T13:35:22.297Z] [BROWSER ERR] Failed to load resource: the server responded with a status of 404 (Not Found)
+[2025-05-06T13:35:24.698Z] Looking for a recipe to click
+[2025-05-06T13:35:24.700Z] Recipe click result:
+{
+  "clicked": false
+}
+[2025-05-06T13:35:24.700Z] No recipe found to click, trying direct URL to recipe-test
+[2025-05-06T13:35:24.767Z] [BROWSER ERR] Failed to load resource: the server responded with a status of 404 (Not Found)
+[2025-05-06T13:35:24.895Z] [BROWSER INF] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[2025-05-06T13:35:24.969Z] [BROWSER ERR] Failed to load resource: the server responded with a status of 404 (Not Found)
+[2025-05-06T13:35:24.969Z] [BROWSER ERR] Failed to load resource: the server responded with a status of 404 (Not Found)
+[2025-05-06T13:35:28.006Z] Looking for feature toggle bar
+[2025-05-06T13:35:28.006Z] Feature toggle bar status:
+{
+  "found": false
+}
+[2025-05-06T13:35:28.007Z] Feature toggle bar not found, attempting to find any button that might open settings
+[2025-05-06T13:35:28.007Z] Verifying localStorage persistence
+[2025-05-06T13:35:28.009Z] localStorage state:
+{
+  "found": false
+}
+[2025-05-06T13:35:28.009Z] Test report written to: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/test-artifacts/feature-toggle/test-report-1746538528009.json
+[2025-05-06T13:35:28.009Z] Test completed successfully

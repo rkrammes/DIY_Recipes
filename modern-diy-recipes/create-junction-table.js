@@ -1,199 +1,274 @@
+#!/usr/bin/env node
+
 /**
- * Create Recipe Ingredients Junction Table
+ * Direct Junction Table Creator
  * 
- * This script creates the recipe_ingredients junction table if it doesn't exist
- * and populates it with relationships from the recipe data.
+ * This script creates the recipe_ingredients junction table 
+ * using direct SQL queries via the Supabase client.
  */
 
 const { createClient } = require('@supabase/supabase-js');
-const { v4: uuidv4 } = require('uuid');
-const fs = require('fs');
-
-// Load environment variables
-try {
-  require('dotenv').config({ path: '.env.local' });
-} catch (error) {
-  console.error('Error loading .env.local file:', error);
-}
 
 // Supabase credentials
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const SUPABASE_URL = 'https://bzudglfxxywugesncjnz.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ6dWRnbGZ4eHl3dWdlc25jam56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODYzMzE0NDgsImV4cCI6MjAwMTkwNzQ0OH0.5WEj3NB1pC7KgqiSZuWEwXXEpK9NrUQcCJNJiXHf5Y0';
 
-if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-  console.error('Missing Supabase credentials. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local');
-  process.exit(1);
-}
+// Initialize Supabase client
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// Create a Supabase client
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Recipe data from the CSV
+const recipeData = [
+  {
+    name: 'Beard Oil',
+    ingredients: [
+      { name: 'Jojoba Oil', quantity: '40%', unit: '12g' },
+      { name: 'Essential Oils', quantity: '1%', unit: '0.3g' }
+    ]
+  },
+  {
+    name: 'Beard Balm',
+    ingredients: [
+      { name: 'Beeswax', quantity: '33%', unit: '19.8g' },
+      { name: 'Unrefined Shea Butter', quantity: '20%', unit: '12g' },
+      { name: 'Cocoa Butter', quantity: '22%', unit: '13.2g' },
+      { name: 'Unrefined Mango Butter', quantity: '15%', unit: '9g' },
+      { name: 'Lanolin', quantity: '10%', unit: '6g' },
+      { name: 'Arrowroot Powder', quantity: '5%', unit: '3g' }
+    ]
+  },
+  {
+    name: 'Mustache Wax',
+    ingredients: [
+      { name: 'Beeswax', quantity: '60%', unit: '30g' },
+      { name: 'Cocoa Butter', quantity: '25%', unit: '12.5g' },
+      { name: 'Coconut Oil', quantity: '15%', unit: '7.5g' }
+    ]
+  },
+  {
+    name: 'Foaming Hand Soap',
+    ingredients: [
+      { name: 'Unscented Castile Soap', quantity: '25%', unit: '60ml' },
+      { name: 'Water', quantity: '70%', unit: '168ml' },
+      { name: 'Sweet Almond Oil', quantity: '4%', unit: '9.6ml' },
+      { name: 'Essential Oils', quantity: '1%', unit: '2.4ml' }
+    ]
+  },
+  {
+    name: 'Hand Cream',
+    ingredients: [
+      { name: 'Unrefined Shea Butter', quantity: '30%', unit: '60g' },
+      { name: 'Cocoa Butter', quantity: '15%', unit: '30g' },
+      { name: 'Almond Oil', quantity: '40%', unit: '80ml' },
+      { name: 'Beeswax', quantity: '15%', unit: '30g' },
+      { name: 'Essential Oils', quantity: '', unit: '20-30 drops' }
+    ]
+  },
+  {
+    name: 'Hair Rinse',
+    ingredients: [
+      { name: 'Apple Cider Vinegar', quantity: '15%', unit: '30ml' },
+      { name: 'Water', quantity: '85%', unit: '170ml' },
+      { name: 'Essential Oils', quantity: '', unit: '5-10 drops' }
+    ]
+  }
+];
 
-// Recipe data with ingredients
-const recipeData = {
-  'Beard Oil': [
-    { name: 'Jojoba Oil', quantity: '40', unit: '%' },
-    { name: 'Essential Oils', quantity: '1', unit: '%' }
-  ],
-  'Beard Balm': [
-    { name: 'Beeswax', quantity: '33', unit: '%' },
-    { name: 'Unrefined Shea Butter', quantity: '20', unit: '%' },
-    { name: 'Cocoa Butter', quantity: '22', unit: '%' },
-    { name: 'Unrefined Mango Butter', quantity: '15', unit: '%' },
-    { name: 'Lanolin', quantity: '10', unit: '%' },
-    { name: 'Arrowroot Powder', quantity: '5', unit: '%' }
-  ],
-  'Mustache Wax': [
-    { name: 'Carnauba Wax', quantity: '40', unit: '%' },
-    { name: 'Lanolin', quantity: '45', unit: '%' },
-    { name: 'Jojoba Oil', quantity: '15', unit: '%' }
-  ],
-  'Foaming Hand Soap': [
-    { name: 'Distilled Water', quantity: '1', unit: 'cup' },
-    { name: 'Liquid Castile Soap', quantity: '2', unit: 'tablespoons' },
-    { name: 'Sweet Almond Oil', quantity: '1', unit: 'teaspoon' },
-    { name: 'Essential Oils', quantity: '15', unit: 'drops' }
-  ],
-  'Hand Cream': [
-    { name: 'Unrefined Shea Butter', quantity: '40', unit: '%' },
-    { name: 'Cocoa Butter', quantity: '25', unit: '%' },
-    { name: 'Sweet Almond Oil', quantity: '20', unit: '%' },
-    { name: 'Beeswax', quantity: '10', unit: '%' },
-    { name: 'Lanolin', quantity: '5', unit: '%' },
-    { name: 'Cedarwood Atlas Oil', quantity: '1', unit: '%' },
-    { name: 'Bergaptene-Free Bergamot Oil', quantity: '1', unit: '%' }
-  ],
-  'Hair Rinse': [
-    { name: 'Water', quantity: '1', unit: 'cup' },
-    { name: 'Green Tea', quantity: '2', unit: 'bags' },
-    { name: 'Aloe Vera Juice', quantity: '1/2', unit: 'cup' },
-    { name: 'Apple Cider Vinegar', quantity: '1/2', unit: 'cup' },
-    { name: 'Rosemary Essential Oil', quantity: '10', unit: 'drops' },
-    { name: 'Peppermint Essential Oil', quantity: '6', unit: 'drops' }
-  ]
-};
-
-// Create junction table and populate it
-const createAndPopulateJunctionTable = async () => {
-  console.log('Creating recipe_ingredients junction table...');
-  
+// Function to check if a table exists
+async function tableExists(tableName) {
   try {
-    // Try to create the junction table with SQL
-    const { error: sqlError } = await supabase.rpc('execute_sql', {
-      sql: `
-        CREATE TABLE IF NOT EXISTS public.recipe_ingredients (
-          id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-          recipe_id UUID NOT NULL,
-          ingredient_id UUID NOT NULL,
-          quantity TEXT,
-          unit TEXT,
-          created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-        );
-      `
-    });
+    const { data, error } = await supabase
+      .from(tableName)
+      .select('count', { count: 'exact', head: true });
     
-    if (sqlError) {
-      console.error('Error creating junction table via SQL RPC:', sqlError);
-      console.log('Falling back to basic create table...');
-      
-      // If RPC fails, try the built-in create table function
-      try {
-        await fetch(`${SUPABASE_URL}/rest/v1/recipe_ingredients?apikey=${SUPABASE_ANON_KEY}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-            'Prefer': 'return=representation'
-          },
-          body: JSON.stringify({ id: uuidv4() }) // Just to test if table exists
-        });
-      } catch (fetchError) {
-        console.log('Table create test failed, assuming it doesn\'t exist yet:', fetchError);
-      }
+    if (error && error.message.includes('does not exist')) {
+      return false;
     }
     
-    // Now fetch all recipes and ingredients to create relationships
+    return true;
+  } catch (error) {
+    console.error(`Error checking if ${tableName} exists:`, error.message);
+    return false;
+  }
+}
+
+// Function to create the recipe_ingredients table
+async function createRecipeIngredientsTable() {
+  try {
+    console.log('Checking if recipe_ingredients table exists...');
+    
+    const exists = await tableExists('recipe_ingredients');
+    
+    if (exists) {
+      console.log('recipe_ingredients table already exists');
+      return true;
+    }
+    
+    console.log('Creating recipe_ingredients table...');
+    
+    try {
+      // Try creating the table using the supabase object's createTable method if available
+      const { error } = await supabase.rpc('exec_sql', {
+        query: `
+          CREATE TABLE IF NOT EXISTS public.recipe_ingredients (
+            id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+            recipe_id UUID NOT NULL,
+            ingredient_id UUID NOT NULL,
+            quantity TEXT,
+            unit TEXT,
+            created_at TIMESTAMPTZ DEFAULT NOW()
+          )
+        `
+      });
+      
+      if (error) {
+        throw error;
+      }
+      
+      console.log('recipe_ingredients table created!');
+      return true;
+    } catch (error) {
+      console.error('Error creating recipe_ingredients table:', error.message);
+      console.log('\nPlease create the table manually in the Supabase Dashboard.');
+      return false;
+    }
+  } catch (error) {
+    console.error('Error in createRecipeIngredientsTable:', error.message);
+    return false;
+  }
+}
+
+// Function to populate recipe_ingredients table
+async function populateRecipeIngredients() {
+  try {
+    console.log('Fetching existing recipes...');
+    
+    // Get all recipes
     const { data: recipes, error: recipesError } = await supabase
       .from('recipes')
       .select('id, title');
     
     if (recipesError) {
-      console.error('Error fetching recipes:', recipesError);
-      return;
+      throw new Error(`Error fetching recipes: ${recipesError.message}`);
     }
     
     console.log(`Found ${recipes.length} recipes`);
     
+    // Create a map of recipe titles to IDs
+    const recipeMap = {};
+    recipes.forEach(recipe => {
+      recipeMap[recipe.title] = recipe.id;
+    });
+    
+    console.log('Fetching existing ingredients...');
+    
+    // Get all ingredients
     const { data: ingredients, error: ingredientsError } = await supabase
       .from('ingredients')
       .select('id, name');
     
     if (ingredientsError) {
-      console.error('Error fetching ingredients:', ingredientsError);
-      return;
+      throw new Error(`Error fetching ingredients: ${ingredientsError.message}`);
     }
     
     console.log(`Found ${ingredients.length} ingredients`);
     
     // Create a map of ingredient names to IDs
     const ingredientMap = {};
-    ingredients.forEach(ing => {
-      ingredientMap[ing.name.toLowerCase()] = ing.id;
+    ingredients.forEach(ingredient => {
+      ingredientMap[ingredient.name] = ingredient.id;
     });
     
-    // Create relationships for each recipe
-    let relationshipsCreated = 0;
+    // Check if we have any recipe_ingredients data already
+    const { data: existingData, error: existingError } = await supabase
+      .from('recipe_ingredients')
+      .select('count', { count: 'exact', head: true });
     
-    for (const recipe of recipes) {
-      const recipeIngredients = recipeData[recipe.title];
+    if (!existingError && existingData && existingData.count > 0) {
+      console.log(`recipe_ingredients table already has ${existingData.count} rows`);
+      return true;
+    }
+    
+    console.log('Populating recipe_ingredients table...');
+    
+    // Process each recipe from our data
+    for (const recipe of recipeData) {
+      const recipeId = recipeMap[recipe.name];
       
-      if (!recipeIngredients) {
-        console.log(`No ingredient data for "${recipe.title}", skipping`);
+      if (!recipeId) {
+        console.warn(`Recipe "${recipe.name}" not found in database`);
         continue;
       }
       
-      console.log(`Creating ingredients for "${recipe.title}"...`);
-      
-      for (const ingredient of recipeIngredients) {
-        const ingredientId = ingredientMap[ingredient.name.toLowerCase()];
+      // Insert each ingredient relationship
+      for (const ing of recipe.ingredients) {
+        const ingredientId = ingredientMap[ing.name];
         
         if (!ingredientId) {
-          console.log(`Ingredient "${ingredient.name}" not found, skipping`);
+          console.warn(`Ingredient "${ing.name}" not found in database`);
           continue;
         }
         
-        try {
-          const { error } = await supabase
-            .from('recipe_ingredients')
-            .insert({
-              id: uuidv4(),
-              recipe_id: recipe.id,
-              ingredient_id: ingredientId,
-              quantity: ingredient.quantity || '0',
-              unit: ingredient.unit || '',
-              created_at: new Date().toISOString()
-            });
-          
-          if (error) {
-            if (error.code === '23505') {
-              console.log(`Relationship already exists for "${ingredient.name}" in "${recipe.title}"`);
-            } else {
-              console.error(`Error creating relationship for "${ingredient.name}" in "${recipe.title}":`, error);
-            }
-          } else {
-            console.log(`Added "${ingredient.name}" to "${recipe.title}"`);
-            relationshipsCreated++;
-          }
-        } catch (err) {
-          console.error(`Exception adding ingredient "${ingredient.name}" to "${recipe.title}":`, err);
+        // Insert the relationship
+        const { error: insertError } = await supabase
+          .from('recipe_ingredients')
+          .insert({
+            recipe_id: recipeId,
+            ingredient_id: ingredientId,
+            quantity: ing.quantity,
+            unit: ing.unit
+          });
+        
+        if (insertError) {
+          console.error(`Error inserting relationship for ${recipe.name} - ${ing.name}:`, insertError.message);
+        } else {
+          console.log(`Added relationship: ${recipe.name} - ${ing.name}`);
         }
       }
     }
     
-    console.log(`Junction table created and populated with ${relationshipsCreated} relationships`);
+    console.log('recipe_ingredients table populated successfully!');
+    return true;
   } catch (error) {
-    console.error('Fatal error creating or populating junction table:', error);
+    console.error('Error populating recipe_ingredients:', error.message);
+    return false;
   }
-};
+}
+
+// Main function
+async function main() {
+  console.log('Starting recipe_ingredients table creation...');
+  
+  const tableCreated = await createRecipeIngredientsTable();
+  
+  if (tableCreated) {
+    await populateRecipeIngredients();
+    
+    // Check if we have data now
+    const { data, error } = await supabase
+      .from('recipe_ingredients')
+      .select('*')
+      .limit(5);
+    
+    if (!error && data && data.length > 0) {
+      console.log('\n========================================');
+      console.log('SETUP COMPLETE! Your recipes should now display with ingredients.');
+      console.log('Sample data:', data);
+      console.log('========================================\n');
+    } else {
+      console.log('\nSetup may not be complete. Please check the logs for errors.');
+      
+      if (error) {
+        console.error('Error checking recipe_ingredients data:', error.message);
+      }
+    }
+  } else {
+    console.log('\nCould not create recipe_ingredients table automatically.');
+    console.log('Please follow the instructions in SUPABASE_SETUP_INSTRUCTIONS.md to set up the database manually.');
+  }
+}
 
 // Run the script
-createAndPopulateJunctionTable();
+main()
+  .catch(error => {
+    console.error('An unexpected error occurred:', error);
+  });

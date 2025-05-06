@@ -537,5 +537,67 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
     }
   }, [id, recipe]);
 
-  return { recipe, loading, error, updateRecipe, refetch: fetchRecipe };
+  // Add delete recipe functionality
+  const deleteRecipe = useCallback(async () => {
+    if (!id) {
+      throw new Error('No recipe ID provided');
+    }
+    
+    try {
+      console.log(`Deleting recipe ${id}...`);
+      
+      // First delete related data in recipe_ingredients
+      const { error: ingredientsError } = await supabase
+        .from('recipe_ingredients')
+        .delete()
+        .eq('recipe_id', id);
+      
+      if (ingredientsError) {
+        console.error('Error deleting recipe ingredients:', ingredientsError.message);
+        setError(`Failed to delete ingredients: ${ingredientsError.message}`);
+        throw ingredientsError;
+      }
+      
+      // Delete related iterations if they exist
+      try {
+        const { error: iterationsError } = await supabase
+          .from('iterations')
+          .delete()
+          .eq('recipe_id', id);
+        
+        if (iterationsError && !iterationsError.message.includes('does not exist')) {
+          console.error('Error deleting recipe iterations:', iterationsError.message);
+        }
+      } catch (err) {
+        // Ignore errors with iterations table
+        console.log('Skipping iterations deletion - table might not exist');
+      }
+      
+      // Now delete the recipe itself
+      const { error: deleteError } = await supabase
+        .from('recipes')
+        .delete()
+        .eq('id', id);
+      
+      if (deleteError) {
+        console.error('Error deleting recipe:', deleteError.message);
+        setError(`Failed to delete recipe: ${deleteError.message}`);
+        throw deleteError;
+      }
+      
+      // Clear recipe from state
+      setRecipe(null);
+      setError(null);
+      console.log(`Successfully deleted recipe ${id}`);
+      
+      return true;
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Failed to delete recipe';
+      console.error('Error in delete process:', err);
+      setError(message);
+      throw err;
+    }
+  }, [id, supabase]);
+
+  return { recipe, loading, error, updateRecipe, deleteRecipe, refetch: fetchRecipe };
 }

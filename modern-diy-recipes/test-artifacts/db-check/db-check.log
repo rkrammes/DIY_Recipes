@@ -1,0 +1,102 @@
+[2025-05-06T12:06:36.082Z] Starting database table check
+[2025-05-06T12:06:36.083Z] Supabase URL: https://bzudglfxxywugesncjnz.supabase.co
+[2025-05-06T12:06:36.083Z] Anon key available: true
+[2025-05-06T12:06:36.083Z] Service key available: true
+[2025-05-06T12:06:36.083Z] Using service role key for connection
+[2025-05-06T12:06:36.084Z] Testing Supabase connection
+[2025-05-06T12:06:36.224Z] Connection successful! Response time: 140ms
+[2025-05-06T12:06:36.224Z] Checking for recipe_iterations table
+[2025-05-06T12:06:36.285Z] recipe_iterations table exists and is accessible
+[2025-05-06T12:06:36.285Z] Checking for iteration_ingredients table
+[2025-05-06T12:06:36.351Z] iteration_ingredients table exists and is accessible
+[2025-05-06T12:06:36.351Z] Checking for available recipes
+[2025-05-06T12:06:36.403Z] Found 5 recipes:
+[
+  {
+    "id": "971e9734-d147-4066-9b55-b80a080de24f",
+    "title": "Mustache Wax",
+    "user_id": null
+  },
+  {
+    "id": "906a2ebd-47ea-48d1-841c-e53f02d15e95",
+    "title": "Hair Rinse",
+    "user_id": null
+  },
+  {
+    "id": "dc9982e3-8d19-4433-9741-6262fc62d64f",
+    "title": "Foaming Hand Soap",
+    "user_id": null
+  },
+  {
+    "id": "4bdf7f57-1e18-4518-85c9-116254f58747",
+    "title": "Hand Cream",
+    "user_id": null
+  },
+  {
+    "id": "d0b77488-85d1-40ca-99ae-6abfbdc4a213",
+    "title": "Beard Balm",
+    "user_id": null
+  }
+]
+[2025-05-06T12:06:36.404Z] Checking iterations for recipe: Mustache Wax (971e9734-d147-4066-9b55-b80a080de24f)
+[2025-05-06T12:06:36.481Z] Found 4 iterations for recipe 971e9734-d147-4066-9b55-b80a080de24f:
+[
+  {
+    "id": "7808d99b-ecef-454c-b9e6-ad1397f092d7",
+    "version_number": 1,
+    "title": "Mustache Wax",
+    "created_at": "2025-05-06T02:16:46.12882+00:00"
+  },
+  {
+    "id": "1205d3f5-86c5-451f-8669-e8e2bf842c4f",
+    "version_number": 2,
+    "title": "Mustache Wax (TEST VERSION)",
+    "created_at": "2025-05-06T02:39:35.511+00:00"
+  },
+  {
+    "id": "6d11d655-d717-4559-aa9a-27a6746076c9",
+    "version_number": 3,
+    "title": "Mustache Wax (TEST VERSION)",
+    "created_at": "2025-05-06T03:03:48.025+00:00"
+  },
+  {
+    "id": "5fdb1b5d-6403-493c-896d-a2e3b88e4dc3",
+    "version_number": 4,
+    "title": "Mustache Wax (TEST VERSION)",
+    "created_at": "2025-05-06T03:10:33.053+00:00"
+  }
+]
+[2025-05-06T12:06:36.482Z] Checking ingredients for iteration: 7808d99b-ecef-454c-b9e6-ad1397f092d7
+[2025-05-06T12:06:36.535Z] Found 3 ingredients for iteration 7808d99b-ecef-454c-b9e6-ad1397f092d7:
+[
+  {
+    "id": "5c787c7f-6193-40c0-98f9-9bb82d48d091",
+    "quantity": "12.00",
+    "unit": "g",
+    "ingredients": {
+      "id": "04f0a685-dac1-4d5c-aabe-331fe91ca7ef",
+      "name": "Carnauba Wax"
+    }
+  },
+  {
+    "id": "919713d2-5b9d-4794-bb4c-08bb377b3a58",
+    "quantity": "13.50",
+    "unit": "g",
+    "ingredients": {
+      "id": "cf165b9f-7fb1-4aa3-a930-79627bf2288e",
+      "name": "Lanolin"
+    }
+  },
+  {
+    "id": "c1f07a28-5325-46f8-b5d0-00ace6001f2e",
+    "quantity": "4.50",
+    "unit": "g",
+    "ingredients": {
+      "id": "9a03bd75-ad74-45ed-8821-3f2ad464953b",
+      "name": "Jojoba Oil"
+    }
+  }
+]
+[2025-05-06T12:06:36.536Z] Report saved to: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/test-artifacts/db-check/db-report-1746533196536.json
+[2025-05-06T12:06:36.550Z] Recommendations saved to: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/test-artifacts/db-check/db-recommendations-1746533196549.md
+[2025-05-06T12:06:36.550Z] Database check completed

@@ -394,3 +394,53 @@ Development mode: Skipping authentication check
  GET / 200 in 109ms
  GET /favicon.ico 200 in 18ms
  GET /favicon.ico 200 in 10ms
+Development mode: Skipping authentication check
+ GET / 200 in 55ms
+ GET /favicon.ico 200 in 13ms
+ GET /favicon.ico 200 in 7ms
+Development mode: Skipping authentication check
+ ○ Compiling /supabase-mcp ...
+ ✓ Compiled /supabase-mcp in 1287ms (1011 modules)
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /supabase-mcp 200 in 1453ms
+ ✓ Compiled in 704ms (987 modules)
+Development mode: Skipping authentication check
+ GET / 200 in 102ms
+ ✓ Compiled /favicon.ico in 82ms (531 modules)
+ GET /favicon.ico 200 in 150ms
+Development mode: Skipping authentication check
+ GET / 200 in 132ms
+Development mode: Skipping authentication check
+Development mode: Skipping authentication check
+Development mode: Skipping authentication check
+ GET / 200 in 32ms
+ GET /favicon.ico 200 in 22ms
+ GET /favicon.ico 200 in 66ms
+ GET /favicon.ico 200 in 49ms
+Development mode: Skipping authentication check
+ GET / 200 in 55ms
+ GET /favicon.ico 200 in 10ms
+ GET /favicon.ico 200 in 11ms
+ GET /favicon.ico 200 in 38ms
+Development mode: Skipping authentication check
+ GET / 200 in 37ms
+Development mode: Skipping authentication check
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 1253ms (968 modules)
+ GET /apple-touch-icon-precomposed.png 404 in 1453ms
+Development mode: Skipping authentication check
+ GET /apple-touch-icon.png 404 in 32ms
+Development mode: Skipping authentication check
+ GET / 200 in 120ms
+Development mode: Skipping authentication check
+ GET / 200 in 76ms
+Development mode: Skipping authentication check
+ GET / 200 in 71ms
+Development mode: Skipping authentication check
+ GET / 200 in 55ms
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 996ms (531 modules)
+ GET /favicon.ico 200 in 1100ms
+ GET /favicon.ico 200 in 10ms
+ GET /favicon.ico 200 in 14ms
+[?25h

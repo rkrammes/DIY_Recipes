@@ -1,0 +1,152 @@
+/* Print-friendly styles for the document-centric formulation interface */
+
+@media print {
+  /* Global print styling */
+  @page {
+    margin: 1cm;
+    size: portrait;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+    font-family: 'Times New Roman', Times, serif !important;
+    font-size: 12pt !important;
+    line-height: 1.5 !important;
+  }
+  
+  /* Hide non-essential UI elements when printing */
+  button, 
+  .version-timeline, 
+  .tools-panel,
+  nav,
+  [role="navigation"],
+  .edit-controls,
+  .ai-suggestions,
+  .making-mode-controls {
+    display: none !important;
+  }
+  
+  /* Ensure the main content takes full width */
+  .document-centric-recipe {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  
+  /* Adjust layout to be more print-friendly */
+  .document-centric-recipe > div {
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+  }
+  
+  /* Title styling */
+  h1, h2, h3 {
+    page-break-after: avoid !important;
+    margin-top: 1cm !important;
+  }
+  
+  /* Header with formulation title and metadata */
+  .header-section {
+    margin-bottom: 1cm !important;
+    border-bottom: 1pt solid #000 !important;
+    padding-bottom: 0.5cm !important;
+  }
+  
+  /* Format the content sections consistently */
+  .section {
+    margin-bottom: 0.8cm !important;
+    page-break-inside: avoid !important;
+  }
+  
+  /* Make section headings stand out */
+  .section-heading {
+    font-size: 14pt !important;
+    font-weight: bold !important;
+    border-bottom: 0.5pt solid #000 !important;
+    margin-bottom: 0.3cm !important;
+    text-transform: uppercase !important;
+  }
+  
+  /* Format ingredients as a clean list */
+  .ingredients-list {
+    margin: 0.5cm 0 !important;
+    page-break-inside: avoid !important;
+  }
+  
+  .ingredient-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    margin-bottom: 0.2cm !important;
+  }
+  
+  /* Instructions formatting */
+  .instruction-steps {
+    margin: 0.5cm 0 !important;
+  }
+  
+  .step {
+    margin-bottom: 0.3cm !important;
+    page-break-inside: avoid !important;
+  }
+  
+  /* Footer with attribution and version info */
+  .print-footer {
+    display: block !important;
+    margin-top: 1cm !important;
+    padding-top: 0.5cm !important;
+    border-top: 1pt solid #000 !important;
+    font-size: 9pt !important;
+    text-align: center !important;
+    color: #666 !important;
+  }
+  
+  /* Page break controls */
+  .page-break {
+    page-break-after: always !important;
+  }
+  
+  /* Only show the main content areas - hide everything else */
+  .lg\:w-2\/3,
+  .lg\:w-1\/3 {
+    width: 100% !important;
+    float: none !important;
+  }
+  
+  /* Force show ingredients and instructions in making mode */
+  .making-mode .ingredients-list,
+  .making-mode .instruction-steps {
+    display: block !important;
+  }
+  
+  /* Ensure numbered lists print correctly */
+  ol, ul {
+    padding-left: 0.5cm !important;
+  }
+  
+  /* Add QR code placeholder for sharing */
+  .print-qr-code {
+    display: block !important;
+    width: 2cm !important;
+    height: 2cm !important;
+    border: 1pt solid #000 !important;
+    margin: 0.5cm auto !important;
+  }
+  
+  /* Remove any backgrounds and shadows */
+  .bg-surface-1,
+  .bg-surface,
+  .bg-gray-50,
+  .bg-gray-100,
+  .bg-blue-50,
+  .shadow-md,
+  .shadow-lg,
+  .shadow-inner {
+    background: none !important;
+    box-shadow: none !important;
+  }
+}
