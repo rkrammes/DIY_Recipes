@@ -1,24 +1,28 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Recipe, RecipeIteration, TransformedIngredient } from '@/types/models';
+import { 
+  Recipe, RecipeIteration, TransformedIngredient,
+  Formulation, FormulationVersion
+} from '@/types/models';
 import { useRecipeIteration } from '@/hooks/useRecipeIteration';
 import { useIngredients } from '@/hooks/useIngredients';
 import { Edit, Check, Clock, ChevronRight, ChevronLeft, Plus, Copy, 
          MessageSquare, Award, Trash, Scale, ChefHat, Timer, Save,
          BookOpen, AlertTriangle, Star, PlusCircle, Printer } from 'lucide-react';
 
-// Import print styles
+// Import print styles for formulations
 import '@/styles/print-formulation.css';
 
 /**
- * DocumentCentricRecipe - A redesigned recipe document component that integrates
+ * DocumentCentricRecipe - A redesigned DIY formulation document component that integrates
  * viewing, editing, versioning, and AI suggestions into a cohesive experience.
+ * Designed specifically for home DIY products like soaps, skincare, and other non-food formulations.
  */
 export default function DocumentCentricRecipe({ 
-  recipeId,
+  recipeId, // Will eventually rename to formulationId
   initialData 
 }: { 
   recipeId: string;
-  initialData?: Recipe | null;
+  initialData?: Formulation | Recipe | null;
 }) {
   // States for the component
   const [activeVersion, setActiveVersion] = useState<RecipeIteration | null>(null);
@@ -41,7 +45,7 @@ export default function DocumentCentricRecipe({
   const [showAddIngredient, setShowAddIngredient] = useState(false);
   const [instructionSteps, setInstructionSteps] = useState<string[]>([]);
   const [activeStepIndex, setActiveStepIndex] = useState<number | null>(null);
-  const [makingMode, setMakingMode] = useState(false);
+  const [makingMode, setMakingMode] = useState(false); // Creation mode for DIY formulations
   const [unsavedChanges, setUnsavedChanges] = useState(false);
   
   // Refs
@@ -58,7 +62,7 @@ export default function DocumentCentricRecipe({
   // Import simple mock data for testing
   const { mockSoapIterations, getMockIteration } = require('@/lib/mock-data-simple');
   
-  // Get recipe data and iteration functions
+  // Get formulation data and version functions
   const {
     iterations,
     currentIteration,
@@ -77,18 +81,18 @@ export default function DocumentCentricRecipe({
     if (!iterations || iterations.length === 0 || initialData?.__useTestData) {
       console.log("Using simple mock data for testing");
       
-      // Use either mock iterations from initialData or default mock data
-      const mockIterations = initialData?.__mockIterations || mockSoapIterations;
+      // Use either mock versions from initialData or default mock data
+      const mockVersions = initialData?.__mockIterations || mockSoapIterations;
       
-      // Get the latest iteration
-      const latestIteration = mockIterations[mockIterations.length - 1];
+      // Get the latest version
+      const latestVersion = mockVersions[mockVersions.length - 1];
       
       // Set state with mock data
-      setActiveVersion(latestIteration);
+      setActiveVersion(latestVersion);
       
       // Parse instructions into steps
-      if (latestIteration.instructions) {
-        const steps = latestIteration.instructions
+      if (latestVersion.instructions) {
+        const steps = latestVersion.instructions
           .split(/\n+/)
           .map(step => step.trim())
           .filter(step => step.length > 0);
@@ -98,15 +102,15 @@ export default function DocumentCentricRecipe({
       
       // Set edit values
       setEditValues({
-        title: latestIteration.title || '',
-        description: latestIteration.description || '',
-        instructions: latestIteration.instructions || '',
-        notes: latestIteration.notes || ''
+        title: latestVersion.title || '',
+        description: latestVersion.description || '',
+        instructions: latestVersion.instructions || '',
+        notes: latestVersion.notes || ''
       });
       
-      // Create a reference to iterations for the component to use
-      // This is a workaround to make the iterations visible in the UI
-      console.log(`Setting mock iterations for version timeline: ${mockIterations.length} iterations available`);
+      // Create a reference to versions for the component to use
+      // This is a workaround to make the versions visible in the UI
+      console.log(`Setting mock versions for formulation timeline: ${mockVersions.length} versions available`);
       
       // Force component to use mock iterations
       (window as any).__mockIterationsForTimeline = mockIterations;
@@ -128,7 +132,7 @@ export default function DocumentCentricRecipe({
         notes: currentIteration.notes || ''
       });
       
-      // Parse instructions into steps for cooking mode
+      // Parse instructions into steps for formulation mode
       if (currentIteration.instructions) {
         // Split by numbered pattern (1., 2., etc) or by line breaks
         const steps = currentIteration.instructions
@@ -141,7 +145,7 @@ export default function DocumentCentricRecipe({
     }
   }, [currentIteration]);
   
-  // Add keyboard shortcuts for making mode navigation
+  // Add keyboard shortcuts for creation mode navigation
   useEffect(() => {
     if (!makingMode) return;
     
@@ -165,8 +169,8 @@ export default function DocumentCentricRecipe({
           prev ? { ...prev, isRunning: !prev.isRunning } : null
         );
       } else if (e.key === 'Escape') {
-        // Exit making mode
-        if (confirm('Exit making mode?')) {
+        // Exit creation mode
+        if (confirm('Exit creation mode?')) {
           toggleMakingMode();
         }
       }
@@ -261,16 +265,16 @@ export default function DocumentCentricRecipe({
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
   
-  // Function to toggle making mode
+  // Toggle creation mode for DIY formulations
   const toggleMakingMode = () => {
     setMakingMode(!makingMode);
     
-    // Reset step index when entering making mode
+    // Reset step index when entering creation mode
     if (!makingMode) {
       setActiveStepIndex(null);
     }
     
-    // Cancel any active timer when exiting making mode
+    // Cancel any active timer when exiting creation mode
     if (makingMode && activeTimer) {
       setActiveTimer(null);
     }
@@ -836,13 +840,13 @@ export default function DocumentCentricRecipe({
           <div className="text-gray-400 italic">No ingredients added yet.</div>
         )}
         
-        {/* Scale controls when in making mode */}
+        {/* Scale controls when in creation mode */}
         {makingMode && ingredients.length > 0 && (
           <div className="mt-4 p-3 bg-accent/10 rounded-md">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center">
                 <Scale size={16} className="mr-1 text-accent" />
-                <span className="text-sm font-medium">Scale Recipe: {scaleRatio}×</span>
+                <span className="text-sm font-medium">Scale Formulation: {scaleRatio}×</span>
               </div>
               <div className="flex items-center space-x-2">
                 <button 
@@ -888,7 +892,7 @@ export default function DocumentCentricRecipe({
               </div>
             </div>
             <div className="text-xs text-gray-600">
-              Adjust ingredient quantities for different serving sizes
+              Adjust ingredient quantities for different batch sizes
             </div>
           </div>
         )}
@@ -944,18 +948,18 @@ export default function DocumentCentricRecipe({
 
   // Render version timeline
   const renderVersionTimeline = () => {
-    // Use mockSoapIterations if no iterations are available from the API
-    // Also check our global window object for mock iterations
-    const displayIterations = iterations?.length ? iterations : 
+    // Use mockSoapIterations if no versions are available from the API
+    // Also check our global window object for mock versions
+    const displayVersions = iterations?.length ? iterations : 
                               (window as any).__mockIterationsForTimeline || 
                               mockSoapIterations;
     
-    if (!displayIterations?.length) return null;
+    if (!displayVersions?.length) return null;
     
     return (
       <div className="mb-6 bg-gradient-to-r from-surface-1 to-surface p-4 rounded-lg">
         <div className="flex justify-between items-center mb-2">
-          <h3 className="font-bold text-gray-700">Recipe Timeline</h3>
+          <h3 className="font-bold text-gray-700">Formulation Timeline</h3>
           <button
             onClick={() => setShowVersionHistory(!showVersionHistory)}
             className="text-accent hover:text-accent-hover p-1 rounded"
@@ -969,9 +973,9 @@ export default function DocumentCentricRecipe({
             <div className="flex items-center justify-between mb-3">
               <button
                 onClick={() => handleVersionChange('prev')}
-                disabled={displayIterations.findIndex(v => v.id === activeVersion?.id) === displayIterations.length - 1}
+                disabled={displayVersions.findIndex(v => v.id === activeVersion?.id) === displayVersions.length - 1}
                 className={`p-1 rounded ${
-                  displayIterations.findIndex(v => v.id === activeVersion?.id) === displayIterations.length - 1
+                  displayVersions.findIndex(v => v.id === activeVersion?.id) === displayVersions.length - 1
                     ? 'text-gray-400 cursor-not-allowed'
                     : 'text-accent hover:text-accent-hover'
                 }`}
@@ -981,27 +985,27 @@ export default function DocumentCentricRecipe({
               
               <div className="flex-grow overflow-x-auto">
                 <div className="flex items-center space-x-1">
-                  {displayIterations.map((iteration, index) => (
-                    <div key={iteration.id} className="flex flex-col items-center">
+                  {displayVersions.map((version, index) => (
+                    <div key={version.id} className="flex flex-col items-center">
                       <button
                         onClick={() => {
-                          setActiveVersion(iteration);
+                          setActiveVersion(version);
                           if (typeof setCurrentIteration === 'function') {
-                            setCurrentIteration(iteration);
+                            setCurrentIteration(version);
                           }
                         }}
                         className={`whitespace-nowrap px-2 py-1 rounded text-xs ${
-                          activeVersion?.id === iteration.id
+                          activeVersion?.id === version.id
                             ? 'bg-accent text-white'
                             : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
                         }`}
                       >
-                        v{iteration.version_number}
+                        v{version.version_number}
                       </button>
                       <div className="text-xs text-gray-500 mt-1 truncate max-w-[60px]">
-                        {new Date(iteration.created_at).toLocaleDateString()}
+                        {new Date(version.created_at).toLocaleDateString()}
                       </div>
-                      {index < displayIterations.length - 1 && (
+                      {index < displayVersions.length - 1 && (
                         <div className="h-[2px] bg-gray-300 w-10"></div>
                       )}
                     </div>
@@ -1011,9 +1015,9 @@ export default function DocumentCentricRecipe({
               
               <button
                 onClick={() => handleVersionChange('next')}
-                disabled={displayIterations.findIndex(v => v.id === activeVersion?.id) === 0}
+                disabled={displayVersions.findIndex(v => v.id === activeVersion?.id) === 0}
                 className={`p-1 rounded ${
-                  displayIterations.findIndex(v => v.id === activeVersion?.id) === 0
+                  displayVersions.findIndex(v => v.id === activeVersion?.id) === 0
                     ? 'text-gray-400 cursor-not-allowed'
                     : 'text-accent hover:text-accent-hover'
                 }`}
@@ -1039,7 +1043,7 @@ export default function DocumentCentricRecipe({
   const renderToolsPanel = () => (
     <div className="bg-surface-1 rounded-lg p-4 mb-6">
       <div className="flex justify-between items-center mb-2">
-        <h3 className="font-bold text-gray-700">Recipe Tools</h3>
+        <h3 className="font-bold text-gray-700">Formulation Tools</h3>
         <button
           onClick={() => setShowTools(!showTools)}
           className="text-accent hover:text-accent-hover p-1 rounded"
@@ -1065,13 +1069,13 @@ export default function DocumentCentricRecipe({
                 className="w-full text-left px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded flex items-center"
               >
                 <Award size={16} className="mr-2" />
-                Finalize Recipe
+                Finalize Formulation
               </button>
             </div>
           </div>
           
           <div className="py-2">
-            <h4 className="text-sm font-medium mb-2">Recipe Metrics</h4>
+            <h4 className="text-sm font-medium mb-2">Formulation Metrics</h4>
             <div className="space-y-1 text-sm">
               <div className="flex justify-between">
                 <span className="text-gray-600">Version:</span>
@@ -1160,7 +1164,7 @@ export default function DocumentCentricRecipe({
           <div>${activeVersion?.notes || 'No notes provided.'}</div>
           
           <div class="footer">
-            Printed from DIY Recipes - ${new Date().toLocaleDateString()}
+            Printed from DIY Formulations - ${new Date().toLocaleDateString()}
           </div>
         </body>
       </html>
@@ -1175,15 +1179,15 @@ export default function DocumentCentricRecipe({
 
   // Main render
   if (isLoading) {
-    return <div className="p-4">Loading recipe document...</div>;
+    return <div className="p-4">Loading formulation document...</div>;
   }
 
   if (error) {
-    return <div className="p-4 text-red-500">Error loading recipe: {error}</div>;
+    return <div className="p-4 text-red-500">Error loading formulation: {error}</div>;
   }
 
   if (!activeVersion && !currentIteration) {
-    return <div className="p-4">No recipe version found.</div>;
+    return <div className="p-4">No formulation version found.</div>;
   }
 
   return (
@@ -1201,7 +1205,7 @@ export default function DocumentCentricRecipe({
               />
             ) : (
               <div className="flex justify-between items-center">
-                <span>{activeVersion?.title || 'Untitled Recipe'}</span>
+                <span>{activeVersion?.title || 'Untitled Formulation'}</span>
                 {!makingMode && (
                   <button 
                     onClick={() => toggleEditMode('title')}
@@ -1234,7 +1238,7 @@ export default function DocumentCentricRecipe({
               </button>
             </div>
 
-            {/* Making Mode button */}
+            {/* Creation Mode button */}
             <button
               onClick={toggleMakingMode}
               className={`px-3 py-1.5 rounded-full flex items-center ${
@@ -1244,7 +1248,7 @@ export default function DocumentCentricRecipe({
               }`}
             >
               <Scale size={16} className="mr-1.5" />
-              <span>{makingMode ? 'Exit Making Mode' : 'Making Mode'}</span>
+              <span>{makingMode ? 'Exit Creation Mode' : 'Creation Mode'}</span>
             </button>
           </div>
         </div>
@@ -1267,7 +1271,7 @@ export default function DocumentCentricRecipe({
           <div className="mt-2 pt-2 border-t border-accent/20">
             <div className="text-sm flex items-center text-accent">
               <AlertTriangle size={14} className="mr-1" />
-              <span>Making Mode enabled: Step-by-step procedure and timers activated</span>
+              <span>Creation Mode enabled: Step-by-step procedure and timers activated</span>
             </div>
           </div>
         )}
@@ -1286,13 +1290,13 @@ export default function DocumentCentricRecipe({
               'Description', 
               'description', 
               activeVersion?.description,
-              'Add a description of your recipe...'
+              'Add a description of your formulation...'
             )}
             
             {renderIngredients()}
             
             {makingMode ? (
-              // Making mode instructions display
+              // Creation mode instructions display
               <div className="mb-6 section">
                 <div className="flex justify-between items-center mb-2">
                   <h3 className="font-bold text-gray-700 uppercase text-sm tracking-wider section-heading">INSTRUCTIONS</h3>
@@ -1325,7 +1329,7 @@ export default function DocumentCentricRecipe({
                       <span className="font-medium">Step {activeStepIndex + 1} of {instructionSteps.length}</span>
                     ) : (
                       <span className="text-accent hover:text-accent-hover">
-                        <button onClick={() => setActiveStepIndex(0)}>Start Cooking</button>
+                        <button onClick={() => setActiveStepIndex(0)}>Start Creating</button>
                       </span>
                     )}
                   </div>
@@ -1413,12 +1417,12 @@ export default function DocumentCentricRecipe({
                 ) : (
                   <div className="text-center py-8">
                     <Scale size={48} className="text-accent/50 mx-auto mb-4" />
-                    <p className="text-lg">Ready to start making this formulation?</p>
+                    <p className="text-lg">Ready to start creating this formulation?</p>
                     <button 
                       onClick={() => setActiveStepIndex(0)}
                       className="mt-4 bg-accent text-white px-6 py-2 rounded-full hover:bg-accent-hover"
                     >
-                      Start Making
+                      Start Creating
                     </button>
                   </div>
                 )}
@@ -1446,7 +1450,7 @@ export default function DocumentCentricRecipe({
                     </div>
                     <div className="flex items-center">
                       <kbd className="bg-white border border-gray-300 shadow-sm rounded px-1.5 py-0.5 mr-1.5">esc</kbd>
-                      <span>Exit making mode</span>
+                      <span>Exit creation mode</span>
                     </div>
                   </div>
                 </div>
@@ -1506,9 +1510,9 @@ export default function DocumentCentricRecipe({
       
       {/* Footer with attribution - only visible when printing */}
       <div className="print-footer">
-        <div>Printed from DIY Recipes - {new Date().toLocaleDateString()}</div>
+        <div>Printed from DIY Formulations - {new Date().toLocaleDateString()}</div>
         <div className="print-qr-code"></div>
-        <div>Recipe version: {activeVersion?.version_number || 1}</div>
+        <div>Formulation version: {activeVersion?.version_number || 1}</div>
       </div>
     </div>
   );

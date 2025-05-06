@@ -68,7 +68,7 @@ export default function RecipeForm({ recipe, allIngredients, onSave, onCancel }:
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4 bg-surface text-text border border-subtle rounded-lg shadow-soft">
-      <h2 className="text-lg font-bold">{recipe ? 'Edit Recipe' : 'Add Recipe'}</h2>
+      <h2 className="text-lg font-bold">{recipe ? 'Edit Formulation' : 'Add Formulation'}</h2>
 
       {error && <div id="form-error" className="text-alert-red" role="alert">{error}</div>}
 

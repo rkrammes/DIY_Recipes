@@ -8,7 +8,11 @@ import type {
   RecipeIteration,
   RecipeAnalysisData,
   RecipeWithIngredientsAndIterations,
-  TransformedIngredient
+  TransformedIngredient,
+  // Import formulation type aliases
+  Formulation,
+  FormulationWithIngredientsAndVersions,
+  FormulationVersion
 } from '../types/models';
 import RecipeForm from './RecipeForm';
 import { useUser } from '@supabase/auth-helpers-react';
@@ -29,14 +33,18 @@ import ErrorBoundary from './ErrorBoundary';
 // Import DocumentCentricRecipe component
 const DocumentCentricRecipe = dynamic(() => import('./DocumentCentricRecipe'), { ssr: false });
 
-interface RecipeDetailsProps {
-  recipeId: string | null;
-  initialRecipeData?: RecipeWithIngredientsAndIterations | null;
+interface FormulationDetailsProps {
+  recipeId: string | null; // Will eventually rename to formulationId
+  initialRecipeData?: RecipeWithIngredientsAndIterations | null; // Will eventually rename to initialFormulationData
 }
 
-export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDetailsProps) {
-  console.log("RecipeDetails component rendering with recipeId:", recipeId);
-  console.log("Initial recipe data received:", initialRecipeData ? {
+/**
+ * The FormulationDetails component (formerly RecipeDetails) displays all information 
+ * about a DIY formulation including ingredients, versions, and analysis.
+ */
+export default function RecipeDetails({ recipeId, initialRecipeData }: FormulationDetailsProps) {
+  console.log("FormulationDetails component rendering with id:", recipeId);
+  console.log("Initial formulation data received:", initialRecipeData ? {
     id: initialRecipeData.id,
     title: initialRecipeData.title,
     hasIngredients: !!initialRecipeData.ingredients?.length
@@ -51,11 +59,11 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   
-  // Add state for feature toggles
+  // Add state for formulation feature toggles
   const [isVersioningEnabled, setIsVersioningEnabled] = useState(false);
   const [isDocumentModeEnabled, setIsDocumentModeEnabled] = useState(true);
 
-  // Get recipe data and functions
+  // Get formulation data and functions
   const { recipe, loading, error, updateRecipe, deleteRecipe, refetch } = useRecipe(recipeId, initialRecipeData) as {
     recipe: RecipeWithIngredientsAndIterations | null;
     loading: boolean;
@@ -65,25 +73,25 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
     refetch: () => Promise<void>;
   };
 
-  // Force refresh when recipe ID changes
+  // Force refresh when formulation ID changes
   useEffect(() => {
-    console.log(`Recipe ID changed to ${recipeId}, forcing re-render`);
+    console.log(`Formulation ID changed to ${recipeId}, forcing re-render`);
     setComponentKey(Date.now());
     
-    // If we have a recipe ID, force an immediate refetch
+    // If we have a formulation ID, force an immediate refetch
     if (recipeId) {
       // Brief timeout to ensure state updates properly
       setTimeout(() => {
-        console.log(`Triggering immediate refetch for recipe ${recipeId}`);
+        console.log(`Triggering immediate refetch for formulation ${recipeId}`);
         refetch();
       }, 50);
     }
   }, [recipeId, refetch]);
 
-  // Log what's happening with the recipe data
+  // Log what's happening with the formulation data
   React.useEffect(() => {
     if (recipe) {
-      console.log("Recipe data loaded in component:", {
+      console.log("Formulation data loaded in component:", {
         id: recipe.id,
         title: recipe.title,
         ingredients: recipe.ingredients?.length || 0,
@@ -91,9 +99,9 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
         source: initialRecipeData ? 'prop' : 'hook'
       });
       
-      // Validate recipe ingredients to help with debugging
+      // Validate formulation ingredients to help with debugging
       if (!recipe.ingredients || recipe.ingredients.length === 0) {
-        console.warn("Recipe has no ingredients data. This might cause display issues.");
+        console.warn("Formulation has no ingredients data. This might cause display issues.");
       } else {
         // Check if ingredients have all required properties
         const invalidIngredients = recipe.ingredients.filter(ing => 
@@ -101,7 +109,7 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
         );
         
         if (invalidIngredients.length > 0) {
-          console.warn(`Recipe has ${invalidIngredients.length} invalid ingredients`, invalidIngredients);
+          console.warn(`Formulation has ${invalidIngredients.length} invalid ingredients`, invalidIngredients);
         }
       }
     } else if (error) {
@@ -125,7 +133,7 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
     setSaveError(null);
     try {
       if (!user) throw new Error('Not authenticated');
-      if (!recipe?.id) throw new Error('Recipe ID is required for updates');
+      if (!recipe?.id) throw new Error('Formulation ID is required for updates');
 
       await updateRecipe({
         title: updatedRecipe.title || '',
@@ -135,33 +143,33 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
 
       setIsEditing(false);
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Failed to save recipe.';
+      const message = err instanceof Error ? err.message : 'Failed to save formulation.';
       setSaveError(message);
     }
   };
 
   if (!recipeId) {
-    console.log("RecipeDetails: No recipe ID provided");
-    return <div className="p-4">Select a recipe to view details.</div>;
+    console.log("FormulationDetails: No formulation ID provided");
+    return <div className="p-4">Select a formulation to view details.</div>;
   }
   
   if (loading) {
-    console.log(`RecipeDetails: Loading recipe ${recipeId}...`);
-    return <div className="p-4">Loading recipe {recipeId.substring(0, 8)}...</div>;
+    console.log(`FormulationDetails: Loading formulation ${recipeId}...`);
+    return <div className="p-4">Loading formulation {recipeId.substring(0, 8)}...</div>;
   }
   
   if (error) {
-    console.error(`RecipeDetails: Error loading recipe ${recipeId}:`, error);
+    console.error(`FormulationDetails: Error loading formulation ${recipeId}:`, error);
     return <div className="p-4 text-red-500">Error: {error}</div>;
   }
   
   if (!recipe) {
-    console.error(`RecipeDetails: Recipe ${recipeId} not found`);
-    return <div className="p-4">Recipe not found. ID: {recipeId.substring(0, 8)}</div>;
+    console.error(`FormulationDetails: Formulation ${recipeId} not found`);
+    return <div className="p-4">Formulation not found. ID: {recipeId.substring(0, 8)}</div>;
   }
   
-  // We have a valid recipe - log it for debugging
-  console.log(`RecipeDetails: Rendering recipe ${recipe.id} - "${recipe.title}" with ${recipe.ingredients?.length || 0} ingredients`);
+  // We have a valid formulation - log it for debugging
+  console.log(`FormulationDetails: Rendering formulation ${recipe.id} - "${recipe.title}" with ${recipe.ingredients?.length || 0} ingredients`);
 
   return (
     <ErrorBoundary>
@@ -315,26 +323,26 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
           </>
         )}
 
-        {/* Recipe Iterations - conditionally rendered based on toggle state */}
+        {/* Formulation Versions - conditionally rendered based on toggle state */}
         {isVersioningEnabled ? (
           <div className="mt-6">
-            <h3 className="text-lg font-semibold mb-4">Recipe Versions</h3>
+            <h3 className="text-lg font-semibold mb-4">Formulation Versions</h3>
             <div 
               className="min-h-[300px]" 
-              data-recipe-id={recipe.id}
+              data-formulation-id={recipe.id}
               data-database-status={recipe.user_id === 'system' ? 'mock' : 'real'}
             >
               {/* Check if we're using real or mock data */}
               {recipe.user_id === 'system' ? (
                 <div className="p-4 border border-alert-amber bg-alert-amber-light rounded-md">
-                  <p className="text-alert-amber-text font-medium">Using mock recipe data</p>
-                  <p className="text-sm mt-1">The recipe versions feature requires a database connection.</p>
-                  <p className="text-sm mt-1">This is a mock recipe, not stored in the database.</p>
+                  <p className="text-alert-amber-text font-medium">Using mock formulation data</p>
+                  <p className="text-sm mt-1">The formulation versions feature requires a database connection.</p>
+                  <p className="text-sm mt-1">This is a mock formulation, not stored in the database.</p>
                 </div>
               ) : (
                 <ErrorBoundary fallback={
                   <div className="p-4 border border-alert-amber bg-alert-amber-light rounded-md">
-                    <p className="text-alert-amber-text font-medium">Recipe versioning encountered an issue</p>
+                    <p className="text-alert-amber-text font-medium">Formulation versioning encountered an issue</p>
                     <p className="text-sm mt-1">This feature requires a database connection to work properly.</p>
                     <details className="mt-2 text-xs">
                       <summary className="cursor-pointer font-medium">Troubleshooting</summary>
@@ -352,7 +360,7 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
                     </button>
                   </div>
                 }>
-                  <div key={`recipe-iterations-${recipe.id}-${Date.now()}`} className="recipe-iterations-container">
+                  <div key={`formulation-versions-${recipe.id}-${Date.now()}`} className="formulation-versions-container">
                     <RecipeIterationManager 
                       recipe={recipe} 
                       ingredients={recipe.ingredients || []}
@@ -364,9 +372,9 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
           </div>
         ) : (
           <div className="mt-6 p-4 bg-surface-1 border border-subtle rounded-md text-center">
-            <h3 className="text-lg font-semibold mb-2">Recipe Versioning</h3>
+            <h3 className="text-lg font-semibold mb-2">Formulation Versioning</h3>
             <p className="text-sm text-text-secondary mb-3">
-              Enable recipe versioning to track different iterations of your recipe as you refine it.
+              Enable versioning to track different iterations of your formulation as you refine it.
             </p>
             <button
               onClick={() => setIsVersioningEnabled(true)}
@@ -377,8 +385,8 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
           </div>
         )}
 
-        {/* Recipe Analysis */}
-        <ErrorBoundary fallback={<div className="hidden">Recipe analysis feature unavailable.</div>}>
+        {/* Formulation Analysis */}
+        <ErrorBoundary fallback={<div className="hidden">Formulation analysis feature unavailable.</div>}>
           {analysisData && <RecipeAnalysis analysisData={analysisData} />}
         </ErrorBoundary>
 
@@ -393,13 +401,13 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
               onClick={() => setIsEditing(true)}
               className="bg-accent text-text-inverse hover:bg-accent-hover"
             >
-              Edit Recipe
+              Edit Formulation
             </Button>
             <Button
               onClick={() => setIsDeleteModalOpen(true)}
               className="bg-alert-red text-text-inverse hover:bg-alert-red-hover"
             >
-              Delete Recipe
+              Delete Formulation
             </Button>
             {saveError && <div className="text-alert-red">{saveError}</div>}
           </div>
@@ -416,7 +424,7 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: RecipeDet
         
         <DeleteConfirmationModal 
           isOpen={isDeleteModalOpen}
-          title="Delete Recipe"
+          title="Delete Formulation"
           message={`Are you sure you want to delete "${recipe.title}"? This action cannot be undone.`}
           isDeleting={isDeleting}
           onCancel={() => setIsDeleteModalOpen(false)}

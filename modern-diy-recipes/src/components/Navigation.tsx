@@ -50,7 +50,7 @@ export default function Navigation() {
         <div className="flex items-center">
           <Link href="/" className="text-xl font-semibold text-text mr-8 flex items-center gap-2">
             <ThemedIcon iconType="recipe" width={20} height={20} />
-            DIY Recipes
+            DIY Formulations
           </Link>
           
           <div className="flex items-center space-x-1">
@@ -63,7 +63,7 @@ export default function Navigation() {
               }`}
             >
               <ThemedIcon iconType="recipe" width={16} height={16} />
-              Recipes
+              Formulations
             </Link>
             <Link 
               href="/ingredients" 

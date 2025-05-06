@@ -1,22 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Layers, ClipboardList, Settings, FileText, RotateCcw } from 'lucide-react';
+import { Formulation } from '../types/models';
 
 /**
  * Feature Toggle Bar component that provides user-friendly access to features
- * like recipe versioning without requiring URL parameters or environment variables.
+ * like formulation versioning without requiring URL parameters or environment variables.
  */
 export default function FeatureToggleBar({ 
-  recipe, 
+  recipe, // Will eventually rename to 'formulation'
   onToggleVersioning, 
   isVersioningEnabled = false,
   onToggleDocumentMode,
   isDocumentModeEnabled = false
+}: {
+  recipe: Formulation,
+  onToggleVersioning: (enabled: boolean) => void,
+  isVersioningEnabled?: boolean,
+  onToggleDocumentMode: (enabled: boolean) => void,
+  isDocumentModeEnabled?: boolean
 }) {
   const [showSettings, setShowSettings] = useState(false);
 
   // Check for features in local storage
   useEffect(() => {
-    const storedSettings = localStorage.getItem('recipeFeatures');
+    const storedSettings = localStorage.getItem('formulationFeatures');
     if (storedSettings) {
       try {
         const settings = JSON.parse(storedSettings);
@@ -33,9 +40,9 @@ export default function FeatureToggleBar({
   }, []);
 
   // Save settings to local storage
-  const saveSettings = (versioning, documentMode) => {
+  const saveSettings = (versioning: boolean, documentMode?: boolean) => {
     try {
-      localStorage.setItem('recipeFeatures', JSON.stringify({ 
+      localStorage.setItem('formulationFeatures', JSON.stringify({ 
         versioning,
         documentMode: documentMode !== undefined ? documentMode : isDocumentModeEnabled
       }));
@@ -45,14 +52,14 @@ export default function FeatureToggleBar({
   };
 
   // Toggle versioning feature
-  const handleToggleVersioning = (e) => {
+  const handleToggleVersioning = (e: React.ChangeEvent<HTMLInputElement>) => {
     const enabled = e.target.checked;
     onToggleVersioning(enabled);
     saveSettings(enabled, isDocumentModeEnabled);
   };
   
   // Toggle document mode feature
-  const handleToggleDocumentMode = (e) => {
+  const handleToggleDocumentMode = (e: React.ChangeEvent<HTMLInputElement>) => {
     const enabled = e.target.checked;
     onToggleDocumentMode(enabled);
     saveSettings(isVersioningEnabled, enabled);
@@ -87,14 +94,14 @@ export default function FeatureToggleBar({
         
         {recipe && (
           <div className="text-sm text-text-secondary">
-            Recipe ID: <span className="font-mono">{recipe.id.substring(0, 8)}...</span>
+            Formulation ID: <span className="font-mono">{recipe.id.substring(0, 8)}...</span>
           </div>
         )}
       </div>
       
       {showSettings && (
         <div className="mt-2 p-3 bg-surface-1 border border-subtle rounded shadow-md">
-          <h3 className="text-sm font-semibold mb-2">Recipe Features</h3>
+          <h3 className="text-sm font-semibold mb-2">Formulation Features</h3>
           
           <div className="space-y-2">
             <label className="flex items-center space-x-2 text-sm">
@@ -106,10 +113,10 @@ export default function FeatureToggleBar({
               />
               <span className="flex items-center">
                 <Layers size={14} className="mr-1 text-accent" />
-                Recipe Versioning
+                Formulation Versioning
               </span>
               <span className="text-xs text-text-tertiary ml-2">
-                Track different iterations of your recipe
+                Track different iterations of your formulation
               </span>
             </label>
             
@@ -120,7 +127,7 @@ export default function FeatureToggleBar({
                 Version Comparison
               </span>
               <span className="text-xs text-text-tertiary ml-2">
-                Compare different versions (requires versioning)
+                Compare different formulation versions (requires versioning)
               </span>
             </label>
             
@@ -147,13 +154,13 @@ export default function FeatureToggleBar({
                 Auto-Versioning
               </span>
               <span className="text-xs text-text-tertiary ml-2">
-                Automatically create versions when recipe changes
+                Automatically create versions when formulation changes
               </span>
             </label>
           </div>
           
           <div className="mt-3 text-xs text-text-tertiary bg-alert-blue-light p-2 rounded">
-            <p>Recipe versioning lets you track different iterations of your recipes as you refine them.</p>
+            <p>Formulation versioning lets you track different versions of your DIY formulations as you refine them.</p>
           </div>
         </div>
       )}

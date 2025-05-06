@@ -1,23 +1,26 @@
 import { useState, useCallback, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Recipe, RecipeIteration, TransformedIngredient } from '@/types/models';
+import { 
+  Recipe, RecipeIteration, TransformedIngredient,
+  Formulation, FormulationVersion
+} from '@/types/models';
 
-// Interface for iteration with ingredients
-interface RecipeIterationWithIngredients extends RecipeIteration {
+// Interface for formulation version with ingredients
+interface FormulationVersionWithIngredients extends RecipeIteration {
   ingredients?: TransformedIngredient[];
 }
 
-// Hook to manage recipe iterations
+// Hook to manage formulation versions (previously recipe iterations)
 export function useRecipeIteration(initialRecipeId?: string) {
-  const [iterations, setIterations] = useState<RecipeIterationWithIngredients[]>([]);
-  const [currentIteration, setCurrentIteration] = useState<RecipeIterationWithIngredients | null>(null);
+  const [iterations, setIterations] = useState<FormulationVersionWithIngredients[]>([]);
+  const [currentIteration, setCurrentIteration] = useState<FormulationVersionWithIngredients | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  // Fetch ingredients for a specific iteration
+  // Fetch ingredients for a specific formulation version
   const fetchIterationIngredients = useCallback(async (iterationId: string) => {
     try {
-      console.log('Fetching ingredients for iteration:', iterationId);
+      console.log('Fetching ingredients for formulation version:', iterationId);
       
       const { data, error } = await supabase
         .from('iteration_ingredients')
@@ -36,7 +39,7 @@ export function useRecipeIteration(initialRecipeId?: string) {
         return [];
       }
 
-      console.log(`Found ${data?.length || 0} ingredients for iteration ${iterationId}`);
+      console.log(`Found ${data?.length || 0} ingredients for formulation version ${iterationId}`);
       
       try {
         // Transform data into TransformedIngredient format
@@ -77,7 +80,7 @@ export function useRecipeIteration(initialRecipeId?: string) {
     }
   }, [supabase]);
 
-  // Fetch all iterations for a specific recipe with their ingredients
+  // Fetch all versions for a specific formulation with their ingredients
   const fetchIterations = useCallback(async (recipeId: string) => {
     if (!recipeId) return;
     setIsLoading(true);
@@ -91,36 +94,36 @@ export function useRecipeIteration(initialRecipeId?: string) {
 
       if (error) {
         // Handle errors more gracefully
-        console.error('Error fetching recipe iterations:', error.message);
+        console.error('Error fetching formulation versions:', error.message);
         // Don't set the error state to prevent the error UI from showing
         // Just log the error and use empty data
         setIterations([]);
         setCurrentIteration(null);
       } else {
-        const fetchedIterations = data as RecipeIterationWithIngredients[] || [];
+        const fetchedVersions = data as FormulationVersionWithIngredients[] || [];
         
-        // For each iteration, fetch its ingredients
-        if (fetchedIterations.length > 0) {
-          // Use Promise.all to fetch ingredients for all iterations in parallel
-          const iterationsWithIngredients = await Promise.all(
-            fetchedIterations.map(async (iteration) => {
-              const ingredients = await fetchIterationIngredients(iteration.id);
-              return { ...iteration, ingredients };
+        // For each version, fetch its ingredients
+        if (fetchedVersions.length > 0) {
+          // Use Promise.all to fetch ingredients for all versions in parallel
+          const versionsWithIngredients = await Promise.all(
+            fetchedVersions.map(async (version) => {
+              const ingredients = await fetchIterationIngredients(version.id);
+              return { ...version, ingredients };
             })
           );
           
-          setIterations(iterationsWithIngredients);
-          setCurrentIteration(iterationsWithIngredients[0]);
+          setIterations(versionsWithIngredients);
+          setCurrentIteration(versionsWithIngredients[0]);
         } else {
           setIterations([]);
           setCurrentIteration(null);
         }
         
-        console.log(`Fetched ${fetchedIterations.length} iterations for recipe ${recipeId}`);
+        console.log(`Fetched ${fetchedVersions.length} versions for formulation ${recipeId}`);
         setError(null);
       }
     } catch (err) {
-      setError(err instanceof Error ? err : new Error('Failed to fetch recipe iterations'));
+      setError(err instanceof Error ? err : new Error('Failed to fetch formulation versions'));
       console.error('Error fetching recipe iterations:', err);
       setIterations([]);
       setCurrentIteration(null);
@@ -129,7 +132,7 @@ export function useRecipeIteration(initialRecipeId?: string) {
     }
   }, [supabase, fetchIterationIngredients]);
 
-  // Create a new iteration based on an existing recipe or iteration
+  // Create a new version based on an existing formulation or version
   const createNewIteration = useCallback(async (baseRecipe: Recipe | RecipeIteration, changes: Partial<RecipeIteration> = {}) => {
     setIsLoading(true);
     setError(null);
@@ -156,30 +159,30 @@ export function useRecipeIteration(initialRecipeId?: string) {
         .single();
 
       if (error) {
-        console.error('Error creating new iteration:', error.message);
+        console.error('Error creating new formulation version:', error.message);
         // Don't set error state to avoid UI issues
         return null;
       }
       
       if (!data) {
-        const err = new Error('Failed to create new iteration');
+        const err = new Error('Failed to create new formulation version');
         setError(err);
         return null;
       }
 
-      const createdIteration = data as RecipeIterationWithIngredients;
+      const createdVersion = data as FormulationVersionWithIngredients;
 
-      // Copy ingredients from the recipe to the new iteration
-      // First determine the source of ingredients (from recipe or a previous iteration)
+      // Copy ingredients from the formulation to the new version
+      // First determine the source of ingredients (from formulation or a previous version)
       let sourceId: string;
       let sourceType: 'recipe' | 'iteration';
       
       if ('recipe_id' in baseRecipe) {
-        // It's an iteration
+        // It's a version
         sourceId = baseRecipe.id;
         sourceType = 'iteration';
       } else {
-        // It's a recipe
+        // It's a formulation
         sourceId = baseRecipe.id;
         sourceType = 'recipe';
       }
@@ -200,7 +203,7 @@ export function useRecipeIteration(initialRecipeId?: string) {
         if (!ingredientsError && recipeIngredients && recipeIngredients.length > 0) {
           // Insert into iteration_ingredients
           const iterationIngredientsData = recipeIngredients.map(ri => ({
-            iteration_id: createdIteration.id,
+            iteration_id: createdVersion.id,
             ingredient_id: ri.ingredient_id,
             quantity: ri.quantity,
             unit: ri.unit,
@@ -212,11 +215,11 @@ export function useRecipeIteration(initialRecipeId?: string) {
             .insert(iterationIngredientsData);
 
           if (insertError) {
-            console.error('Error copying ingredients to iteration:', insertError);
+            console.error('Error copying ingredients to formulation version:', insertError);
           }
         }
       } else {
-        // Copy ingredients from another iteration
+        // Copy ingredients from another version
         const { data: iterationIngredients, error: ingredientsError } = await supabase
           .from('iteration_ingredients')
           .select(`
@@ -229,9 +232,9 @@ export function useRecipeIteration(initialRecipeId?: string) {
           .eq('iteration_id', sourceId);
 
         if (!ingredientsError && iterationIngredients && iterationIngredients.length > 0) {
-          // Insert into iteration_ingredients for the new iteration
+          // Insert into iteration_ingredients for the new version
           const newIterationIngredientsData = iterationIngredients.map(ii => ({
-            iteration_id: createdIteration.id,
+            iteration_id: createdVersion.id,
             ingredient_id: ii.ingredient_id,
             quantity: ii.quantity,
             unit: ii.unit,
@@ -243,23 +246,23 @@ export function useRecipeIteration(initialRecipeId?: string) {
             .insert(newIterationIngredientsData);
 
           if (insertError) {
-            console.error('Error copying ingredients between iterations:', insertError);
+            console.error('Error copying ingredients between formulation versions:', insertError);
           }
         }
       }
 
-      // Fetch the ingredients for the new iteration
-      const ingredients = await fetchIterationIngredients(createdIteration.id);
-      createdIteration.ingredients = ingredients;
+      // Fetch the ingredients for the new version
+      const ingredients = await fetchIterationIngredients(createdVersion.id);
+      createdVersion.ingredients = ingredients;
 
-      setIterations(prev => [createdIteration, ...prev].sort((a, b) => b.version_number - a.version_number));
-      setCurrentIteration(createdIteration);
-      console.log('Created new iteration:', createdIteration);
+      setIterations(prev => [createdVersion, ...prev].sort((a, b) => b.version_number - a.version_number));
+      setCurrentIteration(createdVersion);
+      console.log('Created new formulation version:', createdVersion);
       setError(null);
-      return createdIteration;
+      return createdVersion;
 
     } catch (err) {
-      setError(err instanceof Error ? err : new Error('Failed to create new iteration'));
+      setError(err instanceof Error ? err : new Error('Failed to create new formulation version'));
       console.error('Error creating new iteration:', err);
       return null;
     } finally {
@@ -267,7 +270,7 @@ export function useRecipeIteration(initialRecipeId?: string) {
     }
   }, [supabase, iterations, fetchIterationIngredients]);
 
-  // Update details for a specific iteration (e.g., notes, metrics)
+  // Update details for a specific formulation version (e.g., notes, metrics)
   const updateIterationDetails = useCallback(async (iterationId: string, details: Partial<Pick<RecipeIteration, 'title' | 'description' | 'notes' | 'metrics' | 'instructions'>>) => {
     setIsLoading(true);
     setError(null);
@@ -280,41 +283,41 @@ export function useRecipeIteration(initialRecipeId?: string) {
         .single();
 
       if (error) {
-        console.error('Error updating iteration details:', error.message);
+        console.error('Error updating formulation version details:', error.message);
         // Don't set error state to avoid UI issues
         return null;
       }
       
       if (!data) {
-        const err = new Error('Failed to update iteration details');
+        const err = new Error('Failed to update formulation version details');
         setError(err);
         return null;
       }
 
-      const updatedIteration = data as RecipeIterationWithIngredients;
+      const updatedVersion = data as FormulationVersionWithIngredients;
       
-      // Preserve the ingredients from the existing iteration object
-      const existingIteration = iterations.find(iter => iter.id === iterationId);
-      if (existingIteration && existingIteration.ingredients) {
-        updatedIteration.ingredients = existingIteration.ingredients;
+      // Preserve the ingredients from the existing version object
+      const existingVersion = iterations.find(iter => iter.id === iterationId);
+      if (existingVersion && existingVersion.ingredients) {
+        updatedVersion.ingredients = existingVersion.ingredients;
       } else {
-        // Fetch the ingredients for this iteration if not already loaded
-        updatedIteration.ingredients = await fetchIterationIngredients(iterationId);
+        // Fetch the ingredients for this version if not already loaded
+        updatedVersion.ingredients = await fetchIterationIngredients(iterationId);
       }
 
-      setIterations(prev => prev.map(iter => iter.id === iterationId ? updatedIteration : iter)
+      setIterations(prev => prev.map(iter => iter.id === iterationId ? updatedVersion : iter)
                                   .sort((a, b) => b.version_number - a.version_number));
       
       if (currentIteration?.id === iterationId) {
-        setCurrentIteration(updatedIteration);
+        setCurrentIteration(updatedVersion);
       }
       
-      console.log(`Updated iteration ${iterationId} details:`, details);
+      console.log(`Updated formulation version ${iterationId} details:`, details);
       setError(null);
-      return updatedIteration;
+      return updatedVersion;
 
     } catch (err) {
-      setError(err instanceof Error ? err : new Error('Failed to update iteration details'));
+      setError(err instanceof Error ? err : new Error('Failed to update formulation version details'));
       console.error('Error updating iteration details:', err);
       return null;
     } finally {
@@ -322,7 +325,7 @@ export function useRecipeIteration(initialRecipeId?: string) {
     }
   }, [supabase, currentIteration, iterations, fetchIterationIngredients]);
 
-  // Update ingredients for a specific iteration
+  // Update ingredients for a specific formulation version
   const updateIterationIngredients = useCallback(async (
     iterationId: string, 
     ingredients: Array<{
@@ -336,14 +339,14 @@ export function useRecipeIteration(initialRecipeId?: string) {
     setIsLoading(true);
     setError(null);
     try {
-      // First, remove existing ingredients for this iteration
+      // First, remove existing ingredients for this version
       const { error: deleteError } = await supabase
         .from('iteration_ingredients')
         .delete()
         .eq('iteration_id', iterationId);
       
       if (deleteError) {
-        console.error('Error deleting existing iteration ingredients:', deleteError);
+        console.error('Error deleting existing formulation version ingredients:', deleteError);
         setError(deleteError);
         return null;
       }
@@ -363,13 +366,13 @@ export function useRecipeIteration(initialRecipeId?: string) {
           .insert(iterationIngredientsData);
 
         if (insertError) {
-          console.error('Error updating iteration ingredients:', insertError);
+          console.error('Error updating formulation version ingredients:', insertError);
           setError(insertError);
           return null;
         }
       }
 
-      // Fetch the updated ingredients for this iteration
+      // Fetch the updated ingredients for this version
       const updatedIngredients = await fetchIterationIngredients(iterationId);
       
       // Update the iterations state with the new ingredients
@@ -386,11 +389,11 @@ export function useRecipeIteration(initialRecipeId?: string) {
         setCurrentIteration(prev => prev ? { ...prev, ingredients: updatedIngredients } : null);
       }
       
-      console.log(`Updated ingredients for iteration ${iterationId}`);
+      console.log(`Updated ingredients for formulation version ${iterationId}`);
       setError(null);
       return updatedIngredients;
     } catch (err) {
-      setError(err instanceof Error ? err : new Error('Failed to update iteration ingredients'));
+      setError(err instanceof Error ? err : new Error('Failed to update formulation version ingredients'));
       console.error('Error updating iteration ingredients:', err);
       return null;
     } finally {
@@ -398,8 +401,8 @@ export function useRecipeIteration(initialRecipeId?: string) {
     }
   }, [supabase, currentIteration, fetchIterationIngredients]);
 
-  // Function to compare two iterations including ingredients
-  const compareIterations = useCallback((iterationA: RecipeIterationWithIngredients, iterationB: RecipeIterationWithIngredients) => {
+  // Function to compare two formulation versions including ingredients
+  const compareIterations = useCallback((iterationA: FormulationVersionWithIngredients, iterationB: FormulationVersionWithIngredients) => {
     if (!iterationA || !iterationB) return null;
 
     // Compare basic fields
@@ -484,12 +487,12 @@ export function useRecipeIteration(initialRecipeId?: string) {
     };
   }, []);
 
-  // Placeholder for AI suggestions function (using RecipeIteration)
+  // Placeholder for AI suggestions function (using FormulationVersion)
   const getAISuggestions = useCallback(async (iteration: RecipeIteration) => {
     setIsLoading(true);
     setError(null);
     try {
-      console.log(`Getting AI suggestions for iteration ${iteration.id} (v${iteration.version_number})... (Placeholder)`);
+      console.log(`Getting AI suggestions for formulation version ${iteration.id} (v${iteration.version_number})... (Placeholder)`);
       // TODO: Implement API call to an AI service
       // Send relevant iteration data (title, description, notes, metrics)
       // Might need to fetch associated ingredients/instructions for better suggestions

@@ -89,7 +89,7 @@ export default function RecipeList({
   if (!recipes || recipes.length === 0) {
     return (
       <div className="w-full sm:w-64 md:w-72 border-r border-subtle p-4 bg-surface text-text">
-        <p className="text-text-secondary text-sm">No recipes found.</p>
+        <p className="text-text-secondary text-sm">No formulations found.</p>
         
         {/* Hidden data for tests */}
         <div style={{ display: 'none' }} data-testid="recipes-debug-info">
