@@ -11,7 +11,7 @@ interface FormulationVersionWithIngredients extends RecipeIteration {
 }
 
 // Hook to manage formulation versions (previously recipe iterations)
-export function useRecipeIteration(initialRecipeId?: string) {
+export function useRecipeIteration(initialFormulationId?: string) {
   const [iterations, setIterations] = useState<FormulationVersionWithIngredients[]>([]);
   const [currentIteration, setCurrentIteration] = useState<FormulationVersionWithIngredients | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -508,17 +508,17 @@ export function useRecipeIteration(initialRecipeId?: string) {
   }, []);
 
 
-  // Initialize hook by fetching iterations if an initial recipe ID is provided
+  // Initialize hook by fetching iterations if an initial formulation ID is provided
   useEffect(() => {
-    if (initialRecipeId) {
-      fetchIterations(initialRecipeId);
+    if (initialFormulationId) {
+      fetchIterations(initialFormulationId);
     }
-    // Clear state if initialRecipeId becomes null/undefined
-    if (!initialRecipeId) {
+    // Clear state if initialFormulationId becomes null/undefined
+    if (!initialFormulationId) {
         setIterations([]);
         setCurrentIteration(null);
     }
-  }, [initialRecipeId, fetchIterations]);
+  }, [initialFormulationId, fetchIterations]);
 
   return {
     iterations,

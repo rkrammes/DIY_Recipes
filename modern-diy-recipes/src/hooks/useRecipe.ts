@@ -24,7 +24,7 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
       return;
     }
 
-    console.log(`========== FETCHING RECIPE ${id} ==========`);
+    console.log(`========== FETCHING FORMULATION ${id} ==========`);
     setLoading(true);
     
     try {
@@ -71,7 +71,7 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
       if (recipeError) {
         // Check if it's a missing table error
         if (recipeError.message && recipeError.message.includes('relation "public.recipes" does not exist')) {
-          console.warn('Recipes table does not exist, creating mock recipe data:', recipeError.message);
+          console.warn('Formulations table does not exist, creating mock formulation data:', recipeError.message);
           
           // Create a basic recipe object to avoid errors - this is fallback, not mock data
           finalRecipeData = {
@@ -86,11 +86,11 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
           
           // Try direct API as fallback
           try {
-            console.log(`Attempting direct API fallback for recipe ${id}`);
+            console.log(`Attempting direct API fallback for formulation ${id}`);
             const directApiRecipe = await fetchRecipeById(id);
             
             if (!directApiRecipe) {
-              console.error('Direct API fallback returned no recipe');
+              console.error('Direct API fallback returned no formulation');
               setError('Recipe not found');
               setRecipe(null);
               setLoading(false);
@@ -99,7 +99,7 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
             
             // Continue with this recipe from direct API
             finalRecipeData = directApiRecipe;
-            console.log('Successfully fetched recipe from direct API');
+            console.log('Successfully fetched formulation from direct API');
           } catch (apiError) {
             console.error('Direct API fallback also failed:', apiError);
             setError(recipeError.message);
@@ -112,8 +112,8 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
       
       // If we have no recipe data by this point, just show an error
       if (!finalRecipeData) {
-        console.error('No recipe data available from any source');
-        setError('Recipe not found. The database appears to be unavailable and no local data exists.');
+        console.error('No formulation data available from any source');
+        setError('Formulation not found. The database appears to be unavailable and no local data exists.');
         setRecipe(null);
         setLoading(false);
         return;
@@ -124,7 +124,7 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
       let ingredientsError = null;
       
       try {
-        console.log(`Fetching ingredients for recipe ${id}...`);
+        console.log(`Fetching ingredients for formulation ${id}...`);
         
         // Try using a direct join first for efficiency - it's okay if this fails
         try {
@@ -365,9 +365,9 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
           });
         }
       } else {
-        // Check if this is a system-provided fallback recipe that should have ingredients
+        // Check if this is a system-provided fallback formulation that should have ingredients
         if (finalRecipeData && finalRecipeData.user_id === 'system') {
-          console.log('No ingredients available but this is a system fallback recipe');
+          console.log('No ingredients available but this is a system fallback formulation');
           transformedIngredients = [];
         } else {
           // No ingredients found from any source - display placeholders but with warning info
@@ -376,7 +376,7 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
             { 
               id: `empty-indicator-${Date.now()}`, 
               name: 'No ingredients available', 
-              description: 'The ingredients for this recipe could not be loaded',
+              description: 'The ingredients for this formulation could not be loaded',
               quantity: 0, 
               unit: '', 
               recipe_ingredient_id: `emergency-${Date.now()}`,
@@ -544,7 +544,7 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
     }
     
     try {
-      console.log(`Deleting recipe ${id}...`);
+      console.log(`Deleting formulation ${id}...`);
       
       // First delete related data in recipe_ingredients
       const { error: ingredientsError } = await supabase
@@ -553,7 +553,7 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
         .eq('recipe_id', id);
       
       if (ingredientsError) {
-        console.error('Error deleting recipe ingredients:', ingredientsError.message);
+        console.error('Error deleting formulation ingredients:', ingredientsError.message);
         setError(`Failed to delete ingredients: ${ingredientsError.message}`);
         throw ingredientsError;
       }
@@ -566,7 +566,7 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
           .eq('recipe_id', id);
         
         if (iterationsError && !iterationsError.message.includes('does not exist')) {
-          console.error('Error deleting recipe iterations:', iterationsError.message);
+          console.error('Error deleting formulation iterations:', iterationsError.message);
         }
       } catch (err) {
         // Ignore errors with iterations table
@@ -580,8 +580,8 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
         .eq('id', id);
       
       if (deleteError) {
-        console.error('Error deleting recipe:', deleteError.message);
-        setError(`Failed to delete recipe: ${deleteError.message}`);
+        console.error('Error deleting formulation:', deleteError.message);
+        setError(`Failed to delete formulation: ${deleteError.message}`);
         throw deleteError;
       }
       

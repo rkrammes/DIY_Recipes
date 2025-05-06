@@ -16,7 +16,7 @@ export default function Navigation() {
       <nav className="bg-surface-1 border-b border-border-subtle px-4 py-3">
         <div className="container mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-semibold text-text">
-            DIY Recipes
+            DIY Formulations
           </Link>
           <div className="h-8 w-20 bg-surface-2 animate-pulse rounded"></div>
         </div>
@@ -29,7 +29,7 @@ export default function Navigation() {
       <nav className="bg-surface-1 border-b border-border-subtle px-4 py-3">
         <div className="container mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-semibold text-text">
-            DIY Recipes
+            DIY Formulations
           </Link>
           <div className="flex items-center gap-4">
             <Link 

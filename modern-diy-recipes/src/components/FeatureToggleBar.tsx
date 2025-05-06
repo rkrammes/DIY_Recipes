@@ -7,13 +7,13 @@ import { Formulation } from '../types/models';
  * like formulation versioning without requiring URL parameters or environment variables.
  */
 export default function FeatureToggleBar({ 
-  recipe, // Will eventually rename to 'formulation'
+  formulation,
   onToggleVersioning, 
   isVersioningEnabled = false,
   onToggleDocumentMode,
   isDocumentModeEnabled = false
 }: {
-  recipe: Formulation,
+  formulation: Formulation,
   onToggleVersioning: (enabled: boolean) => void,
   isVersioningEnabled?: boolean,
   onToggleDocumentMode: (enabled: boolean) => void,
@@ -92,9 +92,9 @@ export default function FeatureToggleBar({
           )}
         </div>
         
-        {recipe && (
+        {formulation && (
           <div className="text-sm text-text-secondary">
-            Formulation ID: <span className="font-mono">{recipe.id.substring(0, 8)}...</span>
+            Formulation ID: <span className="font-mono">{formulation.id.substring(0, 8)}...</span>
           </div>
         )}
       </div>

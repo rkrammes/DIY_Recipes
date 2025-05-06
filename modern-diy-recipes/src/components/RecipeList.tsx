@@ -100,9 +100,9 @@ export default function RecipeList({
   }
 
   // Debug information
-  console.log('Rendering RecipeList with:', { 
-    recipeCount: recipes.length, 
-    firstRecipe: recipes[0]
+  console.log('Rendering FormulationList with:', { 
+    formulationCount: recipes.length, 
+    firstFormulation: recipes[0]
   });
 
   // Show the recipe list
@@ -113,7 +113,7 @@ export default function RecipeList({
       {recipes.map((recipe: RecipeListItem) => {
         // Ensure we have a valid recipe object with at least an id
         if (!recipe || !recipe.id) {
-          console.warn("Invalid recipe object:", recipe);
+          console.warn("Invalid formulation object:", recipe);
           return null;
         }
         
@@ -126,7 +126,7 @@ export default function RecipeList({
                 // If clicking on the same recipe again, trigger a refresh by briefly
                 // setting to null and then back to the ID
                 if (selectedId === recipe.id) {
-                  console.log(`Re-selecting same recipe: ${recipe.id} - will force refresh`);
+                  console.log(`Re-selecting same formulation: ${recipe.id} - will force refresh`);
                   onSelect(null);
                   
                   // Brief delay to ensure state updates properly
@@ -135,7 +135,7 @@ export default function RecipeList({
                     setLastSelectedId(recipe.id);
                   }, 50);
                 } else {
-                  console.log(`Selecting recipe: ${recipe.id}`);
+                  console.log(`Selecting formulation: ${recipe.id}`);
                   onSelect(recipe.id);
                   setLastSelectedId(recipe.id);
                   router.push(`/recipes/${recipe.id}`);

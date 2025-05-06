@@ -34,20 +34,20 @@ import ErrorBoundary from './ErrorBoundary';
 const DocumentCentricRecipe = dynamic(() => import('./DocumentCentricRecipe'), { ssr: false });
 
 interface FormulationDetailsProps {
-  recipeId: string | null; // Will eventually rename to formulationId
-  initialRecipeData?: RecipeWithIngredientsAndIterations | null; // Will eventually rename to initialFormulationData
+  formulationId: string | null;
+  initialFormulationData?: RecipeWithIngredientsAndIterations | null;
 }
 
 /**
  * The FormulationDetails component (formerly RecipeDetails) displays all information 
  * about a DIY formulation including ingredients, versions, and analysis.
  */
-export default function RecipeDetails({ recipeId, initialRecipeData }: FormulationDetailsProps) {
-  console.log("FormulationDetails component rendering with id:", recipeId);
-  console.log("Initial formulation data received:", initialRecipeData ? {
-    id: initialRecipeData.id,
-    title: initialRecipeData.title,
-    hasIngredients: !!initialRecipeData.ingredients?.length
+export default function RecipeDetails({ formulationId, initialFormulationData }: FormulationDetailsProps) {
+  console.log("FormulationDetails component rendering with id:", formulationId);
+  console.log("Initial formulation data received:", initialFormulationData ? {
+    id: initialFormulationData.id,
+    title: initialFormulationData.title,
+    hasIngredients: !!initialFormulationData.ingredients?.length
   } : 'none');
 
   const router = useRouter();
@@ -64,7 +64,7 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: Formulati
   const [isDocumentModeEnabled, setIsDocumentModeEnabled] = useState(true);
 
   // Get formulation data and functions
-  const { recipe, loading, error, updateRecipe, deleteRecipe, refetch } = useRecipe(recipeId, initialRecipeData) as {
+  const { recipe, loading, error, updateRecipe, deleteRecipe, refetch } = useRecipe(formulationId, initialFormulationData) as {
     recipe: RecipeWithIngredientsAndIterations | null;
     loading: boolean;
     error: string | null;
@@ -75,18 +75,18 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: Formulati
 
   // Force refresh when formulation ID changes
   useEffect(() => {
-    console.log(`Formulation ID changed to ${recipeId}, forcing re-render`);
+    console.log(`Formulation ID changed to ${formulationId}, forcing re-render`);
     setComponentKey(Date.now());
     
     // If we have a formulation ID, force an immediate refetch
-    if (recipeId) {
+    if (formulationId) {
       // Brief timeout to ensure state updates properly
       setTimeout(() => {
-        console.log(`Triggering immediate refetch for formulation ${recipeId}`);
+        console.log(`Triggering immediate refetch for formulation ${formulationId}`);
         refetch();
       }, 50);
     }
-  }, [recipeId, refetch]);
+  }, [formulationId, refetch]);
 
   // Log what's happening with the formulation data
   React.useEffect(() => {
@@ -148,24 +148,24 @@ export default function RecipeDetails({ recipeId, initialRecipeData }: Formulati
     }
   };
 
-  if (!recipeId) {
+  if (!formulationId) {
     console.log("FormulationDetails: No formulation ID provided");
     return <div className="p-4">Select a formulation to view details.</div>;
   }
   
   if (loading) {
-    console.log(`FormulationDetails: Loading formulation ${recipeId}...`);
-    return <div className="p-4">Loading formulation {recipeId.substring(0, 8)}...</div>;
+    console.log(`FormulationDetails: Loading formulation ${formulationId}...`);
+    return <div className="p-4">Loading formulation {formulationId.substring(0, 8)}...</div>;
   }
   
   if (error) {
-    console.error(`FormulationDetails: Error loading formulation ${recipeId}:`, error);
+    console.error(`FormulationDetails: Error loading formulation ${formulationId}:`, error);
     return <div className="p-4 text-red-500">Error: {error}</div>;
   }
   
   if (!recipe) {
-    console.error(`FormulationDetails: Formulation ${recipeId} not found`);
-    return <div className="p-4">Formulation not found. ID: {recipeId.substring(0, 8)}</div>;
+    console.error(`FormulationDetails: Formulation ${formulationId} not found`);
+    return <div className="p-4">Formulation not found. ID: {formulationId.substring(0, 8)}</div>;
   }
   
   // We have a valid formulation - log it for debugging
