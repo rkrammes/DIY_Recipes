@@ -7,12 +7,12 @@ import ThemeControls from './ThemeControls';
 import { supabase } from '@/lib/supabase';
 import { useRecipes } from '@/hooks/useRecipes';
 import { useIngredients } from '@/hooks/useIngredients';
-import RecipeDetails from './RecipeDetails';
+import FormulationDetails from './FormulationDetails';
 import ErrorBoundary from './ErrorBoundary';
 
 // Navigation sections for the first column
 const SECTIONS = [
-  { id: 'recipes', name: 'Recipes', icon: '📋' },
+  { id: 'formulations', name: 'Formulations', icon: '📋' },
   { id: 'ingredients', name: 'Ingredients', icon: '🧪' },
   { id: 'tools', name: 'Tools', icon: '🔧' },
   { id: 'library', name: 'Library', icon: '📚' }
@@ -22,16 +22,16 @@ export default function TripleColumnLayout() {
   // Core state
   const { theme, setTheme, audioEnabled, setAudioEnabled } = useTheme();
   const { playSound } = useAudio();
-  const { recipes, loading: recipesLoading, error: recipesError } = useRecipes();
+  const { recipes: formulations, loading: formulationsLoading, error: formulationsError } = useRecipes();
   const { ingredients, loading: ingredientsLoading } = useIngredients();
   
   // UI state
-  const [activeSection, setActiveSection] = useState('recipes');
+  const [activeSection, setActiveSection] = useState('formulations');
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [showSettings, setShowSettings] = useState(false);
   const [systemStatus, setSystemStatus] = useState('online');
   const [lastSyncTime, setLastSyncTime] = useState<Date | null>(null);
-  const [databaseStats, setDatabaseStats] = useState({ recipes: 0, ingredients: 0 });
+  const [databaseStats, setDatabaseStats] = useState({ formulations: 0, ingredients: 0 });
   const [searchQuery, setSearchQuery] = useState('');
 
   // Check connection status on load
@@ -57,10 +57,10 @@ export default function TripleColumnLayout() {
   // Update stats when data changes
   useEffect(() => {
     setDatabaseStats({
-      recipes: recipes?.length || 0,
+      formulations: formulations?.length || 0,
       ingredients: ingredients?.length || 0
     });
-  }, [recipes, ingredients]);
+  }, [formulations, ingredients]);
 
   // Handle section selection
   const handleSectionSelect = (sectionId: string) => {
@@ -93,19 +93,19 @@ export default function TripleColumnLayout() {
   // Get items for the second column based on active section
   const getItemsForSection = () => {
     switch (activeSection) {
-      case 'recipes':
-        return recipes || [];
+      case 'formulations':
+        return formulations || [];
       case 'ingredients':
         return ingredients || [];
       case 'tools':
         return [
           { id: 'converter', title: 'Unit Converter', description: 'Convert between different units of measurement' },
-          { id: 'timer', title: 'Recipe Timer', description: 'Keep track of cooking times' },
-          { id: 'calculator', title: 'Scaling Calculator', description: 'Scale recipe quantities up or down' }
+          { id: 'timer', title: 'Formulation Timer', description: 'Keep track of processing times' },
+          { id: 'calculator', title: 'Scaling Calculator', description: 'Scale formulation quantities up or down' }
         ];
       case 'library':
         return [
-          { id: 'techniques', title: 'Cooking Techniques', description: 'Reference for common cooking techniques' },
+          { id: 'techniques', title: 'Processing Techniques', description: 'Reference for common processing techniques' },
           { id: 'substitutions', title: 'Ingredient Substitutions', description: 'Find alternatives for ingredients' },
           { id: 'measurements', title: 'Measurement Guide', description: 'Standard measurement conversions' }
         ];
@@ -126,7 +126,7 @@ export default function TripleColumnLayout() {
       return (
         <div className="flex flex-col items-center justify-center h-full p-8 text-center">
           <div className="text-6xl mb-6">
-            {activeSection === 'recipes' ? '📋' : 
+            {activeSection === 'formulations' ? '📋' : 
              activeSection === 'ingredients' ? '🧪' : 
              activeSection === 'tools' ? '🔧' : '📚'}
           </div>
@@ -139,32 +139,32 @@ export default function TripleColumnLayout() {
     }
 
     switch (activeSection) {
-      case 'recipes':
-        // If we have a selectedItemId but can't find the recipe in the list,
-        // just pass the ID to let RecipeDetails fetch it from the API
-        const selectedRecipe = recipes?.find(r => r.id === selectedItemId);
-        console.log("Selected recipe:", selectedRecipe || { id: selectedItemId, message: "Recipe data not available in list" });
+      case 'formulations':
+        // If we have a selectedItemId but can't find the formulation in the list,
+        // just pass the ID to let FormulationDetails fetch it from the API
+        const selectedFormulation = formulations?.find(r => r.id === selectedItemId);
+        console.log("Selected formulation:", selectedFormulation || { id: selectedItemId, message: "Formulation data not available in list" });
         
         // Generate a unique component key that changes whenever the ID changes
         // This ensures complete re-mounting of the component
-        const componentKey = `recipe-details-${selectedItemId}-${Date.now()}`;
+        const componentKey = `formulation-details-${selectedItemId}-${Date.now()}`;
         
-        // We'll force a log of the recipe data to help debug
-        if (selectedRecipe) {
-          console.log("Recipe details being passed to RecipeDetails component:", JSON.stringify({
-            id: selectedRecipe.id,
-            title: selectedRecipe.title,
-            description: selectedRecipe.description,
-            ingredients: selectedRecipe.ingredients ? `${selectedRecipe.ingredients.length} ingredients` : 'no ingredients'
+        // We'll force a log of the formulation data to help debug
+        if (selectedFormulation) {
+          console.log("Formulation details being passed to FormulationDetails component:", JSON.stringify({
+            id: selectedFormulation.id,
+            title: selectedFormulation.title,
+            description: selectedFormulation.description,
+            ingredients: selectedFormulation.ingredients ? `${selectedFormulation.ingredients.length} ingredients` : 'no ingredients'
           }, null, 2));
         }
         
         return (
           <ErrorBoundary fallback={
             <div className="p-4 bg-surface-1 rounded-lg border border-border-subtle">
-              <h3 className="text-lg font-semibold mb-2">Error Loading Recipe</h3>
+              <h3 className="text-lg font-semibold mb-2">Error Loading Formulation</h3>
               <p className="text-text-secondary mb-4">
-                There was a problem displaying the recipe details. 
+                There was a problem displaying the formulation details. 
               </p>
               <div className="flex space-x-2">
                 <button 
@@ -186,10 +186,10 @@ export default function TripleColumnLayout() {
               </div>
             </div>
           }>
-            <RecipeDetails 
+            <FormulationDetails 
               key={componentKey} // Force re-render with a truly unique key
-              recipeId={selectedItemId} 
-              initialRecipeData={selectedRecipe}
+              formulationId={selectedItemId} 
+              initialFormulationData={selectedFormulation}
             />
           </ErrorBoundary>
         );
@@ -201,20 +201,20 @@ export default function TripleColumnLayout() {
             <div className="bg-surface-1 p-4 rounded-md mb-4">
               <p><strong>Description:</strong> {ingredient?.description || 'No description available'}</p>
             </div>
-            <h3 className="text-xl font-semibold mb-3">Used In Recipes</h3>
+            <h3 className="text-xl font-semibold mb-3">Used In Formulations</h3>
             <div className="bg-surface-1 p-4 rounded-md">
-              {recipes?.filter(r => r.ingredients?.some(i => i.id === selectedItemId)).length 
-                ? recipes?.filter(r => r.ingredients?.some(i => i.id === selectedItemId))
-                   .map(recipe => (
-                    <div key={recipe.id} className="mb-2 p-2 hover:bg-surface-2 rounded-md cursor-pointer"
+              {formulations?.filter(f => f.ingredients?.some(i => i.id === selectedItemId)).length 
+                ? formulations?.filter(f => f.ingredients?.some(i => i.id === selectedItemId))
+                   .map(formulation => (
+                    <div key={formulation.id} className="mb-2 p-2 hover:bg-surface-2 rounded-md cursor-pointer"
                          onClick={() => {
-                           setActiveSection('recipes');
-                           setSelectedItemId(recipe.id);
+                           setActiveSection('formulations');
+                           setSelectedItemId(formulation.id);
                          }}>
-                      {recipe.title}
+                      {formulation.title}
                     </div>
                   ))
-                : <p className="text-text-secondary">Not used in any recipes yet</p>
+                : <p className="text-text-secondary">Not used in any formulations yet</p>
               }
             </div>
           </div>
@@ -556,7 +556,7 @@ function SystemStatusText({ status }: { status: string }) {
             <div className="bg-surface-2 border border-border-subtle p-1 text-xs h-16 overflow-y-auto">
               <div className="text-text-secondary">[{new Date().toISOString().split('T')[0]} <CurrentTime />] System initialized</div>
               <div className="text-green-500">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Database connection established</div>
-              <div className="text-text-secondary">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Loaded {databaseStats.recipes} recipes</div>
+              <div className="text-text-secondary">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Loaded {databaseStats.formulations} formulations</div>
               <div className="text-text-secondary">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Loaded {databaseStats.ingredients} ingredients</div>
               <div className="text-accent">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Theme activated: {theme.toUpperCase()}</div>
               <div className="text-purple-500">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Audio system: {audioEnabled ? 'ENABLED' : 'DISABLED'}</div>
@@ -571,7 +571,7 @@ function SystemStatusText({ status }: { status: string }) {
                 </span>
                 
                 <span className="text-text-secondary">
-                  ITEMS: {databaseStats.recipes + databaseStats.ingredients}
+                  ITEMS: {databaseStats.formulations + databaseStats.ingredients}
                 </span>
                 
                 <span className="text-text-secondary">
@@ -693,14 +693,14 @@ function SystemStatusText({ status }: { status: string }) {
                         : 'text-text-secondary hover:bg-surface-1 bg-surface-1'
                     }`}
                     onClick={() => {
-                      console.log(`Clicked on recipe: ${item.id} - ${item.title || item.name}`);
+                      console.log(`Clicked on formulation: ${item.id} - ${item.title || item.name}`);
                       handleItemSelect(item.id);
                     }}
                   >
-                    <div className="flex items-center" data-testid="recipe-card">
+                    <div className="flex items-center" data-testid="formulation-card">
                       <span className="mr-2 font-bold">{selectedItemId === item.id ? '►' : `${index+1}.`}</span>
                       <div>
-                        <div className="font-medium truncate" data-testid="recipe-title">{item.title || item.name}</div>
+                        <div className="font-medium truncate" data-testid="formulation-title">{item.title || item.name}</div>
                         {item.description && (
                           <div className="text-xs truncate opacity-80">{item.description}</div>
                         )}
@@ -809,13 +809,13 @@ function SystemStatusText({ status }: { status: string }) {
             
             <div className="mb-1">
               <div className="flex justify-between mb-0.5">
-                <span className="text-text-secondary">RECIPES:</span>
-                <span className="font-bold">{databaseStats.recipes}</span>
+                <span className="text-text-secondary">FORMULATIONS:</span>
+                <span className="font-bold">{databaseStats.formulations}</span>
                 <span className="text-text-secondary">REFS:</span>
-                <span className="font-bold">{databaseStats.recipes * 3}</span>
+                <span className="font-bold">{databaseStats.formulations * 3}</span>
               </div>
               <div className="w-full bg-surface-2 border border-border-subtle h-1">
-                <div className="bg-emerald-500 h-full" style={{ width: `${databaseStats.recipes * 10}%` }}></div>
+                <div className="bg-emerald-500 h-full" style={{ width: `${databaseStats.formulations * 10}%` }}></div>
               </div>
             </div>
             
@@ -856,13 +856,13 @@ function SystemStatusText({ status }: { status: string }) {
               <div className="text-text-secondary">[<CurrentTime />] Cache size optimized (64MB)</div>
               <div className="text-green-500">[<CurrentTime />] Database connection established to supabase.co</div>
               <div className="text-text-secondary">[<CurrentTime />] Auth provider initialized with DEV profile</div>
-              <div className="text-text-secondary">[<CurrentTime />] Loaded recipe data ({databaseStats.recipes} entries)</div>
+              <div className="text-text-secondary">[<CurrentTime />] Loaded formulation data ({databaseStats.formulations} entries)</div>
               <div className="text-text-secondary">[<CurrentTime />] Loaded ingredient data ({databaseStats.ingredients} entries)</div>
               <div className="text-accent">[<CurrentTime />] Theme activated: {theme.toUpperCase()}</div>
               <div className="text-accent">[<CurrentTime />] UI rendering complete (React hydration)</div>
               <div className="text-amber-500">[<CurrentTime />] Font loading completed with fallbacks</div>
               <div className="text-text-secondary">[<CurrentTime />] Audio system {audioEnabled ? 'enabled' : 'disabled'}</div>
-              <div className="text-purple-500">[<CurrentTime />] Recipe processor initialized</div>
+              <div className="text-purple-500">[<CurrentTime />] Formulation processor initialized</div>
               <div className="text-green-500">[<CurrentTime />] All systems nominal</div>
               <div className="text-amber-500 animate-pulse">[<CurrentTime />] Awaiting user input _</div>
             </div>

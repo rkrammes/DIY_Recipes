@@ -2,8 +2,25 @@
 
 import TripleColumnLayout from "@/components/TripleColumnLayout";
 import Link from "next/link";
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
+/**
+ * Home Page - Shows the triple column layout and redirects to /formulations
+ * This provides a clean transition from the old recipe terminology to the new formulation terminology
+ */
 export default function Home() {
+  const router = useRouter();
+  
+  // Redirect to formulations page after a short delay (to allow the page to render first)
+  useEffect(() => {
+    const redirectTimer = setTimeout(() => {
+      router.push('/formulations');
+    }, 1500);
+    
+    return () => clearTimeout(redirectTimer);
+  }, [router]);
+  
   return (
     <div>
       <TripleColumnLayout />
@@ -18,6 +35,11 @@ export default function Home() {
         >
           View Document Interface
         </Link>
+      </div>
+      
+      {/* Redirect notification */}
+      <div className="fixed top-20 left-1/2 transform -translate-x-1/2 bg-green-600 text-white p-4 rounded-lg shadow-lg z-50 animate-pulse">
+        <p className="font-medium">Redirecting to Formulations interface...</p>
       </div>
     </div>
   );

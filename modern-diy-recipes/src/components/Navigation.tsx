@@ -55,9 +55,9 @@ export default function Navigation() {
           
           <div className="flex items-center space-x-1">
             <Link 
-              href="/" 
+              href="/formulations" 
               className={`px-3 py-2 rounded-md transition-colors flex items-center gap-2 ${
-                pathname === '/' 
+                pathname === '/formulations' || pathname === '/'  
                   ? 'bg-surface-2 text-text font-medium' 
                   : 'text-text-secondary hover:text-text hover:bg-surface-2'
               }`}

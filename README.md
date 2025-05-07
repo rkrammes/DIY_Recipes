@@ -1,14 +1,16 @@
-# DIY Recipes
+# DIY Formulations
 
-A web app for managing, analyzing, and iterating on DIY home product recipes (skincare, haircare, etc.).
+A web app for managing, analyzing, and iterating on DIY home product formulations (skincare, haircare, etc.).
+
+> **Note:** Previously called "DIY Recipes" - We've completed a terminology transition from "recipe" to "formulation" to better reflect the purpose of the application. See [TERMINOLOGY_TRANSITION_COMPLETED.md](TERMINOLOGY_TRANSITION_COMPLETED.md) for details.
 
 ---
 
 ## Features
 
 - **Magic Link Authentication** via Supabase
-- **Recipe & Ingredient Management**
-- **CSV Import** for bulk recipe upload
+- **Formulation & Ingredient Management**
+- **CSV Import** for bulk formulation upload
 - **Versioning & Iteration** workflows
 - **Ingredient Analysis** (compatibility, pH, shelf life)
 - **Batch Tracking**
@@ -101,4 +103,4 @@ See [LICENSE](LICENSE).
 
 ## Credits
 
-Built with ❤️ by the DIY Recipes team.
+Built with ❤️ by the DIY Formulations team.

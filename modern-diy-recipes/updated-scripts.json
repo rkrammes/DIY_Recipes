@@ -1,0 +1,41 @@
+{
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    
+    "# Standard Commands": "----------",
+    "dev:enhanced": "chmod +x ./start-any-host.sh && ./start-any-host.sh",
+    "dev:debug": "chmod +x ./start-debug.sh && ./start-debug.sh",
+    "dev:document": "chmod +x ./start-document-mode.sh && ./start-document-mode.sh",
+    
+    "# MCP Integration": "----------",
+    "setup:mcp": "node copy-supabase-mcp-server.js",
+    "start:mcp": "node start-supabase-mcp.js",
+    "dev:with-mcp": "node dev-with-mcp.js",
+    "dev:context7": "chmod +x ./start-with-context7.sh && ./start-with-context7.sh",
+    "verify:mcp": "node verify-mcp-setup.js",
+    
+    "# API and Service Integration": "----------",
+    "dev:with-api": "chmod +x ./start-with-api.sh && ./start-with-api.sh",
+    "dev:with-supabase": "chmod +x ./start-with-supabase.sh && ./start-with-supabase.sh",
+    "start:basic-server": "node basic-server.js",
+    "start:mcp-proxy": "node start-supabase-mcp-proxy.js",
+    
+    "# Testing": "----------",
+    "test": "node run-all-tests.js",
+    "test:puppeteer": "node test-app-with-puppeteer.js",
+    "test:integration": "node test-context7-puppeteer.js",
+    "test:features": "node test-feature-toggle.js",
+    "test:document": "node test-document-centric.js",
+    "test:iterations": "node test-recipe-iterations.js",
+    
+    "# Utilities": "----------",
+    "db:setup": "node run-database-setup.js",
+    "db:supabase-setup": "node run-supabase-setup.js",
+    "db:recipe-ingredients": "node run-create-recipe-ingredients.js",
+    "clean": "rm -rf .next && rm -rf node_modules/.cache",
+    "servers:stop": "chmod +x ./stop-all-servers.sh && ./stop-all-servers.sh"
+  }
+}

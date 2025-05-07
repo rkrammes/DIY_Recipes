@@ -1,5 +1,5 @@
 /**
- * Direct API access for recipe data
+ * Direct API access for formulation data
  * 
  * This module provides direct API fetch functions as a last resort fallback
  * when Supabase connections fail. It uses the standard Fetch API to get data.
@@ -28,18 +28,18 @@ const fetchWithTimeout = async (url: string, options = {}, timeout = REQUEST_TIM
 // Custom API base URL - using our local recipe API server
 const API_BASE_URL = 'http://localhost:3005';
 
-// Fetch all recipes with basic information
-export const fetchRecipes = async (): Promise<Recipe[]> => {
+// Fetch all formulations with basic information
+export const fetchFormulations = async (): Promise<Recipe[]> => {
   try {
     // First try our custom API server on port 3005
     try {
       const customApiUrl = `${API_BASE_URL}/api/recipes`;
-      console.log(`Attempting to fetch recipes from custom API server: ${customApiUrl}`);
+      console.log(`Attempting to fetch formulations from custom API server: ${customApiUrl}`);
       const response = await fetchWithTimeout(customApiUrl, {}, 2000); // Short timeout
       
       if (response.ok) {
         const data = await response.json();
-        console.log(`Successfully fetched ${data.length} recipes from custom API server`);
+        console.log(`Successfully fetched ${data.length} formulations from custom API server`);
         return data;
       } else {
         console.warn(`Custom API server returned ${response.status}, falling back to standard endpoint`);
@@ -51,48 +51,48 @@ export const fetchRecipes = async (): Promise<Recipe[]> => {
     // Fall back to the standard endpoint
     const response = await fetchWithTimeout(ENDPOINTS.recipes.list);
     if (!response.ok) {
-      console.warn(`HTTP error fetching recipes list: ${response.status}, using fallback recipes`);
-      return FALLBACK_RECIPES; // Return fallback recipes instead of empty array
+      console.warn(`HTTP error fetching formulations list: ${response.status}, using fallback formulations`);
+      return FALLBACK_RECIPES; // Return fallback formulations instead of empty array
     }
     const data = await response.json();
     return data && data.length > 0 ? data : FALLBACK_RECIPES;
   } catch (error) {
-    console.error('Error fetching recipes via direct API:', error);
-    // Return fallback recipes
-    console.log('Returning fallback recipe list');
+    console.error('Error fetching formulations via direct API:', error);
+    // Return fallback formulations
+    console.log('Returning fallback formulation list');
     return FALLBACK_RECIPES;
   }
 };
 
-// Fetch a single recipe with detailed information
-export const fetchRecipeById = async (id: string): Promise<Recipe | null> => {
+// Fetch a single formulation with detailed information
+export const fetchFormulationById = async (id: string): Promise<Recipe | null> => {
   try {
-    // First, check if we have a matching fallback recipe
-    const fallbackRecipe = FALLBACK_RECIPES.find(recipe => recipe.id === id);
+    // First, check if we have a matching fallback formulation
+    const fallbackFormulation = FALLBACK_RECIPES.find(recipe => recipe.id === id);
     
-    // If we found a matching fallback recipe, use it
-    if (fallbackRecipe) {
-      console.log(`Found matching fallback recipe for ID ${id}, using it`);
-      return fallbackRecipe;
+    // If we found a matching fallback formulation, use it
+    if (fallbackFormulation) {
+      console.log(`Found matching fallback formulation for ID ${id}, using it`);
+      return fallbackFormulation;
     }
     
     // Try our custom API server first
     try {
       const customApiUrl = `${API_BASE_URL}/api/recipes/${id}`;
-      console.log(`Attempting to fetch recipe from custom API server: ${customApiUrl}`);
+      console.log(`Attempting to fetch formulation from custom API server: ${customApiUrl}`);
       
       const response = await fetchWithTimeout(customApiUrl, {}, 2000); // Short timeout
       
       if (response.ok) {
         try {
           const data = await response.json();
-          console.log(`Successfully fetched recipe from custom API server:`, {
+          console.log(`Successfully fetched formulation from custom API server:`, {
             id: data.id,
             title: data.title
           });
           return data;
         } catch (parseError) {
-          console.warn(`Error parsing recipe JSON from custom API:`, parseError);
+          console.warn(`Error parsing formulation JSON from custom API:`, parseError);
         }
       } else {
         console.warn(`Custom API server returned ${response.status}, falling back to standard endpoint`);
@@ -104,30 +104,30 @@ export const fetchRecipeById = async (id: string): Promise<Recipe | null> => {
     // Fall back to standard API endpoint
     const response = await fetchWithTimeout(ENDPOINTS.recipes.detail(id));
     
-    // If the API endpoint returned a 404, create a basic recipe fallback
+    // If the API endpoint returned a 404, create a basic formulation fallback
     if (response.status === 404) {
-      console.log(`Recipe API endpoint returned 404 for recipe ${id}, creating fallback`);
+      console.log(`Formulation API endpoint returned 404 for formulation ${id}, creating fallback`);
       
-      // Return the first fallback recipe but with the ID modified
+      // Return the first fallback formulation but with the ID modified
       // This ensures we get some data to show
       return {
         ...FALLBACK_RECIPES[0],
         id: id,
-        title: "Sample Recipe",
-        description: "Sample recipe data (API endpoint not available).",
+        title: "Sample Formulation",
+        description: "Sample formulation data (API endpoint not available).",
         user_id: "system"
       };
     }
     
     // Handle other non-successful responses
     if (!response.ok) {
-      console.warn(`HTTP error fetching recipe: ${response.status}`);
-      // For other errors, return a fallback recipe with error info
+      console.warn(`HTTP error fetching formulation: ${response.status}`);
+      // For other errors, return a fallback formulation with error info
       return {
         ...FALLBACK_RECIPES[0],
         id: id,
-        title: "Recipe (Unable to Load)",
-        description: `Error loading recipe: ${response.statusText}`,
+        title: "Formulation (Unable to Load)",
+        description: `Error loading formulation: ${response.statusText}`,
         user_id: "system"
       };
     }
@@ -137,40 +137,40 @@ export const fetchRecipeById = async (id: string): Promise<Recipe | null> => {
       const data = await response.json();
       return data || null;
     } catch (parseError) {
-      console.error(`Error parsing recipe JSON response for ${id}:`, parseError);
+      console.error(`Error parsing formulation JSON response for ${id}:`, parseError);
       return {
         ...FALLBACK_RECIPES[0],
         id: id,
-        title: "Recipe (Parse Error)",
-        description: "Could not parse recipe data from server.",
+        title: "Formulation (Parse Error)",
+        description: "Could not parse formulation data from server.",
         user_id: "system"
       };
     }
   } catch (error) {
-    console.error(`Error fetching recipe ${id} via direct API:`, error);
-    // Network/connection error fallback - use a fallback recipe
+    console.error(`Error fetching formulation ${id} via direct API:`, error);
+    // Network/connection error fallback - use a fallback formulation
     return {
       ...FALLBACK_RECIPES[0],
       id: id,
-      title: "Recipe (Connection Error)",
-      description: "Could not connect to recipe server.",
+      title: "Formulation (Connection Error)",
+      description: "Could not connect to formulation server.",
       user_id: "system"
     };
   }
 };
 
-// Fetch ingredients for a specific recipe
-export const fetchRecipeIngredients = async (recipeId: string): Promise<RecipeIngredient[]> => {
+// Fetch ingredients for a specific formulation
+export const fetchFormulationIngredients = async (formulationId: string): Promise<RecipeIngredient[]> => {
   try {
-    // First, check if we have a matching fallback recipe with ingredients
-    const fallbackRecipe = FALLBACK_RECIPES.find(recipe => recipe.id === recipeId);
+    // First, check if we have a matching fallback formulation with ingredients
+    const fallbackFormulation = FALLBACK_RECIPES.find(recipe => recipe.id === formulationId);
     
-    // If we found a matching fallback recipe with ingredients, use those
-    if (fallbackRecipe && fallbackRecipe.ingredients && fallbackRecipe.ingredients.length > 0) {
-      console.log(`Found matching fallback recipe ingredients for ID ${recipeId}, using them`);
-      return fallbackRecipe.ingredients.map(ing => ({
+    // If we found a matching fallback formulation with ingredients, use those
+    if (fallbackFormulation && fallbackFormulation.ingredients && fallbackFormulation.ingredients.length > 0) {
+      console.log(`Found matching fallback formulation ingredients for ID ${formulationId}, using them`);
+      return fallbackFormulation.ingredients.map(ing => ({
         id: ing.id || `i-${Math.random().toString(36).substring(2, 9)}`,
-        recipe_id: recipeId,
+        recipe_id: formulationId,
         ingredient_id: ing.id || `i-${Math.random().toString(36).substring(2, 9)}`,
         quantity: ing.quantity || 0,
         unit: ing.unit || '',
@@ -179,21 +179,21 @@ export const fetchRecipeIngredients = async (recipeId: string): Promise<RecipeIn
     }
     
     // Otherwise, try to fetch from the API
-    const response = await fetchWithTimeout(ENDPOINTS.recipes.ingredients(recipeId));
+    const response = await fetchWithTimeout(ENDPOINTS.recipes.ingredients(formulationId));
     
-    // For any non-successful response, use the first fallback recipe's ingredients
+    // For any non-successful response, use the first fallback formulation's ingredients
     if (!response.ok) {
       if (response.status === 404) {
-        console.log(`Ingredients API endpoint not available for recipe ${recipeId}`);
+        console.log(`Ingredients API endpoint not available for formulation ${formulationId}`);
       } else {
         console.warn(`HTTP error fetching ingredients: ${response.status}`);
       }
       
-      // Use ingredients from the first fallback recipe
+      // Use ingredients from the first fallback formulation
       if (FALLBACK_RECIPES[0].ingredients && FALLBACK_RECIPES[0].ingredients.length > 0) {
         return FALLBACK_RECIPES[0].ingredients.map(ing => ({
           id: ing.id || `i-${Math.random().toString(36).substring(2, 9)}`,
-          recipe_id: recipeId,
+          recipe_id: formulationId,
           ingredient_id: ing.id || `i-${Math.random().toString(36).substring(2, 9)}`,
           quantity: ing.quantity || 0,
           unit: ing.unit || '',
@@ -214,7 +214,7 @@ export const fetchRecipeIngredients = async (recipeId: string): Promise<RecipeIn
         if (FALLBACK_RECIPES[0].ingredients && FALLBACK_RECIPES[0].ingredients.length > 0) {
           return FALLBACK_RECIPES[0].ingredients.map(ing => ({
             id: ing.id || `i-${Math.random().toString(36).substring(2, 9)}`,
-            recipe_id: recipeId,
+            recipe_id: formulationId,
             ingredient_id: ing.id || `i-${Math.random().toString(36).substring(2, 9)}`,
             quantity: ing.quantity || 0,
             unit: ing.unit || '',
@@ -228,22 +228,22 @@ export const fetchRecipeIngredients = async (recipeId: string): Promise<RecipeIn
       return [];
     }
   } catch (error) {
-    console.error(`Error fetching ingredients for recipe ${recipeId} via direct API:`, error);
+    console.error(`Error fetching ingredients for formulation ${formulationId} via direct API:`, error);
     return [];
   }
 };
 
-// Fetch iterations for a specific recipe
-export const fetchRecipeIterations = async (recipeId: string): Promise<RecipeIteration[]> => {
+// Fetch versions for a specific formulation
+export const fetchFormulationVersions = async (formulationId: string): Promise<RecipeIteration[]> => {
   try {
-    const response = await fetchWithTimeout(ENDPOINTS.recipes.iterations(recipeId));
+    const response = await fetchWithTimeout(ENDPOINTS.recipes.iterations(formulationId));
     // If the endpoint doesn't exist (404) or another error, just return empty array
-    // This is normal if the iterations feature is not available
+    // This is normal if the versions feature is not available
     if (!response.ok) {
       if (response.status === 404) {
-        console.log(`Iterations API endpoint not available for recipe ${recipeId}`);
+        console.log(`Versions API endpoint not available for formulation ${formulationId}`);
       } else {
-        console.warn(`HTTP error fetching iterations: ${response.status}`);
+        console.warn(`HTTP error fetching versions: ${response.status}`);
       }
       return [];
     }
@@ -252,11 +252,11 @@ export const fetchRecipeIterations = async (recipeId: string): Promise<RecipeIte
       const data = await response.json();
       return data || [];
     } catch (parseError) {
-      console.warn(`Error parsing iterations JSON response:`, parseError);
+      console.warn(`Error parsing versions JSON response:`, parseError);
       return [];
     }
   } catch (error) {
-    console.error(`Error fetching iterations for recipe ${recipeId} via direct API:`, error);
+    console.error(`Error fetching versions for formulation ${formulationId} via direct API:`, error);
     return [];
   }
 };
@@ -275,3 +275,9 @@ export const fetchIngredients = async (): Promise<Ingredient[]> => {
     return [];
   }
 };
+
+// Maintain backward compatibility with original function names
+export const fetchRecipes = fetchFormulations;
+export const fetchRecipeById = fetchFormulationById;
+export const fetchRecipeIngredients = fetchFormulationIngredients;
+export const fetchRecipeIterations = fetchFormulationVersions;

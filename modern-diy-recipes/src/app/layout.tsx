@@ -3,6 +3,7 @@ import ThemeScript from "../components/ThemeScript";
 import { AuthProvider } from "../providers/AuthProvider";
 import { FixedThemeProvider } from "../providers/FixedThemeProvider";
 import ClientFontsWrapper from "../components/ClientFontsWrapper";
+import { ModuleProvider } from "../lib/modules/moduleContext";
 import "./globals.css";
 import "../styles/inline-fonts.css";
 
@@ -19,6 +20,7 @@ export default function RootLayout({
   /**
    * This root layout uses a console-style layout for sci-fi retro-futuristic UI.
    * It imports client-side components dynamically to avoid SSR issues.
+   * It also provides the Module Registry to all components via ModuleProvider.
    */
   
   return (
@@ -39,8 +41,10 @@ export default function RootLayout({
         <div className="theme-background" aria-hidden="true" />
         <FixedThemeProvider>
           <AuthProvider>
-            {/* Pass children directly, TripleColumnLayout will be applied in page.tsx */}
-            {children}
+            <ModuleProvider>
+              {/* Pass children directly, TripleColumnLayout will be applied in page.tsx */}
+              {children}
+            </ModuleProvider>
           </AuthProvider>
         </FixedThemeProvider>
         <ClientFontsWrapper />
