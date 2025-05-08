@@ -11,6 +11,7 @@ import { supabase } from '@/lib/supabase';
 interface KraftTerminalModularLayoutProps {
   children: ReactNode;
   className?: string;
+  onItemSelected?: (id: string | null) => void;
 }
 
 /**
@@ -22,7 +23,8 @@ interface KraftTerminalModularLayoutProps {
  */
 export default function KraftTerminalModularLayout({
   children,
-  className = ''
+  className = '',
+  onItemSelected
 }: KraftTerminalModularLayoutProps) {
   const { theme, setTheme, audioEnabled, setAudioEnabled } = useTheme();
   const { playSound } = useAudio();
@@ -175,6 +177,11 @@ export default function KraftTerminalModularLayout({
   const handleItemSelect = (id: string | null) => {
     setSelectedItemId(id);
     if (id !== null && audioEnabled) playSound('click');
+    
+    // Call the onItemSelected callback if provided
+    if (onItemSelected) {
+      onItemSelected(id);
+    }
   };
   
   // Get items for the second column based on active section
