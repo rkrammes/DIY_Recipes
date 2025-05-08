@@ -1,0 +1,633 @@
+   ▲ Next.js 15.3.0
+   - Local:        http://localhost:3000
+   - Network:      http://10.4.45.43:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 990ms
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 673ms (248 modules)
+[2025-05-07T20:04:05.012Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ○ Compiling / ...
+ ✓ Compiled / in 3.9s (1109 modules)
+Module "DIY Formulations" (formulations) registered successfully
+ GET / 200 in 4239ms
+[2025-05-07T20:04:09.488Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/_next/static/css/app/layout.css?v=1746648249124
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:09.544Z] Request: HEAD /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:09.552Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:09.552Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:09.553Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:09.553Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:09.564Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:09.571Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:09.571Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+ ✓ Compiled /favicon.ico in 412ms (594 modules)
+ GET /favicon.ico 200 in 472ms
+ GET /favicon.ico 200 in 4ms
+[2025-05-07T20:04:11.537Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+Module "DIY Formulations" (formulations) registered successfully
+ GET / 200 in 100ms
+[2025-05-07T20:04:11.659Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:11.659Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:11.660Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+ GET /favicon.ico 200 in 7ms
+ GET /favicon.ico 200 in 8ms
+[2025-05-07T20:04:12.100Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/_next/static/css/app/layout.css?v=1746648251561
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.179Z] Request: HEAD /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.180Z] Request: HEAD /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.180Z] Request: HEAD /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.180Z] Request: HEAD /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.181Z] Request: HEAD /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.182Z] Request: HEAD /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.201Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+[2025-05-07T20:04:12.208Z] Request: HEAD /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.209Z] Request: HEAD /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.209Z] Request: HEAD /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.209Z] Request: HEAD /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.209Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.209Z] Request: HEAD /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.226Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.226Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.227Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.227Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.227Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.262Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.284Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.285Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.294Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.295Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.295Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+ GET / 200 in 97ms
+ GET /favicon.ico 200 in 5ms
+ GET /favicon.ico 200 in 8ms
+[2025-05-07T20:04:12.517Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/_next/static/css/app/layout.css?v=1746648252230
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.573Z] Request: HEAD /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.574Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.574Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.575Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.575Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.575Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.591Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.592Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.594Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.594Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.594Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:04:12.594Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+ GET /favicon.ico 200 in 4ms
+   Reload env: .env.local
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+[2025-05-07T20:08:13.970Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ✓ Compiled in 1728ms (1357 modules)
+Module "DIY Formulations" (formulations) registered successfully
+ GET / 200 in 852ms
+[2025-05-07T20:08:14.875Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+[2025-05-07T20:08:15.113Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+ ✓ Compiled /favicon.ico in 81ms (594 modules)
+ GET /favicon.ico 200 in 121ms
+ GET /favicon.ico 200 in 4ms
+[2025-05-07T20:08:15.162Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:08:15.162Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:08:15.168Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:08:15.170Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:08:15.171Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:08:15.175Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T20:08:15.175Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/_next/static/css/app/layout.css?v=1746648494765
+- Host: localhost:3000
+- IP: unknown
+ ⨯ ./node_modules/lucide-react/dist/esm/icons/award.js
+Error: Failed to read source code from /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/lucide-react/dist/esm/icons/award.js
+
+Caused by:
+    No such file or directory (os error 2)
+
+Import trace for requested module:
+./node_modules/lucide-react/dist/esm/icons/award.js
+__barrel_optimize__?names=AlertTriangle,Award,BookOpen,Check,ChevronLeft,ChevronRight,Clock,Copy,Edit,MessageSquare,Plus,PlusCircle,Printer,Scale,Timer,Trash!=!./node_modules/lucide-react/dist/esm/lucide-react.js
+./src/components/DocumentCentricRecipe.tsx
+./src/components/RecipeDetails.tsx
+./src/components/FormulationDetails.tsx
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/page.tsx
+ ⨯ ./node_modules/lucide-react/dist/esm/icons/award.js
+Error: Failed to read source code from /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/lucide-react/dist/esm/icons/award.js
+
+Caused by:
+    No such file or directory (os error 2)
+
+Import trace for requested module:
+./node_modules/lucide-react/dist/esm/icons/award.js
+__barrel_optimize__?names=AlertTriangle,Award,BookOpen,Check,ChevronLeft,ChevronRight,Clock,Copy,Edit,MessageSquare,Plus,PlusCircle,Printer,Scale,Timer,Trash!=!./node_modules/lucide-react/dist/esm/lucide-react.js
+./src/components/DocumentCentricRecipe.tsx
+./src/components/RecipeDetails.tsx
+./src/components/FormulationDetails.tsx
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/page.tsx
+ ⨯ ./node_modules/lucide-react/dist/esm/icons/award.js
+Error: Failed to read source code from /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/lucide-react/dist/esm/icons/award.js
+
+Caused by:
+    No such file or directory (os error 2)
+
+Import trace for requested module:
+./node_modules/lucide-react/dist/esm/icons/award.js
+__barrel_optimize__?names=AlertTriangle,Award,BookOpen,Check,ChevronLeft,ChevronRight,Clock,Copy,Edit,MessageSquare,Plus,PlusCircle,Printer,Scale,Timer,Trash!=!./node_modules/lucide-react/dist/esm/lucide-react.js
+./src/components/DocumentCentricRecipe.tsx
+./src/components/RecipeDetails.tsx
+./src/components/FormulationDetails.tsx
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/page.tsx
+ ⨯ ./node_modules/lucide-react/dist/esm/icons/award.js
+Error: Failed to read source code from /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/lucide-react/dist/esm/icons/award.js
+
+Caused by:
+    No such file or directory (os error 2)
+
+Import trace for requested module:
+./node_modules/lucide-react/dist/esm/icons/award.js
+__barrel_optimize__?names=AlertTriangle,Award,BookOpen,Check,ChevronLeft,ChevronRight,Clock,Copy,Edit,MessageSquare,Plus,PlusCircle,Printer,Scale,Timer,Trash!=!./node_modules/lucide-react/dist/esm/lucide-react.js
+./src/components/DocumentCentricRecipe.tsx
+./src/components/RecipeDetails.tsx
+./src/components/FormulationDetails.tsx
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/page.tsx
+ ⨯ ./node_modules/lucide-react/dist/esm/icons/award.js
+Error: Failed to read source code from /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/lucide-react/dist/esm/icons/award.js
+
+Caused by:
+    No such file or directory (os error 2)
+
+Import trace for requested module:
+./node_modules/lucide-react/dist/esm/icons/award.js
+__barrel_optimize__?names=AlertTriangle,Award,BookOpen,Check,ChevronLeft,ChevronRight,Clock,Copy,Edit,MessageSquare,Plus,PlusCircle,Printer,Scale,Timer,Trash!=!./node_modules/lucide-react/dist/esm/lucide-react.js
+./src/components/DocumentCentricRecipe.tsx
+./src/components/RecipeDetails.tsx
+./src/components/FormulationDetails.tsx
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/page.tsx
+ ⨯ ./node_modules/lucide-react/dist/esm/icons/award.js
+Error: Failed to read source code from /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/lucide-react/dist/esm/icons/award.js
+
+Caused by:
+    No such file or directory (os error 2)
+
+Import trace for requested module:
+./node_modules/lucide-react/dist/esm/icons/award.js
+__barrel_optimize__?names=AlertTriangle,Award,BookOpen,Check,ChevronLeft,ChevronRight,Clock,Copy,Edit,MessageSquare,Plus,PlusCircle,Printer,Scale,Timer,Trash!=!./node_modules/lucide-react/dist/esm/lucide-react.js
+./src/components/DocumentCentricRecipe.tsx
+./src/components/RecipeDetails.tsx
+./src/components/FormulationDetails.tsx
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/page.tsx
+ ⨯ ./node_modules/lucide-react/dist/esm/icons/award.js
+Error: Failed to read source code from /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/lucide-react/dist/esm/icons/award.js
+
+Caused by:
+    No such file or directory (os error 2)
+
+Import trace for requested module:
+./node_modules/lucide-react/dist/esm/icons/award.js
+__barrel_optimize__?names=AlertTriangle,Award,BookOpen,Check,ChevronLeft,ChevronRight,Clock,Copy,Edit,MessageSquare,Plus,PlusCircle,Printer,Scale,Timer,Trash!=!./node_modules/lucide-react/dist/esm/lucide-react.js
+./src/components/DocumentCentricRecipe.tsx
+./src/components/RecipeDetails.tsx
+./src/components/FormulationDetails.tsx
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/page.tsx
+ ⨯ ./node_modules/lucide-react/dist/esm/icons/award.js
+Error: Failed to read source code from /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/lucide-react/dist/esm/icons/award.js
+
+Caused by:
+    No such file or directory (os error 2)
+
+Import trace for requested module:
+./node_modules/lucide-react/dist/esm/icons/award.js
+__barrel_optimize__?names=AlertTriangle,Award,BookOpen,Check,ChevronLeft,ChevronRight,Clock,Copy,Edit,MessageSquare,Plus,PlusCircle,Printer,Scale,Timer,Trash!=!./node_modules/lucide-react/dist/esm/lucide-react.js
+./src/components/DocumentCentricRecipe.tsx
+./src/components/RecipeDetails.tsx
+./src/components/FormulationDetails.tsx
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/page.tsx
+ ⨯ ./node_modules/lucide-react/dist/esm/icons/award.js
+Error: Failed to read source code from /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/lucide-react/dist/esm/icons/award.js
+
+Caused by:
+    No such file or directory (os error 2)
+
+Import trace for requested module:
+./node_modules/lucide-react/dist/esm/icons/award.js
+__barrel_optimize__?names=AlertTriangle,Award,BookOpen,Check,ChevronLeft,ChevronRight,Clock,Copy,Edit,MessageSquare,Plus,PlusCircle,Printer,Scale,Timer,Trash!=!./node_modules/lucide-react/dist/esm/lucide-react.js
+./src/components/DocumentCentricRecipe.tsx
+./src/components/RecipeDetails.tsx
+./src/components/FormulationDetails.tsx
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/page.tsx
+ ⨯ ./node_modules/lucide-react/dist/esm/icons/award.js
+Error: Failed to read source code from /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/lucide-react/dist/esm/icons/award.js
+
+Caused by:
+    No such file or directory (os error 2)
+
+Import trace for requested module:
+./node_modules/lucide-react/dist/esm/icons/award.js
+__barrel_optimize__?names=AlertTriangle,Award,BookOpen,Check,ChevronLeft,ChevronRight,Clock,Copy,Edit,MessageSquare,Plus,PlusCircle,Printer,Scale,Timer,Trash!=!./node_modules/lucide-react/dist/esm/lucide-react.js
+./src/components/DocumentCentricRecipe.tsx
+./src/components/RecipeDetails.tsx
+./src/components/FormulationDetails.tsx
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/page.tsx
+ ⨯ ./node_modules/lucide-react/dist/esm/icons/award.js
+Error: Failed to read source code from /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/lucide-react/dist/esm/icons/award.js
+
+Caused by:
+    No such file or directory (os error 2)
+
+Import trace for requested module:
+./node_modules/lucide-react/dist/esm/icons/award.js
+__barrel_optimize__?names=AlertTriangle,Award,BookOpen,Check,ChevronLeft,ChevronRight,Clock,Copy,Edit,MessageSquare,Plus,PlusCircle,Printer,Scale,Timer,Trash!=!./node_modules/lucide-react/dist/esm/lucide-react.js
+./src/components/DocumentCentricRecipe.tsx
+./src/components/RecipeDetails.tsx
+./src/components/FormulationDetails.tsx
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/page.tsx
+ ⨯ ./node_modules/lucide-react/dist/esm/icons/award.js
+Error: Failed to read source code from /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/lucide-react/dist/esm/icons/award.js
+
+Caused by:
+    No such file or directory (os error 2)
+
+Import trace for requested module:
+./node_modules/lucide-react/dist/esm/icons/award.js
+__barrel_optimize__?names=AlertTriangle,Award,BookOpen,Check,ChevronLeft,ChevronRight,Clock,Copy,Edit,MessageSquare,Plus,PlusCircle,Printer,Scale,Timer,Trash!=!./node_modules/lucide-react/dist/esm/lucide-react.js
+./src/components/DocumentCentricRecipe.tsx
+./src/components/RecipeDetails.tsx
+./src/components/FormulationDetails.tsx
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/page.tsx
+ ⨯ ./node_modules/lucide-react/dist/esm/icons/award.js
+Error: Failed to read source code from /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/lucide-react/dist/esm/icons/award.js
+
+Caused by:
+    No such file or directory (os error 2)
+
+Import trace for requested module:
+./node_modules/lucide-react/dist/esm/icons/award.js
+__barrel_optimize__?names=AlertTriangle,Award,BookOpen,Check,ChevronLeft,ChevronRight,Clock,Copy,Edit,MessageSquare,Plus,PlusCircle,Printer,Scale,Timer,Trash!=!./node_modules/lucide-react/dist/esm/lucide-react.js
+./src/components/DocumentCentricRecipe.tsx
+./src/components/RecipeDetails.tsx
+./src/components/FormulationDetails.tsx
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/page.tsx
+ ⨯ ./node_modules/lucide-react/dist/esm/icons/award.js
+Error: Failed to read source code from /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/lucide-react/dist/esm/icons/award.js
+
+Caused by:
+    No such file or directory (os error 2)
+
+Import trace for requested module:
+./node_modules/lucide-react/dist/esm/icons/award.js
+__barrel_optimize__?names=AlertTriangle,Award,BookOpen,Check,ChevronLeft,ChevronRight,Clock,Copy,Edit,MessageSquare,Plus,PlusCircle,Printer,Scale,Timer,Trash!=!./node_modules/lucide-react/dist/esm/lucide-react.js
+./src/components/DocumentCentricRecipe.tsx
+./src/components/RecipeDetails.tsx
+./src/components/FormulationDetails.tsx
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/page.tsx
+ ⨯ ./node_modules/lucide-react/dist/esm/icons/award.js
+Error: Failed to read source code from /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/lucide-react/dist/esm/icons/award.js
+
+Caused by:
+    No such file or directory (os error 2)
+
+Import trace for requested module:
+./node_modules/lucide-react/dist/esm/icons/award.js
+__barrel_optimize__?names=AlertTriangle,Award,BookOpen,Check,ChevronLeft,ChevronRight,Clock,Copy,Edit,MessageSquare,Plus,PlusCircle,Printer,Scale,Timer,Trash!=!./node_modules/lucide-react/dist/esm/lucide-react.js
+./src/components/DocumentCentricRecipe.tsx
+./src/components/RecipeDetails.tsx
+./src/components/FormulationDetails.tsx
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/page.tsx
+ ⨯ ./node_modules/lucide-react/dist/esm/icons/award.js
+Error: Failed to read source code from /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/lucide-react/dist/esm/icons/award.js
+
+Caused by:
+    No such file or directory (os error 2)
+
+Import trace for requested module:
+./node_modules/lucide-react/dist/esm/icons/award.js
+__barrel_optimize__?names=AlertTriangle,Award,BookOpen,Check,ChevronLeft,ChevronRight,Clock,Copy,Edit,MessageSquare,Plus,PlusCircle,Printer,Scale,Timer,Trash!=!./node_modules/lucide-react/dist/esm/lucide-react.js
+./src/components/DocumentCentricRecipe.tsx
+./src/components/RecipeDetails.tsx
+./src/components/FormulationDetails.tsx
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/page.tsx
+ ⨯ ./node_modules/lucide-react/dist/esm/icons/award.js
+Error: Failed to read source code from /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/lucide-react/dist/esm/icons/award.js
+
+Caused by:
+    No such file or directory (os error 2)
+
+Import trace for requested module:
+./node_modules/lucide-react/dist/esm/icons/award.js
+__barrel_optimize__?names=AlertTriangle,Award,BookOpen,Check,ChevronLeft,ChevronRight,Clock,Copy,Edit,MessageSquare,Plus,PlusCircle,Printer,Scale,Timer,Trash!=!./node_modules/lucide-react/dist/esm/lucide-react.js
+./src/components/DocumentCentricRecipe.tsx
+./src/components/RecipeDetails.tsx
+./src/components/FormulationDetails.tsx
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/page.tsx
+ ⨯ ./node_modules/lucide-react/dist/esm/icons/award.js
+Error: Failed to read source code from /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/lucide-react/dist/esm/icons/award.js
+
+Caused by:
+    No such file or directory (os error 2)
+
+Import trace for requested module:
+./node_modules/lucide-react/dist/esm/icons/award.js
+__barrel_optimize__?names=AlertTriangle,Award,BookOpen,Check,ChevronLeft,ChevronRight,Clock,Copy,Edit,MessageSquare,Plus,PlusCircle,Printer,Scale,Timer,Trash!=!./node_modules/lucide-react/dist/esm/lucide-react.js
+./src/components/DocumentCentricRecipe.tsx
+./src/components/RecipeDetails.tsx
+./src/components/FormulationDetails.tsx
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/page.tsx
+ ⨯ ./node_modules/lucide-react/dist/esm/icons/award.js
+Error: Failed to read source code from /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/lucide-react/dist/esm/icons/award.js
+
+Caused by:
+    No such file or directory (os error 2)
+
+Import trace for requested module:
+./node_modules/lucide-react/dist/esm/icons/award.js
+__barrel_optimize__?names=AlertTriangle,Award,BookOpen,Check,ChevronLeft,ChevronRight,Clock,Copy,Edit,MessageSquare,Plus,PlusCircle,Printer,Scale,Timer,Trash!=!./node_modules/lucide-react/dist/esm/lucide-react.js
+./src/components/DocumentCentricRecipe.tsx
+./src/components/RecipeDetails.tsx
+./src/components/FormulationDetails.tsx
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/page.tsx
+[?25h

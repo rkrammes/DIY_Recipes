@@ -1,0 +1,284 @@
+<!DOCTYPE html><html lang="en" data-theme="hackers" style="color-scheme: dark; background-color: rgb(10, 14, 18);" class="hackers"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/_next/static/css/app/layout.css?v=1746636454292" data-precedence="next_static/css/app/layout.css"><link rel="preload" as="script" fetchpriority="low" href="/_next/static/chunks/webpack.js?v=1746636454292"><script src="/_next/static/chunks/main-app.js?v=1746636454292" async=""></script><script src="/_next/static/chunks/app-pages-internals.js" async=""></script><script src="/_next/static/chunks/app/layout.js" async=""></script><link rel="preload" href="/fonts/JetBrainsMono-Regular.woff2?v=2" as="font" type="font/woff2" crossorigin="anonymous"><link rel="preload" href="/fonts/Px437_IBM_VGA_8x16.woff?v=2" as="font" type="font/woff" crossorigin="anonymous"><link rel="preload" href="/fonts/Share_Tech_Mono.woff?v=2" as="font" type="font/woff" crossorigin="anonymous"><script id="theme-script">
+          (function() {
+            try {
+              // IMPORTANT: This script runs before React hydration and should
+              // only handle the initial theme to prevent FOUC (Flash of Unstyled Content)
+              // Full theming functionality is handled by the ThemeProvider.
+              
+              // Get theme from localStorage with fallback to system preference
+              let storedTheme;
+              try {
+                storedTheme = localStorage.getItem('theme');
+              } catch (storageError) {
+                console.warn('LocalStorage access error:', storageError);
+              }
+              
+              // Determine theme
+              let theme;
+              const validThemes = ['hackers', 'dystopia', 'neotopia'];
+              
+              // If we have a stored theme, use it if valid
+              if (storedTheme) {
+                if (validThemes.includes(storedTheme)) {
+                  theme = storedTheme;
+                } else {
+                  // Fallback to system preference
+                  try {
+                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'hackers' : 'neotopia';
+                  } catch (mediaError) {
+                    console.warn('Media query error:', mediaError);
+                    theme = 'hackers'; // Default fallback
+                  }
+                }
+              } else {
+                // No stored theme, use system preference
+                try {
+                  theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'hackers' : 'neotopia';
+                } catch (mediaError) {
+                  console.warn('Media query error:', mediaError);
+                  theme = 'hackers'; // Default fallback
+                }
+              }
+              
+              // Set data-theme attribute for CSS selector matching
+              document.documentElement.setAttribute('data-theme', theme);
+              
+              // Apply base styles immediately to prevent FOUC
+              document.documentElement.style.setProperty('color-scheme', 
+                theme === 'neotopia' ? 'light' : 'dark');
+              
+              // Apply minimal theme background color directly to minimize flashing
+              // The ThemeProvider will take over once it's mounted
+              const themeColors = {"hackers":{"bg":"#0a0e12","text":"#33ff33","accent":"#ff00ff"},"dystopia":{"bg":"#1a1a2e","text":"#e94560","accent":"#16213e"},"neotopia":{"bg":"#f5f5f5","text":"#121212","accent":"#3a86ff"}};
+              if (themeColors[theme]) {
+                document.documentElement.style.setProperty('background-color', themeColors[theme].bg);
+                
+                // Don't set other properties that will be handled by ThemeProvider
+                // to avoid conflicts and double initialization
+              }
+              
+              // NOTE: We don't set up event listeners here as those will be handled
+              // by the proper React ThemeProvider once it's mounted
+              
+              // Store a flag to indicate this script ran successfully
+              window.__themeScriptExecuted = true;
+            } catch (e) {
+              console.warn('Theme initialization error:', e);
+              // Minimal fallback to ensure at least something renders
+              document.documentElement.setAttribute('data-theme', 'hackers');
+              document.documentElement.style.setProperty('color-scheme', 'dark');
+            }
+          })();
+        </script><script src="/_next/static/chunks/polyfills.js" nomodule=""></script><style>@font-face{font-family:'__nextjs-Geist';font-style:normal;font-weight:400 600;font-display:swap;src:url(/__nextjs_font/geist-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}@font-face{font-family:'__nextjs-Geist Mono';font-style:normal;font-weight:400 600;font-display:swap;src:url(/__nextjs_font/geist-mono-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}@font-face{font-family:'__nextjs-Geist';font-style:normal;font-weight:400 600;font-display:swap;src:url(/__nextjs_font/geist-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'__nextjs-Geist Mono';font-style:normal;font-weight:400 600;font-display:swap;src:url(/__nextjs_font/geist-mono-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style><title>KRAFT_AI</title><meta name="description" content="KRAFT_AI - Advanced recipe formulation and tracking system"><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"><style>
+        @font-face {
+          font-family: 'IBM Plex Mono';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url('/fonts/IBMPlexMono-Regular.woff2?v=3') format('woff2');
+        }
+        
+        @font-face {
+          font-family: 'IBM Plex Mono';
+          font-style: normal;
+          font-weight: 500;
+          font-display: swap;
+          src: url('/fonts/IBMPlexMono-Medium.woff2?v=3') format('woff2');
+        }
+        
+        @font-face {
+          font-family: 'IBM Plex Mono';
+          font-style: normal;
+          font-weight: 700;
+          font-display: swap;
+          src: url('/fonts/IBMPlexMono-Bold.woff2?v=3') format('woff2');
+        }
+        
+        @font-face {
+          font-family: 'JetBrains Mono';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url('/fonts/JetBrainsMono-Regular.woff2?v=2') format('woff2');
+        }
+        
+        @font-face {
+          font-family: 'Px437 IBM VGA';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url('/fonts/Px437_IBM_VGA_8x16.woff?v=2') format('woff');
+        }
+        
+        @font-face {
+          font-family: 'Share Tech Mono';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url('/fonts/Share_Tech_Mono.woff?v=2') format('woff');
+        }
+        
+        /* Fallback stacks if font loading fails */
+        .font-ibm-plex-mono-failed .font-ibm-plex-mono, 
+        .font-ibm-plex-mono-failed [data-theme="neotopia"] body,
+        .font-ibm-plex-mono-failed [data-theme="paper-ledger"] body {
+          font-family: Consolas, "Courier New", monospace !important;
+        }
+      </style><link rel="preload" href="/fonts/JetBrainsMono-Regular.woff2?v=2" as="font" type="font/woff" crossorigin="anonymous"><link rel="preload" href="/fonts/Px437_IBM_VGA_8x16.woff?v=2" as="font" type="font/woff" crossorigin="anonymous"><link rel="preload" href="/fonts/Share_Tech_Mono.woff?v=2" as="font" type="font/woff" crossorigin="anonymous"><style>
+        @font-face {
+          font-family: 'IBM Plex Mono';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url('/fonts/IBMPlexMono-Regular.woff2?v=3') format('woff2');
+        }
+        
+        @font-face {
+          font-family: 'IBM Plex Mono';
+          font-style: normal;
+          font-weight: 500;
+          font-display: swap;
+          src: url('/fonts/IBMPlexMono-Medium.woff2?v=3') format('woff2');
+        }
+        
+        @font-face {
+          font-family: 'IBM Plex Mono';
+          font-style: normal;
+          font-weight: 700;
+          font-display: swap;
+          src: url('/fonts/IBMPlexMono-Bold.woff2?v=3') format('woff2');
+        }
+        
+        @font-face {
+          font-family: 'JetBrains Mono';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url('/fonts/JetBrainsMono-Regular.woff2?v=2') format('woff2');
+        }
+        
+        @font-face {
+          font-family: 'Px437 IBM VGA';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url('/fonts/Px437_IBM_VGA_8x16.woff?v=2') format('woff');
+        }
+        
+        @font-face {
+          font-family: 'Share Tech Mono';
+          font-style: normal;
+          font-weight: 400;
+          font-display: swap;
+          src: url('/fonts/Share_Tech_Mono.woff?v=2') format('woff');
+        }
+        
+        /* Fallback stacks if font loading fails */
+        .font-ibm-plex-mono-failed .font-ibm-plex-mono, 
+        .font-ibm-plex-mono-failed [data-theme="neotopia"] body,
+        .font-ibm-plex-mono-failed [data-theme="paper-ledger"] body {
+          font-family: Consolas, "Courier New", monospace !important;
+        }
+      </style><style id="font-styles-1746636454557">
+      /* Don't include IBM Plex Mono fonts as they are currently broken */
+      
+      @font-face {
+        font-family: 'JetBrains Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('/fonts/JetBrainsMono-Regular.woff2?v=2') format('woff2');
+      }
+      
+      @font-face {
+        font-family: 'Px437 IBM VGA';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('/fonts/Px437_IBM_VGA_8x16.woff?v=2') format('woff');
+      }
+      
+      @font-face {
+        font-family: 'Share Tech Mono';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('/fonts/Share_Tech_Mono.woff?v=2') format('woff');
+      }
+      
+      /* Add fallback font stacks for IBM Plex Mono since it's broken */
+      .font-mono,
+      [data-theme="neotopia"] .font-mono,
+      [data-theme="paper-ledger"] .font-mono {
+        font-family: Consolas, 'Courier New', monospace !important;
+      }
+      
+      /* Use fallbacks for IBM Plex Mono in theme variables */
+      :root {
+        --font-mono: Consolas, 'Courier New', monospace;
+      }
+      
+      [data-theme="neotopia"] {
+        --font-body: Consolas, 'Courier New', monospace;
+        --font-heading: Consolas, 'Courier New', monospace;
+        --font-mono: Consolas, 'Courier New', monospace;
+        --font-display: Consolas, 'Courier New', monospace;
+        --font-terminal: Consolas, 'Courier New', monospace;
+      }
+      
+      [data-theme="paper-ledger"] {
+        --font-body: Consolas, 'Courier New', monospace;
+        --font-heading: Consolas, 'Courier New', monospace;
+        --font-mono: Consolas, 'Courier New', monospace;
+        --font-display: Consolas, 'Courier New', monospace;
+        --font-terminal: Consolas, 'Courier New', monospace;
+      }
+    </style><link rel="preload" href="/fonts/JetBrainsMono-Regular.woff2?v=2" as="font" type="font/woff" crossorigin="anonymous"><link rel="preload" href="/fonts/Px437_IBM_VGA_8x16.woff?v=2" as="font" type="font/woff" crossorigin="anonymous"><link rel="preload" href="/fonts/Share_Tech_Mono.woff?v=2" as="font" type="font/woff" crossorigin="anonymous"><link rel="preload" href="/fonts/IBMPlexMono-Medium.woff2?v=1746636454570" as="font" type="font/woff2" crossorigin="anonymous"><style>
+        .font-ibm-plex-mono-failed .font-ibm-plex-mono {
+          font-family: Consolas, "Courier New", monospace !important;
+        }
+      </style><link rel="preload" href="/fonts/IBMPlexMono-Regular.woff2?v=1746636454571" as="font" type="font/woff2" crossorigin="anonymous"><style>
+        .font-ibm-plex-mono-failed .font-ibm-plex-mono {
+          font-family: Consolas, "Courier New", monospace !important;
+        }
+      </style><link rel="preload" href="/fonts/JetBrainsMono-Regular.woff2?v=1746636454571" as="font" type="font/woff2" crossorigin="anonymous"><link rel="preload" href="/fonts/IBMPlexMono-Bold.woff2?v=1746636454571" as="font" type="font/woff2" crossorigin="anonymous"><style>
+        .font-ibm-plex-mono-failed .font-ibm-plex-mono {
+          font-family: Consolas, "Courier New", monospace !important;
+        }
+      </style><link rel="preload" href="/fonts/Px437_IBM_VGA_8x16.woff?v=1746636454576" as="font" type="font/woff" crossorigin="anonymous"><link rel="preload" href="/fonts/Share_Tech_Mono.woff?v=1746636454576" as="font" type="font/woff" crossorigin="anonymous"><link rel="preload" href="/fonts/IBMPlexMono-Regular.woff2?v=1746636454580" as="font" type="font/woff2" crossorigin="anonymous"><style>
+        .font-ibm-plex-mono-failed .font-ibm-plex-mono {
+          font-family: Consolas, "Courier New", monospace !important;
+        }
+      </style><link rel="preload" href="/fonts/IBMPlexMono-Medium.woff2?v=1746636454580" as="font" type="font/woff2" crossorigin="anonymous"><style>
+        .font-ibm-plex-mono-failed .font-ibm-plex-mono {
+          font-family: Consolas, "Courier New", monospace !important;
+        }
+      </style><link rel="preload" href="/fonts/JetBrainsMono-Regular.woff2?v=1746636454581" as="font" type="font/woff2" crossorigin="anonymous"><link rel="preload" href="/fonts/IBMPlexMono-Bold.woff2?v=1746636454581" as="font" type="font/woff2" crossorigin="anonymous"><style>
+        .font-ibm-plex-mono-failed .font-ibm-plex-mono {
+          font-family: Consolas, "Courier New", monospace !important;
+        }
+      </style><link rel="preload" href="/fonts/Px437_IBM_VGA_8x16.woff?v=1746636454581" as="font" type="font/woff" crossorigin="anonymous"><style>
+        .font-ibm-plex-mono-failed .font-ibm-plex-mono {
+          font-family: Consolas, "Courier New", monospace !important;
+        }
+      </style><style>
+        .font-ibm-plex-mono-failed .font-ibm-plex-mono {
+          font-family: Consolas, "Courier New", monospace !important;
+        }
+      </style><style>
+        .font-ibm-plex-mono-failed .font-ibm-plex-mono {
+          font-family: Consolas, "Courier New", monospace !important;
+        }
+      </style><link rel="preload" href="/fonts/Share_Tech_Mono.woff?v=1746636454605" as="font" type="font/woff" crossorigin="anonymous"><style>
+        .font-ibm-plex-mono-failed .font-ibm-plex-mono {
+          font-family: Consolas, "Courier New", monospace !important;
+        }
+      </style><style>
+        .font-ibm-plex-mono-failed .font-ibm-plex-mono {
+          font-family: Consolas, "Courier New", monospace !important;
+        }
+      </style><style>
+        .font-ibm-plex-mono-failed .font-ibm-plex-mono {
+          font-family: Consolas, "Courier New", monospace !important;
+        }
+      </style></head><body class="antialiased bg-background text-foreground font-body fonts-preloaded font-ibm-plex-mono-failed use-ibm-plex-mono-fallback"><div class="theme-background" aria-hidden="true"></div><script src="/_next/static/chunks/webpack.js?v=1746636454292" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"3:\"$Sreact.fragment\"\n5:I[\"(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js\",[\"app-pages-internals\",\"static/chunks/app-pages-internals.js\"],\"\"]\n6:I[\"(app-pages-browser)/./node_modules/next/dist/client/components/render-from-template-context.js\",[\"app-pages-internals\",\"static/chunks/app-pages-internals.js\"],\"\"]\n8:I[\"(app-pages-browser)/./src/components/ThemeScript.tsx\",[\"app/layout\",\"static/chunks/app/layout.js\"],\"default\"]\n9:I[\"(app-pages-browser)/./src/providers/FixedThemeProvider.tsx\",[\"app/layout\",\"static/chunks/app/layout.js\"],\"FixedThemeProvider\"]\na:I[\"(app-pages-browser)/./src/providers/AuthProvider.tsx\",[\"app/layout\",\"static/chunks/app/layout.js\"],\"AuthProvider\"]\nb:I[\"(app-pages-browser)/./src/lib/modules/moduleContext.tsx\",[\"app/layout\",\"static/chunks/app/layout.js\"],\"ModuleProvider\"]\nf:I[\"(app-pages-browser)/./src/components/ClientFontsWrapper.tsx\",[\"app/layout\",\"static/chunks/app/layout.js\"],\"default\"]\n15:I[\"(app-pages-browser)/./node_modules/next/dist/client/components/metadata/metadata-boundary.js\",[\"app-pages-internals\",\"static/chunks/app-pages-internals.js\"],\"MetadataBoundary\"]\n18:I[\"(app-pages-browser)/./node_modules/next/dist/client/components/metadata/metadata-boundary.js\",[\"app-pages-internals\",\"static/chunks/app-pages-internals.js\"],\"OutletBoundary\"]\n1f:I[\"(app-pages-browser)/./node_modules/next/dist/client/components/metadata/async-metadata.js\",[\"app-pages-internals\",\"static/chunks/app-pages-internals.js\"],\"AsyncMetadataOutlet\"]\n25:I[\"(app-pages-browser)/./node_modules/next/dist/client/components/metadata/metadata-boundary.js\",[\"app-pages-internals\",\"static/chunks/app-pages-internals.js\"],\"ViewportBoundary\"]\n2b:I[\"(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js\",[\"app-pages-internals\",\"static/chunks/app-pages-internals.js\"],\"\"]\n2c:\"$Sreact.suspense\"\n2d:I[\"(app-pages-browser)/./node_modules/next/dist/client/components/metadata/async-metadata.js\",[\"app-pages-internals\",\"static/chunks/app-pages-internals.js\"],\"AsyncMetadata\"]\n:HL[\"/_n"])</script><script>self.__next_f.push([1,"ext/static/css/app/layout.css?v=1746636454292\",\"style\"]\n2:{\"name\":\"Preloads\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{\"preloadCallbacks\":[\"$E(()=\u003e{ctx.componentMod.preloadStyle(fullHref,ctx.renderOpts.crossOrigin,ctx.nonce)})\"]}}\n1:D\"$2\"\n1:null\n7:{\"name\":\"RootLayout\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{\"children\":[\"$\",\"$L5\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$3\",null,{\"children\":[\"$\",\"$L6\",null,{},null,[],1]},null,[],0],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$Y\",\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"},null,[],1],\"params\":\"$Y\"}}\n4:D\"$7\"\nd:{\"name\":\"NotFound\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{}}\nc:D\"$d\"\ne:{\"name\":\"HTTPAccessErrorFallback\",\"env\":\"Server\",\"key\":null,\"owner\":\"$d\",\"stack\":[],\"props\":{\"status\":404,\"message\":\"This page could not be found.\"}}\nc:D\"$e\"\nc:[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"},\"$e\",[],1],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}},\"$e\",[],1],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":404},\"$e\",[],1],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"Th"])</script><script>self.__next_f.push([1,"is page could not be found.\"},\"$e\",[],1]},\"$e\",[],1]]},\"$e\",[],1]},\"$e\",[],1]]\n"])</script><script>self.__next_f.push([1,"4:[\"$\",\"html\",null,{\"lang\":\"en\",\"suppressHydrationWarning\":true,\"children\":[[\"$\",\"head\",null,{\"children\":[[\"$\",\"meta\",null,{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",38,96]],1],[\"$\",\"$L8\",null,{},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",46,96]],1],[\"$\",\"link\",null,{\"rel\":\"preload\",\"href\":\"/fonts/JetBrainsMono-Regular.woff2?v=2\",\"as\":\"font\",\"type\":\"font/woff2\",\"crossOrigin\":\"anonymous\"},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",51,96]],1],[\"$\",\"link\",null,{\"rel\":\"preload\",\"href\":\"/fonts/Px437_IBM_VGA_8x16.woff?v=2\",\"as\":\"font\",\"type\":\"font/woff\",\"crossOrigin\":\"anonymous\"},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",62,96]],1],[\"$\",\"link\",null,{\"rel\":\"preload\",\"href\":\"/fonts/Share_Tech_Mono.woff?v=2\",\"as\":\"font\",\"type\":\"font/woff\",\"crossOrigin\":\"anonymous\"},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",73,96]],1]]},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",36,88]],1],[\"$\",\"body\",null,{\"className\":\"antialiased bg-background text-foreground font-body\",\"suppressHydrationWarning\":true,\"children\":[[\"$\",\"div\",null,{\"className\":\"theme-background\",\"aria-hidden\":\"true\"},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",94,96]],1],[\"$\",\"$L9\",null,{\"children\":[\"$\",\"$La\",null,{\"children\":[\"$\",\"$Lb\",null,{\"children\":[\"$\",\"$L5\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L6\",null,{},null,[],1],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[\"$c\",[]],\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"},null,[],1]},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",104,114]],1]},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",103,110]],1]},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",102,96]],1],[\"$\",\"$Lf\",null,{},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",121,96]],1]]},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",90,88]],1]]},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",32,89]],1]\n"])</script><script>self.__next_f.push([1,"11:{\"name\":\"TestPage\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{\"params\":\"$@\",\"searchParams\":\"$@\"}}\n10:D\"$11\"\n10:[\"$\",\"div\",null,{\"style\":{\"padding\":\"2rem\",\"fontFamily\":\"system-ui, sans-serif\"},\"children\":[[\"$\",\"h1\",null,{\"children\":\"Test Page\"},\"$11\",[[\"TestPage\",\"webpack-internal:///(rsc)/./src/app/test/page.tsx\",15,88]],1],[\"$\",\"p\",null,{\"children\":\"This is a simple test page to verify that the server is working correctly.\"},\"$11\",[[\"TestPage\",\"webpack-internal:///(rsc)/./src/app/test/page.tsx\",22,88]],1],[\"$\",\"p\",null,{\"children\":[\"Server time: \",\"2025-05-07T16:47:34.298Z\"]},\"$11\",[[\"TestPage\",\"webpack-internal:///(rsc)/./src/app/test/page.tsx\",29,88]],1],[\"$\",\"div\",null,{\"style\":{\"marginTop\":\"2rem\",\"padding\":\"1rem\",\"backgroundColor\":\"#f0f0f0\",\"borderRadius\":\"8px\"},\"children\":[[\"$\",\"h2\",null,{\"children\":\"Debug Info\"},\"$11\",[[\"TestPage\",\"webpack-internal:///(rsc)/./src/app/test/page.tsx\",47,96]],1],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",null,{\"children\":[\"Node.js version: \",\"v22.14.0\"]},\"$11\",[[\"TestPage\",\"webpack-internal:///(rsc)/./src/app/test/page.tsx\",56,104]],1],[\"$\",\"li\",null,{\"children\":[\"Next.js version: \",\"nodejs\"]},\"$11\",[[\"TestPage\",\"webpack-internal:///(rsc)/./src/app/test/page.tsx\",66,104]],1],[\"$\",\"li\",null,{\"children\":[\"Environment: \",\"development\"]},\"$11\",[[\"TestPage\",\"webpack-internal:///(rsc)/./src/app/test/page.tsx\",76,104]],1]]},\"$11\",[[\"TestPage\",\"webpack-internal:///(rsc)/./src/app/test/page.tsx\",54,96]],1]]},\"$11\",[[\"TestPage\",\"webpack-internal:///(rsc)/./src/app/test/page.tsx\",39,88]],1],[\"$\",\"div\",null,{\"style\":{\"marginTop\":\"2rem\"},\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"style\":{\"color\":\"blue\",\"textDecoration\":\"underline\"},\"children\":\"Back to Home\"},\"$11\",[[\"TestPage\",\"webpack-internal:///(rsc)/./src/app/test/page.tsx\",102,102]],1]},\"$11\",[[\"TestPage\",\"webpack-internal:///(rsc)/./src/app/test/page.tsx\",98,88]],1]]},\"$11\",[[\"TestPage\",\"webpack-internal:///(rsc)/./src/app/test/page.tsx\",9,87]],1]\n13:{\"name\":\"\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{}}\n1"])</script><script>self.__next_f.push([1,"2:D\"$13\"\n14:{\"name\":\"MetadataTree\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{}}\n12:D\"$14\"\n17:{\"name\":\"__next_metadata_boundary__\",\"env\":\"Server\",\"key\":null,\"owner\":\"$14\",\"stack\":[],\"props\":{}}\n16:D\"$17\"\n12:[\"$\",\"$L15\",null,{\"children\":\"$L16\"},\"$14\",[],1]\n1a:{\"name\":\"__next_outlet_boundary__\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{\"ready\":\"$E(async function getViewportReady() {\\n        await viewport();\\n        return undefined;\\n    })\"}}\n19:D\"$1a\"\n1c:{\"name\":\"__next_outlet_boundary__\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{\"ready\":\"$E(async function getMetadataReady() {\\n        // Only warm up metadata() call when it's blocking metadata,\\n        // otherwise it will be fully managed by AsyncMetadata component.\\n        if (!serveStreamingMetadata) {\\n            await metadata();\\n        }\\n        return undefined;\\n    })\"}}\n1b:D\"$1c\"\n1e:{\"name\":\"StreamingMetadataOutlet\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{}}\n1d:D\"$1e\"\n1d:[\"$\",\"$L1f\",null,{\"promise\":\"$@20\"},\"$1e\",[],1]\n22:{\"name\":\"NonIndex\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{\"pagePath\":\"/test\",\"statusCode\":200,\"isPossibleServerAction\":false}}\n21:D\"$22\"\n21:null\n24:{\"name\":\"ViewportTree\",\"env\":\"Server\",\"key\":\"JET3PtfoiOaYfzhh3SDqz\",\"owner\":null,\"stack\":[],\"props\":{}}\n23:D\"$24\"\n27:{\"name\":\"__next_viewport_boundary__\",\"env\":\"Server\",\"key\":null,\"owner\":\"$24\",\"stack\":[],\"props\":{}}\n26:D\"$27\"\n23:[\"$\",\"$3\",\"JET3PtfoiOaYfzhh3SDqz\",{\"children\":[[\"$\",\"$L25\",null,{\"children\":\"$L26\"},\"$24\",[],1],null]},null,null,0]\n29:{\"name\":\"\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{}}\n28:D\"$29\"\n28:null\n2a:[]\n0:{\"P\":\"$1\",\"b\":\"development\",\"p\":\"\",\"c\":[\"\",\"test\"],\"i\":false,\"f\":[[[\"\",{\"children\":[\"test\",{\"children\":[\"__PAGE__\",{}]}]},\"$undefined\",\"$undefined\",true],[\"\",[\"$\",\"$3\",\"c\",{\"children\":[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/app/layout.css?v=1746636454292\",\"precedence\":\"next_static/css/app/layout.css\",\"crossOrigin\":\"$undefined\",\"non"])</script><script>self.__next_f.push([1,"ce\":\"$undefined\"},null,[],0]],\"$4\"]},null,[],0],{\"children\":[\"test\",[\"$\",\"$3\",\"c\",{\"children\":[null,[\"$\",\"$L5\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L6\",null,{},null,[],1],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$undefined\",\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"},null,[],1]]},null,[],0],{\"children\":[\"__PAGE__\",[\"$\",\"$3\",\"c\",{\"children\":[\"$10\",\"$12\",null,[\"$\",\"$L18\",null,{\"children\":[\"$L19\",\"$L1b\",\"$1d\"]},null,[],1]]},null,[],0],{},null,false]},null,false]},null,false],[\"$\",\"$3\",\"h\",{\"children\":[\"$21\",\"$23\",\"$28\"]},null,[],0],false]],\"m\":\"$W2a\",\"G\":[\"$2b\",\"$undefined\"],\"s\":false,\"S\":false}\n16:[\"$\",\"$2c\",null,{\"fallback\":null,\"children\":[\"$\",\"$L2d\",null,{\"promise\":\"$@2e\"},\"$17\",[],1]},\"$17\",[],1]\n1b:null\n26:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"},\"$1a\",[],0],[\"$\",\"meta\",\"1\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"},\"$1a\",[],0]]\n19:null\n"])</script><script>self.__next_f.push([1,"2e:{\"metadata\":[[\"$\",\"title\",\"0\",{\"children\":\"KRAFT_AI\"},\"$17\",[],0],[\"$\",\"meta\",\"1\",{\"name\":\"description\",\"content\":\"KRAFT_AI - Advanced recipe formulation and tracking system\"},\"$17\",[],0],[\"$\",\"link\",\"2\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"},\"$17\",[],0]],\"error\":null,\"digest\":\"$undefined\"}\n20:{\"metadata\":\"$2e:metadata\",\"error\":null,\"digest\":\"$undefined\"}\n"])</script><next-route-announcer style="position: absolute;"></next-route-announcer><nextjs-portal></nextjs-portal><div style="padding: 2rem; font-family: system-ui, sans-serif;"><h1>Test Page</h1><p>This is a simple test page to verify that the server is working correctly.</p><p>Server time: 2025-05-07T16:47:34.298Z</p><div style="margin-top: 2rem; padding: 1rem; background-color: rgb(240, 240, 240); border-radius: 8px;"><h2>Debug Info</h2><ul><li>Node.js version: v22.14.0</li><li>Next.js version: nodejs</li><li>Environment: development</li></ul></div><div style="margin-top: 2rem;"><a href="/" style="color: blue; text-decoration: underline;">Back to Home</a></div></div></body></html>

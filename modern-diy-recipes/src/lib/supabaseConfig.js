@@ -36,6 +36,15 @@ export const BASE_RETRY_DELAY = 200;
 // No fallback recipes - we don't want any mock data
 export const FALLBACK_RECIPES = [];
 
+// Table existence flags - will be checked at runtime
+export const REQUIRED_TABLES = ['recipes', 'ingredients', 'tools', 'library'];
+export const TABLES_EXIST = {
+  recipes: true,
+  ingredients: true,
+  tools: false,
+  library: false
+};
+
 // Define API endpoints for direct fetch fallbacks if Supabase client fails
 export const ENDPOINTS = {
   recipes: {

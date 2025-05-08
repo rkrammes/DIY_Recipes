@@ -1,5 +1,10 @@
 -- SQL script to create and populate recipe tables
 -- Export this and run directly in Supabase SQL Editor
+--
+-- IMPORTANT: This script creates the necessary tables for the application's database,
+-- including tools and library tables to ensure all data comes from real database sources.
+-- When the KraftTerminalModularLayout component loads, it will connect to the Supabase
+-- database and display real data with proper error handling if the connection fails.
 
 -- Make sure we have UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -28,6 +33,25 @@ CREATE TABLE IF NOT EXISTS public.recipe_ingredients (
   ingredient_id UUID NOT NULL,
   quantity TEXT,
   unit TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Create tools table
+CREATE TABLE IF NOT EXISTS public.tools (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  title TEXT NOT NULL,
+  description TEXT,
+  type TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Create library table
+CREATE TABLE IF NOT EXISTS public.library (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  title TEXT NOT NULL,
+  description TEXT,
+  content TEXT,
+  category TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -238,3 +262,22 @@ UNION ALL
 SELECT 
   recipe.id, peppermint.id, '6', 'drops'
 FROM recipe, peppermint;
+
+-- Insert sample tools
+INSERT INTO public.tools (id, title, description, type)
+VALUES
+  (uuid_generate_v4(), 'Unit Converter', 'Convert between different units of measurement for precise formulation.', 'calculator'),
+  (uuid_generate_v4(), 'Formulation Timer', 'Keep track of processing times for multiple steps in your formulations.', 'timer'),
+  (uuid_generate_v4(), 'Scaling Calculator', 'Scale formulation quantities up or down while maintaining proportions.', 'calculator'),
+  (uuid_generate_v4(), 'Shelf Life Estimator', 'Calculate the expected shelf life of your formulations based on ingredients.', 'calculator'),
+  (uuid_generate_v4(), 'pH Meter Simulator', 'Estimate the pH of your formulations based on ingredient inputs.', 'measurement'),
+  (uuid_generate_v4(), 'Batch Cost Calculator', 'Calculate the cost per batch and per unit based on ingredient costs.', 'calculator');
+
+-- Insert sample library items
+INSERT INTO public.library (id, title, description, content, category)
+VALUES
+  (uuid_generate_v4(), 'Processing Techniques', 'Reference for common processing techniques used in formulation.', 'This comprehensive guide covers various processing techniques including cold process, hot process, and emulsification methods. Each section includes step-by-step instructions and troubleshooting tips.', 'techniques'),
+  (uuid_generate_v4(), 'Ingredient Substitutions', 'Find alternatives for ingredients in your formulations.', 'When you need to substitute ingredients due to allergies, availability or preference, this guide provides equivalent options that maintain similar properties and efficacy in your formulations.', 'ingredients'),
+  (uuid_generate_v4(), 'Measurement Guide', 'Standard measurement conversions for precise formulation.', 'Accurate measurements are critical for consistent formulations. This guide includes conversion tables for weight, volume, and concentration measurements commonly used in DIY formulations.', 'measurements'),
+  (uuid_generate_v4(), 'Preservation Methods', 'Guide to natural and synthetic preservation options.', 'Learn about different preservation methods to extend the shelf life of your formulations, including natural preservatives, broad-spectrum preservatives, and antioxidants.', 'techniques'),
+  (uuid_generate_v4(), 'Equipment Guide', 'Essential tools and equipment for DIY formulations.', 'This guide covers the basic and advanced equipment needed for creating various formulations, from simple tools to specialized devices for more complex preparations.', 'equipment');

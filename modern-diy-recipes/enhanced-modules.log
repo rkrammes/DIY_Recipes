@@ -1,0 +1,354 @@
+Starting Enhanced Module System with Themes (hackers, dystopia, neotopia)
+
+Checking for existing processes on port 3000...
+Cleaning Next.js cache...
+Starting the server - Module System will appear at http://localhost:3000/enhanced-formulations
+This will show the modular interface with all three themes
+
+   ▲ Next.js 15.3.0
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.148:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1018ms
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 630ms (248 modules)
+[2025-05-07T18:43:20.476Z] Request: GET /enhanced-formulations
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/enhanced-formulations
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ○ Compiling /enhanced-formulations ...
+[2025-05-07T18:43:23.515Z] Request: GET /enhanced-formulations
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/enhanced-formulations
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⚠ ./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+
+./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+Module "DIY Formulations" (formulations) registered successfully
+ GET /enhanced-formulations?id=971e9734-d147-4066-9b55-b80a080de24f 200 in 626ms
+ GET /enhanced-formulations 200 in 3856ms
+ ⚠ ./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+
+./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+[2025-05-07T18:43:24.586Z] Request: GET /enhanced-formulations
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/enhanced-formulations
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+[2025-05-07T18:43:24.611Z] Request: HEAD /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/enhanced-formulations
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T18:43:24.631Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/enhanced-formulations
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T18:43:24.631Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/enhanced-formulations
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T18:43:24.631Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/enhanced-formulations
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T18:43:24.631Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/enhanced-formulations
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T18:43:24.643Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/enhanced-formulations
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T18:43:24.643Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/enhanced-formulations
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T18:43:24.643Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/enhanced-formulations
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T18:43:24.643Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/enhanced-formulations
+- Host: localhost:3000
+- IP: unknown
+ ⚠ ./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+
+./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+ ⚠ ./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+
+./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+ ⚠ ./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+
+./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+ GET /favicon.ico 200 in 663ms
+ GET /enhanced-formulations 200 in 641ms
+ GET /favicon.ico 200 in 35ms
+[2025-05-07T18:43:25.234Z] Request: GET /enhanced-formulations
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/enhanced-formulations
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET /enhanced-formulations 200 in 9ms
+ GET /favicon.ico 200 in 5ms
+[2025-05-07T18:43:42.678Z] Request: GET /enhanced-formulations
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/enhanced-formulations
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET /enhanced-formulations?id=971e9734-d147-4066-9b55-b80a080de24f 200 in 17ms
+ ⚠ ./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+
+./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+ ⚠ ./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+
+./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+ ⚠ ./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+
+./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+[2025-05-07T19:14:31.088Z] Request: GET /kraft-modular
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⚠ ./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+
+./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+ ⚠ ./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+
+./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+Module "DIY Formulations" (formulations) registered successfully
+ GET /kraft-modular 200 in 475ms
+[2025-05-07T19:14:31.827Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/_next/static/css/app/layout.css?v=1746645271479
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T19:14:31.832Z] Request: GET /kraft-modular
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET /kraft-modular 200 in 23ms
+[2025-05-07T19:14:31.859Z] Request: GET /kraft-modular
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET /kraft-modular 200 in 10ms
+[2025-05-07T19:14:31.919Z] Request: HEAD /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T19:14:31.922Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T19:14:31.922Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T19:14:31.922Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T19:14:31.922Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T19:14:31.922Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T19:14:31.934Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T19:14:31.938Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+ ⚠ ./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/enhanced-formulations/page.tsx
+
+./src/modules/formulations/index.ts
+Module not found: Can't resolve './components/ModuleDocumentCentricFormulation' in '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/modules/formulations'
+
+Import trace for requested module:
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/kraft-modular/page.tsx
+[2025-05-07T19:17:18.433Z] Request: GET /kraft-modular
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET /kraft-modular 200 in 92ms
+[2025-05-07T19:17:18.567Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/_next/static/css/app/layout.css?v=1746645438495
+- Host: localhost:3000
+- IP: unknown
+[2025-05-07T19:18:13.383Z] Request: GET /kraft-modular
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET /kraft-modular?id=971e9734-d147-4066-9b55-b80a080de24f 200 in 22ms
+[?25h
+Server stopped.

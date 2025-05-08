@@ -6,6 +6,16 @@ export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
   const { pathname } = req.nextUrl;
   
+  // Improved request logging for debugging
+  console.log(`[${new Date().toISOString()}] Request: ${req.method} ${pathname}`);
+  console.log(`- User-Agent: ${req.headers.get('user-agent')}`);
+  console.log(`- Referrer: ${req.headers.get('referer')}`);
+  console.log(`- Host: ${req.headers.get('host')}`);
+  console.log(`- IP: ${req.ip || 'unknown'}`);
+  
+  // Add a custom header to track middleware execution
+  res.headers.set('X-Middleware-Timestamp', Date.now().toString());
+  
   // Handle font files with proper MIME types
   if (pathname.startsWith('/fonts/')) {
     const response = NextResponse.next();

@@ -1,3 +1,4 @@
+import React from 'react';
 import { createModule, registerModule } from '@/lib/modules';
 import { 
   ModuleFormulationList, 
@@ -11,7 +12,7 @@ try {
   DocumentCentricFormulation = require('./components/ModuleDocumentCentricFormulation').default;
 } catch (e) {
   // Use a placeholder if the component doesn't exist yet
-  DocumentCentricFormulation = () => <div>Document view is under development</div>;
+  DocumentCentricFormulation = () => React.createElement('div', null, 'Document view is under development');
 }
 
 /**

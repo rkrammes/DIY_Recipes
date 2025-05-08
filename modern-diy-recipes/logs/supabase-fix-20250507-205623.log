@@ -1,0 +1,15 @@
+Testing Supabase connectivity
+URL: https://bzudglfxxywugesncjnz.supabase.co
+
+1. Testing with anon key...
+
+2. Testing with service role key...
+✅ Service key connection successful!
+
+Checking tables with service key:
+✅ Anon key connection successful!
+- recipes: ✅ OK (12 records)
+- ingredients: ✅ OK (21 records)
+- recipe_ingredients: ✅ OK (29 records)
+- tools: ❌ ERROR (relation "public.tools" does not exist)
+- library: ❌ ERROR (relation "public.library" does not exist)

@@ -7,7 +7,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    
     "# Consolidated Scripts": "----------",
     "server": "chmod +x ./server.sh && ./server.sh",
     "server:dev": "chmod +x ./server.sh && ./server.sh --mode=standard",
@@ -19,14 +18,12 @@
     "server:full": "chmod +x ./server.sh && ./server.sh --with-api --with-font-server",
     "server:stop": "chmod +x ./server.sh && ./server.sh --stop",
     "server:restart": "chmod +x ./server.sh && ./server.sh --restart",
-    
     "test:runner": "chmod +x ./test-runner.sh && ./test-runner.sh",
     "test:unit": "chmod +x ./test-runner.sh && ./test-runner.sh --test=unit",
     "test:e2e": "chmod +x ./test-runner.sh && ./test-runner.sh --test=e2e",
     "test:formulations": "chmod +x ./test-runner.sh && ./test-runner.sh --test=formulations",
     "test:layouts": "chmod +x ./test-runner.sh && ./test-runner.sh --test=layout --with-server",
     "test:coverage": "chmod +x ./test-runner.sh && ./test-runner.sh --coverage",
-    
     "# Legacy Scripts": "----------",
     "setup-supabase-mcp": "node copy-supabase-mcp-server.js",
     "start-supabase-mcp": "node start-supabase-mcp.js",
@@ -38,12 +35,10 @@
     "test:puppeteer": "node test-app-with-puppeteer.js",
     "test:integration": "node test-context7-puppeteer.js",
     "dev:context7": "chmod +x ./start-with-context7.sh && ./start-with-context7.sh",
-
     "# MCP Integration": "----------",
     "mcp:context7": "chmod +x ./server.sh && ./server.sh --with=context7",
     "mcp:memory": "chmod +x ./server.sh && ./server.sh --with=memory",
     "mcp:supabase": "chmod +x ./server.sh && ./server.sh --with=supabase,context7",
-    
     "# Utilities": "----------",
     "db:setup": "node run-database-setup.js",
     "db:supabase-setup": "node run-supabase-setup.js",
@@ -62,6 +57,7 @@
     "dotenv": "^16.5.0",
     "framer-motion": "^12.9.4",
     "http-proxy-middleware": "^3.0.5",
+    "lucide-react": "^0.508.0",
     "next": "15.3.0",
     "node-fetch": "^2.7.0",
     "react": "^18.2.0",

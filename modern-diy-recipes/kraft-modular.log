@@ -1,0 +1,16 @@
+Starting KRAFT_AI Terminal with Modular Architecture
+Combines original terminal UI with modular system
+
+Checking for existing processes on port 3000...
+Cleaning Next.js cache...
+Starting the server - KRAFT_AI Terminal Modular Interface will appear at http://localhost:3000/kraft-modular
+This will show the original terminal interface with modular architecture
+
+   ▲ Next.js 15.3.0
+   - Local:        http://localhost:3000
+   - Network:      http://10.4.45.43:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 992ms
+Server stopped.
