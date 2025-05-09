@@ -9,6 +9,7 @@ interface AuthContextProps {
   session: Session | null;
   signInWithMagicLink: (email: string) => Promise<{ error: Error | null }>;
   signInWithPassword: (email: string, password: string) => Promise<{ error: Error | null }>;
+  signInWithApple: (email: string, userData?: any) => Promise<{ error: Error | null, user: User | null }>;
   signOut: () => Promise<{ error: Error | null }>;
   loading: boolean;
   isAuthenticated: boolean;
@@ -143,12 +144,79 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  // Implementation of Apple sign-in
+  const signInWithApple = async (email: string, userData?: any): Promise<{ error: Error | null, user: User | null }> => {
+    try {
+      setLoading(true);
+      
+      // In a real implementation, this would redirect to Apple's OAuth page
+      // and then use the returned token to authenticate with Supabase
+      console.log('Attempting to authenticate with Apple for email:', email);
+      
+      // For development/demonstration purposes only
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Development mode: Simulating Apple login with mock user');
+        
+        // Create a mock user based on the family member data
+        const mockUser = {
+          id: `apple-${Date.now()}`,
+          email: email,
+          app_metadata: { 
+            provider: 'apple',
+            role: userData?.role || 'authenticated'
+          },
+          user_metadata: {
+            name: userData?.name || email.split('@')[0],
+            avatar: userData?.avatar || '👤',
+            apple_user: true
+          },
+          created_at: new Date().toISOString(),
+          aud: 'authenticated',
+        } as User;
+        
+        // Create a mock session
+        const mockSession = {
+          access_token: `mock-apple-token-${Date.now()}`,
+          refresh_token: `mock-apple-refresh-${Date.now()}`,
+          expires_in: 3600,
+          expires_at: Math.floor(Date.now() / 1000) + 3600,
+          token_type: 'bearer',
+          user: mockUser
+        } as Session;
+        
+        // Set user and session state directly (this is ONLY for demonstration)
+        setSession(mockSession);
+        setUser(mockUser);
+        setIsAuthenticated(true);
+        
+        // Wait a bit to simulate the authentication process
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        console.log('Simulated Apple login successful:', mockUser);
+        return { error: null, user: mockUser };
+      } else {
+        // In a production app, integrate with real Apple OAuth
+        // As a fallback, return error for now
+        return { 
+          error: new Error('Apple authentication would redirect to Apple Sign In. This is only simulated in development mode.'), 
+          user: null 
+        };
+      }
+    } catch (err) {
+      console.error("Error signing in with Apple:", err);
+      return { error: err instanceof Error ? err : new Error('Unknown error signing in with Apple'), user: null };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <AuthContext.Provider value={{ 
       user, 
       session, 
       signInWithMagicLink, 
-      signInWithPassword, 
+      signInWithPassword,
+      signInWithApple,
       signOut, 
       loading,
       isAuthenticated

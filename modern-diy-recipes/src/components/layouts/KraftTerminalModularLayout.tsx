@@ -5,6 +5,7 @@ import { useTheme } from '@/providers/FixedThemeProvider';
 import { useAudio } from '@/hooks/useAudio';
 import { initializeModules } from '@/modules';
 import { useModules } from '@/lib/modules';
+import { useAuth } from '@/hooks/useAuth';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 
@@ -29,6 +30,22 @@ export default function KraftTerminalModularLayout({
   const { theme, setTheme, audioEnabled, setAudioEnabled } = useTheme();
   const { playSound } = useAudio();
   const { enabledModules, navigationItems } = useModules();
+  const { user, isAuthenticated, signOut, signInWithPassword, signInWithApple, loading } = useAuth();
+  
+  // Family members
+  const FAMILY_MEMBERS = [
+    { id: 'ryan', name: 'Ryan', role: 'admin', email: 'ryan@kraftai.com', avatar: '👨‍💻' },
+    { id: 'sonia', name: 'Sonia', role: 'admin', email: 'sonia@kraftai.com', avatar: '👩‍🔬' },
+    { id: 'roman', name: 'Roman', role: 'child', email: 'roman@kraftai.com', avatar: '👦' },
+    { id: 'sophia', name: 'Sophia', role: 'child', email: 'sophia@kraftai.com', avatar: '👧' }
+  ];
+  
+  // Form state for login
+  const [selectedMember, setSelectedMember] = useState<string>('');
+  const [password, setPassword] = useState('');
+  const [authError, setAuthError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [useAppleLogin, setUseAppleLogin] = useState(true);
   
   const [systemStatus, setSystemStatus] = useState('checking');
   const [lastSyncTime, setLastSyncTime] = useState<Date | null>(null);
@@ -366,15 +383,416 @@ export default function KraftTerminalModularLayout({
     return <>{formattedTime}</>;
   }
 
+  // No Apple login - removed functionality
+
+  // Handle password-based login form submission
+  const handleLogin = async (e: React.FormEvent | null = null) => {
+    if (e) e.preventDefault();
+    
+    if (!selectedMember || (!password && !useAppleLogin)) {
+      setAuthError('Please select a family member' + (!useAppleLogin ? ' and enter password' : ''));
+      return;
+    }
+    
+    if (useAppleLogin) {
+      handleAppleLogin();
+      return;
+    }
+    
+    // Find the selected family member
+    const member = FAMILY_MEMBERS.find(m => m.id === selectedMember);
+    if (!member) {
+      setAuthError('Invalid family member selected');
+      return;
+    }
+    
+    try {
+      setAuthError(null);
+      // Use the member's email and password for authentication
+      const { error } = await signInWithPassword(member.email, password);
+      if (error) {
+        setAuthError(error.message);
+      } else {
+        // Clear form on success
+        setPassword('');
+      }
+    } catch (err) {
+      setAuthError(err instanceof Error ? err.message : 'Authentication failed');
+    }
+  };
+
+  // State for keyboard navigation
+  const [navState, setNavState] = useState({
+    column: 0, // 0 = first column (categories), 1 = second column (items)
+    index: 0,  // Current selected index in the active column
+    focused: false // If keyboard navigation is active
+  });
+  
+  // Handle keyboard events for function keys and keyboard navigation
+  useEffect(() => {
+    // Initialize first category as selected when component mounts
+    if (SECTIONS.length > 0 && !activeCategory) {
+      handleCategorySelect(SECTIONS[0].id);
+      setNavState(prev => ({ ...prev, focused: true }));
+    }
+    
+    // Create references to the current items in each column
+    const categoryItems = SECTIONS;
+    const selectedItems = getItemsForCategory();
+    
+    const handleKeyDown = (e) => {
+      // Function key handling
+      if (e.key === 'F4') {
+        e.preventDefault();
+        // Cycle through themes
+        const themes = ['hackers', 'dystopia', 'neotopia'];
+        const currentIndex = themes.indexOf(theme);
+        const nextIndex = (currentIndex + 1) % themes.length;
+        setTheme(themes[nextIndex]);
+        if (audioEnabled) playSound('click');
+      } else if (e.key === 'F10') {
+        e.preventDefault();
+        if (isAuthenticated) {
+          if (confirm('Are you sure you want to logout?')) {
+            signOut();
+          }
+        }
+      }
+      
+      // Alt + number key shortcuts for categories
+      if (e.altKey && !isNaN(parseInt(e.key)) && parseInt(e.key) >= 1 && parseInt(e.key) <= 4) {
+        const categoryIndex = parseInt(e.key) - 1;
+        if (SECTIONS[categoryIndex]) {
+          handleCategorySelect(SECTIONS[categoryIndex].id);
+          setNavState({ column: 0, index: categoryIndex, focused: true });
+          if (audioEnabled) playSound('click');
+        }
+        return;
+      }
+      
+      // If not already in keyboard navigation mode, enable it when arrow keys are pressed
+      if (!navState.focused && ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter', 'Tab'].includes(e.key)) {
+        setNavState(prev => ({ ...prev, focused: true }));
+      }
+      
+      // Skip keyboard navigation if not focused
+      if (!navState.focused) return;
+      
+      // Handle keyboard navigation
+      switch (e.key) {
+        case 'ArrowUp':
+          e.preventDefault();
+          if (navState.column === 0) {
+            // First column
+            setNavState(prev => ({ 
+              ...prev, 
+              index: (prev.index - 1 + categoryItems.length) % categoryItems.length 
+            }));
+            handleCategorySelect(SECTIONS[
+              (navState.index - 1 + categoryItems.length) % categoryItems.length
+            ].id);
+          } else if (navState.column === 1 && selectedItems.length > 0) {
+            // Second column
+            setNavState(prev => ({ 
+              ...prev, 
+              index: (prev.index - 1 + selectedItems.length) % selectedItems.length 
+            }));
+            // Don't select item yet, wait for Enter
+          }
+          if (audioEnabled) playSound('click');
+          break;
+          
+        case 'ArrowDown':
+          e.preventDefault();
+          if (navState.column === 0) {
+            // First column
+            setNavState(prev => ({ 
+              ...prev, 
+              index: (prev.index + 1) % categoryItems.length 
+            }));
+            handleCategorySelect(SECTIONS[
+              (navState.index + 1) % categoryItems.length
+            ].id);
+          } else if (navState.column === 1 && selectedItems.length > 0) {
+            // Second column
+            setNavState(prev => ({ 
+              ...prev, 
+              index: (prev.index + 1) % selectedItems.length 
+            }));
+            // Don't select item yet, wait for Enter
+          }
+          if (audioEnabled) playSound('click');
+          break;
+          
+        case 'ArrowRight':
+        case 'Tab':
+          e.preventDefault();
+          if (navState.column === 0 && selectedItems.length > 0) {
+            // Move from first to second column
+            setNavState({ column: 1, index: 0, focused: true });
+            if (audioEnabled) playSound('click');
+          }
+          break;
+          
+        case 'ArrowLeft':
+          e.preventDefault();
+          if (navState.column === 1) {
+            // Move from second to first column
+            setNavState({ column: 0, index: SECTIONS.findIndex(s => s.id === activeCategory), focused: true });
+            if (audioEnabled) playSound('click');
+          }
+          break;
+          
+        case 'Enter':
+        case ' ': // Space
+          e.preventDefault();
+          if (navState.column === 0) {
+            // Select the category
+            handleCategorySelect(SECTIONS[navState.index].id);
+          } else if (navState.column === 1 && selectedItems.length > 0) {
+            // Select the item
+            handleItemSelect(selectedItems[navState.index].id);
+          }
+          if (audioEnabled) playSound('click');
+          break;
+          
+        case 'Escape':
+          // Exit keyboard navigation mode
+          setNavState(prev => ({ ...prev, focused: false }));
+          break;
+      }
+    };
+    
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [
+    theme, 
+    audioEnabled, 
+    isAuthenticated, 
+    signOut, 
+    playSound, 
+    navState, 
+    activeCategory, 
+    SECTIONS,
+    getItemsForCategory
+  ]);
+
+  // Enhanced retro sci-fi movie terminal keyboard navigation styling
+  const retroBoxAnimationStyle = `
+    @keyframes terminalBlink {
+      0%, 49.9% { opacity: 1; }
+      50%, 99.9% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+    
+    @keyframes hackersFlicker {
+      0%, 49.9% { opacity: 0.9; box-shadow: 0 0 5px 2px #7DF9FF, inset 0 0 3px 1px #7DF9FF; }
+      50%, 99.9% { opacity: 1; box-shadow: 0 0 12px 4px #00FEFC, inset 0 0 8px 2px #00FEFC; }
+      100% { opacity: 0.9; box-shadow: 0 0 5px 2px #7DF9FF, inset 0 0 3px 1px #7DF9FF; }
+    }
+    
+    @keyframes matrixCodeRain {
+      0%, 100% { background-position: 0 0; }
+      50% { background-position: 0 100%; }
+    }
+    
+    @keyframes tronCircuit {
+      0% { background-position: 0% 0%; }
+      100% { background-position: 200% 0%; }
+    }
+    
+    /* Base selection style */
+    .retro-box-selection {
+      position: relative;
+      transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 5;
+      overflow: hidden;
+      animation: terminalBlink 0.5s infinite steps(1);
+    }
+    
+    /* HACKERS (1995) - Authentic electric blue/cyan palette */
+    .hackers .retro-box-selection {
+      background-color: rgba(20, 40, 40, 0.85);
+      color: #00FEFC; /* Neon Cyan from Hackers */
+      text-shadow: 0 0 5px #7DF9FF;
+      box-shadow: 0 0 12px 4px #00FEFC, inset 0 0 8px 2px #7DF9FF;
+      border: 1px solid #00FEFC;
+      border-top-width: 2px; 
+      border-bottom-width: 2px;
+    }
+    
+    .hackers .retro-box-selection::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        repeating-linear-gradient(
+          0deg,
+          rgba(0, 254, 252, 0.05) 1px,
+          rgba(0, 254, 252, 0.03) 2px,
+          transparent 3px,
+          transparent 4px
+        );
+      z-index: 2;
+      pointer-events: none;
+    }
+    
+    .hackers .retro-box-selection::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        linear-gradient(90deg, 
+          rgba(125, 249, 255, 0.03) 1px, 
+          transparent 1px
+        ),
+        linear-gradient(90deg, 
+          transparent 50%, 
+          rgba(125, 249, 255, 0.05) 50%
+        );
+      background-size: 4px 100%, 7px 100%;
+      opacity: 0.5;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    /* DYSTOPIA (THE MATRIX) style - Classic Matrix code green */
+    .dystopia .retro-box-selection {
+      background-color: rgba(0, 20, 0, 0.8);
+      color: #00FF00; /* Pure Matrix code green */
+      text-shadow: 0 0 5px #00FF00;
+      box-shadow: 0 0 10px 3px rgba(0, 255, 0, 0.7), inset 0 0 6px 2px rgba(0, 255, 0, 0.5);
+      border: 1px solid #00FF00;
+      border-left-width: 3px;
+    }
+    
+    .dystopia .retro-box-selection::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        linear-gradient(180deg, 
+          rgba(0, 255, 0, 0.1) 0%,
+          rgba(0, 255, 0, 0.05) 50%,
+          rgba(0, 255, 0, 0.1) 100%
+        );
+      background-size: 100% 20px;
+      animation: matrixCodeRain 4s linear infinite;
+      z-index: 2;
+      pointer-events: none;
+    }
+    
+    .dystopia .retro-box-selection::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        linear-gradient(0deg,
+          transparent 0%,
+          rgba(0, 255, 0, 0.1) 5%,
+          rgba(0, 255, 0, 0.05) 10%,
+          transparent 15%,
+          transparent 85%,
+          rgba(0, 255, 0, 0.05) 90%,
+          rgba(0, 255, 0, 0.1) 95%,
+          transparent 100%
+        );
+      opacity: 0.7;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    /* NEOTOPIA (TRON) style - Authentic TRON blue circuit */
+    .neotopia .retro-box-selection {
+      background-color: rgba(5, 15, 35, 0.9);
+      color: #7DFDFE; /* Authentic TRON blue */
+      text-shadow: 0 0 8px #7DFDFE;
+      box-shadow: 
+        0 0 15px 5px rgba(125, 253, 254, 0.8),
+        inset 0 0 8px 2px rgba(125, 253, 254, 0.6);
+      border: 2px solid #0EF8F8; /* Light cycle blue */
+    }
+    
+    .neotopia .retro-box-selection::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        linear-gradient(90deg,
+          rgba(125, 253, 254, 0.1) 1px,
+          transparent 1px
+        ),
+        linear-gradient(0deg,
+          rgba(125, 253, 254, 0.1) 1px,
+          transparent 1px
+        );
+      background-size: 20px 20px;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .neotopia .retro-box-selection::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        linear-gradient(90deg,
+          transparent 0%,
+          rgba(125, 253, 254, 0.2) 10%,
+          rgba(125, 253, 254, 0.1) 20%,
+          transparent 30%,
+          transparent 70%,
+          rgba(125, 253, 254, 0.2) 80%,
+          rgba(125, 253, 254, 0.1) 90%,
+          transparent 100%
+        );
+      background-size: 200% 100%;
+      animation: tronCircuit 10s linear infinite;
+      opacity: 0.7;
+      z-index: 2;
+      pointer-events: none;
+    }
+    
+    /* Ensure text is visible */
+    .retro-box-selection span,
+    .retro-box-selection div {
+      color: inherit !important;
+      position: relative;
+      z-index: 3;
+    }
+  `;
+
   return (
     // Fixed size container that doesn't scroll
     <div className={`h-screen w-screen flex flex-col overflow-hidden ${theme} ${className}`}>
-      {/* Retro Terminal Header - Fixed height */}
-      <div className="bg-surface-1 border-b border-border-subtle py-1 px-2 font-mono flex-shrink-0">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-5">
-            {/* Advanced ASCII logo with system indicators */}
-            <div className="font-bold text-base tracking-tight whitespace-nowrap">
+      {/* Insert our CSS animation styling */}
+      <style dangerouslySetInnerHTML={{ __html: retroBoxAnimationStyle }} />
+      {/* Retro Terminal Header - Height matched to footer */}
+      <div className="bg-surface-1 border-b-4 border-accent/40 font-mono flex-shrink-0 h-[160px] py-3 relative z-10 shadow-sm">
+        <div className="flex items-center justify-between h-full">
+          <div className="flex items-center space-x-3 h-full">
+            {/* Enhanced ASCII logo with system indicators */}
+            <div className="font-bold text-sm tracking-tight whitespace-nowrap pl-2 flex flex-col justify-center h-full">
               <div className="text-accent">
                 ┌───────────────────────────┐<br />
                 │ <span className="animate-pulse">></span>KRAFT_AI TERMINAL v1.0.2 │<br />
@@ -382,256 +800,262 @@ export default function KraftTerminalModularLayout({
               </div>
               <div className="text-xs text-text-secondary mt-1">
                 <div className="flex justify-between">
-                  <span>USER: DEV</span>
                   <span>SESSION: {Math.floor(Math.random() * 9000) + 1000}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>ACCESS: ADMIN</span>
                   <span>UPTIME: <CurrentTime /></span>
                 </div>
-              </div>
-            </div>
-            
-            {/* System monitoring panel */}
-            <div className="text-xs border border-border-subtle p-1 bg-surface-0">
-              <div className="text-accent font-bold mb-1">╔═ SYSTEM METRICS ═╗</div>
-              <div className="grid grid-cols-2 gap-x-3 gap-y-1">
-                <div className="flex justify-between">
-                  <span className="text-text-secondary">CPU:</span>
-                  <span className="text-accent"><CpuUsage /></span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-text-secondary">MEM:</span>
-                  <span className="text-accent"><MemoryUsage /></span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-text-secondary">CACHE:</span>
-                  <span className="text-accent"><CacheHitRate /></span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-text-secondary">NET:</span>
-                  <span className="text-accent"><NetworkLatency /></span>
-                </div>
-              </div>
-              <div className="mt-1 text-text-secondary">
-                <div className="flex items-center">
-                  <div>STATUS:</div>
-                  <div className="ml-1 flex items-center">
-                    {systemStatus === 'checking' ? (
-                      <>
-                        <span className="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
-                        <span className="ml-1 text-amber-500">CHECKING</span>
-                      </>
-                    ) : systemStatus === 'online' ? (
-                      <>
-                        <span className="inline-block w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                        <span className="ml-1 text-green-500">ONLINE</span>
-                      </>
-                    ) : (
-                      <>
-                        <span className="inline-block w-2 h-2 rounded-full bg-red-500"></span>
-                        <span className="ml-1 text-red-500">OFFLINE</span>
-                      </>
-                    )}
-                  </div>
-                </div>
-                <div className="flex justify-between mt-0.5">
-                  <span className="text-xs">
-                    DB SYNC: {lastSyncTime ? <LastSyncTime lastSyncTime={lastSyncTime} /> : 'NEVER'}
-                  </span>
-                  <span className="text-xs animate-pulse">
-                    {systemStatus === 'checking' ? (
-                      <span className="text-amber-500">CONNECTING...</span>
-                    ) : systemStatus === 'online' ? (
-                      <span className="text-green-500">▀ ▄ ▀ ▄</span>
-                    ) : (
-                      <span className="text-red-500">_ _ _ _</span>
-                    )}
+                <div className="mt-1">
+                  <span className="text-accent">SYSTEM STATUS: </span>
+                  <span className={systemStatus === 'online' ? 'text-green-500' : systemStatus === 'checking' ? 'text-amber-500' : 'text-red-500'}>
+                    {systemStatus.toUpperCase()}
                   </span>
                 </div>
               </div>
             </div>
             
-            {/* Terminal command controls */}
-            <div className="border border-border-subtle p-1 bg-surface-0">
-              <div className="text-accent font-bold text-xs mb-1">╔═ TERMINAL CONTROLS ═╗</div>
-              
-              {/* Theme selector with terminal style UI */}
-              <div className="grid grid-cols-1 text-xs gap-y-1 mb-2">
-                <div 
-                  onClick={() => {
-                    if (theme !== 'hackers') {
-                      setTheme('hackers');
-                      if (audioEnabled) playSound('click');
-                    }
-                  }}
-                  data-theme="hackers"
-                  className="flex items-center cursor-pointer group"
-                >
-                  <span className={`mr-1 font-bold ${theme === 'hackers' ? 'text-emerald-500 animate-pulse' : 'text-text-secondary'}`}>
-                    {theme === 'hackers' ? '[X]' : '[ ]'}
-                  </span>
-                  <span className={`${theme === 'hackers' ? 'text-emerald-500' : 'text-text-secondary group-hover:text-accent'}`}>
-                    HACKERS_TERMINAL
-                  </span>
-                </div>
-                
-                <div 
-                  onClick={() => {
-                    if (theme !== 'dystopia') {
-                      setTheme('dystopia');
-                      if (audioEnabled) playSound('click');
-                    }
-                  }}
-                  data-theme="dystopia"
-                  className="flex items-center cursor-pointer group"
-                >
-                  <span className={`mr-1 font-bold ${theme === 'dystopia' ? 'text-amber-500 animate-pulse' : 'text-text-secondary'}`}>
-                    {theme === 'dystopia' ? '[X]' : '[ ]'}
-                  </span>
-                  <span className={`${theme === 'dystopia' ? 'text-amber-500' : 'text-text-secondary group-hover:text-accent'}`}>
-                    DYSTOPIA_CONSOLE
-                  </span>
-                </div>
-                
-                <div 
-                  onClick={() => {
-                    if (theme !== 'neotopia') {
-                      setTheme('neotopia');
-                      if (audioEnabled) playSound('click');
-                    }
-                  }}
-                  data-theme="neotopia"
-                  className="flex items-center cursor-pointer group"
-                >
-                  <span className={`mr-1 font-bold ${theme === 'neotopia' ? 'text-blue-500 animate-pulse' : 'text-text-secondary'}`}>
-                    {theme === 'neotopia' ? '[X]' : '[ ]'}
-                  </span>
-                  <span className={`${theme === 'neotopia' ? 'text-blue-500' : 'text-text-secondary group-hover:text-accent'}`}>
-                    NEOTOPIA_INTERFACE
-                  </span>
+            {/* Redesigned Family Authentication Panel */}
+            <div className="border border-border-subtle bg-surface-0 h-[140px] overflow-visible relative flex flex-col">
+              {/* Panel Header */}
+              <div className="bg-surface-2 border-b border-border-subtle px-3 py-1.5">
+                <div className="text-green-500 font-bold uppercase text-xs flex items-center">
+                  <span className="inline-block w-2 h-2 rounded-full mr-2 bg-red-500"></span>
+                  FAMILY ACCESS TERMINAL
                 </div>
               </div>
               
-              {/* Audio toggle with vintage VU meter style */}
-              <div 
-                onClick={() => {
-                  setAudioEnabled(!audioEnabled);
-                  if (audioEnabled) playSound('click');
-                }}
-                className="flex items-center cursor-pointer"
-              >
-                <div className={`text-xs ${audioEnabled ? 'text-purple-500' : 'text-text-secondary'}`}>
+              {/* Panel Content */}
+              <div className="flex-1 p-3 flex flex-col justify-between">
+                {isAuthenticated ? (
+                  <>
+                    {/* Authenticated View */}
+                    <div className="flex flex-col">
+                      <div className="flex items-center mb-2">
+                        <span className="text-lg mr-2">
+                          {user?.user_metadata?.avatar || '👤'}
+                        </span>
+                        <div>
+                          <div className="text-accent font-bold">
+                            {FAMILY_MEMBERS.find(m => m.email === user?.email)?.name || user?.user_metadata?.name || user?.email?.split('@')[0] || 'Unknown'}
+                          </div>
+                          <div className="flex items-center text-[10px]">
+                            <span className="text-text-secondary">ROLE: </span>
+                            <span className="text-accent uppercase ml-1 font-bold">
+                              {FAMILY_MEMBERS.find(m => m.email === user?.email)?.role || user?.app_metadata?.role || 'USER'}
+                            </span>
+                            
+                            <span className="mx-1.5">•</span>
+                            
+                            <span className="text-text-secondary">AUTH: </span>
+                            <span className="text-green-500 ml-1">EMAIL</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="text-[10px] text-text-secondary mb-2">
+                        LOGIN SUCCESSFUL • SYSTEM ACCESS GRANTED • {Math.floor(Math.random() * 24) + 1}h {Math.floor(Math.random() * 60)}m ACTIVE
+                      </div>
+                    </div>
+                    
+                    {/* Logout Button */}
+                    <button 
+                      onClick={() => signOut()}
+                      className="self-end text-xs px-2.5 py-1 bg-surface-2 border border-accent text-accent hover:bg-surface-1"
+                    >
+                      LOG OUT
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {/* Login View - Matched to screenshot */}
+                    <div className="flex flex-col px-1">
+                      <div className="flex items-center text-red-500 mb-3 text-xs">
+                        <span className="inline-block w-2 h-2 rounded-full bg-red-500 mr-2"></span>
+                        <span className="font-bold">AUTHENTICATION REQUIRED</span>
+                      </div>
+                      
+                      {/* Member Selector - Dropdown with green border to match screenshot */}
+                      <div className="flex mb-4 mt-1">
+                        <select
+                          value={selectedMember}
+                          onChange={(e) => setSelectedMember(e.target.value)}
+                          className="w-full px-2 py-1 bg-black border border-green-500 text-green-500 text-xs focus:outline-none focus:border-green-400"
+                        >
+                          <option value="">Select User</option>
+                          {FAMILY_MEMBERS.map(member => (
+                            <option key={member.id} value={member.id}>
+                              {member.avatar} {member.name} ({member.role})
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    
+                    {/* Auth Buttons - Updated for email only */}
+                    <div className="flex justify-center px-1 mt-1">
+                      <button
+                        onClick={() => {
+                          if (selectedMember) handleLogin();
+                        }}
+                        disabled={loading || !selectedMember}
+                        className="px-6 py-1.5 bg-black text-green-500 text-xs border border-green-500 hover:bg-surface-2"
+                      >
+                        EMAIL LOGIN
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+              
+              {/* Auth Error Display - Inside the panel */}
+              {authError && (
+                <div className="absolute top-10 left-2 right-2 bg-surface-0 text-amber-500 text-xs border border-amber-500 p-2 z-20 shadow-lg">
                   <div className="flex items-center">
-                    <span className="mr-1 font-bold">{audioEnabled ? '[SND:ON]' : '[SND:OFF]'}</span>
-                    <span className={`${audioEnabled ? 'animate-pulse' : ''}`}>
-                      {audioEnabled ? '▮▮▮▮▮▯▯▯' : '▯▯▯▯▯▯▯▯'}
+                    <span className="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse mr-2"></span>
+                    <span className="font-bold">AUTH MESSAGE:</span>
+                  </div>
+                  <div className="mt-1">{authError}</div>
+                </div>
+              )}
+            </div>
+            
+            {/* Terminal command controls - Compact */}
+            <div className="border border-border-subtle bg-surface-0 h-[140px] flex items-center">
+              <div className="px-3">
+                <div className="text-accent font-bold text-xs uppercase bg-surface-2 py-1 px-2 border-b border-border-subtle">
+                  TERMINAL CONTROLS
+                </div>
+                
+                {/* Theme selector to match the screenshot */}
+                <div className="px-2 py-2 text-xs">
+                  <div 
+                    onClick={() => {
+                      if (theme !== 'hackers') {
+                        setTheme('hackers');
+                        if (audioEnabled) playSound('click');
+                      }
+                    }}
+                    className="flex items-center cursor-pointer group mb-2"
+                  >
+                    <span className={`mr-2 ${theme === 'hackers' ? 'text-emerald-500' : 'text-text-secondary'}`}>
+                      [{theme === 'hackers' ? 'X' : ' '}]
+                    </span>
+                    <span className={`${theme === 'hackers' ? 'text-emerald-500' : 'text-text-secondary'}`}>
+                      HACKERS_TERMINAL
                     </span>
                   </div>
-                  <div className="mt-1 border border-border-subtle h-1.5 w-full bg-surface-2 relative">
-                    <div 
-                      className={`absolute top-0 left-0 h-full ${audioEnabled ? 'bg-purple-500 animate-pulse' : 'bg-text-secondary'}`}
-                      style={{ width: audioEnabled ? '70%' : '10%' }}
-                    ></div>
+                  
+                  <div 
+                    onClick={() => {
+                      if (theme !== 'dystopia') {
+                        setTheme('dystopia');
+                        if (audioEnabled) playSound('click');
+                      }
+                    }}
+                    className="flex items-center cursor-pointer group mb-2"
+                  >
+                    <span className={`mr-2 ${theme === 'dystopia' ? 'text-amber-500' : 'text-text-secondary'}`}>
+                      [{theme === 'dystopia' ? 'X' : ' '}]
+                    </span>
+                    <span className={`${theme === 'dystopia' ? 'text-amber-500' : 'text-text-secondary'}`}>
+                      DYSTOPIA_CONSOLE
+                    </span>
+                  </div>
+                  
+                  <div 
+                    onClick={() => {
+                      if (theme !== 'neotopia') {
+                        setTheme('neotopia');
+                        if (audioEnabled) playSound('click');
+                      }
+                    }}
+                    className="flex items-center cursor-pointer group mb-2"
+                  >
+                    <span className={`mr-2 ${theme === 'neotopia' ? 'text-blue-500' : 'text-text-secondary'}`}>
+                      [{theme === 'neotopia' ? 'X' : ' '}]
+                    </span>
+                    <span className={`${theme === 'neotopia' ? 'text-blue-500' : 'text-text-secondary'}`}>
+                      NEOTOPIA_INTERFACE
+                    </span>
+                  </div>
+                  
+                  {/* Audio toggle */}
+                  <div className="mt-3 flex items-center border-t border-border-subtle pt-2">
+                    <span className="text-xs text-text-secondary">
+                      [SND:{audioEnabled ? 'ON' : 'OFF'}] 
+                      <span className="ml-1">
+                        {audioEnabled ? '▮▮▮▮▮▮▮▮' : '▯▯▯▯▯▯▯▯'}
+                      </span>
+                    </span>
+                  </div>
+                  
+                  {/* Keyboard navigation help */}
+                  <div className="mt-3 border-t border-border-subtle pt-2">
+                    <div className="text-accent text-xs font-bold mb-1">KEYBOARD SHORTCUTS</div>
+                    <div className="text-[9px] text-text-secondary">
+                      <div className="flex justify-between mb-1">
+                        <span>ARROW KEYS</span>
+                        <span>NAVIGATE</span>
+                      </div>
+                      <div className="flex justify-between mb-1">
+                        <span>TAB</span>
+                        <span>NEXT COLUMN</span>
+                      </div>
+                      <div className="flex justify-between mb-1">
+                        <span>ENTER</span>
+                        <span>SELECT</span>
+                      </div>
+                      <div className="flex justify-between mb-1">
+                        <span>F4</span>
+                        <span>CHANGE THEME</span>
+                      </div>
+                      <div className="flex justify-between mb-1">
+                        <span>ESC</span>
+                        <span>EXIT NAV MODE</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           
-          {/* Right side advanced console panel */}
-          <div className="flex flex-col border border-border-subtle p-1 bg-surface-0 w-96">
-            <div className="text-xs text-accent font-bold mb-1 flex justify-between">
-              <span>╔═ COMMAND INTERFACE ═╗</span>
-              <span className="text-green-500 animate-pulse">READY</span>
-            </div>
-            
-            {/* Terminal-style search command box */}
-            <div className="bg-surface-2 border border-border-subtle p-1 mb-1">
-              <div className="flex items-center mb-1">
-                <span className="text-text-secondary text-xs mr-1">KAI_TERMINAL$</span>
-                <span className="text-accent text-xs">search --scope={activeCategory}</span>
-                <span className="text-accent animate-pulse ml-1">_</span>
+          {/* Database status badge in header - Compact */}
+          <div className="border border-border-subtle h-[140px] flex items-center px-3 mr-3">
+            <div className="flex flex-col h-full">
+              {/* Panel Header */}
+              <div className="bg-surface-2 border-b border-border-subtle px-3 py-1.5">
+                <div className="text-green-500 font-bold uppercase text-xs">
+                  SYSTEM STATUS
+                </div>
               </div>
               
-              <div className="relative">
-                <span className="absolute left-1 top-1 text-text-secondary text-xs">&gt;</span>
-                <input
-                  type="text"
-                  placeholder={`Enter search query for ${activeCategory}...`}
-                  className="w-full px-5 py-1 bg-surface-0 border border-accent text-xs font-mono"
-                />
-              </div>
-              
-              <div className="flex justify-between mt-1 text-xs">
-                <span className="text-text-secondary">
-                  {systemStatus === 'checking' 
-                    ? 'DATABASE: CONNECTING...' 
-                    : systemStatus === 'offline'
-                      ? 'DATABASE: ERROR'
-                      : `MATCHING: ${getItemsForCategory().length} ITEMS`
-                  }
-                </span>
-                <span className={`
-                  ${systemStatus === 'checking' ? 'text-amber-500 animate-pulse' : 
-                    systemStatus === 'offline' ? 'text-red-500' : 'text-accent'}
-                `}>
-                  {systemStatus === 'checking' 
-                    ? 'CONNECTING' 
-                    : systemStatus === 'offline'
-                      ? 'OFFLINE'
-                      : 'READY'
-                  }
-                </span>
-              </div>
-            </div>
-            
-            {/* System logs panel */}
-            <div className="bg-surface-2 border border-border-subtle p-1 text-xs h-16 overflow-y-auto flex-shrink-0">
-              <div className="text-text-secondary">[{new Date().toISOString().split('T')[0]} <CurrentTime />] System initialized</div>
-              
-              {systemStatus === 'checking' && (
-                <div className="text-amber-500 animate-pulse">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Attempting database connection...</div>
-              )}
-              
-              {systemStatus === 'online' && (
-                <>
-                  <div className="text-green-500">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Database connection established</div>
-                  <div className="text-text-secondary">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Loaded {databaseStats.formulations} formulations</div>
-                  <div className="text-text-secondary">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Loaded {databaseStats.ingredients} ingredients</div>
-                </>
-              )}
-              
-              {systemStatus === 'offline' && (
-                <div className="text-red-500">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Database connection failed: {connectionError || 'Connection error'}</div>
-              )}
-              
-              <div className="text-accent">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Theme activated: {theme.toUpperCase()}</div>
-              <div className="text-purple-500">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Audio system: {audioEnabled ? 'ENABLED' : 'DISABLED'}</div>
-              <div className="text-amber-500 animate-pulse">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Ready for input _</div>
-            </div>
-            
-            {/* ASCII-art status indicators */}
-            <div className="flex justify-between text-xs mt-1">
-              <div className="flex items-center space-x-2">
-                <span className={`px-1 py-0.5 ${systemStatus === 'online' ? 'bg-green-500 text-black' : 'bg-red-500 text-white'}`}>
-                  {systemStatus.toUpperCase()}
-                </span>
+              <div className="p-3">
+                {/* Status indicator */}
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="inline-block w-3 h-3 rounded-full bg-green-500"></span>
+                  <span className="text-green-500 font-bold text-xs">
+                    ONLINE
+                  </span>
+                </div>
                 
-                <span className="text-text-secondary">
-                  ITEMS: {databaseStats.formulations + databaseStats.ingredients}
-                </span>
-                
-                <span className="text-text-secondary">
-                  CACHE: <CacheHitRate />
-                </span>
-              </div>
-              
-              <div className="flex items-center">
-                <span className="text-xs text-text-secondary mr-2">SERVER:</span>
-                <span className={`${systemStatus === 'online' ? 'text-green-500' : 'text-red-500'} animate-pulse`}>
-                  {systemStatus === 'online' ? '▮▮▮▮▮▮' : '▯▯▯▯▯▯'}
-                </span>
+                {/* System stats */}
+                <div className="text-text-secondary text-xs grid grid-cols-1 gap-y-3">
+                  <div className="flex justify-between">
+                    <span>TIME:</span>
+                    <span className="text-cyan-500"><CurrentTime /></span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>THEME:</span>
+                    <span className="text-cyan-500">{theme.toUpperCase()}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>UPTIME:</span>
+                    <span className="text-cyan-500">{Math.floor(Math.random() * 12) + 4}h {Math.floor(Math.random() * 50) + 10}m</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>RAM:</span>
+                    <span className="text-cyan-500">{databaseStats.formulations + databaseStats.ingredients} ITEMS</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -639,7 +1063,7 @@ export default function KraftTerminalModularLayout({
       </div>
       
       {/* Main Three Column Layout with Retro Terminal UI - Flexible height */}
-      <div className="flex flex-1 overflow-hidden font-mono">
+      <div className="flex flex-1 overflow-hidden font-mono mt-2 pt-1 relative z-0 border-t border-border-subtle border-opacity-50">
         {/* First Column - Top-level Categories (Modules) */}
         <div className="w-48 bg-surface-1 border-r-2 border-border-subtle flex flex-col flex-shrink-0">
           <div className="py-1 pl-2 text-xs uppercase text-accent bg-surface-2 border-b-2 border-border-subtle">
@@ -651,21 +1075,26 @@ export default function KraftTerminalModularLayout({
           </div>
           
           <div className="flex-1 overflow-y-auto">
-            {SECTIONS.map(section => (
+            {SECTIONS.map((section, index) => (
               <div
                 key={section.id}
                 data-category={section.id}
-                className={`flex items-center px-3 py-2 cursor-pointer transition-colors ${
+                className={`flex items-center px-3 py-2 cursor-pointer transition-colors relative ${
                   activeCategory === section.id 
                     ? 'bg-accent/20 text-accent font-bold' 
                     : 'hover:bg-surface-2 text-text-secondary'
-                }`}
-                onClick={() => handleCategorySelect(section.id)}
+                  } ${navState.focused && navState.column === 0 && navState.index === index ? 'retro-box-selection' : ''}`
+                }
+                onClick={() => {
+                  handleCategorySelect(section.id);
+                  setNavState({ column: 0, index, focused: true });
+                }}
               >
-                <span className="mr-2 font-bold">{activeCategory === section.id ? '►' : ' '}</span>
+                <span className="mr-2 font-bold">
+                  {activeCategory === section.id ? '►' : ' '}
+                </span>
                 <span className="mr-2 text-lg">{section.icon}</span>
                 <span className="uppercase">{section.name}</span>
-                {activeCategory === section.id && <span className="ml-2 animate-pulse">_</span>}
               </div>
             ))}
           </div>
@@ -743,15 +1172,20 @@ export default function KraftTerminalModularLayout({
               <div
                 key={item.id}
                 data-item={item.id}
-                className={`px-3 py-1.5 cursor-pointer transition-colors border-b border-border-subtle ${
+                className={`px-3 py-1.5 cursor-pointer transition-colors border-b border-border-subtle relative ${
                   selectedItemId === item.id 
                     ? 'bg-accent/20 text-accent' 
                     : 'text-text-secondary hover:bg-surface-1 bg-surface-1'
-                }`}
-                onClick={() => handleItemSelect(item.id)}
+                } ${navState.focused && navState.column === 1 && navState.index === index ? 'retro-box-selection' : ''}`}
+                onClick={() => {
+                  handleItemSelect(item.id);
+                  setNavState({ column: 1, index, focused: true });
+                }}
               >
                 <div className="flex items-center">
-                  <span className="mr-2 font-bold">{selectedItemId === item.id ? '►' : `${index+1}.`}</span>
+                  <span className="mr-2 font-bold">
+                    {selectedItemId === item.id ? '►' : `${index+1}.`}
+                  </span>
                   <div>
                     <div className="font-medium truncate">{item.title || item.name}</div>
                     {item.description && (
@@ -843,8 +1277,8 @@ export default function KraftTerminalModularLayout({
         </div>
       </div>
       
-      {/* Advanced Terminal Footer with Detailed Stats and Logs - Fixed height */}
-      <div className="bg-surface-1 border-t-2 border-border-subtle py-1 px-4 font-mono text-xs flex-shrink-0">
+      {/* Advanced Terminal Footer with Detailed Stats and Logs - Height adjusted to balance with header */}
+      <div className="bg-surface-1 border-t-4 border-accent/40 py-4 px-4 font-mono text-xs flex-shrink-0 shadow-sm relative z-10 h-[140px]">
         <div className="grid grid-cols-12 gap-2">
           {/* System Status Panel */}
           <div className="col-span-3 border border-border-subtle bg-surface-0 p-1">
@@ -1045,6 +1479,11 @@ export default function KraftTerminalModularLayout({
                 <span className={systemStatus === 'online' ? 'text-green-500' : 'text-red-500'}>
                   {' '}{systemStatus.toUpperCase()}
                 </span>
+                {navState.focused && (
+                  <span className="ml-2 text-accent animate-pulse">
+                    [KEYBOARD NAV: {navState.column === 0 ? 'DIRECTORIES' : 'ITEMS'} | ↑↓←→ TO NAVIGATE | ENTER TO SELECT]
+                  </span>
+                )}
               </span>
             </div>
             

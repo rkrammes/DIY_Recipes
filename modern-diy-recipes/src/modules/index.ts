@@ -7,13 +7,15 @@
 
 // Import all modules
 import formulationsModule from './formulations';
+import './settings'; // Settings module self-registers
 
 // Export individual modules
 export { formulationsModule };
 
 // Export a list of all modules
 export const allModules = [
-  formulationsModule
+  formulationsModule,
+  // Settings module is registered dynamically
 ];
 
 /**

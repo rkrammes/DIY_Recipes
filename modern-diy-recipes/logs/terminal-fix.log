@@ -1,0 +1,7 @@
+===== KRAFT Terminal Interface with Secure Supabase Config =====
+This script will start the application with the updated Supabase configuration
+using the correct anon key for client-side operations.
+
+There's already an application running on port 3000.
+Please stop it first with: kill 12519
+19431

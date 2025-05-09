@@ -1,0 +1,7 @@
+Recipe API server running on http://localhost:3005
+Available endpoints:
+  GET /api/recipes - List all recipes
+  GET /api/recipes/:id - Get a specific recipe
+  GET /api/recipes/:id/ingredients - Get ingredients for a recipe
+  GET /api/recipes/:id/iterations - Get iterations for a recipe
+  GET /api/status - Get server status

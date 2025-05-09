@@ -1,8 +1,8 @@
    ▲ Next.js 15.3.0
    - Local:        http://localhost:3001
-   - Network:      http://10.4.45.43:3001
+   - Network:      http://192.168.1.148:3001
    - Environments: .env.local, .env
 
  ✓ Starting...
- ✓ Ready in 1118ms
+ ✓ Ready in 983ms
 [?25h

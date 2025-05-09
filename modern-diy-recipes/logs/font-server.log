@@ -1,44 +1,11 @@
 
-===========================================================
-🚀 HTTP Server running at http://localhost:3000
-===========================================================
-- Serving files from: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/public
-- Available on all network interfaces (0.0.0.0:3000)
-- Open in your browser: http://localhost:3000
+======================================================
+🚀 Font server running on http://localhost:3000
+======================================================
+- Binding to all interfaces (0.0.0.0)
+- Static files served from: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/public
+- Fonts directory: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/public/fonts
+- Available fonts: IBMPlexMono-Bold.woff2, IBMPlexMono-Medium.woff2, IBMPlexMono-Regular.woff2, IBMPlexMono-Regular.woff2.google, JetBrainsMono-Regular.woff2, Px437_IBM_VGA_8x16.woff, Share_Tech_Mono.woff, backup
+- Check server status at: http://localhost:3000/server-status
+- Test fonts at: http://localhost:3000/font-test
   
-
-📁 Available font files in /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/public/fonts:
-  - IBMPlexMono-Bold.woff2
-  - IBMPlexMono-Medium.woff2
-  - IBMPlexMono-Regular.woff2
-  - IBMPlexMono-Regular.woff2.google
-  - JetBrainsMono-Regular.woff2
-  - Px437_IBM_VGA_8x16.woff
-  - Share_Tech_Mono.woff
-  - backup
-
-📋 Press Ctrl+C to stop the server
-Request: GET /server-status
-File not found: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/public/server-status
-Request: HEAD /fonts/IBMPlexMono-Regular.woff2
-Served: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/public/fonts/IBMPlexMono-Regular.woff2 as font/woff2
-Request: HEAD /font-test.html
-Served: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/public/font-test.html as text/html
-Request: GET /
-Served: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/public/index.html as text/html
-Request: GET /font-loader.js
-Served: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/public/font-loader.js as text/javascript
-Request: GET /fonts/IBMPlexMono-Regular.woff2
-Request: GET /fonts/IBMPlexMono-Medium.woff2
-Request: GET /fonts/IBMPlexMono-Bold.woff2
-Served: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/public/fonts/IBMPlexMono-Medium.woff2 as font/woff2
-Served: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/public/fonts/IBMPlexMono-Regular.woff2 as font/woff2
-Served: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/public/fonts/IBMPlexMono-Bold.woff2 as font/woff2
-Request: GET /fonts/Px437_IBM_VGA_8x16.woff
-Request: GET /fonts/JetBrainsMono-Regular.woff2
-Served: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/public/fonts/Px437_IBM_VGA_8x16.woff as font/woff
-Served: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/public/fonts/JetBrainsMono-Regular.woff2 as font/woff2
-Request: GET /fonts/Share_Tech_Mono.woff
-Served: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/public/fonts/Share_Tech_Mono.woff as font/woff
-Request: GET /font-test.html
-Served: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/public/font-test.html as text/html

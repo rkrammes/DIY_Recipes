@@ -4,6 +4,8 @@ import { AuthProvider } from "../providers/AuthProvider";
 import { FixedThemeProvider } from "../providers/FixedThemeProvider";
 import ClientFontsWrapper from "../components/ClientFontsWrapper";
 import { ModuleProvider } from "../lib/modules/moduleContext";
+import { UserPreferencesProvider } from "../Settings/providers/UserPreferencesProvider";
+import { ThemeAdapter } from "../Settings/adapters/ThemeAdapter";
 import "./globals.css";
 import "../styles/inline-fonts.css";
 
@@ -41,10 +43,14 @@ export default function RootLayout({
         <div className="theme-background" aria-hidden="true" />
         <FixedThemeProvider>
           <AuthProvider>
-            <ModuleProvider>
-              {/* Pass children directly, TripleColumnLayout will be applied in page.tsx */}
-              {children}
-            </ModuleProvider>
+            <UserPreferencesProvider>
+              <ThemeAdapter>
+                <ModuleProvider>
+                  {/* Pass children directly, TripleColumnLayout will be applied in page.tsx */}
+                  {children}
+                </ModuleProvider>
+              </ThemeAdapter>
+            </UserPreferencesProvider>
           </AuthProvider>
         </FixedThemeProvider>
         <ClientFontsWrapper />
