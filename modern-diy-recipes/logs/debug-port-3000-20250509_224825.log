@@ -1,0 +1,72 @@
+[22:48:25] Cleaning up any existing processes...
+[22:48:25] Cleaning Next.js cache for a fresh start...
+[22:48:25] Running Supabase diagnostics...
+[2025-05-10T02:48:25.839Z] Checking Supabase environment variables:
+[2025-05-10T02:48:25.840Z] ✅ NEXT_PUBLIC_SUPABASE_URL: https://bzudglfxxywugesncjnz.supabase.co
+[2025-05-10T02:48:25.840Z] ✅ NEXT_PUBLIC_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI...
+[2025-05-10T02:48:25.840Z] ✅ SUPABASE_SERVICE_ROLE_KEY: eyJhbGciOiJIUzI...
+[2025-05-10T02:48:25.840Z] Creating Supabase client with anon key...
+[2025-05-10T02:48:25.841Z] ✅ Supabase client created successfully
+[2025-05-10T02:48:25.841Z] === Supabase Connection Diagnostics ===
+[2025-05-10T02:48:25.841Z] Testing all required tables...
+[2025-05-10T02:48:25.841Z] Testing existence of 'recipes' table...
+[2025-05-10T02:48:26.089Z] ✅ Table 'recipes' exists and is accessible
+[2025-05-10T02:48:26.089Z] Testing existence of 'ingredients' table...
+[2025-05-10T02:48:26.172Z] ✅ Table 'ingredients' exists and is accessible
+[2025-05-10T02:48:26.172Z] Testing existence of 'recipe_ingredients' table...
+[2025-05-10T02:48:26.249Z] ✅ Table 'recipe_ingredients' exists and is accessible
+[2025-05-10T02:48:26.249Z] Testing existence of 'iterations' table...
+[2025-05-10T02:48:26.341Z] Testing existence of 'users' table...
+[2025-05-10T02:48:26.418Z] Testing existence of 'user_preferences' table...
+[2025-05-10T02:48:26.504Z] ✅ Table 'user_preferences' exists and is accessible
+[2025-05-10T02:48:26.504Z] Testing existence of 'tools' table...
+[2025-05-10T02:48:26.585Z] ✅ Table 'tools' exists and is accessible
+[2025-05-10T02:48:26.585Z] Testing existence of 'library' table...
+[2025-05-10T02:48:26.675Z] ✅ Table 'library' exists and is accessible
+[2025-05-10T02:48:26.675Z] 
+Table Existence Summary:
+[2025-05-10T02:48:26.675Z] ✅ recipes: Exists
+[2025-05-10T02:48:26.675Z] ✅ ingredients: Exists
+[2025-05-10T02:48:26.675Z] ✅ recipe_ingredients: Exists
+[2025-05-10T02:48:26.676Z] ✅ user_preferences: Exists
+[2025-05-10T02:48:26.676Z] ✅ tools: Exists
+[2025-05-10T02:48:26.676Z] ✅ library: Exists
+[2025-05-10T02:48:26.676Z] Testing exec_sql function...
+[2025-05-10T02:48:26.756Z] 
+=== Diagnostic Summary ===
+[2025-05-10T02:48:26.756Z] 
+=== Recommendations ===
+[2025-05-10T02:48:26.756Z] 1. Create missing tables using the Supabase dashboard SQL editor
+[2025-05-10T02:48:26.756Z]    See table structure in database.sql or create-tables-fixed.js
+[2025-05-10T02:48:26.756Z] 1. Create the exec_sql function in the Supabase dashboard:
+[2025-05-10T02:48:26.756Z] 
+CREATE OR REPLACE FUNCTION public.exec_sql(sql text)
+RETURNS SETOF record
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  RETURN QUERY EXECUTE sql;
+END;
+$$;
+    
+[22:48:26] Setting up environment for port 3000 testing...
+[22:48:26] Environment configuration complete
+[22:48:26] Debug logs will be saved to: logs/debug-port-3000-20250509_224825.log
+[22:48:26] Error logs will be saved to: logs/errors-port-3000-20250509_224825.log
+[22:48:26] === Configuration Summary ===
+[22:48:26] Port: 3000
+[22:48:26] UI Mode: terminal
+[22:48:26] Next.js Debug: enabled
+[22:48:26] Supabase Debug: enabled
+[22:48:26] Starting Next.js on port 3000...
+[22:48:26] IMPORTANT: This will show all errors including Supabase connection issues
+[22:48:26] Watch the logs for detailed error information
+[22:48:26] ========================================
+   ▲ Next.js 15.3.0
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.148:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1053ms

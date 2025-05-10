@@ -1,0 +1,7 @@
+   ▲ Next.js 15.3.0
+   - Local:        http://localhost:8080
+   - Network:      http://0.0.0.0:8080
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1024ms

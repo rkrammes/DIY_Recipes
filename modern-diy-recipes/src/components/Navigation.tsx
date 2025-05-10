@@ -120,20 +120,31 @@ export default function Navigation() {
               <ThemedIcon iconType="globe" width={16} height={16} />
               MCP Auth
             </Link>
-            <Link 
-              href="/context7-mcp" 
+            <Link
+              href="/context7-mcp"
               className={`px-3 py-2 rounded-md transition-colors flex items-center gap-2 ${
-                pathname === '/context7-mcp' 
-                  ? 'bg-surface-2 text-text font-medium' 
+                pathname === '/context7-mcp'
+                  ? 'bg-surface-2 text-text font-medium'
                   : 'text-text-secondary hover:text-text hover:bg-surface-2'
               }`}
             >
               <ThemedIcon iconType="file" width={16} height={16} />
               Context7 Docs
             </Link>
+            <Link
+              href="/settings"
+              className={`px-3 py-2 rounded-md transition-colors flex items-center gap-2 ${
+                pathname === '/settings'
+                  ? 'bg-surface-2 text-text font-medium'
+                  : 'text-text-secondary hover:text-text hover:bg-surface-2'
+              }`}
+            >
+              <ThemedIcon iconType="tool" width={16} height={16} />
+              Settings
+            </Link>
           </div>
         </div>
-        
+
         <AuthStatus />
       </div>
     </nav>

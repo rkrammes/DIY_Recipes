@@ -1,0 +1,12 @@
+[2025-05-10T02:48:26.341Z] ❌ Error querying 'iterations': relation "public.iterations" does not exist
+[2025-05-10T02:48:26.341Z] Error details: {"code":"42P01","details":null,"hint":null,"message":"relation \"public.iterations\" does not exist"}
+[2025-05-10T02:48:26.418Z] ❌ Error querying 'users': relation "public.users" does not exist
+[2025-05-10T02:48:26.418Z] Error details: {"code":"42P01","details":null,"hint":null,"message":"relation \"public.users\" does not exist"}
+[2025-05-10T02:48:26.675Z] ❌ iterations: Missing
+[2025-05-10T02:48:26.676Z] ❌ users: Missing
+[2025-05-10T02:48:26.756Z] ❌ exec_sql function error: Could not find the function public.exec_sql(sql) in the schema cache
+[2025-05-10T02:48:26.756Z] Error details: {"code":"PGRST202","details":"Searched for the function public.exec_sql with parameter sql or with a single unnamed json/jsonb parameter, but no matches were found in the schema cache.","hint":null,"message":"Could not find the function public.exec_sql(sql) in the schema cache"}
+[2025-05-10T02:48:26.756Z] ❌ Some required tables are missing
+[2025-05-10T02:48:26.756Z] ❌ SQL execution function is missing or broken
+[2025-05-10T02:48:26.756Z] 
+Diagnostic results saved to:

@@ -1,19 +1,25 @@
 /**
  * Supabase Configuration - Constants and configuration for Supabase
- * 
+ *
  * This file contains the base configuration settings for connecting to Supabase.
- * It provides fallback endpoints for development if the environment variables are not set.
+ * IMPORTANT: Never expose service role keys in client-side code
  */
 
-// Supabase URL - Default to a development endpoint if not specified
-export const SUPABASE_URL = 
-  process.env.NEXT_PUBLIC_SUPABASE_URL || 
-  'https://xyzcompany.supabase.co';
+// Development mode flag
+const isDevelopment = process.env.NODE_ENV === 'development';
 
-// Supabase Anon Key - Default to a development key if not specified
-export const SUPABASE_ANON_KEY = 
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJocnJmZXlqenJmanVvaXB3enhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE2Nzg5MDgwNjAsImV4cCI6MTk5NDQ4NDA2MH0.v9wAy4wcK4hSQ5GN8m6rj4pU5hQPKV-OAnQbL56jEDU';
+// Supabase URL for client-side connections
+export const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+
+// Supabase Anon Key (public) for client-side connections
+// This is safe to use in browser code - it has limited permissions via Row Level Security
+export const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+// Flag to detect if we have valid configuration
+export const hasValidConfig = !!SUPABASE_URL && !!SUPABASE_ANON_KEY;
+
+// Flag for development fallbacks
+export const hasFallbackConfig = isDevelopment && !hasValidConfig;
 
 // Maximum retry count for Supabase requests
 export const MAX_RETRIES = 3;

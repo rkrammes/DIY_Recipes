@@ -5,10 +5,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Progress } from '@/components/ui/progress';
 import { useUserPreferencesContext } from '../providers/UserPreferencesProvider';
 import { useAuth } from '@/hooks/useAuth';
+import { useEnvironment } from '@/hooks/useEnvironment';
 
 export default function SystemInfo() {
-  const { preferences, loading } = useUserPreferencesContext();
+  const { preferences, loading, error, supabaseAvailable } = useUserPreferencesContext();
   const { isAuthenticated, user } = useAuth();
+  const env = useEnvironment();
   const [uptime, setUptime] = useState(0);
   const [memory, setMemory] = useState(0);
   const [cpu, setCpu] = useState(0);
@@ -129,31 +131,62 @@ export default function SystemInfo() {
                     <span className="text-sm">User ID</span>
                     <span className="text-sm font-mono">{user.id.substring(0, 8)}...</span>
                   </div>
-                  
+
                   <div className="flex justify-between">
                     <span className="text-sm">Email</span>
                     <span className="text-sm">{user.email}</span>
                   </div>
-                  
+
                   {user.app_metadata?.role && (
                     <div className="flex justify-between">
                       <span className="text-sm">Role</span>
                       <span className="text-sm uppercase">{user.app_metadata.role}</span>
                     </div>
                   )}
-                  
+
                   <div className="flex justify-between">
                     <span className="text-sm">Preferences</span>
-                    <span className="text-sm">Synchronized</span>
+                    <span className="text-sm">{supabaseAvailable ? "Synchronized" : "Local Only"}</span>
                   </div>
                 </div>
               ) : (
-                <div>
-                  <p className="text-sm text-text-secondary">
+                <div className="space-y-2">
+                  <p className="text-sm text-text-secondary mb-2">
                     Sign in to synchronize your settings across devices
                   </p>
                 </div>
               )}
+
+              {/* Always show Supabase status - regardless of authentication */}
+              <div className="mt-4 space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-sm">Supabase</span>
+                  <span className="text-sm flex items-center">
+                    <span className={`w-2 h-2 rounded-full mr-1.5 ${supabaseAvailable ? 'bg-green-500' : 'bg-red-500'}`}></span>
+                    {supabaseAvailable ? "Available" : "Unavailable"}
+                  </span>
+                </div>
+
+                {!supabaseAvailable && error && (
+                  <div className="mt-2 text-xs text-red-500 border border-red-300 bg-red-50 dark:bg-red-950 p-2 rounded">
+                    {error.message}
+                  </div>
+                )}
+
+                <div className="flex justify-between">
+                  <span className="text-sm">Environment</span>
+                  <span className="text-sm flex items-center">
+                    <span className={`w-2 h-2 rounded-full mr-1.5 ${env.isValid ? 'bg-green-500' : 'bg-amber-500'}`}></span>
+                    {env.isValid ? "Valid" : "Warning"}
+                  </span>
+                </div>
+
+                {!env.isValid && (
+                  <div className="mt-2 text-xs text-amber-500 border border-amber-300 bg-amber-50 dark:bg-amber-950 p-2 rounded">
+                    Environment configuration has warnings. Check system logs for details.
+                  </div>
+                )}
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -187,56 +220,90 @@ export default function SystemInfo() {
                 </div>
               </div>
             </div>
-            
+
             <div>
               <h4 className="font-medium mb-2">Configuration</h4>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span>Environment</span>
-                  <span>{process.env.NODE_ENV || 'development'}</span>
+                  <span>{env.environment}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Themes</span>
-                  <span>3 Available</span>
+                  <span>UI Mode</span>
+                  <span className="capitalize">{env.uiMode}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Theme</span>
+                  <span className="capitalize">{env.theme}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Audio</span>
                   <span>{preferences.audio_enabled ? 'Enabled' : 'Disabled'}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Browser</span>
-                  <span>{typeof navigator !== 'undefined' ? navigator.userAgent.split(' ')[0] : 'Unknown'}</span>
-                </div>
               </div>
             </div>
           </div>
           
+          {env.isDevelopment && (
+            <div className="mt-6 pt-4 border-t">
+              <h4 className="font-medium mb-2">Feature Flags</h4>
+              <p className="text-sm text-text-secondary mb-2">
+                Current feature flag status (development mode only)
+              </p>
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                {env.enabledFeatures.map(feature => (
+                  <div key={feature} className="flex items-center">
+                    <span className="w-2 h-2 rounded-full bg-green-500 mr-1.5"></span>
+                    <span>{feature}</span>
+                  </div>
+                ))}
+                {env.disabledFeatures.slice(0, 4).map(feature => (
+                  <div key={feature} className="flex items-center text-text-secondary">
+                    <span className="w-2 h-2 rounded-full bg-gray-400 mr-1.5"></span>
+                    <span>{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="mt-6 pt-4 border-t">
             <h4 className="font-medium mb-2">Support</h4>
             <p className="text-sm text-text-secondary mb-2">
               If you need assistance, please contact support or visit our documentation.
             </p>
             <div className="flex space-x-2">
-              <a 
-                href="/docs" 
+              <a
+                href="/docs"
                 className="text-sm underline text-accent hover:text-accent-hover"
               >
                 Documentation
               </a>
               <span className="text-text-secondary">•</span>
-              <a 
-                href="/support" 
+              <a
+                href="/support"
                 className="text-sm underline text-accent hover:text-accent-hover"
               >
                 Support
               </a>
               <span className="text-text-secondary">•</span>
-              <a 
-                href="/feedback" 
+              <a
+                href="/feedback"
                 className="text-sm underline text-accent hover:text-accent-hover"
               >
                 Feedback
               </a>
+              {env.isDevelopment && (
+                <>
+                  <span className="text-text-secondary">•</span>
+                  <a
+                    href="/environment-status"
+                    className="text-sm underline text-accent hover:text-accent-hover"
+                  >
+                    Environment Status
+                  </a>
+                </>
+              )}
             </div>
           </div>
         </CardContent>

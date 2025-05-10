@@ -11,6 +11,7 @@ interface UserPreferencesContextType {
   updatePreferences: (updates: Partial<UserPreferences>) => Promise<void>;
   loading: boolean;
   error: Error | null;
+  supabaseAvailable: boolean;
   // Convenience getters
   theme: 'hackers' | 'dystopia' | 'neotopia';
   audioEnabled: boolean;
@@ -37,6 +38,7 @@ const { Provider, useValue } = createSafeProvider<UserPreferencesContextType>(
     updatePreferences: async () => {},
     loading: true,
     error: null,
+    supabaseAvailable: true,
     theme: 'hackers',
     audioEnabled: false,
     volume: 0.7,

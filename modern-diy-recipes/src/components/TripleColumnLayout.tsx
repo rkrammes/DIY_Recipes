@@ -109,6 +109,12 @@ export default function TripleColumnLayout() {
           { id: 'substitutions', title: 'Ingredient Substitutions', description: 'Find alternatives for ingredients' },
           { id: 'measurements', title: 'Measurement Guide', description: 'Standard measurement conversions' }
         ];
+      case 'settings':
+        // This case is now handled by the separate Settings button
+        // and shouldn't be reached, but we'll keep it for completeness
+        console.log('Settings section selected - redirecting to settings page');
+        window.location.href = '/settings';
+        return [];
       default:
         return [];
     }
@@ -126,9 +132,10 @@ export default function TripleColumnLayout() {
       return (
         <div className="flex flex-col items-center justify-center h-full p-8 text-center">
           <div className="text-6xl mb-6">
-            {activeSection === 'formulations' ? '📋' : 
-             activeSection === 'ingredients' ? '🧪' : 
-             activeSection === 'tools' ? '🔧' : '📚'}
+            {activeSection === 'formulations' ? '📋' :
+             activeSection === 'ingredients' ? '🧪' :
+             activeSection === 'tools' ? '🔧' :
+             activeSection === 'settings' ? '⚙️' : '📚'}
           </div>
           <h2 className="text-2xl font-bold mb-3">Select a {activeSection.slice(0, -1)} to view</h2>
           <p className="text-text-secondary max-w-md">
@@ -144,11 +151,11 @@ export default function TripleColumnLayout() {
         // just pass the ID to let FormulationDetails fetch it from the API
         const selectedFormulation = formulations?.find(r => r.id === selectedItemId);
         console.log("Selected formulation:", selectedFormulation || { id: selectedItemId, message: "Formulation data not available in list" });
-        
+
         // Generate a unique component key that changes whenever the ID changes
         // This ensures complete re-mounting of the component
         const componentKey = `formulation-details-${selectedItemId}-${Date.now()}`;
-        
+
         // We'll force a log of the formulation data to help debug
         if (selectedFormulation) {
           console.log("Formulation details being passed to FormulationDetails component:", JSON.stringify({
@@ -158,16 +165,16 @@ export default function TripleColumnLayout() {
             ingredients: selectedFormulation.ingredients ? `${selectedFormulation.ingredients.length} ingredients` : 'no ingredients'
           }, null, 2));
         }
-        
+
         return (
           <ErrorBoundary fallback={
             <div className="p-4 bg-surface-1 rounded-lg border border-border-subtle">
               <h3 className="text-lg font-semibold mb-2">Error Loading Formulation</h3>
               <p className="text-text-secondary mb-4">
-                There was a problem displaying the formulation details. 
+                There was a problem displaying the formulation details.
               </p>
               <div className="flex space-x-2">
-                <button 
+                <button
                   onClick={() => {
                     // Force refresh by cycling the selection
                     setSelectedItemId(null);
@@ -186,9 +193,9 @@ export default function TripleColumnLayout() {
               </div>
             </div>
           }>
-            <FormulationDetails 
+            <FormulationDetails
               key={componentKey} // Force re-render with a truly unique key
-              formulationId={selectedItemId} 
+              formulationId={selectedItemId}
               initialFormulationData={selectedFormulation}
             />
           </ErrorBoundary>
@@ -203,7 +210,7 @@ export default function TripleColumnLayout() {
             </div>
             <h3 className="text-xl font-semibold mb-3">Used In Formulations</h3>
             <div className="bg-surface-1 p-4 rounded-md">
-              {formulations?.filter(f => f.ingredients?.some(i => i.id === selectedItemId)).length 
+              {formulations?.filter(f => f.ingredients?.some(i => i.id === selectedItemId)).length
                 ? formulations?.filter(f => f.ingredients?.some(i => i.id === selectedItemId))
                    .map(formulation => (
                     <div key={formulation.id} className="mb-2 p-2 hover:bg-surface-2 rounded-md cursor-pointer"
@@ -217,6 +224,80 @@ export default function TripleColumnLayout() {
                 : <p className="text-text-secondary">Not used in any formulations yet</p>
               }
             </div>
+          </div>
+        );
+      case 'settings':
+        // Handle Settings section
+        const settingItem = getItemsForSection().find(i => i.id === selectedItemId);
+
+        // Import settings components dynamically to avoid circular dependencies
+        const [SettingsComponent, setSettingsComponent] = useState<React.ComponentType<any> | null>(null);
+
+        useEffect(() => {
+          async function loadSettingsComponent() {
+            try {
+              let Component = null;
+
+              switch (selectedItemId) {
+                case 'theme':
+                  const { default: ThemeSettings } = await import('@/Settings/components/ThemeSettings');
+                  Component = ThemeSettings;
+                  break;
+                case 'audio':
+                  const { default: AudioSettings } = await import('@/Settings/components/AudioSettings');
+                  Component = AudioSettings;
+                  break;
+                case 'account':
+                  const { default: AuthSettings } = await import('@/Settings/components/AuthSettings');
+                  Component = AuthSettings;
+                  break;
+                case 'profile':
+                  const { default: UserProfileSettings } = await import('@/Settings/components/UserProfileSettings');
+                  Component = UserProfileSettings;
+                  break;
+                case 'system':
+                  const { default: SystemInfo } = await import('@/Settings/components/SystemInfo');
+                  Component = SystemInfo;
+                  break;
+                default:
+                  Component = null;
+              }
+
+              setSettingsComponent(() => Component);
+            } catch (error) {
+              console.error('Error loading settings component:', error);
+              setSettingsComponent(null);
+            }
+          }
+
+          loadSettingsComponent();
+        }, [selectedItemId]);
+
+        return (
+          <div className="p-6">
+            <h2 className="text-2xl font-bold mb-4">{settingItem?.title || 'Settings'}</h2>
+            <p className="mb-6 text-text-secondary">{settingItem?.description}</p>
+
+            <ErrorBoundary fallback={
+              <div className="p-4 bg-surface-1 rounded-lg border border-border-subtle">
+                <h3 className="text-lg font-semibold mb-2">Error Loading Settings</h3>
+                <p className="text-text-secondary mb-4">
+                  There was a problem displaying the settings component.
+                </p>
+              </div>
+            }>
+              {SettingsComponent ? <SettingsComponent /> : (
+                <div className="animate-pulse flex space-x-4">
+                  <div className="flex-1 space-y-4 py-1">
+                    <div className="h-4 bg-surface-2 rounded w-3/4"></div>
+                    <div className="space-y-2">
+                      <div className="h-4 bg-surface-2 rounded"></div>
+                      <div className="h-4 bg-surface-2 rounded w-5/6"></div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </ErrorBoundary>
           </div>
         );
       case 'tools':
@@ -606,8 +687,8 @@ function SystemStatusText({ status }: { status: string }) {
             <div
               key={section.id}
               className={`flex items-center px-3 py-2 cursor-pointer transition-colors ${
-                activeSection === section.id 
-                  ? 'bg-accent/20 text-accent font-bold' 
+                activeSection === section.id
+                  ? 'bg-accent/20 text-accent font-bold'
                   : 'hover:bg-surface-2 text-text-secondary'
               }`}
               onClick={() => handleSectionSelect(section.id)}
@@ -618,7 +699,27 @@ function SystemStatusText({ status }: { status: string }) {
               {activeSection === section.id && <span className="ml-2 animate-pulse">_</span>}
             </div>
           ))}
-          
+
+          {/* Divider before Settings */}
+          <div className="mt-2 mb-2 mx-3 border-t border-border-subtle"></div>
+
+          {/* Settings button - visually distinct */}
+          <div
+            className={`flex items-center px-3 py-2 cursor-pointer transition-colors border border-border-subtle mx-2 rounded ${
+              activeSection === 'settings'
+                ? 'bg-accent/20 text-accent font-bold'
+                : 'bg-surface-2 hover:bg-surface-3 text-accent-hover'
+            }`}
+            onClick={() => {
+              console.log('Settings clicked - redirecting to settings page');
+              window.location.href = '/settings';
+            }}
+          >
+            <span className="mr-2 font-bold">{activeSection === 'settings' ? '►' : ' '}</span>
+            <span className="mr-2 text-lg">⚙️</span>
+            <span className="uppercase font-medium">Settings</span>
+          </div>
+
           {/* ASCII decorations */}
           <div className="mt-4 px-3 text-text-secondary text-xs">
             <div className="mb-2">
@@ -646,6 +747,12 @@ function SystemStatusText({ status }: { status: string }) {
                   <span className="animate-pulse">...</span>
                 </>
               )}
+              <div className="mt-4 pt-2 border-t border-border-subtle">
+                <div className="text-accent">⚙️ CONFIG OPTIONS</div>
+                <div className="text-xs mt-1">
+                  To access advanced settings, use the <span className="text-accent font-bold">SETTINGS</span> menu option above.
+                </div>
+              </div>
             </div>
           </div>
         </div>
