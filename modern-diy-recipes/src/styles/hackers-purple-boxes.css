@@ -1,0 +1,88 @@
+/* HACKERS MENU UI - FLASHING PURPLE SELECTION BOXES & CYAN TEXT */
+
+/* First, define the purple box flashing animation exactly like in movie */
+@keyframes hackersPurpleBoxFlash {
+  0%, 100% {
+    border-color: #FF00FF;
+    box-shadow: 0 0 15px #FF00FF;
+  }
+  50% {
+    border-color: transparent;
+    box-shadow: none;
+  }
+}
+
+/* Apply flashing purple box to all menu items when selected */
+[data-theme="hackers"] .file-item.selected,
+[data-theme="hackers"] [data-file-item].selected,
+[data-theme="hackers"] .menu-item.selected,
+[data-theme="hackers"] [data-menu-item].selected,
+[data-theme="hackers"] .file-active,
+[data-theme="hackers"] .item-active,
+[data-theme="hackers"] .selected {
+  color: #FF00FF !important; /* Bright purple */
+  text-shadow: 0 0 15px #FF00FF !important;
+  border: 2px solid #FF00FF !important;
+  background: transparent !important;
+  animation: hackersPurpleBoxFlash 0.5s infinite steps(2) !important;
+}
+
+/* Add the ">" after each menu item */
+[data-theme="hackers"] .file-item::after,
+[data-theme="hackers"] [data-file-item]::after,
+[data-theme="hackers"] .menu-item::after,
+[data-theme="hackers"] [data-menu-item]::after,
+[data-theme="hackers"] .nav-item::after {
+  content: ">";
+  color: #00FFFF !important;
+  margin-left: 10px !important;
+}
+
+/* Special styling for "GARBAGE" menu item to be purple */
+[data-theme="hackers"] .file-item:nth-child(5),
+[data-theme="hackers"] [data-file-item]:nth-child(5),
+[data-theme="hackers"] .menu-item:nth-child(5),
+[data-theme="hackers"] [data-menu-item]:nth-child(5) {
+  color: #FF00FF !important;
+  text-shadow: 0 0 15px rgba(255, 0, 255, 1) !important;
+}
+
+/* Purple ">" for GARBAGE menu item */
+[data-theme="hackers"] .file-item:nth-child(5)::after,
+[data-theme="hackers"] [data-file-item]:nth-child(5)::after,
+[data-theme="hackers"] .menu-item:nth-child(5)::after,
+[data-theme="hackers"] [data-menu-item]:nth-child(5)::after {
+  color: #FF00FF !important;
+  text-shadow: 0 0 15px rgba(255, 0, 255, 1) !important;
+}
+
+/* Make all text in the interface CYAN */
+[data-theme="hackers"] span,
+[data-theme="hackers"] div,
+[data-theme="hackers"] p,
+[data-theme="hackers"] .status-text,
+[data-theme="hackers"] .time-display,
+[data-theme="hackers"] #selection_status,
+[data-theme="hackers"] [id*="status-"],
+[data-theme="hackers"] [id*="status_"],
+[data-theme="hackers"] .theme-name {
+  color: #00FFFF !important;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.8) !important;
+}
+
+/* Make icons cyan */
+[data-theme="hackers"] svg,
+[data-theme="hackers"] .icon {
+  color: #00FFFF !important;
+  fill: #00FFFF !important;
+  filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.8)) !important;
+}
+
+/* Selected items' icons should be purple */
+[data-theme="hackers"] .selected svg,
+[data-theme="hackers"] .active svg,
+[data-theme="hackers"] .file-active svg {
+  color: #FF00FF !important;
+  fill: #FF00FF !important;
+  filter: drop-shadow(0 0 8px rgba(255, 0, 255, 0.8)) !important;
+}

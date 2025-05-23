@@ -1,0 +1,392 @@
+/* Hackers Theme - Authentic 90s digital punk aesthetic combined with synthwave elements */
+[data-theme="hackers"] {
+  /* Core color palette - Movie accurate with bolder 16-bit glow */
+  --hackers-black: 0% 0 0; /* Pure black background */
+  --hackers-near-black: 5% 0.03 270; /* Slightly blue-black for depth */
+
+  /* Terminal colors from movie screenshot - increased saturation for 16-bit look */
+  --hackers-cyan: 85% 0.35 195; /* Bright cyan for menus & server info */
+  --hackers-green: 90% 0.45 135; /* Vibrant green for status */
+  --hackers-purple: 70% 0.40 290; /* Brighter purple for selections */
+  --hackers-orange: 80% 0.45 60; /* Saturated orange for network info */
+  --hackers-red: 75% 0.50 20; /* Intense red for warnings/errors */
+  --hackers-yellow: 90% 0.45 90; /* Bright yellow for cautions */
+  --hackers-blue-highlight: 75% 0.40 250; /* Electric blue selection bar */
+  
+  /* Synthwave backdrop colors */
+  --hackers-grid-color: 70% 0.35 300; /* Purple grid lines */
+  --hackers-neon-pink: 65% 0.35 330; /* Pink for synthwave accents */
+  
+  /* Surface tokens - Authentic CRT monitor dark background */
+  --surface-0: var(--hackers-black);
+  --surface-1: var(--hackers-near-black);
+  --surface-inverse: 95% 0.01 0;
+  
+  /* Content tokens - Authentic 90s cyber interface text */
+  --text-primary: var(--hackers-green); /* Terminal green for primary */
+  --text-secondary: 60% 0.25 135; /* Secondary text is dimmer green */
+  --text-inverse: var(--hackers-black);
+  
+  /* Interactive tokens - Purple for selections */
+  --accent: var(--hackers-purple);
+  --accent-hover: 65% 0.45 290;
+  --accent-active: 55% 0.38 290;
+  
+  /* Decorative tokens - Based on movie interfaces */
+  --border-subtle: var(--hackers-cyan) / 0.6;
+  --shadow-soft: 0 0 15px oklch(var(--hackers-grid-color) / 0.5);
+  --glow-pulse: 0 0 20px oklch(var(--hackers-neon-pink) / 0.7);
+  
+  /* Status tokens - Match authentic terminal colors */
+  --success: var(--hackers-green);
+  --warning: var(--hackers-yellow);
+  --error: var(--hackers-red);
+  
+  /* Theme-specific effect values - More authentic CRT effects */
+  --neon-intensity: 0.7;
+  --bloom-radius: 2px;
+  --grid-opacity: 0.4;
+  --crt-effect: 1;
+  --pixel-effect: 1;
+  --phosphor-blur: 1px;
+  
+  /* Typography - Authentic 90s monospace */
+  --font-body: 'VGA', monospace;
+  --font-heading: 'VGA', monospace;
+  --font-mono: monospace;
+  --font-display: 'Share Tech Mono', monospace;
+  --font-terminal: 'VGA', 'Share Tech Mono', monospace;
+  --letter-spacing-display: 0.05em;
+  --letter-spacing-body: 0;
+  --letter-spacing-code: 0;
+}
+
+/* Synthwave grid background - enhanced with more dramatic gradient */
+[data-theme="hackers"] .theme-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    oklch(10% 0.18 270) 0%,  /* Slightly brighter/more saturated top */
+    oklch(5% 0.15 270) 40%,  /* Middle tone */
+    oklch(2% 0.08 270) 100%  /* Darker bottom for better contrast */
+  );
+  z-index: -3;
+  opacity: 0.9; /* Slightly transparent to allow more of the grid to show */
+}
+
+/* Animated purple grid with dynamic movement - extremely prominent */
+[data-theme="hackers"] .theme-background::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(
+      90deg,
+      oklch(var(--hackers-grid-color) / 0.85) 1px,  /* Much more opaque for visibility */
+      transparent 1px
+    ),
+    linear-gradient(
+      oklch(var(--hackers-grid-color) / 0.85) 1px,  /* Much more opaque for visibility */
+      transparent 1px
+    );
+  background-size: 40px 40px;
+  transform: perspective(1000px) rotateX(60deg);
+  transform-origin: center 90%;
+  height: 200%;
+  top: 30%;
+  animation: hackersGridMove 18s linear infinite; /* Slightly faster animation */
+  z-index: -2;
+  opacity: 1.0;  /* Full opacity to ensure grid is prominent */
+  box-shadow: 0 0 60px oklch(var(--hackers-grid-color) / 0.7); /* Stronger glow to the grid */
+}
+
+/* ===== MENU NAVIGATION STYLING ===== */
+/* File Navigation - Movie-accurate styling for 3-column UI */
+[data-theme="hackers"] .file-browser,
+[data-theme="hackers"] [data-file-browser],
+[data-theme="hackers"] [data-file-browser="directory-column"],
+[data-theme="hackers"] [data-file-browser="items-column"],
+[data-theme="hackers"] [data-file-browser="header"],
+[data-theme="hackers"] .menu-system,
+[data-theme="hackers"] [data-menu],
+[data-theme="hackers"] .navigation-menu {
+  background: rgba(0, 0, 0, 0.9) !important; /* Very dark background like in movie */
+  border: none !important; /* No borders */
+  color: #00FFFF !important; /* Bright cyan text exactly like in the movie */
+  font-family: "Share Tech Mono", monospace !important; /* Better font match for movie */
+  font-size: 20px !important; /* Larger text for movie accuracy */
+  text-transform: uppercase !important;
+  letter-spacing: 0.2em !important; /* Wider letter spacing like in movie */
+  padding: 1rem !important; /* More padding */
+  font-weight: normal !important; /* Not bold in movie */
+  position: relative !important;
+  box-shadow: none !important; /* No shadow */
+  backdrop-filter: none !important; /* No blur */
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.9) !important; /* Strong cyan glow like in movie */
+
+  /* Grid lines like in the movie screenshot */
+  background-image:
+    linear-gradient(0deg, rgba(128, 0, 128, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128, 0, 128, 0.2) 1px, transparent 1px) !important;
+  background-size: 15px 15px !important; /* Wider grid pattern like movie */
+}
+
+/* Menu items with the bright cyan color - movie accurate */
+[data-theme="hackers"] .file-item,
+[data-theme="hackers"] [data-file-item],
+[data-theme="hackers"] [data-file-browser="item"],
+[data-theme="hackers"] .file-inactive,
+[data-theme="hackers"] .item-inactive,
+[data-theme="hackers"] .menu-item,
+[data-theme="hackers"] [data-menu-item],
+[data-theme="hackers"] .nav-item {
+  color: #00FFFF !important; /* Movie-accurate bright cyan */
+  display: flex !important;
+  align-items: center !important;
+  padding: 0.4rem 0.2rem !important; /* More spacing between items */
+  margin: 0.1rem 0 !important;
+  cursor: pointer !important;
+  position: relative !important;
+  font-size: 18px !important;
+  letter-spacing: 0.05em !important;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.8) !important; /* Strong cyan glow */
+  text-transform: uppercase !important;
+  justify-content: space-between !important; /* Push > to the right */
+}
+
+/* Menu item arrow indicator removed - arrows moved to ::before for movie accuracy */
+[data-theme="hackers"] .file-item::after,
+[data-theme="hackers"] [data-file-item]::after,
+[data-theme="hackers"] .menu-item::after,
+[data-theme="hackers"] [data-menu-item]::after,
+[data-theme="hackers"] .nav-item::after {
+  content: ">" !important; /* Menu item arrows at END like in the movie */
+  margin-left: 10px !important;
+  color: #00FFFF !important; /* Cyan like the text */
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.9) !important; /* Strong cyan glow */
+  font-weight: bold !important;
+}
+
+/* HOVER/SELECTED STATE: Purple text with flashing box - specific to menu/file items */
+[data-theme="hackers"] .file-item:hover,
+[data-theme="hackers"] .file-item.selected,
+[data-theme="hackers"] .file-item.active,
+[data-theme="hackers"] [data-file-item]:hover,
+[data-theme="hackers"] [data-file-item].selected,
+[data-theme="hackers"] [data-file-browser="item"]:hover,
+[data-theme="hackers"] [data-file-browser="item"].selected,
+[data-theme="hackers"] .menu-item:hover,
+[data-theme="hackers"] .menu-item.selected,
+[data-theme="hackers"] .menu-item.active,
+[data-theme="hackers"] [data-menu-item]:hover,
+[data-theme="hackers"] [data-menu-item].selected,
+[data-theme="hackers"] .nav-item:hover,
+[data-theme="hackers"] .nav-item.selected,
+[data-theme="hackers"] .nav-item.active,
+[data-theme="hackers"] .product-item:hover,
+[data-theme="hackers"] .product-item.selected,
+[data-theme="hackers"] .product-item.active,
+[data-theme="hackers"] .recipe-item:hover,
+[data-theme="hackers"] .recipe-item.selected,
+[data-theme="hackers"] .recipe-item.active,
+[data-theme="hackers"] .formulation-item:hover,
+[data-theme="hackers"] .formulation-item.selected,
+[data-theme="hackers"] .formulation-item.active,
+[data-theme="hackers"] .file-active,
+[data-theme="hackers"] .item-active,
+[data-theme="hackers"] .selected,
+[data-theme="hackers"] [class*="selected"],
+[data-theme="hackers"] .active,
+[data-theme="hackers"] [class*="active"] {
+  color: #FF00FF !important; /* Bright purple */
+  background: transparent !important; /* No background */
+  text-shadow: 0 0 15px rgba(255, 0, 255, 1) !important; /* Strong purple glow */
+  font-weight: bold !important;
+  position: relative !important;
+  z-index: 1 !important;
+  box-shadow: 0 0 0 2px #FF00FF !important; /* Thicker purple box around selected items */
+  border: 2px solid #FF00FF !important; /* Explicit border */
+  padding: 2px 10px !important; /* More padding for the box */
+  margin: 3px 0 !important;
+  animation: hackersPurpleFlash 0.5s steps(2) infinite !important; /* Flashing effect */
+}
+
+/* Flashing animation for selected items - more dramatic */
+@keyframes hackersPurpleFlash {
+  0%, 100% {
+    border-color: #FF00FF !important;
+    box-shadow: 0 0 20px rgba(255, 0, 255, 1) !important;
+  }
+  50% {
+    border-color: transparent !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Purple '>' for selected menu items */
+[data-theme="hackers"] .file-item.selected::after,
+[data-theme="hackers"] [data-file-item].selected::after,
+[data-theme="hackers"] .file-active::after,
+[data-theme="hackers"] .item-active::after,
+[data-theme="hackers"] .menu-item.selected::after,
+[data-theme="hackers"] [data-menu-item].selected::after,
+[data-theme="hackers"] .nav-item.selected::after,
+[data-theme="hackers"] .file-item:hover::after,
+[data-theme="hackers"] [data-file-item]:hover::after,
+[data-theme="hackers"] [data-file-browser="item"]:hover::after,
+[data-theme="hackers"] .menu-item:hover::after,
+[data-theme="hackers"] [data-menu-item]:hover::after,
+[data-theme="hackers"] .nav-item:hover::after {
+  color: #FF00FF !important; /* Bright purple */
+  text-shadow: 0 0 15px rgba(255, 0, 255, 1) !important; /* Strong purple glow */
+}
+
+/* Icon styling to match movie-accurate cyan text */
+[data-theme="hackers"] [data-file-browser="item"] svg,
+[data-theme="hackers"] [data-file-browser="directory-column"] svg,
+[data-theme="hackers"] [data-file-browser="items-column"] svg,
+[data-theme="hackers"] .menu-icon svg,
+[data-theme="hackers"] .icon {
+  color: #00FFFF !important; /* Bright cyan for icons like in movie */
+  fill: #00FFFF !important; /* Ensure SVG fill matches */
+  filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.8)) !important; /* Strong cyan glow */
+}
+
+/* Selected icon styling with movie-accurate purple */
+[data-theme="hackers"] .file-active svg,
+[data-theme="hackers"] .item-active svg,
+[data-theme="hackers"] [data-file-browser="item"]:hover svg,
+[data-theme="hackers"] .icon-selected {
+  color: #FF00FF !important; /* Bright purple to match selected text like in movie */
+  fill: #FF00FF !important;
+  filter: drop-shadow(0 0 8px rgba(255, 0, 255, 0.9)) !important; /* Strong purple glow */
+}
+
+/* Styling for file items in movie-style - EXACTLY like movie screenshot */
+[data-theme="hackers"] .file-item,
+[data-theme="hackers"] [data-file-item],
+[data-theme="hackers"] .menu-item,
+[data-theme="hackers"] [data-menu-item] {
+  position: relative !important;
+  padding: 0 !important;
+  margin-bottom: 1rem !important; /* Spacing between menu items like in movie */
+  line-height: 1.5 !important;
+  font-size: 20px !important; /* Slightly smaller for better fit */
+  letter-spacing: 0.2em !important; /* Readable but still wide spacing */
+  text-transform: uppercase !important;
+  transition: color 0.2s ease, text-shadow 0.2s ease !important;
+  width: 100% !important; /* Full width to allow for end-aligned > marker */
+  display: flex !important;
+  justify-content: space-between !important; /* Push content to edges */
+  align-items: center !important;
+  background: transparent !important; /* No background at all */
+  border: none !important; /* No borders */
+  box-shadow: none !important; /* No shadows */
+  font-family: "Share Tech Mono", monospace !important; /* Better font match for movie */
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.9) !important; /* Strong cyan glow */
+}
+
+/* Special styling for purple "GARBAGE" menu item in the movie */
+[data-theme="hackers"] .file-item:nth-child(5),
+[data-theme="hackers"] [data-file-item]:nth-child(5),
+[data-theme="hackers"] .menu-item:nth-child(5),
+[data-theme="hackers"] [data-menu-item]:nth-child(5),
+[data-theme="hackers"] .file-item:nth-child(6),
+[data-theme="hackers"] [data-file-item]:nth-child(6),
+[data-theme="hackers"] .menu-item:nth-child(6),
+[data-theme="hackers"] [data-menu-item]:nth-child(6) {
+  color: #FF00FF !important; /* Bright purple like in movie */
+  text-shadow: 0 0 15px rgba(255, 0, 255, 1) !important; /* Strong purple glow */
+}
+
+/* Purple '>' for GARBAGE menu item */
+[data-theme="hackers"] .file-item:nth-child(5)::after,
+[data-theme="hackers"] [data-file-item]:nth-child(5)::after,
+[data-theme="hackers"] .menu-item:nth-child(5)::after,
+[data-theme="hackers"] [data-menu-item]:nth-child(5)::after,
+[data-theme="hackers"] .file-item:nth-child(6)::after,
+[data-theme="hackers"] [data-file-item]:nth-child(6)::after,
+[data-theme="hackers"] .menu-item:nth-child(6)::after,
+[data-theme="hackers"] [data-menu-item]:nth-child(6)::after {
+  color: #FF00FF !important; /* Bright purple like in movie */
+  text-shadow: 0 0 15px rgba(255, 0, 255, 1) !important; /* Strong purple glow */
+}
+
+/* Black box styling for FILE items exactly like in movie screenshot */
+[data-theme="hackers"] .file-box,
+[data-theme="hackers"] .file-item-box,
+[data-theme="hackers"] [class*="file-box"],
+[data-theme="hackers"] [id*="file"] {
+  background: rgba(0, 0, 0, 0.7) !important;
+  border: 1px solid #FF00FF !important; /* Purple border */
+  color: #FF00FF !important; /* Bright purple */
+  text-shadow: 0 0 10px rgba(255, 0, 255, 0.9) !important;
+  padding: 0.5rem !important;
+  margin: 0.5rem 0 !important;
+  text-align: center !important;
+  font-weight: bold !important;
+  text-transform: uppercase !important;
+}
+
+/* Force product names (the red items in your screenshot) to be cyan */
+[data-theme="hackers"] .formulation-title,
+[data-theme="hackers"] .product-title,
+[data-theme="hackers"] .product-name,
+[data-theme="hackers"] .recipe-title,
+[data-theme="hackers"] .recipe-name,
+[data-theme="hackers"] .formulation-name,
+[data-theme="hackers"] [class*="product-"],
+[data-theme="hackers"] [class*="recipe-"],
+[data-theme="hackers"] [class*="formulation-"],
+[data-theme="hackers"] [id*="product-"],
+[data-theme="hackers"] [id*="recipe-"],
+[data-theme="hackers"] [id*="formulation-"] {
+  color: #00FFFF !important; /* Bright cyan */
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.9) !important;
+  font-weight: normal !important;
+  text-transform: uppercase !important;
+}
+
+/* ABSOLUTELY ALL text in bright cyan like the movie image - NO RED TEXT ANYWHERE */
+[data-theme="hackers"] *,
+[data-theme="hackers"] body,
+[data-theme="hackers"] div,
+[data-theme="hackers"] span,
+[data-theme="hackers"] p,
+[data-theme="hackers"] h1,
+[data-theme="hackers"] h2,
+[data-theme="hackers"] h3,
+[data-theme="hackers"] h4,
+[data-theme="hackers"] h5,
+[data-theme="hackers"] h6,
+[data-theme="hackers"] a,
+[data-theme="hackers"] button,
+[data-theme="hackers"] input,
+[data-theme="hackers"] select,
+[data-theme="hackers"] textarea,
+[data-theme="hackers"] label,
+[data-theme="hackers"] .status-text,
+[data-theme="hackers"] .selection-status,
+[data-theme="hackers"] #selection_status,
+[data-theme="hackers"] .theme-name,
+[data-theme="hackers"] .items-count,
+[data-theme="hackers"] #items_count,
+[data-theme="hackers"] [style*="color:red"],
+[data-theme="hackers"] [style*="color: red"],
+[data-theme="hackers"] [style*="color:#FF0000"],
+[data-theme="hackers"] [style*="color: #FF0000"],
+[data-theme="hackers"] [class*="text-red"] {
+  color: #00FFFF !important; /* Bright cyan for ALL text */
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.8) !important;
+}
+
+/* Grid movement animation */
+@keyframes hackersGridMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 40px 500px; }
+}

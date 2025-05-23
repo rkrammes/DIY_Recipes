@@ -16,7 +16,7 @@ export function usePreferencesMigration() {
     const migratePreferences = async () => {
       try {
         // Check if user already has preferences in Supabase
-        const { data, error } = await supabase
+        const { data, error } = await (supabase as any)
           .from('user_preferences')
           .select('id')
           .eq('user_id', user.id)
@@ -36,7 +36,7 @@ export function usePreferencesMigration() {
         if (!theme && !audioEnabled && !volume) return;
         
         // Create preferences in Supabase
-        const { error: insertError } = await supabase
+        const { error: insertError } = await (supabase as any)
           .from('user_preferences')
           .insert([{
             user_id: user.id,

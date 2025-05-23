@@ -5,7 +5,7 @@ import { useTheme } from '@/providers/ConsolidatedThemeProvider';
 import { useFixedAnimation } from '@/providers/FixedAnimationProvider';
 
 export default function StableTestPage() {
-  const { value: theme } = useTheme();
+  const theme = useTheme();
   const { value: animation } = useFixedAnimation();
   const [mounted, setMounted] = useState(false);
   

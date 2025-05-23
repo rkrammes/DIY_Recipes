@@ -11,7 +11,7 @@ export function useIngredients() {
   const fetchIngredients = useCallback(async () => {
     setLoading(true);
     try {
-      const { data, error: fetchError } = await supabase
+      const { data, error: fetchError } = await (supabase as any)
         .from('ingredients')
         .select('*')
         .order('created_at', { ascending: false });
@@ -38,7 +38,7 @@ export function useIngredients() {
     fetchIngredients(); // Initial fetch
 
     // Set up real-time subscription
-    const channel: RealtimeChannel = supabase
+    const channel: RealtimeChannel = (supabase as any)
       .channel('ingredients-changes')
       .on(
         'postgres_changes',

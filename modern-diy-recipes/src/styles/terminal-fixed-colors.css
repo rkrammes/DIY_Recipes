@@ -1,0 +1,62 @@
+/* 
+ * Terminal Colors - Fixed for Terminal UI Footer Panels
+ * RED headers, GREEN labels, CYAN values, PURPLE accents
+ */
+
+/* Panel titles - RED */
+.sys-status,
+.module-statistics,
+.live-system-log,
+.commands,
+.SYS_STATUS,
+.MODULE_STATISTICS,
+.LIVE_SYSTEM_LOG,
+.COMMANDS,
+.terminal-panel-title,
+.section-title,
+.terminal-heading {
+  color: #FF0000 !important; 
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.7) !important;
+  font-weight: bold !important;
+}
+
+/* Labels - GREEN */
+.stats-label,
+.resource-label,
+.UPTIME,
+.CPU,
+.MEMORY,
+.FORMULATIONS,
+.INGREDIENTS,
+.MODULES,
+.DB_CONN,
+.API,
+[data-label],
+.label-text {
+  color: #00FF00 !important;
+  text-shadow: 0 0 8px rgba(0, 255, 0, 0.5) !important;
+  font-weight: bold !important;
+}
+
+/* Values - CYAN */
+.stats-value,
+.resource-value,
+.metrics-value,
+.value-text,
+[data-value],
+.panel-value {
+  color: #00FFFF !important;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.5) !important;
+}
+
+/* Accents - PURPLE */
+.TOTAL,
+.USED,
+.ALLOC,
+.resource-accent,
+.accent-text,
+.panel-accent {
+  color: #FF00FF !important;
+  text-shadow: 0 0 8px rgba(255, 0, 255, 0.7) !important;
+  font-weight: bold !important;
+}

@@ -48,7 +48,7 @@ export default function EnhancedModularLayout({
               <div className="font-bold text-base tracking-tight whitespace-nowrap">
                 <div className="text-accent">
                   ┌───────────────────────────┐<br />
-                  │ <span className="animate-pulse">></span>DIY FORMULATIONS v2.0   │<br />
+                  │ <span className="animate-pulse">&gt;</span>DIY FORMULATIONS v2.0   │<br />
                   └───────────────────────────┘
                 </div>
               </div>

@@ -23,7 +23,7 @@ export default function FormulationsPage() {
         setLoading(true);
         setError(null);
         
-        const { data, error } = await supabase
+        const { data, error } = await (supabase as any)
           .from('recipes')  // Will eventually be renamed to 'formulations' in the database
           .select('id, title')
           .order('created_at', { ascending: false });

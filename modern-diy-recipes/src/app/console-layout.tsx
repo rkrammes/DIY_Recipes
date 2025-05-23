@@ -89,7 +89,7 @@ function ConsoleDashboard({
   sidebarOpen: boolean;
   setSidebarOpen: (open: boolean) => void;
 }) {
-  const { value: themeContext } = useTheme();
+  const themeContext = useTheme();
   const pathname = usePathname();
   const { user, loading } = useAuth();
   

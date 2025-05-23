@@ -1,0 +1,177 @@
+   ▲ Next.js 15.3.0
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.148:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1031ms
+ ✓ Compiled /middleware in 454ms (248 modules)
+[2025-05-10T04:26:06.056Z] Request: HEAD /
+- User-Agent: null
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ○ Compiling / ...
+ ✓ Compiled / in 2.8s (1171 modules)
+Module "DIY Formulations" (formulations) registered successfully
+Module "Settings" (settings) registered successfully
+ HEAD / 200 in 3067ms
+[2025-05-10T04:26:26.235Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 200 in 32ms
+[2025-05-10T04:26:26.532Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/_next/static/css/app/layout.css?v=1746851186243
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:26.624Z] Request: HEAD /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:26.625Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:26.625Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:26.634Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:26.634Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:26.634Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:26.651Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:26.658Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:26.658Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:26.662Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:26.667Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:43.164Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 200 in 35ms
+[2025-05-10T04:26:43.410Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/_next/static/css/app/layout.css?v=1746851203175
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:43.463Z] Request: HEAD /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:43.475Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:43.475Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:43.476Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:43.476Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:43.476Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:43.476Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:43.490Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:43.490Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:43.491Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T04:26:43.491Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+   Reload env: .env.local
+ ✓ Compiled in 374ms (1393 modules)
+[2025-05-10T05:02:30.562Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 200 in 56ms
+[2025-05-10T05:03:55.309Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/_next/static/css/app/layout.css?v=1746853350599
+- Host: localhost:3000
+- IP: unknown
+[2025-05-10T05:04:26.793Z] Request: HEAD /
+- User-Agent: null
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+Module "DIY Formulations" (formulations) registered successfully
+Module "Settings" (settings) registered successfully
+ HEAD / 200 in 81ms
+[?25h

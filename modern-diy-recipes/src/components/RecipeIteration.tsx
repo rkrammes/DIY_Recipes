@@ -22,7 +22,7 @@ export default function RecipeIteration({
     const fetchIterations = async () => {
       setLoading(true);
       try {
-        const { data, error } = await supabase
+        const { data, error } = await (supabase as any)
           .from('recipe_iterations')
           .select('*')
           .eq('recipe_id', recipeId)

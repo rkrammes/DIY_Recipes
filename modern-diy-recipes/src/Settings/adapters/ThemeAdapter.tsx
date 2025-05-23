@@ -10,7 +10,7 @@ import { useAudio } from '@/hooks/useAudio';
  * It syncs theme and audio settings both ways until full migration can be completed.
  */
 export function ThemeAdapter({ children }: { children: React.ReactNode }) {
-  const { value: oldThemeContext } = useTheme();
+  const oldThemeContext = useTheme();
   const preferences = useUserPreferencesContext();
   const { setVolume } = useAudio(preferences.audioEnabled);
   

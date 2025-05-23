@@ -67,7 +67,7 @@ export function useUserPreferences() {
       setLoading(true);
       setError(null);
 
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('user_preferences')
         .select('*')
         .eq('user_id', user.id)
@@ -124,7 +124,7 @@ export function useUserPreferences() {
       setError(null);
 
       // First check if a preference record exists
-      const { data: existingData, error: checkError } = await supabase
+      const { data: existingData, error: checkError } = await (supabase as any)
         .from('user_preferences')
         .select('id')
         .eq('user_id', user.id)
@@ -139,7 +139,7 @@ export function useUserPreferences() {
 
       // If record doesn't exist, create it
       if (!existingData) {
-        const { error: insertError } = await supabase
+        const { error: insertError } = await (supabase as any)
           .from('user_preferences')
           .insert([{ user_id: user.id, ...updates }]);
 
@@ -151,7 +151,7 @@ export function useUserPreferences() {
         }
       } else {
         // Update existing record
-        const { error: updateError } = await supabase
+        const { error: updateError } = await (supabase as any)
           .from('user_preferences')
           .update(updates)
           .eq('user_id', user.id);
@@ -184,7 +184,7 @@ export function useUserPreferences() {
     fetchPreferences();
 
     // Set up a subscription for real-time updates
-    const subscription = supabase
+    const subscription = (supabase as any)
       .channel(`preferences-${user.id}`)
       .on(
         'postgres_changes',

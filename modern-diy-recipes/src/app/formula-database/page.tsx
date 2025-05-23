@@ -29,7 +29,7 @@ import '../../styles/terminal-module.css';
  */
 export default function FormulaDatabase() {
   // Access the app's theme context
-  const { value: themeContext } = useTheme();
+  const themeContext = useTheme();
   // State for recipes (formulas)
   const [formulas, setFormulas] = useState<Recipe[] | null>(null);
   const [selectedFormulaId, setSelectedFormulaId] = useState<string | null>(null);
@@ -116,7 +116,7 @@ export default function FormulaDatabase() {
       setLoading(true);
       try {
         // Fetch from Supabase
-        const { data, error: fetchError } = await supabase
+        const { data, error: fetchError } = await (supabase as any)
           .from('recipes')
           .select('*')
           .order('created_at', { ascending: false });
@@ -149,7 +149,7 @@ export default function FormulaDatabase() {
       setLoadingFormula(true);
       try {
         // Fetch recipe data
-        const { data: recipeData, error: recipeError } = await supabase
+        const { data: recipeData, error: recipeError } = await (supabase as any)
           .from('recipes')
           .select('*')
           .eq('id', selectedFormulaId)
@@ -160,7 +160,7 @@ export default function FormulaDatabase() {
         }
         
         // Fetch ingredients for this recipe
-        const { data: ingredients, error: ingredientsError } = await supabase
+        const { data: ingredients, error: ingredientsError } = await (supabase as any)
           .from('recipe_ingredients')
           .select(`
             id,
@@ -177,9 +177,9 @@ export default function FormulaDatabase() {
         
         // Transform to expected format
         const transformedIngredients = ingredients?.map((item: any) => ({
-          id: item.ingredients.id,
-          name: item.ingredients.name,
-          description: item.ingredients.description,
+          id: (item as any).ingredients.id,
+          name: (item as any).ingredients.name,
+          description: (item as any).ingredients.description,
           quantity: item.quantity,
           unit: item.unit,
           notes: item.notes
@@ -339,7 +339,7 @@ export default function FormulaDatabase() {
           </div>
           
           <div className="terminal-input-container" style={{ flex: 1, margin: '0 2rem' }}>
-            <span className="terminal-vga" style={{ marginRight: '0.5rem' }}>></span>
+            <span className="terminal-vga" style={{ marginRight: '0.5rem' }}>&gt;</span>
             <input 
               type="text" 
               className="terminal-input" 
@@ -465,8 +465,8 @@ export default function FormulaDatabase() {
                     </tr>
                   </thead>
                   <tbody>
-                    {selectedFormula.ingredients && selectedFormula.ingredients.length > 0 ? (
-                      selectedFormula.ingredients.map((ingredient, index) => (
+                    {(selectedFormula as any).ingredients && (selectedFormula as any).ingredients.length > 0 ? (
+                      (selectedFormula as any).ingredients.map((ingredient: any, index: number) => (
                         <tr key={index} className={index % 2 === 0 ? '' : ''}>
                           <td>
                             <span className="element-code">E-{index.toString().padStart(3, '0')}</span> {ingredient.name}
@@ -485,16 +485,16 @@ export default function FormulaDatabase() {
                 </table>
                 
                 <div className="terminal-element-count">
-                  TOTAL ELEMENTS: {selectedFormula.ingredients?.length || 0}
+                  TOTAL ELEMENTS: {(selectedFormula as any).ingredients?.length || 0}
                 </div>
               </div>
               
               {/* Formula notes */}
-              {selectedFormula.notes && (
+              {(selectedFormula as any).notes && (
                 <div className="terminal-formula-notes">
                   <div className="section-header">LABORATORY NOTES</div>
                   <div className="section-content notes-content terminal-text-reveal">
-                    {selectedFormula.notes}
+                    {(selectedFormula as any).notes}
                   </div>
                 </div>
               )}
@@ -575,7 +575,7 @@ export default function FormulaDatabase() {
                 <div className="terminal-status-container" style={{ marginBottom: '0.5rem' }}>
                   <span className="terminal-monospace">ELEMENT COUNT:</span>
                   <span className="terminal-monospace terminal-flicker" style={{ marginLeft: 'auto' }}>
-                    {formulas.reduce((sum, formula) => sum + (formula.ingredients?.length || 0), 0)}
+                    {formulas.reduce((sum, formula) => sum + ((formula as any).ingredients?.length || 0), 0)}
                   </span>
                 </div>
                 <div className="terminal-status-container" style={{ marginBottom: '0.5rem' }}>
@@ -608,7 +608,7 @@ export default function FormulaDatabase() {
               <button 
                 className="terminal-button" 
                 style={{ width: '100%', marginBottom: '0.5rem' }}
-                onClick={() => addSystemMessage(`ELEMENT INVENTORY: ${selectedFormula.ingredients?.length || 0} ELEMENTS ANALYZED`)}
+                onClick={() => addSystemMessage(`ELEMENT INVENTORY: ${(selectedFormula as any).ingredients?.length || 0} ELEMENTS ANALYZED`)}
               >
                 ELEMENTS INVENTORY
               </button>

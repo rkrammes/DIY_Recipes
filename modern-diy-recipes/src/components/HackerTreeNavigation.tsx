@@ -23,7 +23,7 @@ interface TreeNode {
 export function HackerTreeNavigation() {
   const pathname = usePathname();
   const router = useRouter();
-  const { value: themeContext } = useTheme();
+  const themeContext = useTheme();
   const { playSound } = useAudio();
   
   // Get theme style for specific styling

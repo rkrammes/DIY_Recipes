@@ -1,0 +1,166 @@
+"use client";  // Mark as Client Component
+
+import React, { useState, useEffect } from 'react';
+import '../styles/terminal.css';
+import '../styles/formula-dashboard.css';
+
+/**
+ * Home Page - Shows the formula database dashboard based on the screenshot
+ * This is a retro terminal interface with three columns:
+ * 1. Left navigation panel with menu options
+ * 2. Middle content area with data display
+ * 3. Right commands panel with system controls
+ */
+export default function Home() {
+  const [currentTime, setCurrentTime] = useState('00:00:00');
+
+  // Update time
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setCurrentTime(now.toLocaleTimeString());
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="formula-dashboard-layout">
+      {/* Header with title and status */}
+      <header className="dashboard-header">
+        <div className="system-title">DIY.SYS</div>
+        <div className="system-status">READY {currentTime}</div>
+      </header>
+
+      {/* Main three-column layout */}
+      <div className="dashboard-content">
+        {/* Left navigation column */}
+        <div className="navigation-column">
+          <div className="nav-item active">DASHBOARD</div>
+          <div className="nav-item">FORMULA DATABASE</div>
+          <div className="nav-item">ALL_FORMULAS</div>
+          <div className="nav-item">RECENT</div>
+          <div className="nav-item">FAVORITES</div>
+          <div className="nav-item">CATEGORIES</div>
+          <div className="nav-item">ELEMENT_LIBRARY</div>
+          <div className="nav-item">ALL_ELEMENTS</div>
+          <div className="nav-item">COMPATIBILITY</div>
+          <div className="nav-item">PROPERTIES</div>
+          <div className="nav-item">UTILITIES</div>
+          <div className="nav-item">CALCULATOR</div>
+          <div className="nav-item">CONVERTER</div>
+          <div className="nav-item">ANALYSIS</div>
+          <div className="nav-item">SYSTEM</div>
+          <div className="nav-item">CONTROL_MATRIX</div>
+          <div className="nav-item">USER_PROFILE</div>
+          <div className="nav-item">LOG_OUT</div>
+        </div>
+
+        {/* Middle content column */}
+        <div className="main-column">
+          <h2 className="section-title">DASHBOARD</h2>
+          <p>System initialized. Welcome to DIY Recipes Formula Database.</p>
+
+          {/* Stats display */}
+          <div className="stats-display">
+            <div className="stats-row">
+              <div className="stat-group">
+                <div className="stat-label">FORMULA COUNT</div>
+                <div className="stat-value">42</div>
+              </div>
+
+              <div className="stat-group">
+                <div className="stat-label">ELEMENTS</div>
+                <div className="stat-value">124</div>
+              </div>
+
+              <div className="stat-group">
+                <div className="stat-label">CATEGORIES</div>
+                <div className="stat-value">8</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Recent activity table */}
+          <h3 className="section-title">RECENT ACTIVITY</h3>
+          <table className="activity-table">
+            <thead>
+              <tr>
+                <th>DATE</th>
+                <th>ACTIVITY</th>
+                <th>FORMULA</th>
+                <th>STATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2025-05-04</td>
+                <td className="activity-type">MODIFIED</td>
+                <td>BASIC_LOTION</td>
+                <td className="activity-complete">COMPLETE</td>
+              </tr>
+              <tr>
+                <td>2025-05-03</td>
+                <td className="activity-type">CREATED</td>
+                <td>CITRUS_SCRUB</td>
+                <td className="activity-complete">COMPLETE</td>
+              </tr>
+              <tr>
+                <td>2025-05-01</td>
+                <td className="activity-type">ITERATION</td>
+                <td>CLAY_MASK</td>
+                <td className="activity-progress">IN_PROGRESS</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* Right commands column */}
+        <div className="commands-column">
+          <h3 className="section-title">SYSTEM COMMANDS</h3>
+          <div className="command-item">CREATE NEW FORMULA</div>
+          <div className="command-item">IMPORT DATA</div>
+          <div className="command-item">EXPORT DATABASE</div>
+          <div className="command-item">ANALYZE TRENDS</div>
+
+          <h3 className="section-title">SYSTEM STATUS</h3>
+          <div className="status-item">DATABASE CONNECTED</div>
+          <div className="status-item">FORMULA ENGINE READY</div>
+          <div className="status-item">SYNC STATUS STANDBY</div>
+
+          <h3 className="section-title">SYSTEM RESOURCES</h3>
+          <div className="resource-display">
+            <div className="resource-row">
+              <div className="resource-label">CPU:</div>
+              <div className="resource-value">17%</div>
+              <div className="resource-accent">TOTAL</div>
+            </div>
+            <div className="resource-bar">
+              <div className="resource-fill" style={{ width: '17%' }}></div>
+            </div>
+
+            <div className="resource-row">
+              <div className="resource-label">MEMORY:</div>
+              <div className="resource-value">42%</div>
+              <div className="resource-accent">USED</div>
+            </div>
+            <div className="resource-bar">
+              <div className="resource-fill" style={{ width: '42%' }}></div>
+            </div>
+
+            <div className="resource-row">
+              <div className="resource-label">CACHE:</div>
+              <div className="resource-value">78%</div>
+              <div className="resource-accent">ALLOC</div>
+            </div>
+            <div className="resource-bar">
+              <div className="resource-fill" style={{ width: '78%' }}></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

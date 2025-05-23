@@ -15,7 +15,7 @@ const THEME_NAMES = {
 
 export default function SettingsPanel() {
   const { user, loading, error, signInWithMagicLink, signOut } = useAuth();
-  const { value: themeContext } = useTheme();
+  const themeContext = useTheme();
   const [mounted, setMounted] = useState(false);
   
   // Set mounted state to prevent hydration issues

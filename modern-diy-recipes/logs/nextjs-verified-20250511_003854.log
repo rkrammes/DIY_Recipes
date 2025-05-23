@@ -1,0 +1,209 @@
+   ▲ Next.js 15.3.0
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.148:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1011ms
+ ✓ Compiled /middleware in 432ms (248 modules)
+[2025-05-11T04:38:59.853Z] Request: HEAD /
+- User-Agent: null
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ○ Compiling / ...
+ ✓ Compiled / in 1830ms (989 modules)
+ HEAD / 200 in 2004ms
+[2025-05-11T04:40:16.702Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 200 in 28ms
+[2025-05-11T04:40:16.742Z] Request: GET /fix-only-colors.js
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+[2025-05-11T04:40:16.980Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T04:40:16.980Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T04:40:16.980Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T04:40:16.981Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T04:40:16.981Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T04:40:16.981Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T04:40:16.996Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T04:40:16.996Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T04:40:16.996Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T04:40:16.996Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T04:40:16.996Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-12T17:27:54.183Z] Request: GET /apple-touch-icon-precomposed.png
+- User-Agent: com.apple.WebKit.Networking/20621.2.5.11.8 Network/4277.121.5 macOS/15.5
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+[2025-05-12T17:27:54.184Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/601.2.4 (KHTML, like Gecko) Version/9.0.1 Safari/601.2.4 facebookexternalhit/1.1 Facebot Twitterbot/1.0
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+[2025-05-12T17:27:54.184Z] Request: GET /apple-touch-icon.png
+- User-Agent: com.apple.WebKit.Networking/20621.2.5.11.8 Network/4277.121.5 macOS/15.5
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 722ms (930 modules)
+ GET /favicon.ico 200 in 905ms
+ GET /apple-touch-icon-precomposed.png 404 in 648ms
+ GET /apple-touch-icon.png 404 in 636ms
+ GET / 200 in 665ms
+ GET /favicon.ico 200 in 5ms
+[2025-05-14T01:08:29.605Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 200 in 53ms
+[2025-05-14T01:08:29.696Z] Request: GET /fix-only-colors.js
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+[2025-05-14T01:08:29.990Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-14T01:08:29.996Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-14T01:08:29.997Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-14T01:08:29.997Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-14T01:08:29.997Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-14T01:08:29.997Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-14T01:08:30.007Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-14T01:08:30.007Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-17T03:30:25.570Z] Request: GET /apple-touch-icon-precomposed.png
+- User-Agent: com.apple.WebKit.Networking/20621.2.5.11.8 Network/4277.121.5 macOS/15.5
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+[2025-05-17T03:30:25.572Z] Request: GET /apple-touch-icon.png
+- User-Agent: com.apple.WebKit.Networking/20621.2.5.11.8 Network/4277.121.5 macOS/15.5
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET /favicon.ico 200 in 123ms
+ GET /apple-touch-icon-precomposed.png 404 in 134ms
+ GET /apple-touch-icon.png 404 in 131ms
+[2025-05-17T03:30:25.753Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/601.2.4 (KHTML, like Gecko) Version/9.0.1 Safari/601.2.4 facebookexternalhit/1.1 Facebot Twitterbot/1.0
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 200 in 17ms
+ GET /favicon.ico 200 in 2ms
+ GET /favicon.ico 200 in 90ms
+[2025-05-21T12:34:47.270Z] Request: GET /apple-touch-icon.png
+- User-Agent: com.apple.WebKit.Networking/20621.2.5.11.8 Network/4277.121.5 macOS/15.5
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+[2025-05-21T12:34:47.271Z] Request: GET /apple-touch-icon-precomposed.png
+- User-Agent: com.apple.WebKit.Networking/20621.2.5.11.8 Network/4277.121.5 macOS/15.5
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+[2025-05-21T12:34:47.405Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/601.2.4 (KHTML, like Gecko) Version/9.0.1 Safari/601.2.4 facebookexternalhit/1.1 Facebot Twitterbot/1.0
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET /apple-touch-icon.png 404 in 128ms
+ GET /apple-touch-icon-precomposed.png 404 in 127ms
+ GET / 200 in 23ms
+ GET /favicon.ico 200 in 4ms

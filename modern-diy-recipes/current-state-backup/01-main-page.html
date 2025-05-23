@@ -1,0 +1,218 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="/_next/static/css/app/layout.css?v=1747959554957" data-precedence="next_static/css/app/layout.css"/><link rel="preload" as="script" fetchPriority="low" href="/_next/static/chunks/webpack.js?v=1747959554957"/><script src="/_next/static/chunks/main-app.js?v=1747959554957" async=""></script><script src="/_next/static/chunks/app-pages-internals.js" async=""></script><script src="/_next/static/chunks/app/layout.js" async=""></script><script src="/_next/static/chunks/app/page.js" async=""></script><link rel="preload" href="/fonts/JetBrainsMono-Regular.woff2?v=2" as="font" type="font/woff2" crossorigin="anonymous"/><link rel="preload" href="/fonts/Px437_IBM_VGA_8x16.woff?v=2" as="font" type="font/woff" crossorigin="anonymous"/><link rel="preload" href="/fonts/Share_Tech_Mono.woff?v=2" as="font" type="font/woff" crossorigin="anonymous"/><script id="theme-script">
+          (function() {
+            try {
+              // IMPORTANT: This script runs before React hydration and should
+              // only handle the initial theme to prevent FOUC (Flash of Unstyled Content)
+              // Full theming functionality is handled by the ThemeProvider.
+              
+              // Get theme from localStorage with fallback to system preference
+              let storedTheme;
+              try {
+                storedTheme = localStorage.getItem('theme');
+              } catch (storageError) {
+                console.warn('LocalStorage access error:', storageError);
+              }
+              
+              // Determine theme
+              let theme;
+              const validThemes = ['hackers', 'dystopia', 'neotopia'];
+              
+              // If we have a stored theme, use it if valid
+              if (storedTheme) {
+                if (validThemes.includes(storedTheme)) {
+                  theme = storedTheme;
+                } else {
+                  // Fallback to system preference
+                  try {
+                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'hackers' : 'neotopia';
+                  } catch (mediaError) {
+                    console.warn('Media query error:', mediaError);
+                    theme = 'hackers'; // Default fallback
+                  }
+                }
+              } else {
+                // No stored theme, use system preference
+                try {
+                  theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'hackers' : 'neotopia';
+                } catch (mediaError) {
+                  console.warn('Media query error:', mediaError);
+                  theme = 'hackers'; // Default fallback
+                }
+              }
+              
+              // Set data-theme attribute for CSS selector matching
+              document.documentElement.setAttribute('data-theme', theme);
+              
+              // Apply base styles immediately to prevent FOUC
+              document.documentElement.style.setProperty('color-scheme', 
+                theme === 'neotopia' ? 'light' : 'dark');
+              
+              // Apply minimal theme background color directly to minimize flashing
+              // The ThemeProvider will take over once it's mounted
+              const themeColors = {"hackers":{"bg":"#0a0e12","text":"#33ff33","accent":"#ff00ff"},"dystopia":{"bg":"#1a1a2e","text":"#e94560","accent":"#16213e"},"neotopia":{"bg":"#f5f5f5","text":"#121212","accent":"#3a86ff"}};
+              if (themeColors[theme]) {
+                document.documentElement.style.setProperty('background-color', themeColors[theme].bg);
+                
+                // Don't set other properties that will be handled by ThemeProvider
+                // to avoid conflicts and double initialization
+              }
+              
+              // NOTE: We don't set up event listeners here as those will be handled
+              // by the proper React ThemeProvider once it's mounted
+              
+              // Store a flag to indicate this script ran successfully
+              window.__themeScriptExecuted = true;
+            } catch (e) {
+              console.warn('Theme initialization error:', e);
+              // Minimal fallback to ensure at least something renders
+              document.documentElement.setAttribute('data-theme', 'hackers');
+              document.documentElement.style.setProperty('color-scheme', 'dark');
+            }
+          })();
+        </script><script src="/_next/static/chunks/polyfills.js" noModule=""></script></head><body class="antialiased bg-background text-foreground font-body"><div class="theme-background" aria-hidden="true"></div><div class="theme-loading" style="visibility:hidden"></div><!--$!--><template data-dgst="BAILOUT_TO_CLIENT_SIDE_RENDERING" data-msg="Switched to client rendering because the server rendering errored:
+
+Bail out to client-side rendering: next/dynamic" data-stck="Switched to client rendering because the server rendering errored:
+
+Error: Bail out to client-side rendering: next/dynamic
+    at BailoutToCSR (webpack-internal:///(ssr)/./node_modules/next/dist/shared/lib/lazy-dynamic/dynamic-bailout-to-csr.js:15:37)
+    at react-stack-bottom-frame (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:240690)
+    at renderWithHooks (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:70854)
+    at renderElement (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:85582)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147220)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at renderNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:156530)
+    at renderElement (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:137293)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147220)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at finishFunctionComponent (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:71864)
+    at renderElement (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:87063)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147220)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at renderNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:156530)
+    at renderChildrenArray (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:153781)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147686)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at renderElement (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:133543)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147220)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at finishFunctionComponent (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:71864)
+    at renderElement (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:87063)
+    at renderElement (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:141661)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147220)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at renderNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:156530)
+    at renderChildrenArray (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:153781)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147686)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at renderNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:156530)
+    at renderElement (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:132647)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147220)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at renderNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:156530)
+    at renderChildrenArray (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:153781)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147686)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at renderNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:156530)
+    at renderElement (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:132647)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147220)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at renderNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:156530)
+    at renderChildrenArray (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:153781)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147686)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at renderElement (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:133543)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147220)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at renderNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:156530)" data-cstck="
+    at BailoutToCSR (webpack-internal:///(ssr)/./node_modules/next/dist/shared/lib/lazy-dynamic/dynamic-bailout-to-csr.js:13:11)
+    at Suspense (&lt;anonymous&gt;)
+    at LoadableComponent (&lt;anonymous&gt;)
+    at ClientFontsWrapper (&lt;anonymous&gt;)
+    at body (&lt;anonymous&gt;)
+    at html (&lt;anonymous&gt;)
+    at RootLayout [Server] (&lt;anonymous&gt;)
+    at RedirectErrorBoundary (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:248:4631)
+    at RedirectBoundary (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:248:4727)
+    at AppDevOverlayErrorBoundary (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:274:11584)
+    at AppDevOverlay (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:274:215362)
+    at HotReload (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:274:219791)
+    at Router (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:248:7783)
+    at ErrorBoundaryHandler (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:254:2994)
+    at ErrorBoundary (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:254:4291)
+    at AppRouter (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:248:14449)
+    at ServerInsertedHTMLProvider (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:418:461)
+    at ServerInsertedMetadataProvider (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:422:2243)
+    at App (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:422:13466)"></template><!--/$--><!--$!--><template data-dgst="BAILOUT_TO_CLIENT_SIDE_RENDERING" data-msg="Switched to client rendering because the server rendering errored:
+
+Bail out to client-side rendering: next/dynamic" data-stck="Switched to client rendering because the server rendering errored:
+
+Error: Bail out to client-side rendering: next/dynamic
+    at BailoutToCSR (webpack-internal:///(ssr)/./node_modules/next/dist/shared/lib/lazy-dynamic/dynamic-bailout-to-csr.js:15:37)
+    at react-stack-bottom-frame (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:240690)
+    at renderWithHooks (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:70854)
+    at renderElement (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:85582)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147220)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at renderNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:156530)
+    at renderElement (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:137293)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147220)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at finishFunctionComponent (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:71864)
+    at renderElement (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:87063)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147220)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at renderNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:156530)
+    at renderChildrenArray (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:153781)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147686)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at renderElement (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:133543)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147220)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at finishFunctionComponent (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:71864)
+    at renderElement (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:87063)
+    at renderElement (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:141661)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147220)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at renderNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:156530)
+    at renderChildrenArray (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:153781)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147686)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at renderNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:156530)
+    at renderElement (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:132647)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147220)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at renderNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:156530)
+    at renderChildrenArray (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:153781)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147686)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at renderNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:156530)
+    at renderElement (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:132647)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147220)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at renderNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:156530)
+    at renderChildrenArray (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:153781)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147686)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at renderElement (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:133543)
+    at retryNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:147220)
+    at renderNodeDestructive (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:146483)
+    at renderNode (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:150:156530)" data-cstck="
+    at BailoutToCSR (webpack-internal:///(ssr)/./node_modules/next/dist/shared/lib/lazy-dynamic/dynamic-bailout-to-csr.js:13:11)
+    at Suspense (&lt;anonymous&gt;)
+    at LoadableComponent (&lt;anonymous&gt;)
+    at ClientFontsWrapper (&lt;anonymous&gt;)
+    at body (&lt;anonymous&gt;)
+    at html (&lt;anonymous&gt;)
+    at RootLayout [Server] (&lt;anonymous&gt;)
+    at RedirectErrorBoundary (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:248:4631)
+    at RedirectBoundary (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:248:4727)
+    at AppDevOverlayErrorBoundary (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:274:11584)
+    at AppDevOverlay (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:274:215362)
+    at HotReload (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:274:219791)
+    at Router (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:248:7783)
+    at ErrorBoundaryHandler (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:254:2994)
+    at ErrorBoundary (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:254:4291)
+    at AppRouter (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:248:14449)
+    at ServerInsertedHTMLProvider (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:418:461)
+    at ServerInsertedMetadataProvider (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:422:2243)
+    at App (/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:422:13466)"></template><!--/$--><script src="/_next/static/chunks/webpack.js?v=1747959554957" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"3:\"$Sreact.fragment\"\n5:I[\"(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js\",[\"app-pages-internals\",\"static/chunks/app-pages-internals.js\"],\"\"]\n6:I[\"(app-pages-browser)/./node_modules/next/dist/client/components/render-from-template-context.js\",[\"app-pages-internals\",\"static/chunks/app-pages-internals.js\"],\"\"]\n8:I[\"(app-pages-browser)/./src/components/ThemeScript.tsx\",[\"app/layout\",\"static/chunks/app/layout.js\"],\"default\"]\n9:I[\"(app-pages-browser)/./src/providers/FixedThemeProvider.tsx\",[\"app/layout\",\"static/chunks/app/layout.js\"],\"FixedThemeProvider\"]\na:I[\"(app-pages-browser)/./src/providers/AuthProvider.tsx\",[\"app/layout\",\"static/chunks/app/layout.js\"],\"AuthProvider\"]\nb:I[\"(app-pages-browser)/./src/Settings/providers/UserPreferencesProvider.tsx\",[\"app/layout\",\"static/chunks/app/layout.js\"],\"UserPreferencesProvider\"]\nc:I[\"(app-pages-browser)/./src/Settings/adapters/ThemeAdapter.tsx\",[\"app/layout\",\"static/chunks/app/layout.js\"],\"ThemeAdapter\"]\nd:I[\"(app-pages-browser)/./src/lib/modules/moduleContext.tsx\",[\"app/layout\",\"static/chunks/app/layout.js\"],\"ModuleProvider\"]\n11:I[\"(app-pages-browser)/./src/components/ClientFontsWrapper.tsx\",[\"app/layout\",\"static/chunks/app/layout.js\"],\"default\"]\n12:I[\"(app-pages-browser)/./node_modules/next/dist/client/components/client-page.js\",[\"app-pages-internals\",\"static/chunks/app-pages-internals.js\"],\"ClientPageRoot\"]\n13:I[\"(app-pages-browser)/./src/app/page.tsx\",[\"app/page\",\"static/chunks/app/page.js\"],\"default\"]\n17:I[\"(app-pages-browser)/./node_modules/next/dist/client/components/metadata/metadata-boundary.js\",[\"app-pages-internals\",\"static/chunks/app-pages-internals.js\"],\"MetadataBoundary\"]\n1a:I[\"(app-pages-browser)/./node_modules/next/dist/client/components/metadata/metadata-boundary.js\",[\"app-pages-internals\",\"static/chunks/app-pages-internals.js\"],\"OutletBoundary\"]\n21:I[\"(app-pages-browser)/./node_modules/next/dist/client/components/metadata/async-metadata.js\",[\"app-pages-internals\",\"static/chunks/app-pages-internals.js\"],\"AsyncMetadataOutlet\"]\n2"])</script><script>self.__next_f.push([1,"7:I[\"(app-pages-browser)/./node_modules/next/dist/client/components/metadata/metadata-boundary.js\",[\"app-pages-internals\",\"static/chunks/app-pages-internals.js\"],\"ViewportBoundary\"]\n2d:I[\"(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js\",[\"app-pages-internals\",\"static/chunks/app-pages-internals.js\"],\"\"]\n2e:\"$Sreact.suspense\"\n2f:I[\"(app-pages-browser)/./node_modules/next/dist/client/components/metadata/async-metadata.js\",[\"app-pages-internals\",\"static/chunks/app-pages-internals.js\"],\"AsyncMetadata\"]\n:HL[\"/_next/static/css/app/layout.css?v=1747959554957\",\"style\"]\n2:{\"name\":\"Preloads\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{\"preloadCallbacks\":[\"$E(()=\u003e{ctx.componentMod.preloadStyle(fullHref,ctx.renderOpts.crossOrigin,ctx.nonce)})\"]}}\n1:D\"$2\"\n1:null\n7:{\"name\":\"RootLayout\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{\"children\":[\"$\",\"$L5\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$3\",null,{\"children\":[\"$\",\"$L6\",null,{},null,[],1]},null,[],0],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":\"$Y\",\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"},null,[],1],\"params\":\"$Y\"}}\n4:D\"$7\"\nf:{\"name\":\"NotFound\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{}}\ne:D\"$f\"\n10:{\"name\":\"HTTPAccessErrorFallback\",\"env\":\"Server\",\"key\":null,\"owner\":\"$f\",\"stack\":[],\"props\":{\"status\":404,\"message\":\"This page could not be found.\"}}\ne:D\"$10\"\ne:[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"},\"$10\",[],1],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid"])</script><script>self.__next_f.push([1," rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}},\"$10\",[],1],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":404},\"$10\",[],1],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"},\"$10\",[],1]},\"$10\",[],1]]},\"$10\",[],1]},\"$10\",[],1]]\n"])</script><script>self.__next_f.push([1,"4:[\"$\",\"html\",null,{\"lang\":\"en\",\"suppressHydrationWarning\":true,\"children\":[[\"$\",\"head\",null,{\"children\":[[\"$\",\"meta\",null,{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",31,96]],1],[\"$\",\"$L8\",null,{},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",39,96]],1],[\"$\",\"link\",null,{\"rel\":\"preload\",\"href\":\"/fonts/JetBrainsMono-Regular.woff2?v=2\",\"as\":\"font\",\"type\":\"font/woff2\",\"crossOrigin\":\"anonymous\"},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",44,96]],1],[\"$\",\"link\",null,{\"rel\":\"preload\",\"href\":\"/fonts/Px437_IBM_VGA_8x16.woff?v=2\",\"as\":\"font\",\"type\":\"font/woff\",\"crossOrigin\":\"anonymous\"},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",55,96]],1],[\"$\",\"link\",null,{\"rel\":\"preload\",\"href\":\"/fonts/Share_Tech_Mono.woff?v=2\",\"as\":\"font\",\"type\":\"font/woff\",\"crossOrigin\":\"anonymous\"},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",66,96]],1]]},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",29,88]],1],[\"$\",\"body\",null,{\"className\":\"antialiased bg-background text-foreground font-body\",\"suppressHydrationWarning\":true,\"children\":[[\"$\",\"div\",null,{\"className\":\"theme-background\",\"aria-hidden\":\"true\"},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",87,96]],1],[\"$\",\"$L9\",null,{\"children\":[\"$\",\"$La\",null,{\"children\":[\"$\",\"$Lb\",null,{\"children\":[\"$\",\"$Lc\",null,{\"children\":[\"$\",\"$Ld\",null,{\"children\":[\"$\",\"$L5\",null,{\"parallelRouterKey\":\"children\",\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L6\",null,{},null,[],1],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[\"$e\",[]],\"forbidden\":\"$undefined\",\"unauthorized\":\"$undefined\"},null,[],1]},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",99,122]],1]},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",98,118]],1]},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",97,114]],1]},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",96,110]],1]},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",95,96]],1],[\"$\",\"$L11\",null,{},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",126,96]],1]]},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",83,88]],1]]},\"$7\",[[\"RootLayout\",\"webpack-internal:///(rsc)/./src/app/layout.tsx\",25,87]],1]\n"])</script><script>self.__next_f.push([1,"15:{\"name\":\"\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{}}\n14:D\"$15\"\n16:{\"name\":\"MetadataTree\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{}}\n14:D\"$16\"\n19:{\"name\":\"__next_metadata_boundary__\",\"env\":\"Server\",\"key\":null,\"owner\":\"$16\",\"stack\":[],\"props\":{}}\n18:D\"$19\"\n14:[\"$\",\"$L17\",null,{\"children\":\"$L18\"},\"$16\",[],1]\n1c:{\"name\":\"__next_outlet_boundary__\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{\"ready\":\"$E(async function getViewportReady() {\\n        await viewport();\\n        return undefined;\\n    })\"}}\n1b:D\"$1c\"\n1e:{\"name\":\"__next_outlet_boundary__\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{\"ready\":\"$E(async function getMetadataReady() {\\n        // Only warm up metadata() call when it's blocking metadata,\\n        // otherwise it will be fully managed by AsyncMetadata component.\\n        if (!serveStreamingMetadata) {\\n            await metadata();\\n        }\\n        return undefined;\\n    })\"}}\n1d:D\"$1e\"\n20:{\"name\":\"StreamingMetadataOutlet\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{}}\n1f:D\"$20\"\n1f:[\"$\",\"$L21\",null,{\"promise\":\"$@22\"},\"$20\",[],1]\n24:{\"name\":\"NonIndex\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{\"pagePath\":\"/\",\"statusCode\":200,\"isPossibleServerAction\":false}}\n23:D\"$24\"\n23:null\n26:{\"name\":\"ViewportTree\",\"env\":\"Server\",\"key\":\"XYeEJE8952B17eyiZScAp\",\"owner\":null,\"stack\":[],\"props\":{}}\n25:D\"$26\"\n29:{\"name\":\"__next_viewport_boundary__\",\"env\":\"Server\",\"key\":null,\"owner\":\"$26\",\"stack\":[],\"props\":{}}\n28:D\"$29\"\n25:[\"$\",\"$3\",\"XYeEJE8952B17eyiZScAp\",{\"children\":[[\"$\",\"$L27\",null,{\"children\":\"$L28\"},\"$26\",[],1],null]},null,null,0]\n2b:{\"name\":\"\",\"env\":\"Server\",\"key\":null,\"owner\":null,\"stack\":[],\"props\":{}}\n2a:D\"$2b\"\n2a:null\n2c:[]\n0:{\"P\":\"$1\",\"b\":\"development\",\"p\":\"\",\"c\":[\"\",\"\"],\"i\":false,\"f\":[[[\"\",{\"children\":[\"__PAGE__\",{}]},\"$undefined\",\"$undefined\",true],[\"\",[\"$\",\"$3\",\"c\",{\"children\":[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/app/layout.css?v=1747959554957\",\"precedence\":\"next_static/css/"])</script><script>self.__next_f.push([1,"app/layout.css\",\"crossOrigin\":\"$undefined\",\"nonce\":\"$undefined\"},null,[],0]],\"$4\"]},null,[],0],{\"children\":[\"__PAGE__\",[\"$\",\"$3\",\"c\",{\"children\":[[\"$\",\"$L12\",null,{\"Component\":\"$13\",\"searchParams\":{},\"params\":{}},null,[],1],\"$14\",null,[\"$\",\"$L1a\",null,{\"children\":[\"$L1b\",\"$L1d\",\"$1f\"]},null,[],1]]},null,[],0],{},null,false]},null,false],[\"$\",\"$3\",\"h\",{\"children\":[\"$23\",\"$25\",\"$2a\"]},null,[],0],false]],\"m\":\"$W2c\",\"G\":[\"$2d\",\"$undefined\"],\"s\":false,\"S\":false}\n18:[\"$\",\"$2e\",null,{\"fallback\":null,\"children\":[\"$\",\"$L2f\",null,{\"promise\":\"$@30\"},\"$19\",[],1]},\"$19\",[],1]\n1d:null\n28:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"},\"$1c\",[],0],[\"$\",\"meta\",\"1\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"},\"$1c\",[],0]]\n1b:null\n"])</script><script>self.__next_f.push([1,"30:{\"metadata\":[[\"$\",\"link\",\"0\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"},\"$19\",[],0]],\"error\":null,\"digest\":\"$undefined\"}\n22:{\"metadata\":\"$30:metadata\",\"error\":null,\"digest\":\"$undefined\"}\n"])</script></body></html>

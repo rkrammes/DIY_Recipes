@@ -13,7 +13,7 @@ interface LogEntry {
 }
 
 export default function LogsPage() {
-  const { value: themeContext } = useTheme();
+  const themeContext = useTheme();
   const { playSound } = useAudio();
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [filter, setFilter] = useState('all');

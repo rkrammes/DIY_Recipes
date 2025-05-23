@@ -166,9 +166,9 @@ export const fetchFormulationIngredients = async (formulationId: string): Promis
     const fallbackFormulation = FALLBACK_RECIPES.find(recipe => recipe.id === formulationId);
     
     // If we found a matching fallback formulation with ingredients, use those
-    if (fallbackFormulation && fallbackFormulation.ingredients && fallbackFormulation.ingredients.length > 0) {
+    if (fallbackFormulation && (fallbackFormulation as any).ingredients && (fallbackFormulation as any).ingredients.length > 0) {
       console.log(`Found matching fallback formulation ingredients for ID ${formulationId}, using them`);
-      return fallbackFormulation.ingredients.map(ing => ({
+      return (fallbackFormulation as any).ingredients.map(ing => ({
         id: ing.id || `i-${Math.random().toString(36).substring(2, 9)}`,
         recipe_id: formulationId,
         ingredient_id: ing.id || `i-${Math.random().toString(36).substring(2, 9)}`,
@@ -264,7 +264,7 @@ export const fetchFormulationVersions = async (formulationId: string): Promise<R
 // Fetch all ingredients
 export const fetchIngredients = async (): Promise<Ingredient[]> => {
   try {
-    const response = await fetchWithTimeout(ENDPOINTS.ingredients.list);
+    const response = await fetchWithTimeout((ENDPOINTS as any).ingredients.list);
     if (!response.ok) {
       throw new Error(`HTTP error: ${response.status}`);
     }

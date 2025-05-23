@@ -1,0 +1,812 @@
+Starting development server...
+Mock data: false
+Port: 3000
+Starting Font server on port 3001...
+Font server started. Check logs/font-server.log for details.
+Starting nextjs server in standard mode on localhost:3000...
+   ▲ Next.js 15.3.0
+   - Local:        http://localhost:3000
+   - Network:      http://localhost:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1107ms
+ ✓ Compiled /middleware in 406ms (248 modules)
+[2025-05-23T01:02:24.210Z] Request: HEAD /
+- User-Agent: curl/8.7.1
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ○ Compiling / ...
+ ✓ Compiled / in 2.4s (1171 modules)
+Module "DIY Formulations" (formulations) registered successfully
+Module "Settings" (settings) registered successfully
+ HEAD / 200 in 2632ms
+[2025-05-23T01:02:50.051Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 200 in 32ms
+[2025-05-23T01:02:50.384Z] Request: HEAD /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.384Z] Request: HEAD /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.384Z] Request: HEAD /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.384Z] Request: HEAD /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.384Z] Request: HEAD /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.399Z] Request: HEAD /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.400Z] Request: HEAD /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.400Z] Request: HEAD /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.400Z] Request: HEAD /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.400Z] Request: HEAD /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.423Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.423Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.423Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.424Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.424Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.461Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.461Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.461Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.461Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.461Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.472Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:02:50.472Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+ ✓ Compiled /favicon.ico in 253ms (629 modules)
+ GET /favicon.ico 200 in 302ms
+ GET /favicon.ico 200 in 3ms
+ ○ Compiling /api/mcp ...
+ ⚠ ./src/lib/mcp/adapters/index.ts
+export 'McpAdapter' (reexported as 'McpAdapter') was not found in '../base' (possible exports: BaseMcpAdapter)
+
+Import trace for requested module:
+./src/lib/mcp/adapters/index.ts
+./src/app/api/mcp/route.ts
+
+./src/lib/mcp/adapters/index.ts
+export 'McpConnectionOptions' (reexported as 'McpConnectionOptions') was not found in '../base' (possible exports: BaseMcpAdapter)
+
+Import trace for requested module:
+./src/lib/mcp/adapters/index.ts
+./src/app/api/mcp/route.ts
+ POST /api/mcp 200 in 612ms
+[2025-05-23T01:08:49.193Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 200 in 43ms
+ ⚠ ./src/lib/mcp/adapters/index.ts
+export 'McpAdapter' (reexported as 'McpAdapter') was not found in '../base' (possible exports: BaseMcpAdapter)
+
+Import trace for requested module:
+./src/lib/mcp/adapters/index.ts
+./src/app/api/mcp/route.ts
+
+./src/lib/mcp/adapters/index.ts
+export 'McpConnectionOptions' (reexported as 'McpConnectionOptions') was not found in '../base' (possible exports: BaseMcpAdapter)
+
+Import trace for requested module:
+./src/lib/mcp/adapters/index.ts
+./src/app/api/mcp/route.ts
+ ⚠ ./src/lib/mcp/adapters/index.ts
+export 'McpAdapter' (reexported as 'McpAdapter') was not found in '../base' (possible exports: BaseMcpAdapter)
+
+Import trace for requested module:
+./src/lib/mcp/adapters/index.ts
+./src/app/api/mcp/route.ts
+
+./src/lib/mcp/adapters/index.ts
+export 'McpConnectionOptions' (reexported as 'McpConnectionOptions') was not found in '../base' (possible exports: BaseMcpAdapter)
+
+Import trace for requested module:
+./src/lib/mcp/adapters/index.ts
+./src/app/api/mcp/route.ts
+ GET /favicon.ico 200 in 85ms
+GitHub MCP Server running on stdio
+Connected to github MCP server
+ POST /api/mcp 200 in 1026ms
+ ⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+   ▲ Next.js 15.3.0
+   - Local:        http://localhost:3000
+   - Network:      http://localhost:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1056ms
+ ⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+   ▲ Next.js 15.3.0
+   - Local:        http://localhost:3000
+   - Network:      http://localhost:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 980ms
+ ✓ Compiled /middleware in 450ms (248 modules)
+[2025-05-23T01:10:37.191Z] Request: GET /
+- User-Agent: curl/8.7.1
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ○ Compiling / ...
+ ✓ Compiled / in 2.5s (1171 modules)
+Module "DIY Formulations" (formulations) registered successfully
+Module "Settings" (settings) registered successfully
+ GET / 200 in 2721ms
+ ✓ Compiled /api/environment/status in 338ms (1180 modules)
+ GET /api/environment/status 200 in 387ms
+ GET /api/environment/status 200 in 7ms
+[2025-05-23T01:11:36.297Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+Module "DIY Formulations" (formulations) registered successfully
+Module "Settings" (settings) registered successfully
+ GET / 200 in 109ms
+[2025-05-23T01:11:36.421Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.421Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.421Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+ ✓ Compiled /favicon.ico in 130ms (636 modules)
+ GET /favicon.ico 200 in 160ms
+[2025-05-23T01:11:36.853Z] Request: HEAD /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.854Z] Request: HEAD /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.854Z] Request: HEAD /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.854Z] Request: HEAD /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.855Z] Request: HEAD /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.865Z] Request: HEAD /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.865Z] Request: HEAD /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.865Z] Request: HEAD /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.865Z] Request: HEAD /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.865Z] Request: HEAD /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.865Z] Request: HEAD /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.883Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.883Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.883Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.884Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.884Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.884Z] Request: HEAD /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.894Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.894Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.894Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.899Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.899Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.899Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:11:36.907Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+ GET /favicon.ico 200 in 11ms
+ ✓ Compiled in 556ms (1165 modules)
+ ✓ Compiled in 279ms (1144 modules)
+ ✓ Compiled in 348ms (550 modules)
+ ✓ Compiled in 159ms (550 modules)
+ ✓ Compiled in 372ms (1171 modules)
+ ⨯ ./src/lib/directApi.ts
+Error:   [31mx[0m Expected ident
+     ,-[[36;1;4m/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/src/lib/directApi.ts[0m:182:1]
+ [2m179[0m |     }
+ [2m180[0m |     
+ [2m181[0m |     // Otherwise, try to fetch from the API
+ [2m182[0m |     const response = await fetchWithTimeout(ENDPOINTS.(recipes as any).ingredients(formulationId));
+     : [35;1m                                                      ^[0m
+ [2m183[0m |     
+ [2m184[0m |     // For any non-successful response, use the first fallback formulation's ingredients
+ [2m185[0m |     if (!response.ok) {
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/lib/directApi.ts
+./src/hooks/useRecipe.ts
+./src/components/RecipeDetails.tsx
+./src/components/FormulationDetails.tsx
+./src/modules/formulations/index.ts
+./src/modules/index.ts
+./src/app/page.tsx
+ ✓ Compiled in 192ms (1144 modules)
+ ⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+   ▲ Next.js 15.3.0
+   - Local:        http://localhost:3000
+   - Network:      http://localhost:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1074ms
+ ✓ Compiled /middleware in 453ms (248 modules)
+[2025-05-23T01:30:35.961Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ○ Compiling / ...
+ ✓ Compiled / in 2.6s (1183 modules)
+Module "DIY Formulations" (formulations) registered successfully
+Module "Settings" (settings) registered successfully
+ GET / 200 in 3004ms
+[2025-05-23T01:30:39.280Z] Request: HEAD /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.280Z] Request: HEAD /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.280Z] Request: HEAD /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.280Z] Request: HEAD /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.281Z] Request: HEAD /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.291Z] Request: HEAD /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.292Z] Request: HEAD /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.292Z] Request: HEAD /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.292Z] Request: HEAD /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.292Z] Request: HEAD /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.300Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.300Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.300Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.300Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.300Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.307Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.307Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.307Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.307Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.308Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.315Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T01:30:39.315Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+ ✓ Compiled /favicon.ico in 292ms (637 modules)
+ GET /favicon.ico 200 in 344ms
+ GET /favicon.ico 200 in 3ms
+ GET /favicon.ico 200 in 29ms
+ ✓ Compiled in 298ms (549 modules)
+[2025-05-23T01:54:51.773Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ Error: Cannot find module './4447.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/webpack-runtime.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/favicon.ico/route.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:203:28)
+    at <unknown> (.next/server/webpack-runtime.js:116:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:115:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:167:22)
+    at <unknown> (.next/server/app/page.js:37:2137)
+    at Object.<anonymous> (.next/server/app/page.js:37:2223) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 709ms (1474 modules)
+ GET / 500 in 1112ms
+[2025-05-23T01:54:52.895Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 200 in 54ms
+[2025-05-23T01:54:52.957Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 200 in 7ms
+[2025-05-23T01:54:52.995Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+Module "DIY Formulations" (formulations) registered successfully
+Module "Settings" (settings) registered successfully
+ GET / 200 in 76ms
+ ✓ Compiled /_not-found in 130ms (1478 modules)
+ GET /_next/static/css/app/layout.css?v=1747965292998 404 in 183ms
+ GET /_next/static/chunks/main-app.js?v=1747965292998 404 in 179ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 47ms
+ GET /_next/static/chunks/app/global-error.js 404 in 33ms
+ GET /_next/static/chunks/app/page.js 404 in 33ms
+ GET /_next/static/chunks/app/error.js 404 in 33ms
+ ✓ Compiled in 527ms (1479 modules)
+ ✓ Compiled in 159ms (766 modules)
+ ✓ Compiled in 166ms (766 modules)
+ ✓ Compiled in 145ms (766 modules)
+ ✓ Compiled in 129ms (766 modules)
+ ✓ Compiled in 155ms (766 modules)
+ ✓ Compiled in 133ms (766 modules)
+ ✓ Compiled in 139ms (766 modules)
+ ✓ Compiled in 136ms (766 modules)
+ ✓ Compiled in 140ms (766 modules)
+ ✓ Compiled in 136ms (766 modules)
+[2025-05-23T02:02:40.628Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+Module "DIY Formulations" (formulations) registered successfully
+Module "Settings" (settings) registered successfully
+ GET / 200 in 101ms
+ ✓ Compiled /favicon.ico in 70ms (682 modules)
+ ⨯ Error: Cannot find module './4447.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/webpack-runtime.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/favicon.ico/route.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:203:28)
+    at <unknown> (.next/server/webpack-runtime.js:116:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:115:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:167:22)
+    at <unknown> (.next/server/app/favicon.ico/route.js:1:36150)
+    at Object.<anonymous> (.next/server/app/favicon.ico/route.js:1:36197) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 93ms
+ ⨯ Error: Cannot find module './4447.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/webpack-runtime.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/favicon.ico/route.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:203:28)
+    at <unknown> (.next/server/webpack-runtime.js:116:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:115:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:167:22)
+    at <unknown> (.next/server/app/favicon.ico/route.js:1:36150)
+    at Object.<anonymous> (.next/server/app/favicon.ico/route.js:1:36197) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 18ms
+[2025-05-23T02:02:40.924Z] Request: HEAD /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T02:02:40.924Z] Request: HEAD /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T02:02:40.924Z] Request: HEAD /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T02:02:40.924Z] Request: HEAD /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T02:02:40.924Z] Request: HEAD /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T02:02:40.936Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T02:02:40.936Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T02:02:40.938Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T02:02:40.938Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T02:02:40.938Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T02:02:40.938Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+ ⨯ Error: Cannot find module './4447.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/webpack-runtime.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/favicon.ico/route.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:203:28)
+    at <unknown> (.next/server/webpack-runtime.js:116:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:115:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:167:22)
+    at <unknown> (.next/server/app/favicon.ico/route.js:1:36150)
+    at Object.<anonymous> (.next/server/app/favicon.ico/route.js:1:36197) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 54ms
+ ✓ Compiled in 175ms (766 modules)
+ ✓ Compiled in 282ms (1432 modules)
+ ✓ Compiled in 214ms (1432 modules)
+ ✓ Compiled in 165ms (1418 modules)
+ ✓ Compiled in 234ms (1432 modules)
+ ✓ Compiled in 153ms (1418 modules)
+ ✓ Compiled in 148ms (1418 modules)
+ ✓ Compiled in 149ms (1418 modules)
+ ✓ Compiled in 142ms (1418 modules)
+ ✓ Compiled in 163ms (1418 modules)
+ ✓ Compiled in 149ms (1418 modules)
+ ✓ Compiled in 128ms (1418 modules)
+ ✓ Compiled in 153ms (766 modules)
+ ✓ Compiled in 142ms (766 modules)
+ ✓ Compiled in 155ms (766 modules)
+ ✓ Compiled in 197ms (1418 modules)
+ ✓ Compiled in 135ms (1418 modules)
+ ✓ Compiled in 139ms (766 modules)
+ ✓ Compiled in 168ms (1418 modules)
+ ✓ Compiled in 168ms (766 modules)
+ ✓ Compiled in 101ms (766 modules)
+ ✓ Compiled in 138ms (766 modules)
+[2025-05-23T02:13:05.207Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+Module "DIY Formulations" (formulations) registered successfully
+Module "Settings" (settings) registered successfully
+ GET / 200 in 161ms
+ ✓ Compiled /_not-found in 175ms (1422 modules)
+ GET /_next/static/css/app/layout.css?v=1747966385296 404 in 226ms
+ GET /_next/static/chunks/main-app.js?v=1747966385296 404 in 239ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 32ms
+ GET /_next/static/chunks/app/error.js 404 in 31ms
+ GET /_next/static/chunks/app/global-error.js 404 in 31ms
+ ✓ Compiled /favicon.ico in 99ms (683 modules)
+ GET /favicon.ico 200 in 136ms
+[2025-05-23T02:13:09.613Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+Module "DIY Formulations" (formulations) registered successfully
+Module "Settings" (settings) registered successfully
+ GET / 200 in 111ms
+ GET /_next/static/css/app/layout.css?v=1747966389658 404 in 14ms
+ GET /_next/static/chunks/main-app.js?v=1747966389658 404 in 43ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 42ms
+ GET /_next/static/chunks/app/error.js 404 in 42ms
+ GET /_next/static/chunks/app/global-error.js 404 in 42ms
+ GET /favicon.ico 200 in 3ms

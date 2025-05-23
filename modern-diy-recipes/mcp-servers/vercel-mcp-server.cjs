@@ -1,0 +1,1 @@
+../../../mcp-servers/vercel-mcp-server.cjs

@@ -1,0 +1,165 @@
+   ▲ Next.js 15.3.0
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.148:3000
+   - Environments: .env.local, .env
+
+ ✓ Starting...
+ ✓ Ready in 1020ms
+ ✓ Compiled /middleware in 439ms (248 modules)
+[2025-05-11T02:45:22.904Z] Request: GET /
+- User-Agent: curl/8.7.1
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ○ Compiling / ...
+ ✓ Compiled / in 2.4s (1157 modules)
+Module "DIY Formulations" (formulations) registered successfully
+Module "Settings" (settings) registered successfully
+ GET / 200 in 2586ms
+[2025-05-11T02:45:25.699Z] Request: GET /kraft-modular
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ○ Compiling /kraft-modular ...
+ ✓ Compiled /kraft-modular in 540ms (1124 modules)
+Module "DIY Formulations" (formulations) registered successfully
+Module "Settings" (settings) registered successfully
+ GET /kraft-modular 200 in 650ms
+[2025-05-11T02:45:26.390Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.394Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.402Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.692Z] Request: HEAD /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.693Z] Request: HEAD /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.693Z] Request: HEAD /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.693Z] Request: HEAD /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.693Z] Request: HEAD /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.697Z] Request: HEAD /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.703Z] Request: HEAD /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.703Z] Request: HEAD /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.703Z] Request: HEAD /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.703Z] Request: HEAD /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.703Z] Request: HEAD /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.708Z] Request: HEAD /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.712Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.714Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.714Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.714Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.714Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.717Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.724Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.724Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.724Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.724Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.724Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown
+[2025-05-11T02:45:26.727Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15
+- Referrer: http://localhost:3000/kraft-modular
+- Host: localhost:3000
+- IP: unknown

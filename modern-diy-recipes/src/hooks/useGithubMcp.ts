@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import GithubMcp, { Repository } from '../lib/githubMcp';
+import githubApi, { Repository } from '../lib/githubApi';
 
 /**
  * Hook for accessing GitHub repositories via MCP
@@ -18,15 +18,17 @@ export function useGithubRepositories(options: {
   const [error, setError] = useState<Error | null>(null);
   const [repositories, setRepositories] = useState<Repository[]>([]);
 
-  // Initialize the GitHub MCP client
-  const initialize = async () => {
+  // Initialize the GitHub API client
+  const initialize = async (token?: string) => {
     try {
       setIsLoading(true);
-      await GithubMcp.initialize();
+      if (token) {
+        githubApi.setToken(token);
+      }
       setIsInitialized(true);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err : new Error('Failed to initialize GitHub MCP client'));
+      setError(err instanceof Error ? err : new Error('Failed to initialize GitHub API client'));
     } finally {
       setIsLoading(false);
     }
@@ -40,7 +42,7 @@ export function useGithubRepositories(options: {
     
     try {
       setIsLoading(true);
-      const repos = await GithubMcp.repo.listRepos();
+      const repos = await githubApi.listRepos();
       setRepositories(repos);
       setError(null);
       return repos;
@@ -64,7 +66,7 @@ export function useGithubRepositories(options: {
     
     try {
       setIsLoading(true);
-      const repo = await GithubMcp.repo.createRepo(name, options);
+      const repo = await githubApi.createRepo(name, options);
       await fetchRepositories();
       return repo;
     } catch (err) {
@@ -90,9 +92,7 @@ export function useGithubRepositories(options: {
     initialize,
     fetchRepositories,
     createRepository,
-    fileOperations: GithubMcp.file,
-    branchOperations: GithubMcp.branch,
-    pullRequestOperations: GithubMcp.pullRequest
+    githubApi
   };
 }
 
@@ -113,7 +113,7 @@ export function useGithubRepository(owner: string, name: string) {
   const fetchRepository = async () => {
     try {
       setIsLoading(true);
-      const repo = await GithubMcp.repo.getRepo(owner, name);
+      const repo = await githubApi.getRepo(owner, name);
       setRepository(repo);
       setError(null);
       return repo;
@@ -129,7 +129,7 @@ export function useGithubRepository(owner: string, name: string) {
   const fetchBranches = async () => {
     try {
       setIsLoading(true);
-      const branchList = await GithubMcp.branch.listBranches(owner, name);
+      const branchList = await githubApi.listBranches(owner, name);
       setBranches(branchList);
       setError(null);
       return branchList;
@@ -145,7 +145,7 @@ export function useGithubRepository(owner: string, name: string) {
   const createOrUpdateFile = async (filePath: string, content: string, message: string, branch?: string) => {
     try {
       setIsLoading(true);
-      await GithubMcp.file.createOrUpdateFile(owner, name, {
+      await githubApi.createOrUpdateFile(owner, name, {
         path: filePath,
         content,
         message,
@@ -165,7 +165,7 @@ export function useGithubRepository(owner: string, name: string) {
   const getFileContent = async (filePath: string, branch?: string) => {
     try {
       setIsLoading(true);
-      const content = await GithubMcp.file.getFileContent(owner, name, filePath, branch);
+      const content = await githubApi.getFileContent(owner, name, filePath, branch);
       setError(null);
       return content;
     } catch (err) {
@@ -194,13 +194,13 @@ export function useGithubRepository(owner: string, name: string) {
     createOrUpdateFile,
     getFileContent,
     createBranch: (branch: string, fromBranch?: string) => 
-      GithubMcp.branch.createBranch(owner, name, branch, fromBranch),
+      githubApi.createBranch(owner, name, branch, fromBranch),
     createPullRequest: (options: {
       title: string;
       body?: string;
       head: string;
       base: string;
-    }) => GithubMcp.pullRequest.createPullRequest(owner, name, options)
+    }) => githubApi.createPullRequest(owner, name, options)
   };
 }
 

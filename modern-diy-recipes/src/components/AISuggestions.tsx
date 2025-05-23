@@ -15,7 +15,7 @@ export default function AISuggestions({ formulationId }: AISuggestionsProps) {
     const fetchSuggestions = async () => {
       setLoading(true);
       try {
-        const { data, error } = await supabase
+        const { data, error } = await (supabase as any)
           .from('recipe_ai_suggestions')
           .select('*')
           .eq('recipe_id', formulationId)

@@ -38,7 +38,7 @@ export default function TripleColumnLayout() {
   useEffect(() => {
     async function checkConnection() {
       try {
-        const { data, error } = await supabase.from('recipes').select('count', { count: 'exact', head: true });
+        const { data, error } = await (supabase as any).from('recipes').select('count', { count: 'exact', head: true });
         setSystemStatus(error ? 'offline' : 'online');
         setLastSyncTime(new Date());
       } catch (error) {
@@ -162,7 +162,7 @@ export default function TripleColumnLayout() {
             id: selectedFormulation.id,
             title: selectedFormulation.title,
             description: selectedFormulation.description,
-            ingredients: selectedFormulation.ingredients ? `${selectedFormulation.ingredients.length} ingredients` : 'no ingredients'
+            ingredients: (selectedFormulation as any).ingredients ? `${(selectedFormulation as any).ingredients.length} ingredients` : 'no ingredients'
           }, null, 2));
         }
 
@@ -210,8 +210,8 @@ export default function TripleColumnLayout() {
             </div>
             <h3 className="text-xl font-semibold mb-3">Used In Formulations</h3>
             <div className="bg-surface-1 p-4 rounded-md">
-              {formulations?.filter(f => f.ingredients?.some(i => i.id === selectedItemId)).length
-                ? formulations?.filter(f => f.ingredients?.some(i => i.id === selectedItemId))
+              {formulations?.filter(f => (f as any).ingredients?.some(i => i.id === selectedItemId)).length
+                ? formulations?.filter(f => (f as any).ingredients?.some(i => i.id === selectedItemId))
                    .map(formulation => (
                     <div key={formulation.id} className="mb-2 p-2 hover:bg-surface-2 rounded-md cursor-pointer"
                          onClick={() => {
@@ -462,7 +462,7 @@ function SystemStatusText({ status }: { status: string }) {
             <div className="font-bold text-base tracking-tight whitespace-nowrap">
               <div className="text-accent">
                 ┌───────────────────────────┐<br />
-                │ <span className="animate-pulse">></span>KRAFT_AI TERMINAL v1.0.2 │<br />
+                │ <span className="animate-pulse">&gt;</span>KRAFT_AI TERMINAL v1.0.2 │<br />
                 └───────────────────────────┘
               </div>
               <div className="text-xs text-text-secondary mt-1">
@@ -638,7 +638,7 @@ function SystemStatusText({ status }: { status: string }) {
               <div className="text-text-secondary">[{new Date().toISOString().split('T')[0]} <CurrentTime />] System initialized</div>
               <div className="text-green-500">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Database connection established</div>
               <div className="text-text-secondary">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Loaded {databaseStats.formulations} formulations</div>
-              <div className="text-text-secondary">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Loaded {databaseStats.ingredients} ingredients</div>
+              <div className="text-text-secondary">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Loaded {(databaseStats as any).ingredients} ingredients</div>
               <div className="text-accent">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Theme activated: {theme.toUpperCase()}</div>
               <div className="text-purple-500">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Audio system: {audioEnabled ? 'ENABLED' : 'DISABLED'}</div>
               <div className="text-amber-500 animate-pulse">[{new Date().toISOString().split('T')[0]} <CurrentTime />] Ready for input _</div>
@@ -652,7 +652,7 @@ function SystemStatusText({ status }: { status: string }) {
                 </span>
                 
                 <span className="text-text-secondary">
-                  ITEMS: {databaseStats.formulations + databaseStats.ingredients}
+                  ITEMS: {databaseStats.formulations + (databaseStats as any).ingredients}
                 </span>
                 
                 <span className="text-text-secondary">
@@ -929,12 +929,12 @@ function SystemStatusText({ status }: { status: string }) {
             <div className="mb-1">
               <div className="flex justify-between mb-0.5">
                 <span className="text-text-secondary">INGREDIENTS:</span>
-                <span className="font-bold">{databaseStats.ingredients}</span>
+                <span className="font-bold">{(databaseStats as any).ingredients}</span>
                 <span className="text-text-secondary">USED:</span>
-                <span className="font-bold">{Math.floor(databaseStats.ingredients * 0.8)}</span>
+                <span className="font-bold">{Math.floor((databaseStats as any).ingredients * 0.8)}</span>
               </div>
               <div className="w-full bg-surface-2 border border-border-subtle h-1">
-                <div className="bg-blue-500 h-full" style={{ width: `${databaseStats.ingredients * 5}%` }}></div>
+                <div className="bg-blue-500 h-full" style={{ width: `${(databaseStats as any).ingredients * 5}%` }}></div>
               </div>
             </div>
             
@@ -964,7 +964,7 @@ function SystemStatusText({ status }: { status: string }) {
               <div className="text-green-500">[<CurrentTime />] Database connection established to supabase.co</div>
               <div className="text-text-secondary">[<CurrentTime />] Auth provider initialized with DEV profile</div>
               <div className="text-text-secondary">[<CurrentTime />] Loaded formulation data ({databaseStats.formulations} entries)</div>
-              <div className="text-text-secondary">[<CurrentTime />] Loaded ingredient data ({databaseStats.ingredients} entries)</div>
+              <div className="text-text-secondary">[<CurrentTime />] Loaded ingredient data ({(databaseStats as any).ingredients} entries)</div>
               <div className="text-accent">[<CurrentTime />] Theme activated: {theme.toUpperCase()}</div>
               <div className="text-accent">[<CurrentTime />] UI rendering complete (React hydration)</div>
               <div className="text-amber-500">[<CurrentTime />] Font loading completed with fallbacks</div>

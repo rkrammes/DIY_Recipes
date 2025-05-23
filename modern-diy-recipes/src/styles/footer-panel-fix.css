@@ -1,0 +1,79 @@
+/**
+ * FOOTER PANEL FIX - Exact match to the terminal screenshot
+ * Forces the colors in the footer panels to match:
+ * - RED for SYS_STATUS, MODULE_STATISTICS, etc.
+ * - GREEN for labels (UPTIME, FORMULATIONS, etc.)
+ * - CYAN/BLUE for values
+ * - PURPLE/MAGENTA for TOTAL, USED accents
+ */
+
+/* Base styling for all footer panels */
+[data-terminal="footer"] .kraftTerminalPanel {
+  background-color: #000000 !important;
+  border: 1px solid #006600 !important;
+  background-image: 
+    linear-gradient(
+      rgba(0, 20, 0, 0.8) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(0, 20, 0, 0.8) 1px,
+      transparent 1px
+    ) !important;
+  background-size: 20px 20px !important;
+}
+
+/* RED headers in each panel - this is the most important match */
+[data-terminal="footer"] [data-panel="sys-status"] .terminal-heading,
+[data-terminal="footer"] [data-panel="module-statistics"] .terminal-heading,
+[data-terminal="footer"] [data-panel="live-system-log"] .terminal-heading,
+[data-terminal="footer"] [data-panel="commands"] .terminal-heading,
+[data-terminal="footer"] .terminal-heading {
+  color: #FF0000 !important;
+  text-shadow: 0 0 5px rgba(255, 0, 0, 0.5) !important;
+  font-weight: bold !important;
+}
+
+/* GREEN labels in panels */
+[data-terminal="footer"] .stats-label,
+[data-terminal="footer"] .panel-label,
+[data-terminal="footer"] .text-text-secondary {
+  color: #00FF00 !important;
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.5) !important;
+}
+
+/* CYAN/BLUE values in panels */
+[data-terminal="footer"] .stats-value,
+[data-terminal="footer"] .panel-value,
+[data-terminal="footer"] .value-text {
+  color: #00FFFF !important;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5) !important;
+}
+
+/* PURPLE/MAGENTA accents in panels */
+[data-terminal="footer"] .panel-accent,
+[data-terminal="footer"] .accent-text,
+[data-terminal="footer"] [data-value="total"],
+[data-terminal="footer"] [data-value="used"] {
+  color: #FF00FF !important;
+  text-shadow: 0 0 5px rgba(255, 0, 255, 0.5) !important;
+}
+
+/* Direct text matches for panel titles */
+div:has(> span:only-child:contains("SYS_STATUS")),
+div:has(> span:only-child:contains("MODULE_STATISTICS")),
+div:has(> span:only-child:contains("LIVE_SYSTEM_LOG")),
+div:has(> span:only-child:contains("COMMANDS")) {
+  color: #FF0000 !important;
+  text-shadow: 0 0 5px rgba(255, 0, 0, 0.5) !important;
+  font-weight: bold !important;
+}
+
+/* Override any dynamic theming */
+.hackers [data-terminal="footer"] .terminal-heading,
+.dystopia [data-terminal="footer"] .terminal-heading,
+.neotopia [data-terminal="footer"] .terminal-heading {
+  color: #FF0000 !important;
+  text-shadow: 0 0 5px rgba(255, 0, 0, 0.5) !important;
+}

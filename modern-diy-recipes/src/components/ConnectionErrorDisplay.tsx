@@ -37,7 +37,7 @@ export function ConnectionErrorDisplay({
       setLoading(true);
       
       // Simple ping to check direct Supabase connection
-      const { error: pingError } = await supabase
+      const { error: pingError } = await (supabase as any)
         .from('recipes')
         .select('count', { count: 'exact', head: true });
       

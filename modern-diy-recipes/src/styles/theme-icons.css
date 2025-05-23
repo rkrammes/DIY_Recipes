@@ -1,0 +1,45 @@
+/**
+ * Theme Icons CSS
+ * 
+ * This file contains styling for theme-specific SVG icons.
+ * The styles use CSS classes applied to the document root element
+ * to ensure icons automatically update when the theme changes.
+ */
+
+/* Default color (fallback) */
+.theme-icon {
+  color: #FFFFFF;
+}
+
+/* Hackers theme (green) */
+.hackers .theme-icon {
+  color: #00FF00;
+}
+
+/* Dystopia theme (amber) */
+.dystopia .theme-icon {
+  color: #FFB000;
+}
+
+/* Neotopia theme (blue) */
+.neotopia .theme-icon {
+  color: #00AAFF;
+}
+
+/* Animation for theme transition */
+.theme-icon {
+  transition: color 0.3s ease;
+}
+
+/* We can also use data-theme attribute as an alternative selector */
+[data-theme="hackers"] .theme-icon {
+  color: #00FF00;
+}
+
+[data-theme="dystopia"] .theme-icon {
+  color: #FFB000;
+}
+
+[data-theme="neotopia"] .theme-icon {
+  color: #00AAFF;
+}

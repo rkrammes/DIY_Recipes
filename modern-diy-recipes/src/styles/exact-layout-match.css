@@ -1,0 +1,197 @@
+/* EXACT MATCH FOR HEADER AND FOOTER STYLING
+ * BASED ON THE SCREENSHOT: RED HEADERS, GREEN TEXT, CYAN VALUES
+ * This CSS forcefully applies the styling shown in the screenshot 
+ */
+
+/* Force the colors for the panel headers and text - EXACT MATCH FROM SCREENSHOT */
+[data-panel="sys-status"] .panel-title,
+[data-panel="module-statistics"] .panel-title,
+[data-panel="live-system-log"] .panel-title,
+[data-panel="commands"] .panel-title,
+.sys-status-title,
+.module-statistics-title,
+.live-system-log-title,
+.commands-title,
+.panel-title,
+.SYS_STATUS,
+.MODULE_STATISTICS,
+.LIVE_SYSTEM_LOG,
+.COMMANDS,
+[data-text="SYS_STATUS"],
+[data-text="MODULE_STATISTICS"],
+[data-text="LIVE_SYSTEM_LOG"],
+[data-text="COMMANDS"],
+span:contains("SYS_STATUS"),
+span:contains("MODULE_STATISTICS"),
+span:contains("LIVE_SYSTEM_LOG"),
+span:contains("COMMANDS"),
+div:contains("SYS_STATUS"):not(:has(*)),
+div:contains("MODULE_STATISTICS"):not(:has(*)),
+div:contains("LIVE_SYSTEM_LOG"):not(:has(*)),
+div:contains("COMMANDS"):not(:has(*)) {
+  color: #FF0000 !important;
+  text-shadow: 0 0 5px rgba(255, 0, 0, 0.5) !important;
+  font-weight: bold !important;
+  letter-spacing: 0.1em !important;
+  font-family: monospace !important;
+}
+
+/* Force green color for labels */
+[data-label="uptime"],
+[data-label="formulations"],
+[data-label="ingredients"],
+[data-label="modules"],
+[data-label="db_conn"],
+[data-label="api"],
+.UPTIME,
+.FORMULATIONS,
+.INGREDIENTS,
+.MODULES,
+.DB_CONN,
+.API,
+.label-text,
+span:has(+ span.value-text),
+label {
+  color: #00FF00 !important;
+  text-shadow: 0 0 5px rgba(0, 255, 0, 0.5) !important;
+  font-family: monospace !important;
+}
+
+/* Force cyan/blue for values */
+[data-value="uptime"],
+[data-value="formulations"],
+[data-value="ingredients"],
+[data-value="modules"],
+[data-value="db_conn"],
+[data-value="api"],
+.value-text,
+.metric-value,
+.number-value {
+  color: #00FFFF !important;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5) !important;
+  font-family: monospace !important;
+}
+
+/* Force purple for TOTAL and other accents */
+[data-accent="true"],
+[data-value="total"],
+[data-value="used"],
+.TOTAL,
+.USED,
+.accent-text,
+.total-value,
+.used-value {
+  color: #FF00FF !important;
+  text-shadow: 0 0 5px rgba(255, 0, 255, 0.5) !important;
+  font-family: monospace !important;
+}
+
+/* Progress bars */
+.progress-bar {
+  background: linear-gradient(90deg, #00FFFF, #0088FF) !important;
+}
+
+/* Global force override for panel layout */
+.kraftTerminalPanel {
+  background-color: #000000 !important;
+  border: 1px solid #333333 !important;
+  padding: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+  background-image: 
+    linear-gradient(
+      rgba(30, 30, 30, 0.8) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(30, 30, 30, 0.8) 1px,
+      transparent 1px
+    ) !important;
+  background-size: 20px 20px !important;
+}
+
+/* System log styles */
+.log-entry {
+  font-family: monospace !important;
+  font-size: 0.75rem !important;
+  line-height: 1.4 !important;
+}
+
+.log-standard {
+  color: #AAAAAA !important;
+}
+
+.log-success {
+  color: #00FF00 !important;
+}
+
+.log-error {
+  color: #FF0000 !important;
+}
+
+.log-warning {
+  color: #FFBF00 !important;
+}
+
+.log-highlight {
+  color: #00FFFF !important;
+}
+
+.log-network {
+  color: #FF00FF !important;
+}
+
+/* Status indicators */
+.status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.status-active {
+  background-color: #00FF00;
+  box-shadow: 0 0 8px rgba(0, 255, 0, 0.7);
+}
+
+.status-warning {
+  background-color: #FFBF00;
+  box-shadow: 0 0 8px rgba(255, 191, 0, 0.7);
+}
+
+.status-error {
+  background-color: #FF0000;
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.7);
+}
+
+/* DIRECT ELEMENT SELECTORS */
+/* These target the exact elements from the screenshot */
+
+/* Find any element that has SYS_STATUS as text */
+*:not(style):not(script):not(head):not(meta):not(link):not(title) {
+  font-family: monospace !important;
+}
+
+*:not(style):not(script):not(head):not(meta):not(link):not(title):contains('SYS_STATUS') {
+  color: #FF0000 !important;
+  text-shadow: 0 0 5px rgba(255, 0, 0, 0.5) !important;
+}
+
+*:not(style):not(script):not(head):not(meta):not(link):not(title):contains('MODULE_STATISTICS') {
+  color: #FF0000 !important;
+  text-shadow: 0 0 5px rgba(255, 0, 0, 0.5) !important;
+}
+
+*:not(style):not(script):not(head):not(meta):not(link):not(title):contains('LIVE_SYSTEM_LOG') {
+  color: #FF0000 !important;
+  text-shadow: 0 0 5px rgba(255, 0, 0, 0.5) !important;
+}
+
+*:not(style):not(script):not(head):not(meta):not(link):not(title):contains('COMMANDS') {
+  color: #FF0000 !important;
+  text-shadow: 0 0 5px rgba(255, 0, 0, 0.5) !important;
+}
+
+/* Inline script to find text content and apply styling */
+/* This will be added to layout.tsx */

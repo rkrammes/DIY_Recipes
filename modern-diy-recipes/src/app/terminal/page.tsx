@@ -11,7 +11,7 @@ interface CommandHistory {
 }
 
 export default function TerminalPage() {
-  const { value: themeContext } = useTheme();
+  const themeContext = useTheme();
   const { playSound } = useAudio();
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<CommandHistory[]>([
@@ -314,15 +314,10 @@ Network: CONNECTED (192.168.1.148)
 
   return (
     <div className="p-4 h-full">
-      <div 
+      <div
         ref={terminalRef}
-        className={`h-full overflow-y-auto p-4 rounded-md font-mono text-sm ${
-          themeStyle === 'terminal' 
-            ? 'bg-surface-1/90 border border-text-primary/30 font-terminal terminal-scanlines' 
-            : themeStyle === 'paper' 
-              ? 'bg-surface-1/90 border border-border-subtle shadow' 
-              : 'bg-surface-1/90 border border-accent/30 shadow'
-        }`}
+        data-terminal="full-screen"
+        className="h-full overflow-y-auto p-4 rounded-md font-mono text-sm"
         onClick={() => inputRef.current?.focus()}
       >
         {/* Terminal history */}
@@ -330,36 +325,27 @@ Network: CONNECTED (192.168.1.148)
           <div key={index} className="mb-2">
             {/* Only show prompt for user commands */}
             {entry.command && (
-              <div className="flex">
-                <span className={`${
-                  themeStyle === 'terminal' 
-                    ? 'text-green-500' 
-                    : themeStyle === 'paper' 
-                      ? 'text-green-700' 
-                      : 'text-emerald-400'
-                }`}>
+              <div className="flex" data-terminal="command-line">
+                <span className="value-positive terminal-prompt" data-terminal="prompt">
                   {`user@diy-recipes:${currentDirectory}$`}
                 </span>
-                <span className="ml-2">{entry.command}</span>
+                <span className="ml-2 terminal-command" data-terminal="command">{entry.command}</span>
               </div>
             )}
-            
-            {/* Command output */}
-            <div className={`whitespace-pre-wrap ml-0 ${entry.isError ? 'text-red-500' : ''}`}>
+
+            {/* Command output - using appropriate color classes */}
+            <div
+              className={`whitespace-pre-wrap ml-0 ${entry.isError ? 'error log-error' : 'log-standard'}`}
+              data-terminal="output"
+            >
               {entry.output}
             </div>
           </div>
         ))}
-        
+
         {/* Input line */}
-        <form onSubmit={handleSubmit} className="flex items-center">
-          <span className={`${
-            themeStyle === 'terminal' 
-              ? 'text-green-500' 
-              : themeStyle === 'paper' 
-                ? 'text-green-700' 
-                : 'text-emerald-400'
-          }`}>
+        <form onSubmit={handleSubmit} className="flex items-center" data-terminal="input-line">
+          <span className="value-positive terminal-prompt" data-terminal="prompt">
             {`user@diy-recipes:${currentDirectory}$`}
           </span>
           <input
@@ -367,23 +353,19 @@ Network: CONNECTED (192.168.1.148)
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className={`flex-1 ml-2 bg-transparent border-none outline-none focus:outline-none ${
-              themeStyle === 'terminal' ? 'caret-green-500' : ''
-            }`}
+            className="flex-1 ml-2 bg-transparent border-none outline-none focus:outline-none terminal-input"
+            data-terminal="input"
             autoComplete="off"
             spellCheck={false}
           />
         </form>
-        
+
         {/* Fake cursor */}
         {input === '' && (
-          <span className={`inline-block h-4 w-2 ml-2 animate-pulse ${
-            themeStyle === 'terminal' 
-              ? 'bg-green-500' 
-              : themeStyle === 'paper' 
-                ? 'bg-green-700' 
-                : 'bg-emerald-400'
-          }`}></span>
+          <span
+            className="inline-block h-4 w-2 ml-2 animate-pulse value-positive terminal-cursor"
+            data-terminal="cursor"
+          ></span>
         )}
       </div>
     </div>

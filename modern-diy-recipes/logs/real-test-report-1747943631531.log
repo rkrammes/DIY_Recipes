@@ -1,0 +1,11 @@
+# Server Test Report - 2025-05-22T19:53:51.531Z
+
+[2025-05-22T19:53:51.533Z] 
+=== Test Attempt 1/30 ===
+[2025-05-22T19:53:51.572Z] Process found on port 3000: node    18915 ryankrammes   16u  IPv6 0x30284b1b8fe2aaf0      0t0  TCP *:hbci (LISTEN)
+[2025-05-22T19:53:51.572Z] ✅ Process is running on port 3000
+[2025-05-22T19:53:54.306Z] Server responded with status code: 200
+[2025-05-22T19:53:54.307Z] ✅ Server is responding with 200 OK
+[2025-05-22T19:53:54.307Z] 
+Final result: Server is RUNNING
+[2025-05-22T19:53:54.307Z] Test report saved to: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/logs/real-test-report-1747943631531.log

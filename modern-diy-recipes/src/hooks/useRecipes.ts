@@ -12,7 +12,7 @@ export function useRecipes() {
     setLoading(true);
     try {
       // Use Supabase client normally
-      const { data, error: fetchError } = await supabase
+      const { data, error: fetchError } = await (supabase as any)
         .from('recipes')
         .select('*')
         .order('created_at', { ascending: false });

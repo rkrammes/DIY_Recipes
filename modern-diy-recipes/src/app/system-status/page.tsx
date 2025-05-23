@@ -44,7 +44,7 @@ interface SystemStatus {
 }
 
 export default function SystemStatusPage() {
-  const { value: themeContext } = useTheme();
+  const themeContext = useTheme();
   const [systemStatus, setSystemStatus] = useState<SystemStatus>({
     cpu: { usage: 0, cores: 4, model: 'Intel Core i7-1165G7' },
     memory: { used: 0, total: 8192, free: 0 },

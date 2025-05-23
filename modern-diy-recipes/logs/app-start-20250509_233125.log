@@ -1,0 +1,57 @@
+[0;34m[23:31:25][0m Cleaning up any existing processes...
+[0;34m[23:31:25][0m Cleaning Next.js cache for a fresh start...
+[0;34m[23:31:25][0m Running diagnostic checks...
+[2025-05-10T03:31:25.325Z] [INFO] Starting Kraft AI Diagnostics
+[2025-05-10T03:31:25.326Z] [INFO] Log file: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/logs/diagnostics-1746847885325.log
+[2025-05-10T03:31:25.326Z] [INFO] Process Info:
+[2025-05-10T03:31:25.326Z] [INFO] - Node Version: v22.14.0
+[2025-05-10T03:31:25.326Z] [INFO] - Platform: darwin
+[2025-05-10T03:31:25.326Z] [INFO] - Working Directory: /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes
+[2025-05-10T03:31:25.326Z] [INFO] 
+Checking Environment Variables:
+[32m[2025-05-10T03:31:25.326Z] [SUCCESS] - NEXT_PUBLIC_SUPABASE_URL: https://bzudglfxxywugesncjnz.supabase.co[0m
+[32m[2025-05-10T03:31:25.326Z] [SUCCESS] - NEXT_PUBLIC_SUPABASE_ANON_KEY: eyJhbGciOi...[0m
+[32m[2025-05-10T03:31:25.326Z] [SUCCESS] - SUPABASE_SERVICE_ROLE_KEY: eyJhbGciOi...[0m
+[32m[2025-05-10T03:31:25.326Z] [SUCCESS] - NEXT_PUBLIC_UI_MODE: terminal[0m
+[32m[2025-05-10T03:31:25.326Z] [SUCCESS] - NEXT_PUBLIC_USE_MOCK_DATA: false[0m
+[32m[2025-05-10T03:31:25.326Z] [SUCCESS] - NEXT_PUBLIC_SUPABASE_NO_MOCK_DATA: true[0m
+[32m[2025-05-10T03:31:25.327Z] [SUCCESS] All required environment variables are present[0m
+[2025-05-10T03:31:25.327Z] [INFO] 
+Testing Supabase Connection:
+[2025-05-10T03:31:25.327Z] [INFO] 
+Checking if port 3000 is already in use:
+[32m[2025-05-10T03:31:25.333Z] [SUCCESS] Port 3000 is available[0m
+[2025-05-10T03:31:25.333Z] [INFO] Creating Supabase client...
+[32m[2025-05-10T03:31:25.334Z] [SUCCESS] Supabase client created successfully[0m
+[2025-05-10T03:31:25.334Z] [INFO] Checking authentication...
+[2025-05-10T03:31:25.334Z] [INFO] Not authenticated (anonymous)
+[2025-05-10T03:31:25.334Z] [INFO] 
+Checking required tables:
+[32m[2025-05-10T03:31:25.560Z] [SUCCESS] - recipes: OK[0m
+[32m[2025-05-10T03:31:25.638Z] [SUCCESS] - ingredients: OK[0m
+[32m[2025-05-10T03:31:25.720Z] [SUCCESS] - recipe_ingredients: OK[0m
+[32m[2025-05-10T03:31:25.802Z] [SUCCESS] - iterations: OK[0m
+[32m[2025-05-10T03:31:25.886Z] [SUCCESS] - users: OK[0m
+[32m[2025-05-10T03:31:25.970Z] [SUCCESS] - user_preferences: OK[0m
+[32m[2025-05-10T03:31:26.050Z] [SUCCESS] - tools: OK[0m
+[32m[2025-05-10T03:31:26.127Z] [SUCCESS] - library: OK[0m
+[2025-05-10T03:31:26.128Z] [INFO] 
+Checking exec_sql function:
+[2025-05-10T03:31:26.192Z] [INFO] 
+Diagnostic Summary:
+[32m[2025-05-10T03:31:26.193Z] [SUCCESS] Environment Variables: OK[0m
+[32m[2025-05-10T03:31:26.193Z] [SUCCESS] Supabase Connection: OK[0m
+[32m[2025-05-10T03:31:26.193Z] [SUCCESS] Port 3000 Available: YES[0m
+[32m[2025-05-10T03:31:26.193Z] [SUCCESS] 
+The application should be able to run with real data on port 3000[0m
+[2025-05-10T03:31:26.193Z] [INFO] 
+Diagnostics complete. See log file for details:
+[2025-05-10T03:31:26.193Z] [INFO] /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/logs/diagnostics-1746847885325.log
+[0;34m[23:31:26][0m Starting Next.js app on port 3000...
+[0;34m[23:31:26][0m App will be available at: http://localhost:3000
+[0;34m[23:31:26][0m Settings page: http://localhost:3000/settings
+[0;34m[23:31:26][0m Terminal interface: http://localhost:3000/terminal
+[0;34m[23:31:26][0m Next.js process started with PID: 66422
+[0;32m✓ Next.js server is running![0m
+[0;34m[23:31:31][0m Now monitoring the server for stability...
+[0;34m[23:31:31][0m Monitoring process PID: 66422

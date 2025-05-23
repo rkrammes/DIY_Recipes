@@ -24,7 +24,7 @@ export class IngredientRepository extends Repository<Ingredient> {
   async getByFormulationId(formulationId: string) {
     try {
       // Using join query to get ingredients from a formulation
-      const { data, error } = await this.supabase
+      const { data, error } = await (this.supabase as any)
         .from('recipe_ingredients')
         .select(`
           ingredient_id,

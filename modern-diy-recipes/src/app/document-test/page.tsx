@@ -60,13 +60,10 @@ export default function DocumentTestPage() {
           key={componentKey}
           recipeId={recipeId} 
           // Pass mock data to ensure the component works regardless of database connection
-          initialData={{ 
+          initialData={{
             ...mockSoapRecipe,
-            id: recipeId,
-            // Force using our mock data
-            __useTestData: true,
-            __mockIterations: mockSoapIterations
-          }} 
+            id: recipeId
+          } as any} 
         />
       </div>
       

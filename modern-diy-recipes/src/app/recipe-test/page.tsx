@@ -27,7 +27,7 @@ export default function RecipeTestPage() {
               <div className="text-sm">{recipe.description}</div>
               <div className="text-xs text-gray-600">ID: {recipe.id}</div>
               <div className="text-xs text-gray-600">
-                Ingredients: {recipe.ingredients?.length || 0}, 
+                Ingredients: {(recipe as any).ingredients?.length || 0}, 
                 Iterations: {recipe.iterations?.length || 0}
               </div>
             </li>

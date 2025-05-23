@@ -1,0 +1,105 @@
+/* Base primitive tokens */
+:root {
+  /* Colors (in RGB format for Tailwind opacity utilities) */
+  --color-black: 0 0 0;
+  --color-white: 255 255 255;
+  --color-blue-500: 0 200 255;
+  --color-pink-500: 255 0 255;
+  --color-green-500: 0 224 80;
+  --color-amber-500: 255 153 0;
+
+  /* Spacing */
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-4: 1rem;
+  --spacing-8: 2rem;
+
+  /* Typography */
+  --font-sans: 'Rajdhani', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Orbitron', sans-serif;
+}
+
+/* Semantic tokens - Synthwave Noir (default) */
+:root {
+  /* Surface tokens */
+  --surface-0: 60 25 300; /* oklch format */
+  --surface-1: 50 23 300;
+  --surface-inverse: 95 1 315;
+
+  /* Content tokens */
+  --text-primary: 95 1 315;
+  --text-secondary: 85 5 310;
+  --text-inverse: 60 25 300;
+
+  /* Interactive tokens */
+  --accent: 70 30 330;
+  --accent-hover: 75 32 330;
+  --accent-active: 60 28 330;
+
+  /* Decorative tokens */
+  --border-subtle: 70 15 320 / 0.3;
+  --shadow-soft: 0 2px 6px 0 oklch(0 0 0 / 0.3);
+  --glow-pulse: 0 0 10px oklch(70 30 330);
+
+  /* Status tokens */
+  --success: 80 20 140;
+  --warning: 75 18 85;
+  --error: 65 30 30;
+}
+
+/* Terminal Mono theme */
+[data-theme="terminal-mono"] {
+  /* Surface tokens */
+  --surface-0: 10 2 280;
+  --surface-1: 6 2 280;
+  --surface-inverse: 85 1 100;
+
+  /* Content tokens */
+  --text-primary: 85 1 100;
+  --text-secondary: 75 2 110;
+  --text-inverse: 10 2 280;
+
+  /* Interactive tokens */
+  --accent: 65 18 90;
+  --accent-hover: 70 20 90;
+  --accent-active: 55 16 90;
+
+  /* Decorative tokens */
+  --border-subtle: 65 10 90 / 0.3;
+  --shadow-soft: 0 2px 6px 0 oklch(0 0 0 / 0.3);
+  --glow-pulse: 0 0 8px oklch(65 18 90);
+
+  /* Status tokens */
+  --success: 70 15 140;
+  --warning: 70 20 85;
+  --error: 60 25 30;
+}
+
+/* Paper Ledger theme */
+[data-theme="paper-ledger"] {
+  /* Surface tokens */
+  --surface-0: 94 2 90;
+  --surface-1: 90 2 90;
+  --surface-inverse: 25 1 70;
+
+  /* Content tokens */
+  --text-primary: 25 1 70;
+  --text-secondary: 40 2 75;
+  --text-inverse: 94 2 90;
+
+  /* Interactive tokens */
+  --accent: 60 16 40;
+  --accent-hover: 65 17 40;
+  --accent-active: 55 15 40;
+
+  /* Decorative tokens */
+  --border-subtle: 60 8 40 / 0.2;
+  --shadow-soft: 0 1px 3px 0 oklch(0 0 0 / 0.12);
+  --glow-pulse: 0 0 5px oklch(60 16 40 / 0.5);
+
+  /* Status tokens */
+  --success: 65 15 140;
+  --warning: 70 15 85;
+  --error: 65 20 30;
+}

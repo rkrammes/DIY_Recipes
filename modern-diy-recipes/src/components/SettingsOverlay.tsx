@@ -14,7 +14,7 @@ const AVAILABLE_THEMES = {
 
 export function SettingsOverlay() {
   // Use the safe provider value accessor
-  const { value: themeContext } = useTheme();
+  const themeContext = useTheme();
   const { value: audioContext } = useAudio();
   const [mounted, setMounted] = useState(false);
   

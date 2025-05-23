@@ -45,7 +45,7 @@ export default function RecipeDetailInTerminal({ recipeId }: RecipeDetailInTermi
     const fetchRecipeDetails = async () => {
       try {
         // Fetch recipe details
-        const { data: recipeData, error: recipeError } = await supabase
+        const { data: recipeData, error: recipeError } = await (supabase as any)
           .from('recipes')
           .select('*')
           .eq('id', recipeId)
@@ -62,7 +62,7 @@ export default function RecipeDetailInTerminal({ recipeId }: RecipeDetailInTermi
         setRecipe(recipeData);
 
         // Fetch recipe ingredients with their details
-        const { data: ingredientsData, error: ingredientsError } = await supabase
+        const { data: ingredientsData, error: ingredientsError } = await (supabase as any)
           .from('recipe_ingredients')
           .select(`
             quantity, 

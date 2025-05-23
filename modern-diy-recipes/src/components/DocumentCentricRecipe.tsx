@@ -189,7 +189,7 @@ export default function DocumentCentricRecipe({
       editMode.description || 
       editMode.instructions || 
       editMode.notes || 
-      editMode.ingredients ||
+      (editMode as any).ingredients ||
       showAddIngredient;
     
     setUnsavedChanges(hasChanges);
@@ -585,7 +585,7 @@ export default function DocumentCentricRecipe({
     
     // Update in database
     await updateIterationIngredients(activeVersion.id, [
-      ...(activeVersion.ingredients || []).map(ing => ({
+      ...((activeVersion as any).ingredients || []).map(ing => ({
         ingredient_id: ing.id,
         quantity: ing.quantity,
         unit: ing.unit,
@@ -607,7 +607,7 @@ export default function DocumentCentricRecipe({
     if (!activeVersion?.id) return;
     
     // Filter out the ingredient to remove
-    const updatedIngredients = (activeVersion.ingredients || [])
+    const updatedIngredients = ((activeVersion as any).ingredients || [])
       .filter(ing => ing.id !== ingredientId)
       .map(ing => ({
         ingredient_id: ing.id,
@@ -628,7 +628,7 @@ export default function DocumentCentricRecipe({
     if (!activeVersion?.id) return;
     
     // Update the specific ingredient
-    const updatedIngredients = (activeVersion.ingredients || []).map(ing => {
+    const updatedIngredients = ((activeVersion as any).ingredients || []).map(ing => {
       if (ing.id === ingredientId) {
         return {
           ingredient_id: ing.id,
@@ -674,7 +674,7 @@ export default function DocumentCentricRecipe({
               onClick={() => toggleEditMode('ingredients')}
               className="text-accent hover:text-accent-hover p-1 rounded print-hide"
             >
-              {editMode.ingredients ? <Check size={16} /> : <Edit size={16} />}
+              {(editMode as any).ingredients ? <Check size={16} /> : <Edit size={16} />}
             </button>
           </div>
         </div>
@@ -898,9 +898,9 @@ export default function DocumentCentricRecipe({
         )}
         
         {/* AI Suggestions for ingredients */}
-        {aiSuggestions.ingredients?.length > 0 && (
+        {(aiSuggestions as any).ingredients?.length > 0 && (
           <div className="mt-3">
-            {aiSuggestions.ingredients.map((suggestion, index) => (
+            {(aiSuggestions as any).ingredients.map((suggestion, index) => (
               <div key={index} className="bg-blue-50 border border-blue-200 rounded p-3 mb-2">
                 <div className="flex items-start">
                   <div className="text-blue-500 mr-2">🤖</div>
@@ -917,7 +917,7 @@ export default function DocumentCentricRecipe({
                         onClick={() => {
                           setAiSuggestions({
                             ...aiSuggestions,
-                            ingredients: aiSuggestions.ingredients?.filter((_, i) => i !== index) || []
+                            ingredients: (aiSuggestions as any).ingredients?.filter((_, i) => i !== index) || []
                           });
                         }}
                         className="text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 py-1 px-2 rounded"
@@ -933,7 +933,7 @@ export default function DocumentCentricRecipe({
         )}
         
         {/* Add button to get AI suggestions for ingredients */}
-        {(!aiSuggestions.ingredients || aiSuggestions.ingredients?.length === 0) && (
+        {(!(aiSuggestions as any).ingredients || (aiSuggestions as any).ingredients?.length === 0) && (
           <button
             onClick={() => handleGetSuggestions('ingredients')}
             className="mt-1 text-xs flex items-center text-accent hover:text-accent-hover"
@@ -1191,7 +1191,7 @@ export default function DocumentCentricRecipe({
   }
 
   return (
-    <div className="document-centric-recipe bg-white rounded-lg shadow-md overflow-hidden">
+    <div className={`document-centric-recipe bg-white rounded-lg shadow-md overflow-hidden ${makingMode ? 'making-mode' : ''}`}>
       {/* Document header */}
       <div className="bg-accent/10 p-4 header-section">
         <div className="flex justify-between items-start">

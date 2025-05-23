@@ -16,12 +16,12 @@ export async function GET(request: NextRequest) {
     
     if (!user) {
       // For unauthenticated users, check if theme is in cookies
-      const theme = cookies().get('theme')?.value || 'hackers';
+      const theme = (await cookies()).get('theme')?.value || 'hackers';
       return NextResponse.json({ theme });
     }
     
     // For authenticated users, fetch from Supabase
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from('user_preferences')
       .select('theme')
       .eq('user_id', user.id)
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
     if (error) {
       console.error('Error fetching theme:', error);
       // Fall back to cookie or default
-      const theme = cookies().get('theme')?.value || 'hackers';
+      const theme = (await cookies()).get('theme')?.value || 'hackers';
       return NextResponse.json({ theme });
     }
     
@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
     }
     
     // Store theme in cookie for non-authenticated users
-    cookies().set('theme', theme);
+    (await cookies()).set('theme', theme);
     
     // Initialize Supabase client
     const supabase = createServerComponentClient({ cookies });
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
     
     // For authenticated users, update in Supabase
     // First check if a preferences record exists
-    const { data: existingData } = await supabase
+    const { data: existingData } = await (supabase as any)
       .from('user_preferences')
       .select('id')
       .eq('user_id', user.id)
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
       
     if (!existingData) {
       // Create a new preferences record
-      const { error: insertError } = await supabase
+      const { error: insertError } = await (supabase as any)
         .from('user_preferences')
         .insert([{ user_id: user.id, theme }]);
         
@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
       }
     } else {
       // Update existing record
-      const { error: updateError } = await supabase
+      const { error: updateError } = await (supabase as any)
         .from('user_preferences')
         .update({ theme })
         .eq('user_id', user.id);

@@ -1,19 +1,18 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { getMcpAdapter, McpAdapterType, initializeMcpAdapters, McpAdapter } from '../lib/mcp/adapters';
+import React, { createContext, useContext, useState } from 'react';
 
 /**
- * MCP Provider context type
+ * Placeholder MCP Provider context type
  */
 interface McpContextType {
   isInitialized: boolean;
   isInitializing: boolean;
   initError: Error | null;
-  github: McpAdapter | null;
-  puppeteer: McpAdapter | null;
-  supabase: McpAdapter | null;
-  vercel: McpAdapter | null;
+  github: null;
+  puppeteer: null;
+  supabase: null;
+  vercel: null;
   initialize: () => Promise<void>;
 }
 
@@ -32,7 +31,8 @@ const McpContext = createContext<McpContextType>({
 });
 
 /**
- * MCP Provider component
+ * Placeholder MCP Provider component
+ * TODO: Implement proper browser-compatible version
  */
 export function McpProvider({ 
   children,
@@ -41,117 +41,13 @@ export function McpProvider({
   children: React.ReactNode;
   autoInitialize?: boolean;
 }) {
-  const [isInitialized, setIsInitialized] = useState(false);
-  const [isInitializing, setIsInitializing] = useState(false);
-  const [initError, setInitError] = useState<Error | null>(null);
-  const [adapters, setAdapters] = useState<Record<McpAdapterType, McpAdapter | null>>({
-    github: null,
-    puppeteer: null,
-    supabase: null,
-    vercel: null
-  });
+  const [isInitialized] = useState(false);
+  const [isInitializing] = useState(false);
+  const [initError] = useState<Error | null>(null);
 
-  /**
-   * Initialize MCP adapters
-   */
   const initialize = async () => {
-    if (isInitialized || isInitializing) return;
-    
-    try {
-      setIsInitializing(true);
-      setInitError(null);
-      
-      // Initialize all adapters in parallel
-      await Promise.allSettled([
-        initGithubAdapter(),
-        initPuppeteerAdapter(),
-        initSupabaseAdapter(),
-        initVercelAdapter()
-      ]);
-      
-      setIsInitialized(true);
-    } catch (error) {
-      console.error('Failed to initialize MCP adapters:', error);
-      setInitError(error instanceof Error ? error : new Error('Unknown error initializing MCP adapters'));
-    } finally {
-      setIsInitializing(false);
-    }
+    // Placeholder implementation
   };
-
-  /**
-   * Initialize GitHub adapter
-   */
-  const initGithubAdapter = async () => {
-    try {
-      const adapter = getMcpAdapter('github');
-      await adapter.connect();
-      setAdapters(prev => ({ ...prev, github: adapter }));
-    } catch (error) {
-      console.error('Failed to initialize GitHub MCP adapter:', error);
-    }
-  };
-
-  /**
-   * Initialize Puppeteer adapter
-   */
-  const initPuppeteerAdapter = async () => {
-    try {
-      const adapter = getMcpAdapter('puppeteer');
-      await adapter.connect();
-      setAdapters(prev => ({ ...prev, puppeteer: adapter }));
-    } catch (error) {
-      console.error('Failed to initialize Puppeteer MCP adapter:', error);
-    }
-  };
-  
-  /**
-   * Initialize Supabase adapter
-   */
-  const initSupabaseAdapter = async () => {
-    try {
-      const adapter = getMcpAdapter('supabase');
-      await adapter.connect();
-      setAdapters(prev => ({ ...prev, supabase: adapter }));
-    } catch (error) {
-      console.error('Failed to initialize Supabase MCP adapter:', error);
-    }
-  };
-  
-  /**
-   * Initialize Vercel adapter
-   */
-  const initVercelAdapter = async () => {
-    try {
-      const adapter = getMcpAdapter('vercel');
-      await adapter.connect();
-      setAdapters(prev => ({ ...prev, vercel: adapter }));
-    } catch (error) {
-      console.error('Failed to initialize Vercel MCP adapter:', error);
-    }
-  };
-
-  /**
-   * Auto-initialize on mount if configured
-   */
-  useEffect(() => {
-    if (autoInitialize && !isInitialized && !isInitializing) {
-      initialize();
-    }
-  }, [autoInitialize, isInitialized, isInitializing]);
-
-  /**
-   * Clean up on unmount
-   */
-  useEffect(() => {
-    return () => {
-      // Disconnect adapters on unmount
-      Object.values(adapters).forEach(adapter => {
-        if (adapter) {
-          adapter.disconnect().catch(console.error);
-        }
-      });
-    };
-  }, [adapters]);
 
   return (
     <McpContext.Provider
@@ -159,10 +55,10 @@ export function McpProvider({
         isInitialized,
         isInitializing,
         initError,
-        github: adapters.github,
-        puppeteer: adapters.puppeteer,
-        supabase: adapters.supabase,
-        vercel: adapters.vercel,
+        github: null,
+        puppeteer: null,
+        supabase: null,
+        vercel: null,
         initialize
       }}
     >

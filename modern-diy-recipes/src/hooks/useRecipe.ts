@@ -59,7 +59,7 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
       
       // Fetch recipe data from Supabase as backup
       console.log("Fetching from Supabase as fallback");
-      const { data: recipeData, error: recipeError } = await supabase
+      const { data: recipeData, error: recipeError } = await (supabase as any)
         .from('recipes')
         .select('*')
         .eq('id', id)
@@ -128,7 +128,7 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
         
         // Try using a direct join first for efficiency - it's okay if this fails
         try {
-          const joinResult = await supabase
+          const joinResult = await (supabase as any)
             .from('recipe_ingredients')
             .select(`
               id,
@@ -176,7 +176,7 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
           );
           
           // Traditional separate query approach
-          const result = await supabase
+          const result = await (supabase as any)
             .from('recipe_ingredients')
             .select(`
               id,
@@ -217,7 +217,7 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
           if (ingredientIds.length === 0) {
             console.warn('No valid ingredient IDs found for lookup');
           } else {
-            const { data: ingredientData, error: ingredientDataError } = await supabase
+            const { data: ingredientData, error: ingredientDataError } = await (supabase as any)
               .from('ingredients')
               .select('id, name, description')
               .in('id', ingredientIds);
@@ -243,7 +243,7 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
       // Fetch iterations for this recipe
       let iterations = [];
       try {
-        const { data: iterationsData, error: iterationsError } = await supabase
+        const { data: iterationsData, error: iterationsError } = await (supabase as any)
           .from('iterations')
           .select('*')
           .eq('recipe_id', id)
@@ -453,7 +453,7 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
     fetchRecipe();
     
     // Set up realtime subscription for this recipe
-    const channel = supabase
+    const channel = (supabase as any)
       .channel(`recipe-${id}-changes`)
       .on(
         'postgres_changes',
@@ -468,7 +468,7 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
     // Cleanup subscription on unmount or ID change
     return () => {
       console.log(`Cleaning up subscription for recipe ${id}`);
-      supabase.removeChannel(channel);
+      (supabase as any).removeChannel(channel);
     };
   }, [id, initialRecipeData, fetchRecipe]); // Include all dependencies
 
@@ -488,7 +488,7 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
     
     try {
       // Update in Supabase
-      const { error: updateError } = await supabase
+      const { error: updateError } = await (supabase as any)
         .from('recipes')
         .update({
           title: updates.title,
@@ -506,7 +506,7 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
       }
       
       // Update was successful, fetch the updated record
-      const { data: updatedData, error: fetchError } = await supabase
+      const { data: updatedData, error: fetchError } = await (supabase as any)
         .from('recipes')
         .select('*')
         .eq('id', id)

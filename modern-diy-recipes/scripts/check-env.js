@@ -13,7 +13,19 @@
 require('dotenv').config({ path: '.env.local' });
 
 // Import the environment validator
-const { getEnvironmentStatus, validateClientEnvironment, validateServerEnvironment, validateFeatureFlags } = require('../dist/lib/environmentValidator');
+// Try to import from source path instead of compiled path
+try {
+  var { getEnvironmentStatus, validateClientEnvironment, validateServerEnvironment, validateFeatureFlags } = require('../src/lib/environmentValidator');
+} catch (e) {
+  try {
+    var { getEnvironmentStatus, validateClientEnvironment, validateServerEnvironment, validateFeatureFlags } = require('../dist/lib/environmentValidator');
+  } catch (e) {
+    console.error('Could not import environmentValidator module from either source or dist paths.');
+    console.error('This script requires the environmentValidator module to be available.');
+    console.error('If you are in development, make sure the TypeScript files are compiled.');
+    process.exit(1);
+  }
+}
 
 // Colors for terminal output
 const colors = {

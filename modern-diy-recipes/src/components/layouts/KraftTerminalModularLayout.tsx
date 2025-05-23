@@ -8,6 +8,9 @@ import { useModules } from '@/lib/modules';
 import { useAuth } from '@/hooks/useAuth';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
+import SettingsTerminalContent from '@/Settings/components/SettingsTerminalContent';
+import typography from '@/lib/typography';
+import { ThemeIconCSS as ThemeIcon } from '@/components/ThemeIconsCSS';
 
 interface KraftTerminalModularLayoutProps {
   children: ReactNode;
@@ -58,12 +61,13 @@ export default function KraftTerminalModularLayout({
   const [tools, setTools] = useState<any[]>([]);
   const [libraryItems, setLibraryItems] = useState<any[]>([]);
   
-  // Sections for the first column
+  // Sections for the first column with theme-specific icons
   const SECTIONS = [
-    { id: 'formulations', name: 'Formulations', icon: '📋' },
-    { id: 'ingredients', name: 'Ingredients', icon: '🧪' },
-    { id: 'tools', name: 'Tools', icon: '🔧' },
-    { id: 'library', name: 'Library', icon: '📚' }
+    { id: 'formulations', name: 'Formulations', iconType: 'formulations' },
+    { id: 'ingredients', name: 'Ingredients', iconType: 'ingredients' },
+    { id: 'tools', name: 'Tools', iconType: 'tools' },
+    { id: 'library', name: 'Library', iconType: 'library' },
+    { id: 'settings', name: 'Settings', iconType: 'settings' }
   ];
   
   // Initialize modules and check database connection
@@ -101,38 +105,102 @@ export default function KraftTerminalModularLayout({
         let formulationsData = [], ingredientsData = [], toolsData = [], libraryData = [];
         
         if (tablesExist.recipes) {
-          const result = await supabase.from('recipes').select('*').limit(100);
-          formulationsData = result.data || [];
-          if (result.error) console.error('Error fetching recipes:', result.error);
-        }
-        
-        if (tablesExist.ingredients) {
-          const result = await supabase.from('ingredients').select('*').limit(100);
-          ingredientsData = result.data || [];
-          if (result.error) console.error('Error fetching ingredients:', result.error);
-        }
-        
-        if (tablesExist.tools) {
-          const result = await supabase.from('tools').select('*').limit(100);
-          toolsData = result.data || [];
-          if (result.error) console.error('Error fetching tools:', result.error);
-        }
-        
-        if (tablesExist.library) {
-          const result = await supabase.from('library').select('*').limit(100);
-          libraryData = result.data || [];
-          if (result.error) console.error('Error fetching library:', result.error);
+          try {
+            const result = await supabase.from('recipes').select('*').limit(100);
+            formulationsData = result.data || [];
+            if (result.error) {
+              // Only log detailed errors in development if they contain actual error information
+              if (process.env.NODE_ENV === 'development' && result.error.message) {
+                console.error('Error fetching recipes:', result.error.message);
+              } else {
+                console.log('Non-critical recipe fetch issue - continuing operation');
+              }
+            }
+          } catch (err) {
+            console.error('Exception fetching recipes:', err);
+            // Continue execution - we'll handle missing data through the UI
+          }
         }
 
-        // Check if minimum required tables exist (recipes and ingredients)
-        if (!tablesExist.recipes || !tablesExist.ingredients) {
+        if (tablesExist.ingredients) {
+          try {
+            const result = await supabase.from('ingredients').select('*').limit(100);
+            ingredientsData = result.data || [];
+            if (result.error) {
+              // Only log detailed errors in development if they contain actual error information
+              if (process.env.NODE_ENV === 'development' && result.error.message) {
+                console.error('Error fetching ingredients:', result.error.message);
+              } else {
+                console.log('Non-critical ingredient fetch issue - continuing operation');
+              }
+            }
+          } catch (err) {
+            console.error('Exception fetching ingredients:', err);
+            // Continue execution - we'll handle missing data through the UI
+          }
+        }
+
+        if (tablesExist.tools) {
+          try {
+            const result = await supabase.from('tools').select('*').limit(100);
+            toolsData = result.data || [];
+            if (result.error) {
+              // Only log detailed errors in development if they contain actual error information
+              if (process.env.NODE_ENV === 'development' && result.error.message) {
+                console.error('Error fetching tools:', result.error.message);
+              } else {
+                console.log('Non-critical tools fetch issue - continuing operation');
+              }
+            }
+          } catch (err) {
+            console.error('Exception fetching tools:', err);
+            // Continue execution - we'll handle missing data through the UI
+          }
+        }
+
+        if (tablesExist.library) {
+          try {
+            const result = await supabase.from('library').select('*').limit(100);
+            libraryData = result.data || [];
+            if (result.error) {
+              // Only log detailed errors in development if they contain actual error information
+              if (process.env.NODE_ENV === 'development' && result.error.message) {
+                console.error('Error fetching library:', result.error.message);
+              } else {
+                console.log('Non-critical library fetch issue - continuing operation');
+              }
+            }
+          } catch (err) {
+            console.error('Exception fetching library:', err);
+            // Continue execution - we'll handle missing data through the UI
+          }
+        }
+
+        // Check for any database access
+        let canContinue = false;
+
+        // If we have at least some data, or the tables exist, we can continue
+        if (formulationsData.length > 0 || ingredientsData.length > 0) {
+          canContinue = true;
+        }
+
+        // If we have no data but tables exist, we can show empty state
+        if (!canContinue && (tablesExist.recipes || tablesExist.ingredients)) {
+          canContinue = true;
+        }
+
+        // If not even the minimum tables exist, show an error
+        if (!canContinue) {
           const missingTables = [];
           if (!tablesExist.recipes) missingTables.push('recipes');
           if (!tablesExist.ingredients) missingTables.push('ingredients');
-          throw new Error(`Missing essential tables: ${missingTables.join(', ')}. Please run init-db-tables.sql script.`);
+          console.warn(`Limited functionality: ${missingTables.join(', ')}. Some features will be unavailable.`);
+
+          // Don't throw, just log the warning and continue with settings mode
+          setConnectionError(`Missing tables: ${missingTables.join(', ')}. Please run init-db-tables.sql script.`);
         }
-        
-        // If we got here, at least the essential tables are accessible
+
+        // Even with problems, we can be online with limited functionality
         setSystemStatus('online');
         setLastSyncTime(new Date());
 
@@ -202,18 +270,17 @@ export default function KraftTerminalModularLayout({
   };
   
   // Get items for the second column based on active section
-
   const getItemsForCategory = () => {
-    // If system is offline, return connection error message
-    if (systemStatus === 'offline') {
+    // If system is offline and not in settings, return connection error message
+    if (systemStatus === 'offline' && activeCategory !== 'settings') {
       return [{ id: 'error', title: 'Database Connection Error', description: connectionError || 'Unable to connect to database' }];
     }
-    
-    // If system is still checking, return loading state
-    if (systemStatus === 'checking') {
+
+    // If system is still checking and not in settings, return loading state
+    if (systemStatus === 'checking' && activeCategory !== 'settings') {
       return [{ id: 'loading', title: 'Loading...', description: 'Connecting to database...' }];
     }
-    
+
     // Check if the table for this category exists
     const checkTableExists = async (tableName) => {
       try {
@@ -223,7 +290,7 @@ export default function KraftTerminalModularLayout({
         return false;
       }
     };
-    
+
     // Map category to table name
     const categoryToTable = {
       formulations: 'recipes',
@@ -231,8 +298,21 @@ export default function KraftTerminalModularLayout({
       tools: 'tools',
       library: 'library'
     };
-    
+
     switch (activeCategory) {
+      case 'settings':
+        // Return settings subcategories with theme-appropriate icons
+        return [
+          { id: 'theme', title: 'Theme Settings', description: 'Change the visual appearance of the terminal', iconType: 'settings' },
+          { id: 'audio', title: 'Audio Settings', description: 'Configure sound effects and volume', iconType: 'settings' },
+          { id: 'account', title: 'Account Settings', description: 'Manage your user account', iconType: 'settings' },
+          { id: 'profile', title: 'User Profile', description: 'Edit your profile information', iconType: 'file' },
+          isAuthenticated && user?.role === 'admin' ?
+            { id: 'developer', title: 'Developer Settings', description: 'Advanced configuration options', iconType: 'tools' } :
+            null,
+          { id: 'system', title: 'System Information', description: 'View system status and diagnostics', iconType: 'settings' }
+        ].filter(Boolean); // Filter out null values for non-admin users
+
       case 'formulations':
         // Use real data from Supabase
         if (formulations.length > 0) {
@@ -244,7 +324,7 @@ export default function KraftTerminalModularLayout({
         }
         // Empty state with connection message
         return [{ id: 'empty', title: 'No Formulations Available', description: 'Database connected, but no formulations found.' }];
-      
+
       case 'ingredients':
         // Use real data from Supabase
         if (ingredients.length > 0) {
@@ -256,57 +336,57 @@ export default function KraftTerminalModularLayout({
         }
         // Empty state with connection message
         return [{ id: 'empty', title: 'No Ingredients Available', description: 'Database connected, but no ingredients found.' }];
-      
+
       case 'tools':
         // If tools array is empty, check if the table exists
         if (tools.length === 0) {
           // Show a more specific message if the table is missing
           if (connectionError && connectionError.includes('tools')) {
-            return [{ 
-              id: 'missing-table', 
-              title: 'Tools Table Missing', 
-              description: 'The tools table does not exist in the database. Run init-db-tables.sql to create it.' 
+            return [{
+              id: 'missing-table',
+              title: 'Tools Table Missing',
+              description: 'The tools table does not exist in the database. Run init-db-tables.sql to create it.'
             }];
           }
-          return [{ 
-            id: 'empty-tools', 
-            title: 'No Tools Available', 
-            description: 'Database connected, but no tools found.' 
+          return [{
+            id: 'empty-tools',
+            title: 'No Tools Available',
+            description: 'Database connected, but no tools found.'
           }];
         }
-        
+
         // Use real data from Supabase
         return tools.map(tool => ({
           id: tool.id,
           title: tool.title,
           description: tool.description || 'No description available'
         }));
-          
+
       case 'library':
         // If library array is empty, check if the table exists
         if (libraryItems.length === 0) {
           // Show a more specific message if the table is missing
           if (connectionError && connectionError.includes('library')) {
-            return [{ 
-              id: 'missing-table', 
-              title: 'Library Table Missing', 
-              description: 'The library table does not exist in the database. Run init-db-tables.sql to create it.' 
+            return [{
+              id: 'missing-table',
+              title: 'Library Table Missing',
+              description: 'The library table does not exist in the database. Run init-db-tables.sql to create it.'
             }];
           }
-          return [{ 
-            id: 'empty-library', 
-            title: 'No Library Items Available', 
-            description: 'Database connected, but no library items found.' 
+          return [{
+            id: 'empty-library',
+            title: 'No Library Items Available',
+            description: 'Database connected, but no library items found.'
           }];
         }
-        
+
         // Use real data from Supabase
         return libraryItems.map(item => ({
           id: item.id,
           title: item.title,
           description: item.description || 'No description available'
         }));
-      
+
       default:
         return [];
     }
@@ -423,8 +503,9 @@ export default function KraftTerminalModularLayout({
 
   // State for keyboard navigation
   const [navState, setNavState] = useState({
-    column: 0, // 0 = first column (categories), 1 = second column (items)
+    column: 0, // 0 = first column (categories), 1 = second column (items), 2 = third column (document)
     index: 0,  // Current selected index in the active column
+    documentElement: null as HTMLElement | null, // Currently focused element in document
     focused: false // If keyboard navigation is active
   });
   
@@ -435,12 +516,21 @@ export default function KraftTerminalModularLayout({
       handleCategorySelect(SECTIONS[0].id);
       setNavState(prev => ({ ...prev, focused: true }));
     }
-    
+
     // Create references to the current items in each column
     const categoryItems = SECTIONS;
     const selectedItems = getItemsForCategory();
-    
+
     const handleKeyDown = (e) => {
+      // Only handle keyboard navigation in this component when not in document view making mode
+      // This prevents conflicts with DocumentCentricRecipe's own keyboard handler when in making mode
+      const documentMakingMode = document.querySelector('.document-centric-recipe.making-mode');
+      const isInMakingMode = documentMakingMode !== null;
+
+      // Skip keyboard handling if we're in making mode and in document column
+      if (isInMakingMode && navState.column === 2) {
+        return;
+      }
       // Function key handling
       if (e.key === 'F4') {
         e.preventDefault();
@@ -484,42 +574,100 @@ export default function KraftTerminalModularLayout({
           e.preventDefault();
           if (navState.column === 0) {
             // First column
-            setNavState(prev => ({ 
-              ...prev, 
-              index: (prev.index - 1 + categoryItems.length) % categoryItems.length 
+            const newCategoryIndex = (navState.index - 1 + categoryItems.length) % categoryItems.length;
+            setNavState(prev => ({
+              ...prev,
+              index: newCategoryIndex
             }));
-            handleCategorySelect(SECTIONS[
-              (navState.index - 1 + categoryItems.length) % categoryItems.length
-            ].id);
+            handleCategorySelect(SECTIONS[newCategoryIndex].id);
           } else if (navState.column === 1 && selectedItems.length > 0) {
             // Second column
-            setNavState(prev => ({ 
-              ...prev, 
-              index: (prev.index - 1 + selectedItems.length) % selectedItems.length 
+            setNavState(prev => ({
+              ...prev,
+              index: (prev.index - 1 + selectedItems.length) % selectedItems.length
             }));
             // Don't select item yet, wait for Enter
+          } else if (navState.column === 2) {
+            // Third column - document area
+            // Use a more robust selector to find the document area
+            const documentColumn = document.querySelector('.document-centric-recipe, .document-content, .flex-1.overflow-hidden > div');
+            if (documentColumn) {
+              // Find and collect focusable elements
+              const focusableElements = Array.from(documentColumn.querySelectorAll(
+                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+              )) as HTMLElement[];
+
+              if (focusableElements.length > 0) {
+                // Find the current element's index or start at the last element if none selected
+                const currentIndex = navState.documentElement ?
+                  focusableElements.indexOf(navState.documentElement) : 0;
+
+                // Get the previous element, or loop to the end
+                const prevIndex = (currentIndex - 1 + focusableElements.length) % focusableElements.length;
+                const prevElement = focusableElements[prevIndex];
+
+                setNavState(prev => ({
+                  ...prev,
+                  index: prevIndex,
+                  documentElement: prevElement,
+                  focused: true
+                }));
+
+                // Actually focus the element
+                prevElement.focus();
+              }
+            }
           }
           if (audioEnabled) playSound('click');
           break;
-          
+
         case 'ArrowDown':
           e.preventDefault();
           if (navState.column === 0) {
             // First column
-            setNavState(prev => ({ 
-              ...prev, 
-              index: (prev.index + 1) % categoryItems.length 
+            const newCategoryIndex = (navState.index + 1) % categoryItems.length;
+            setNavState(prev => ({
+              ...prev,
+              index: newCategoryIndex
             }));
-            handleCategorySelect(SECTIONS[
-              (navState.index + 1) % categoryItems.length
-            ].id);
+            handleCategorySelect(SECTIONS[newCategoryIndex].id);
           } else if (navState.column === 1 && selectedItems.length > 0) {
             // Second column
-            setNavState(prev => ({ 
-              ...prev, 
-              index: (prev.index + 1) % selectedItems.length 
+            setNavState(prev => ({
+              ...prev,
+              index: (prev.index + 1) % selectedItems.length
             }));
             // Don't select item yet, wait for Enter
+          } else if (navState.column === 2) {
+            // Third column - document area
+            // Use a more robust selector to find the document area
+            const documentColumn = document.querySelector('.document-centric-recipe, .document-content, .flex-1.overflow-hidden > div');
+            if (documentColumn) {
+              // Find and collect focusable elements
+              const focusableElements = Array.from(documentColumn.querySelectorAll(
+                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+              )) as HTMLElement[];
+
+              if (focusableElements.length > 0) {
+                // Find the current element's index or start at the first element if none selected
+                const currentIndex = navState.documentElement ?
+                  focusableElements.indexOf(navState.documentElement) : -1;
+
+                // Get the next element, or loop to the beginning
+                const nextIndex = (currentIndex + 1) % focusableElements.length;
+                const nextElement = focusableElements[nextIndex];
+
+                setNavState(prev => ({
+                  ...prev,
+                  index: nextIndex,
+                  documentElement: nextElement,
+                  focused: true
+                }));
+
+                // Actually focus the element
+                nextElement.focus();
+              }
+            }
           }
           if (audioEnabled) playSound('click');
           break;
@@ -529,16 +677,111 @@ export default function KraftTerminalModularLayout({
           e.preventDefault();
           if (navState.column === 0 && selectedItems.length > 0) {
             // Move from first to second column
-            setNavState({ column: 1, index: 0, focused: true });
+            setNavState({ ...navState, column: 1, index: 0, focused: true });
             if (audioEnabled) playSound('click');
+          } else if (navState.column === 1 && selectedItemId) {
+            // Move from second to third column (document)
+            console.log('Attempting to navigate to document column. Selected item ID:', selectedItemId);
+
+            // Try different selectors to find document content and focusable elements
+            const selectors = [
+              '.document-centric-recipe',
+              '.document-content',
+              '.recipe-details',
+              '.flex-1.overflow-hidden > div'
+            ];
+
+            // Try each selector until we find focusable elements
+            let documentColumn = null;
+            let foundElements = [];
+
+            for (const selector of selectors) {
+              const element = document.querySelector(selector);
+              console.log(`Checking selector: ${selector}`, element ? 'found' : 'not found');
+
+              if (element) {
+                // Check for focusable elements
+                const elements = Array.from(element.querySelectorAll(
+                  'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+                ));
+
+                console.log(`Selector ${selector} has ${elements.length} focusable elements`);
+
+                if (elements.length > 0) {
+                  documentColumn = element;
+                  foundElements = elements;
+                  break;
+                }
+              }
+            }
+
+            // If we didn't find any focusable elements through selectors, try the third column itself
+            if (!documentColumn || foundElements.length === 0) {
+              console.log('No focusable elements found through selectors. Trying third column...');
+
+              // Get the third column itself
+              const thirdColumn = document.querySelector('.flex-1.overflow-hidden');
+              if (thirdColumn) {
+                // Try to find buttons or other focusable elements
+                foundElements = Array.from(thirdColumn.querySelectorAll(
+                  'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+                ));
+
+                if (foundElements.length > 0) {
+                  documentColumn = thirdColumn;
+                  console.log(`Found ${foundElements.length} focusable elements in third column`);
+                } else {
+                  // Make the column itself focusable as a last resort
+                  console.log('Making third column focusable');
+                  thirdColumn.setAttribute('tabindex', '0');
+                  foundElements = [thirdColumn];
+                  documentColumn = thirdColumn;
+                }
+              }
+            }
+
+            // Now that we have found elements, use the first one
+            if (documentColumn && foundElements.length > 0) {
+              const firstElement = foundElements[0] as HTMLElement;
+              console.log('Focusing element:', firstElement.tagName, firstElement.className);
+
+              setNavState(prev => ({
+                ...prev,
+                column: 2,
+                index: 0,
+                documentElement: firstElement,
+                focused: true
+              }));
+
+              // Actually focus the element for accessibility
+              firstElement.focus();
+
+              if (audioEnabled) playSound('click');
+              console.log('Successfully navigated to document column');
+            }
           }
           break;
-          
+
         case 'ArrowLeft':
           e.preventDefault();
           if (navState.column === 1) {
             // Move from second to first column
-            setNavState({ column: 0, index: SECTIONS.findIndex(s => s.id === activeCategory), focused: true });
+            setNavState({
+              ...navState,
+              column: 0,
+              index: SECTIONS.findIndex(s => s.id === activeCategory),
+              focused: true
+            });
+            if (audioEnabled) playSound('click');
+          } else if (navState.column === 2) {
+            // Move from third to second column
+            setNavState({
+              ...navState,
+              column: 1,
+              index: selectedItems.findIndex(item => item.id === selectedItemId),
+              documentElement: null,
+              focused: true
+            });
             if (audioEnabled) playSound('click');
           }
           break;
@@ -552,6 +795,24 @@ export default function KraftTerminalModularLayout({
           } else if (navState.column === 1 && selectedItems.length > 0) {
             // Select the item
             handleItemSelect(selectedItems[navState.index].id);
+          } else if (navState.column === 2 && navState.documentElement) {
+            // Activate the currently focused element in the document
+            console.log('Activating document element:', navState.documentElement);
+
+            // For different element types, handle activation differently
+            if (navState.documentElement.tagName === 'INPUT' ||
+                navState.documentElement.tagName === 'TEXTAREA' ||
+                navState.documentElement.tagName === 'SELECT') {
+              // For form elements, just focus them
+              navState.documentElement.focus();
+            } else {
+              // For buttons and links, simulate a click
+              try {
+                navState.documentElement.click();
+              } catch(e) {
+                console.error('Error clicking element:', e);
+              }
+            }
           }
           if (audioEnabled) playSound('click');
           break;
@@ -568,16 +829,38 @@ export default function KraftTerminalModularLayout({
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [
-    theme, 
-    audioEnabled, 
-    isAuthenticated, 
-    signOut, 
-    playSound, 
-    navState, 
-    activeCategory, 
+    theme,
+    audioEnabled,
+    isAuthenticated,
+    signOut,
+    playSound,
+    navState,
+    activeCategory,
     SECTIONS,
     getItemsForCategory
   ]);
+
+  // Handle visual highlighting and focus for document elements
+  useEffect(() => {
+    // Remove any existing document highlight class from elements
+    document.querySelectorAll('.retro-document-element-focus').forEach(el => {
+      el.classList.remove('retro-document-element-focus');
+      el.classList.remove('retro-box-selection');
+    });
+
+    // If we're in column 2 and have a document element, highlight it
+    if (navState.column === 2 && navState.documentElement && navState.focused) {
+      // Add highlight classes
+      navState.documentElement.classList.add('retro-document-element-focus');
+      navState.documentElement.classList.add('retro-box-selection');
+
+      // Ensure element is visible (scroll into view if needed)
+      navState.documentElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest'
+      });
+    }
+  }, [navState.column, navState.documentElement, navState.focused, navState.index]);
 
   // Enhanced retro sci-fi movie terminal keyboard navigation styling
   const retroBoxAnimationStyle = `
@@ -783,369 +1066,123 @@ export default function KraftTerminalModularLayout({
   `;
 
   return (
-    // Fixed size container that doesn't scroll
     <div className={`h-screen w-screen flex flex-col overflow-hidden ${theme} ${className}`}>
       {/* Insert our CSS animation styling */}
       <style dangerouslySetInnerHTML={{ __html: retroBoxAnimationStyle }} />
-      {/* Retro Terminal Header - Height matched to footer */}
-      <div className="bg-surface-1 border-b-4 border-accent/40 font-mono flex-shrink-0 h-[160px] py-3 relative z-10 shadow-sm">
-        <div className="flex items-center justify-between h-full">
-          <div className="flex items-center space-x-3 h-full">
-            {/* Enhanced ASCII logo with system indicators */}
-            <div className="font-bold text-sm tracking-tight whitespace-nowrap pl-2 flex flex-col justify-center h-full">
-              <div className="text-accent">
-                ┌───────────────────────────┐<br />
-                │ <span className="animate-pulse">></span>KRAFT_AI TERMINAL v1.0.2 │<br />
-                └───────────────────────────┘
-              </div>
-              <div className="text-xs text-text-secondary mt-1">
-                <div className="flex justify-between">
-                  <span>SESSION: {Math.floor(Math.random() * 9000) + 1000}</span>
-                  <span>UPTIME: <CurrentTime /></span>
-                </div>
-                <div className="mt-1">
-                  <span className="text-accent">SYSTEM STATUS: </span>
-                  <span className={systemStatus === 'online' ? 'text-green-500' : systemStatus === 'checking' ? 'text-amber-500' : 'text-red-500'}>
-                    {systemStatus.toUpperCase()}
-                  </span>
-                </div>
-              </div>
-            </div>
-            
-            {/* Redesigned Family Authentication Panel */}
-            <div className="border border-border-subtle bg-surface-0 h-[140px] overflow-visible relative flex flex-col">
-              {/* Panel Header */}
-              <div className="bg-surface-2 border-b border-border-subtle px-3 py-1.5">
-                <div className="text-green-500 font-bold uppercase text-xs flex items-center">
-                  <span className="inline-block w-2 h-2 rounded-full mr-2 bg-red-500"></span>
-                  FAMILY ACCESS TERMINAL
-                </div>
-              </div>
-              
-              {/* Panel Content */}
-              <div className="flex-1 p-3 flex flex-col justify-between">
-                {isAuthenticated ? (
-                  <>
-                    {/* Authenticated View */}
-                    <div className="flex flex-col">
-                      <div className="flex items-center mb-2">
-                        <span className="text-lg mr-2">
-                          {user?.user_metadata?.avatar || '👤'}
-                        </span>
-                        <div>
-                          <div className="text-accent font-bold">
-                            {FAMILY_MEMBERS.find(m => m.email === user?.email)?.name || user?.user_metadata?.name || user?.email?.split('@')[0] || 'Unknown'}
-                          </div>
-                          <div className="flex items-center text-[10px]">
-                            <span className="text-text-secondary">ROLE: </span>
-                            <span className="text-accent uppercase ml-1 font-bold">
-                              {FAMILY_MEMBERS.find(m => m.email === user?.email)?.role || user?.app_metadata?.role || 'USER'}
-                            </span>
-                            
-                            <span className="mx-1.5">•</span>
-                            
-                            <span className="text-text-secondary">AUTH: </span>
-                            <span className="text-green-500 ml-1">EMAIL</span>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="text-[10px] text-text-secondary mb-2">
-                        LOGIN SUCCESSFUL • SYSTEM ACCESS GRANTED • {Math.floor(Math.random() * 24) + 1}h {Math.floor(Math.random() * 60)}m ACTIVE
-                      </div>
-                    </div>
-                    
-                    {/* Logout Button */}
-                    <button 
-                      onClick={() => signOut()}
-                      className="self-end text-xs px-2.5 py-1 bg-surface-2 border border-accent text-accent hover:bg-surface-1"
-                    >
-                      LOG OUT
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    {/* Login View - Matched to screenshot */}
-                    <div className="flex flex-col px-1">
-                      <div className="flex items-center text-red-500 mb-3 text-xs">
-                        <span className="inline-block w-2 h-2 rounded-full bg-red-500 mr-2"></span>
-                        <span className="font-bold">AUTHENTICATION REQUIRED</span>
-                      </div>
-                      
-                      {/* Member Selector - Dropdown with green border to match screenshot */}
-                      <div className="flex mb-4 mt-1">
-                        <select
-                          value={selectedMember}
-                          onChange={(e) => setSelectedMember(e.target.value)}
-                          className="w-full px-2 py-1 bg-black border border-green-500 text-green-500 text-xs focus:outline-none focus:border-green-400"
-                        >
-                          <option value="">Select User</option>
-                          {FAMILY_MEMBERS.map(member => (
-                            <option key={member.id} value={member.id}>
-                              {member.avatar} {member.name} ({member.role})
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-                    
-                    {/* Auth Buttons - Updated for email only */}
-                    <div className="flex justify-center px-1 mt-1">
-                      <button
-                        onClick={() => {
-                          if (selectedMember) handleLogin();
-                        }}
-                        disabled={loading || !selectedMember}
-                        className="px-6 py-1.5 bg-black text-green-500 text-xs border border-green-500 hover:bg-surface-2"
-                      >
-                        EMAIL LOGIN
-                      </button>
-                    </div>
-                  </>
-                )}
-              </div>
-              
-              {/* Auth Error Display - Inside the panel */}
-              {authError && (
-                <div className="absolute top-10 left-2 right-2 bg-surface-0 text-amber-500 text-xs border border-amber-500 p-2 z-20 shadow-lg">
-                  <div className="flex items-center">
-                    <span className="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse mr-2"></span>
-                    <span className="font-bold">AUTH MESSAGE:</span>
-                  </div>
-                  <div className="mt-1">{authError}</div>
-                </div>
-              )}
-            </div>
-            
-            {/* Terminal command controls - Compact */}
-            <div className="border border-border-subtle bg-surface-0 h-[140px] flex items-center">
-              <div className="px-3">
-                <div className="text-accent font-bold text-xs uppercase bg-surface-2 py-1 px-2 border-b border-border-subtle">
-                  TERMINAL CONTROLS
-                </div>
-                
-                {/* Theme selector to match the screenshot */}
-                <div className="px-2 py-2 text-xs">
-                  <div 
-                    onClick={() => {
-                      if (theme !== 'hackers') {
-                        setTheme('hackers');
-                        if (audioEnabled) playSound('click');
-                      }
-                    }}
-                    className="flex items-center cursor-pointer group mb-2"
-                  >
-                    <span className={`mr-2 ${theme === 'hackers' ? 'text-emerald-500' : 'text-text-secondary'}`}>
-                      [{theme === 'hackers' ? 'X' : ' '}]
-                    </span>
-                    <span className={`${theme === 'hackers' ? 'text-emerald-500' : 'text-text-secondary'}`}>
-                      HACKERS_TERMINAL
-                    </span>
-                  </div>
-                  
-                  <div 
-                    onClick={() => {
-                      if (theme !== 'dystopia') {
-                        setTheme('dystopia');
-                        if (audioEnabled) playSound('click');
-                      }
-                    }}
-                    className="flex items-center cursor-pointer group mb-2"
-                  >
-                    <span className={`mr-2 ${theme === 'dystopia' ? 'text-amber-500' : 'text-text-secondary'}`}>
-                      [{theme === 'dystopia' ? 'X' : ' '}]
-                    </span>
-                    <span className={`${theme === 'dystopia' ? 'text-amber-500' : 'text-text-secondary'}`}>
-                      DYSTOPIA_CONSOLE
-                    </span>
-                  </div>
-                  
-                  <div 
-                    onClick={() => {
-                      if (theme !== 'neotopia') {
-                        setTheme('neotopia');
-                        if (audioEnabled) playSound('click');
-                      }
-                    }}
-                    className="flex items-center cursor-pointer group mb-2"
-                  >
-                    <span className={`mr-2 ${theme === 'neotopia' ? 'text-blue-500' : 'text-text-secondary'}`}>
-                      [{theme === 'neotopia' ? 'X' : ' '}]
-                    </span>
-                    <span className={`${theme === 'neotopia' ? 'text-blue-500' : 'text-text-secondary'}`}>
-                      NEOTOPIA_INTERFACE
-                    </span>
-                  </div>
-                  
-                  {/* Audio toggle */}
-                  <div className="mt-3 flex items-center border-t border-border-subtle pt-2">
-                    <span className="text-xs text-text-secondary">
-                      [SND:{audioEnabled ? 'ON' : 'OFF'}] 
-                      <span className="ml-1">
-                        {audioEnabled ? '▮▮▮▮▮▮▮▮' : '▯▯▯▯▯▯▯▯'}
-                      </span>
-                    </span>
-                  </div>
-                  
-                  {/* Keyboard navigation help */}
-                  <div className="mt-3 border-t border-border-subtle pt-2">
-                    <div className="text-accent text-xs font-bold mb-1">KEYBOARD SHORTCUTS</div>
-                    <div className="text-[9px] text-text-secondary">
-                      <div className="flex justify-between mb-1">
-                        <span>ARROW KEYS</span>
-                        <span>NAVIGATE</span>
-                      </div>
-                      <div className="flex justify-between mb-1">
-                        <span>TAB</span>
-                        <span>NEXT COLUMN</span>
-                      </div>
-                      <div className="flex justify-between mb-1">
-                        <span>ENTER</span>
-                        <span>SELECT</span>
-                      </div>
-                      <div className="flex justify-between mb-1">
-                        <span>F4</span>
-                        <span>CHANGE THEME</span>
-                      </div>
-                      <div className="flex justify-between mb-1">
-                        <span>ESC</span>
-                        <span>EXIT NAV MODE</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+      {/* Header with Left-Aligned Animated Title */}
+      <div className="bg-surface-1 border-b-4 border-accent/40 font-mono flex-shrink-0 h-[100px] relative z-10 shadow-sm flex items-center">
+        <div className="pl-8">
+          <h1 className="text-[3rem] font-bold text-accent tracking-tight flex items-center">
+            <span className="inline-block w-8 animate-pulse mr-2">&gt;</span>
+            KRAFT_AI TERMINAL
+            <span className="inline-block w-8 animate-[blink_1s_steps(1)_infinite] ml-2">_</span>
+          </h1>
+          <div className="text-[1rem] flex space-x-6 mt-1">
+            <span data-system-element="version" className="server-info">v1.0.2</span>
+            <span data-system-element="module" className="server-info">MODULE_SYSTEM: ACTIVE</span>
+            <span
+              data-system-element="status"
+              className={systemStatus === 'online' ? 'value-positive' : 'error'}
+            >
+              STATUS: {systemStatus.toUpperCase()}
+            </span>
           </div>
-          
-          {/* Database status badge in header - Compact */}
-          <div className="border border-border-subtle h-[140px] flex items-center px-3 mr-3">
-            <div className="flex flex-col h-full">
-              {/* Panel Header */}
-              <div className="bg-surface-2 border-b border-border-subtle px-3 py-1.5">
-                <div className="text-green-500 font-bold uppercase text-xs">
-                  SYSTEM STATUS
-                </div>
-              </div>
-              
-              <div className="p-3">
-                {/* Status indicator */}
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="inline-block w-3 h-3 rounded-full bg-green-500"></span>
-                  <span className="text-green-500 font-bold text-xs">
-                    ONLINE
-                  </span>
-                </div>
-                
-                {/* System stats */}
-                <div className="text-text-secondary text-xs grid grid-cols-1 gap-y-3">
-                  <div className="flex justify-between">
-                    <span>TIME:</span>
-                    <span className="text-cyan-500"><CurrentTime /></span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>THEME:</span>
-                    <span className="text-cyan-500">{theme.toUpperCase()}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>UPTIME:</span>
-                    <span className="text-cyan-500">{Math.floor(Math.random() * 12) + 4}h {Math.floor(Math.random() * 50) + 10}m</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>RAM:</span>
-                    <span className="text-cyan-500">{databaseStats.formulations + databaseStats.ingredients} ITEMS</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <style jsx>{`
+            @keyframes blink {
+              0%, 49% { opacity: 1; }
+              50%, 100% { opacity: 0; }
+            }
+          `}</style>
         </div>
       </div>
       
       {/* Main Three Column Layout with Retro Terminal UI - Flexible height */}
-      <div className="flex flex-1 overflow-hidden font-mono mt-2 pt-1 relative z-0 border-t border-border-subtle border-opacity-50">
+      <div className="flex-1 grid grid-cols-[200px_256px_1fr] overflow-hidden font-mono mt-2 pt-1 relative z-0 border-t border-border-subtle border-opacity-50">
         {/* First Column - Top-level Categories (Modules) */}
-        <div className="w-48 bg-surface-1 border-r-2 border-border-subtle flex flex-col flex-shrink-0">
-          <div className="py-1 pl-2 text-xs uppercase text-accent bg-surface-2 border-b-2 border-border-subtle">
-            ┌─────────────────────┐
-            <br />
-            │ SYSTEM DIRECTORIES  │
-            <br />
-            └─────────────────────┘
+        <div data-file-browser="directory-column" className="bg-surface-1 border-r-2 border-border-subtle flex flex-col">
+          <div data-file-browser="header" className="py-1 pl-2 text-[1.25rem] uppercase text-accent bg-surface-2 border-b-2 border-border-subtle font-medium">
+            DIRECTORIES
           </div>
-          
+
           <div className="flex-1 overflow-y-auto">
             {SECTIONS.map((section, index) => (
               <div
                 key={section.id}
                 data-category={section.id}
-                className={`flex items-center px-3 py-2 cursor-pointer transition-colors relative ${
-                  activeCategory === section.id 
-                    ? 'bg-accent/20 text-accent font-bold' 
-                    : 'hover:bg-surface-2 text-text-secondary'
-                  } ${navState.focused && navState.column === 0 && navState.index === index ? 'retro-box-selection' : ''}`
+                data-file-browser="item"
+                className={`flex items-center px-3 py-3 cursor-pointer transition-colors relative ${
+                  activeCategory === section.id
+                    ? 'file-active text-accent font-bold'
+                    : 'hover:bg-surface-2 file-inactive'
+                  } ${navState.focused && navState.column === 0 && navState.index === index ? 'retro-box-selection hackers-flashing-box' : ''}`
                 }
                 onClick={() => {
                   handleCategorySelect(section.id);
                   setNavState({ column: 0, index, focused: true });
                 }}
               >
-                <span className="mr-2 font-bold">
+                <span className={`mr-2 font-bold file-icon ${theme === 'hackers' && activeCategory === section.id ? 'hackers-flashing-box' : ''}`}>
                   {activeCategory === section.id ? '►' : ' '}
                 </span>
-                <span className="mr-2 text-lg">{section.icon}</span>
-                <span className="uppercase">{section.name}</span>
+                <span className="mr-2 flex items-center justify-center w-8 h-8">
+                  <ThemeIcon type={section.iconType} size={24} />
+                </span>
+                <span className="uppercase text-[1.125rem] file-name">{section.name}</span>
               </div>
             ))}
           </div>
           
-          {/* ASCII decorations */}
-          <div className="mt-4 px-3 text-text-secondary text-xs">
-            <div className="mb-2">
-              ════════════════════
-            </div>
-            <div>
+          {/* System Status Indicator */}
+          <div className="mt-4 px-3 text-text-secondary">
+            <div className="mb-3 border-t border-border-subtle"></div>
+            <div className="text-[1rem]">
               {systemStatus === 'checking' ? (
                 <>
-                  <span className="text-amber-500 animate-pulse">● </span>CONNECTING...
-                  <br />
-                  <br />
-                  DATABASE CONNECTION
-                  <br />
-                  IN PROGRESS
-                  <br />
-                  <span className="text-amber-500 animate-pulse">&gt; _</span>
+                  <div className="flex items-center mb-2">
+                    <span className="text-amber-500 text-[1.25rem] animate-pulse mr-2">●</span>
+                    <span className="text-amber-500 font-medium">CONNECTING...</span>
+                  </div>
+                  <div className="ml-2">
+                    DATABASE CONNECTION<br />IN PROGRESS
+                  </div>
                 </>
               ) : systemStatus === 'online' ? (
                 <>
-                  <span className="text-green-500">● </span>SYSTEM READY
-                  <br />
-                  <br />
-                  RAM: <MemoryUsage />
-                  <br />
-                  NET: <NetworkLatency />
-                  <br />
-                  <span className="text-accent animate-pulse">&gt; _</span>
+                  <div className="flex items-center mb-2">
+                    <span className="text-green-500 text-[1.25rem] mr-2">●</span>
+                    <span className="text-green-500 font-medium">SYSTEM READY</span>
+                  </div>
+                  <div className="ml-2">
+                    <div className="flex justify-between mb-1">
+                      <span>THEME:</span>
+                      <span className="text-accent">{theme.toUpperCase()}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>TIME:</span>
+                      <CurrentTime />
+                    </div>
+                  </div>
                 </>
               ) : (
                 <>
-                  <span className="text-red-500">● </span>CONNECTION ERROR
-                  <br />
-                  <br />
-                  {connectionError ? (
-                    <>
-                      <div className="text-red-500">ERROR DETAILS:</div>
-                      <div className="text-xs max-w-[120px] truncate">
-                        {connectionError.length > 20 
-                          ? `${connectionError.substring(0, 20)}...` 
-                          : connectionError}
-                      </div>
-                    </>
-                  ) : (
-                    'AWAITING CONNECTION...'
-                  )}
-                  <br />
-                  <span className="text-red-500 animate-pulse">...</span>
+                  <div className="flex items-center mb-2">
+                    <span className="text-red-500 text-[1.25rem] mr-2">●</span>
+                    <span className="text-red-500 font-medium">CONNECTION ERROR</span>
+                  </div>
+                  <div className="ml-2">
+                    {connectionError ? (
+                      <>
+                        <div className="text-red-500 font-medium">ERROR:</div>
+                        <div className="text-[0.875rem] max-w-[130px] truncate">
+                          {connectionError.length > 20
+                            ? `${connectionError.substring(0, 20)}...`
+                            : connectionError}
+                        </div>
+                      </>
+                    ) : (
+                      'AWAITING CONNECTION...'
+                    )}
+                  </div>
                 </>
               )}
             </div>
@@ -1153,53 +1190,55 @@ export default function KraftTerminalModularLayout({
         </div>
         
         {/* Second Column - Items for Selected Category */}
-        <div className="w-64 border-r-2 border-border-subtle bg-surface-0 flex flex-col flex-shrink-0">
-          <div className="p-2 border-b-2 border-border-subtle bg-surface-1">
-            <div className="text-xs text-accent mb-1">┌──────────────────────────────┐</div>
-            <div className="flex justify-between items-center px-2">
-              <span className="text-sm font-bold text-accent">
-                {SECTIONS.find(s => s.id === activeCategory)?.name.toUpperCase() || 'ITEMS'}
-              </span>
-              <button className="w-6 h-6 flex items-center justify-center text-accent hover:text-accent/80 text-lg">
-                [+]
-              </button>
+        <div data-file-browser="items-column" className="border-r-2 border-border-subtle bg-surface-0 flex flex-col">
+          <div data-file-browser="header" className="p-2 border-b-2 border-border-subtle bg-surface-1">
+            <div className="text-[1.25rem] text-accent font-medium uppercase px-2">
+              {SECTIONS.find(s => s.id === activeCategory)?.name || 'ITEMS'}
             </div>
-            <div className="text-xs text-accent">└──────────────────────────────┘</div>
           </div>
-          
+
           <div className="flex-1 overflow-y-auto">
             {getItemsForCategory().map((item, index) => (
               <div
                 key={item.id}
                 data-item={item.id}
-                className={`px-3 py-1.5 cursor-pointer transition-colors border-b border-border-subtle relative ${
-                  selectedItemId === item.id 
-                    ? 'bg-accent/20 text-accent' 
-                    : 'text-text-secondary hover:bg-surface-1 bg-surface-1'
-                } ${navState.focused && navState.column === 1 && navState.index === index ? 'retro-box-selection' : ''}`}
+                data-file-browser="item"
+                className={`px-3 py-2.5 cursor-pointer transition-colors border-b border-border-subtle relative ${
+                  selectedItemId === item.id
+                    ? 'item-active text-accent'
+                    : 'item-inactive hover:bg-surface-1 bg-surface-1'
+                } ${navState.focused && navState.column === 1 && navState.index === index ? 'retro-box-selection hackers-flashing-box' : ''}`}
                 onClick={() => {
                   handleItemSelect(item.id);
                   setNavState({ column: 1, index, focused: true });
                 }}
               >
                 <div className="flex items-center">
-                  <span className="mr-2 font-bold">
+                  <span className={`mr-2 font-bold text-[1rem] item-prefix ${theme === 'hackers' && selectedItemId === item.id ? 'hackers-flashing-box' : ''}`}>
                     {selectedItemId === item.id ? '►' : `${index+1}.`}
                   </span>
+                  {item.iconType ? (
+                    <span className="mr-2 flex items-center justify-center w-6 h-6 item-icon">
+                      <ThemeIcon type={item.iconType} size={16} />
+                    </span>
+                  ) : item.icon ? (
+                    <span className="mr-2 opacity-90 item-icon">
+                      {item.icon}
+                    </span>
+                  ) : null}
                   <div>
-                    <div className="font-medium truncate">{item.title || item.name}</div>
+                    <div className="font-medium truncate text-[1rem] item-title">{item.title || item.name}</div>
                     {item.description && (
-                      <div className="text-xs truncate opacity-80">{item.description}</div>
+                      <div className="text-[0.875rem] truncate opacity-80 item-description">{item.description}</div>
                     )}
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          
-          {/* ASCII-art item counter */}
-          <div className="p-2 border-t-2 border-border-subtle text-text-secondary text-xs">
-            <div>────────────────────────────</div>
+
+          {/* Simple item counter */}
+          <div className="p-2 border-t-2 border-border-subtle text-text-secondary text-[0.875rem]">
             <div className="flex justify-between px-2">
               <span>{getItemsForCategory().length} ITEMS</span>
               <span className="text-accent">{selectedItemId ? 'ITEM SELECTED' : 'NO SELECTION'}</span>
@@ -1208,110 +1247,127 @@ export default function KraftTerminalModularLayout({
         </div>
         
         {/* Third Column - Detail View / Active Document */}
-        <div className="flex-1 overflow-hidden">
-          <div className="border-b-2 border-border-subtle p-1 bg-surface-1 sticky top-0 z-10">
-            <div className="text-xs text-accent">┌──────────────────────────────────────────────────────────┐</div>
-            <div className="px-2 text-sm text-accent font-bold">
-              ACTIVE DOCUMENT: {selectedItemId ? (() => {
+        <div data-terminal="content-area" className="flex-1 overflow-hidden">
+          <div data-terminal="header" className="border-b-2 border-border-subtle py-2 px-3 bg-surface-1 sticky top-0 z-10">
+            <div className="text-[1.5rem] text-accent font-bold terminal-title">
+              {selectedItemId ? (() => {
                 // Get the active item's title
                 const item = getItemsForCategory().find(i => i.id === selectedItemId);
                 return item?.title || item?.name || 'SELECTED ITEM';
-              })() : 'NONE SELECTED'}
+              })() : 'SELECT AN ITEM'}
             </div>
-            <div className="text-xs text-accent">└──────────────────────────────────────────────────────────┘</div>
           </div>
-          
-          <div className="h-full overflow-auto">
-            {/* Database connection error */}
-            {systemStatus === 'offline' && (
-              <div className="flex flex-col items-center justify-center h-full p-8 text-center">
-                <div className="text-6xl mb-6 text-red-500">⚠️</div>
-                <h2 className="text-2xl font-bold mb-3 text-red-500">Database Connection Error</h2>
-                <div className="border border-red-500 bg-red-500/10 p-4 mb-6 rounded text-left max-w-md">
-                  <p className="text-red-500 font-bold mb-2">Error Details:</p>
-                  <p className="text-text-secondary">
-                    {connectionError || 'Unable to connect to the database. Please check your connection settings and try again.'}
-                  </p>
-                </div>
-                <p className="text-text-secondary max-w-md">
-                  The application is unable to connect to the Supabase database. This is required for 
-                  accessing formulations and ingredients. No mock data is available as a fallback.
-                </p>
-              </div>
-            )}
-            
-            {/* Database connection in progress */}
-            {systemStatus === 'checking' && (
-              <div className="flex flex-col items-center justify-center h-full p-8 text-center">
-                <div className="text-6xl mb-6 text-amber-500 animate-pulse">🔄</div>
-                <h2 className="text-2xl font-bold mb-3 text-amber-500">Connecting to Database...</h2>
-                <div className="w-64 h-2 bg-surface-2 rounded-full mb-6">
-                  <div className="h-full bg-amber-500 rounded-full animate-pulse" style={{ width: '60%' }}></div>
-                </div>
-                <p className="text-text-secondary max-w-md">
-                  Establishing connection to the Supabase database. This might take a few moments.
-                </p>
-              </div>
-            )}
-            
-            {/* Normal operation */}
-            {systemStatus === 'online' && (
-              selectedItemId ? (
-                children
-              ) : (
-                /* Otherwise show a placeholder */
-                <div className="flex flex-col items-center justify-center h-full p-8 text-center">
-                  <div className="text-6xl mb-6">
-                    {activeCategory === 'formulations' ? '📋' : 
-                     activeCategory === 'ingredients' ? '🧪' : 
-                     activeCategory === 'tools' ? '🔧' : '📚'}
+
+          <div data-terminal="content" className="h-full overflow-auto">
+            {/* Settings content always shows regardless of database connection */}
+            {activeCategory === 'settings' && selectedItemId ? (
+              <SettingsTerminalContent category={selectedItemId} />
+            ) : (
+              <>
+                {/* Database connection error - only for non-settings categories */}
+                {systemStatus === 'offline' && (
+                  <div data-terminal="error-screen" className="flex flex-col items-center justify-center h-full p-8 text-center">
+                    <div className="mb-6">
+                      <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="#FF4444" strokeWidth="2" strokeLinecap="square" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="8" x2="12" y2="12" />
+                        <line x1="12" y1="16" x2="12" y2="16" />
+                      </svg>
+                    </div>
+                    <h2 className="text-[2rem] font-bold mb-3 error-title">Database Connection Error</h2>
+                    <div className="border border-red-500 bg-red-500/10 p-4 mb-6 rounded text-left max-w-md error-box">
+                      <p className="text-[1.25rem] error-heading font-bold mb-2">Error Details:</p>
+                      <p className="text-[1.125rem] error-message">
+                        {connectionError || 'Unable to connect to the database. Please check your connection settings and try again.'}
+                      </p>
+                    </div>
+                    <p className="text-[1.125rem] terminal-text max-w-md">
+                      The application is unable to connect to the Supabase database. This is required for
+                      accessing formulations and ingredients. No mock data is available as a fallback.
+                      <br /><br />
+                      <span className="text-accent font-bold highlight-text">Tip: Try accessing the Settings section while database issues are being resolved.</span>
+                    </p>
                   </div>
-                  <h2 className="text-2xl font-bold mb-3">Select a {activeCategory.slice(0, -1)} to view</h2>
-                  <p className="text-text-secondary max-w-md">
-                    Choose an item from the list on the left to view and edit its details in this panel.
-                  </p>
-                </div>
-              )
+                )}
+
+                {/* Database connection in progress - only for non-settings categories */}
+                {systemStatus === 'checking' && (
+                  <div className="flex flex-col items-center justify-center h-full p-8 text-center">
+                    <div className="mb-6">
+                      <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="#FFB000" strokeWidth="2" strokeLinecap="square" strokeLinejoin="round" className="animate-spin">
+                        <circle cx="12" cy="12" r="10" strokeDasharray="1,3" />
+                        <circle cx="12" cy="12" r="6" strokeDasharray="1,2" />
+                        <circle cx="12" cy="12" r="2" />
+                      </svg>
+                    </div>
+                    <h2 className="text-[2rem] font-bold mb-3 text-amber-500">Connecting to Database...</h2>
+                    <div className="w-64 h-3 bg-surface-2 rounded-full mb-6">
+                      <div className="h-full bg-amber-500 rounded-full animate-pulse" style={{ width: '60%' }}></div>
+                    </div>
+                    <p className="text-[1.125rem] text-text-secondary max-w-md">
+                      Establishing connection to the Supabase database. This might take a few moments.
+                      <br /><br />
+                      <span className="text-accent font-bold">Tip: You can still access the Settings section while waiting for the database connection.</span>
+                    </p>
+                  </div>
+                )}
+
+                {/* Normal operation */}
+                {systemStatus === 'online' && (
+                  selectedItemId ? children : (
+                    /* Otherwise show a placeholder */
+                    <div className="flex flex-col items-center justify-center h-full p-8 text-center">
+                      <div className="mb-6 flex justify-center items-center">
+                        <ThemeIcon type={activeCategory} size={96} />
+                      </div>
+                      <h2 className="text-[2rem] font-bold mb-3">Select a {activeCategory === 'settings' ? 'settings category' : activeCategory.slice(0, -1)} to view</h2>
+                      <p className="text-[1.25rem] text-text-secondary max-w-md">
+                        Choose an item from the list on the left to view and edit its details in this panel.
+                      </p>
+                    </div>
+                  )
+                )}
+              </>
             )}
           </div>
         </div>
       </div>
       
-      {/* Advanced Terminal Footer with Detailed Stats and Logs - Height adjusted to balance with header */}
-      <div className="bg-surface-1 border-t-4 border-accent/40 py-4 px-4 font-mono text-xs flex-shrink-0 shadow-sm relative z-10 h-[140px]">
+      {/* Advanced Terminal Footer with Detailed Stats and Logs */}
+      <div data-terminal="footer" className="bg-surface-1 border-t-4 border-accent/40 py-4 px-4 font-mono flex-shrink-0 shadow-sm relative z-10 h-[140px]">
         <div className="grid grid-cols-12 gap-2">
           {/* System Status Panel */}
-          <div className="col-span-3 border border-border-subtle bg-surface-0 p-1">
+          <div data-terminal="stats-panel" data-panel="sys-status" className="col-span-3 border border-border-subtle bg-surface-0 p-1 kraftTerminalPanel">
             <div className="flex justify-between text-accent font-bold mb-1">
-              <span>SYS_STATUS</span>
-              <span className={systemStatus === 'online' ? 'text-green-500' : 'text-red-500'}>
+              <span className="text-[1rem] terminal-heading" data-text="SYS_STATUS" data-panel="sys-status">SYS_STATUS</span>
+              <span className={`text-[1rem] ${systemStatus === 'online' ? 'value-positive' : 'error'}`}>
                 [{systemStatus.toUpperCase()}]
               </span>
             </div>
-            
-            <div className="grid grid-cols-2 gap-1">
+
+            <div className="grid grid-cols-2 gap-1 text-[0.875rem]">
               <div className="flex justify-between">
-                <span className="text-text-secondary">UPTIME:</span>
-                <span>{Math.floor(Math.random() * 24) + 1}h {Math.floor(Math.random() * 60)}m</span>
+                <span className="text-text-secondary stats-label" data-label="uptime">UPTIME:</span>
+                <span data-value="uptime" className="value-text">{Math.floor(Math.random() * 24) + 1}h {Math.floor(Math.random() * 60)}m</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-text-secondary">SESS_ID:</span>
-                <span>#{Math.floor(Math.random() * 9000) + 1000}</span>
+                <span className="value-text">#{Math.floor(Math.random() * 9000) + 1000}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-text-secondary">DB_CONN:</span>
+                <span className="text-text-secondary stats-label" data-label="db_conn">DB_CONN:</span>
                 <span className={systemStatus === 'online' ? 'text-green-500' : 'text-red-500'}>
                   {systemStatus === 'online' ? 'ACTIVE' : 'FAILED'}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-text-secondary">API:</span>
+                <span className="text-text-secondary stats-label" data-label="api">API:</span>
                 <span className="text-green-500">READY</span>
               </div>
             </div>
-            
+
             {/* System meters visualization */}
-            <div className="mt-1 grid grid-cols-2 gap-x-1">
+            <div className="mt-1 grid grid-cols-2 gap-x-1 text-[0.875rem]">
               <div>
                 <div className="flex justify-between">
                   <span className="text-text-secondary">CPU</span>
@@ -1332,14 +1388,14 @@ export default function KraftTerminalModularLayout({
               </div>
             </div>
           </div>
-          
+
           {/* Module Registry Stats Panel */}
-          <div className="col-span-3 border border-border-subtle bg-surface-0 p-1">
+          <div data-panel="module-statistics" className="col-span-3 border border-border-subtle bg-surface-0 p-1 kraftTerminalPanel">
             <div className="flex justify-between text-accent font-bold mb-1">
-              <span>MODULE_STATISTICS</span>
-              <span className={`
-                ${systemStatus === 'checking' ? 'text-amber-500 animate-pulse' : 
-                  systemStatus === 'online' ? 'text-green-500' : 
+              <span className="text-[1rem] terminal-heading" data-text="MODULE_STATISTICS" data-panel="module-statistics">MODULE_STATISTICS</span>
+              <span className={`text-[0.875rem]
+                ${systemStatus === 'checking' ? 'text-amber-500 animate-pulse' :
+                  systemStatus === 'online' ? 'text-green-500' :
                   'text-red-500'}
               `}>
                 {systemStatus === 'checking' ? 'CONNECTING...' :
@@ -1349,104 +1405,104 @@ export default function KraftTerminalModularLayout({
                 }
               </span>
             </div>
-            
-            <div className="mb-1">
+
+            <div className="mb-1 text-[0.875rem]">
               <div className="flex justify-between mb-0.5">
-                <span className="text-text-secondary">FORMULATIONS:</span>
-                <span className="font-bold">{databaseStats.formulations}</span>
-                <span className="text-text-secondary">TOTAL:</span>
+                <span className="text-text-secondary stats-label" data-label="formulations">FORMULATIONS:</span>
+                <span className="font-bold value-text" data-value="formulations">{databaseStats.formulations}</span>
+                <span className="text-text-secondary accent-text" data-value="total">TOTAL:</span>
                 <span className="font-bold">
                   {systemStatus === 'online' ? databaseStats.formulations * 3 : '--'}
                 </span>
               </div>
               <div className="w-full bg-surface-2 border border-border-subtle h-1">
-                <div 
-                  className={`${systemStatus === 'online' ? 'bg-emerald-500' : 
-                            systemStatus === 'checking' ? 'bg-amber-500 animate-pulse' : 
-                            'bg-red-500'} h-full`} 
-                  style={{ 
-                    width: systemStatus === 'online' 
-                      ? `${Math.min(databaseStats.formulations * 7, 100)}%` 
-                      : systemStatus === 'checking' ? '30%' : '10%' 
+                <div
+                  className={`${systemStatus === 'online' ? 'bg-emerald-500' :
+                            systemStatus === 'checking' ? 'bg-amber-500 animate-pulse' :
+                            'bg-red-500'} h-full`}
+                  style={{
+                    width: systemStatus === 'online'
+                      ? `${Math.min(databaseStats.formulations * 7, 100)}%`
+                      : systemStatus === 'checking' ? '30%' : '10%'
                   }}
                 ></div>
               </div>
             </div>
-            
-            <div className="mb-1">
+
+            <div className="mb-1 text-[0.875rem]">
               <div className="flex justify-between mb-0.5">
-                <span className="text-text-secondary">INGREDIENTS:</span>
-                <span className="font-bold">{databaseStats.ingredients}</span>
-                <span className="text-text-secondary">USED:</span>
+                <span className="text-text-secondary stats-label" data-label="ingredients">INGREDIENTS:</span>
+                <span className="font-bold value-text" data-value="ingredients">{databaseStats.ingredients}</span>
+                <span className="text-text-secondary accent-text" data-value="used">USED:</span>
                 <span className="font-bold">
                   {systemStatus === 'online' ? Math.floor(databaseStats.ingredients * 0.8) : '--'}
                 </span>
               </div>
               <div className="w-full bg-surface-2 border border-border-subtle h-1">
-                <div 
-                  className={`${systemStatus === 'online' ? 'bg-blue-500' : 
-                            systemStatus === 'checking' ? 'bg-amber-500 animate-pulse' : 
-                            'bg-red-500'} h-full`} 
-                  style={{ 
-                    width: systemStatus === 'online' 
-                      ? `${Math.min(databaseStats.ingredients * 3, 100)}%` 
-                      : systemStatus === 'checking' ? '50%' : '10%' 
+                <div
+                  className={`${systemStatus === 'online' ? 'bg-blue-500' :
+                            systemStatus === 'checking' ? 'bg-amber-500 animate-pulse' :
+                            'bg-red-500'} h-full`}
+                  style={{
+                    width: systemStatus === 'online'
+                      ? `${Math.min(databaseStats.ingredients * 3, 100)}%`
+                      : systemStatus === 'checking' ? '50%' : '10%'
                   }}
                 ></div>
               </div>
             </div>
-            
-            <div className="flex justify-between items-center">
+
+            <div className="flex justify-between items-center text-[0.875rem]">
               <div className="flex space-x-1">
-                <span className="text-text-secondary">MODULES:</span>
-                <span className="text-accent">3</span>
+                <span className="text-text-secondary stats-label" data-label="modules">MODULES:</span>
+                <span className="text-accent value-text" data-value="modules">3</span>
               </div>
               <div className="text-xs">
                 <span className={`
-                  ${systemStatus === 'checking' ? 'text-amber-500 animate-pulse' : 
-                    systemStatus === 'online' ? 'text-green-500 animate-pulse' : 
+                  ${systemStatus === 'checking' ? 'text-amber-500 animate-pulse' :
+                    systemStatus === 'online' ? 'text-green-500 animate-pulse' :
                     'text-red-500'}
                 `}>
-                  {systemStatus === 'checking' ? '▮▮▯▯▯▯' : 
-                   systemStatus === 'online' ? '▮▮▮▮▯▯' : 
+                  {systemStatus === 'checking' ? '▮▮▯▯▯▯' :
+                   systemStatus === 'online' ? '▮▮▮▮▯▯' :
                    '▯▯▯▯▯▯'}
                 </span>
               </div>
             </div>
           </div>
-          
+
           {/* Live System Log Stream */}
-          <div className="col-span-4 border border-border-subtle bg-surface-0 p-1">
+          <div data-terminal="log-panel" data-panel="live-system-log" className="col-span-4 border border-border-subtle bg-surface-0 p-1 kraftTerminalPanel">
             <div className="flex justify-between text-accent font-bold mb-1">
-              <span>LIVE_SYSTEM_LOG</span>
-              <span className="text-green-500 animate-pulse">STREAMING</span>
+              <span className="text-[1rem] terminal-heading" data-text="LIVE_SYSTEM_LOG" data-panel="live-system-log">LIVE_SYSTEM_LOG</span>
+              <span className="value-positive animate-pulse text-[0.875rem]">STREAMING</span>
             </div>
-            
-            <div className="h-16 overflow-y-auto bg-surface-2 p-1 font-mono text-[10px] leading-tight">
-              <div className="text-text-secondary">[<CurrentTime />] System resources initialized successfully</div>
-              <div className="text-text-secondary">[<CurrentTime />] Cache size optimized (64MB)</div>
-              <div className="text-green-500">[<CurrentTime />] Database connection established to supabase.co</div>
-              <div className="text-text-secondary">[<CurrentTime />] Auth provider initialized with DEV profile</div>
-              <div className="text-text-secondary">[<CurrentTime />] Loaded formulation data ({databaseStats.formulations} entries)</div>
-              <div className="text-text-secondary">[<CurrentTime />] Loaded ingredient data ({databaseStats.ingredients} entries)</div>
-              <div className="text-accent">[<CurrentTime />] Theme activated: {theme.toUpperCase()}</div>
-              <div className="text-accent">[<CurrentTime />] UI rendering complete (React hydration)</div>
-              <div className="text-amber-500">[<CurrentTime />] Font loading completed with fallbacks</div>
-              <div className="text-text-secondary">[<CurrentTime />] Audio system {audioEnabled ? 'enabled' : 'disabled'}</div>
-              <div className="text-purple-500">[<CurrentTime />] Formulation processor initialized</div>
-              <div className="text-green-500">[<CurrentTime />] Module System activated</div>
-              <div className="text-amber-500 animate-pulse">[<CurrentTime />] Awaiting user input _</div>
+
+            <div data-terminal="log-window" className="h-16 overflow-y-auto bg-surface-2 p-1 font-mono text-[0.75rem] leading-tight">
+              <div className="log-standard">[<CurrentTime />] System resources initialized successfully</div>
+              <div className="log-standard">[<CurrentTime />] Cache size optimized (64MB)</div>
+              <div className="log-success">[<CurrentTime />] Database connection established to supabase.co</div>
+              <div className="log-standard">[<CurrentTime />] Auth provider initialized with DEV profile</div>
+              <div className="log-standard">[<CurrentTime />] Loaded formulation data ({databaseStats.formulations} entries)</div>
+              <div className="log-standard">[<CurrentTime />] Loaded ingredient data ({databaseStats.ingredients} entries)</div>
+              <div className="log-highlight">[<CurrentTime />] Theme activated: {theme.toUpperCase()}</div>
+              <div className="log-highlight">[<CurrentTime />] UI rendering complete (React hydration)</div>
+              <div className="log-warning">[<CurrentTime />] Font loading completed with fallbacks</div>
+              <div className="log-standard">[<CurrentTime />] Audio system {audioEnabled ? 'enabled' : 'disabled'}</div>
+              <div className="log-network">[<CurrentTime />] Formulation processor initialized</div>
+              <div className="log-success">[<CurrentTime />] Module System activated</div>
+              <div className="log-active animate-pulse">[<CurrentTime />] Awaiting user input _</div>
             </div>
           </div>
-          
+
           {/* Command & F-Key Bar */}
-          <div className="col-span-2 border border-border-subtle bg-surface-0 p-1">
+          <div data-panel="commands" className="col-span-2 border border-border-subtle bg-surface-0 p-1 kraftTerminalPanel">
             <div className="flex justify-between text-accent font-bold mb-1">
-              <span>COMMANDS</span>
-              <span className="text-amber-500">MODULE_SYS</span>
+              <span className="text-[1rem] terminal-heading" data-text="COMMANDS" data-panel="commands">COMMANDS</span>
+              <span className="text-amber-500 text-[0.875rem]">MODULE_SYS</span>
             </div>
-            
-            <div className="grid grid-cols-1 gap-y-1">
+
+            <div className="grid grid-cols-1 gap-y-1 text-[0.875rem]">
               <div className="flex justify-between">
                 <span className="text-text-secondary">F1:</span>
                 <span className="text-accent">HELP</span>
@@ -1464,29 +1520,33 @@ export default function KraftTerminalModularLayout({
                 <span className="text-accent animate-pulse">QUIT</span>
               </div>
             </div>
-            
-            <div className="mt-1 flex items-center justify-between">
+
+            <div className="mt-1 flex items-center justify-between text-[0.875rem]">
               <span className="text-text-secondary">ACTIVE:</span>
               <span className="text-accent font-bold">MODULES</span>
             </div>
           </div>
-          
+
           {/* System Branding */}
-          <div className="cols-span-12 md:col-span-12 lg:col-span-12 flex justify-between items-end mt-1">
+          <div className="cols-span-12 md:col-span-12 lg:col-span-12 flex justify-between items-end mt-1 text-[0.875rem]">
             <div className="flex items-center">
               <span className="text-text-secondary">
-                KRAFT_AI_TERMINAL v1.0.2 | <span className="text-accent">MODULE_SYSTEM v2.0</span> | 
+                KRAFT_AI_TERMINAL v1.0.2 | <span className="text-accent">MODULE_SYSTEM v2.0</span> |
                 <span className={systemStatus === 'online' ? 'text-green-500' : 'text-red-500'}>
                   {' '}{systemStatus.toUpperCase()}
                 </span>
                 {navState.focused && (
                   <span className="ml-2 text-accent animate-pulse">
-                    [KEYBOARD NAV: {navState.column === 0 ? 'DIRECTORIES' : 'ITEMS'} | ↑↓←→ TO NAVIGATE | ENTER TO SELECT]
+                    [KEYBOARD NAV: {
+                      navState.column === 0 ? 'DIRECTORIES' :
+                      navState.column === 1 ? 'ITEMS' :
+                      'DOCUMENT'
+                    } | ↑↓←→ TO NAVIGATE | ENTER TO SELECT]
                   </span>
                 )}
               </span>
             </div>
-            
+
             <div className="flex items-center space-x-3">
               <div className="text-text-secondary">
                 NET: <NetworkLatency />
@@ -1502,4 +1562,9 @@ export default function KraftTerminalModularLayout({
       </div>
     </div>
   );
+}
+
+// Helper function for Apple login (will be replaced in real implementation)
+function handleAppleLogin() {
+  console.log('Apple login not implemented');
 }

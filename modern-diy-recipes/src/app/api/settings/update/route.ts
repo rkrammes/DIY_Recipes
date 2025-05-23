@@ -18,9 +18,9 @@ export async function POST(request: NextRequest) {
     
     if (!user) {
       // For unauthenticated users, store in cookies
-      if (body.theme) cookies().set('theme', body.theme);
-      if (body.audio_enabled !== undefined) cookies().set('audioEnabled', String(body.audio_enabled));
-      if (body.volume !== undefined) cookies().set('volume', String(body.volume));
+      if (body.theme) (await cookies()).set('theme', body.theme);
+      if (body.audio_enabled !== undefined) (await cookies()).set('audioEnabled', String(body.audio_enabled));
+      if (body.volume !== undefined) (await cookies()).set('volume', String(body.volume));
       
       return NextResponse.json({ 
         success: true, 
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     
     // For authenticated users, update in Supabase
     // First check if a preferences record exists
-    const { data: existingData } = await supabase
+    const { data: existingData } = await (supabase as any)
       .from('user_preferences')
       .select('id')
       .eq('user_id', user.id)
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
       
     if (!existingData) {
       // Create a new preferences record
-      const { error: insertError } = await supabase
+      const { error: insertError } = await (supabase as any)
         .from('user_preferences')
         .insert([{ 
           user_id: user.id, 
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
       }
     } else {
       // Update existing record
-      const { error: updateError } = await supabase
+      const { error: updateError } = await (supabase as any)
         .from('user_preferences')
         .update(body)
         .eq('user_id', user.id);

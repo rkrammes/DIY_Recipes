@@ -1,0 +1,274 @@
+/* Hackers Theme - Authentic 90s digital punk aesthetic directly from the movie */
+[data-theme="hackers"] {
+  /* Core color palette - EXACT movie colors */
+  --hackers-black: 0% 0 0; /* Pure black background */
+  --hackers-cyan: 100% 0.5 195; /* EXTREMELY bright cyan text color from movie */
+  --hackers-purple: 80% 0.50 310; /* Extra bright purple for selections */
+  
+  /* Typography - Authentic 90s monospace */
+  --font-body: 'Share Tech Mono', monospace;
+  --font-heading: 'Share Tech Mono', monospace;
+  --font-mono: 'Share Tech Mono', monospace;
+  --font-display: 'Share Tech Mono', monospace;
+  --font-terminal: 'Share Tech Mono', monospace;
+  --letter-spacing-display: 0.2em;
+  --letter-spacing-body: 0.1em;
+  --letter-spacing-code: 0.05em;
+}
+
+/* Black background with grid */
+[data-theme="hackers"] .theme-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: black;
+  z-index: -3;
+}
+
+/* Animated purple grid with perspective - movie accurate */
+[data-theme="hackers"] .theme-background::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(128, 0, 128, 0.4) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      rgba(128, 0, 128, 0.4) 1px,
+      transparent 1px
+    );
+  background-size: 40px 40px;
+  transform: perspective(1000px) rotateX(60deg);
+  transform-origin: center 90%;
+  height: 200%;
+  top: 30%;
+  animation: hackersGridMove 18s linear infinite;
+  z-index: -2;
+  opacity: 0.7;
+  box-shadow: 0 0 40px rgba(128, 0, 128, 0.5);
+}
+
+/* ===== ALL TEXT BRIGHT NEON CYAN ===== */
+[data-theme="hackers"] * {
+  color: #00FFFF !important; /* Pure cyan like in the movie, not light blue */
+  text-shadow: 0 0 15px #00FFFF !important;
+  font-family: "Share Tech Mono", monospace !important;
+  letter-spacing: 0.15em !important;
+  text-transform: uppercase !important;
+  font-weight: bold !important;
+}
+
+/* Transparent black panels */
+[data-theme="hackers"] .file-browser,
+[data-theme="hackers"] [data-file-browser="directory-column"],
+[data-theme="hackers"] [data-file-browser="items-column"],
+[data-theme="hackers"] .menu-system,
+[data-theme="hackers"] [data-menu],
+[data-theme="hackers"] .navigation-menu {
+  background: rgba(0, 0, 0, 0.85) !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+/* ===== MENU ITEMS ===== */
+/* Menu items with cyan ">" at the end */
+[data-theme="hackers"] .file-item,
+[data-theme="hackers"] [data-file-item],
+[data-theme="hackers"] .menu-item,
+[data-theme="hackers"] [data-menu-item],
+[data-theme="hackers"] .nav-item {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 0.4rem 0.8rem !important;
+  margin: 0.5rem 0 !important;
+  color: #00FFFF !important;
+  font-size: 20px !important;
+  letter-spacing: 0.2em !important;
+  text-transform: uppercase !important;
+  background: transparent !important;
+  border: none !important;
+  position: relative !important;
+}
+
+/* Add the ">" after each menu item */
+[data-theme="hackers"] .file-item::after,
+[data-theme="hackers"] [data-file-item]::after,
+[data-theme="hackers"] .menu-item::after,
+[data-theme="hackers"] [data-menu-item]::after,
+[data-theme="hackers"] .nav-item::after {
+  content: ">";
+  color: #00FFFF !important;
+  margin-left: 10px !important;
+}
+
+/* ===== GARBAGE MENU ITEM ===== */
+/* Special styling for "GARBAGE" menu item to be purple */
+[data-theme="hackers"] .file-item:nth-child(5),
+[data-theme="hackers"] [data-file-item]:nth-child(5),
+[data-theme="hackers"] .menu-item:nth-child(5),
+[data-theme="hackers"] [data-menu-item]:nth-child(5) {
+  color: #FF00FF !important;
+  text-shadow: 0 0 15px rgba(255, 0, 255, 1) !important;
+}
+
+/* Purple ">" for GARBAGE menu item */
+[data-theme="hackers"] .file-item:nth-child(5)::after,
+[data-theme="hackers"] [data-file-item]:nth-child(5)::after,
+[data-theme="hackers"] .menu-item:nth-child(5)::after,
+[data-theme="hackers"] [data-menu-item]:nth-child(5)::after {
+  color: #FF00FF !important;
+  text-shadow: 0 0 15px rgba(255, 0, 255, 1) !important;
+}
+
+/* ===== SELECTED ITEMS - PURPLE BOX ===== */
+/* Selected items in bright purple with box - EXACTLY like in movie */
+[data-theme="hackers"] .file-item.selected,
+[data-theme="hackers"] [data-file-item].selected,
+[data-theme="hackers"] .menu-item.selected,
+[data-theme="hackers"] [data-menu-item].selected,
+[data-theme="hackers"] .nav-item.selected,
+[data-theme="hackers"] .file-active,
+[data-theme="hackers"] .item-active,
+[data-theme="hackers"] .selected {
+  color: #FF00FF !important;
+  text-shadow: 0 0 15px #FF00FF !important;
+  font-weight: bold !important;
+  background: transparent !important;
+  border: 3px solid #FF00FF !important;
+  box-shadow: 0 0 20px #FF00FF !important;
+  animation: hackersBoxFlash 0.3s steps(2) infinite !important;
+  padding: 2px 10px !important;
+  margin: 1px 0 !important;
+}
+
+/* ===== PURPLE BOX FILES ===== */
+/* File boxes in purple like in the movie */
+[data-theme="hackers"] .file-box,
+[data-theme="hackers"] [data-file="box"],
+[data-theme="hackers"] .confidential-file,
+[data-theme="hackers"] .file-container {
+  background: rgba(0, 0, 0, 0.7) !important;
+  border: 2px solid #FF00FF !important;
+  color: #FF00FF !important;
+  text-shadow: 0 0 10px rgba(255, 0, 255, 0.9) !important;
+  padding: 10px !important;
+  margin: 10px 0 !important;
+  text-align: center !important;
+  font-weight: bold !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.2em !important;
+}
+
+/* ===== ANIMATIONS ===== */
+/* DRAMATIC flashing animation for boxes - RAPID ON/OFF like in the movie */
+@keyframes hackersBoxFlash {
+  0%, 100% {
+    border-color: #FF00FF !important;
+    box-shadow: 0 0 20px #FF00FF !important;
+    color: #FF00FF !important;
+  }
+  50% {
+    border-color: transparent !important;
+    box-shadow: none !important;
+    color: #FF00FF !important;
+  }
+}
+
+/* Grid movement animation */
+@keyframes hackersGridMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 40px 500px; }
+}
+
+/* Make icons cyan */
+[data-theme="hackers"] svg,
+[data-theme="hackers"] .icon {
+  color: #00FFFF !important;
+  fill: #00FFFF !important;
+  filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.8)) !important;
+}
+
+/* Selected items' icons should be purple */
+[data-theme="hackers"] .selected svg,
+[data-theme="hackers"] .active svg,
+[data-theme="hackers"] .file-active svg {
+  color: #FF00FF !important;
+  fill: #FF00FF !important;
+  filter: drop-shadow(0 0 8px rgba(255, 0, 255, 0.8)) !important;
+}
+
+/* Ensure "CONFIDENTIAL FILE" is purple */
+[data-theme="hackers"] .confidential,
+[data-theme="hackers"] [data-confidential],
+[data-theme="hackers"] .confidential-header,
+[data-theme="hackers"] .file-header {
+  color: #FF00FF !important;
+  text-shadow: 0 0 15px rgba(255, 0, 255, 1) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.2em !important;
+  text-align: center !important;
+  font-weight: bold !important;
+}
+
+/* Status bar - always cyan */
+[data-theme="hackers"] .status-bar * {
+  color: #00FFFF !important;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.8) !important;
+}
+
+/* Force ALL text in cyan color - NO EXCEPTIONS */
+[data-theme="hackers"] span,
+[data-theme="hackers"] div,
+[data-theme="hackers"] p,
+[data-theme="hackers"] a,
+[data-theme="hackers"] button:not(:hover),
+[data-theme="hackers"] label,
+[data-theme="hackers"] h1,
+[data-theme="hackers"] h2,
+[data-theme="hackers"] h3,
+[data-theme="hackers"] h4,
+[data-theme="hackers"] h5,
+[data-theme="hackers"] h6,
+[data-theme="hackers"] li,
+[data-theme="hackers"] ul,
+[data-theme="hackers"] ol,
+[data-theme="hackers"] code,
+[data-theme="hackers"] pre,
+[data-theme="hackers"] blockquote,
+[data-theme="hackers"] table,
+[data-theme="hackers"] tr,
+[data-theme="hackers"] td,
+[data-theme="hackers"] th,
+[data-theme="hackers"] input,
+[data-theme="hackers"] textarea,
+[data-theme="hackers"] select {
+  color: #00FFFF !important;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.8) !important;
+}
+
+/* THESE ARE GUARANTEED TO OVERRIDE ALL TEXT COLORS EVERYWHERE */
+[data-theme="hackers"],
+[data-theme="hackers"] span,
+[data-theme="hackers"] body span,
+body[data-theme="hackers"] span,
+html body[data-theme="hackers"] span,
+html body[data-theme="hackers"] .theme-name,
+html body[data-theme="hackers"] .status-text,
+html body[data-theme="hackers"] #selection_status,
+html body[data-theme="hackers"] div[id*="status"],
+html body[data-theme="hackers"] div[id*="selection"],
+html body[data-theme="hackers"] div[id*="items"],
+html body[data-theme="hackers"] div[class*="status"],
+html body[data-theme="hackers"] div[class*="selection"],
+html body[data-theme="hackers"] div[class*="items"] {
+  color: #00FFFF !important;
+  text-shadow: 0 0 15px #00FFFF !important;
+}

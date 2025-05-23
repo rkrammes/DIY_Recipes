@@ -11,8 +11,8 @@ export const THEME_COLORS: Record<Theme, Record<string, string>> = {
   hackers: {
     background: '#121212',
     text: '#33ff33',
-    accent: '#00cc00',
-    secondary: '#006600',
+    accent: '#9933ff', // Updated to match purple selections from movie
+    secondary: '#00aacc', // Updated to teal/cyan from movie menu
     surface: '#1a1a1a',
     border: '#333333',
     warning: '#ffcc00',
@@ -33,7 +33,7 @@ export const THEME_COLORS: Record<Theme, Record<string, string>> = {
   neotopia: {
     background: '#ffffff',
     text: '#333333',
-    accent: '#0066cc',
+    accent: '#7928ca', // Updated to violet
     secondary: '#4a6fa5',
     surface: '#f5f5f5',
     border: '#e2e8f0',

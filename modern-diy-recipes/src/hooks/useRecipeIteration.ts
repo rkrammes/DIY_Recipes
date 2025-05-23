@@ -22,7 +22,7 @@ export function useRecipeIteration(initialFormulationId?: string) {
     try {
       console.log('Fetching ingredients for formulation version:', iterationId);
       
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('iteration_ingredients')
         .select(`
           id,
@@ -86,7 +86,7 @@ export function useRecipeIteration(initialFormulationId?: string) {
     setIsLoading(true);
     setError(null);
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('recipe_iterations')
         .select('*')
         .eq('recipe_id', recipeId)
@@ -152,7 +152,7 @@ export function useRecipeIteration(initialFormulationId?: string) {
         ...changes,
       };
 
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('recipe_iterations')
         .insert([newIterationData])
         .select()
@@ -189,7 +189,7 @@ export function useRecipeIteration(initialFormulationId?: string) {
 
       if (sourceType === 'recipe') {
         // Copy ingredients from recipe_ingredients
-        const { data: recipeIngredients, error: ingredientsError } = await supabase
+        const { data: recipeIngredients, error: ingredientsError } = await (supabase as any)
           .from('recipe_ingredients')
           .select(`
             id,
@@ -210,7 +210,7 @@ export function useRecipeIteration(initialFormulationId?: string) {
             notes: ri.notes
           }));
 
-          const { error: insertError } = await supabase
+          const { error: insertError } = await (supabase as any)
             .from('iteration_ingredients')
             .insert(iterationIngredientsData);
 
@@ -220,7 +220,7 @@ export function useRecipeIteration(initialFormulationId?: string) {
         }
       } else {
         // Copy ingredients from another version
-        const { data: iterationIngredients, error: ingredientsError } = await supabase
+        const { data: iterationIngredients, error: ingredientsError } = await (supabase as any)
           .from('iteration_ingredients')
           .select(`
             id,
@@ -241,7 +241,7 @@ export function useRecipeIteration(initialFormulationId?: string) {
             notes: ii.notes
           }));
 
-          const { error: insertError } = await supabase
+          const { error: insertError } = await (supabase as any)
             .from('iteration_ingredients')
             .insert(newIterationIngredientsData);
 
@@ -275,7 +275,7 @@ export function useRecipeIteration(initialFormulationId?: string) {
     setIsLoading(true);
     setError(null);
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('recipe_iterations')
         .update(details)
         .eq('id', iterationId)
@@ -340,7 +340,7 @@ export function useRecipeIteration(initialFormulationId?: string) {
     setError(null);
     try {
       // First, remove existing ingredients for this version
-      const { error: deleteError } = await supabase
+      const { error: deleteError } = await (supabase as any)
         .from('iteration_ingredients')
         .delete()
         .eq('iteration_id', iterationId);
@@ -361,7 +361,7 @@ export function useRecipeIteration(initialFormulationId?: string) {
           notes: ing.notes
         }));
 
-        const { error: insertError } = await supabase
+        const { error: insertError } = await (supabase as any)
           .from('iteration_ingredients')
           .insert(iterationIngredientsData);
 

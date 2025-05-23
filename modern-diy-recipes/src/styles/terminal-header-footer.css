@@ -1,0 +1,292 @@
+/* Terminal Header and Footer Styling - RED headers, GREEN labels, CYAN values, PURPLE accents */
+
+/* SYS_STATUS and other headers in RED - most important targeting */
+[data-panel="sys-status"] [data-text="SYS_STATUS"],
+[data-panel="module-statistics"] [data-text="MODULE_STATISTICS"],
+[data-panel="live-system-log"] [data-text="LIVE_SYSTEM_LOG"],
+[data-panel="commands"] [data-text="COMMANDS"],
+[data-panel="sys-status"] .terminal-heading,
+[data-panel="module-statistics"] .terminal-heading,
+[data-panel="live-system-log"] .terminal-heading,
+[data-panel="commands"] .terminal-heading,
+.terminal-panel-title,
+.terminal-heading,
+[data-terminal="header"] .text-accent,
+.terminal-header h1,
+.terminal-footer h3,
+.module-title {
+  color: #FF0000 !important;
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.7) !important;
+  font-weight: bold !important;
+  letter-spacing: 0.1em !important;
+}
+
+/* Status panel labels in bright GREEN - targeting specific elements like UPTIME, MEMORY */
+[data-panel="sys-status"] [data-label="uptime"],
+[data-panel="sys-status"] [data-label="db_conn"],
+[data-panel="sys-status"] [data-label="api"],
+[data-panel="module-statistics"] [data-label="formulations"],
+[data-panel="module-statistics"] [data-label="ingredients"],
+[data-panel="module-statistics"] [data-label="modules"],
+.terminal-stats-panel .text-text-secondary,
+.terminal-panel .text-text-secondary,
+[data-terminal="stats-panel"] span:first-child,
+.stats-label,
+.status-label {
+  color: #00FF00 !important;
+  text-shadow: 0 0 8px rgba(0, 255, 0, 0.5) !important;
+}
+
+/* Values and metrics in CYAN/BLUE - all numeric values */
+[data-panel="sys-status"] [data-value="uptime"],
+[data-panel="sys-status"] [data-value="modules"],
+[data-panel="module-statistics"] [data-value="formulations"],
+[data-panel="module-statistics"] [data-value="ingredients"],
+[data-panel="module-statistics"] [data-value="modules"],
+.terminal-panel span:not(.text-text-secondary):not(.terminal-heading):not(.error):not(.value-positive):not(.value-negative),
+.stats-value,
+.metrics-value,
+.value-text,
+.terminal-stats-panel span:last-child:not(.text-red-500):not(.text-green-500):not(.text-amber-500) {
+  color: #00FFFF !important;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.5) !important;
+}
+
+/* PURPLE/MAGENTA accents for TOTAL and USED labels */
+[data-panel="module-statistics"] [data-value="total"],
+[data-panel="module-statistics"] [data-value="used"],
+.terminal-panel .text-purple-500,
+.purple-accent,
+.terminal-accent,
+.accent-text,
+.total-value,
+.TOTAL\\:,
+.USED\\:,
+.TOTAL,
+.USED {
+  color: #FF00FF !important;
+  text-shadow: 0 0 8px rgba(255, 0, 255, 0.7) !important;
+}
+
+/* Online/active status in green */
+.terminal-panel .text-green-500,
+.value-positive,
+.terminal-stats-panel .text-green-500,
+.status-active {
+  color: #00FF00 !important;
+  text-shadow: 0 0 8px rgba(0, 255, 0, 0.7) !important;
+}
+
+/* Warning status in amber */
+.terminal-panel .text-amber-500,
+.terminal-stats-panel .text-amber-500,
+.warning,
+.status-warning {
+  color: #FFBF00 !important;
+  text-shadow: 0 0 8px rgba(255, 191, 0, 0.7) !important;
+}
+
+/* Error status in red */
+.terminal-panel .text-red-500,
+.terminal-stats-panel .text-red-500,
+.error,
+.status-error {
+  color: #FF0000 !important;
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.7) !important;
+}
+
+/* Progress bars with gradient */
+.terminal-progress-bar {
+  background: linear-gradient(90deg, #00FFFF, #FFFFFF) !important;
+}
+
+/* Grid background for terminal panels */
+.terminal-stats-panel,
+.terminal-log-panel,
+.terminal-commands,
+.terminal-panel {
+  background-color: #000000 !important;
+  background-image:
+    linear-gradient(
+      rgba(30, 30, 30, 0.8) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(30, 30, 30, 0.8) 1px,
+      transparent 1px
+    ) !important;
+  background-size: 20px 20px !important;
+  border: 1px solid #333333 !important;
+}
+
+/* Terminal log styles */
+.log-standard {
+  color: #AAAAAA !important;
+}
+
+.log-success {
+  color: #00FF00 !important;
+}
+
+.log-error {
+  color: #FF0000 !important;
+}
+
+.log-warning {
+  color: #FFBF00 !important;
+}
+
+.log-highlight {
+  color: #00FFFF !important;
+}
+
+.log-network {
+  color: #FF00FF !important;
+}
+
+.log-active {
+  color: #00FF00 !important;
+}
+
+/* Add flashing cursor effect */
+@keyframes terminal-cursor-blink {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+.terminal-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  background-color: #00FF00;
+  animation: terminal-cursor-blink 1s infinite steps(1);
+}
+
+/* Status indicators */
+.status-light {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.status-light.active {
+  background-color: #00FF00;
+  box-shadow: 0 0 8px rgba(0, 255, 0, 0.7);
+}
+
+.status-light.warning {
+  background-color: #FFBF00;
+  box-shadow: 0 0 8px rgba(255, 191, 0, 0.7);
+}
+
+.status-light.error {
+  background-color: #FF0000;
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.7);
+}
+
+/* Force these specific color combinations for headers/footers */
+/* Red headers with label text */
+.sys-status,
+.module-statistics,
+.live-system-log,
+.commands,
+.SYS_STATUS,
+.MODULE_STATISTICS,
+.LIVE_SYSTEM_LOG,
+.COMMANDS,
+.SYSTEM_STATUS,
+.SYSTEM_COMMANDS,
+.SYSTEM_RESOURCES,
+.RECENT_ACTIVITY {
+  color: #FF0000 !important;
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.7) !important;
+  font-weight: bold !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+}
+
+/* Force styles for common text patterns */
+/* Panel Titles (RED) */
+[data-terminal="header"] .text-accent,
+.terminal-panel-title,
+.section-title,
+.terminal-heading,
+[data-panel="sys-status"] [data-text="SYS_STATUS"],
+[data-panel="module-statistics"] [data-text="MODULE_STATISTICS"],
+[data-panel="live-system-log"] [data-text="LIVE_SYSTEM_LOG"],
+[data-panel="commands"] [data-text="COMMANDS"] {
+  color: #FF0000 !important;
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.7) !important;
+  font-weight: bold !important;
+  letter-spacing: 0.1em !important;
+}
+
+/* Labels (GREEN) */
+.text-FORMULATIONS,
+.text-INGREDIENTS,
+.text-MODULES,
+.text-UPTIME,
+.text-DB_CONN,
+.text-API,
+.text-CPU,
+.text-MEMORY,
+.text-CACHE,
+.text-text-secondary {
+  color: #00FF00 !important;
+  text-shadow: 0 0 8px rgba(0, 255, 0, 0.5) !important;
+  font-weight: bold !important;
+}
+
+/* Special Accents (PURPLE) */
+.text-TOTAL,
+.text-USED,
+.text-ALLOC {
+  color: #FF00FF !important;
+  text-shadow: 0 0 8px rgba(255, 0, 255, 0.7) !important;
+  font-weight: bold !important;
+}
+
+/* Extra important overrides for specific elements */
+[data-panel="sys-status"] h3,
+[data-panel="module-statistics"] h3,
+[data-panel="live-system-log"] h3,
+[data-panel="commands"] h3,
+[data-panel="sys-status"] .terminal-panel-title,
+[data-panel="module-statistics"] .terminal-panel-title,
+[data-panel="live-system-log"] .terminal-panel-title,
+[data-panel="commands"] .terminal-panel-title {
+  color: #FF0000 !important;
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.7) !important;
+  letter-spacing: 0.1em !important;
+}
+
+/* Terminal scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
+
+/* Override any other theme settings to ensure our colors are applied */
+.terminal-panel * {
+  font-family: monospace !important;
+}

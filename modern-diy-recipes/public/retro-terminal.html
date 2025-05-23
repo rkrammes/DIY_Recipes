@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DIY Recipes Formula Database</title>
+  <style>
+    /* Basic Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* Main Terminal Styling */
+    body {
+      background-color: #000000;
+      color: #00FF00; /* Classic terminal green */
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    /* Header Bar */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 15px;
+      border-bottom: 1px solid #00AA00;
+    }
+
+    .system-title {
+      color: #FF0000; /* RED for system title */
+      font-weight: bold;
+    }
+
+    .system-status {
+      color: #00FF00; /* GREEN for status */
+    }
+
+    /* Main Content Area */
+    .main-content {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* Left Navigation Panel */
+    .nav-panel {
+      width: 200px;
+      border-right: 1px solid #00AA00;
+      padding: 10px 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-item {
+      padding: 5px 15px;
+      cursor: pointer;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background-color: #003300;
+    }
+
+    /* Main Display Area */
+    .content-panel {
+      flex: 1;
+      padding: 10px 15px;
+      overflow-y: auto;
+    }
+
+    .section-title {
+      color: #00FF00; /* GREEN for section titles */
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    /* Right Commands Panel */
+    .commands-panel {
+      width: 250px;
+      border-left: 1px solid #00AA00;
+      padding: 10px 15px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .command-group {
+      margin-bottom: 20px;
+    }
+
+    /* Database Stats */
+    .stats-row {
+      display: flex;
+      justify-content: space-around;
+      margin: 30px 0;
+      text-align: center;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-label {
+      color: #00FF00; /* GREEN for labels */
+      margin-bottom: 5px;
+    }
+
+    .stat-value {
+      color: #00FFFF; /* CYAN for values */
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    /* Recent Activity Table */
+    .activity-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    .activity-table th {
+      text-align: left;
+      padding: 5px 10px;
+      border-bottom: 1px solid #00AA00;
+      color: #00FF00; /* GREEN for table headers */
+    }
+
+    .activity-table td {
+      padding: 5px 10px;
+      border-bottom: 1px dashed #005500;
+    }
+
+    .activity-date {
+      color: #00FF00; /* GREEN for dates */
+    }
+
+    .activity-type {
+      color: #00FFFF; /* CYAN for activity type */
+    }
+
+    .activity-formula {
+      color: #00FF00; /* GREEN for formula names */
+    }
+
+    .activity-status {
+      color: #FFFF00; /* YELLOW for status */
+    }
+
+    .activity-status.complete {
+      color: #00FF00; /* GREEN for complete status */
+    }
+
+    /* System Status Footer */
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 15px;
+      border-top: 1px solid #00AA00;
+    }
+
+    .footer-panel {
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      border: 1px solid #00AA00;
+      background-color: rgba(0, 20, 0, 0.5);
+      margin: 0 5px;
+      flex: 1;
+    }
+
+    .footer-panel-title {
+      color: #FF0000; /* RED for panel titles */
+      font-weight: bold;
+      margin-bottom: 5px;
+      border-bottom: 1px dashed #00AA00;
+      padding-bottom: 3px;
+    }
+
+    /* For specific elements */
+    .panel-label {
+      color: #00FF00; /* GREEN for labels */
+    }
+
+    .panel-value {
+      color: #00FFFF; /* CYAN/BLUE for values */
+    }
+
+    .panel-accent {
+      color: #FF00FF; /* PURPLE/MAGENTA for accents */
+    }
+
+    /* Console Log */
+    .console-log {
+      font-size: 12px;
+      height: 100px;
+      overflow-y: auto;
+      background-color: rgba(0, 10, 0, 0.7);
+      padding: 5px;
+    }
+
+    .log-entry {
+      margin-bottom: 2px;
+    }
+
+    .log-timestamp {
+      color: #888888;
+    }
+
+    .log-message {
+      color: #AAAAAA;
+    }
+
+    .log-success {
+      color: #00FF00;
+    }
+
+    .log-error {
+      color: #FF0000;
+    }
+
+    /* CRT Effects */
+    .crt-scanline {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 0.1) 50%,
+        rgba(0, 0, 0, 0) 100%
+      );
+      background-size: 100% 4px;
+      z-index: 100;
+      pointer-events: none;
+      opacity: 0.15;
+    }
+
+    /* System Resources Section */
+    .resource-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .resource-bar {
+      width: 100%;
+      height: 8px;
+      background-color: #002200;
+      margin-top: 2px;
+    }
+
+    .resource-fill {
+      height: 100%;
+      background-color: #00FF00;
+    }
+
+    /* Blinking cursor effect */
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 14px;
+      background-color: #00FF00;
+      margin-left: 4px;
+      animation: blink 1s step-end infinite;
+    }
+  </style>
+</head>
+<body>
+  <!-- CRT Effect -->
+  <div class="crt-scanline"></div>
+
+  <!-- Header Bar -->
+  <header class="header">
+    <div class="system-title">DIY.SYS</div>
+    <div class="system-status">READY <span id="current-time">13:13:56</span></div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    <!-- Left Navigation Panel -->
+    <div class="nav-panel">
+      <div class="nav-item active">DASHBOARD</div>
+      <div class="nav-item">FORMULA DATABASE</div>
+      <div class="nav-item">ALL FORMULAS</div>
+      <div class="nav-item">RECENT</div>
+      <div class="nav-item">FAVORITES</div>
+      <div class="nav-item">CATEGORIES</div>
+      <div class="nav-item">ELEMENT_LIBRARY</div>
+      <div class="nav-item">ALL_ELEMENTS</div>
+      <div class="nav-item">COMPATIBILITY</div>
+      <div class="nav-item">PROPERTIES</div>
+      <div class="nav-item">UTILITIES</div>
+      <div class="nav-item">CALCULATOR</div>
+      <div class="nav-item">CONVERTER</div>
+      <div class="nav-item">ANALYSIS</div>
+      <div class="nav-item">SYSTEM</div>
+      <div class="nav-item">CONTROL_MATRIX</div>
+      <div class="nav-item">USER_PROFILE</div>
+      <div class="nav-item">LOG_OUT</div>
+    </div>
+
+    <!-- Main Display Area -->
+    <div class="content-panel">
+      <h2 class="section-title">DASHBOARD</h2>
+      <p>System initialized. Welcome to DIY Recipes Formula Database.</p>
+
+      <!-- Database Stats -->
+      <div class="stats-row">
+        <div class="stat-item">
+          <div class="stat-label">FORMULA COUNT</div>
+          <div class="stat-value">42</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">ELEMENTS</div>
+          <div class="stat-value">124</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-label">CATEGORIES</div>
+          <div class="stat-value">8</div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <h3 class="section-title">RECENT ACTIVITY</h3>
+      <table class="activity-table">
+        <thead>
+          <tr>
+            <th>DATE</th>
+            <th>ACTIVITY</th>
+            <th>FORMULA</th>
+            <th>STATUS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="activity-date">2025-05-04</td>
+            <td class="activity-type">MODIFIED</td>
+            <td class="activity-formula">BASIC_LOTION</td>
+            <td class="activity-status complete">COMPLETE</td>
+          </tr>
+          <tr>
+            <td class="activity-date">2025-05-03</td>
+            <td class="activity-type">CREATED</td>
+            <td class="activity-formula">CITRUS_SCRUB</td>
+            <td class="activity-status complete">COMPLETE</td>
+          </tr>
+          <tr>
+            <td class="activity-date">2025-05-01</td>
+            <td class="activity-type">ITERATION</td>
+            <td class="activity-formula">CLAY_MASK</td>
+            <td class="activity-status">IN_PROGRESS</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Right Commands Panel -->
+    <div class="commands-panel">
+      <div class="command-group">
+        <h3 class="section-title">SYSTEM COMMANDS</h3>
+        <div class="nav-item">CREATE NEW FORMULA</div>
+        <div class="nav-item">IMPORT DATA</div>
+        <div class="nav-item">EXPORT DATABASE</div>
+        <div class="nav-item">ANALYZE TRENDS</div>
+      </div>
+
+      <div class="command-group">
+        <h3 class="section-title">SYSTEM STATUS</h3>
+        <div class="status-item">DATABASE CONNECTED</div>
+        <div class="status-item">FORMULA ENGINE READY</div>
+        <div class="status-item">SYNC STATUS STANDBY</div>
+      </div>
+
+      <div class="command-group">
+        <h3 class="section-title">SYSTEM RESOURCES</h3>
+        <div class="resource-row">
+          <span class="panel-label">CPU:</span>
+          <span class="panel-value">17%</span>
+        </div>
+        <div class="resource-bar">
+          <div class="resource-fill" style="width: 17%"></div>
+        </div>
+        <div class="resource-row">
+          <span class="panel-label">MEMORY:</span>
+          <span class="panel-value">42%</span>
+        </div>
+        <div class="resource-bar">
+          <div class="resource-fill" style="width: 42%"></div>
+        </div>
+        <div class="resource-row">
+          <span class="panel-label">CACHE:</span>
+          <span class="panel-value">78%</span>
+        </div>
+        <div class="resource-bar">
+          <div class="resource-fill" style="width: 78%"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer System Panels -->
+  <footer class="footer">
+    <!-- SYS_STATUS Panel -->
+    <div class="footer-panel">
+      <div class="footer-panel-title">SYS_STATUS</div>
+      <div class="resource-row">
+        <span class="panel-label">UPTIME:</span>
+        <span class="panel-value">8h 37m</span>
+      </div>
+      <div class="resource-row">
+        <span class="panel-label">DB_CONN:</span>
+        <span class="panel-value">ACTIVE</span>
+      </div>
+      <div class="resource-row">
+        <span class="panel-label">CPU:</span>
+        <span class="panel-value">15%</span>
+      </div>
+      <div class="resource-row">
+        <span class="panel-label">MEMORY:</span>
+        <span class="panel-value">64%</span>
+      </div>
+    </div>
+
+    <!-- MODULE_STATISTICS Panel -->
+    <div class="footer-panel">
+      <div class="footer-panel-title">MODULE_STATISTICS</div>
+      <div class="resource-row">
+        <span class="panel-label">FORMULATIONS:</span>
+        <span class="panel-value">12</span>
+        <span class="panel-accent">TOTAL:</span>
+        <span class="panel-value">36</span>
+      </div>
+      <div class="resource-row">
+        <span class="panel-label">INGREDIENTS:</span>
+        <span class="panel-value">21</span>
+        <span class="panel-accent">USED:</span>
+        <span class="panel-value">16</span>
+      </div>
+      <div class="resource-row">
+        <span class="panel-label">MODULES:</span>
+        <span class="panel-value">3</span>
+      </div>
+    </div>
+
+    <!-- LIVE_SYSTEM_LOG Panel -->
+    <div class="footer-panel">
+      <div class="footer-panel-title">LIVE_SYSTEM_LOG</div>
+      <div class="console-log">
+        <div class="log-entry"><span class="log-timestamp">[11:15:02 PM]</span> <span class="log-message">System resources initialized successfully</span></div>
+        <div class="log-entry"><span class="log-timestamp">[11:15:02 PM]</span> <span class="log-message">Cache size optimized (64MB)</span></div>
+        <div class="log-entry"><span class="log-timestamp">[11:15:02 PM]</span> <span class="log-success">Database connection established to supabase.co</span></div>
+        <div class="log-entry"><span class="log-timestamp">[11:15:02 PM]</span> <span class="log-message">Auth provider initialized with DEV profile</span></div>
+        <div class="log-entry"><span class="log-timestamp">[11:15:02 PM]</span> <span class="log-message">Theme activated: HACKERS</span></div>
+        <div class="log-entry"><span class="log-timestamp">[11:15:02 PM]</span> <span class="log-message">UI rendering complete (React hydration)</span></div>
+        <div class="log-entry"><span class="log-timestamp">[11:15:02 PM]</span> <span class="log-success">Module System activated</span></div>
+        <div class="log-entry"><span class="log-timestamp">[11:15:02 PM]</span> <span class="log-message">Awaiting user input <span class="cursor"></span></span></div>
+      </div>
+    </div>
+
+    <!-- COMMANDS Panel -->
+    <div class="footer-panel">
+      <div class="footer-panel-title">COMMANDS</div>
+      <div class="resource-row">
+        <span class="panel-label">F1:</span>
+        <span class="panel-value">HELP</span>
+      </div>
+      <div class="resource-row">
+        <span class="panel-label">F2:</span>
+        <span class="panel-value">SAVE</span>
+      </div>
+      <div class="resource-row">
+        <span class="panel-label">F3:</span>
+        <span class="panel-value">SEARCH</span>
+      </div>
+      <div class="resource-row">
+        <span class="panel-label">F10:</span>
+        <span class="panel-value">QUIT</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Update time display
+    function updateTime() {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('en-US', { hour12: false });
+      document.getElementById('current-time').textContent = timeStr;
+    }
+    
+    // Update time every second
+    setInterval(updateTime, 1000);
+    updateTime();
+  </script>
+</body>
+</html>
