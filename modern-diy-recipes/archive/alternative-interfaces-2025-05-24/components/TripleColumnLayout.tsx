@@ -9,6 +9,7 @@ import { useRecipes } from '@/hooks/useRecipes';
 import { useIngredients } from '@/hooks/useIngredients';
 import FormulationDetails from './FormulationDetails';
 import ErrorBoundary from './ErrorBoundary';
+import IngredientDetails from './IngredientDetails';
 
 // Navigation sections for the first column
 const SECTIONS = [
@@ -203,28 +204,14 @@ export default function TripleColumnLayout() {
       case 'ingredients':
         const ingredient = ingredients?.find(i => i.id === selectedItemId);
         return (
-          <div className="p-6">
-            <h2 className="text-2xl font-bold mb-4">{ingredient?.name || 'Ingredient Details'}</h2>
-            <div className="bg-surface-1 p-4 rounded-md mb-4">
-              <p><strong>Description:</strong> {ingredient?.description || 'No description available'}</p>
-            </div>
-            <h3 className="text-xl font-semibold mb-3">Used In Formulations</h3>
-            <div className="bg-surface-1 p-4 rounded-md">
-              {formulations?.filter(f => (f as any).ingredients?.some(i => i.id === selectedItemId)).length
-                ? formulations?.filter(f => (f as any).ingredients?.some(i => i.id === selectedItemId))
-                   .map(formulation => (
-                    <div key={formulation.id} className="mb-2 p-2 hover:bg-surface-2 rounded-md cursor-pointer"
-                         onClick={() => {
-                           setActiveSection('formulations');
-                           setSelectedItemId(formulation.id);
-                         }}>
-                      {formulation.title}
-                    </div>
-                  ))
-                : <p className="text-text-secondary">Not used in any formulations yet</p>
-              }
-            </div>
-          </div>
+          <IngredientDetails 
+            ingredient={ingredient}
+            selectedItemId={selectedItemId}
+            onFormulationClick={(formulationId) => {
+              setActiveSection('formulations');
+              setSelectedItemId(formulationId);
+            }}
+          />
         );
       case 'settings':
         // Handle Settings section
@@ -459,7 +446,7 @@ function SystemStatusText({ status }: { status: string }) {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-5">
             {/* Advanced ASCII logo with system indicators */}
-            <div className="font-bold text-base tracking-tight whitespace-nowrap">
+            <div className="font-bold text-base tracking-tight whitespace-nowrap" data-terminal="header">
               <div className="text-accent">
                 ┌───────────────────────────┐<br />
                 │ <span className="animate-pulse">&gt;</span>KRAFT_AI TERMINAL v1.0.2 │<br />
@@ -850,12 +837,12 @@ function SystemStatusText({ status }: { status: string }) {
       </div>
       
       {/* Advanced Terminal Footer with Detailed Stats and Logs */}
-      <div className="bg-surface-1 border-t-2 border-border-subtle py-1 px-4 font-mono text-xs">
+      <div className="bg-surface-1 border-t-2 border-border-subtle py-1 px-4 font-mono text-xs terminal-panel">
         <div className="grid grid-cols-12 gap-2">
           {/* System Status Panel */}
-          <div className="col-span-3 border border-border-subtle bg-surface-0 p-1">
+          <div className="col-span-3 border border-border-subtle bg-surface-0 p-1 terminal-panel" data-panel="sys-status">
             <div className="flex justify-between text-accent font-bold mb-1">
-              <span>SYS_STATUS</span>
+              <span data-text="SYS_STATUS" className="terminal-panel-title">SYS_STATUS</span>
               <span className={systemStatus === 'online' ? 'text-green-500' : 'text-red-500'}>
                 [{systemStatus.toUpperCase()}]
               </span>
@@ -863,21 +850,21 @@ function SystemStatusText({ status }: { status: string }) {
             
             <div className="grid grid-cols-2 gap-1">
               <div className="flex justify-between">
-                <span className="text-text-secondary">UPTIME:</span>
-                <span>{Math.floor(Math.random() * 24) + 1}h {Math.floor(Math.random() * 60)}m</span>
+                <span data-label="uptime" className="text-text-secondary">UPTIME:</span>
+                <span data-value="uptime">{Math.floor(Math.random() * 24) + 1}h {Math.floor(Math.random() * 60)}m</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-text-secondary">SESS_ID:</span>
                 <span>#{Math.floor(Math.random() * 9000) + 1000}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-text-secondary">DB_CONN:</span>
+                <span data-label="db_conn" className="text-text-secondary">DB_CONN:</span>
                 <span className={systemStatus === 'online' ? 'text-green-500' : 'text-red-500'}>
                   {systemStatus === 'online' ? 'ACTIVE' : 'FAILED'}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-text-secondary">API:</span>
+                <span data-label="api" className="text-text-secondary">API:</span>
                 <span className="text-green-500">READY</span>
               </div>
             </div>
@@ -906,9 +893,9 @@ function SystemStatusText({ status }: { status: string }) {
           </div>
           
           {/* Database Stats Panel */}
-          <div className="col-span-3 border border-border-subtle bg-surface-0 p-1">
+          <div className="col-span-3 border border-border-subtle bg-surface-0 p-1 terminal-panel" data-panel="module-statistics">
             <div className="flex justify-between text-accent font-bold mb-1">
-              <span>DB_STATISTICS</span>
+              <span data-text="MODULE_STATISTICS" className="terminal-panel-title">MODULE_STATISTICS</span>
               <span className="text-green-500">
                 <LastSyncTime lastSyncTime={lastSyncTime} />
               </span>
@@ -916,8 +903,8 @@ function SystemStatusText({ status }: { status: string }) {
             
             <div className="mb-1">
               <div className="flex justify-between mb-0.5">
-                <span className="text-text-secondary">FORMULATIONS:</span>
-                <span className="font-bold">{databaseStats.formulations}</span>
+                <span data-label="formulations" className="text-text-secondary">FORMULATIONS:</span>
+                <span data-value="formulations" className="font-bold">{databaseStats.formulations}</span>
                 <span className="text-text-secondary">REFS:</span>
                 <span className="font-bold">{databaseStats.formulations * 3}</span>
               </div>
@@ -928,10 +915,10 @@ function SystemStatusText({ status }: { status: string }) {
             
             <div className="mb-1">
               <div className="flex justify-between mb-0.5">
-                <span className="text-text-secondary">INGREDIENTS:</span>
-                <span className="font-bold">{(databaseStats as any).ingredients}</span>
-                <span className="text-text-secondary">USED:</span>
-                <span className="font-bold">{Math.floor((databaseStats as any).ingredients * 0.8)}</span>
+                <span data-label="ingredients" className="text-text-secondary">INGREDIENTS:</span>
+                <span data-value="ingredients" className="font-bold">{(databaseStats as any).ingredients}</span>
+                <span data-value="used" className="text-text-secondary">USED:</span>
+                <span data-value="used" className="font-bold">{Math.floor((databaseStats as any).ingredients * 0.8)}</span>
               </div>
               <div className="w-full bg-surface-2 border border-border-subtle h-1">
                 <div className="bg-blue-500 h-full" style={{ width: `${(databaseStats as any).ingredients * 5}%` }}></div>
@@ -952,9 +939,9 @@ function SystemStatusText({ status }: { status: string }) {
           </div>
           
           {/* Live System Log Stream */}
-          <div className="col-span-4 border border-border-subtle bg-surface-0 p-1">
+          <div className="col-span-4 border border-border-subtle bg-surface-0 p-1 terminal-panel" data-panel="live-system-log">
             <div className="flex justify-between text-accent font-bold mb-1">
-              <span>LIVE_SYSTEM_LOG</span>
+              <span data-text="LIVE_SYSTEM_LOG" className="terminal-panel-title">LIVE_SYSTEM_LOG</span>
               <span className="text-green-500 animate-pulse">STREAMING</span>
             </div>
             
@@ -976,9 +963,9 @@ function SystemStatusText({ status }: { status: string }) {
           </div>
           
           {/* Command & F-Key Bar */}
-          <div className="col-span-2 border border-border-subtle bg-surface-0 p-1">
+          <div className="col-span-2 border border-border-subtle bg-surface-0 p-1 terminal-panel" data-panel="commands">
             <div className="flex justify-between text-accent font-bold mb-1">
-              <span>COMMANDS</span>
+              <span data-text="COMMANDS" className="terminal-panel-title">COMMANDS</span>
               <span className="text-amber-500">{activeSection.toUpperCase()}</span>
             </div>
             

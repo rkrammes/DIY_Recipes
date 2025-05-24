@@ -36,7 +36,7 @@ export default function RecipeMcpDiagnosticsPage() {
       // First fetch the recipe data directly via MCP
       const recipe = await fetchRecipeById(recipeId);
       if (recipe) {
-        setRecipeData(recipe);
+        setRecipeData(recipe as any);
         setDebugInfo(`Successfully fetched recipe from Supabase MCP: ${recipe.title}`);
         
         // Now run a diagnostic query to check recipe-ingredients relationship
@@ -109,8 +109,8 @@ Diagnostic: ${ingredientsResult && ingredientsResult.length > 0
               {selectedRecipeId ? (
                 <RecipeDetails 
                   key={`recipe-test-${selectedRecipeId}-${Date.now()}`}
-                  recipeId={selectedRecipeId}
-                  initialRecipeData={recipeData ? {
+                  formulationId={selectedRecipeId}
+                  initialFormulationData={recipeData ? {
                     ...recipeData,
                     ingredients: [],
                     iterations: []

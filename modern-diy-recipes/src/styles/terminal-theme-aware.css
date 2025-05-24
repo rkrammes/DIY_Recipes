@@ -1,0 +1,149 @@
+/* Theme-aware terminal styling that respects the current theme */
+
+/* Hackers theme specific colors */
+[data-theme="hackers"] {
+  /* Panel titles */
+  .server-info,
+  .SYS_STATUS,
+  .MODULE_STATISTICS,
+  .LIVE_SYSTEM_LOG,
+  .COMMANDS {
+    color: oklch(var(--hackers-magenta)) !important;
+    text-shadow: 0 0 10px oklch(var(--hackers-magenta) / 0.7) !important;
+    font-size: 0.875rem !important;
+    font-weight: bold !important;
+    letter-spacing: 0.05em !important;
+  }
+  
+  /* Main text */
+  .text-text-primary {
+    color: oklch(var(--hackers-aqua)) !important;
+  }
+  
+  .text-text-secondary {
+    color: oklch(60% 0.25 230) !important;
+    font-size: 0.75rem !important;
+  }
+  
+  /* Success/positive values */
+  .value-positive {
+    color: oklch(var(--hackers-acid-green)) !important;
+    text-shadow: 0 0 8px oklch(var(--hackers-acid-green) / 0.5) !important;
+  }
+  
+  /* Warnings */
+  .warning {
+    color: oklch(var(--hackers-yellow)) !important;
+  }
+  
+  /* Errors */
+  .error {
+    color: oklch(70% 0.35 0) !important;
+  }
+  
+  /* System messages */
+  .system-message {
+    color: oklch(var(--hackers-aqua)) !important;
+  }
+  
+  /* Borders */
+  .border-border-subtle {
+    border-color: oklch(var(--hackers-aqua) / 0.7) !important;
+  }
+  
+  /* Backgrounds */
+  .bg-surface-2 {
+    background-color: oklch(7% 0.05 230) !important;
+  }
+}
+
+/* Dystopia theme (green terminal) */
+[data-theme="dystopia"] {
+  /* Panel titles */
+  .server-info,
+  .SYS_STATUS,
+  .MODULE_STATISTICS,
+  .LIVE_SYSTEM_LOG,
+  .COMMANDS {
+    color: #FF0000 !important;
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.7) !important;
+  }
+  
+  /* Labels */
+  .text-text-secondary {
+    color: #00FF00 !important;
+    text-shadow: 0 0 8px rgba(0, 255, 0, 0.5) !important;
+  }
+  
+  /* Values */
+  .text-text-primary,
+  .value-positive,
+  .system-message {
+    color: #00FFFF !important;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.5) !important;
+  }
+  
+  /* Warnings */
+  .warning {
+    color: #FFAA00 !important;
+  }
+  
+  /* Errors */
+  .error {
+    color: #FF0000 !important;
+  }
+  
+  /* Borders */
+  .border-border-subtle {
+    border-color: #00FF00 !important;
+  }
+  
+  /* Backgrounds */
+  .bg-surface-2 {
+    background-color: #001100 !important;
+  }
+}
+
+/* Neotopia theme (light) */
+[data-theme="neotopia"] {
+  .server-info,
+  .SYS_STATUS,
+  .MODULE_STATISTICS,
+  .LIVE_SYSTEM_LOG,
+  .COMMANDS {
+    color: #0066FF !important;
+    font-weight: bold;
+  }
+  
+  .text-text-primary {
+    color: #333333 !important;
+  }
+  
+  .text-text-secondary {
+    color: #666666 !important;
+  }
+  
+  .value-positive {
+    color: #00AA00 !important;
+  }
+  
+  .warning {
+    color: #FF6600 !important;
+  }
+  
+  .error {
+    color: #CC0000 !important;
+  }
+  
+  .system-message {
+    color: #0066FF !important;
+  }
+  
+  .border-border-subtle {
+    border-color: #CCCCCC !important;
+  }
+  
+  .bg-surface-2 {
+    background-color: #F0F0F0 !important;
+  }
+}

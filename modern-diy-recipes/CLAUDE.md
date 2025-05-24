@@ -1,5 +1,17 @@
 # Project Memory for Claude Code
 
+
+## 🎯 VERIFIED CORRECT INTERFACE (Last Updated: 2025-05-24T01:34:19.517Z)
+
+**THIS IS THE SOURCE OF TRUTH - captured from the running application**
+
+The CORRECT interface uses:
+- Component: `TripleColumnLayoutClean`
+- Import Path: `@/components/TripleColumnLayoutClean`
+- File: `src/app/page.tsx`
+
+Any documentation that suggests using different components or layouts is OUTDATED and should be ignored.
+
 ## Development Guidelines
 
 1. Always use Context7 for documentation lookup before implementing features

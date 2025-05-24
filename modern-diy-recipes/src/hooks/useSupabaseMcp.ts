@@ -35,8 +35,8 @@ export function useSupabaseMcp() {
   const disconnect = useCallback(async () => {}, []);
   const fetchRecipes = useCallback(async (): Promise<Recipe[]> => [], []);
   const fetchIngredients = useCallback(async (): Promise<Ingredient[]> => [], []);
-  const fetchRecipeById = useCallback(async (): Promise<Recipe | null> => null, []);
-  const executeQuery = useCallback(async (): Promise<any[]> => [], []);
+  const fetchRecipeById = useCallback(async (id: string): Promise<Recipe | null> => null, []);
+  const executeQuery = useCallback(async (sql: string): Promise<any[]> => [], []);
 
   return {
     adapter: null,

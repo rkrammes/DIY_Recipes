@@ -4,28 +4,2070 @@
 
    ▲ Next.js 15.3.0
    - Local:        http://localhost:3000
-   - Network:      http://192.168.1.148:3000
+   - Network:      http://10.4.45.43:3000
    - Environments: .env.local, .env
 
  ✓ Starting...
- ✓ Ready in 1016ms
- ✓ Compiled /middleware in 165ms (248 modules)
+ ✓ Ready in 1063ms
+ ✓ Compiled /middleware in 192ms (248 modules)
+[2025-05-23T15:17:47.990Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
  ○ Compiling / ...
- ✓ Compiled / in 1415ms (1788 modules)
- GET / 200 in 1770ms
- ✓ Compiled /api/recipes in 317ms (1863 modules)
-Fetching recipes from Supabase...
- GET / 200 in 32ms
-Successfully fetched recipes: 6
- GET /api/recipes 200 in 681ms
- ✓ Compiled /api/recipes/[id] in 109ms (1849 modules)
-Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
-Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
-Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
- GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 678ms
- GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 713ms
-Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
-Fetching recipe details for: 971e9734-d147-4066-9b55-b80a080de24f
- GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 743ms
- GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 232ms
- GET /api/recipes/971e9734-d147-4066-9b55-b80a080de24f?include=iterations,ingredients 200 in 270ms
+ ✓ Compiled / in 820ms (1095 modules)
+ GET / 200 in 1045ms
+[2025-05-23T15:17:49.099Z] Request: GET /.well-known/appspecific/com.chrome.devtools.json
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ✓ Compiled /_not-found in 174ms (1099 modules)
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 223ms
+[2025-05-23T15:17:49.720Z] Request: HEAD /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:17:49.721Z] Request: HEAD /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:17:49.722Z] Request: HEAD /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:17:49.722Z] Request: HEAD /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:17:49.730Z] Request: HEAD /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:17:49.731Z] Request: HEAD /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:17:49.739Z] Request: HEAD /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:17:49.739Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:17:49.739Z] Request: HEAD /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:17:49.739Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:17:49.746Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:17:49.746Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:17:49.750Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:17:49.750Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:17:49.753Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:17:49.753Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:17:49.760Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:17:49.760Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:17:49.763Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+ ⨯ ./src/app/page.tsx:4:1
+Module not found: Can't resolve '../../styles/recipe-terminal.css'
+  2 |
+  3 | import React, { useState, useEffect } from 'react';
+> 4 | import '../../styles/recipe-terminal.css';
+    | ^
+  5 |
+  6 | export default function FormulaDashboard() {
+  7 |   const [currentTime, setCurrentTime] = useState('00:00:00');
+
+https://nextjs.org/docs/messages/module-not-found
+[2025-05-23T15:23:33.858Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+[2025-05-23T15:23:35.429Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ○ Compiling /_error ...
+ ⨯ ./src/app/page.tsx:4:1
+Module not found: Can't resolve '../../styles/recipe-terminal.css'
+  2 |
+  3 | import React, { useState, useEffect } from 'react';
+> 4 | import '../../styles/recipe-terminal.css';
+    | ^
+  5 |
+  6 | export default function FormulaDashboard() {
+  7 |   const [currentTime, setCurrentTime] = useState('00:00:00');
+
+https://nextjs.org/docs/messages/module-not-found
+ GET / 500 in 1969ms
+ GET / 500 in 381ms
+[2025-05-23T15:23:35.854Z] Request: GET /.well-known/appspecific/com.chrome.devtools.json
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ ./src/app/page.tsx:4:1
+Module not found: Can't resolve '../../styles/recipe-terminal.css'
+  2 |
+  3 | import React, { useState, useEffect } from 'react';
+> 4 | import '../../styles/recipe-terminal.css';
+    | ^
+  5 |
+  6 | export default function FormulaDashboard() {
+  7 |   const [currentTime, setCurrentTime] = useState('00:00:00');
+
+https://nextjs.org/docs/messages/module-not-found
+ GET /.well-known/appspecific/com.chrome.devtools.json 500 in 106ms
+ ✓ Compiled /_not-found in 842ms (1430 modules)
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET /_next/static/webpack/e38ad59a035d1834.webpack.hot-update.json 404 in 476ms
+[2025-05-23T15:26:30.975Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+[2025-05-23T15:26:30.979Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 200 in 73ms
+[2025-05-23T15:26:31.072Z] Request: GET /.well-known/appspecific/com.chrome.devtools.json
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 18ms
+[2025-05-23T15:26:31.490Z] Request: HEAD /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:26:31.491Z] Request: HEAD /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:26:31.491Z] Request: HEAD /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:26:31.491Z] Request: HEAD /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:26:31.496Z] Request: HEAD /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:26:31.496Z] Request: HEAD /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:26:31.502Z] Request: HEAD /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:26:31.502Z] Request: HEAD /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:26:31.502Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:26:31.502Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:26:31.504Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:26:31.512Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:26:31.512Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:26:31.518Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:26:31.518Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:26:31.518Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:26:31.523Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:26:31.523Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:26:31.526Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:26:31.535Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:28:06.872Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 200 in 42ms
+[2025-05-23T15:28:06.958Z] Request: GET /.well-known/appspecific/com.chrome.devtools.json
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 26ms
+[2025-05-23T15:28:07.390Z] Request: HEAD /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:28:07.390Z] Request: HEAD /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:28:07.390Z] Request: HEAD /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:28:07.391Z] Request: HEAD /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:28:07.391Z] Request: HEAD /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:28:07.391Z] Request: HEAD /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:28:07.406Z] Request: HEAD /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:28:07.406Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:28:07.406Z] Request: HEAD /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:28:07.407Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:28:07.407Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:28:07.407Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:28:07.422Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:28:07.422Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:28:07.422Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:28:07.422Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:28:07.422Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:28:07.422Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T15:28:07.444Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+ ✓ Compiled in 715ms (1453 modules)
+[2025-05-23T16:06:56.564Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 200 in 49ms
+ ✓ Compiled in 545ms (1453 modules)
+[2025-05-23T16:11:03.584Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 200 in 42ms
+ ✓ Compiled in 245ms (1453 modules)
+[2025-05-23T16:11:12.645Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 200 in 38ms
+ ✓ Compiled in 307ms (1453 modules)
+[2025-05-23T16:11:25.914Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 200 in 33ms
+[2025-05-23T16:11:29.561Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 200 in 111ms
+[2025-05-23T16:11:29.711Z] Request: GET /.well-known/appspecific/com.chrome.devtools.json
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ✓ Compiled /_not-found in 446ms (1430 modules)
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 509ms
+[2025-05-23T16:11:30.579Z] Request: HEAD /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T16:11:30.580Z] Request: HEAD /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T16:11:30.580Z] Request: HEAD /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T16:11:30.580Z] Request: HEAD /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T16:11:30.585Z] Request: HEAD /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T16:11:30.585Z] Request: HEAD /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T16:11:30.587Z] Request: HEAD /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T16:11:30.587Z] Request: HEAD /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T16:11:30.588Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T16:11:30.596Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T16:11:30.596Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T16:11:30.596Z] Request: GET /fonts/Px437_IBM_VGA_8x16.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T16:11:30.596Z] Request: GET /fonts/IBMPlexMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T16:11:30.596Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T16:11:30.607Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T16:11:30.626Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T16:11:30.626Z] Request: GET /fonts/IBMPlexMono-Medium.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T16:11:30.626Z] Request: GET /fonts/IBMPlexMono-Bold.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T16:11:30.626Z] Request: GET /fonts/JetBrainsMono-Regular.woff2
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+[2025-05-23T16:11:30.637Z] Request: GET /fonts/Share_Tech_Mono.woff
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+ ✓ Compiled in 270ms (1457 modules)
+[2025-05-23T16:11:34.591Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 200 in 24ms
+ ✓ Compiled in 231ms (1457 modules)
+[2025-05-23T16:11:41.856Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 200 in 31ms
+ ✓ Compiled in 378ms (1457 modules)
+[2025-05-23T16:11:50.296Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 200 in 33ms
+[2025-05-23T16:21:01.714Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 222ms
+[2025-05-23T16:21:01.974Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+[2025-05-23T16:21:01.991Z] Request: GET /.well-known/appspecific/com.chrome.devtools.json
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 227ms
+[2025-05-23T16:21:03.222Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 228ms
+[2025-05-23T16:21:04.469Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 222ms
+[2025-05-23T16:21:05.712Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 217ms
+[2025-05-23T16:21:06.955Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 220ms
+[2025-05-23T16:21:08.189Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 214ms
+[2025-05-23T16:21:08.816Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 218ms
+[2025-05-23T16:21:09.067Z] Request: GET /.well-known/appspecific/com.chrome.devtools.json
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+[2025-05-23T16:21:09.067Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 212ms
+[2025-05-23T16:21:10.299Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 222ms
+[2025-05-23T16:21:10.935Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 215ms
+[2025-05-23T16:21:11.178Z] Request: GET /.well-known/appspecific/com.chrome.devtools.json
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+[2025-05-23T16:21:11.178Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 221ms
+[2025-05-23T16:21:12.421Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 220ms
+[2025-05-23T16:21:13.768Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 211ms
+[2025-05-23T16:21:15.771Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 216ms
+[2025-05-23T16:21:17.771Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 214ms
+[2025-05-23T16:21:19.771Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 214ms
+[2025-05-23T16:21:21.771Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 216ms
+[2025-05-23T16:21:23.769Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 215ms
+[2025-05-23T16:21:25.768Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 212ms
+[2025-05-23T16:21:27.770Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 216ms
+[2025-05-23T16:21:29.769Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 212ms
+[2025-05-23T16:21:31.771Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 213ms
+[2025-05-23T16:21:33.766Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 215ms
+[2025-05-23T16:21:35.761Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 209ms
+[2025-05-23T16:21:37.772Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 218ms
+[2025-05-23T16:21:39.772Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 214ms
+[2025-05-23T16:21:41.776Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+[2025-05-23T16:21:41.865Z] Request: HEAD /
+- User-Agent: curl/8.7.1
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 210ms
+ HEAD / 404 in 207ms
+[2025-05-23T16:21:43.768Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 211ms
+[2025-05-23T16:21:45.770Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 216ms
+[2025-05-23T16:21:47.768Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 209ms
+[2025-05-23T16:21:49.770Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 215ms
+[2025-05-23T16:21:51.776Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 215ms
+[2025-05-23T16:21:53.352Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ GET / 404 in 207ms
+[2025-05-23T16:21:53.575Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+[2025-05-23T16:21:53.834Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ✓ Compiled /favicon.ico in 454ms (1446 modules)
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 499ms
+ GET /favicon.ico 200 in 531ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 305ms
+[2025-05-23T16:21:55.087Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 39ms
+[2025-05-23T16:21:55.766Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 40ms
+[2025-05-23T16:21:56.140Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 41ms
+[2025-05-23T16:21:57.199Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 38ms
+[2025-05-23T16:21:57.775Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 41ms
+[2025-05-23T16:21:58.248Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 39ms
+[2025-05-23T16:21:59.301Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 40ms
+[2025-05-23T16:21:59.768Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 38ms
+[2025-05-23T16:22:00.353Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 44ms
+[2025-05-23T16:22:01.412Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 40ms
+[2025-05-23T16:22:01.769Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 39ms
+[2025-05-23T16:22:02.465Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 39ms
+[2025-05-23T16:22:03.523Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 26ms
+[2025-05-23T16:22:03.768Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 43ms
+[2025-05-23T16:22:04.557Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 39ms
+[2025-05-23T16:22:05.410Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 39ms
+[2025-05-23T16:22:05.608Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 73ms
+[2025-05-23T16:22:06.465Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 42ms
+[2025-05-23T16:22:06.695Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 41ms
+[2025-05-23T16:22:07.523Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 44ms
+[2025-05-23T16:22:07.753Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 41ms
+[2025-05-23T16:22:08.581Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 40ms
+[2025-05-23T16:22:08.812Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 42ms
+[2025-05-23T16:22:09.639Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 42ms
+[2025-05-23T16:22:09.867Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 40ms
+[2025-05-23T16:22:10.485Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 45ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'
+}
+ GET /_next/static/chunks/fallback/webpack.js 500 in 66ms
+ GET /_next/static/chunks/fallback/main.js 500 in 65ms
+ GET /_next/static/chunks/fallback/react-refresh.js 500 in 65ms
+ GET /_next/static/chunks/fallback/pages/_app.js 500 in 66ms
+ GET /_next/static/chunks/fallback/pages/_error.js 500 in 66ms
+[2025-05-23T16:22:10.626Z] Request: GET /.well-known/appspecific/com.chrome.devtools.json
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'
+}
+ GET /.well-known/appspecific/com.chrome.devtools.json 500 in 14ms
+[2025-05-23T16:22:10.924Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 41ms
+[2025-05-23T16:22:11.983Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 42ms
+[2025-05-23T16:22:13.038Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 42ms
+[2025-05-23T16:22:14.094Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 37ms
+[2025-05-23T16:22:15.147Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 41ms
+[2025-05-23T16:22:16.202Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 41ms
+[2025-05-23T16:22:17.260Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 42ms
+[2025-05-23T16:22:18.333Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 40ms
+[2025-05-23T16:22:19.388Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 39ms
+[2025-05-23T16:22:20.441Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 39ms
+[2025-05-23T16:22:21.492Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 38ms
+[2025-05-23T16:22:22.542Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 38ms
+[2025-05-23T16:22:32.381Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/136.0.0.0 Safari/537.36
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/page.js',
+  page: '/'
+}
+ ⨯ [Error: Cannot find module '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js] {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 28ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'
+}
+ GET /_next/static/chunks/fallback/webpack.js 500 in 33ms
+ GET /_next/static/chunks/fallback/react-refresh.js 500 in 33ms
+ GET /_next/static/chunks/fallback/main.js 500 in 33ms
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'
+}
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/_not-found/page.js'
+}
+ GET /_next/static/chunks/fallback/pages/_app.js 500 in 24ms
+ GET /_next/static/chunks/fallback/pages/_error.js 500 in 24ms
+ GET /favicon.ico 200 in 4ms
+[?25h

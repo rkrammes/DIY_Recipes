@@ -268,6 +268,11 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
       let transformedIngredients = [];
       
       console.log('Transforming ingredients data...');
+      console.log('Raw ingredients data:', {
+        fromFinalRecipeData: finalRecipeData.ingredients ? 'yes' : 'no',
+        fromJoinQuery: ingredients.length,
+        ingredientDetails: ingredientDetails.length
+      });
       
       // Handle direct JSON ingredient data (from CSV import or fallback recipe)
       if (finalRecipeData.ingredients && Array.isArray(finalRecipeData.ingredients)) {
@@ -387,6 +392,9 @@ export function useRecipe(id: string | null, initialRecipeData?: RecipeWithIngre
       }
       
       console.log(`Transformed ${transformedIngredients.length} ingredients for display`);
+      if (transformedIngredients.length > 0) {
+        console.log('Sample transformed ingredient:', JSON.stringify(transformedIngredients[0], null, 2));
+      }
       
       // Sort ingredients by name for consistent display
       if (transformedIngredients.length > 1) {

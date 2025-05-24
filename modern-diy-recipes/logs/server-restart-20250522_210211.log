@@ -810,3 +810,65 @@ Module "Settings" (settings) registered successfully
  GET /_next/static/chunks/app/error.js 404 in 42ms
  GET /_next/static/chunks/app/global-error.js 404 in 42ms
  GET /favicon.ico 200 in 3ms
+ ✓ Compiled in 902ms (766 modules)
+ ✓ Compiled in 231ms (766 modules)
+ ✓ Compiled in 175ms (766 modules)
+ ✓ Compiled in 152ms (766 modules)
+ ✓ Compiled in 570ms (1458 modules)
+[2025-05-23T11:58:28.310Z] Request: GET /
+- User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36
+- Referrer: http://localhost:3000/
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+Module "DIY Formulations" (formulations) registered successfully
+Module "Settings" (settings) registered successfully
+ GET / 200 in 207ms
+ ✓ Compiled /_not-found in 136ms (1435 modules)
+ GET /_next/static/chunks/app/global-error.js 404 in 208ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 215ms
+ GET /_next/static/chunks/app/page.js 404 in 210ms
+ GET /_next/static/chunks/app/error.js 404 in 210ms
+ GET /_next/static/chunks/main-app.js?v=1748001508430 404 in 217ms
+ ✓ Compiled /favicon.ico in 62ms (683 modules)
+ ⨯ Error: Cannot find module './4447.js'
+Require stack:
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/webpack-runtime.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/app/favicon.ico/route.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/require.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/load-components.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/utils.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/options.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/swc/index.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/config.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/next.js
+- /Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/node_modules/next/dist/server/lib/start-server.js
+    at __webpack_require__.f.require (.next/server/webpack-runtime.js:203:28)
+    at <unknown> (.next/server/webpack-runtime.js:116:40)
+    at Array.reduce (<anonymous>)
+    at __webpack_require__.e (.next/server/webpack-runtime.js:115:67)
+    at Array.map (<anonymous>)
+    at __webpack_require__.X (.next/server/webpack-runtime.js:167:22)
+    at <unknown> (.next/server/app/favicon.ico/route.js:1:36150)
+    at Object.<anonymous> (.next/server/app/favicon.ico/route.js:1:36197) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/favicon.ico'
+}
+ GET /favicon.ico 500 in 112ms
+[2025-05-23T12:01:03.338Z] Request: GET /
+- User-Agent: curl/8.7.1
+- Referrer: null
+- Host: localhost:3000
+- IP: unknown
+Development mode: Skipping authentication check
+ ✓ Compiled /_error in 393ms (1478 modules)
+ ⨯ [Error: ENOENT: no such file or directory, open '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'] {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/ryankrammes/Kraft_AI (App)/DIY_Recipes/modern-diy-recipes/.next/server/pages/_document.js'
+}
+ GET / 500 in 1548ms
+[?25h

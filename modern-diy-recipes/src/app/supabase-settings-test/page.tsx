@@ -23,7 +23,7 @@ export default function SupabaseSettingsTest() {
       
       // Test 2: Check if preferences are saved to Supabase
       if (isAuthenticated && user) {
-        const { data, error } = await supabase
+        const { data, error } = await (supabase as any)
           .from('user_preferences')
           .select('*')
           .eq('user_id', user.id)

@@ -1,0 +1,36 @@
+{
+  "timestamp": "2025-05-24T01:34:19.517Z",
+  "capturedFrom": "http://localhost:3000",
+  "component": {
+    "name": "TripleColumnLayoutClean",
+    "importPath": "@/components/TripleColumnLayoutClean",
+    "file": "src/app/page.tsx"
+  },
+  "description": "KRAFT_AI TERMINAL - Three-column retro terminal interface",
+  "layout": {
+    "header": ">KRAFT_AI TERMINAL_ with status indicators",
+    "columns": [
+      "Left: DIRECTORIES (FORMULATIONS, INGREDIENTS, TOOLS, LIBRARY, SETTINGS)",
+      "Center: List of items/formulations",
+      "Right: Details panel"
+    ],
+    "footer": "Simple status bar (no debug panels)"
+  },
+  "themes": [
+    "hackers",
+    "dystopia",
+    "neotopia"
+  ],
+  "verification": {
+    "mustContain": [
+      "TripleColumnLayoutClean"
+    ],
+    "mustNotContain": [
+      "DEBUG",
+      "MODULE_STATISTICS",
+      "LIVE_SYSTEM_LOG",
+      "document-centric",
+      "module-based"
+    ]
+  }
+}
